@@ -23,10 +23,23 @@ The Gradle wrapper is included. You do not need global Gradle. Internet access i
 ~~~powershell
 git clone https://github.com/NV-DuyManh/MathVisionKid.git
 cd MathVisionKid
+.\SETUP_MATHVISION.bat
+~~~
+
+You can also double-click `SETUP_MATHVISION.bat` in File Explorer. It checks the supported tool versions and uses WinGet to install missing Git, Node 22, Python 3.12 (64-bit), JDK 21 or Docker Desktop. Windows can request administrator permission, license acceptance or a restart. If WinGet is unavailable, install Microsoft's App Installer or the prerequisites above, then reopen setup.
+
+The script installs all npm workspaces from the root lockfile, creates or reuses `ai/runtime/.venv`, installs Python requirements with lock constraints, verifies package compatibility/imports, prepares FFmpeg for speech and compiles the backend using the included Gradle wrapper. A failed step stops setup with an error. Close running project services before rerunning an installation. Setup preserves private environment files, models and application data.
+
+`SETUP_MATHVISION.bat -CheckOnly` checks prerequisite tools without installing libraries. A completed setup still needs Docker Desktop running for the app. The first app launch prepares infrastructure images. API keys and model weights follow section 3.
+
+For manual library installation after preparing the prerequisites:
+
+~~~powershell
 npm ci
 py -3.12 -m venv ai\runtime\.venv
-.\ai\runtime\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements-lock.txt
+.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements.txt -c ai\runtime\requirements-lock.txt
+.\ai\runtime\.venv\Scripts\python.exe scripts\dev\install-local-quiz-speech.py
+.\backend\business-api\gradlew.bat -p backend\business-api bootJar testClasses --no-daemon --console=plain
 ~~~
 
 The root lockfile installs all JavaScript workspaces. Avoid separate installs in each app. If `py` is unavailable, use a verified Python 3.12 executable to create the virtual environment.
@@ -154,7 +167,7 @@ The backend owns authentication and roles. Existing database records can differ 
 
 ~~~powershell
 .\scripts\health-check.bat
-.\scripts\stop-all.bat
+.\STOP_MATHVISION.bat
 ~~~
 
 Run health check while the stack is running; run stop when finished. Logs and PID files live under `infra/local-runtime/logs/` and `infra/local-runtime/pids/`. The normal stop command preserves database and image-storage volumes.

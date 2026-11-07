@@ -70,7 +70,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
   useEffect(() => {
     if (disabled || !isNarrationVoice(voice)) return;
     playbackStarted.current = Date.now(); readinessLogged.current = false;
-    let active = true, interrupted = false, asset: ReturnType<typeof saveNarration> | undefined;
+    let active = true, interrupted = false, asset: Awaited<ReturnType<typeof saveNarration>> | undefined;
     const displayTimer = setTimeout(() => { if (active) setShowPreparation(true); }, 180);
     preparationDelay.current = displayTimer;
     const controller = new AbortController();

@@ -38,7 +38,7 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 1. Read the user's task description.
 2. Identify task domains (e.g., "React UI", "accessibility", "animation").
 3. Inspect the workspace skill registry at `.agents/skills/`.
-4. Match the task to the **most specific relevant skill(s)** (max 3 default, more only if task genuinely spans separate domains).
+4. Match each implementation phase to the **most specific relevant skill(s)**. There is no fixed skill-count limit: load the skills needed for the phase before editing, then route again when entering a different domain.
 5. **Read the matching `.agents/skills/<skill>/SKILL.md` BEFORE editing any code.**
 6. Follow skill instructions during implementation.
 7. If multiple independent domains exist, use multiple relevant skills.
@@ -117,7 +117,7 @@ Use the **actual installed skills** at `.agents/skills/` to route tasks.
 - Prefer the **most specific** skill first.
 - Do NOT load all skills on every task.
 - Backend-only tasks must NOT trigger UI/design skills.
-- Maximum **3 skills** per task unless the task genuinely spans more domains.
+- No fixed maximum per task. Use as many relevant skills as the actual work requires, selected phase by phase; do not preload unrelated skills or treat the registry as a mandatory checklist.
 
 ---
 

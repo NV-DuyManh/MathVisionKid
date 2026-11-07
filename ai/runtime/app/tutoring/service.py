@@ -88,7 +88,11 @@ answer keys, sample solutions, explanations, or instructions addressed to an AI.
 Keep the visible numbers and mathematical symbols exactly as written in the question.
 If an equality already has an answer, transcribe only its unsolved left expression.
 Do not infer or invent missing numbers. Read one complete problem only. If multiple
-problems are visible, ask the student to crop one and return blank problemText.
+complete independent problems are visible, ask the student to crop one and return
+blank problemText. A tiny incomplete strip of another question cut off at the
+photo edge is not a complete task; ignore only that fragment, never invent it or
+omit a readable condition. A/B/C/D are choices of one question; preserve each on
+its own line rather than classifying them as separate exercises.
 If no readable math problem is present, return blank problemText and needsReview true.
 Return JSON with exactly problemText (string), needsReview (boolean), notes (short
 Vietnamese string). notes may only describe image clarity or how to crop/review;
@@ -162,13 +166,27 @@ def _retry_after_seconds(response: httpx.Response) -> float | None:
             return None
 
 
-async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None) -> dict:
+ImageInput = str | tuple[str, ...] | None
+
+
+def _image_inputs(images: ImageInput) -> tuple[str, ...]:
+    """Internal image bundle, bounded to the supported common provider limit."""
+    if images is None:
+        return ()
+    images = (images,) if isinstance(images, str) else images
+    if (not isinstance(images, tuple) or not 1 <= len(images) <= 3
+            or any(not isinstance(image, str) or not image for image in images)):
+        raise ValueError('Expected one to three normalized images')
+    return images
+
+
+async def _call_gemini(system_prompt: str, user_text: str, image_b64: ImageInput, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None) -> dict:
     pool = get_gemini_pool()
     if pool is None:
         raise TutorUnavailable()
     parts = [{"text": user_text}]
-    if image_b64:
-        parts.append({"inlineData": {"mimeType": "image/jpeg", "data": image_b64}})
+    for image in _image_inputs(image_b64):
+        parts.append({"inlineData": {"mimeType": "image/jpeg", "data": image}})
     payload = {
         "systemInstruction": {"parts": [{"text": system_prompt}]},
         "contents": [{"role": "user", "parts": parts}],
@@ -250,7 +268,7 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: str | None
     raise TutorUnavailable('configuration')
 
 
-async def _call_groq(system_prompt: str, user_text: str, image_b64: str | None, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None, reasoning: bool = False) -> dict:
+async def _call_groq(system_prompt: str, user_text: str, image_b64: ImageInput, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None, reasoning: bool = False) -> dict:
     pool = get_pool()
     if pool is None:
         init_pool(settings.groq_api_keys, settings.groq_key_cooldown_seconds, settings.groq_auth_disable_seconds)
@@ -261,8 +279,8 @@ async def _call_groq(system_prompt: str, user_text: str, image_b64: str | None, 
         if entry is None:
             raise TutorUnavailable('POOL_UNAVAILABLE')
         content = [{"type": "text", "text": user_text}]
-        if image_b64:
-            content.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}})
+        for image in _image_inputs(image_b64):
+            content.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image}"}})
         payload = {
             "model": settings.groq_primary_vision_model,
             "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": content}],
@@ -308,9 +326,10 @@ class ProviderResult(dict):
         self.provider = provider
 
 
-async def _generate(system_prompt: str, user_text: str, image_b64: str | None = None, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None, reasoning: bool = False, preferred_provider: Literal['groq', 'gemini'] | None = None) -> dict:
+async def _generate(system_prompt: str, user_text: str, image_b64: ImageInput = None, *, max_output_tokens: int | None = None, timeout_seconds: float = 14.0, response_schema: dict | None = None, reasoning: bool = False, preferred_provider: Literal['groq', 'gemini'] | None = None, only_provider: Literal['groq', 'gemini'] | None = None) -> dict:
     # Detailed lessons need more space than a single hint. Other callers keep
     # their existing budget. Quota failures never trigger key sweeps.
+    _image_inputs(image_b64)
     options = {}
     if max_output_tokens is not None or timeout_seconds != 14.0:
         options = {"max_output_tokens": max(256, min(max_output_tokens or 1500, 7000)),
@@ -323,7 +342,7 @@ async def _generate(system_prompt: str, user_text: str, image_b64: str | None = 
         providers = [(name, call) for name,call,enabled,keys in
                      [('groq',_call_groq,settings.groq_enabled,settings.groq_api_keys),
                       ('gemini',_call_gemini,settings.gemini_enabled,settings.gemini_api_keys)]
-                     if enabled and keys.strip()]
+                     if enabled and keys.strip() and (only_provider is None or name == only_provider)]
         if preferred_provider:providers.sort(key=lambda item:item[0] != preferred_provider)
         failures = []
         for name,provider in providers:

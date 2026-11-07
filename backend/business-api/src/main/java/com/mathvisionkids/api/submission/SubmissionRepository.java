@@ -10,6 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface SubmissionRepository extends JpaRepository<Submission, UUID> {
+    @org.springframework.data.jpa.repository.Modifying
+    @Query("update Submission s set s.status = 'REVIEW_REQUIRED' where s.submissionId = :id and s.status = 'PROCESSING'")
+    int markDispatchFailure(@Param("id") UUID submissionId);
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select s from Submission s where s.submissionId = :id")
     Optional<Submission> findForUpdate(@Param("id") UUID submissionId);

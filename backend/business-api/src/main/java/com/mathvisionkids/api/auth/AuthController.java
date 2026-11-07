@@ -70,13 +70,7 @@ public class AuthController {
 
     @PostMapping("/auth/refresh")
     public ResponseEntity<AuthResponse> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
-        String requestRefreshToken = request.getRefreshToken();
-
-        User user = refreshTokenService.verifyExpiration(requestRefreshToken);
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
-        String newRefreshToken = refreshTokenService.createRefreshToken(user.getId());
-        
-        return ResponseEntity.ok(new AuthResponse(token, newRefreshToken));
+        return ResponseEntity.ok(refreshTokenService.rotate(request.getRefreshToken()));
     }
 
     @PostMapping("/auth/logout")

@@ -46,12 +46,7 @@ async def test_model_validation_never_loses_fields_or_exposes_exception_text(mon
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize('status, error_code, expected', [
-    (200, None, None), (404, 'model_not_found', 'model_not_found'),
-    (400, 'PRIVATE_CREDENTIAL_IN_PROVIDER_CODE', 'HTTP_400'),
-    (400, {'unexpected': 'PRIVATE_CREDENTIAL'}, 'HTTP_400'),
-])
-async def test_text_probe_is_not_vision_evidence_and_error_codes_are_sanitized(monkeypatch, caplog, status, error_code, expected):
+async def test_absent_model_never_spends_inference_quota_or_fabricates_a_live_probe(monkeypatch, caplog):
     secret = 'PRIVATE_CREDENTIAL'
     monkeypatch.setattr(validator.settings, 'groq_enabled', True)
     monkeypatch.setattr(validator.settings, 'groq_api_keys', secret)
@@ -61,15 +56,14 @@ async def test_text_probe_is_not_vision_evidence_and_error_codes_are_sanitized(m
     client = AsyncMock()
     client.__aenter__.return_value = client
     client.get.return_value = httpx.Response(200, json={'data': [{'id': 'primary'}]})
-    client.post.return_value = httpx.Response(status, json={'error': {'code': error_code}})
     monkeypatch.setattr(validator.httpx, 'AsyncClient', lambda **kwargs: client)
     with caplog.at_level(logging.INFO, logger=validator.__name__):
         result = await validator.validate_groq_models('primary', 'fallback')
     assert result['primary']['catalogAvailable'] is True
     assert result['primary']['vision_capable'] is None
     fallback = result['fallback']
-    assert fallback['probeKind'] == 'text' and fallback['vision_capable'] is None
-    assert fallback['liveProbe'] is (status == 200)
-    assert fallback['lastHttpStatus'] == status and fallback['lastErrorClass'] == expected
+    assert fallback['probeKind'] is None and fallback['vision_capable'] is None
+    assert fallback['liveProbe'] is False and fallback['catalogAvailable'] is False
+    assert fallback['lastHttpStatus'] == 200 and fallback['lastErrorClass'] == 'MODEL_NOT_IN_CATALOG'
     assert secret not in str(result) + caplog.text
-    assert client.post.await_count == 1
+    client.post.assert_not_called()

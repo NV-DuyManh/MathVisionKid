@@ -4,6 +4,34 @@ const base: CalculatorInput = { mode: 'basic', operator: '+', left: '0', right: 
 const result = (values: Partial<CalculatorInput>) => calculate({ ...base, ...values });
 
 it.each([
+  ['7,5+9,86', '17,36'], ['35+58,76', '93,76'], ['78,2−24,6', '53,6'], ['60,23−24,096', '36,134'],
+  ['3/4+5/8−1/24', '4/3'], ['5 1/3−4/3×9/20', '71/15'],
+  ['1 1/4×(13/14−3/7)', '5/8'], ['1 1/3+5/8÷7/2', '127/84'],
+  ['4 3/5−2 1/4', '47/20'], ['2 2/3÷1 2/5', '40/21'],
+  ['724×63+724×37−4500', '67900'], ['7/15×4/11+4/11×8/15+2/3', '34/33'],
+  ['(1+1/2005)×(1+1/2006)×(1+1/2007)×(1+1/2008)', '2009/2005'],
+])('checks supplied worksheet expression %s', (expression, expected) => {
+  expect(calculateExpression(expression).result).toBe(expected);
+});
+
+it('uses decimal alignment for decimal sums and multiplication for fractions', () => {
+  expect(calculateExpression('7,5+9,86').steps.join(' ')).toContain('dấu phẩy thẳng cột');
+  expect(calculateExpression('1/2×3/4').steps.join(' ')).toContain('Nhân tử với tử');
+  expect(calculateExpression('1/2×3/4').steps.join(' ')).not.toContain('cùng mẫu');
+  expect(calculateExpression('2 1/4+1/4').steps.join(' ')).toContain('Đổi hỗn số');
+});
+
+it.each(['2+3', '8÷2', '9×9', '5−2', '0+0'])('shows only the result for simple mental arithmetic %s', expression => {
+  expect(calculateExpression(expression).steps).toEqual([]);
+});
+it.each(['95+17', '1/3+2/5', '2 1/4+1/4', '0,1+0,2', '2+3×4', '7÷2'])('keeps useful explanations for %s', expression => {
+  expect(calculateExpression(expression).steps.length).toBeGreaterThan(0);
+});
+it.each([['2 1/4+1/4', '2 1/2'], ['4 3/5−2 1/4', '2 7/20'], ['1/2−3', '−2 1/2']])('also shows the exact mixed result for %s', (expression, expected) => {
+  expect(calculateExpression(expression).mixedResult).toBe(expected);
+});
+
+it.each([
   ['1+3', '4'], ['2+3×4', '14'], ['(2+3)×4', '20'], ['20÷5÷2', '2'],
   ['1/3+2/5', '11/15'], ['1−1/3−2/5', '4/15'], ['16÷(4/15)', '60'],
   ['6÷2/3', '9'], ['1/3÷2/3', '1/2'], ['1/2×3/4', '3/8'], ['0,1+0,2', '0,3'], ['25%', '0,25'],
@@ -20,6 +48,13 @@ it('explains actual fractions and preserves long-division rows in one calculator
   const division = calculateExpression('1005÷5');
   expect(division.remainder?.result).toBe('Thương 201, dư 0');
   expect(division.remainder?.steps.join(' ')).toContain('Hạ chữ số 0');
+});
+
+it('requires explicit division or parentheses between consecutive fractions', () => {
+  expect(() => calculateExpression('1/2/3/4')).toThrow('dấu ÷');
+  expect(() => calculateExpression('1/2/3')).toThrow('thêm ngoặc');
+  expect(calculateExpression('(1/2)/(3/4)').result).toBe('2/3');
+  expect(calculateExpression('1/2÷3/4').result).toBe('2/3');
 });
 
 it.each([

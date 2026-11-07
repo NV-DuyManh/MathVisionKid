@@ -13,9 +13,11 @@ import java.util.function.Function;
 public class JwtUtil {
 
     private final JwtProperties jwtProperties;
+    private final com.mathvisionkids.api.user.UserRepository users;
 
-    public JwtUtil(JwtProperties jwtProperties) {
+    public JwtUtil(JwtProperties jwtProperties, com.mathvisionkids.api.user.UserRepository users) {
         this.jwtProperties = jwtProperties;
+        this.users = users;
     }
 
     private SecretKey getSigningKey() {
@@ -44,18 +46,16 @@ public class JwtUtil {
                 .getPayload();
     }
 
-    private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
     public String generateToken(String username, String role) {
+        long version = users.findByEmail(username).orElseThrow().getTokenVersion();
         return Jwts.builder()
                 .subject(username)
                 .claim("role", role)
+                .claim("sessionVersion", version)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getExpirationMs()))
                 .signWith(getSigningKey())
@@ -63,7 +63,12 @@ public class JwtUtil {
     }
 
     public Boolean validateToken(String token, String username) {
-        final String extractedUsername = extractUsername(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
+        Claims claims = extractAllClaims(token);
+        Number version = claims.get("sessionVersion", Number.class);
+        // Previously issued tokens belong to version zero until sessions are revoked.
+        long issuedVersion = version == null ? 0 : version.longValue();
+        return username.equals(claims.getSubject()) && claims.getExpiration().after(new Date())
+                && users.findByEmail(username)
+                .map(user -> user.getTokenVersion() == issuedVersion).orElse(false);
     }
 }

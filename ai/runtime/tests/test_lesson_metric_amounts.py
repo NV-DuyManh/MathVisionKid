@@ -1,5 +1,6 @@
 """Regression for grouped amounts and metric units; model review stays required."""
 import json
+from fractions import Fraction
 from unittest.mock import AsyncMock
 
 import pytest
@@ -40,6 +41,21 @@ def test_conversion_constants_follow_explicit_metric_context(source, expected):
     assert expected <= lesson.formula_constants(source)
     assert not {'10', '100', '1000'} & lesson.formula_constants('Mua 8 viên gạch giá 250 000 đồng.')
     assert '100' not in lesson.formula_constants('Một đoạn dài 8m. Tính chiều dài.')
+
+
+@pytest.mark.parametrize('gap', ['...', '…', '………', '…… ……'])
+def test_worksheet_blanks_authorize_only_their_explicit_unit_conversion(gap):
+    from app.tutoring.short_math import verified_plan
+    source = f'219 000 m² ={gap}ha'
+    if ' ' in gap:
+        # Separate groups are not one recognized blank; retain conservative parsing.
+        assert verified_plan(source) is None
+        return
+    constants = lesson.formula_constants(source)
+    assert '10000' in constants and '1000' not in constants
+    plan = lesson.Plan.model_validate(verified_plan(source))
+    lesson.validate_plan(plan, lesson.LessonRequest(owner='metric',problemText=source,problemConfirmed=True),constants)
+    assert lesson.calculate_exact(plan.steps[0].expression) == Fraction(219,10)
 
 
 @pytest.mark.asyncio

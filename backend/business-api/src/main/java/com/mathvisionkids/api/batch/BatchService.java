@@ -35,8 +35,9 @@ public class BatchService {
     private final ObjectStorageService objectStorageService;
     private final AiAnalysisGateway aiAnalysisGateway;
     private final com.mathvisionkids.api.user.StudentRepository studentRepository;
+    private final org.springframework.transaction.support.TransactionTemplate transactions;
 
-    public BatchService(BatchRepository batchRepository, AssignmentRepository assignmentRepository, TeacherRepository teacherRepository, SubmissionRepository submissionRepository, SubmissionImageRepository submissionImageRepository, AuditEventRepository auditEventRepository, ObjectStorageService objectStorageService, AiAnalysisGateway aiAnalysisGateway, com.mathvisionkids.api.user.StudentRepository studentRepository) {
+    public BatchService(BatchRepository batchRepository, AssignmentRepository assignmentRepository, TeacherRepository teacherRepository, SubmissionRepository submissionRepository, SubmissionImageRepository submissionImageRepository, AuditEventRepository auditEventRepository, ObjectStorageService objectStorageService, AiAnalysisGateway aiAnalysisGateway, com.mathvisionkids.api.user.StudentRepository studentRepository, org.springframework.transaction.PlatformTransactionManager transactionManager) {
         this.batchRepository = batchRepository;
         this.assignmentRepository = assignmentRepository;
         this.teacherRepository = teacherRepository;
@@ -46,6 +47,7 @@ public class BatchService {
         this.objectStorageService = objectStorageService;
         this.aiAnalysisGateway = aiAnalysisGateway;
         this.studentRepository = studentRepository;
+        this.transactions = new org.springframework.transaction.support.TransactionTemplate(transactionManager);
     }
 
     @Transactional
@@ -72,137 +74,133 @@ public class BatchService {
     public void uploadImages(String teacherEmail, UUID batchId, List<MultipartFile> images, List<BatchImageMapping> mappings) {
         Teacher teacher = teacherRepository.findByEmail(teacherEmail)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Teacher not found", HttpStatus.NOT_FOUND));
-
-        Batch batch = batchRepository.findById(batchId)
+        Batch batch = batchRepository.findForUpdate(batchId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Batch not found", HttpStatus.NOT_FOUND));
-
         if (!batch.getTeacher().getId().equals(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized for this batch", HttpStatus.FORBIDDEN);
         }
-
-        if (images.size() < 1 || images.size() > 30) {
+        if (!"CREATED".equals(batch.getStatus()) || !submissionRepository.findByBatch_BatchId(batchId).isEmpty()) {
+            throw new ApiException("BATCH_ALREADY_UPLOADED", "Đợt chấm đã nhận ảnh. Hãy mở đợt chấm để xem kết quả.", HttpStatus.CONFLICT);
+        }
+        if (images == null || images.isEmpty() || images.size() > 30) {
             throw new ApiException("VALIDATION_ERROR", "Image count must be between 1 and 30", HttpStatus.BAD_REQUEST);
         }
-        
-        if (mappings.size() != images.size()) {
+        if (mappings == null || mappings.size() != images.size()) {
             throw new ApiException("VALIDATION_ERROR", "Mappings count must match images count", HttpStatus.BAD_REQUEST);
         }
 
-        batch.setStatus("UPLOADING");
-        batchRepository.save(batch);
-
-        int count = 0;
-        List<UUID> createdSubmissionIds = new ArrayList<>();
+        // Check every mapping and image before creating storage objects or submissions.
+        List<com.mathvisionkids.api.user.Student> students = new ArrayList<>();
+        long totalBytes = 0;
         for (int i = 0; i < images.size(); i++) {
-            MultipartFile file = images.get(i);
             BatchImageMapping mapping = mappings.get(i);
-            
-            // Validate mapping
-            if (mapping.getStudentId() == null) {
-                throw new ApiException("VALIDATION_ERROR", "Missing student mapping for index " + i, HttpStatus.BAD_REQUEST);
+            MultipartFile file = images.get(i);
+            if (mapping == null || mapping.getStudentId() == null || mapping.getFileIndex() == null || mapping.getFileIndex() != i) {
+                throw new ApiException("VALIDATION_ERROR", "Invalid student mapping at index " + i, HttpStatus.BAD_REQUEST);
             }
-            
-            if (mapping.getFileIndex() == null || mapping.getFileIndex() != i) {
-                throw new ApiException("VALIDATION_ERROR", "Invalid file index in mapping at index " + i, HttpStatus.BAD_REQUEST);
+            var student = studentRepository.findById(mapping.getStudentId())
+                    .orElseThrow(() -> new ApiException("VALIDATION_ERROR", "Unknown student", HttpStatus.BAD_REQUEST));
+            if (batch.getAssignment().getClassroom() == null || batch.getAssignment().getClassroom().getStudents().stream()
+                    .noneMatch(s -> s.getId().equals(student.getId()))) {
+                throw new ApiException("VALIDATION_ERROR", "Student outside classroom", HttpStatus.BAD_REQUEST);
             }
-
-            final int index = i;
-            com.mathvisionkids.api.user.Student student = studentRepository.findById(mapping.getStudentId())
-                    .orElseThrow(() -> new ApiException("VALIDATION_ERROR", "Unknown student for index " + index, HttpStatus.BAD_REQUEST));
-                    
-            if (batch.getAssignment().getClassroom() == null || batch.getAssignment().getClassroom().getStudents().stream().noneMatch(s -> s.getId().equals(student.getId()))) {
-                throw new ApiException("VALIDATION_ERROR", "Student outside classroom for index " + index, HttpStatus.BAD_REQUEST);
+            if (file == null || file.isEmpty() || file.getSize() > 8L * 1024 * 1024) {
+                throw new ApiException("VALIDATION_ERROR", "Mỗi ảnh phải có nội dung và nhỏ hơn 8 MB.", HttpStatus.BAD_REQUEST);
             }
-            
-            try {
-                String contentType = file.getContentType();
-                if (contentType == null || (!contentType.equals("image/jpeg") && !contentType.equals("image/png") && !contentType.equals("image/webp"))) {
-                    continue; // Skip unsupported
+            totalBytes += file.getSize();
+            if (totalBytes > 95L * 1024 * 1024) {
+                throw new ApiException("IMAGE_TOO_LARGE", "Hãy chia đợt chấm nhỏ hơn 95 MB.", HttpStatus.PAYLOAD_TOO_LARGE);
+            }
+            try (var stream = file.getInputStream()) {
+                String detected = com.mathvisionkids.api.storage.ImageContentType.detect(stream.readNBytes(12)).toString();
+                if (!detected.equals(file.getContentType())) {
+                    throw new ApiException("IMAGE_UNSUPPORTED", "Định dạng ảnh không khớp nội dung.", HttpStatus.BAD_REQUEST);
                 }
-
-                String filePath = objectStorageService.store(file, "batches/" + batchId.toString());
-
-                try {
-                    Submission submission = new Submission();
-                    submission.setBatch(batch);
-                    submission.setAssignment(batch.getAssignment());
-                    submission.setStudent(student);
-                    
-                    submission.setStatus("PROCESSING");
-                    submissionRepository.save(submission);
-    
-                    SubmissionImage image = new SubmissionImage();
-                    image.setSubmission(submission);
-                    image.setFilePath(filePath);
-                    image.setContentType(contentType);
-                    image.setFileSize(file.getSize());
-                    image.setSource("CAMERA");
-                    submissionImageRepository.saveAndFlush(image);
-                    
-                    count++;
-                    
-                    AuditEvent auditEvent = new AuditEvent();
-                    auditEvent.setSubmission(submission);
-                    auditEvent.setUser(teacher);
-                    auditEvent.setEventType("AI_PROCESSING_STARTED");
-                    auditEventRepository.save(auditEvent);
-                    
-                    createdSubmissionIds.add(submission.getSubmissionId());
-                } catch (Exception dbException) {
-                    try {
-                        objectStorageService.delete(filePath);
-                    } catch (IOException ignored) {}
-                    throw new ApiException("INTERNAL_ERROR", "Database transaction failed. Orphaned file removed.", HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-
-            } catch (IOException e) {
-                // Ignore partial failure
+            } catch (IOException error) {
+                throw new ApiException("IMAGE_INVALID", "Chưa đọc được ảnh. Hãy chọn lại ảnh.", HttpStatus.BAD_REQUEST);
             }
+            students.add(student);
         }
-        
-        batch.setTotalCount(batch.getTotalCount() + count);
-        batch.setStatus("PROCESSING");
-        batchRepository.save(batch);
 
-        final List<UUID> toAnalyze = createdSubmissionIds;
-        logger.info("uploadImages completed, registering afterCommit for {} submissions", toAnalyze.size());
-        if (org.springframework.transaction.support.TransactionSynchronizationManager.isSynchronizationActive()) {
-            org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization(
+        List<String> storedPaths = new ArrayList<>();
+        List<UUID> submissionIds = new ArrayList<>();
+        org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization(
                 new org.springframework.transaction.support.TransactionSynchronization() {
+                    @Override
+                    public void afterCompletion(int status) {
+                        if (status != STATUS_COMMITTED) {
+                            for (String path : storedPaths) {
+                                try {
+                                    objectStorageService.delete(path);
+                                } catch (IOException error) {
+                                    logger.error("Batch upload rollback could not remove an object for batch {}", batchId);
+                                }
+                            }
+                        }
+                    }
                     @Override
                     public void afterCommit() {
                         java.util.concurrent.CompletableFuture.runAsync(() -> {
-                            logger.info("BatchService afterCommit async trigger firing for {} submissions", toAnalyze.size());
-                            for (UUID subId : toAnalyze) {
+                            for (UUID id : submissionIds) {
                                 try {
-                                    aiAnalysisGateway.analyze(subId);
-                                } catch (Exception e) {
-                                    logger.error("Error analyzing submissionId: {} in afterCommit", subId, e);
+                                    aiAnalysisGateway.analyze(id);
+                                } catch (Exception error) {
+                                    logger.error("Could not dispatch submission {} for analysis", id);
+                                    transactions.executeWithoutResult(status -> submissionRepository.markDispatchFailure(id));
                                 }
                             }
                         });
                     }
-                }
-            );
-        } else {
-            for (UUID subId : toAnalyze) {
-                aiAnalysisGateway.analyze(subId);
+                });
+        for (int i = 0; i < images.size(); i++) {
+            MultipartFile file = images.get(i);
+            String path;
+            try {
+                path = objectStorageService.store(file, "batches/" + batchId);
+            } catch (IOException error) {
+                throw new ApiException("STORAGE_UNAVAILABLE", "Chưa lưu được ảnh. Em hãy thử lại đợt chấm.", HttpStatus.SERVICE_UNAVAILABLE);
             }
+            storedPaths.add(path);
+            Submission submission = new Submission();
+            submission.setBatch(batch);
+            submission.setAssignment(batch.getAssignment());
+            submission.setStudent(students.get(i));
+            submission.setStatus("PROCESSING");
+            submissionRepository.save(submission);
+            SubmissionImage image = new SubmissionImage();
+            image.setSubmission(submission);
+            image.setFilePath(path);
+            image.setContentType(file.getContentType());
+            image.setFileSize(file.getSize());
+            image.setSource("CAMERA");
+            submissionImageRepository.save(image);
+            AuditEvent audit = new AuditEvent();
+            audit.setSubmission(submission);
+            audit.setUser(teacher);
+            audit.setEventType("AI_PROCESSING_STARTED");
+            auditEventRepository.save(audit);
+            submissionIds.add(submission.getSubmissionId());
         }
+        batch.setTotalCount(images.size());
+        batch.setStatus("PROCESSING");
+        batch.setStartedAt(java.time.Instant.now());
+        batchRepository.save(batch);
     }
-    
+
     @Transactional(readOnly = true)
-    public List<Batch> getBatches(String teacherEmail) {
+    public List<BatchResponse> getBatches(String teacherEmail) {
         Teacher teacher = teacherRepository.findByEmail(teacherEmail).orElseThrow();
-        return batchRepository.findByTeacher_IdOrderByCreatedAtDesc(teacher.getId());
+        return batchRepository.findByTeacher_IdOrderByCreatedAtDesc(teacher.getId()).stream()
+                .map(batch -> BatchResponse.from(batch, submissionRepository.findByBatch_BatchId(batch.getBatchId())))
+                .toList();
     }
     
     @Transactional(readOnly = true)
-    public Batch getBatch(String teacherEmail, UUID batchId) {
+    public BatchResponse getBatch(String teacherEmail, UUID batchId) {
         Teacher teacher = teacherRepository.findByEmail(teacherEmail).orElseThrow();
         Batch batch = batchRepository.findById(batchId).orElseThrow();
         if (!batch.getTeacher().getId().equals(teacher.getId())) throw new ApiException("FORBIDDEN", "Forbidden", HttpStatus.FORBIDDEN);
-        return batch;
+        return BatchResponse.from(batch, submissionRepository.findByBatch_BatchId(batchId));
     }
 
     @Transactional(readOnly = true)
@@ -212,7 +210,7 @@ public class BatchService {
         if (!batch.getTeacher().getId().equals(teacher.getId())) throw new ApiException("FORBIDDEN", "Forbidden", HttpStatus.FORBIDDEN);
         
         return submissionRepository.findByBatch_BatchId(batchId).stream()
-                .filter(s -> "REVIEW_REQUIRED".equals(s.getStatus()) || "PROPOSED_GRADE".equals(s.getStatus()))
+                .filter(s -> java.util.Set.of("REVIEW_REQUIRED", "PROPOSED_GRADE", "NEEDS_CONFIRMATION", "NEEDS_RETAKE").contains(s.getStatus()))
                 .map(Submission::getSubmissionId)
                 .toList();
     }

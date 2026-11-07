@@ -24,7 +24,8 @@ export const test = base.extend({
       const url = new URL(request.url());
       const site = Object.values(sites).find(site => site.origin === url.origin);
       if (site && !url.pathname.startsWith('/api/v1/')) {
-        const response = await route.fetch({ url: `http://127.0.0.1:${site.port}${url.pathname}${url.search}` });
+        const port = state.realStudent && url.pathname.startsWith('/study/') ? 43173 : site.port;
+        const response = await route.fetch({ url: `http://127.0.0.1:${port}${url.pathname}${url.search}` });
         return route.fulfill({ response });
       }
       if (url.origin !== apiOrigin && !(site && url.pathname.startsWith('/api/v1/'))) {
@@ -67,6 +68,8 @@ export const test = base.extend({
       }
       if (state.expired || !role) return reject();
       if (path === '/me') return json(profile(role));
+      if (state.realStudent && path === '/student/quizzes/pending-count') return json({ pendingCount: 0, totalStars: 0 });
+      if (state.realStudent && path === '/student/quizzes') return json({ items: [], page: 0, totalPages: 0, totalElements: 0 });
       if (path.startsWith('/teacher/') && role !== 'TEACHER') return reject(403);
       if (path.startsWith('/admin/') && role !== 'ADMIN') return reject(403);
       if (path === '/teacher/dashboard') return json({ todayTotal: 0, processedCount: 0, reviewRequiredCount: 0, recentBatches: [] });

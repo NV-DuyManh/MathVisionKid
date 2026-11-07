@@ -6,16 +6,20 @@ inconsistent sources keep the independently reviewed planner path.
 import re
 import unicodedata
 from fractions import Fraction
-from app.tutoring.choice_source import split_choices
+from app.tutoring.choice_source import numeric_notation, split_choices
 from app.tutoring.service import _fold
 
 _KG=r'(?:kg|ki[\s\-‐‑‒–—−]+lo[\s\-‐‑‒–—−]+gam)'
 
 
 def verified_plan(problem):
-    multiple=split_choices(problem)
-    if multiple is None:return None
-    stem,options=multiple
+    normalized=numeric_notation(problem)
+    multiple=split_choices(normalized)
+    if multiple is None:
+        if re.search(r'(?<!\w)[A-D][.)]\s*',normalized,re.I):return None
+        stem,options=normalized,[]
+    else:
+        stem,options=multiple
     original=re.sub(r'\s+',' ',unicodedata.normalize('NFC',stem)).strip()
     text=_fold(original)
     # Preserve literal crop names in teaching without an unsafe offset mapping.
@@ -48,7 +52,7 @@ def verified_plan(problem):
         value=re.fullmatch(r'(\d{1,9}(?:[ \u00a0\u202f\u2009]+\d{3})*)\s*'+_KG,_fold(option))
         if not value:return None
         weights.append(int(re.sub(r'\s','',value[1])))
-    if len(set(weights))!=4 or weights.count(answer)!=1:return None
+    if options and (len(set(weights))!=4 or weights.count(answer)!=1):return None
     # Exact conservation, proper share, original question target and one matching
     # option are all proved before this route can avoid a provider call.
     assert answer+(total-answer)==total and 0<answer<total

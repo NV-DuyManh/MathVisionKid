@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.HttpStatus;
-import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.*;
 import static com.mathvisionkids.api.quiz.QuizDtos.*;
@@ -73,7 +72,7 @@ class QuizPreparations {
         // Upgrade old private drafts from the full immutable source, without rewriting history.
         if(!QuizMath.VERSION.equals(row.generatorVersion)) return null;
         if("GENERATING".equals(row.status)) throw error("QUIZ_GENERATING","Sao đang chuẩn bị câu đố. Em chờ một chút nhé.",HttpStatus.CONFLICT);
-        if("UNSUPPORTED".equals(row.status)) throw error("QUIZ_UNSUPPORTED","Sao chưa kiểm chứng được quan hệ toán trong đề này. Em vẫn có thể lưu bài học nhé.",HttpStatus.UNPROCESSABLE_ENTITY);
+        if ("UNSUPPORTED".equals(row.status)) throw QuizService.unsupported();
         // Finish/retry may recover a failed background attempt using the same deterministic validator.
         if ("FAILED".equals(row.status)) return null;
         if (!"READY".equals(row.status)) return null;
@@ -82,7 +81,11 @@ class QuizPreparations {
     }
     private QuizMath.Verified decode(QuizPreparation row) throws JsonProcessingException {
         var draft=json.readValue(row.validatedDraft,QuizMath.Verified.class);
-        var checked=QuizMath.classify(draft.question(),true).orElseThrow(IllegalArgumentException::new);
+        if (QuizGenerator.isAdaptive(draft.code())) {
+            QuizGenerator.validateStored(draft, row.confirmedProblemText);
+            return draft;
+        }
+        var checked=QuizMath.analyzeConfirmed(draft.question()).orElseThrow(IllegalArgumentException::new);
         if (!checked.answer().equals(draft.answer()) || !checked.code().equals(draft.code()) || !checked.solution().equals(draft.solution())) throw new IllegalArgumentException();
         return checked;
     }

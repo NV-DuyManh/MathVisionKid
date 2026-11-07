@@ -1,10 +1,10 @@
 import { resolveApiBaseUrl } from '../apiResolver';
 import Constants from 'expo-constants';
+import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 
 // Mock dependencies
 jest.mock('expo-constants', () => ({
-  isDevice: true,
   expoConfig: {
     hostUri: '192.168.1.14:8081',
   },
@@ -12,6 +12,7 @@ jest.mock('expo-constants', () => ({
     debuggerHost: '192.168.1.14:8081',
   },
 }));
+jest.mock('expo-device', () => ({ __esModule: true, isDevice: true }));
 
 describe('apiResolver - Dynamic Mobile API Host Resolution', () => {
   const origEnv = process.env;
@@ -19,7 +20,7 @@ describe('apiResolver - Dynamic Mobile API Host Resolution', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     process.env = { ...origEnv };
-    (Constants as any).isDevice = true;
+    (Device as any).isDevice = true;
     (Constants as any).expoConfig = { hostUri: '192.168.1.14:8081' };
     (Constants as any).expoGoConfig = { debuggerHost: '192.168.1.14:8081' };
     (Platform as any).OS = 'android';
@@ -86,7 +87,7 @@ describe('apiResolver - Dynamic Mobile API Host Resolution', () => {
     expect(resolvedPhysical).not.toBe('http://192.168.1.10:8080/api/v1');
 
     // Android emulator
-    (Constants as any).isDevice = false;
+    (Device as any).isDevice = false;
     (Platform as any).OS = 'android';
     const resolvedEmulator = resolveApiBaseUrl();
     expect(resolvedEmulator).toBe('http://10.0.2.2:8080/api/v1');
@@ -98,7 +99,7 @@ describe('apiResolver - Dynamic Mobile API Host Resolution', () => {
   });
 
   test('Test E: Physical device rejects loopback override, uses Metro LAN instead', () => {
-    (Constants as any).isDevice = true;
+    (Device as any).isDevice = true;
     (Constants as any).expoConfig = { hostUri: '192.168.1.14:8081' };
     (Constants as any).expoGoConfig = { debuggerHost: '192.168.1.14:8081' };
     process.env.EXPO_PUBLIC_API_OVERRIDE = 'http://localhost:8080/api/v1';
@@ -111,6 +112,15 @@ describe('apiResolver - Dynamic Mobile API Host Resolution', () => {
   test('Test F: Trailing slash is properly normalized', () => {
     const resolved = resolveApiBaseUrl('http://192.168.1.99:8080/api/v1/');
     expect(resolved).toBe('http://192.168.1.99:8080/api/v1');
+  });
+
+  test('Physical Android over adb reverse never uses the emulator gateway', () => {
+    (Constants as any).expoConfig = { hostUri: '127.0.0.1:8081' };
+    (Constants as any).expoGoConfig = { debuggerHost: '127.0.0.1:8081' };
+    delete process.env.EXPO_PUBLIC_API_OVERRIDE;
+    delete process.env.EXPO_PUBLIC_DEV_API_BASE_URL;
+    delete process.env.EXPO_PUBLIC_API_BASE_URL;
+    expect(resolveApiBaseUrl()).toBe('http://127.0.0.1:8080/api/v1');
   });
 
   test('Test G: Production mode uses production URL', () => {

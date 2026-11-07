@@ -100,7 +100,7 @@ function Library() {
         <View style={l.cardFooter}><Text style={l.metadata}>{statusLabel(quiz)}</Text><View style={l.action}>
           <Text style={l.actionText}>{quiz.status === 'COMPLETED' ? 'Xem lại' : quiz.status === 'IN_PROGRESS' ? 'Tiếp tục' : 'Bắt đầu'}</Text><Ionicons name="arrow-forward" size={15} color={COLORS.primaryDark} accessible={false} /></View></View>
       </Pressable>)}
-      {result && result.page + 1 < result.totalPages ? <AppButton title="Xem thêm câu đố" variant="secondary" disabled={busy} loading={busy} onPress={() => void more()} /> : null}
+      {result && result.page + 1 < result.totalPages ? <AppButton title="Xem thêm câu đố" loadingTitle="Đang tải thêm câu đố…" variant="secondary" disabled={busy} loading={busy} onPress={() => void more()} /> : null}
     </ScrollView>
   </SafeAreaView>;
 }

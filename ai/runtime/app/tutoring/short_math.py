@@ -7,13 +7,14 @@ import re
 import ast
 from fractions import Fraction
 
-from app.tutoring.choice_source import split_choices
+from app.tutoring.choice_source import numeric_notation, split_choices
 from app.tutoring.math_knowledge import normalized_units, unit_conversions
 from app.tutoring.service import _fold
 
 
 _NUMBER = r'\d{1,9}(?:[.,]\d{1,9})?'
-_UNITS = r'(?:km|hm|dam|m|dm|cm|mm)(?:[²³])?|ha|kg|hg|dag|g|mg|tan|ta|yen|l|dl|cl|ml'
+_UNITS = r'(?:km|hm|dam|m|dm|cm|mm)(?:[²³])?|ha|kg|hg|dag|g|mg|tan|ta|yen|l|dl|cl|ml|dong'
+_UNIT_LABELS = {'tan': 'tấn', 'ta': 'tạ', 'yen': 'yến', 'dong': 'đồng'}
 
 
 def _number(text):
@@ -26,7 +27,7 @@ def _number(text):
 def _plan(title, why, how, *, expression='', unit='', options=(), selected='', fraction=False):
     return dict(topic=title, goal='Em tự tính hoặc chọn kết quả rồi kiểm tra lại.', finalAnswerStep=0,
                 steps=[dict(title=title, explanation=why, question='Em chọn kết quả nào?' if options else 'Em tính được bao nhiêu?',
-                            expression=expression, unit=unit, choices=list(options), correctChoice=selected,
+                            expression=expression, unit=_UNIT_LABELS.get(unit, unit), choices=list(options), correctChoice=selected,
                             solutionSentence='' if options else 'Kết quả là:', fractionNotation=fraction,
                             initialGuidance=[why, how], guidance=[why, how], hints=[why, how])])
 
@@ -46,8 +47,106 @@ def _result(title, why, how, expression, options, unit='', fraction=False):
             values.append(_number(option))
         if len(set(values)) != len(values) or values.count(value) != 1:
             return None
-        return _plan(title, why, how, options=options, selected=options[values.index(value)])
+        return _plan(title, why, how, options=options, selected=options[values.index(value)], unit=unit, fraction=fraction)
     return _plan(title, why, how, expression=expression, unit=unit, fraction=fraction)
+
+
+def _measurement_expression(source, target):
+    """One complete simple/compound measurement in a known compatible unit."""
+    term = r'(' + _NUMBER + r')\s*(' + _UNITS + r')'
+    source = normalized_units(source).strip()
+    match = re.fullmatch(term + r'(?:\s*' + term + r')?', source)
+    if not match:
+        return None
+    items = [match.groups()[:2]] + ([match.groups()[2:]] if match[3] is not None else [])
+    if len({unit for _, unit in items}) != len(items):
+        return None
+    terms = []
+    for amount, unit in items:
+        expression = amount.replace(',', '.')
+        if unit != target:
+            relation = next((row for row in unit_conversions(f'{amount} {unit} sang {target}')
+                if {normalized_units(row['fromUnit']), normalized_units(row['toUnit'])} == {unit, target}), None)
+            if relation is None:
+                return None
+            expression += ('*' if unit == normalized_units(relation['fromUnit']) else '/') + relation['factor']
+        terms.append(expression)
+    return '+'.join(terms)
+
+
+def rounded_value(value, place):
+    scale = 10**{'hang phan muoi': 1, 'hang phan tram': 2, 'so tu nhien gan nhat': 0}[place]
+    shifted = value * scale + Fraction(1, 2)
+    return Fraction(shifted.numerator // shifted.denominator, scale)
+
+
+def _truth_statement(text):
+    """Only an explicit true/false task authorizes checking a printed assertion."""
+    match = re.fullmatch(r'dung ghi d,? sai ghi s\s*:\s*(.+)', text)
+    if not match:
+        return None
+    statement = normalized_units(match[1]).strip()
+    value = None
+    rounding = re.fullmatch(r'(' + _NUMBER + r') lam tron den '
+        r'(hang phan muoi|hang phan tram|so tu nhien gan nhat) la (' + _NUMBER + r')[.]?', statement)
+    if rounding:
+        value = rounded_value(_number(rounding[1]), rounding[2]) == _number(rounding[3])
+        why = 'Xác định hàng cần làm tròn và chữ số ngay bên phải, rồi đối chiếu với số mà câu đã nêu.'
+        how = 'Chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn. Nếu nhỏ hơn năm thì giữ nguyên; không tăng theo cảm tính.'
+    elif statement.count('=') == 1:
+        left, right = statement.rstrip('.').split('=')
+        target = re.fullmatch(r'\s*' + _NUMBER + r'\s*(' + _UNITS + r')\s*', right)
+        if not target:
+            return None
+        a, b = _measurement_expression(left, target[1]), _measurement_expression(right, target[1])
+        if a is None or b is None:
+            return None
+        from app.tutoring.lesson import calculate_exact
+        value = calculate_exact(a) == calculate_exact(b)
+        why = 'Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.'
+        how = 'Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài.'
+    if value is None:
+        return None
+    return _plan('Kiểm tra nhận định', why, how, options=['Đúng', 'Sai'], selected='Đúng' if value else 'Sai')
+
+
+def _daily_sales_plan(text, options):
+    # Prove the entire statement, including the constant-rate condition. Extra
+    # discounts, different rates, missing conditions or units require review.
+    match = re.fullmatch(
+        r'mot cua hang trong (\d{1,3}) ngay ban duoc (' + _NUMBER + r') (kg|g) (gao|duong|thoc|ngo|bot)\. '
+        r'hoi trong (\d{1,3}) ngay cua hang ban duoc bao nhieu (kg|g) \4\? '
+        r'\(?biet so \4 moi ngay ban duoc la nhu nhau[.)]*', normalized_units(text))
+    if not match:
+        return None
+    days, amount, unit, goods, target_days, target_unit = match.groups()
+    if int(days) <= 0 or int(target_days) <= 0 or _number(amount) <= 0 or unit != target_unit:
+        return None
+    quantity = amount.replace(',', '.')
+    checked = _result('Rút về đơn vị', '', '', f'{quantity}/{days}*{target_days}', options, unit)
+    if checked is None:
+        return None
+    label = {'gao': 'gạo', 'duong': 'đường', 'thoc': 'thóc', 'ngo': 'ngô', 'bot': 'bột'}[goods]
+    steps = []
+    for title, why, how, expression, sentence in [
+        (f'Tìm lượng {label} bán mỗi ngày',
+         f'Cửa hàng bán đều mỗi ngày. Chia {amount} {unit} cho {days} ngày để tìm lượng bán trong một ngày.',
+         'Lấy lượng đã bán chia cho số ngày đã bán, rồi kiểm tra lại bằng phép nhân.',
+         f'{quantity}/{days}', f'Lượng {label} bán mỗi ngày là:'),
+        (f'Tìm lượng {label} trong {target_days} ngày',
+         f'Mỗi ngày bán cùng một lượng. Dùng lượng mỗi ngày vừa tính, nhân với {target_days} ngày mà đề hỏi.',
+         'Lấy kết quả bước trước nhân với số ngày cần hỏi. Giữ đúng đơn vị của đề.',
+         f'{{s0}}*{target_days}', f'Lượng {label} bán trong số ngày cần hỏi là:'),
+    ]:
+        steps.append(dict(title=title, explanation=why, question=title + ' được bao nhiêu?',
+                          expression=expression, unit=unit, solutionSentence=sentence,
+                          initialGuidance=[why, how], guidance=[why, how], hints=[why, how]))
+    if options:
+        steps.append(dict(title='Chọn đáp án', question='Em chọn phương án nào trong đề?',
+                          explanation='Đối chiếu lượng vừa tính với từng phương án, giữ đúng đơn vị.',
+                          choices=list(options), correctChoice=checked['steps'][0]['correctChoice'], unit=unit,
+                          guidance=['So sánh kết quả vừa tính với từng đáp án trong đề.']))
+    return dict(topic='Rút về đơn vị', goal=f'Tìm lượng {label} bán được theo số ngày.', finalAnswerStep=1, steps=steps)
 
 
 _DIGITS = dict(zip('khong mot hai ba bon nam sau bay tam chin'.split(), range(10)))
@@ -91,16 +190,59 @@ def verified_plan(problem):
 def _verified_plan(problem):
     if len(problem) > 4000 or '[?]' in problem:
         return None
+    from app.tutoring.number_tasks import verified_plan as open_number_plan
+    opened = open_number_plan(problem)
+    if opened is not None:
+        return opened
     multiple = split_choices(problem, allow_statement=True)
     stem, options = multiple if multiple else (problem, [])
-    text = _fold(re.sub(r'\s+', ' ', stem)).strip()
-    text = re.sub(r'^(?:cau|bai)\s+\d+\s*[.):]?\s*(?:\(\s*\d+(?:[.,]\d+)?\s*diem\s*\)\s*)?', '', text)
+    # Blank working rows are page layout, not additional operands or tasks.
+    stem = '\n'.join(row for row in stem.splitlines() if not re.fullmatch(r'[\s=. …]+', row))
+    text = _fold(re.sub(r'\s+', ' ', numeric_notation(stem))).strip()
+    options = [numeric_notation(option) for option in options]
+    text = re.sub(r'^(?:cau|bai)\s+\d+\s*[.):]?\s*(?:\(\s*\d+(?:[.,]\d+)?\s*diem\s*\)\s*)?[.:]?\s*', '', text)
+    text = re.sub(r'^[a-h][.)]\s*', '', text)
+    text = re.sub(r'^\(\d+(?:[.,]\d+)?\s*diem\)\s*', '', text)
+    text = re.sub(r'^khoanh vao chu cai truoc cau tra loi dung[.:]?\s*', '', text)
+    truth = _truth_statement(text) if not options else None
+    if truth:
+        return truth
+    # Retain the whole task; remove only a worksheet instruction, never a condition.
+    text = re.sub(r'^(?:dat tinh roi tinh|tinh gia tri cua bieu thuc|tinh bang cach thuan tien(?: nhat)?|'
+                  r'viet (?:so|cac so do|so hoac so thap phan|so thap phan) thich hop vao cho (?:cham|trong)|'
+                  r'dien so thich hop vao cho trong|dien so hoac don vi thich(?: hop)? vao cho cham)[.:]?\s*', '', text)
+
+    from app.tutoring.elementary_choices import verified_choice
+    concept = verified_choice(text, [_fold(option) for option in options]) if options else None
+    if concept:
+        # Numeric folding aids matching, but keep original Vietnamese option text.
+        step = concept['steps'][0]
+        index = step['choices'].index(step['correctChoice'])
+        step['choices'], step['correctChoice'] = options, options[index]
+        return concept
+
+    daily_sales = _daily_sales_plan(text, options)
+    if daily_sales:
+        return daily_sales
+
+    from app.tutoring.area_tasks import verified_plan as area_plan
+    area = area_plan(text, options)
+    if area is not None:
+        return area
 
     # Exact arithmetic, including a single operation, decimals and fractions.
     arithmetic = re.fullmatch(r'(?:tinh\s*:?\s*|(?:ket qua (?:cua )?phep tinh)\s*)?'
-                              r'([\d\s.,()+*/×÷−–:\-x]+?)\s*(?:(?:=\s*(?:\?|\.{2,}|…))|(?:la\s*[:?]))?\s*[.?]?\s*', text)
+                              r'([\d\s.,()+*/×÷−–:\-x]+?)\s*(?:(?:=\s*(?:\?|\.{2,}|…+)?)|(?:la\s*[:?]))?\s*[.?]?\s*', text)
     if arithmetic:
         expression = arithmetic[1].strip().replace(',', '.')
+        expression = re.sub(r'\b(\d+)\s+(\d+)\s*/\s*([1-9]\d*)\b', r'(\1+\2/\3)', expression)
+        if re.search(r'[:÷]', expression):
+            # In school notation, 5/8 : 7/2 divides two complete fractions.
+            # Group fraction operands before translating division signs; leave
+            # ordinary slash chains (8/4/2) with their existing associativity.
+            expression = ''.join(
+                f'({part.strip()})' if re.fullmatch(r'\s*\d+(?:\.\d+)?\s*/\s*\d+(?:\.\d+)?\s*', part) else part
+                for part in re.split(r'([()+*×÷:−–\-x])', expression))
         for old, new in [('×', '*'), ('x', '*'), ('÷', '/'), (':', '/'), ('−', '-'), ('–', '-')]:
             expression = expression.replace(old, new)
         # Reject lone numbers, implicit multiplication and malformed expressions.
@@ -117,22 +259,86 @@ def _verified_plan(problem):
                 }[type(operations[0].op)]
                 if '.' in expression and isinstance(operations[0].op, (ast.Add, ast.Sub)):
                     how = 'Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột.'
+            if re.fullmatch(r'\d+\s*/\s*\d+\s*[+-]\s*\d+\s*/\s*\d+', expression):
+                title = 'Cộng, trừ hai phân số'
+                why = 'Các phân số phải có cùng mẫu số để các phần có cùng kích thước trước khi cộng hoặc trừ.'
+                how = 'Tìm mẫu chung. Nhân cả tử và mẫu của mỗi phân số với cùng một số để giữ nguyên giá trị; cộng hoặc trừ các tử rồi giữ mẫu chung. Rút gọn kết quả nếu có thể.'
             return _result(title, why, how,
                            expression, options, fraction='/' in expression and '.' not in expression)
 
     conversion = re.fullmatch(r'(?:dien vao (?:cho cham|cho trong|dau cham) de\s*:?\s*|doi\s+)?'
-                             r'(' + _NUMBER + r')\s*(' + _UNITS + r')\s*(?:=|sang)\s*(?:\.{2,}|…|\?)?\s*(' + _UNITS + r')\s*[.:?]?', normalized_units(text))
+                             r'(' + _NUMBER + r')\s*(' + _UNITS + r')\s*(?:=|sang)\s*(?:\.{2,}|…+|\?)?\s*(' + _UNITS + r')\s*[.:?]?', normalized_units(text))
     if conversion:
         amount, source, target = conversion.groups()
         conversions = unit_conversions(f'{amount} {source} sang {target}')
-        relation = next((r for r in conversions if {r['fromUnit'], r['toUnit']} == {source, target}), None)
+        relation = next((r for r in conversions if {normalized_units(r['fromUnit']), normalized_units(r['toUnit'])} == {source, target}), None)
         if not relation:
             return None
         factor = relation['factor']
-        operation = '*' if source == relation['fromUnit'] else '/'
+        operation = '*' if source == normalized_units(relation['fromUnit']) else '/'
         return _result('Đổi đơn vị đo', 'Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.',
-                       f'Từ {source} sang {target}, em {"nhân" if operation == "*" else "chia"} với {factor}. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị {target}.',
+                       f'Từ {_UNIT_LABELS.get(source, source)} sang {_UNIT_LABELS.get(target, target)}, em {"nhân" if operation == "*" else "chia"} với {factor}. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị {_UNIT_LABELS.get(target, target)}.',
                        amount.replace(',', '.') + operation + factor, options, target)
+
+    # A single compound measurement, not several independent worksheet questions.
+    compound = re.fullmatch(r'(?:(?:viet cac so do sau duoi dang so thap phan|'
+        r'so (?:thap phan )?thich hop (?:viet|dien) vao cho cham(?: cua)?)[.:]?\s*)?(?:[ab][.)]\s*)?'
+        r'(' + _NUMBER + r')\s*(' + _UNITS + r')\s+(' + _NUMBER + r')\s*(' + _UNITS + r')'
+        r'\s*=\s*(?:\.{2,}|…+|\?)\s*(' + _UNITS + r')\s*(?:la\s*[:?])?\s*[.]?', normalized_units(text))
+    if compound:
+        first, first_unit, second, second_unit, target = compound.groups()
+        expression = _measurement_expression(f'{first} {first_unit} {second} {second_unit}', target)
+        if expression is None:
+            return None
+        return _result('Viết số đo theo một đơn vị',
+            'Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.',
+            f'Đổi riêng phần {_UNIT_LABELS.get(first_unit, first_unit)} và phần {_UNIT_LABELS.get(second_unit, second_unit)} sang {_UNIT_LABELS.get(target, target)}. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính.',
+            expression, options, target)
+
+    comparison = re.fullmatch(r'dau thich hop dien vao cho cham (.+?)\s*(?:\.{2,}|…+)\s*(.+?)\s+la\s*[:?]', normalized_units(text))
+    if comparison and options and set(options) == {'>', '<', '=', 'Không xác định được'}:
+        target = re.search('(' + _UNITS + r')$', comparison[2].strip())
+        if not target:
+            return None
+        a, b = (_measurement_expression(side, target[1]) for side in comparison.groups())
+        if a is None or b is None:
+            return None
+        from app.tutoring.lesson import calculate_exact
+        left, right = calculate_exact(a), calculate_exact(b)
+        return _plan('So sánh hai số đo', 'Hai số đo phải cùng đơn vị thì mới so sánh được.',
+            'Đổi các phần của mỗi số đo về đơn vị bên phải, cộng lại nếu cần rồi chọn dấu so sánh.',
+            options=options, selected='>' if left > right else '<' if left < right else '=')
+
+    smallest = re.fullmatch(r'trong cac so do khoi luong:\s*(.+?), so do be nhat la\s*[:?]', normalized_units(text))
+    if smallest and options:
+        items = [item.strip() for item in smallest[1].split(';')]
+        if len(items) != 4:
+            return None
+        from app.tutoring.lesson import calculate_exact
+        expressions = [_measurement_expression(item, 'kg') for item in items]
+        candidates = [_measurement_expression(item, 'kg') for item in options]
+        if any(item is None for item in [*expressions, *candidates]):
+            return None
+        values, choices = [list(map(calculate_exact, group)) for group in (expressions, candidates)]
+        if sorted(values) != sorted(choices) or len(set(choices)) != 4:
+            return None
+        return _plan('So sánh số đo khối lượng', 'Không so sánh riêng mặt chữ số khi các số đo có dạng hoặc đơn vị khác nhau.',
+            'Đổi từng số đo sang ki-lô-gam. Cộng các phần của số đo ghép rồi đối chiếu các giá trị cùng đơn vị.',
+            options=options, selected=options[choices.index(min(values))])
+
+    rectangle = re.fullmatch(r'chu vi (?:cua )?hinh chu nhat la (' + _NUMBER + r')\s*(km|m|dm|cm|mm)[.]\s*'
+        r'hoi dien tich (?:manh dat|hinh chu nhat) la bao nhieu \2²[.?]\s*'
+        r'biet chieu dai hon chieu rong la (' + _NUMBER + r')\s*\2[.]?', normalized_units(text))
+    if rectangle:
+        perimeter, unit, difference = rectangle.groups()
+        p, d = _number(perimeter), _number(difference)
+        if p <= 0 or d < 0 or p/2 <= d:
+            return None
+        expression = f'({perimeter.replace(",", ".")}/2+{difference.replace(",", ".")})/2*({perimeter.replace(",", ".")}/2-{difference.replace(",", ".")})/2'
+        return _result('Diện tích hình chữ nhật từ chu vi và hiệu hai cạnh',
+            'Nửa chu vi là tổng chiều dài và chiều rộng. Hiệu hai cạnh giúp tìm từng cạnh trước khi tính diện tích.',
+            'Chia chu vi cho hai. Lấy tổng hai cạnh cộng hiệu rồi chia hai để tìm chiều dài; lấy tổng trừ hiệu rồi chia hai để tìm chiều rộng. Nhân hai cạnh để tính diện tích.',
+            expression, options, unit+'²')
 
     fractions = re.fullmatch(r'cho cac phan so sau\s*:?\s*([\d\s/;,]+)[.]?\s*co\s*(?:\.{2,}|…)\s*phan so thap phan\s*[.:?]?', text)
     if fractions and options:

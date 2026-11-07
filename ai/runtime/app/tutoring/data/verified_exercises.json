@@ -1,0 +1,3855 @@
+{
+  "version": 1,
+  "validationPolicy": "5d8755bd45852f922549d0e61d5001237e09657670fbed8cf923493c3d99fddc",
+  "entries": [
+    {
+      "id": "owner-reviewed-exams-20261107-001",
+      "problemText": "Câu 2. Tính bằng cách thuận tiện:\n724×63 + 724×37 – 4500 =\n=\n=",
+      "plan": {
+        "topic": "Tính giá trị phép tính",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính giá trị phép tính",
+            "explanation": "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "724*63 + 724*37 - 4500",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "initialGuidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "67900"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-002",
+      "problemText": "Câu 2. Tính bằng cách thuận tiện:\n(7)/(15) × (4)/(11) + (4)/(11) × (8)/(15) + (2)/(3)\n=\n=\n=",
+      "plan": {
+        "topic": "Tính giá trị phép tính",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính giá trị phép tính",
+            "explanation": "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "7/15 * 4/11 + 4/11 * 8/15 + 2/3",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "fractionNotation": true,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "initialGuidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "34/33"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-003",
+      "problemText": "Câu 3. Viết số thập phân thích hợp vào chỗ chấm.\n5 km 63 m =…………km",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "5+63/1000",
+            "unit": "km",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần km và phần m sang km. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần km và phần m sang km. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần km và phần m sang km. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "5.063"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-004",
+      "problemText": "Câu 3. Viết số thập phân thích hợp vào chỗ chấm.\n219 000 m² =………ha",
+      "plan": {
+        "topic": "Đổi đơn vị đo",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Đổi đơn vị đo",
+            "explanation": "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "219000/10000",
+            "unit": "ha",
+            "workExcerpt": "",
+            "hints": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ m² sang ha, em chia với 10000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị ha."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ m² sang ha, em chia với 10000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị ha."
+            ],
+            "initialGuidance": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ m² sang ha, em chia với 10000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị ha."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "21.9"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-005",
+      "problemText": "Câu 3. Viết số thập phân thích hợp vào chỗ chấm.\n18 m² 35 dm² =………… m²",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "18+35/100",
+            "unit": "m²",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần m² và phần dm² sang m². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần m² và phần dm² sang m². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần m² và phần dm² sang m². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "18.35"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-006",
+      "problemText": "Câu 3. Viết số thập phân thích hợp vào chỗ chấm.\n36 ha =……………km²",
+      "plan": {
+        "topic": "Đổi đơn vị đo",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Đổi đơn vị đo",
+            "explanation": "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "36/100",
+            "unit": "km²",
+            "workExcerpt": "",
+            "hints": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ ha sang km², em chia với 100. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị km²."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ ha sang km², em chia với 100. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị km²."
+            ],
+            "initialGuidance": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ ha sang km², em chia với 100. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị km²."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "0.36"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-007",
+      "problemText": "Câu 4. Người ta muốn xây dựng một khu chung cư trên mảnh đất có diện tích 3 ha.\nTrong đó (2)/(5) diện tích đất được dùng để xây các tòa nhà. Diện tích còn lại làm hồ điều hòa và khu vui chơi. Tính diện tích làm hồ điều hòa và khu vui chơi theo đơn vị mét vuông.",
+      "plan": {
+        "topic": "Diện tích phần đất còn lại",
+        "goal": "Tìm đúng phần đất còn lại và biểu diễn bằng mét vuông.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tìm phần diện tích còn lại",
+            "explanation": "Coi toàn bộ mảnh đất là một. Phần còn lại ghép với các phần đã dùng vừa đủ toàn bộ.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "1-2/5",
+            "unit": "phần",
+            "workExcerpt": "",
+            "hints": [
+              "Coi toàn bộ mảnh đất là một. Phần còn lại ghép với các phần đã dùng vừa đủ toàn bộ.",
+              "Viết một thành phân số cùng mẫu thích hợp rồi trừ các phần đã dùng. Phân số kết quả chưa phải diện tích."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Phần diện tích còn lại là:",
+            "guidance": [
+              "Coi toàn bộ mảnh đất là một. Phần còn lại ghép với các phần đã dùng vừa đủ toàn bộ.",
+              "Viết một thành phân số cùng mẫu thích hợp rồi trừ các phần đã dùng. Phân số kết quả chưa phải diện tích."
+            ],
+            "initialGuidance": [
+              "Coi toàn bộ mảnh đất là một. Phần còn lại ghép với các phần đã dùng vừa đủ toàn bộ.",
+              "Viết một thành phân số cùng mẫu thích hợp rồi trừ các phần đã dùng. Phân số kết quả chưa phải diện tích."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Đổi tổng diện tích sang mét vuông",
+            "explanation": "Đề cho diện tích bằng héc-ta nhưng yêu cầu kết quả bằng mét vuông, nên cần đổi về cùng đơn vị.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "3*10000",
+            "unit": "m²",
+            "workExcerpt": "",
+            "hints": [
+              "Đề cho diện tích bằng héc-ta nhưng yêu cầu kết quả bằng mét vuông, nên cần đổi về cùng đơn vị.",
+              "Một héc-ta bằng mười nghìn mét vuông. Nhân tổng diện tích với hệ số này; lượng đất không thay đổi."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Tổng diện tích theo mét vuông là:",
+            "guidance": [
+              "Đề cho diện tích bằng héc-ta nhưng yêu cầu kết quả bằng mét vuông, nên cần đổi về cùng đơn vị.",
+              "Một héc-ta bằng mười nghìn mét vuông. Nhân tổng diện tích với hệ số này; lượng đất không thay đổi."
+            ],
+            "initialGuidance": [
+              "Đề cho diện tích bằng héc-ta nhưng yêu cầu kết quả bằng mét vuông, nên cần đổi về cùng đơn vị.",
+              "Một héc-ta bằng mười nghìn mét vuông. Nhân tổng diện tích với hệ số này; lượng đất không thay đổi."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Tính diện tích làm hồ điều hòa và khu vui chơi",
+            "explanation": "Phân số đã tìm chỉ phần còn lại của toàn bộ đất. Nhân diện tích toàn bộ với phân số này để lấy đúng phần cần hỏi.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "{s1}*{s0}",
+            "unit": "m²",
+            "workExcerpt": "",
+            "hints": [
+              "Phân số đã tìm chỉ phần còn lại của toàn bộ đất. Nhân diện tích toàn bộ với phân số này để lấy đúng phần cần hỏi.",
+              "Lấy tổng diện tích đã đổi nhân phân số còn lại. Giữ chính xác phân số khi tính và ghi đơn vị mét vuông."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Diện tích làm hồ điều hòa và khu vui chơi là:",
+            "guidance": [
+              "Phân số đã tìm chỉ phần còn lại của toàn bộ đất. Nhân diện tích toàn bộ với phân số này để lấy đúng phần cần hỏi.",
+              "Lấy tổng diện tích đã đổi nhân phân số còn lại. Giữ chính xác phân số khi tính và ghi đơn vị mét vuông."
+            ],
+            "initialGuidance": [
+              "Phân số đã tìm chỉ phần còn lại của toàn bộ đất. Nhân diện tích toàn bộ với phân số này để lấy đúng phần cần hỏi.",
+              "Lấy tổng diện tích đã đổi nhân phân số còn lại. Giữ chính xác phân số khi tính và ghi đơn vị mét vuông."
+            ]
+          }
+        ],
+        "finalAnswerStep": 2
+      },
+      "expectedAnswers": [
+        "3/5",
+        "30000",
+        "18000"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-008",
+      "problemText": "Bài 2 (2 điểm) Đặt tính rồi tính.\n7,5 + 9,86",
+      "plan": {
+        "topic": "Cộng hai số",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Cộng hai số",
+            "explanation": "Phép cộng gộp hai số lại để tìm kết quả có tất cả.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "7.5 + 9.86",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Phép cộng gộp hai số lại để tìm kết quả có tất cả.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Phép cộng gộp hai số lại để tìm kết quả có tất cả.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ],
+            "initialGuidance": [
+              "Phép cộng gộp hai số lại để tìm kết quả có tất cả.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "17.36"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-009",
+      "problemText": "Bài 2 (2 điểm) Đặt tính rồi tính.\n35 + 58,76",
+      "plan": {
+        "topic": "Cộng hai số",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Cộng hai số",
+            "explanation": "Phép cộng gộp hai số lại để tìm kết quả có tất cả.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "35 + 58.76",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Phép cộng gộp hai số lại để tìm kết quả có tất cả.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Phép cộng gộp hai số lại để tìm kết quả có tất cả.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ],
+            "initialGuidance": [
+              "Phép cộng gộp hai số lại để tìm kết quả có tất cả.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "93.76"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-010",
+      "problemText": "Bài 2 (2 điểm) Đặt tính rồi tính.\n78,2 - 24,6",
+      "plan": {
+        "topic": "Trừ hai số",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Trừ hai số",
+            "explanation": "Phép trừ tìm phần còn lại khi bớt đi một lượng.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "78.2 - 24.6",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Phép trừ tìm phần còn lại khi bớt đi một lượng.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Phép trừ tìm phần còn lại khi bớt đi một lượng.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ],
+            "initialGuidance": [
+              "Phép trừ tìm phần còn lại khi bớt đi một lượng.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "53.6"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-011",
+      "problemText": "Bài 2 (2 điểm) Đặt tính rồi tính.\n60,23 - 24,096",
+      "plan": {
+        "topic": "Trừ hai số",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Trừ hai số",
+            "explanation": "Phép trừ tìm phần còn lại khi bớt đi một lượng.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "60.23 - 24.096",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Phép trừ tìm phần còn lại khi bớt đi một lượng.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Phép trừ tìm phần còn lại khi bớt đi một lượng.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ],
+            "initialGuidance": [
+              "Phép trừ tìm phần còn lại khi bớt đi một lượng.",
+              "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "36.134"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-012",
+      "problemText": "Bài 3: (3 điểm) Một nền nhà hình chữ nhật có chiều dài 8m, chiều rộng bằng (1)/(2) chiều dài.\nNgười ta lát nền nhà đó bằng các viên gạch hình vuông cạnh 4dm.\na) Hỏi cần mua bao nhiêu viên gạch để lát kín nền nhà đó?\nb) Biết rằng 2m² loại gạch đó giá 250 000 đồng, hỏi cần bao nhiêu tiền để lát nền nhà?\n(Diện tích phần mạch vữa không đáng kể).",
+      "plan": {
+        "topic": "Diện tích và đại lượng theo diện tích",
+        "goal": "Tính đủ các ý của đề với đúng đơn vị.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính chiều rộng",
+            "explanation": "Chiều rộng bằng phân số đã cho của chiều dài.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "8*(1/2)",
+            "unit": "m",
+            "workExcerpt": "",
+            "hints": [
+              "Chiều rộng bằng phân số đã cho của chiều dài.",
+              "Lấy chiều dài nhân phân số chỉ chiều rộng."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Chiều rộng mảnh đất là:",
+            "guidance": [
+              "Chiều rộng bằng phân số đã cho của chiều dài.",
+              "Lấy chiều dài nhân phân số chỉ chiều rộng."
+            ],
+            "initialGuidance": [
+              "Chiều rộng bằng phân số đã cho của chiều dài.",
+              "Lấy chiều dài nhân phân số chỉ chiều rộng."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Tính diện tích",
+            "explanation": "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "8*{s0}",
+            "unit": "m²",
+            "workExcerpt": "",
+            "hints": [
+              "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
+              "Nhân chiều dài với chiều rộng vừa tìm."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Diện tích mảnh đất là:",
+            "guidance": [
+              "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
+              "Nhân chiều dài với chiều rộng vừa tìm."
+            ],
+            "initialGuidance": [
+              "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
+              "Nhân chiều dài với chiều rộng vừa tìm."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Tính diện tích một viên gạch",
+            "explanation": "Viên gạch hình vuông có diện tích bằng cạnh nhân với cạnh.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "4*4",
+            "unit": "dm²",
+            "workExcerpt": "",
+            "hints": [
+              "Viên gạch hình vuông có diện tích bằng cạnh nhân với cạnh.",
+              "Cạnh dùng đề xi mét nên diện tích viên gạch dùng đề xi mét vuông."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Diện tích một viên gạch là:",
+            "guidance": [
+              "Viên gạch hình vuông có diện tích bằng cạnh nhân với cạnh.",
+              "Cạnh dùng đề xi mét nên diện tích viên gạch dùng đề xi mét vuông."
+            ],
+            "initialGuidance": [
+              "Viên gạch hình vuông có diện tích bằng cạnh nhân với cạnh.",
+              "Cạnh dùng đề xi mét nên diện tích viên gạch dùng đề xi mét vuông."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Tính số viên gạch",
+            "explanation": "Nền nhà được phủ kín bởi các viên gạch như nhau. Cần dùng cùng đơn vị diện tích để chia.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "{s1}*100/{s2}",
+            "unit": "viên",
+            "workExcerpt": "",
+            "hints": [
+              "Nền nhà được phủ kín bởi các viên gạch như nhau. Cần dùng cùng đơn vị diện tích để chia.",
+              "Đổi diện tích nền từ mét vuông sang đề xi mét vuông, rồi chia cho diện tích một viên."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Số viên gạch cần mua là:",
+            "guidance": [
+              "Nền nhà được phủ kín bởi các viên gạch như nhau. Cần dùng cùng đơn vị diện tích để chia.",
+              "Đổi diện tích nền từ mét vuông sang đề xi mét vuông, rồi chia cho diện tích một viên."
+            ],
+            "initialGuidance": [
+              "Nền nhà được phủ kín bởi các viên gạch như nhau. Cần dùng cùng đơn vị diện tích để chia.",
+              "Đổi diện tích nền từ mét vuông sang đề xi mét vuông, rồi chia cho diện tích một viên."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Tính tiền lát nền",
+            "explanation": "Giá trong đề ứng với một nhóm diện tích, không phải một viên gạch.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "{s1}/2*250000",
+            "unit": "đồng",
+            "workExcerpt": "",
+            "hints": [
+              "Giá trong đề ứng với một nhóm diện tích, không phải một viên gạch.",
+              "Dùng diện tích nền theo mét vuông chia cho diện tích một nhóm rồi nhân giá của nhóm."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Số tiền cần trả là:",
+            "guidance": [
+              "Giá trong đề ứng với một nhóm diện tích, không phải một viên gạch.",
+              "Dùng diện tích nền theo mét vuông chia cho diện tích một nhóm rồi nhân giá của nhóm."
+            ],
+            "initialGuidance": [
+              "Giá trong đề ứng với một nhóm diện tích, không phải một viên gạch.",
+              "Dùng diện tích nền theo mét vuông chia cho diện tích một nhóm rồi nhân giá của nhóm."
+            ]
+          }
+        ],
+        "finalAnswerStep": 4
+      },
+      "expectedAnswers": [
+        "4",
+        "32",
+        "16",
+        "200",
+        "4000000"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-013",
+      "problemText": "Bài 4: (1 điểm)\n(0,5 điểm) Các số tự nhiên thích hợp điền vào chỗ trống là: 60,36 < ... < 64,6",
+      "plan": {
+        "topic": "Tìm số tự nhiên trong khoảng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tìm số tự nhiên trong khoảng",
+            "explanation": "Dấu bé hơn ở cả hai phía yêu cầu số cần tìm nằm hẳn giữa hai cận.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "60; 61; 62; 63; 64; 65",
+              "61; 62; 63; 64",
+              "60; 61; 62; 63; 64",
+              "61; 62; 63; 64; 65"
+            ],
+            "correctChoice": "61; 62; 63; 64",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Dấu bé hơn ở cả hai phía yêu cầu số cần tìm nằm hẳn giữa hai cận.",
+              "Bắt đầu từ số tự nhiên đầu tiên lớn hơn cận dưới, đếm tiếp và dừng trước cận trên. Không lấy hai đầu mút."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Dấu bé hơn ở cả hai phía yêu cầu số cần tìm nằm hẳn giữa hai cận.",
+              "Bắt đầu từ số tự nhiên đầu tiên lớn hơn cận dưới, đếm tiếp và dừng trước cận trên. Không lấy hai đầu mút."
+            ],
+            "initialGuidance": [
+              "Dấu bé hơn ở cả hai phía yêu cầu số cần tìm nằm hẳn giữa hai cận.",
+              "Bắt đầu từ số tự nhiên đầu tiên lớn hơn cận dưới, đếm tiếp và dừng trước cận trên. Không lấy hai đầu mút."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "61;62;63;64"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-014",
+      "problemText": "Bài 4: (1 điểm)\n(0,5 điểm) Tính bằng cách thuận tiện nhất\n24,75 + 8,96 + 5,25 + 7,2 + 12,8 + 1,04",
+      "plan": {
+        "topic": "Tính giá trị phép tính",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính giá trị phép tính",
+            "explanation": "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "24.75 + 8.96 + 5.25 + 7.2 + 12.8 + 1.04",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "initialGuidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "60"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-015",
+      "problemText": "Câu 1. Phân số nào dưới đây là phân số thập phân\nA. (100)/(57)\nB. (65)/(100)\nC. (15)/(20)\nD. (30)/(35)",
+      "plan": {
+        "topic": "Nhận biết phân số thập phân",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Nhận biết phân số thập phân",
+            "explanation": "Xem mẫu số của từng phân số đúng như đề đã viết.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "100/57",
+              "65/100",
+              "15/20",
+              "30/35"
+            ],
+            "correctChoice": "65/100",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Xem mẫu số của từng phân số đúng như đề đã viết.",
+              "Phân số thập phân có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Xem mẫu số của từng phân số đúng như đề đã viết.",
+              "Phân số thập phân có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười."
+            ],
+            "initialGuidance": [
+              "Xem mẫu số của từng phân số đúng như đề đã viết.",
+              "Phân số thập phân có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "65/100"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-016",
+      "problemText": "Câu 2. Phân số (183)/(100) viết ở dạng hỗn số là:\nA. 3 (18)/(100)\nB. 18 (3)/(100)\nC. 1 (83)/(100)\nD. 180 (3)/(100)",
+      "plan": {
+        "topic": "Đổi phân số thành hỗn số",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Đổi phân số thành hỗn số",
+            "explanation": "Chia tử số cho mẫu số để tìm phần nguyên và phần còn lại.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "3 18/100",
+              "18 3/100",
+              "1 83/100",
+              "180 3/100"
+            ],
+            "correctChoice": "1 83/100",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Chia tử số cho mẫu số để tìm phần nguyên và phần còn lại.",
+              "Thương là phần nguyên, số dư là tử số của phần phân số; giữ mẫu số ban đầu."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Chia tử số cho mẫu số để tìm phần nguyên và phần còn lại.",
+              "Thương là phần nguyên, số dư là tử số của phần phân số; giữ mẫu số ban đầu."
+            ],
+            "initialGuidance": [
+              "Chia tử số cho mẫu số để tìm phần nguyên và phần còn lại.",
+              "Thương là phần nguyên, số dư là tử số của phần phân số; giữ mẫu số ban đầu."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "1 83/100"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-017",
+      "problemText": "Câu 3. Số thập phân 25,409 đọc là:\nA. Hai mươi lăm phẩy bốn mươi chín\nB. Hai mươi lăm phẩy bốn trăm linh chín\nC. Hai lăm phẩy bốn không chín\nD. Hai mươi lăm bốn không chín",
+      "plan": {
+        "topic": "Đọc số thập phân",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Đọc số thập phân",
+            "explanation": "Đọc phần nguyên, tiếng phẩy, rồi phần thập phân.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "Hai mươi lăm phẩy bốn mươi chín",
+              "Hai mươi lăm phẩy bốn trăm linh chín",
+              "Hai lăm phẩy bốn không chín",
+              "Hai mươi lăm bốn không chín"
+            ],
+            "correctChoice": "Hai mươi lăm phẩy bốn trăm linh chín",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Đọc phần nguyên, tiếng phẩy, rồi phần thập phân.",
+              "Giữ đủ giá trị và vị trí của các chữ số ở phần thập phân."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Đọc phần nguyên, tiếng phẩy, rồi phần thập phân.",
+              "Giữ đủ giá trị và vị trí của các chữ số ở phần thập phân."
+            ],
+            "initialGuidance": [
+              "Đọc phần nguyên, tiếng phẩy, rồi phần thập phân.",
+              "Giữ đủ giá trị và vị trí của các chữ số ở phần thập phân."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "Hai mươi lăm phẩy bốn trăm linh chín"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-018",
+      "problemText": "Câu 4. Làm tròn số 0,158 đến hàng phần mười ta được:\nA. 0,17\nB. 0,159\nC. 0,16\nD. 0,2",
+      "plan": {
+        "topic": "Làm tròn số",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Làm tròn số",
+            "explanation": "Xác định hàng cần làm tròn rồi nhìn chữ số ngay bên phải hàng đó.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "0,17",
+              "0,159",
+              "0,16",
+              "0,2"
+            ],
+            "correctChoice": "0,2",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Xác định hàng cần làm tròn rồi nhìn chữ số ngay bên phải hàng đó.",
+              "Nếu chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn; nếu nhỏ hơn năm thì giữ nguyên."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Xác định hàng cần làm tròn rồi nhìn chữ số ngay bên phải hàng đó.",
+              "Nếu chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn; nếu nhỏ hơn năm thì giữ nguyên."
+            ],
+            "initialGuidance": [
+              "Xác định hàng cần làm tròn rồi nhìn chữ số ngay bên phải hàng đó.",
+              "Nếu chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn; nếu nhỏ hơn năm thì giữ nguyên."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "0,2"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-019",
+      "problemText": "Câu 5. Trong các số đo khối lượng: 5,14 tấn; 5 tấn 40kg; 5,05 tấn; 5,5tấn, số đo bé nhất là:\nA. 5,14 tấn\nB. 5 tấn 40 kg\nC. 5,05 tấn\nD. 5,5 tấn",
+      "plan": {
+        "topic": "So sánh số đo khối lượng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "So sánh số đo khối lượng",
+            "explanation": "Không so sánh riêng mặt chữ số khi các số đo có dạng hoặc đơn vị khác nhau.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "5,14 tấn",
+              "5 tấn 40 kg",
+              "5,05 tấn",
+              "5,5 tấn"
+            ],
+            "correctChoice": "5 tấn 40 kg",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Không so sánh riêng mặt chữ số khi các số đo có dạng hoặc đơn vị khác nhau.",
+              "Đổi từng số đo sang ki-lô-gam. Cộng các phần của số đo ghép rồi đối chiếu các giá trị cùng đơn vị."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Không so sánh riêng mặt chữ số khi các số đo có dạng hoặc đơn vị khác nhau.",
+              "Đổi từng số đo sang ki-lô-gam. Cộng các phần của số đo ghép rồi đối chiếu các giá trị cùng đơn vị."
+            ],
+            "initialGuidance": [
+              "Không so sánh riêng mặt chữ số khi các số đo có dạng hoặc đơn vị khác nhau.",
+              "Đổi từng số đo sang ki-lô-gam. Cộng các phần của số đo ghép rồi đối chiếu các giá trị cùng đơn vị."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "5 tấn 40 kg"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-020",
+      "problemText": "Câu 6. Tổng diện tích hai mảnh đất trồng khoai tây và ngô là 1ha 300m². Diện tích mảnh đất trồng khoai tây nhỏ hơn diện tích mảnh đất trồng ngô là500 m². Vậy diện tích mảnh đất trồng khoai tây là:\nA. 4 900 m²\nB. 5 400 m²\nC. 5 600 m²\nD. 1 800 m²",
+      "plan": {
+        "topic": "Tìm diện tích mảnh đất nhỏ",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tìm diện tích mảnh đất nhỏ",
+            "explanation": "Hai mảnh đất có tổng và hiệu đã biết. Bớt phần chênh lệch khỏi tổng thì còn hai phần bằng nhau, mỗi phần bằng diện tích mảnh nhỏ.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "4900 m²",
+              "5400 m²",
+              "5600 m²",
+              "1800 m²"
+            ],
+            "correctChoice": "4900 m²",
+            "expression": "",
+            "unit": "m²",
+            "workExcerpt": "",
+            "hints": [
+              "Hai mảnh đất có tổng và hiệu đã biết. Bớt phần chênh lệch khỏi tổng thì còn hai phần bằng nhau, mỗi phần bằng diện tích mảnh nhỏ.",
+              "Đổi tổng diện tích về mét vuông, trừ hiệu rồi chia đôi. Đối chiếu với từng lựa chọn cùng đơn vị."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Hai mảnh đất có tổng và hiệu đã biết. Bớt phần chênh lệch khỏi tổng thì còn hai phần bằng nhau, mỗi phần bằng diện tích mảnh nhỏ.",
+              "Đổi tổng diện tích về mét vuông, trừ hiệu rồi chia đôi. Đối chiếu với từng lựa chọn cùng đơn vị."
+            ],
+            "initialGuidance": [
+              "Hai mảnh đất có tổng và hiệu đã biết. Bớt phần chênh lệch khỏi tổng thì còn hai phần bằng nhau, mỗi phần bằng diện tích mảnh nhỏ.",
+              "Đổi tổng diện tích về mét vuông, trừ hiệu rồi chia đôi. Đối chiếu với từng lựa chọn cùng đơn vị."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "4900 m²"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-021",
+      "problemText": "Câu 1. Viết số thập phân có:\nHai đơn vị, chín phần trăm:………………",
+      "plan": {
+        "topic": "Viết số thập phân theo các hàng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số thập phân theo các hàng",
+            "explanation": "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "3,09",
+              "2,09",
+              "2,19",
+              "2,1"
+            ],
+            "correctChoice": "2,09",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ],
+            "initialGuidance": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "2.09"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-022",
+      "problemText": "Câu 1. Viết số thập phân có:\nNăm trăm, bốn đơn vị, năm phần mười, tám phần trăm:………………",
+      "plan": {
+        "topic": "Viết số thập phân theo các hàng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số thập phân theo các hàng",
+            "explanation": "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "504,59",
+              "505,58",
+              "504,58",
+              "504,68"
+            ],
+            "correctChoice": "504,58",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ],
+            "initialGuidance": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "504.58"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-023",
+      "problemText": "Câu 1. Viết số thập phân có:\nKhông đơn vị, bảy phần mười, sáu phần trăm, bốn phần nghìn:………………",
+      "plan": {
+        "topic": "Viết số thập phân theo các hàng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số thập phân theo các hàng",
+            "explanation": "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "0,864",
+              "0,774",
+              "1,764",
+              "0,764"
+            ],
+            "correctChoice": "0,764",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ],
+            "initialGuidance": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "0.764"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-024",
+      "problemText": "Câu 1. Viết số thập phân có:\nMười sáu đơn vị, ba mươi tám phần nghìn: ………………",
+      "plan": {
+        "topic": "Viết số thập phân theo các hàng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số thập phân theo các hàng",
+            "explanation": "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "16,048",
+              "17,038",
+              "16,038",
+              "16,138"
+            ],
+            "correctChoice": "16,038",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ],
+            "initialGuidance": [
+              "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
+              "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "16.038"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-025",
+      "problemText": "Câu 1 (0,5 điểm) Số thập phân gồm 24 đơn vị, 5 phần trăm, 6 phần nghìn được viết là:\nA. 24,056\nB. 24,56\nC. 245,6\nD. 24,506",
+      "plan": {
+        "topic": "Viết số theo các hàng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số theo các hàng",
+            "explanation": "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "24,056",
+              "24,56",
+              "245,6",
+              "24,506"
+            ],
+            "correctChoice": "24,056",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+              "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+              "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
+            ],
+            "initialGuidance": [
+              "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+              "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "24.056"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-026",
+      "problemText": "Câu 2 (0,5 điểm) Số thập phân bằng với 0,85 là:\nA. 8,05\nB. 0,850\nC. 0,805\nD. 0,580",
+      "plan": {
+        "topic": "So sánh số thập phân",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "So sánh số thập phân",
+            "explanation": "Thêm hoặc bỏ chữ số không ở tận cùng bên phải phần thập phân không đổi giá trị của số.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "8,05",
+              "0,850",
+              "0,805",
+              "0,580"
+            ],
+            "correctChoice": "0,850",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Thêm hoặc bỏ chữ số không ở tận cùng bên phải phần thập phân không đổi giá trị của số.",
+              "Đối chiếu phần nguyên và từng hàng của phần thập phân. Chữ số không ở hàng khác vẫn có thể làm thay đổi giá trị."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Thêm hoặc bỏ chữ số không ở tận cùng bên phải phần thập phân không đổi giá trị của số.",
+              "Đối chiếu phần nguyên và từng hàng của phần thập phân. Chữ số không ở hàng khác vẫn có thể làm thay đổi giá trị."
+            ],
+            "initialGuidance": [
+              "Thêm hoặc bỏ chữ số không ở tận cùng bên phải phần thập phân không đổi giá trị của số.",
+              "Đối chiếu phần nguyên và từng hàng của phần thập phân. Chữ số không ở hàng khác vẫn có thể làm thay đổi giá trị."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "0,850"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-027",
+      "problemText": "Câu 3 (0,5 điểm) Hỗn số 2 (15)/(100) chuyển thành số thập phân là:\nA. 2,15\nB. 2,015\nC. 215,015\nD. 21,5",
+      "plan": {
+        "topic": "Viết hỗn số thành số thập phân",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết hỗn số thành số thập phân",
+            "explanation": "Hỗn số bằng phần nguyên cộng với phần phân số.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "2,15",
+              "2,015",
+              "215,015",
+              "21,5"
+            ],
+            "correctChoice": "2,15",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Hỗn số bằng phần nguyên cộng với phần phân số.",
+              "Mẫu số cho biết cần bao nhiêu hàng thập phân. Giữ các số không chỉ vị trí nếu có."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Hỗn số bằng phần nguyên cộng với phần phân số.",
+              "Mẫu số cho biết cần bao nhiêu hàng thập phân. Giữ các số không chỉ vị trí nếu có."
+            ],
+            "initialGuidance": [
+              "Hỗn số bằng phần nguyên cộng với phần phân số.",
+              "Mẫu số cho biết cần bao nhiêu hàng thập phân. Giữ các số không chỉ vị trí nếu có."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "2,15"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-028",
+      "problemText": "Câu 4 (0,5 điểm) Sắp xếp các số thập phân 1,25; 0,98; 3,56; 2,014 theo thứ tự từ bé đến lớn là:\nA. 1,25; 3,56; 0,98; 2,014\nB. 3,56; 2,014; 1,25; 0,98\nC. 0,98; 1,25; 2,014; 3,56\nD. 2,014; 0,98; 3,56; 1,25",
+      "plan": {
+        "topic": "Sắp xếp số thập phân",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Sắp xếp số thập phân",
+            "explanation": "So sánh từng hàng để xếp các số theo đúng chiều mà đề yêu cầu.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "1,25; 3,56; 0,98; 2,014",
+              "3,56; 2,014; 1,25; 0,98",
+              "0,98; 1,25; 2,014; 3,56",
+              "2,014; 0,98; 3,56; 1,25"
+            ],
+            "correctChoice": "0,98; 1,25; 2,014; 3,56",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "So sánh từng hàng để xếp các số theo đúng chiều mà đề yêu cầu.",
+              "So phần nguyên trước. Nếu phần nguyên bằng nhau, so lần lượt phần mười, phần trăm, phần nghìn."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "So sánh từng hàng để xếp các số theo đúng chiều mà đề yêu cầu.",
+              "So phần nguyên trước. Nếu phần nguyên bằng nhau, so lần lượt phần mười, phần trăm, phần nghìn."
+            ],
+            "initialGuidance": [
+              "So sánh từng hàng để xếp các số theo đúng chiều mà đề yêu cầu.",
+              "So phần nguyên trước. Nếu phần nguyên bằng nhau, so lần lượt phần mười, phần trăm, phần nghìn."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "0,98;1,25;2,014;3,56"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-029",
+      "problemText": "Câu 5 (0,5 điểm) Bạn Mai nặng 35,6 kg. Cân nặng của bạn Mai khi làm tròn đến số tự nhiên gần nhất là:\nA. 35 kg\nB. 36 kg\nC. 35,7 kg\nD. 37 kg",
+      "plan": {
+        "topic": "Làm tròn số",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Làm tròn số",
+            "explanation": "Xác định hàng cần làm tròn rồi nhìn chữ số ngay bên phải hàng đó.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "35 kg",
+              "36 kg",
+              "35,7 kg",
+              "37 kg"
+            ],
+            "correctChoice": "36 kg",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Xác định hàng cần làm tròn rồi nhìn chữ số ngay bên phải hàng đó.",
+              "Nếu chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn; nếu nhỏ hơn năm thì giữ nguyên."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Xác định hàng cần làm tròn rồi nhìn chữ số ngay bên phải hàng đó.",
+              "Nếu chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn; nếu nhỏ hơn năm thì giữ nguyên."
+            ],
+            "initialGuidance": [
+              "Xác định hàng cần làm tròn rồi nhìn chữ số ngay bên phải hàng đó.",
+              "Nếu chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn; nếu nhỏ hơn năm thì giữ nguyên."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "36 kg"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-030",
+      "problemText": "Câu 6 (0,5 điểm) Chữ số 1 trong số thập phân 23,012 có giá trị là:\nA. (1)/(10)\nB. 1\nC. (1)/(100)\nD. (1)/(1000)",
+      "plan": {
+        "topic": "Giá trị của chữ số theo hàng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Giá trị của chữ số theo hàng",
+            "explanation": "Giá trị của chữ số phụ thuộc vào hàng mà nó đứng.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "1/10",
+              "1",
+              "1/100",
+              "1/1000"
+            ],
+            "correctChoice": "1/100",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Giá trị của chữ số phụ thuộc vào hàng mà nó đứng.",
+              "Xác định vị trí so với dấu phẩy: phần mười, phần trăm, phần nghìn; không chỉ nhìn mặt chữ số."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Giá trị của chữ số phụ thuộc vào hàng mà nó đứng.",
+              "Xác định vị trí so với dấu phẩy: phần mười, phần trăm, phần nghìn; không chỉ nhìn mặt chữ số."
+            ],
+            "initialGuidance": [
+              "Giá trị của chữ số phụ thuộc vào hàng mà nó đứng.",
+              "Xác định vị trí so với dấu phẩy: phần mười, phần trăm, phần nghìn; không chỉ nhìn mặt chữ số."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "1/100"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-031",
+      "problemText": "Câu 7 (1 điểm) Từ năm tấm thẻ 0; 7; 2; 1 và , có thể lập được tất cả bao nhiêu số thập phân có ba chữ số ở phần thập phân và các số đó bé hơn 1?\nA. 6 số\nB. 4 số\nC. 5 số\nD. 7 số",
+      "plan": {
+        "topic": "Lập số thập phân từ các thẻ",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Lập số thập phân từ các thẻ",
+            "explanation": "Số bé hơn một phải có phần nguyên bằng không.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "6 số",
+              "4 số",
+              "5 số",
+              "7 số"
+            ],
+            "correctChoice": "6 số",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Số bé hơn một phải có phần nguyên bằng không.",
+              "Giữ thẻ không ở phần nguyên. Hoán đổi ba thẻ còn lại ở phần thập phân, mỗi thẻ dùng một lần."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Số bé hơn một phải có phần nguyên bằng không.",
+              "Giữ thẻ không ở phần nguyên. Hoán đổi ba thẻ còn lại ở phần thập phân, mỗi thẻ dùng một lần."
+            ],
+            "initialGuidance": [
+              "Số bé hơn một phải có phần nguyên bằng không.",
+              "Giữ thẻ không ở phần nguyên. Hoán đổi ba thẻ còn lại ở phần thập phân, mỗi thẻ dùng một lần."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "6 số"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-032",
+      "problemText": "Bài 1 (1 điểm) Điền số thích hợp vào chỗ trống\n15 m 25 cm = ............ m",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "15+25/100",
+            "unit": "m",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần m và phần cm sang m. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần m và phần cm sang m. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần m và phần cm sang m. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "15.25"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-033",
+      "problemText": "Bài 1 (1 điểm) Điền số thích hợp vào chỗ trống\n9 tấn 24 kg = ............ tấn",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "9+24/1000",
+            "unit": "tấn",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần tấn và phần kg sang tấn. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần tấn và phần kg sang tấn. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần tấn và phần kg sang tấn. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "9.024"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-034",
+      "problemText": "Bài 1 (1 điểm) Điền số thích hợp vào chỗ trống\n5 m² 6 dm² = ............ m²",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "5+6/100",
+            "unit": "m²",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần m² và phần dm² sang m². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần m² và phần dm² sang m². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần m² và phần dm² sang m². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "5.06"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-035",
+      "problemText": "Bài 1 (1 điểm) Điền số thích hợp vào chỗ trống\n7500 ml = ............ l",
+      "plan": {
+        "topic": "Đổi đơn vị đo",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Đổi đơn vị đo",
+            "explanation": "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "7500/1000",
+            "unit": "l",
+            "workExcerpt": "",
+            "hints": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ ml sang l, em chia với 1000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị l."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ ml sang l, em chia với 1000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị l."
+            ],
+            "initialGuidance": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ ml sang l, em chia với 1000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị l."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "7.5"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-036",
+      "problemText": "Câu 1. Hỗn số thích hợp biểu diễn số phần hình tròn được tô màu là:\n[Hình 1: chia 5 phần bằng nhau, 5 phần tô màu, 0 phần không tô màu. Hình 2: chia 5 phần bằng nhau, 5 phần tô màu, 0 phần không tô màu. Hình 3: chia 5 phần bằng nhau, 5 phần tô màu, 0 phần không tô màu. Hình 4: chia 5 phần bằng nhau, 1 phần tô màu, 4 phần không tô màu.]\nA. 1 (3)/(4)\nB. 3 (1)/(5)\nC. 4 (1)/(5)\nD. 3 (4)/(5)",
+      "plan": {
+        "topic": "Đọc hỗn số từ phần tô màu",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Đọc hỗn số từ phần tô màu",
+            "explanation": "Mỗi hình nguyên gồm các phần bằng nhau. Gộp những hình tô đủ và phần tô chưa đủ để biểu diễn một lượng.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "1 3/4",
+              "3 1/5",
+              "4 1/5",
+              "3 4/5"
+            ],
+            "correctChoice": "3 1/5",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Mỗi hình nguyên gồm các phần bằng nhau. Gộp những hình tô đủ và phần tô chưa đủ để biểu diễn một lượng.",
+              "Đếm số hình tô đủ làm phần nguyên; phần còn lại có tử là số phần tô và mẫu là số phần bằng nhau trong một hình."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Mỗi hình nguyên gồm các phần bằng nhau. Gộp những hình tô đủ và phần tô chưa đủ để biểu diễn một lượng.",
+              "Đếm số hình tô đủ làm phần nguyên; phần còn lại có tử là số phần tô và mẫu là số phần bằng nhau trong một hình."
+            ],
+            "initialGuidance": [
+              "Mỗi hình nguyên gồm các phần bằng nhau. Gộp những hình tô đủ và phần tô chưa đủ để biểu diễn một lượng.",
+              "Đếm số hình tô đủ làm phần nguyên; phần còn lại có tử là số phần tô và mẫu là số phần bằng nhau trong một hình."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "3 1/5"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-037",
+      "problemText": "Câu 2. Số thập phân 5,18 được viết dưới dạng hỗn số là:\nA. 518 (1)/(100)\nB. 18 (5)/(100)\nC. 5 (18)/(100)\nD. 51 (8)/(100)",
+      "plan": {
+        "topic": "Viết số thập phân thành hỗn số",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số thập phân thành hỗn số",
+            "explanation": "Giữ phần nguyên và biểu diễn phần thập phân bằng phân số thập phân.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "518 1/100",
+              "18 5/100",
+              "5 18/100",
+              "51 8/100"
+            ],
+            "correctChoice": "5 18/100",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Giữ phần nguyên và biểu diễn phần thập phân bằng phân số thập phân.",
+              "Đếm số hàng sau dấu phẩy để xác định mẫu số. Tử số là phần chữ số sau dấu phẩy."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Giữ phần nguyên và biểu diễn phần thập phân bằng phân số thập phân.",
+              "Đếm số hàng sau dấu phẩy để xác định mẫu số. Tử số là phần chữ số sau dấu phẩy."
+            ],
+            "initialGuidance": [
+              "Giữ phần nguyên và biểu diễn phần thập phân bằng phân số thập phân.",
+              "Đếm số hàng sau dấu phẩy để xác định mẫu số. Tử số là phần chữ số sau dấu phẩy."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "5 18/100"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-038",
+      "problemText": "Câu 3. Chữ số 6 trong số thập phân 105,026 có giá trị là:\nA. 6\nB. 0,6\nC. 0,06\nD. 0,006",
+      "plan": {
+        "topic": "Giá trị của chữ số theo hàng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Giá trị của chữ số theo hàng",
+            "explanation": "Giá trị của chữ số phụ thuộc vào hàng mà nó đứng.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "6",
+              "0,6",
+              "0,06",
+              "0,006"
+            ],
+            "correctChoice": "0,006",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Giá trị của chữ số phụ thuộc vào hàng mà nó đứng.",
+              "Xác định vị trí so với dấu phẩy: phần mười, phần trăm, phần nghìn; không chỉ nhìn mặt chữ số."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Giá trị của chữ số phụ thuộc vào hàng mà nó đứng.",
+              "Xác định vị trí so với dấu phẩy: phần mười, phần trăm, phần nghìn; không chỉ nhìn mặt chữ số."
+            ],
+            "initialGuidance": [
+              "Giá trị của chữ số phụ thuộc vào hàng mà nó đứng.",
+              "Xác định vị trí so với dấu phẩy: phần mười, phần trăm, phần nghìn; không chỉ nhìn mặt chữ số."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "0,006"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-039",
+      "problemText": "Câu 4. Mỗi ca đựng một lượng nước như hình dưới đây:\n[4 ca nước. Ca 1: 1/45 ml. Ca 2: 1,5 l. Ca 3: 1400 ml. Ca 4: 1,45 l.]\nCa nào đựng ít nước nhất?\nA. Ca số 1\nB. Ca số 2\nC. Ca số 3\nD. Ca số 4",
+      "plan": {
+        "topic": "So sánh lượng nước",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "So sánh lượng nước",
+            "explanation": "Các nhãn dùng lít và mi li lít, nên phải đổi về cùng đơn vị trước khi so sánh.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "Ca số 1",
+              "Ca số 2",
+              "Ca số 3",
+              "Ca số 4"
+            ],
+            "correctChoice": "Ca số 1",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Các nhãn dùng lít và mi li lít, nên phải đổi về cùng đơn vị trước khi so sánh.",
+              "Đổi mỗi lượng nước về mi li lít, giữ chính xác phần phân số rồi tìm ca có giá trị nhỏ nhất."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Các nhãn dùng lít và mi li lít, nên phải đổi về cùng đơn vị trước khi so sánh.",
+              "Đổi mỗi lượng nước về mi li lít, giữ chính xác phần phân số rồi tìm ca có giá trị nhỏ nhất."
+            ],
+            "initialGuidance": [
+              "Các nhãn dùng lít và mi li lít, nên phải đổi về cùng đơn vị trước khi so sánh.",
+              "Đổi mỗi lượng nước về mi li lít, giữ chính xác phần phân số rồi tìm ca có giá trị nhỏ nhất."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "Ca số 1"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-040",
+      "problemText": "Câu 5. Số thích hợp điền vào chỗ chấm 8 km² 5 ha = ... km²\nA. 8,5\nB. 850\nC. 8,05\nD. 8,005",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "8,5",
+              "850",
+              "8,05",
+              "8,005"
+            ],
+            "correctChoice": "8,05",
+            "expression": "",
+            "unit": "km²",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần km² và phần ha sang km². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần km² và phần ha sang km². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần km² và phần ha sang km². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "8,05"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-041",
+      "problemText": "Câu 6. Chú Minh thuê một số người thợ lát sàn gỗ cho nền nhà hình chữ nhật dài 9 m và chiều rộng 7m. Cứ 3m² sàn gỗ phải trả 930 000 đồng (gồm cả tiền sàn gỗ và tiền công). Hỏi chú Minh cần trả bao nhiêu tiền để lát nền căn nhà đó.\nA. 16 740 000 đồng\nB. 19 530 000 đồng\nC. 14 880 000 đồng\nD. 27 900 000 đồng",
+      "plan": {
+        "topic": "Diện tích và đại lượng theo diện tích",
+        "goal": "Tính đủ các ý của đề với đúng đơn vị.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính diện tích nền nhà",
+            "explanation": "Muốn tính tiền lát sàn, trước hết cần biết diện tích hình chữ nhật.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "9*7",
+            "unit": "m²",
+            "workExcerpt": "",
+            "hints": [
+              "Muốn tính tiền lát sàn, trước hết cần biết diện tích hình chữ nhật.",
+              "Nhân chiều dài với chiều rộng, cùng dùng đơn vị mét."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Diện tích nền nhà là:",
+            "guidance": [
+              "Muốn tính tiền lát sàn, trước hết cần biết diện tích hình chữ nhật.",
+              "Nhân chiều dài với chiều rộng, cùng dùng đơn vị mét."
+            ],
+            "initialGuidance": [
+              "Muốn tính tiền lát sàn, trước hết cần biết diện tích hình chữ nhật.",
+              "Nhân chiều dài với chiều rộng, cùng dùng đơn vị mét."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Tính tiền lát sàn",
+            "explanation": "Đơn giá trong đề áp dụng cho một nhóm diện tích, gồm cả vật liệu và tiền công.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "{s0}/3*930000",
+            "unit": "đồng",
+            "workExcerpt": "",
+            "hints": [
+              "Đơn giá trong đề áp dụng cho một nhóm diện tích, gồm cả vật liệu và tiền công.",
+              "Chia diện tích nền cho diện tích của một nhóm, rồi nhân với giá một nhóm."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Số tiền cần trả là:",
+            "guidance": [
+              "Đơn giá trong đề áp dụng cho một nhóm diện tích, gồm cả vật liệu và tiền công.",
+              "Chia diện tích nền cho diện tích của một nhóm, rồi nhân với giá một nhóm."
+            ],
+            "initialGuidance": [
+              "Đơn giá trong đề áp dụng cho một nhóm diện tích, gồm cả vật liệu và tiền công.",
+              "Chia diện tích nền cho diện tích của một nhóm, rồi nhân với giá một nhóm."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Chọn số tiền",
+            "explanation": "Đối chiếu số tiền vừa tính với các phương án.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "16740000 đồng",
+              "19530000 đồng",
+              "14880000 đồng",
+              "27900000 đồng"
+            ],
+            "correctChoice": "19530000 đồng",
+            "expression": "",
+            "unit": "đồng",
+            "workExcerpt": "",
+            "hints": [
+              "Đối chiếu số tiền vừa tính với các phương án.",
+              "Giữ đúng đơn vị đồng khi so sánh."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Đối chiếu số tiền vừa tính với các phương án.",
+              "Giữ đúng đơn vị đồng khi so sánh."
+            ],
+            "initialGuidance": [
+              "Đối chiếu số tiền vừa tính với các phương án.",
+              "Giữ đúng đơn vị đồng khi so sánh."
+            ]
+          }
+        ],
+        "finalAnswerStep": 1
+      },
+      "expectedAnswers": [
+        "63",
+        "19530000",
+        "19530000 đồng"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-042",
+      "problemText": "Câu 2. Tính giá trị của biểu thức.\n(3)/(4) + (5)/(8) - (1)/(24)",
+      "plan": {
+        "topic": "Tính giá trị phép tính",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính giá trị phép tính",
+            "explanation": "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "3/4 + 5/8 - 1/24",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "fractionNotation": true,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "initialGuidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "4/3"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-043",
+      "problemText": "Câu 2. Tính giá trị của biểu thức.\n5 (1)/(3) - (4)/(3) × (9)/(20)",
+      "plan": {
+        "topic": "Tính giá trị phép tính",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính giá trị phép tính",
+            "explanation": "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "(5+1/3) - 4/3 * 9/20",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "fractionNotation": true,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "initialGuidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "71/15"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-044",
+      "problemText": "Câu 3. Viết số hoặc số thập phân thích hợp vào chỗ chấm.\n29 kg 35 g = ........ kg",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "29+35/1000",
+            "unit": "kg",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần kg và phần g sang kg. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần kg và phần g sang kg. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần kg và phần g sang kg. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "29.035"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-045",
+      "problemText": "Câu 3. Viết số hoặc số thập phân thích hợp vào chỗ chấm.\n18 dm² 40 cm² = ........ dm²",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "18+40/100",
+            "unit": "dm²",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần dm² và phần cm² sang dm². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần dm² và phần cm² sang dm². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần dm² và phần cm² sang dm². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "18.4"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-046",
+      "problemText": "Câu 3. Viết số hoặc số thập phân thích hợp vào chỗ chấm.\n6 ha 250 m² = ........ ha",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "6+250/10000",
+            "unit": "ha",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần ha và phần m² sang ha. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần ha và phần m² sang ha. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần ha và phần m² sang ha. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "6.025"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-047",
+      "problemText": "Câu 3. Viết số hoặc số thập phân thích hợp vào chỗ chấm.\n75 200 ha = ........ km²",
+      "plan": {
+        "topic": "Đổi đơn vị đo",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Đổi đơn vị đo",
+            "explanation": "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "75200/100",
+            "unit": "km²",
+            "workExcerpt": "",
+            "hints": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ ha sang km², em chia với 100. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị km²."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ ha sang km², em chia với 100. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị km²."
+            ],
+            "initialGuidance": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ ha sang km², em chia với 100. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị km²."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "752"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-048",
+      "problemText": "Câu 1. Số thập phân gồm 7 chục, 3 đơn vị, 9 phần nghìn viết là:\nA. 73,9000\nB. 73,009\nC. 73,09\nD. 73,0009",
+      "plan": {
+        "topic": "Viết số theo các hàng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số theo các hàng",
+            "explanation": "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "73,9000",
+              "73,009",
+              "73,09",
+              "73,0009"
+            ],
+            "correctChoice": "73,009",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+              "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+              "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
+            ],
+            "initialGuidance": [
+              "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+              "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "73,009"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-049",
+      "problemText": "Câu 2. Hỗn số 31 (5)/(100) được viết dưới dạng số thập phân là:\nA. 31,05\nB. 31,5\nC. 5,31\nD. 3,15",
+      "plan": {
+        "topic": "Viết hỗn số thành số thập phân",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết hỗn số thành số thập phân",
+            "explanation": "Hỗn số bằng phần nguyên cộng với phần phân số.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "31,05",
+              "31,5",
+              "5,31",
+              "3,15"
+            ],
+            "correctChoice": "31,05",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Hỗn số bằng phần nguyên cộng với phần phân số.",
+              "Mẫu số cho biết cần bao nhiêu hàng thập phân. Giữ các số không chỉ vị trí nếu có."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Hỗn số bằng phần nguyên cộng với phần phân số.",
+              "Mẫu số cho biết cần bao nhiêu hàng thập phân. Giữ các số không chỉ vị trí nếu có."
+            ],
+            "initialGuidance": [
+              "Hỗn số bằng phần nguyên cộng với phần phân số.",
+              "Mẫu số cho biết cần bao nhiêu hàng thập phân. Giữ các số không chỉ vị trí nếu có."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "31,05"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-050",
+      "problemText": "Câu 3. Số thập phân bé nhất trong các số 241,25; 241,205; 240,98; 240,908 là:\nA. 241,25\nB. 241,205\nC. 240,98\nD. 240,908",
+      "plan": {
+        "topic": "So sánh số thập phân",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "So sánh số thập phân",
+            "explanation": "So sánh phần nguyên trước, rồi từng hàng thập phân từ trái sang phải.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "241,25",
+              "241,205",
+              "240,98",
+              "240,908"
+            ],
+            "correctChoice": "240,908",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "So sánh phần nguyên trước, rồi từng hàng thập phân từ trái sang phải.",
+              "Có thể thêm số không vào cuối phần thập phân để các số có cùng số hàng."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "So sánh phần nguyên trước, rồi từng hàng thập phân từ trái sang phải.",
+              "Có thể thêm số không vào cuối phần thập phân để các số có cùng số hàng."
+            ],
+            "initialGuidance": [
+              "So sánh phần nguyên trước, rồi từng hàng thập phân từ trái sang phải.",
+              "Có thể thêm số không vào cuối phần thập phân để các số có cùng số hàng."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "240,908"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-051",
+      "problemText": "Câu 4. Số thập phân thích hợp viết vào chỗ chấm của 15l 78ml = ....... l là:\nA. 15,78\nB. 157,8\nC. 15,078\nD. 1,578",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "15,78",
+              "157,8",
+              "15,078",
+              "1,578"
+            ],
+            "correctChoice": "15,078",
+            "expression": "",
+            "unit": "l",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần l và phần ml sang l. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần l và phần ml sang l. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần l và phần ml sang l. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "15,078"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-052",
+      "problemText": "Câu 5. Dấu thích hợp điền vào chỗ chấm 2 km² 5ha ....... 2,5 km² là:\nA. >\nB. <\nC. =\nD. Không xác định được",
+      "plan": {
+        "topic": "So sánh hai số đo",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "So sánh hai số đo",
+            "explanation": "Hai số đo phải cùng đơn vị thì mới so sánh được.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              ">",
+              "<",
+              "=",
+              "Không xác định được"
+            ],
+            "correctChoice": "<",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Hai số đo phải cùng đơn vị thì mới so sánh được.",
+              "Đổi các phần của mỗi số đo về đơn vị bên phải, cộng lại nếu cần rồi chọn dấu so sánh."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Hai số đo phải cùng đơn vị thì mới so sánh được.",
+              "Đổi các phần của mỗi số đo về đơn vị bên phải, cộng lại nếu cần rồi chọn dấu so sánh."
+            ],
+            "initialGuidance": [
+              "Hai số đo phải cùng đơn vị thì mới so sánh được.",
+              "Đổi các phần của mỗi số đo về đơn vị bên phải, cộng lại nếu cần rồi chọn dấu so sánh."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "<"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-053",
+      "problemText": "Câu 6. Một khu đất dạng hình chữ nhật có chiều dài 210 m, chiều rộng bằng (5)/(7) chiều dài. Hỏi khu đất đó có diện tích là bao nhiêu héc-ta?\nA. 3,15 ha\nB. 15 ha\nC. 31,5 ha\nD. 1,5 ha",
+      "plan": {
+        "topic": "Diện tích hình chữ nhật",
+        "goal": "Tính diện tích và đổi về đơn vị đề yêu cầu.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tìm chiều rộng",
+            "explanation": "Chiều rộng là một phần của chiều dài. Chia chiều dài theo mẫu số rồi lấy số phần mà tử số chỉ.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "210*(5/7)",
+            "unit": "m",
+            "workExcerpt": "",
+            "hints": [
+              "Chiều rộng là một phần của chiều dài. Chia chiều dài theo mẫu số rồi lấy số phần mà tử số chỉ.",
+              "Lấy chiều dài nhân phân số đã cho. Hai kích thước đều phải dùng đơn vị mét."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Chiều rộng khu đất là:",
+            "guidance": [
+              "Chiều rộng là một phần của chiều dài. Chia chiều dài theo mẫu số rồi lấy số phần mà tử số chỉ.",
+              "Lấy chiều dài nhân phân số đã cho. Hai kích thước đều phải dùng đơn vị mét."
+            ],
+            "initialGuidance": [
+              "Chiều rộng là một phần của chiều dài. Chia chiều dài theo mẫu số rồi lấy số phần mà tử số chỉ.",
+              "Lấy chiều dài nhân phân số đã cho. Hai kích thước đều phải dùng đơn vị mét."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Tính diện tích khu đất",
+            "explanation": "Hình chữ nhật gồm các hàng có cùng chiều rộng. Diện tích bằng chiều dài nhân chiều rộng vừa tìm.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "210*{s0}",
+            "unit": "m²",
+            "workExcerpt": "",
+            "hints": [
+              "Hình chữ nhật gồm các hàng có cùng chiều rộng. Diện tích bằng chiều dài nhân chiều rộng vừa tìm.",
+              "Lấy chiều dài nhân kết quả bước trước. Hai độ dài dùng mét nên diện tích dùng mét vuông."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Diện tích khu đất theo mét vuông là:",
+            "guidance": [
+              "Hình chữ nhật gồm các hàng có cùng chiều rộng. Diện tích bằng chiều dài nhân chiều rộng vừa tìm.",
+              "Lấy chiều dài nhân kết quả bước trước. Hai độ dài dùng mét nên diện tích dùng mét vuông."
+            ],
+            "initialGuidance": [
+              "Hình chữ nhật gồm các hàng có cùng chiều rộng. Diện tích bằng chiều dài nhân chiều rộng vừa tìm.",
+              "Lấy chiều dài nhân kết quả bước trước. Hai độ dài dùng mét nên diện tích dùng mét vuông."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Đổi diện tích sang héc-ta",
+            "explanation": "Đề hỏi diện tích bằng héc-ta, còn bước trước tính bằng mét vuông. Cần đổi cách biểu diễn cùng một diện tích.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "{s1}/10000",
+            "unit": "ha",
+            "workExcerpt": "",
+            "hints": [
+              "Đề hỏi diện tích bằng héc-ta, còn bước trước tính bằng mét vuông. Cần đổi cách biểu diễn cùng một diện tích.",
+              "Mỗi héc-ta bằng mười nghìn mét vuông. Chia diện tích vừa tìm cho mười nghìn rồi ghi đúng đơn vị."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Diện tích khu đất theo héc-ta là:",
+            "guidance": [
+              "Đề hỏi diện tích bằng héc-ta, còn bước trước tính bằng mét vuông. Cần đổi cách biểu diễn cùng một diện tích.",
+              "Mỗi héc-ta bằng mười nghìn mét vuông. Chia diện tích vừa tìm cho mười nghìn rồi ghi đúng đơn vị."
+            ],
+            "initialGuidance": [
+              "Đề hỏi diện tích bằng héc-ta, còn bước trước tính bằng mét vuông. Cần đổi cách biểu diễn cùng một diện tích.",
+              "Mỗi héc-ta bằng mười nghìn mét vuông. Chia diện tích vừa tìm cho mười nghìn rồi ghi đúng đơn vị."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Chọn diện tích khu đất",
+            "explanation": "Đối chiếu diện tích đã tính theo héc-ta với các phương án của đề.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "3,15 ha",
+              "15 ha",
+              "31,5 ha",
+              "1,5 ha"
+            ],
+            "correctChoice": "3,15 ha",
+            "expression": "",
+            "unit": "ha",
+            "workExcerpt": "",
+            "hints": [
+              "Đối chiếu diện tích đã tính theo héc-ta với các phương án của đề.",
+              "Giữ cùng đơn vị héc-ta khi đối chiếu kết quả."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Đối chiếu diện tích đã tính theo héc-ta với các phương án của đề.",
+              "Giữ cùng đơn vị héc-ta khi đối chiếu kết quả."
+            ],
+            "initialGuidance": [
+              "Đối chiếu diện tích đã tính theo héc-ta với các phương án của đề.",
+              "Giữ cùng đơn vị héc-ta khi đối chiếu kết quả."
+            ]
+          }
+        ],
+        "finalAnswerStep": 2
+      },
+      "expectedAnswers": [
+        "150",
+        "31500",
+        "63/20",
+        "3,15 ha"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-054",
+      "problemText": "Câu 1. Hoàn thành bảng sau:\n| Phân số | Phân số thập phân | Số thập phân |\n| (7)/(20) | | |\n| (13)/(25) | | |\n| (3)/(125) | | |",
+      "plan": {
+        "topic": "Hoàn thành bảng phân số",
+        "goal": "Đổi từng phân số thành phân số thập phân và số thập phân.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Đổi phân số 7/20",
+            "explanation": "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "36/100; 0,35",
+              "35/100; 0,35",
+              "36/100; 0,36",
+              "35/100; 0,36"
+            ],
+            "correctChoice": "35/100; 0,35",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+              "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+              "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
+            ],
+            "initialGuidance": [
+              "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+              "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Đổi phân số 13/25",
+            "explanation": "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "53/100; 0,53",
+              "52/100; 0,53",
+              "53/100; 0,52",
+              "52/100; 0,52"
+            ],
+            "correctChoice": "52/100; 0,52",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+              "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+              "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
+            ],
+            "initialGuidance": [
+              "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+              "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Đổi phân số 3/125",
+            "explanation": "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "25/1000; 0,024",
+              "24/1000; 0,024",
+              "25/1000; 0,025",
+              "24/1000; 0,025"
+            ],
+            "correctChoice": "24/1000; 0,024",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+              "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+              "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
+            ],
+            "initialGuidance": [
+              "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
+              "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
+            ]
+          }
+        ],
+        "finalAnswerStep": null
+      },
+      "expectedAnswers": [
+        "35/100;0,35",
+        "52/100;0,52",
+        "24/1000;0,024"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-055",
+      "problemText": "Câu 1.\nViết các số 402,56; 402,6; 400,98; 402,07 theo thứ tự từ lớn đến bé.",
+      "plan": {
+        "topic": "Sắp xếp các số",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Sắp xếp các số",
+            "explanation": "So sánh phần nguyên trước rồi so từng hàng thập phân từ trái sang phải.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "402,6; 402,56; 402,07; 400,98",
+              "400,98; 402,07; 402,56; 402,6",
+              "402,56; 402,07; 400,98; 402,6",
+              "400,98; 402,6; 402,56; 402,07"
+            ],
+            "correctChoice": "402,6; 402,56; 402,07; 400,98",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "So sánh phần nguyên trước rồi so từng hàng thập phân từ trái sang phải.",
+              "Giữ đủ các số của đề, xếp theo đúng chiều được hỏi rồi kiểm tra từng cặp cạnh nhau."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "So sánh phần nguyên trước rồi so từng hàng thập phân từ trái sang phải.",
+              "Giữ đủ các số của đề, xếp theo đúng chiều được hỏi rồi kiểm tra từng cặp cạnh nhau."
+            ],
+            "initialGuidance": [
+              "So sánh phần nguyên trước rồi so từng hàng thập phân từ trái sang phải.",
+              "Giữ đủ các số của đề, xếp theo đúng chiều được hỏi rồi kiểm tra từng cặp cạnh nhau."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "402,6;402,56;402,07;400,98"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-056",
+      "problemText": "Câu 1.\nSố 100,281 làm tròn đến hàng phần mười được số:…………………",
+      "plan": {
+        "topic": "Làm tròn số",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Làm tròn số",
+            "explanation": "Đề chỉ rõ hàng cần làm tròn. Chữ số ngay bên phải quyết định giữ hay tăng hàng đó.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "100,3",
+              "100,4",
+              "100,2",
+              "100,5"
+            ],
+            "correctChoice": "100,3",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Đề chỉ rõ hàng cần làm tròn. Chữ số ngay bên phải quyết định giữ hay tăng hàng đó.",
+              "Từ năm trở lên thì tăng hàng cần làm tròn; nhỏ hơn năm thì giữ nguyên, bỏ các hàng ở sau."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Đề chỉ rõ hàng cần làm tròn. Chữ số ngay bên phải quyết định giữ hay tăng hàng đó.",
+              "Từ năm trở lên thì tăng hàng cần làm tròn; nhỏ hơn năm thì giữ nguyên, bỏ các hàng ở sau."
+            ],
+            "initialGuidance": [
+              "Đề chỉ rõ hàng cần làm tròn. Chữ số ngay bên phải quyết định giữ hay tăng hàng đó.",
+              "Từ năm trở lên thì tăng hàng cần làm tròn; nhỏ hơn năm thì giữ nguyên, bỏ các hàng ở sau."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "100.3"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-057",
+      "problemText": "Câu 2. Tính giá trị của biểu thức.\n1 (1)/(4) × ( (13)/(14) − (3)/(7) )",
+      "plan": {
+        "topic": "Tính giá trị phép tính",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính giá trị phép tính",
+            "explanation": "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "(1+1/4) * ( 13/14 - 3/7 )",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "fractionNotation": true,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "initialGuidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "5/8"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-058",
+      "problemText": "Câu 2. Tính giá trị của biểu thức.\n1 (1)/(3) + (5)/(8) : (7)/(2)",
+      "plan": {
+        "topic": "Tính giá trị phép tính",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính giá trị phép tính",
+            "explanation": "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "(1+(1/3)) +(5/8)/(7/2)",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "fractionNotation": true,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "initialGuidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "127/84"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-059",
+      "problemText": "Câu 3. Viết số thập phân thích hợp vào chỗ chấm.\n5 l 35 ml = ………… l",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "5+35/1000",
+            "unit": "l",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần l và phần ml sang l. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần l và phần ml sang l. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần l và phần ml sang l. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "5.035"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-060",
+      "problemText": "Câu 3. Viết số thập phân thích hợp vào chỗ chấm.\n14 cm² 6 mm² = ………… cm²",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "14+6/100",
+            "unit": "cm²",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần cm² và phần mm² sang cm². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần cm² và phần mm² sang cm². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần cm² và phần mm² sang cm². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "14.06"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-061",
+      "problemText": "Câu 3. Viết số thập phân thích hợp vào chỗ chấm.\n382 mm² = ………… dm²",
+      "plan": {
+        "topic": "Đổi đơn vị đo",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Đổi đơn vị đo",
+            "explanation": "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "382/10000",
+            "unit": "dm²",
+            "workExcerpt": "",
+            "hints": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ mm² sang dm², em chia với 10000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị dm²."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ mm² sang dm², em chia với 10000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị dm²."
+            ],
+            "initialGuidance": [
+              "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
+              "Từ mm² sang dm², em chia với 10000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị dm²."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "0.0382"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-062",
+      "problemText": "Câu 3. Viết số thập phân thích hợp vào chỗ chấm.\n36 km² 50 ha = ………… km²",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "36+50/100",
+            "unit": "km²",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần km² và phần ha sang km². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần km² và phần ha sang km². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần km² và phần ha sang km². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "36.5"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-063",
+      "problemText": "Câu 4. Bác Sơn có 1,5 ha đất. Bác đã dùng (7)/(10) mảnh đất để trồng cà phê, (1)/(5) diện tích đất để trồng điều. Phần đất còn lại để xây nhà. Hỏi bác Sơn dùng bao nhiêu mét vuông đất để xây nhà?",
+      "plan": {
+        "topic": "Diện tích phần đất còn lại",
+        "goal": "Tìm đúng phần đất còn lại và biểu diễn bằng mét vuông.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tìm phần diện tích còn lại",
+            "explanation": "Coi toàn bộ mảnh đất là một. Phần còn lại ghép với các phần đã dùng vừa đủ toàn bộ.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "1-7/10-1/5",
+            "unit": "phần",
+            "workExcerpt": "",
+            "hints": [
+              "Coi toàn bộ mảnh đất là một. Phần còn lại ghép với các phần đã dùng vừa đủ toàn bộ.",
+              "Viết một thành phân số cùng mẫu thích hợp rồi trừ các phần đã dùng. Phân số kết quả chưa phải diện tích."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Phần diện tích còn lại là:",
+            "guidance": [
+              "Coi toàn bộ mảnh đất là một. Phần còn lại ghép với các phần đã dùng vừa đủ toàn bộ.",
+              "Viết một thành phân số cùng mẫu thích hợp rồi trừ các phần đã dùng. Phân số kết quả chưa phải diện tích."
+            ],
+            "initialGuidance": [
+              "Coi toàn bộ mảnh đất là một. Phần còn lại ghép với các phần đã dùng vừa đủ toàn bộ.",
+              "Viết một thành phân số cùng mẫu thích hợp rồi trừ các phần đã dùng. Phân số kết quả chưa phải diện tích."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Đổi tổng diện tích sang mét vuông",
+            "explanation": "Đề cho diện tích bằng héc-ta nhưng yêu cầu kết quả bằng mét vuông, nên cần đổi về cùng đơn vị.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "1.5*10000",
+            "unit": "m²",
+            "workExcerpt": "",
+            "hints": [
+              "Đề cho diện tích bằng héc-ta nhưng yêu cầu kết quả bằng mét vuông, nên cần đổi về cùng đơn vị.",
+              "Một héc-ta bằng mười nghìn mét vuông. Nhân tổng diện tích với hệ số này; lượng đất không thay đổi."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Tổng diện tích theo mét vuông là:",
+            "guidance": [
+              "Đề cho diện tích bằng héc-ta nhưng yêu cầu kết quả bằng mét vuông, nên cần đổi về cùng đơn vị.",
+              "Một héc-ta bằng mười nghìn mét vuông. Nhân tổng diện tích với hệ số này; lượng đất không thay đổi."
+            ],
+            "initialGuidance": [
+              "Đề cho diện tích bằng héc-ta nhưng yêu cầu kết quả bằng mét vuông, nên cần đổi về cùng đơn vị.",
+              "Một héc-ta bằng mười nghìn mét vuông. Nhân tổng diện tích với hệ số này; lượng đất không thay đổi."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Tính diện tích xây nhà",
+            "explanation": "Phân số đã tìm chỉ phần còn lại của toàn bộ đất. Nhân diện tích toàn bộ với phân số này để lấy đúng phần cần hỏi.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "{s1}*{s0}",
+            "unit": "m²",
+            "workExcerpt": "",
+            "hints": [
+              "Phân số đã tìm chỉ phần còn lại của toàn bộ đất. Nhân diện tích toàn bộ với phân số này để lấy đúng phần cần hỏi.",
+              "Lấy tổng diện tích đã đổi nhân phân số còn lại. Giữ chính xác phân số khi tính và ghi đơn vị mét vuông."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Diện tích xây nhà là:",
+            "guidance": [
+              "Phân số đã tìm chỉ phần còn lại của toàn bộ đất. Nhân diện tích toàn bộ với phân số này để lấy đúng phần cần hỏi.",
+              "Lấy tổng diện tích đã đổi nhân phân số còn lại. Giữ chính xác phân số khi tính và ghi đơn vị mét vuông."
+            ],
+            "initialGuidance": [
+              "Phân số đã tìm chỉ phần còn lại của toàn bộ đất. Nhân diện tích toàn bộ với phân số này để lấy đúng phần cần hỏi.",
+              "Lấy tổng diện tích đã đổi nhân phân số còn lại. Giữ chính xác phân số khi tính và ghi đơn vị mét vuông."
+            ]
+          }
+        ],
+        "finalAnswerStep": 2
+      },
+      "expectedAnswers": [
+        "1/10",
+        "15000",
+        "1500"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-064",
+      "problemText": "Bài 1: (1 điểm) Điền số hoặc đơn vị thích vào chỗ chấm:\n17 dm 2 cm = 17,2 ……",
+      "plan": {
+        "topic": "Chọn đơn vị còn thiếu",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Chọn đơn vị còn thiếu",
+            "explanation": "Cùng một lượng có giá trị số khác nhau khi biểu diễn bằng các đơn vị khác nhau.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "km",
+              "hm",
+              "dam",
+              "dm"
+            ],
+            "correctChoice": "dm",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Cùng một lượng có giá trị số khác nhau khi biểu diễn bằng các đơn vị khác nhau.",
+              "Đổi hai phần số đo về từng đơn vị phù hợp rồi cộng lại. Chọn đơn vị cho đúng giá trị số đã in ở vế phải."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Cùng một lượng có giá trị số khác nhau khi biểu diễn bằng các đơn vị khác nhau.",
+              "Đổi hai phần số đo về từng đơn vị phù hợp rồi cộng lại. Chọn đơn vị cho đúng giá trị số đã in ở vế phải."
+            ],
+            "initialGuidance": [
+              "Cùng một lượng có giá trị số khác nhau khi biểu diễn bằng các đơn vị khác nhau.",
+              "Đổi hai phần số đo về từng đơn vị phù hợp rồi cộng lại. Chọn đơn vị cho đúng giá trị số đã in ở vế phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "dm"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-065",
+      "problemText": "Bài 1: (1 điểm) Điền số hoặc đơn vị thích vào chỗ chấm:\n8 tấn 3 kg = …… tấn",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "8+3/1000",
+            "unit": "tấn",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần tấn và phần kg sang tấn. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần tấn và phần kg sang tấn. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần tấn và phần kg sang tấn. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "8.003"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-066",
+      "problemText": "Bài 1: (1 điểm) Điền số hoặc đơn vị thích vào chỗ chấm:\n3 ha 26 m² = ………… ha",
+      "plan": {
+        "topic": "Viết số đo theo một đơn vị",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số đo theo một đơn vị",
+            "explanation": "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "3+26/10000",
+            "unit": "ha",
+            "workExcerpt": "",
+            "hints": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần ha và phần m² sang ha. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần ha và phần m² sang ha. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
+              "Đổi riêng phần ha và phần m² sang ha. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "3.0026"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-067",
+      "problemText": "Bài 1: (1 điểm) Điền số hoặc đơn vị thích vào chỗ chấm:\n5 tạ 7 kg = 0,507 …………",
+      "plan": {
+        "topic": "Chọn đơn vị còn thiếu",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Chọn đơn vị còn thiếu",
+            "explanation": "Cùng một lượng có giá trị số khác nhau khi biểu diễn bằng các đơn vị khác nhau.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "kg",
+              "tấn",
+              "tạ",
+              "yến"
+            ],
+            "correctChoice": "tấn",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Cùng một lượng có giá trị số khác nhau khi biểu diễn bằng các đơn vị khác nhau.",
+              "Đổi hai phần số đo về từng đơn vị phù hợp rồi cộng lại. Chọn đơn vị cho đúng giá trị số đã in ở vế phải."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Cùng một lượng có giá trị số khác nhau khi biểu diễn bằng các đơn vị khác nhau.",
+              "Đổi hai phần số đo về từng đơn vị phù hợp rồi cộng lại. Chọn đơn vị cho đúng giá trị số đã in ở vế phải."
+            ],
+            "initialGuidance": [
+              "Cùng một lượng có giá trị số khác nhau khi biểu diễn bằng các đơn vị khác nhau.",
+              "Đổi hai phần số đo về từng đơn vị phù hợp rồi cộng lại. Chọn đơn vị cho đúng giá trị số đã in ở vế phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "tấn"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-068",
+      "problemText": "Bài 2: (2 điểm) Tính:\n4 (3)/(5) - 2 (1)/(4) = …………",
+      "plan": {
+        "topic": "Tính giá trị phép tính",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính giá trị phép tính",
+            "explanation": "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "(4+3/5) - (2+1/4)",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "fractionNotation": true,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "initialGuidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "47/20"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-069",
+      "problemText": "Bài 2: (2 điểm) Tính:\n2 (2)/(3) : 1 (2)/(5) = …………",
+      "plan": {
+        "topic": "Tính giá trị phép tính",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính giá trị phép tính",
+            "explanation": "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "(2+(2/3)) / (1+(2/5))",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "fractionNotation": true,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "initialGuidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "40/21"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-070",
+      "problemText": "Bài 3 (2 điểm): Một mảnh ruộng hình chữ nhật có chiều dài 45m, chiều rộng bằng (4)/(5) chiều dài.\na. Tính diện tích mảnh ruộng đó?\nb. Người ta trồng sắn trên mảnh ruộng đó, biết rằng cứ 10m² thì thu hoạch được 50kg sắn.\nHỏi trên cả mảnh ruộng đó thu hoạch được bao nhiêu tạ sắn?",
+      "plan": {
+        "topic": "Diện tích và đại lượng theo diện tích",
+        "goal": "Tính đủ các ý của đề với đúng đơn vị.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính chiều rộng",
+            "explanation": "Chiều rộng bằng phân số đã cho của chiều dài.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "45*(4/5)",
+            "unit": "m",
+            "workExcerpt": "",
+            "hints": [
+              "Chiều rộng bằng phân số đã cho của chiều dài.",
+              "Lấy chiều dài nhân phân số chỉ chiều rộng."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Chiều rộng mảnh đất là:",
+            "guidance": [
+              "Chiều rộng bằng phân số đã cho của chiều dài.",
+              "Lấy chiều dài nhân phân số chỉ chiều rộng."
+            ],
+            "initialGuidance": [
+              "Chiều rộng bằng phân số đã cho của chiều dài.",
+              "Lấy chiều dài nhân phân số chỉ chiều rộng."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Tính diện tích",
+            "explanation": "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "45*{s0}",
+            "unit": "m²",
+            "workExcerpt": "",
+            "hints": [
+              "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
+              "Nhân chiều dài với chiều rộng vừa tìm."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Diện tích mảnh đất là:",
+            "guidance": [
+              "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
+              "Nhân chiều dài với chiều rộng vừa tìm."
+            ],
+            "initialGuidance": [
+              "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
+              "Nhân chiều dài với chiều rộng vừa tìm."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Tính lượng sắn theo ki lô gam",
+            "explanation": "Năng suất cho biết lượng sắn thu được trên một nhóm diện tích.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "{s1}/10*50",
+            "unit": "kg",
+            "workExcerpt": "",
+            "hints": [
+              "Năng suất cho biết lượng sắn thu được trên một nhóm diện tích.",
+              "Chia diện tích ruộng cho diện tích một nhóm rồi nhân lượng sắn của nhóm."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Khối lượng sắn thu hoạch là:",
+            "guidance": [
+              "Năng suất cho biết lượng sắn thu được trên một nhóm diện tích.",
+              "Chia diện tích ruộng cho diện tích một nhóm rồi nhân lượng sắn của nhóm."
+            ],
+            "initialGuidance": [
+              "Năng suất cho biết lượng sắn thu được trên một nhóm diện tích.",
+              "Chia diện tích ruộng cho diện tích một nhóm rồi nhân lượng sắn của nhóm."
+            ]
+          },
+          {
+            "kind": "MATH",
+            "title": "Đổi khối lượng sang tạ",
+            "explanation": "Đề yêu cầu trả lời bằng tạ, còn bước trước tính theo ki lô gam.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "{s2}/100",
+            "unit": "tạ",
+            "workExcerpt": "",
+            "hints": [
+              "Đề yêu cầu trả lời bằng tạ, còn bước trước tính theo ki lô gam.",
+              "Một tạ bằng một trăm ki lô gam. Chia khối lượng vừa tính cho một trăm."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Khối lượng sắn tính theo tạ là:",
+            "guidance": [
+              "Đề yêu cầu trả lời bằng tạ, còn bước trước tính theo ki lô gam.",
+              "Một tạ bằng một trăm ki lô gam. Chia khối lượng vừa tính cho một trăm."
+            ],
+            "initialGuidance": [
+              "Đề yêu cầu trả lời bằng tạ, còn bước trước tính theo ki lô gam.",
+              "Một tạ bằng một trăm ki lô gam. Chia khối lượng vừa tính cho một trăm."
+            ]
+          }
+        ],
+        "finalAnswerStep": 3
+      },
+      "expectedAnswers": [
+        "36",
+        "1620",
+        "8100",
+        "81"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-071",
+      "problemText": "Bài 4 (1 điểm): Tính bằng cách thuận tiện nhất:\n11,2 + 12,3 + 13,4 – 1,2 – 2,3 – 10,4",
+      "plan": {
+        "topic": "Tính giá trị phép tính",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính giá trị phép tính",
+            "explanation": "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "11.2 + 12.3 + 13.4 - 1.2 - 2.3 - 10.4",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "initialGuidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "23"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-072",
+      "problemText": "Bài 4 (1 điểm): Tính bằng cách thuận tiện nhất:\n(1+ (1)/(2005)) x (1+ (1)/(2006)) x (1+ (1)/(2007)) x (1+ (1)/(2008))",
+      "plan": {
+        "topic": "Tính giá trị phép tính",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tính giá trị phép tính",
+            "explanation": "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+            "question": "Em tính được bao nhiêu?",
+            "choices": [],
+            "correctChoice": "",
+            "expression": "(1+ 1/2005) * (1+ 1/2006) * (1+ 1/2007) * (1+ 1/2008)",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "fractionNotation": true,
+            "solutionSentence": "Kết quả là:",
+            "guidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ],
+            "initialGuidance": [
+              "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
+              "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "2009/2005"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-073",
+      "problemText": "Câu 1: Khoanh vào chữ cái trước câu trả lời đúng.\nHai mươi bốn đơn vị, một phần mười, tám phần trăm được viết là:\nA. 24,18\nB. 24,108\nC. 24,018\nD. 24,0108",
+      "plan": {
+        "topic": "Viết số theo các hàng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Viết số theo các hàng",
+            "explanation": "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "24,18",
+              "24,108",
+              "24,018",
+              "24,0108"
+            ],
+            "correctChoice": "24,18",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+              "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+              "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
+            ],
+            "initialGuidance": [
+              "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
+              "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "24,18"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-074",
+      "problemText": "Câu 1: Khoanh vào chữ cái trước câu trả lời đúng.\nHỗn số biểu diễn phần tô màu trong hình là:\nA. 1 (2)/(5)\nB. 5 (2)/(3)\nC. 2 (2)/(3)\nD. 2 (3)/(5)\nHình vẽ gồm 2 hình ngũ giác. Hình ngũ giác bên trái được chia thành 5 phần bằng nhau và tô màu cả 5 phần. Hình ngũ giác bên phải được chia thành 5 phần bằng nhau và tô màu 2 phần.",
+      "plan": {
+        "topic": "Đọc hỗn số từ phần tô màu",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Đọc hỗn số từ phần tô màu",
+            "explanation": "Mỗi hình nguyên gồm các phần bằng nhau. Gộp những hình tô đủ và phần tô chưa đủ để biểu diễn một lượng.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "1 2/5",
+              "5 2/3",
+              "2 2/3",
+              "2 3/5"
+            ],
+            "correctChoice": "1 2/5",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Mỗi hình nguyên gồm các phần bằng nhau. Gộp những hình tô đủ và phần tô chưa đủ để biểu diễn một lượng.",
+              "Đếm số hình tô đủ làm phần nguyên; phần còn lại có tử là số phần tô và mẫu là số phần bằng nhau trong một hình."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Mỗi hình nguyên gồm các phần bằng nhau. Gộp những hình tô đủ và phần tô chưa đủ để biểu diễn một lượng.",
+              "Đếm số hình tô đủ làm phần nguyên; phần còn lại có tử là số phần tô và mẫu là số phần bằng nhau trong một hình."
+            ],
+            "initialGuidance": [
+              "Mỗi hình nguyên gồm các phần bằng nhau. Gộp những hình tô đủ và phần tô chưa đủ để biểu diễn một lượng.",
+              "Đếm số hình tô đủ làm phần nguyên; phần còn lại có tử là số phần tô và mẫu là số phần bằng nhau trong một hình."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "1 2/5"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-075",
+      "problemText": "Câu 1: Khoanh vào chữ cái trước câu trả lời đúng.\nTìm số tự nhiên để điền vào chỗ chấm sau: 15,21 > …… > 14,97\nA. 15\nB. 14\nC. 13\nD. 12",
+      "plan": {
+        "topic": "Tìm số tự nhiên trong khoảng",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Tìm số tự nhiên trong khoảng",
+            "explanation": "Số cần chọn phải thỏa mãn cả hai dấu so sánh.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "15",
+              "14",
+              "13",
+              "12"
+            ],
+            "correctChoice": "15",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Số cần chọn phải thỏa mãn cả hai dấu so sánh.",
+              "So sánh mỗi lựa chọn với cận trên và cận dưới; chỉ giữ số tự nhiên nằm giữa cả hai."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Số cần chọn phải thỏa mãn cả hai dấu so sánh.",
+              "So sánh mỗi lựa chọn với cận trên và cận dưới; chỉ giữ số tự nhiên nằm giữa cả hai."
+            ],
+            "initialGuidance": [
+              "Số cần chọn phải thỏa mãn cả hai dấu so sánh.",
+              "So sánh mỗi lựa chọn với cận trên và cận dưới; chỉ giữ số tự nhiên nằm giữa cả hai."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "15"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-076",
+      "problemText": "Câu 1: Khoanh vào chữ cái trước câu trả lời đúng.\nDãy số nào được xếp theo thứ tự tăng dần:\nA. 0,74; 0,705; 1,13; 2,03\nB. 6; 6,5; 6,12; 6,98\nC. 7,08; 7,11; 7,5; 7,503\nD. 9,03 ; 9,07 ; 9,13 ; 9,108",
+      "plan": {
+        "topic": "Sắp xếp số thập phân",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Sắp xếp số thập phân",
+            "explanation": "So sánh từng hàng để xếp các số theo đúng chiều mà đề yêu cầu.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "0,74; 0,705; 1,13; 2,03",
+              "6; 6,5; 6,12; 6,98",
+              "7,08; 7,11; 7,5; 7,503",
+              "9,03 ; 9,07 ; 9,13 ; 9,108"
+            ],
+            "correctChoice": "7,08; 7,11; 7,5; 7,503",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "So sánh từng hàng để xếp các số theo đúng chiều mà đề yêu cầu.",
+              "So phần nguyên trước. Nếu phần nguyên bằng nhau, so lần lượt phần mười, phần trăm, phần nghìn."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "So sánh từng hàng để xếp các số theo đúng chiều mà đề yêu cầu.",
+              "So phần nguyên trước. Nếu phần nguyên bằng nhau, so lần lượt phần mười, phần trăm, phần nghìn."
+            ],
+            "initialGuidance": [
+              "So sánh từng hàng để xếp các số theo đúng chiều mà đề yêu cầu.",
+              "So phần nguyên trước. Nếu phần nguyên bằng nhau, so lần lượt phần mười, phần trăm, phần nghìn."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "7,08;7,11;7,5;7,503"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-077",
+      "problemText": "Câu 1: Khoanh vào chữ cái trước câu trả lời đúng.\nCho bốn chữ số: 0; 1; 2; 3. Có thể viết được nhiều nhất bao nhiêu số thập phân có mặt đủ bốn chữ số trên mà bé hơn 1?\nA. 6 số\nB. 12 số\nC. 16 số\nD. 24 số",
+      "plan": {
+        "topic": "Lập số thập phân từ các thẻ",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Lập số thập phân từ các thẻ",
+            "explanation": "Số bé hơn một phải có phần nguyên bằng không.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "6 số",
+              "12 số",
+              "16 số",
+              "24 số"
+            ],
+            "correctChoice": "6 số",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Số bé hơn một phải có phần nguyên bằng không.",
+              "Giữ thẻ không ở phần nguyên. Hoán đổi ba thẻ còn lại ở phần thập phân, mỗi thẻ dùng một lần."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Số bé hơn một phải có phần nguyên bằng không.",
+              "Giữ thẻ không ở phần nguyên. Hoán đổi ba thẻ còn lại ở phần thập phân, mỗi thẻ dùng một lần."
+            ],
+            "initialGuidance": [
+              "Số bé hơn một phải có phần nguyên bằng không.",
+              "Giữ thẻ không ở phần nguyên. Hoán đổi ba thẻ còn lại ở phần thập phân, mỗi thẻ dùng một lần."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "6 số"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-078",
+      "problemText": "Câu 2: (1 điểm) Đúng ghi Đ, sai ghi S:\n7 cm² 6 mm² = 7,06 cm²",
+      "plan": {
+        "topic": "Kiểm tra nhận định",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Kiểm tra nhận định",
+            "explanation": "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "Đúng",
+              "Sai"
+            ],
+            "correctChoice": "Đúng",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+            ],
+            "initialGuidance": [
+              "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "Đúng"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-079",
+      "problemText": "Câu 2: (1 điểm) Đúng ghi Đ, sai ghi S:\n9,452 làm tròn đến hàng phần trăm là 9,46",
+      "plan": {
+        "topic": "Kiểm tra nhận định",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Kiểm tra nhận định",
+            "explanation": "Xác định hàng cần làm tròn và chữ số ngay bên phải, rồi đối chiếu với số mà câu đã nêu.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "Đúng",
+              "Sai"
+            ],
+            "correctChoice": "Sai",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Xác định hàng cần làm tròn và chữ số ngay bên phải, rồi đối chiếu với số mà câu đã nêu.",
+              "Chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn. Nếu nhỏ hơn năm thì giữ nguyên; không tăng theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Xác định hàng cần làm tròn và chữ số ngay bên phải, rồi đối chiếu với số mà câu đã nêu.",
+              "Chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn. Nếu nhỏ hơn năm thì giữ nguyên; không tăng theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Xác định hàng cần làm tròn và chữ số ngay bên phải, rồi đối chiếu với số mà câu đã nêu.",
+              "Chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn. Nếu nhỏ hơn năm thì giữ nguyên; không tăng theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "Sai"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-080",
+      "problemText": "Câu 2: (1 điểm) Đúng ghi Đ, sai ghi S:\n4 145 ml = 4,45 l",
+      "plan": {
+        "topic": "Kiểm tra nhận định",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Kiểm tra nhận định",
+            "explanation": "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "Đúng",
+              "Sai"
+            ],
+            "correctChoice": "Sai",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+            ],
+            "initialGuidance": [
+              "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "Sai"
+      ]
+    },
+    {
+      "id": "owner-reviewed-exams-20261107-081",
+      "problemText": "Câu 2: (1 điểm) Đúng ghi Đ, sai ghi S:\n45,905 làm tròn đến số tự nhiên gần nhất là 46",
+      "plan": {
+        "topic": "Kiểm tra nhận định",
+        "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
+        "steps": [
+          {
+            "kind": "MATH",
+            "title": "Kiểm tra nhận định",
+            "explanation": "Xác định hàng cần làm tròn và chữ số ngay bên phải, rồi đối chiếu với số mà câu đã nêu.",
+            "question": "Em chọn kết quả nào?",
+            "choices": [
+              "Đúng",
+              "Sai"
+            ],
+            "correctChoice": "Đúng",
+            "expression": "",
+            "unit": "",
+            "workExcerpt": "",
+            "hints": [
+              "Xác định hàng cần làm tròn và chữ số ngay bên phải, rồi đối chiếu với số mà câu đã nêu.",
+              "Chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn. Nếu nhỏ hơn năm thì giữ nguyên; không tăng theo cảm tính."
+            ],
+            "fractionNotation": false,
+            "solutionSentence": "",
+            "guidance": [
+              "Xác định hàng cần làm tròn và chữ số ngay bên phải, rồi đối chiếu với số mà câu đã nêu.",
+              "Chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn. Nếu nhỏ hơn năm thì giữ nguyên; không tăng theo cảm tính."
+            ],
+            "initialGuidance": [
+              "Xác định hàng cần làm tròn và chữ số ngay bên phải, rồi đối chiếu với số mà câu đã nêu.",
+              "Chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn. Nếu nhỏ hơn năm thì giữ nguyên; không tăng theo cảm tính."
+            ]
+          }
+        ],
+        "finalAnswerStep": 0
+      },
+      "expectedAnswers": [
+        "Đúng"
+      ]
+    }
+  ]
+}

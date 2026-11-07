@@ -19,6 +19,17 @@ it('saves only bounded progress for its owner and rejects stale or malformed dat
 it('does not trust an edited stored answer when restoring an approved result',()=>{
   expect(sameStoredAnswer('4/2','2')).toBe(true);expect(sameStoredAnswer('0,5','1/2')).toBe(true);
   expect(sameStoredAnswer('1/0','2')).toBe(false);expect(sameStoredAnswer('999','2')).toBe(false);
+  expect(sameStoredAnswer(' 1 / 2 ','0,5')).toBe(true);
+  expect(sameStoredAnswer('1 2','12')).toBe(false);
+});
+it('keeps bounded completed inputs by account and rejects malformed history', async () => {
+  const row = { ...progress(), completedAnswers: ['0,5', 'Chiều cao'] };
+  await saveLearningProgress('a', row);
+  expect((await loadLearningProgress('a'))?.completedAnswers).toEqual(row.completedAnswers);
+  expect(await loadLearningProgress('b')).toBeNull();
+  for (const completedAnswers of [null, ['x'.repeat(501)], Array(11).fill('1'), [1]]) {
+    await expect(saveLearningProgress('a', { ...row, completedAnswers } as any)).rejects.toThrow();
+  }
 });
 it('restores position without mixing accounts or scripts and rewinds completed audio',async()=>{
   const a=createPlaybackBookmarks('a');await a.get('script-a');a.set('script-a',7.9,30);await a.flush();

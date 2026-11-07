@@ -448,6 +448,31 @@ def test_empty_provider_response_has_one_recovery_within_the_same_deadline_and_v
     assert not narration._inflight
 
 
+@pytest.mark.parametrize('private', [False, True])
+def test_empty_response_recovery_waits_for_voice_cooldown_without_restarting_deadline(audio_session, monkeypatch, private):
+    from app.tutoring import narration, speech_render
+    clock = [100.0]
+    calls = []
+    monkeypatch.setattr(time, 'monotonic', lambda: clock[0])
+    monkeypatch.setattr(time, 'sleep', lambda seconds: clock.__setitem__(0, clock[0] + seconds))
+
+    def render(parts, voice, progress=None, **options):
+        calls.append((voice, options['deadline']))
+        if len(calls) == 1:
+            speech_render._edge_unavailable_until[voice] = clock[0] + 15
+            raise narration.SpeechNoAudio()
+        assert clock[0] >= speech_render._edge_unavailable_until[voice]
+        return pcm()
+
+    monkeypatch.setattr(narration, 'render_audio', render)
+    request = narration.NarrationRequest(owner='pupil-a', sessionId='narration-session-12345', revision=2,
+                                         paragraphs=[audio_session.narration_texts[0]])
+    data = narration.prepare_private(request, audio_session) if private else narration.narrate(request)
+    assert data == pcm()
+    assert len(calls) == 2 and calls[0] == calls[1]
+    assert clock[0] == pytest.approx(115)
+
+
 def test_a_previous_failed_public_job_cannot_hide_a_live_private_recovery(audio_session,monkeypatch):
     from app.tutoring import narration
     monkeypatch.setattr(narration,'render_audio',lambda *args,**kwargs:pcm())

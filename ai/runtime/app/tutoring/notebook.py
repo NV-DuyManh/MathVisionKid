@@ -1,5 +1,7 @@
 """Read a whole notebook page, then coach one step without completing the work."""
 import json
+import base64
+import logging
 import re
 import io
 import asyncio
@@ -7,7 +9,7 @@ import time
 from difflib import SequenceMatcher
 from typing import Annotated, Literal
 
-from PIL import Image, ImageOps
+from PIL import Image, ImageDraw, ImageOps
 import cv2
 import numpy as np
 from pydantic import Field, StrictBool, ValidationError, model_validator
@@ -17,8 +19,10 @@ from app.tutoring.service import (
     normalize_image, safe_fallback, _UNSUPPORTED_VERDICTS, TutorUnavailable,
 )
 from app.tutoring.rows import handwriting_rows
-from app.tutoring.math_layout import division_panels, fraction_expression, isolated_fraction, row_panels
+from app.tutoring.question_selection import selectable_questions, compared_questions
+from app.tutoring.math_layout import clipped_edge_bounds, division_panels, fraction_expression, isolated_fraction, row_panels
 
+logger = logging.getLogger(__name__)
 
 WrittenNumber = Annotated[str, Field(min_length=1, max_length=24, pattern=r"^(?:[0-9]|\[\?\])+$")]
 WrittenRow = Annotated[str, Field(min_length=1, max_length=40, pattern=r"^(?:[0-9 +\-−]|\[\?\])+$")]
@@ -76,17 +80,38 @@ class NotebookLine(TutorModel):
         return self
 
 
+class NotebookQuestion(TutorModel):
+    label: str = Field(min_length=1, max_length=100)
+    problemText: str = Field(min_length=3, max_length=4000)
+    uncertain: StrictBool = False
+
+    @model_validator(mode='after')
+    def visible_content(self):
+        if not self.label.strip() or len(self.problemText.strip()) < 3:
+            raise ValueError('Question label and visible source cannot be blank')
+        # Adjacent whole/fraction notation could be a mixed number or implicit
+        # multiplication. Flag it for visual confirmation, never silently rewrite.
+        self.uncertain = self.uncertain or '[?]' in self.problemText or bool(
+            re.search(r'\d\(\s*\d+\s*(?:/|\)\s*/)', self.problemText))
+        return self
+
+
 class NotebookRead(TutorModel):
     kind: Literal["PROBLEM", "WORK", "MIXED", "MULTIPLE", "UNREADABLE"]
     problemText: str = Field(default="", max_length=4000)
     lines: list[NotebookLine] = Field(default_factory=list, max_length=35)
     needsProblem: StrictBool = False
     needsCrop: StrictBool = False
+    questions: list[NotebookQuestion] = Field(default_factory=list, max_length=30)
 
     @model_validator(mode="after")
     def bounded_work(self):
         if len("\n".join(line.text for line in self.lines)) > 6000:
             raise ValueError("Choose a smaller region of the page")
+        if self.questions and (self.kind != 'MULTIPLE' or self.lines or self.problemText or self.needsCrop
+                               or len({q.problemText.strip() for q in self.questions}) != len(self.questions)
+                               or sum(len(q.problemText) for q in self.questions) > 24000):
+            raise ValueError('Question choices must be distinct complete sources on a multiple-question page')
         return self
 
 
@@ -114,7 +139,9 @@ Return JSON only: kind PROBLEM (unsolved question), WORK (worked steps without t
 original question), MIXED (question plus steps), MULTIPLE (several separate problems),
 or UNREADABLE (not math/illegible); problemText (only the original visible question,
 empty if absent); needsProblem boolean; needsCrop boolean (normally false);
-lines array of {text,box,uncertain,role,layout,division}.
+lines array of {text,box,uncertain,role,layout,division}; questions array.
+questions MUST be [] unless kind=MULTIPLE. For ONE question, including a word
+problem with dependent a/b parts, use PROBLEM and problemText, never questions.
 For MIXED, put the original question ONLY in problemText. lines contains ONLY the
 student's worked section, including its 'Bài giải' heading if present; do not repeat
 the printed question, exercise badge or decorative publisher marks as worked rows.
@@ -138,7 +165,8 @@ STACKED FRACTIONS are the exception to physical-row splitting: layout=FRACTION,
 division=null, ONE complete equation per line with every numerator AND denominator.
 Write each fraction as (numerator)/(denominator), e.g. (3)/(2); keep parentheses
 around both parts, including compound parts like (7+44)/(24). Do not turn 3/2 into
-32, 2/3, 1.5 or a mixed number. A mixed number keeps its whole part separately.
+32, 2/3, 1.5 or a mixed number. Keep a SPACE before its fractional part, e.g.
+5 (1)/(3), never 5(1)/(3).
 Retain each equals sign and each written intermediate fraction, without simplifying.
 If the final result is crossed out, keep the readable operands and mark only the
 unreadable symbols [?]. A corrected result alone does not make an equation UNREADABLE.
@@ -163,8 +191,28 @@ If a line is crossed out, mark that line uncertain even if you can read it.
 Handwritten words added above a crossed-out word belong to that SAME row.
 Set box=null. The application locates physical ink rows separately.
 Diagrams can inform classification; label their rows DIAGRAM, never TEXT.
-For multiple separate exercises set MULTIPLE, lines=[], problemText="" so the child
-can crop one. Several independent vertical multiplication, addition, subtraction
+For multiple separate exercises set MULTIPLE, lines=[], problemText="", needsCrop=false.
+For visible UNSOLVED tasks, populate questions in reading order with objects
+{label,problemText,uncertain}. Transcribe EVERY complete question, with its full
+shared stem, given values, units, question and A/B/C/D on separate lines. Label
+section and subpart, e.g. "Trắc nghiệm · Câu 1", "Bài 2 · a". Separate independent
+calculations/subparts; retain shared context in each. Keep a word problem's
+dependent a/b questions together as ONE task so their shared data are not lost.
+Ignore school headers, watermarks, blank answer lines, social-media interface and
+clipped neighbouring fragments. Never add missing units or choose an answer.
+If a diagram supplies data, append a factual VIETNAMESE description of ONLY its visible
+shapes, shading/parts and labels to that question; do not infer its answer.
+Place this diagram description BEFORE the A/B/C/D choices, never inside choice D.
+For tables preserve EVERY column heading and each visible row. Do not omit a
+decimal-number column just because its answer cells are blank. A shaded shape
+must distinguish shaded and unshaded parts; do not use answer choices to count.
+Describe EACH shape separately, left to right: total equal parts, shaded parts,
+and unshaded parts. Count pale filled interiors too; a dark radius or outline
+is a boundary, not a shaded region. Compare interiors with the unshaded paper.
+When the fill cannot be distinguished, write [?] instead of guessing a count.
+Mark unclear symbols [?], uncertain=true. Multiple WORK setups without original
+questions keep questions=[] for cropping; never invent questions from answers.
+Several independent vertical multiplication, addition, subtraction
 or long-division setups, even under a single 'Tính' heading, are separate exercises.
 Repeated digits or a vertical layout do not make arithmetic non-math.
 Decide MULTIPLE before counting transcript rows or applying the 35-row limit.
@@ -172,6 +220,12 @@ Distinct numbered exercise groups are
 also MULTIPLE. Several calculations explaining ONE word problem are one exercise;
 do not mistake its intermediate steps, fraction rows or diagram for extra tasks.
 Check the entire page for these groups BEFORE transcribing any rows.
+Count COMPLETE independent tasks, not clipped remnants. When one complete question
+and its A/B/C/D choices are visible, a tiny incomplete ink strip of a neighbouring
+question cut off at the top/bottom edge does not make MULTIPLE. Ignore only that
+unreadable fragment, never a second complete question or a readable condition of
+the selected question. Never reconstruct missing text. A/B/C/D are the choices of
+ONE task, not four tasks. Preserve each choice on its own line in problemText.
 For non-math use UNREADABLE and empty content. If the page has more
 than 35 rows or cannot fit completely, return UNREADABLE, needsCrop=true and empty
 content. NEVER return just the first 35 rows of a longer page.
@@ -254,6 +308,22 @@ def _reading_exceeds_capacity(payload) -> bool:
         if isinstance(row, dict) and isinstance(row.get("text"), str))) > 6000
 
 
+def _provider_reading(payload) -> NotebookRead:
+    # Some readers repeat the SINGLE original question in both fields. Remove
+    # only a validated, exact duplicate; contradictory/uncertain data still fails.
+    # The public NotebookRead contract remains strict.
+    if (isinstance(payload, dict) and payload.get('kind') == 'PROBLEM'
+            and isinstance(payload.get('questions'), list) and len(payload['questions']) == 1):
+        original = NotebookRead.model_validate({**payload, 'questions': []})
+        duplicate = NotebookQuestion.model_validate(payload['questions'][0])
+        if (original.problemText and not original.lines and not original.needsCrop
+                and not duplicate.uncertain and '[?]' not in duplicate.problemText
+                and original.problemText.split() == duplicate.problemText.split()):
+            logger.info('Notebook reader normalized duplicate single-question metadata')
+            return original
+    return NotebookRead.model_validate(payload)
+
+
 def _same_math(first, second):
     return (first.layout == second.layout and first.division == second.division
             and re.sub(r"\s+", "", first.text) == re.sub(r"\s+", "", second.text))
@@ -293,6 +363,26 @@ def _mark_unread_division_digits(payload):
                               if isinstance(row, str) else row for row in payload["rows"]]}
 
 
+def _reading_images(image: str, oriented: Image.Image):
+    """Keep small crops fast; give dense pages two overlapping, legible views.
+
+    Full source remains stored unchanged. These are exact pixel crops, with no
+    erased ink or inferred text. Two images stay below the observed 7k input
+    token tier with this prompt; three exceeded it (HTTP 413), regardless of JPEG size.
+    """
+    width, height = oriented.size
+    if height < 1800 or width < 900 or height < width * 1.2:
+        return image
+    views = []
+    for top, bottom in ((0, round(height * .56)), (round(height * .44), height)):
+        region = oriented.crop((0, top, width, bottom)).convert('RGB')
+        region.thumbnail((1800, 1800), Image.Resampling.LANCZOS)
+        buffer = io.BytesIO()
+        region.save(buffer, 'JPEG', quality=82)
+        views.append(base64.b64encode(buffer.getvalue()).decode('ascii'))
+    return tuple(views)
+
+
 async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
     started = time.monotonic()
     image = normalize_image(image_bytes)
@@ -301,23 +391,99 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
         width, height = oriented.size
         pixels = cv2.cvtColor(np.array(oriented.convert("RGB")), cv2.COLOR_RGB2BGR)
     physical = handwriting_rows(pixels)
-    # The physical locator rejects over-cap pages rather than slicing them.
-    # Probe its existing bounded range before spending a cloud reading request.
     if not physical and len(handwriting_rows(pixels, max_lines=200)) > 35:
         return NotebookRead(kind="UNREADABLE", needsCrop=True)
-    parsed = await _generate(READ_NOTEBOOK, "First check whether there are several exercises. If so return MULTIPLE immediately with empty lines. Otherwise read every physical math row, including the bottom of the page.", image, max_output_tokens=4000, timeout_seconds=24)
+    # A full printed worksheet can exceed the worked-row cap. Classify it first;
+    # MULTIPLE questions have their own bounded list, never a truncated work log.
+    reading_images = _reading_images(image, oriented)
+    view_instructions = ('The TWO images are the upper and lower regions of ONE photograph in reading order. '
+        'Together they cover the ENTIRE source with a small repeated overlap. Read each task ONCE; '
+        'never split a shared stem at the join. Use the larger views for tiny mixed-number digits '
+        'and place-value words. Return box=null. ' if isinstance(reading_images, tuple) else '')
+    parsed = await _generate(READ_NOTEBOOK, view_instructions + "First count COMPLETE independent exercises; A/B/C/D belong to one question. Ignore only tiny clipped neighbouring fragments at the photo edge, without inventing their text. If several complete unsolved tasks remain return MULTIPLE with questions for the child to select. Otherwise read the entire question and every physical worked row, including the bottom.", reading_images, max_output_tokens=7000, timeout_seconds=24)
     if _reading_exceeds_capacity(parsed):
         return NotebookRead(kind="UNREADABLE", needsCrop=True)
+    invalid_reading = False
     try:
-        result = NotebookRead.model_validate(parsed)
-    except (ValidationError, TypeError):
-        return NotebookRead(kind="UNREADABLE")
+        result = _provider_reading(parsed)
+    except (ValidationError, TypeError) as error:
+        codes = [item['type'] for item in error.errors()] if isinstance(error, ValidationError) else ['type_error']
+        logger.info('Notebook transcription rejected category=%s codes=%s', type(error).__name__, codes)
+        invalid_reading = True
+        result = NotebookRead(kind="UNREADABLE")
+    # Dense worksheets can use a bounded independent reader. Disagreement marks
+    # source uncertainty; it never authorizes choosing a plausible replacement.
+    # Ordinary one-question crops retain the existing single-read fast path.
+    primary_provider = getattr(parsed, 'provider', None)
+    compared = False
+    # A legible two-view worksheet can be selected immediately. Do not block
+    # that action on a second cloud service: all unconfirmed sources below stay
+    # explicitly uncertain. Failed reads can still recover from another service.
+    needs_second_reader = result.kind == 'UNREADABLE' or (
+        result.kind == 'MULTIPLE' and not isinstance(reading_images, tuple))
+    if primary_provider and needs_second_reader:
+        from app.config import settings
+        other = 'gemini' if primary_provider == 'groq' else 'groq'
+        configured = bool(getattr(settings, other+'_enabled') and getattr(settings, other+'_api_keys').strip())
+        remaining = min(10., 34.-(time.monotonic()-started))
+        if configured and remaining > 1:
+            try:
+                raw = await asyncio.wait_for(_generate(READ_NOTEBOOK,
+                    view_instructions + 'Independently read EVERY complete task and every subpart, including all table columns and visible diagram data in Vietnamese. Check small fraction denominators and place-value words against pixels. Do not solve or use choices to reconstruct the picture.',
+                    reading_images, max_output_tokens=7000, timeout_seconds=remaining, only_provider=other), timeout=remaining)
+                second = _provider_reading(raw)
+                if result.kind == 'UNREADABLE':
+                    result = second
+                    invalid_reading = False
+                    logger.info('Notebook independent reader recovered kind=%s', result.kind)
+                elif (getattr(raw, 'provider', None) == other
+                        and result.kind == second.kind == 'MULTIPLE' and second.questions):
+                    result.questions = compared_questions(selectable_questions(result.questions), selectable_questions(second.questions))
+                    compared = True
+            except (TimeoutError, ValidationError, TypeError, ValueError, TutorUnavailable):
+                pass
+    if result.questions and not compared:
+        # One reading of a dense worksheet can miss a whole part or a place-value
+        # word even when it reports confidence. Retain the source, but require
+        # visual confirmation rather than silently treating it as cross-checked.
+        result.questions = [q.model_copy(update={'uncertain': True}) for q in result.questions]
     isolated = isolated_fraction(pixels)
+    bounds = clipped_edge_bounds(pixels) if result.kind == 'MULTIPLE' and not result.questions else None
+    if bounds and time.monotonic()-started < 24:
+        # Do not turn a model's MULTIPLE into PROBLEM by fiat. A second reading
+        # of a physically clipped edge must still establish one complete task.
+        top, bottom = bounds
+        # Keep FULL SOURCE in the reread: a smaller complete neighbouring task
+        # must not disappear simply because its font was shorter than the main one.
+        full = Image.fromarray(cv2.cvtColor(pixels, cv2.COLOR_BGR2RGB))
+        focus = full.crop((0, top, width, bottom))
+        sheet = Image.new('RGB', (width, height+focus.height+48), 'white')
+        draw = ImageDraw.Draw(sheet)
+        draw.text((4, 4), 'FULL SOURCE (authoritative)', fill='black')
+        sheet.paste(full, (0, 24))
+        draw.text((4, height+28), 'FOCUS (same photograph, repeated)', fill='black')
+        sheet.paste(focus, (0, height+48))
+        buffer = io.BytesIO(); sheet.save(buffer, 'PNG')
+        try:
+            retry = await asyncio.wait_for(_generate(READ_NOTEBOOK,
+                'The panels repeat ONE photograph. FULL SOURCE is authoritative; FOCUS only helps inspect its edge. Ignore the English panel labels. Return MULTIPLE if FULL SOURCE contains more than one complete task, even in smaller print. Ignore only an incomplete neighbouring fragment. Never choose a task by its answer or invent missing data.',
+                normalize_image(buffer.getvalue()), max_output_tokens=4000, timeout_seconds=8),
+                timeout=min(8., max(.1, 33.-(time.monotonic()-started))))
+            if not _reading_exceeds_capacity(retry):
+                candidate = _provider_reading(retry)
+                if candidate.kind == 'PROBLEM' and candidate.problemText and not candidate.lines and not candidate.needsCrop:
+                    result = candidate
+        except (TimeoutError, ValidationError, TypeError, ValueError, TutorUnavailable):
+            pass
     if result.kind == "MULTIPLE" and not isolated:
         # Selecting one exercise is a normal next action, not an illegible page.
         # Providers may set needsCrop for this; keep the specific classification
         # while normalizing the wire shape expected by the student application.
-        return NotebookRead(kind="MULTIPLE")
+        from app.tutoring.diagram_reading import clarify_circles
+        remaining = min(7., 26.-(time.monotonic()-started))
+        if remaining > 1:
+            result.questions = await clarify_circles(result.questions, pixels, remaining)
+        return NotebookRead(kind="MULTIPLE", questions=selectable_questions(result.questions))
     if (result.kind in ("UNREADABLE", "MULTIPLE") or result.needsCrop) and (isolated or fraction_expression(pixels)):
         # A single fraction need not contain an original sentence. Retry only a
         # complete, ink-supported tight layout, not a broad illegible page.
@@ -326,7 +492,8 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
                 "Read all visible fraction tiers and operators, including readable parts of a crossed-out result. A sentence is not required. Do not solve it.", image),
                 timeout=min(10., max(.1, 33.-(time.monotonic()-started))))
             if not _reading_exceeds_capacity(retry):
-                result = NotebookRead.model_validate(retry)
+                result = _provider_reading(retry)
+                invalid_reading = False
         except (TimeoutError, ValidationError, TypeError, ValueError, TutorUnavailable):
             pass
     if result.kind == "MULTIPLE":
@@ -339,6 +506,9 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
     if result.needsCrop:
         return NotebookRead(kind="UNREADABLE", needsCrop=True)
     if result.kind == "UNREADABLE":
+        if invalid_reading:
+            # A malformed service response is not evidence of an unclear photo.
+            raise TutorUnavailable('validation')
         return NotebookRead(kind=result.kind)
     # A model can mistake solution prose for a question. An answer-bearing
     # transcription without any question must not become an invented problem.
@@ -484,7 +654,7 @@ All other fields and line schemas remain the same. Never solve or correct."""
                     return result
                 if _reading_exceeds_capacity(reviewed):
                     return NotebookRead(kind="UNREADABLE", needsCrop=True)
-                second = NotebookRead.model_validate(reviewed)
+                second = _provider_reading(reviewed)
                 if second.kind == "MULTIPLE" and not (isolated and len(result.lines) == 1
                         and result.lines[0].layout == "FRACTION"):
                     return NotebookRead(kind="MULTIPLE")

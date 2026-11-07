@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ActivityIndicator, AppState, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import type { ScrollViewInstance, TextInputInstance, ViewInstance } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
@@ -16,12 +16,15 @@ import { DivisionReview } from '../../features/tutoring/DivisionReview';
 import { AuthContext } from '../../context/AuthContext';
 import { saveLesson } from '../../features/tutoring/learningHistory';
 import { MathText } from '../../components/domain/MathText';
+import { problemPresentation } from '../../components/domain/problemPresentation';
 import { AppIllustration } from '../../components/ui/AppIllustration';
 import { PocketCalculator } from '../../features/calculator/PocketCalculator';
 import { HintCheckIn } from '../../features/tutoring/HintCheckIn';
 import { ProblemSummary } from '../../features/tutoring/ProblemSummary';
 import { StudentWorkReview } from '../../features/tutoring/StudentWorkReview';
 import { WorkReviewPreparation } from '../../features/tutoring/WorkReviewPreparation';
+import { QuestionPicker } from '../../features/tutoring/QuestionPicker';
+import { sourceClarification } from '../../features/tutoring/sourceClarification';
 import { LessonListening } from '../../features/tutoring/LessonListening';
 import { LessonCalculation } from '../../features/tutoring/LessonCalculation';
 import { completedNarration, stepNarration } from '../../features/tutoring/narration';
@@ -32,7 +35,7 @@ import { CorrectAnswerFeedback } from '../../features/tutoring/CorrectAnswerFeed
 import { ComprehensionCheck } from '../../features/tutoring/ComprehensionCheck';
 import { loadLearningProgress,saveLearningProgress,sameStoredAnswer,type LearningProgress } from '../../features/tutoring/learningProgress';
 import { NarrationPreparation, useNarrationPreparation } from '../../features/tutoring/NarrationPreparation';
-import { QuizInvitation } from '../../features/quiz/QuizInvitation';
+import { QuizAfterLearningButton } from '../../features/quiz/QuizInvitation';
 import { useQuizPreparation } from '../../features/quiz/useQuizPreparation';
 import { submissionId } from '../../features/quiz/quizInput';
 
@@ -46,7 +49,13 @@ function SolutionLine({ item }: { item: CompletedLessonStep }) {
   </View>;
 }
 
+function checkedStudentAnswer(step: Pick<CompletedLessonStep, 'answer' | 'choices'>, entered?: string): string {
+  // Choices keep the server's exact label; equivalent numbers only preserve typed input.
+  return !step.choices?.length && entered !== undefined && sameStoredAnswer(entered, step.answer) ? entered : step.answer;
+}
+
 type GuideParams = { problemText?: string; workText?: string; lessonId?: string; reflection?: string };
+type GuideTask = 'read' | 'lesson' | 'answer' | 'hint';
 
 export default function MathGuideScreen() {
   const auth = useContext(AuthContext);
@@ -89,14 +98,15 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [problemImage, setProblemImage] = useState(context?.problemImageUri || '');
   const [uncertainWork, setUncertainWork] = useState(context?.uncertainWork || false);
   const [problemConfirmed, setProblemConfirmed] = useState(context?.problemConfirmed === true);
-  const [problemExpanded, setProblemExpanded] = useState(false);
+  const [sourceNeedsReview, setSourceNeedsReview] = useState(false);
   const [quizPreparationKey] = useState(() => context?.quizPreparationKey || submissionId());
-  useQuizPreparation(quizPreparationKey, work ? '' : problem, problemConfirmed && !work);
+  useQuizPreparation(quizPreparationKey, problem, problemConfirmed);
   const [workConfirmed, setWorkConfirmed] = useState(context?.workConfirmed === true);
   const [lesson, setLesson] = useState<LessonResponse | null>(null);
   const [preparationPaused, setPreparationPaused] = useState(false);
   const [preparationPoll, setPreparationPoll] = useState(0);
   const [attempt, setAttempt] = useState('');
+  const [choiceResult, setChoiceResult] = useState<{ sessionId: string; revision: number; choice: string; correct: boolean } | null>(null);
   const [questionDraft,setQuestionDraft]=useState('');
   const [answerEdited, setAnswerEdited] = useState(false);
   const [hintCount, setHintCount] = useState(0);
@@ -104,13 +114,15 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [hintExhausted, setHintExhausted] = useState(false);
   const [focusedChoice, setFocusedChoice] = useState<string | null>(null);
   const [reviewedStep, setReviewedStep] = useState<(CompletedLessonStep & { question: string; choices: string[]; studentAnswer: string }) | null>(null);
+  const [historyIndex, setHistoryIndex] = useState<number | null>(null);
+  const [submittedAnswers, setSubmittedAnswers] = useState<string[]>([]);
   const [fractionInput, setFractionInput] = useState(false);
   const [calculatorOpen, setCalculatorOpen] = useState(false);
   const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'work' | 'summary' | 'hint' | null>(null);
-  const [busy, setBusy] = useState<'read' | 'lesson' | 'answer' | null>(null);
+  const [busy, setBusy] = useState<GuideTask | null>(null);
   const [finishing, setFinishing] = useState<{ kind: 'read' | 'lesson'; id: number } | null>(null);
   const [error, setError] = useState('');
-  const [failedTask, setFailedTask] = useState<'read' | 'lesson' | 'answer' | null>(null);
+  const [failedTask, setFailedTask] = useState<GuideTask | null>(null);
   const [expired, setExpired] = useState(false);
   const [editing, setEditing] = useState<'problem' | 'work' | null>(null);
   const [reviewFocused, setReviewFocused] = useState(false);
@@ -128,6 +140,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const scroll = useRef<ScrollViewInstance>(null);
   const answerInput = useRef<TextInputInstance>(null);
   const firstChoice = useRef<ViewInstance>(null);
+  const stepHeading = useRef<ViewInstance>(null);
+  const previousHistoryIndex = useRef<number | null>(null);
   useEffect(()=>{
     const control=new AbortController();let live=true;
     void loadLearningProgress(owner).then(async saved=>{
@@ -137,10 +151,11 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
       try{
         const result=await TutorService.resumeLesson(saved.sessionId,problem,control.signal);
         if(!live)return;setLesson(result);setAttempt(result.revision===saved.revision&&result.stepIndex===saved.stepIndex?saved.attempt:'');
+        setSubmittedAnswers(result.completed.map((item,index)=>checkedStudentAnswer(item,saved.completedAnswers?.[index])));
         setQuestionDraft(result.revision===saved.revision?saved.question||'':'');
         if(saved.reviewing&&result.revision===saved.revision&&result.review&&result.completed.length){
           setReviewedStep({...result.completed[result.completed.length-1],...result.review,
-            studentAnswer:sameStoredAnswer(saved.attempt,result.review.studentAnswer)?saved.attempt:result.review.studentAnswer});
+            studentAnswer:checkedStudentAnswer({...result.completed[result.completed.length-1],...result.review},saved.attempt)});
         }
         setProgressNotice('Đã khôi phục bước đang học của em.');
       }catch{if(live)setProgressNotice('Đề và bài làm đã được giữ. Em bắt đầu lại để mở phiên học mới nhé.');}
@@ -152,11 +167,11 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   useEffect(()=>{
     if(restoring||!lesson||!owner||editing)return;
     const row:LearningProgress={version:1,at:Date.now(),lessonId,sessionId:lesson.sessionId,revision:lesson.revision,stepIndex:lesson.stepIndex,
-      problemText:problem,workText:work,attempt:reviewedStep?.studentAnswer||attempt,question:questionDraft,reviewing:!!reviewedStep};
+      problemText:problem,workText:work,attempt:reviewedStep?.studentAnswer||attempt,question:questionDraft,reviewing:!!reviewedStep,completedAnswers:submittedAnswers};
     progressDraft.current=row;
     const timer=setTimeout(()=>{void saveLearningProgress(owner,row).catch(()=>setProgressNotice('Chưa lưu được tiến độ trên thiết bị. Em dùng nút lưu bài nhé.'));},350);
     return()=>clearTimeout(timer);
-  },[owner,restoring,lesson,lessonId,problem,work,attempt,reviewedStep,editing,questionDraft]);
+  },[owner,restoring,lesson,lessonId,problem,work,attempt,reviewedStep,editing,questionDraft,submittedAnswers]);
   useEffect(()=>{
     const flush=()=>{const row=progressDraft.current;if(row&&owner)void saveLearningProgress(owner,row).catch(()=>{});};
     const listener=AppState.addEventListener('change',state=>{if(state!=='active')flush();});
@@ -167,22 +182,30 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const lessonPosition = useRef(0);
   const invalidPhoto = reading && ['MULTIPLE', 'UNREADABLE'].includes(reading.kind);
   const preparationWork = workConfirmed && !work.includes('[?]') ? work : '';
+  const sourceIssue = sourceClarification(problem);
   useEffect(() => {
-    if (!owner || restoring || lesson || editing || busy || invalidPhoto || work || problem.trim().length < 3 || problem.includes('[?]')) return;
+    if (!owner || restoring || lesson || editing || busy || invalidPhoto || work || sourceClarification(problem) || (sourceNeedsReview && !problemConfirmed) || problem.trim().length < 3 || problem.includes('[?]')) return;
     const abort = new AbortController();
     // Private preparation starts while the pupil reviews the transcription.
     // It returns no lesson; the normal Start action still requires confirmation.
     void TutorService.prepareLesson(problem.trim(), preparationWork, abort.signal).catch(() => {});
     return () => abort.abort();
-  }, [owner, restoring, problem, preparationWork, work, editing, invalidPhoto, lesson, busy]);
+  }, [owner, restoring, problem, preparationWork, work, editing, invalidPhoto, lesson, busy, sourceNeedsReview, problemConfirmed]);
   const divisionLines = workLines.filter(line => line.division);
   const divisionLine = !invalidPhoto && divisionLines.length === 1 ? divisionLines[0] : null;
   const division = divisionLine?.division;
   const step = lesson?.step;
+  const immediateChoice = choiceResult && lesson && choiceResult.sessionId === lesson.sessionId
+    && choiceResult.revision === lesson.revision && choiceResult.choice === attempt && step?.choices.includes(attempt) ? choiceResult : null;
   const lessonSessionId = lesson?.sessionId;
   const lessonStepIndex = lesson?.stepIndex;
-  const visibleStepIndex = Math.max(0, (lessonStepIndex ?? 0) - (reviewedStep ? 1 : 0));
-  const narrationParts = reviewedStep ? completedNarration([reviewedStep]) : step ? stepNarration(step, hintText)
+  const currentViewIndex = Math.max(0, (lessonStepIndex ?? 0) - (reviewedStep ? 1 : 0));
+  const historicalStep = historyIndex === null ? undefined : lesson?.completed[historyIndex];
+  const viewingHistory = !!historicalStep;
+  const displayedReview = historicalStep ? { ...historicalStep, question: historicalStep.question || historicalStep.title,
+    choices: historicalStep.choices || [], studentAnswer: checkedStudentAnswer(historicalStep, submittedAnswers[historyIndex!]) } : reviewedStep;
+  const visibleStepIndex = viewingHistory ? historyIndex! : currentViewIndex;
+  const narrationParts = displayedReview ? completedNarration([displayedReview]) : step ? stepNarration(step, hintText)
     : lesson ? completedNarration(lesson.completed.filter(item => item.kind !== 'UNDERSTAND')) : [];
   useNarrationPreparation(owner && lesson ? { sessionId: lesson.sessionId, revision: lesson.revision } : null, narrationParts);
   useEffect(() => {
@@ -190,6 +213,23 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     const frame = requestAnimationFrame(() => scroll.current?.scrollTo({ y: 0, animated: false }));
     return () => cancelAnimationFrame(frame);
   }, [lessonSessionId, lessonStepIndex]);
+  useLayoutEffect(() => {
+    if (historyIndex === previousHistoryIndex.current) return;
+    previousHistoryIndex.current = historyIndex;
+    // Focus after the new card mounts, in both directions, before another keypress.
+    if (Platform.OS === 'web') stepHeading.current?.focus();
+  }, [historyIndex]);
+  const showHistory = (index: number | null) => {
+    if (busy || (index !== null && (!lesson || index < 0 || index >= lesson.completed.length || index >= currentViewIndex))) return;
+    setTool(null); setHistoryIndex(index); Keyboard.dismiss();
+    scroll.current?.scrollTo({ y: 0, animated: false });
+  };
+  const returnFromTool = () => {
+    setTool(null);
+    if (displayedReview) stepHeading.current?.focus();
+    else if (step?.choices.length) firstChoice.current?.focus();
+    else answerInput.current?.focus();
+  };
   const cancel = () => {
     requestId.current += 1; controller.current?.abort(); controller.current = null; running.current = false; setBusy(null); setFinishing(null);
   };
@@ -211,7 +251,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
           : 'Mình chưa chuẩn bị được hướng dẫn lúc này. Bài của em vẫn ở đây; em thử lại nhé.');
     } else setError('Chưa kết nối được lúc này. Bài của em vẫn ở đây, em thử lại nhé.');
   }, []);
-  const run = useCallback(async <T,>(kind: 'read' | 'lesson' | 'answer', task: (signal: AbortSignal) => Promise<T>, apply: (value: T) => void) => {
+  const run = useCallback(async <T,>(kind: GuideTask, task: (signal: AbortSignal) => Promise<T>, apply: (value: T) => void) => {
     if (running.current || expired) return;
     const id = ++requestId.current; const abort = new AbortController();
     controller.current = abort; running.current = true; setBusy(kind); setFinishing(null); setError(''); setFailedTask(null);
@@ -308,22 +348,28 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     router.push({ pathname: '/camera' as any, params: { mode: 'MATH_TUTOR' } });
   };
   const start = () => {
-    if (restoring || problem.trim().length < 3 || problem.includes('[?]') || !problemConfirmed) return;
+    if (restoring || sourceClarification(problem) || problem.trim().length < 3 || problem.includes('[?]') || !problemConfirmed) return;
     setTool(null);
     Keyboard.dismiss();
     const confirmedWork = workConfirmed && !work.includes('[?]') ? work : '';
     void run('lesson', signal => TutorService.startLesson(problem, confirmedWork,
       { problemConfirmed, workConfirmed: !!confirmedWork, guidedUnderstanding: true, startWithReading: true }, signal), result => {
       setProgressNotice('');
-      setLesson(result); setReviewedStep(null); setAttempt(''); setAnswerEdited(false); setSaved(false);
+      setLesson(result); setReviewedStep(null); setHistoryIndex(null); setSubmittedAnswers([]); setAttempt(''); setAnswerEdited(false); setSaved(false);
       setHintCount(0); setFractionInput(!!result.step?.expression && /phân số|mấy phần/i.test(result.step.question));
       setHintText(''); setHintExhausted(false); setFocusedChoice(null);
     });
   };
   const answer = (value: string, hint = false) => {
-    if (!lesson || (hint && hintExhausted)) return;
-    void run('answer', signal => TutorService.answerLesson(lesson, value, hint, signal), result => {
-      setLesson(result);
+    if (!lesson || viewingHistory || running.current || expired || (hint && hintExhausted)) return;
+    void run(hint ? 'hint' : 'answer', signal => TutorService.answerLesson(lesson, value, hint, signal), result => {
+      // Retain already displayed questions during a rolling server upgrade too.
+      const completed = result.completed.map((item, index) => {
+        const previous = index === lesson.stepIndex ? lesson.step : lesson.completed[index];
+        return !item.question && previous?.question ? { ...item, question: previous.question, choices: previous.choices || [] } : item;
+      });
+      setLesson({ ...result, completed });
+      if (!hint) setChoiceResult(null);
       setAnswerEdited(false);
       if (hint && result.status === 'HINT') {
         const repeated = !!hintText && result.feedback === hintText;
@@ -332,6 +378,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         setHintText(result.feedback);
       }
       if (result.stepIndex !== lesson.stepIndex) {
+        setHistoryIndex(null);
+        setSubmittedAnswers(result.completed.map((item, index) => index === lesson.stepIndex ? value : submittedAnswers[index] || item.answer));
         setQuestionDraft('');
         setHintCount(0); setHintText(''); setHintExhausted(false); setFocusedChoice(null);
         setFractionInput(!!result.step?.expression && /phân số|mấy phần/i.test(result.step.question));
@@ -388,8 +436,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     {spacious && lesson ? <ScrollView style={styles.lessonSidebar} contentContainerStyle={styles.lessonSidebarContent} showsVerticalScrollIndicator={false}>
       <Text style={styles.sidebarEyebrow}>HÀNH TRÌNH CỦA EM</Text><Text style={styles.sidebarTitle}>Hiểu từng bước</Text>
       {lesson.outline.map((title, index) => <View key={`${index}:${title}`} style={[styles.outlineRow, index === visibleStepIndex && styles.outlineCurrent]} accessible
-        accessibilityLabel={`Bước ${index + 1}: ${title}. ${index < visibleStepIndex ? 'Đã hoàn thành' : index === visibleStepIndex ? 'Đang học' : 'Sắp tới'}`}>
-        <View style={[styles.outlineNumber, index <= visibleStepIndex && styles.outlineNumberActive]}>{index < visibleStepIndex ? <Ionicons name="checkmark" size={16} color="#FFF" /> : <Text style={[styles.outlineNumberText, index === visibleStepIndex && { color: '#FFF' }]}>{index + 1}</Text>}</View>
+        accessibilityLabel={`Bước ${index + 1}: ${title}. ${viewingHistory && index === visibleStepIndex ? 'Đang xem lại' : index < lesson.stepIndex ? 'Đã hoàn thành' : index === lesson.stepIndex ? 'Đang học' : 'Sắp tới'}`}>
+        <View style={[styles.outlineNumber, index <= lesson.stepIndex && styles.outlineNumberActive]}>{index < lesson.stepIndex ? <Ionicons name="checkmark" size={16} color="#FFF" /> : <Text style={[styles.outlineNumberText, index === visibleStepIndex && { color: '#FFF' }]}>{index + 1}</Text>}</View>
         <Text style={[styles.outlineText, index === visibleStepIndex && { color: COLORS.primaryDark }]}>{title}</Text>
       </View>)}
       <AppIllustration source={MASCOT} style={styles.sidebarMascot} accessible={false} /><Text style={styles.sidebarCaption}>Cứ thử từng ý nhỏ. Sao nhỏ luôn ở đây cùng em.</Text>
@@ -420,7 +468,16 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
           <AppButton title="Kiểm tra thông tin cá nhân trên ảnh" onPress={() => router.replace('/privacy' as any)} /></View> : null}
         {photoAllowed && !reading ? <AppButton title="Đọc lại ảnh" variant="secondary" onPress={() => void inspectPhoto()} /> : null}
 
-        {invalidPhoto ? <View style={styles.card}>
+        {reading?.kind === 'MULTIPLE' && reading.questions?.length && context?.purpose !== 'ADD_WORK' ? <View style={styles.card}>
+          <QuestionPicker questions={reading.questions} onCrop={() => router.push('/crop' as any)} onChoose={question => {
+            cancel(); setError(''); setLesson(null); setReviewedStep(null);
+            setProblem(question.problemText); setProblemImage(imageUri); setProblemConfirmed(false);
+            setSourceNeedsReview(question.uncertain);
+            if (context?.purpose !== 'ADD_PROBLEM') { setWork(''); setWorkLines([]); setWorkImage(''); setUncertainWork(false); setWorkConfirmed(false); }
+            setReading({ kind: 'PROBLEM', problemText: question.problemText, lines: [], needsProblem: false });
+            scroll.current?.scrollTo({ y: 0, animated: false });
+          }}/>
+        </View> : invalidPhoto ? <View style={styles.card}>
           <Text style={styles.heading}>{reading?.needsCrop ? 'Chọn một vùng nhỏ hơn nhé' : reading?.kind === 'MULTIPLE' ? 'Mỗi lần một bài nhé' : 'Mình chưa đọc rõ bài toán'}</Text>
           <Text style={styles.body}>{reading?.needsCrop ? 'Ảnh có nhiều nội dung. Em chia thành từng phần để mình đọc đủ, rồi cùng xem từng bài nhé.' : 'Em chọn trọn một bài, gồm lời văn, số và hình vẽ nếu có.'}</Text>
           <AppButton title="Chọn lại vùng bài toán" onPress={() => router.push('/crop' as any)} />
@@ -457,7 +514,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
             onChangeText={editing === 'work' ? setWork : setProblem} maxLength={editing === 'work' ? 6000 : 4000} multiline style={styles.input} placeholder="Nhập nội dung ở đây nhé…" />
           <AppButton title="Dùng nội dung này" disabled={(editing === 'work' ? work : problem).trim().length < 3} onPress={() => {
             if (editing === 'work') { setWorkLines([]); setUncertainWork(work.includes('[?]')); setWorkConfirmed(!work.includes('[?]')); }
-            else setProblemConfirmed(!problem.includes('[?]'));
+            else { setProblemConfirmed(!problem.includes('[?]')); setSourceNeedsReview(false); }
             setReading({ kind: work ? 'MIXED' : 'PROBLEM', problemText: problem, lines: [], needsProblem: !problem });
             setEditing(null);
           }} />
@@ -481,28 +538,32 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
               style={({ pressed }) => [styles.problemEdit, pressed && styles.problemPressed]}><Ionicons name="create-outline" size={20} color={COLORS.primaryDark} /><Text style={styles.link}>Chỉnh sửa</Text></Pressable>
           </View>
           <View style={styles.problemContent} nativeID="confirmed-problem-body">
-            {!problemConfirmed || problemExpanded ? <MathText style={styles.body}>{problem}</MathText>
-              : <Text style={styles.body} numberOfLines={2}>{problem}</Text>}
+            <MathText style={styles.body}>{problemPresentation(problem)}</MathText>
           </View>
-          {problemConfirmed ? <>
-            <Pressable accessibilityRole="button" accessibilityLabel={problemExpanded ? 'Thu gọn' : 'Xem đầy đủ'}
-              accessibilityState={{ expanded: problemExpanded }} aria-expanded={problemExpanded} aria-controls="confirmed-problem-body"
-              onPress={() => setProblemExpanded(value => !value)} style={styles.linkButton}>
-              <Text style={styles.link}>{problemExpanded ? 'Thu gọn' : 'Xem đầy đủ'}</Text>
-            </Pressable>
-          </> : null}
           {!lesson ? <>
+            {sourceIssue ? <View style={styles.hintCard} accessibilityLiveRegion="polite">
+              <Text style={styles.question}>Cần làm rõ một chỗ trong đề</Text>
+              <Text style={styles.body}>{sourceIssue.message}</Text>
+              {sourceIssue.mixedPreview ? <>
+                <MathText style={styles.body}>{problemPresentation(sourceIssue.mixedPreview)}</MathText>
+                <AppButton title="Đúng, đây là các hỗn số" variant="secondary" onPress={() => {
+                  setProblem(sourceIssue.mixedPreview!); setProblemConfirmed(false); setSaved(false); setError('');
+                }} />
+              </> : null}
+              <AppButton title="Chỉnh chỗ chưa rõ trong đề" variant="ghost" onPress={() => edit('problem')} />
+            </View> : null}
+            {sourceNeedsReview && !problemConfirmed ? <Text style={styles.error} accessibilityRole="alert">Có chỗ cần kiểm tra lại với ảnh. Em đối chiếu số, đơn vị và hình; chỉnh lại nếu cần rồi xác nhận nhé.</Text> : null}
             {Platform.OS === 'web' && problem.includes('[?]') ? <Text style={styles.error} accessibilityRole="alert">Có chỗ chưa chắc trong đề. Em chọn chỉnh đề, đối chiếu với ảnh và bỏ dấu [?] sau khi sửa nhé.</Text> : null}
             <Text style={styles.body}>Em kiểm tra lời văn, các số và đơn vị. Nếu chưa giống ảnh, chọn chỉnh đề trước nhé.</Text>
             <Pressable accessibilityRole="checkbox" accessibilityLabel="Em đã kiểm tra đề bài và các số"
               aria-checked={problemConfirmed} accessibilityState={{ checked: problemConfirmed, disabled: !!busy || problem.includes('[?]') }}
               disabled={!!busy || problem.includes('[?]')} style={styles.confirm}
-              onPress={() => { setProblemExpanded(false); setProblemConfirmed(value => !value); }}>
+              onPress={() => setProblemConfirmed(value => !value)}>
               <Ionicons name={problemConfirmed ? 'checkbox' : 'square-outline'} size={26} color={COLORS.primaryDark} />
               <Text style={[styles.body, styles.flex]}>Em đã kiểm tra đề bài và các số</Text>
             </Pressable>
           </> : null}
-          {problem.includes('[?]') ? <Text style={styles.error}>Có dữ kiện chưa rõ. Em chỉnh lại chỗ đánh dấu trước nhé.</Text> : !lesson && !busy ? <AppButton title={work ? 'Cùng hiểu và đối chiếu bài' : 'Bắt đầu từng bước'} onPress={start} disabled={restoring || expired || !!invalidPhoto || !problemConfirmed} /> : null}
+          {problem.includes('[?]') ? <Text style={styles.error}>Có dữ kiện chưa rõ. Em chỉnh lại chỗ đánh dấu trước nhé.</Text> : !lesson && !busy ? <AppButton title={work ? 'Cùng hiểu và đối chiếu bài' : 'Bắt đầu từng bước'} onPress={start} disabled={!!sourceIssue || restoring || expired || !!invalidPhoto || !problemConfirmed} /> : null}
           {!work && !lesson ? <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp thêm bài làm" onPress={() => capture('ADD_WORK')}><Text style={styles.link}>Em đã làm rồi? Chụp thêm bài làm</Text></Pressable> : null}
         </View> : null}
 
@@ -519,39 +580,58 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
             accessibilityValue={{ min: 0, max: lesson.outline.length, now: lesson.stepIndex, text: `Đã hoàn thành ${lesson.stepIndex} trên ${lesson.outline.length} bước` }}>
             {lesson.outline.map((_, index) => <View key={index} style={[styles.railStep, index < lesson.stepIndex && styles.railActive]} />)}
           </View><Text style={styles.progressCount}>{Math.min(visibleStepIndex + 1, lesson.outline.length)}/{lesson.outline.length}</Text></View>
+          {currentViewIndex > 0 ? <View style={styles.stepNavigation}>
+            <Pressable accessibilityRole="button" accessibilityLabel="Bước trước" disabled={!!busy || visibleStepIndex === 0}
+              accessibilityState={{ disabled: !!busy || visibleStepIndex === 0 }} onPress={() => showHistory(visibleStepIndex - 1)}
+              style={({ pressed }) => [styles.historyButton, pressed && styles.problemPressed, (!!busy || visibleStepIndex === 0) && styles.historyDisabled]}>
+              <Ionicons name="arrow-back" size={18} color={COLORS.primaryDark} accessible={false} /><Text style={styles.historyLabel}>Bước trước</Text>
+            </Pressable>
+            {viewingHistory ? <Pressable accessibilityRole="button" accessibilityLabel={step || reviewedStep ? 'Về bước đang học' : 'Về bài giải'}
+              onPress={() => showHistory(null)} disabled={!!busy} accessibilityState={{ disabled: !!busy }}
+              style={({ pressed }) => [styles.historyButton, pressed && styles.problemPressed]}>
+              <Text style={styles.historyLabel}>{step || reviewedStep ? 'Về bước đang học' : 'Về bài giải'}</Text><Ionicons name="arrow-forward" size={18} color={COLORS.primaryDark} accessible={false} />
+            </Pressable> : null}
+          </View> : null}
           {lesson.preparingMath && step ? <Text style={styles.caption}>Em đọc đề trước nhé, phần hướng dẫn đang được chuẩn bị.</Text> : null}
-          {lesson.status === 'CORRECT' && lesson.feedback && !reviewedStep ? <View style={styles.explanation}>
+          {lesson.status === 'CORRECT' && lesson.feedback && !displayedReview ? <View style={styles.explanation}>
             <Text style={styles.caption}>BƯỚC TRƯỚC ĐÃ HOÀN THÀNH</Text><Text style={styles.feedback}>{lesson.feedback}</Text>
           </View> : null}
-          {lesson.preparingMath && !step ? <View style={styles.card} accessibilityLiveRegion="polite">
-            <Text style={styles.heading}>Em đã hiểu đề</Text>
+          {lesson.preparingMath && !step && !viewingHistory ? <View style={styles.card} accessibilityLiveRegion="polite">
+            <View ref={stepHeading} tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel="Em đã hiểu đề"><Text style={styles.heading}>Em đã hiểu đề</Text></View>
             <Text style={styles.body}>{lesson.feedback}</Text>
             <ProblemSummary lesson={lesson} compact />
-            {lesson.status === 'RETRYABLE' || lesson.status === 'UNAVAILABLE' || preparationPaused ? <AppButton title="Thử chuẩn bị lại" onPress={retryPreparation} loading={busy === 'answer'} disabled={!!busy || expired} /> : null}
+            {lesson.status === 'RETRYABLE' || lesson.status === 'UNAVAILABLE' || preparationPaused ? <AppButton title="Thử chuẩn bị lại" loadingTitle="Đang chuẩn bị lại bài…" onPress={retryPreparation} loading={busy === 'answer'} disabled={!!busy || expired} /> : null}
             {lesson.status === 'PREPARING' && !preparationPaused ? <ActivityIndicator accessibilityLabel="Đang chuẩn bị các bước giải" color={COLORS.primaryDark} /> : null}
-          </View> : reviewedStep ? <View style={styles.card} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
-            <Text style={styles.eyebrow}>{reviewedStep.kind === 'UNDERSTAND' ? 'CÙNG HIỂU ĐỀ' : `ĐÃ KIỂM TRA BƯỚC ${lesson.stepIndex - (lesson.understandingSteps || 0)}`}</Text>
-            <Text style={styles.heading}>{reviewedStep.title}</Text>
-            <MathText style={styles.question}>{reviewedStep.question}</MathText>
-            {reviewedStep.choices.length ? reviewedStep.choices.map(choice => {
-              const selected = choice === reviewedStep.studentAnswer;
+          </View> : displayedReview ? <View style={styles.card} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
+            <Text style={styles.eyebrow}>{viewingHistory ? `XEM LẠI · BƯỚC ${visibleStepIndex + 1}` : displayedReview.kind === 'UNDERSTAND' ? 'CÙNG HIỂU ĐỀ' : `ĐÃ KIỂM TRA BƯỚC ${lesson.stepIndex - (lesson.understandingSteps || 0)}`}</Text>
+            <View ref={stepHeading} tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel={displayedReview.title}>
+              <Text style={styles.heading}>{displayedReview.title}</Text>
+            </View>
+            <MathText style={styles.question}>{displayedReview.question}</MathText>
+            {displayedReview.choices.length ? displayedReview.choices.map(choice => {
+              const selected = choice === displayedReview.studentAnswer;
               return <Pressable key={choice} accessibilityRole="button" accessibilityLabel={choice} disabled
                 accessibilityHint={selected ? 'Em đã chọn đáp án này và đã được kiểm tra đúng.' : undefined}
-                accessibilityState={{ selected, disabled: true }} style={[styles.choice, selected && styles.choiceCorrect]}>
+                aria-pressed={selected} accessibilityState={{ selected, disabled: true }} style={[styles.choice, selected && styles.choiceCorrect]}>
                 <View style={[styles.flex, { marginRight: 8 }]}><MathText style={styles.choiceText}>{choice}</MathText>
                   {selected ? <Text style={styles.chosenCorrect}>Em đã chọn · Đúng</Text> : null}</View>
                 <Ionicons name={selected ? 'checkmark-circle' : 'ellipse-outline'} size={20} color={selected ? '#24794E' : '#B6A9CD'} accessible={false} />
               </Pressable>;
-            }) : <View testID="checked-student-answer" style={styles.checkedAnswer}><Text style={styles.caption}>EM VỪA NHẬP</Text>
-              <MathText style={styles.body}>{reviewedStep.studentAnswer + (reviewedStep.unit ? ` ${reviewedStep.unit}` : '')}</MathText></View>}
-            <CorrectAnswerFeedback key={`feedback:${lesson.sessionId}:${lesson.stepIndex}`} message={lesson.feedback} />
-            {reviewedStep.expression ? <><Text style={styles.heading}>{lesson.outline.length === 1 ? 'Đối chiếu kết quả' : 'Viết vào bài giải'}</Text><SolutionLine item={reviewedStep} /></> : null}
-            {reviewedStep.kind === 'UNDERSTAND' && lesson.stepIndex === lesson.understandingSteps ? <ProblemSummary lesson={lesson} compact /> : null}
-            {reviewedStep.kind!=='UNDERSTAND'&&lesson.completed.filter(item=>item.kind!=='UNDERSTAND').length%2===0?<ComprehensionCheck key={`check:${lesson.sessionId}:${lesson.revision}`} sessionId={lesson.sessionId} revision={lesson.revision}/>:null}
-            <AppButton title={!step ? 'Xem bài giải' : reviewedStep.kind === 'UNDERSTAND' && lesson.stepIndex === lesson.understandingSteps ? 'Bắt đầu giải' : 'Tiếp tục bước tiếp theo'} disabled={!!busy || expired} onPress={() => { setReviewedStep(null); setAttempt(''); setAnswerEdited(false); scroll.current?.scrollTo({ y: 0, animated: false }); }} />
+            }) : <View testID="checked-student-answer" style={styles.checkedAnswer}><Text style={styles.caption}>{viewingHistory ? 'EM ĐÃ NHẬP' : 'EM VỪA NHẬP'}</Text>
+              <MathText style={styles.body}>{displayedReview.studentAnswer + (displayedReview.unit ? ` ${displayedReview.unit}` : '')}</MathText></View>}
+            {viewingHistory && displayedReview.explanation ? <MathText style={styles.body}>{displayedReview.explanation}</MathText> : null}
+            {viewingHistory ? <View style={styles.historyChecked}><Ionicons name="checkmark-circle" size={20} color="#24794E" accessible={false} />
+              <Text style={styles.chosenCorrect}>Bước này đã được kiểm tra đúng</Text></View> : <CorrectAnswerFeedback key={`feedback:${lesson.sessionId}:${lesson.stepIndex}`} message={lesson.feedback} />}
+            {displayedReview.expression ? <><Text style={styles.heading}>{lesson.outline.length === 1 ? 'Đối chiếu kết quả' : 'Viết vào bài giải'}</Text><SolutionLine item={displayedReview} /></> : null}
+            {!viewingHistory && displayedReview.kind === 'UNDERSTAND' && lesson.stepIndex === lesson.understandingSteps ? <ProblemSummary lesson={lesson} compact /> : null}
+            {!viewingHistory&&displayedReview.kind!=='UNDERSTAND'&&lesson.completed.filter(item=>item.kind!=='UNDERSTAND').length%2===0?<ComprehensionCheck key={`check:${lesson.sessionId}:${lesson.revision}`} sessionId={lesson.sessionId} revision={lesson.revision}/>:null}
+            <AppButton title={viewingHistory ? 'Bước tiếp theo' : !step ? 'Xem bài giải' : displayedReview.kind === 'UNDERSTAND' && lesson.stepIndex === lesson.understandingSteps ? 'Bắt đầu giải' : 'Tiếp tục bước tiếp theo'} disabled={!!busy || (!viewingHistory && expired)} onPress={() => {
+              if (viewingHistory) { showHistory(visibleStepIndex + 1 < currentViewIndex ? visibleStepIndex + 1 : null); return; }
+              setReviewedStep(null); setAttempt(''); setAnswerEdited(false); scroll.current?.scrollTo({ y: 0, animated: false });
+            }} />
           </View> : step ? <View style={[styles.card, styles.activeStep]} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
             <Text style={styles.eyebrow}>{step.kind === 'UNDERSTAND' ? 'HIỂU ĐỀ' : 'CÙNG GIẢI'} · BƯỚC {step.kind === 'UNDERSTAND' ? lesson.stepIndex + 1 : lesson.stepIndex + 1 - (lesson.understandingSteps || 0)} / {step.kind === 'UNDERSTAND' ? lesson.understandingSteps : lesson.outline.length - (lesson.understandingSteps || 0)}</Text>
-            <View style={styles.stepPrompt}><Text style={styles.heading}>{step.title}</Text>
+            <View style={styles.stepPrompt}><View ref={stepHeading} tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel={step.title}><Text style={styles.heading}>{step.title}</Text></View>
             {step.kind === 'UNDERSTAND' ? <Text style={styles.stepCaption}>Hiểu đề trước khi tính</Text> : <Text style={styles.stepCaption}>{lesson.outline.length === 1 ? 'Làm xong, em kiểm tra lại kết quả nhé!' : 'Cùng giải bài toán này nhé!'}</Text>}</View>
             {step.kind === 'UNDERSTAND' ? <MathText style={styles.body}>{step.explanation}</MathText> : null}
             {step.workExcerpt ? <View style={styles.workCard}><Text style={styles.caption}>TRONG BÀI EM VIẾT</Text><MathText style={styles.body}>{step.workExcerpt}</MathText></View> : null}
@@ -560,12 +640,25 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
             {step.kind !== 'UNDERSTAND' ? <View style={styles.stepNote}><Ionicons name="bulb-outline" size={18} color="#AC8C42" /><View style={styles.flex}><MathText style={styles.stepNoteText}>{step.explanation}</MathText></View></View> : null}
             {step.choices.length ? step.choices.map((choice, index) => <Pressable key={choice} ref={index === 0 ? firstChoice : undefined} accessibilityRole="button" accessibilityLabel={choice} disabled={!!busy || expired}
               aria-pressed={attempt === choice} accessibilityState={Platform.OS === 'web' ? { disabled: !!busy || expired } : { selected: attempt === choice, disabled: !!busy || expired }}
-              accessibilityHint={attempt === choice && lesson.status === 'TRY_AGAIN' && !answerEdited ? 'Em vừa chọn đáp án này. Chưa đúng, em có thể chọn lại.' : undefined}
+              accessibilityHint={attempt === choice && (immediateChoice?.correct === false || (lesson.status === 'TRY_AGAIN' && !answerEdited)) ? 'Em vừa chọn đáp án này. Chưa đúng, em có thể chọn lại.' : undefined}
               onFocus={() => setFocusedChoice(choice)} onBlur={() => setFocusedChoice(null)}
-              style={[styles.choice, attempt === choice && styles.choiceSelected, attempt === choice && lesson.status === 'TRY_AGAIN' && !answerEdited && styles.choiceIncorrect, focusedChoice === choice && styles.choiceFocused]} onPress={() => { setAttempt(choice); setAnswerEdited(true); answer(choice); }}>
+              style={[styles.choice, attempt === choice && styles.choiceSelected,
+                attempt === choice && (immediateChoice?.correct === false || (lesson.status === 'TRY_AGAIN' && !answerEdited)) && styles.choiceIncorrect,
+                attempt === choice && immediateChoice?.correct === true && styles.choiceCorrect,
+                focusedChoice === choice && styles.choiceFocused]} onPress={() => {
+                if (running.current || expired) return;
+                setAttempt(choice); setAnswerEdited(true);
+                const correct = step.choiceChecks?.length === step.choices.length ? step.choiceChecks[index] : undefined;
+                setChoiceResult(typeof correct === 'boolean' ? { sessionId: lesson.sessionId, revision: lesson.revision, choice, correct } : null);
+                // Wrong choices never mutate server progress. A correct choice
+                // is still verified/saved there before Continue becomes available.
+                if (correct !== false) answer(choice);
+              }}>
               <View style={[styles.flex, { marginRight: 8 }]}><MathText style={styles.choiceText}>{choice}</MathText>
-                {attempt === choice ? <Text style={styles.caption}>Em vừa chọn{lesson.status === 'TRY_AGAIN' && !answerEdited ? ' · Chưa đúng' : ''}</Text> : null}</View>
-              <Ionicons name={attempt === choice ? lesson.status === 'TRY_AGAIN' && !answerEdited ? 'close-circle' : 'radio-button-on' : 'chevron-forward'} size={18} color={attempt === choice && lesson.status === 'TRY_AGAIN' && !answerEdited ? '#AC4936' : COLORS.primaryDark} accessible={false} />
+                {attempt === choice ? <Text accessibilityLiveRegion="polite" style={immediateChoice?.correct ? styles.chosenCorrect : styles.caption}>{immediateChoice ? immediateChoice.correct ? 'Em đã chọn · Đúng' : 'Em đã chọn · Chưa đúng' : busy === 'answer' ? 'Đang kiểm tra đáp án này…' : `Em vừa chọn${lesson.status === 'TRY_AGAIN' && !answerEdited ? ' · Chưa đúng' : ''}`}</Text> : null}</View>
+              {attempt === choice && immediateChoice ? <Ionicons name={immediateChoice.correct ? 'checkmark-circle' : 'close-circle'} size={20} color={immediateChoice.correct ? '#24794E' : '#AC4936'} accessible={false} />
+                : attempt === choice && busy === 'answer' ? <ActivityIndicator size="small" color={COLORS.primaryDark} accessibilityLabel="Đang kiểm tra đáp án đã chọn" />
+                : <Ionicons name={attempt === choice ? lesson.status === 'TRY_AGAIN' && !answerEdited ? 'close-circle' : 'radio-button-on' : 'chevron-forward'} size={18} color={attempt === choice && lesson.status === 'TRY_AGAIN' && !answerEdited ? '#AC4936' : COLORS.primaryDark} accessible={false} />}
             </Pressable>) : <><View style={styles.answerRow}>
               {fractionInput ? <View style={styles.fractionAnswer}>
                 <TextInput ref={answerInput} style={styles.fractionNumber} accessibilityLabel="Tử số câu trả lời" value={attempt.split('/')[0]} keyboardType="numbers-and-punctuation" maxLength={13}
@@ -582,50 +675,54 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
                   <Text style={styles.link}>{fractionInput ? '123' : 'a/b'}</Text>
                 </Pressable> : null}</View>
               {fractionInput ? <Text style={styles.caption}>Em nhập tử và mẫu; không làm tròn số thập phân.</Text> : null}
-              <AppButton title="Kiểm tra bước này" style={styles.stepButton} onPress={() => answer(attempt)} disabled={!attempt.trim() || (fractionInput && !/^-?\d+\/[1-9]\d*$/.test(attempt)) || !!busy || expired} loading={busy === 'answer'} /></>}
-            <AppButton title={hintExhausted ? 'Đã mở đủ gợi ý bước này' : hintCount ? 'Gợi ý rõ hơn' : 'Gợi ý cách làm bước này'} style={styles.stepButton} variant="secondary" onPress={() => answer('', true)} disabled={hintExhausted || !!busy || expired} />
+              <AppButton title="Kiểm tra bước này" loadingTitle="Đang kiểm tra đáp án…" style={styles.stepButton} onPress={() => answer(attempt)} disabled={!attempt.trim() || (fractionInput && !/^-?\d+\/[1-9]\d*$/.test(attempt)) || !!busy || expired} loading={busy === 'answer'} /></>}
+            {busy === 'answer' || busy === 'hint' ? <View style={styles.checking} accessibilityLiveRegion="polite" accessibilityState={{ busy: true }}>
+              <ActivityIndicator size="small" color={COLORS.primaryDark} /><Text style={styles.checkingText}>{busy === 'hint' ? 'Đang mở gợi ý…' : immediateChoice?.correct ? 'Đang lưu tiến độ…' : 'Đang kiểm tra câu trả lời…'}</Text>
+            </View> : null}
+            <AppButton title={hintExhausted ? 'Đã mở đủ gợi ý bước này' : hintCount ? 'Gợi ý rõ hơn' : 'Gợi ý cách làm bước này'} loading={busy === 'hint'} loadingTitle="Đang mở gợi ý…" style={styles.stepButton} variant="secondary" onPress={() => answer('', true)} disabled={hintExhausted || !!busy || expired} />
             {hintExhausted ? <Text style={styles.caption}>Em đọc lại gợi ý rồi thử trả lời. Gợi ý rõ hơn vẫn được giữ ở đây.</Text> : null}
             {hintText ? <View style={styles.hintCard}>
               <MathText style={styles.stepNoteText}>{hintText}</MathText>
               {step.kind === 'UNDERSTAND' || /[+\-−×*÷/:]/.test(step.expression) ? <AppButton title="Em muốn hiểu gợi ý rõ hơn" variant="ghost" onPress={() => setTool('hint')} /> : null}
             </View> : null}
             {lesson.status === 'TRY_AGAIN' && !answerEdited && lesson.feedback ? <Text accessibilityRole="alert" style={styles.error}>{lesson.feedback}</Text> : null}
+            {immediateChoice?.correct === false ? <Text accessibilityRole="alert" style={styles.error}>Chưa đúng. Em xem lại yêu cầu của bước này rồi chọn lại nhé.</Text> : null}
           </View> : <View style={styles.card} onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
-            <Text style={styles.heading}>Bài giải</Text><Text style={styles.body}>Đây là các bước em đã tự tính và kiểm tra. Em có thể viết lại vào vở.</Text>
+            <View ref={stepHeading} tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel="Bài giải"><Text style={styles.heading}>Bài giải</Text></View><Text style={styles.body}>Đây là các bước em đã tự tính và kiểm tra. Em có thể viết lại vào vở.</Text>
             {lesson.feedback ? <Text style={styles.feedback}>{lesson.feedback}</Text> : null}
             {lesson.completed.filter(item => item.expression).map((item, index) => <SolutionLine key={index} item={item} />)}
             {lesson.conclusion ? <MathText style={styles.question}>{lesson.conclusion}</MathText> : null}
             {work ? <Text style={styles.body}>Em đối chiếu những bước vừa học với bài trong ảnh. Các phép tính vừa nhập đã được kiểm tra; nét chữ và hình vẽ vẫn cần nhìn lại.</Text> : null}
           </View>}
         </> : null}
-        {lesson?.status === 'COMPLETE' && !editing ? <QuizInvitation sourceType="LESSON" sourceId={lesson.sessionId} /> : null}
-        {lesson?.status === 'COMPLETE' && !editing ? <View style={styles.row}>
+        {lesson?.status === 'COMPLETE' && !editing && !viewingHistory ? <QuizAfterLearningButton sourceType="LESSON" sourceId={lesson.sessionId} /> : null}
+        {lesson?.status === 'COMPLETE' && !editing && !viewingHistory ? <View style={styles.row}>
           <AppButton title="Về trang chủ" style={{ flex: 1, paddingHorizontal: 10 }} onPress={() => router.replace('/(tabs)')} />
           <AppButton title="Làm bài khác" style={{ flex: 1, paddingHorizontal: 10 }} variant="secondary" onPress={() => capture()} />
         </View> : null}
         {lesson && !editing ? <View style={styles.tools}>
           {([['audio', 'volume-high-outline', 'Nghe giảng'], ['ask', 'mic-outline', 'Hỏi bài'], ['menu', 'ellipsis-horizontal', 'Xem thêm']] as const).map(([value, icon, label]) => <Pressable
-            key={value} accessibilityRole="button" accessibilityLabel={label} disabled={!!busy || expired} accessibilityState={{ disabled: !!busy || expired }} style={({ pressed }) => [styles.tool, pressed && { backgroundColor: '#F0E8FF' }, (!!busy || expired) && { opacity: .5 }]} onPress={() => setTool(value)}>
+            key={value} accessibilityRole="button" accessibilityLabel={label} disabled={expired} accessibilityState={{ disabled: expired }} style={({ pressed }) => [styles.tool, pressed && { backgroundColor: '#F0E8FF' }, expired && { opacity: .5 }]} onPress={() => setTool(value)}>
             <Ionicons name={icon} size={22} color={COLORS.primaryDark} accessible={false} /><Text style={styles.toolLabel}>{label}</Text>
           </Pressable>)}
         </View> : null}
-        {lesson?.status === 'COMPLETE' && !reviewedStep && !editing ? <AppButton title={work ? 'Chụp lại bài làm để nhận xét' : 'Chụp bài em đã làm để nhận xét'} variant="secondary"
+        {lesson?.status === 'COMPLETE' && !displayedReview && !editing ? <AppButton title={work ? 'Chụp lại bài làm để nhận xét' : 'Chụp bài em đã làm để nhận xét'} variant="secondary"
           onPress={() => capture('ADD_WORK')} disabled={expired} /> : null}
-        {!!(problem || work) && (!lesson || (!step && !reviewedStep)) && !editing && !busy ? <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} variant="secondary" loading={saving} disabled={saved || saving} onPress={() => void archive()} /> : null}
+        {!!(problem || work) && (!lesson || (!step && !displayedReview)) && !editing && !busy ? <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} loadingTitle="Đang lưu bài…" variant="secondary" loading={saving} disabled={saved || saving} onPress={() => void archive()} /> : null}
         {!lesson ? <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp bài khác" onPress={() => capture()}><Text style={styles.link}>Chụp bài khác</Text></Pressable> : null}
       </ScrollView>
     </KeyboardAvoidingView></View>
-    {lesson && tool && !busy && !expired && !editing ? <LessonSheet title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', hint: 'Cùng hiểu gợi ý' }[tool]} onClose={() => setTool(null)}>
+    {lesson && tool && !expired && !editing ? <LessonSheet title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', hint: 'Cùng hiểu gợi ý' }[tool]} onClose={() => setTool(null)}>
       {tool === 'hint' && step ? <><MathText style={styles.body}>{hintText}</MathText>
         <HintCheckIn key={`${lesson.sessionId}:${lesson.stepIndex}:${hintCount}`} expression={step.expression} reading={step.kind === 'UNDERSTAND'} depth={hintCount}
           hint={hintText} stepTitle={step.title} stepQuestion={step.question} unit={step.unit}
           onReady={() => { setTool(null); if (step.choices.length) firstChoice.current?.focus(); else answerInput.current?.focus(); }} /></> : null}
-      {tool === 'audio' ? <LessonListening scope={JSON.stringify([owner, lesson.sessionId, lesson.stepIndex, lesson.revision, hintCount, !!reviewedStep])}
-        sessionId={lesson.sessionId} revision={lesson.revision} stepIndex={Math.max(0, lesson.stepIndex - (reviewedStep || !step ? 1 : 0))} step={reviewedStep || step}
-        onReturn={() => { setTool(null); if (step?.choices.length) firstChoice.current?.focus(); else answerInput.current?.focus(); }}
+      {tool === 'audio' ? <LessonListening scope={JSON.stringify([owner, lesson.sessionId, visibleStepIndex, lesson.revision, hintCount, !!displayedReview])}
+        sessionId={lesson.sessionId} revision={lesson.revision} stepIndex={Math.min(visibleStepIndex, Math.max(0, lesson.outline.length - 1))} step={displayedReview || step}
+        onReturn={returnFromTool}
         paragraphs={narrationParts} /> : null}
-      {tool === 'ask' ? <LessonQuestion initialQuestion={questionDraft} onDraftChange={setQuestionDraft} onReturn={() => { setTool(null); if (step?.choices.length) firstChoice.current?.focus(); else answerInput.current?.focus(); }} key={`${owner}:${lesson.sessionId}:${lesson.revision}:${!!reviewedStep}`} scope={`${owner}:${lesson.sessionId}:${lesson.revision}:${!!reviewedStep}`}
-        sessionId={lesson.sessionId} revision={lesson.revision} stepIndex={Math.max(0, lesson.stepIndex - (reviewedStep || !step ? 1 : 0))} /> : null}
+      {tool === 'ask' ? <LessonQuestion initialQuestion={viewingHistory ? '' : questionDraft} onDraftChange={viewingHistory ? undefined : setQuestionDraft} onReturn={returnFromTool} key={`${owner}:${lesson.sessionId}:${lesson.revision}:${visibleStepIndex}:${!!displayedReview}`} scope={`${owner}:${lesson.sessionId}:${lesson.revision}:${visibleStepIndex}:${!!displayedReview}`}
+        sessionId={lesson.sessionId} revision={lesson.revision} stepIndex={Math.min(visibleStepIndex, Math.max(0, lesson.outline.length - 1))} /> : null}
       {tool === 'summary' ? <ProblemSummary lesson={lesson} compact /> : null}
       {tool === 'work' ? <>{workImage ? <Image source={{ uri: workImage }} style={[styles.photo, { height: 220 }]} resizeMode="contain" accessibilityLabel={workImageCurrent ? 'Ảnh bài em đã làm' : 'Ảnh bài làm trước khi sửa bằng chữ'} /> : null}
         {!workConfirmed ? <Text style={styles.error}>Bài làm chưa được xác nhận; mình đang hướng dẫn từ đề đã kiểm tra. Có chỗ chưa đọc rõ, em đối chiếu lại với ảnh nhé.</Text> : null}
@@ -634,7 +731,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
       {tool === 'menu' ? <>
         {work ? <AppButton title="Xem bài em đã viết" variant="secondary" onPress={() => setTool('work')} /> : null}
         {lesson.understandingSteps === 3 && lesson.stepIndex >= 2 ? <AppButton title="Xem lại tóm tắt đề" variant="secondary" onPress={() => setTool('summary')} /> : null}
-        <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} variant="secondary" disabled={saved || saving} loading={saving} onPress={() => void archive()} />
+        <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} loadingTitle="Đang lưu bài…" variant="secondary" disabled={saved || saving} loading={saving} onPress={() => void archive()} />
         <AppButton title="Chụp bài em đã làm để nhận xét" variant="secondary" onPress={() => { setTool(null); capture('ADD_WORK'); }} />
         <AppButton title="Chụp bài khác" variant="ghost" onPress={() => { setTool(null); capture(); }} /></> : null}
     </LessonSheet> : null}
@@ -657,6 +754,8 @@ const styles = StyleSheet.create({
   tools: { flexDirection: 'row', gap: 8, padding: 6, borderRadius: 20, backgroundColor: '#F1EAFB' },
   tool: { flex: 1, minHeight: 52, justifyContent: 'center', alignItems: 'center', gap: 4, borderRadius: 14, backgroundColor: '#FFFFFF' },
   toolLabel: { fontFamily: FONTS.bold, fontSize: 12, color: COLORS.primaryDark },
+  checking: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 8 },
+  checkingText: { flex: 1, fontFamily: FONTS.semiBold, fontSize: 13, color: COLORS.primaryDark },
   hero: { padding: 22, borderRadius: 26, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, borderColor: '#E8DEF7', minHeight: 181 },
   mascot: { width: 94, height: 112 }, eyebrow: { color: COLORS.primaryDark, fontFamily: FONTS.extraBold, fontSize: 11, letterSpacing: 1 },
   title: { fontSize: 23, lineHeight: 29, fontFamily: FONTS.extraBold, color: COLORS.textPrimary, marginVertical: 8 },
@@ -685,6 +784,10 @@ const styles = StyleSheet.create({
   workCard: { backgroundColor: '#F0EBFC', padding: 16, borderRadius: 18, gap: 10 },
   confirm: { minHeight: 52, flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 12 },
   progressRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 4 }, progressCount: { color: '#9D8EB4', fontFamily: FONTS.bold, fontSize: 13 },
+  stepNavigation: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 6 },
+  historyButton: { minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 8, borderRadius: 12 },
+  historyLabel: { color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 13 }, historyDisabled: { opacity: .4 },
+  historyChecked: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 12, borderRadius: 14, backgroundColor: '#ECF8F0' },
   rail: { flex: 1, flexDirection: 'row', gap: 3, padding: 4, borderRadius: 10, backgroundColor: '#E9F6EF' }, railStep: { flex: 1, height: 7, borderRadius: 4, backgroundColor: '#DCEEE5' },
   railActive: { backgroundColor: '#6CCF99' },
   question: { color: COLORS.textPrimary, fontFamily: FONTS.extraBold, fontSize: 16, lineHeight: 23 },

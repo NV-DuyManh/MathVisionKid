@@ -10,10 +10,10 @@ export function planChecks(paths, full = false) {
   const shared = full || paths.some(p => /^(?:package(?:-lock)?\.json$|\.nvmrc$|\.github\/|infra\/|scripts\/(?:governance|skills)|vendor\/|packages\/)/.test(p));
   return {
     web: shared || paths.some(p => /^apps\/(?:portal|teacher|admin)-web\/|^scripts\/deploy\/|^tests\/browser\/|^playwright\.config\.mjs$/.test(p)),
-    student: shared || paths.some(p => /^apps\/student-mobile\//.test(p)),
+    student: shared || paths.some(p => /^apps\/student-mobile\/|^tests\/(?:student-browser\/|browser\/fixtures\.mjs$|browser\/sites\.mjs$)|^playwright(?:\.student)?\.config\.mjs$/.test(p)),
     backend: shared || paths.some(p => /^backend\/business-api\/|^scripts\/test\/test_postgres_migrations(?:_runner)?\.py$/.test(p)),
     ai: shared || paths.some(p => /^(?:ai\/runtime\/|catalog\/|contracts\/)|^scripts\/(?:ci-tutoring-requirements\.txt|test\/test_runtime_tutor_auth\.py)$/.test(p)),
-    launcher: shared || paths.some(p => /^scripts\/(?:dev\/|deploy\/|[^/]+\.(?:ps1|bat)$|test\/(?:local-env\.test\.ps1|test_service_runtime_identity\.ps1|test_run_launcher\.py))|^[^/]+\.bat$/.test(p)),
+    launcher: shared || paths.some(p => /^scripts\/(?:dev\/|deploy\/|test\/|[^/]+\.(?:ps1|bat)$)|^[^/]+\.bat$/.test(p)),
   };
 }
 export function checkNewPaths(paths) {
@@ -40,6 +40,7 @@ export function verifyWorkflow(source) {
 export function checkGate(results, plan) {
   if (results.governance !== 'success') throw new Error('Governance failed or was cancelled');
   for (const name of ['web', 'student', 'backend', 'ai', 'launcher']) {
+    if (![true, false, 'true', 'false'].includes(plan?.[name])) throw new Error(`Missing or invalid ${name} check plan`);
     const required = plan[name] === true || plan[name] === 'true';
     if (results[name] !== 'success' && !(results[name] === 'skipped' && !required)) throw new Error(`${name} checks did not pass`);
   }

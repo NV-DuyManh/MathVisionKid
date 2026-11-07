@@ -44,6 +44,9 @@ def launch(request):
 
 
 async def prepare(request: SourceDraft):
+    from app.tutoring.source_clarification import source_issue
+    if source_issue(request.problemText):
+        return {'phase': 'unavailable'}
     prune()
     key = source_key(request)
     if key in _jobs:

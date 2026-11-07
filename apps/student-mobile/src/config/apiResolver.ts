@@ -1,5 +1,6 @@
 import { Platform, NativeModules } from 'react-native';
 import Constants from 'expo-constants';
+import { isDevice } from 'expo-device';
 
 export interface ResolveOptions {
   manualOverride?: string;
@@ -9,8 +10,8 @@ export function resolveApiBaseUrl(options?: ResolveOptions | string): string {
   const isWeb = Platform.OS === 'web';
   const isAndroid = Platform.OS === 'android';
   
-  // Determine if it's a physical device. Expo Constants.isDevice is true for physical devices.
-  const isPhysicalDevice = Boolean(Constants?.isDevice);
+  // Device detection lives in expo-device; Constants no longer exposes it.
+  const isPhysicalDevice = isDevice;
 
   // Dynamic access helper prevents Babel/Metro transform from statically inlining empty strings in test/dev
   const env = process.env || {};

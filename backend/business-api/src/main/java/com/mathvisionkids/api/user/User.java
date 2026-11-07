@@ -42,6 +42,9 @@ public class User {
 
     private Boolean active = true;
 
+    @Column(nullable = false)
+    private long tokenVersion = 0;
+
     @Column(updatable = false)
     private Instant createdAt = Instant.now();
 

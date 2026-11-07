@@ -42,7 +42,7 @@ function columnSteps(left: number, right: number, operator: '+' | '−'): string
   const a = String(negative ? right : left).split('').reverse();
   const b = String(negative ? left : right).split('').reverse();
   const steps = negative ? ['Số thứ nhất nhỏ hơn số thứ hai. Tính phần chênh lệch bằng số lớn trừ số nhỏ, rồi đặt dấu âm trước kết quả.'] : [];
-  const places = ['đơn vị', 'chục', 'trăm', 'nghìn', 'chục nghìn', 'trăm nghìn'];
+  const places = ['đơn vị', 'chục', 'trăm', 'nghìn', 'chục nghìn', 'trăm nghìn', 'triệu', 'chục triệu', 'trăm triệu', 'tỷ'];
   let carried = 0;
   for (let i = 0; i < Math.max(a.length, b.length); i++) {
     const x = Number(a[i] || 0), y = Number(b[i] || 0);
@@ -116,7 +116,15 @@ export function calculate(input: CalculatorInput): Calculation {
       d = a.d / gcd(a.d, b.d) * b.d;
       const left = a.n * (d / a.d), right = b.n * (d / b.d);
       n = input.operator === '+' ? left + right : left - right;
-      if (input.mode === 'fraction' || a.d !== 1 || b.d !== 1) {
+      if (input.mode === 'basic' && (a.d !== 1 || b.d !== 1)) {
+        const digits = Math.max(...[input.left, input.right].map(text => text.trim().split(/[.,]/)[1]?.length || 0));
+        const scale = 10 ** digits;
+        const leftScaled = a.n * (scale / a.d), rightScaled = b.n * (scale / b.d);
+        steps.push('Đặt hai dấu phẩy thẳng cột; các chữ số cùng hàng nằm trên nhau. Thêm số không ở cuối phần thập phân ngắn hơn để đủ số hàng.');
+        steps.push(`Tạm bỏ dấu phẩy để tính ${leftScaled} ${input.operator} ${rightScaled}.`);
+        if (leftScaled >= 0 && rightScaled >= 0) steps.push(...columnSteps(leftScaled, rightScaled, input.operator));
+        steps.push(`Đặt lại dấu phẩy cách bên phải ${digits} chữ số, rồi bỏ số không tận cùng phần thập phân nếu có.`);
+      } else if (input.mode === 'fraction') {
         steps.push(`Đưa hai số về cùng mẫu số ${d}: ${fraction(a)} = ${left}/${d}; ${fraction(b)} = ${right}/${d}.`);
         steps.push(`Giữ mẫu số ${d}, ${input.operator === '+' ? 'cộng' : 'trừ'} hai tử số: ${left} ${input.operator} ${right} = ${n}. Ta được ${n}/${d}.`);
       } else {
@@ -151,13 +159,21 @@ export function calculate(input: CalculatorInput): Calculation {
 }
 
 /** Bounded, complete expression parser. No eval and no rounded intermediate values. */
-export function calculateExpression(source: string): Calculation & { remainder?: Calculation } {
-  const normalized = source.replace(/\s/g, '').replace(/−/g, '-').replace(/×/g, '*').replace(/:/g, '÷').replace(/,/g, '.');
+export function calculateExpression(source: string): Calculation & { remainder?: Calculation; mixedResult?: string } {
+  const mixedSteps: string[] = [];
+  const expanded = source.replace(/\b(\d{1,6})\s+(\d{1,6})\s*\/\s*(\d{1,6})\b/g, (_, wholePart, numerator, denominator) => {
+    if (Number(denominator) <= 0 || Number(numerator) >= Number(denominator)) throw new Error('Phần phân số của hỗn số phải có tử nhỏ hơn mẫu và mẫu khác 0.');
+    mixedSteps.push(`Đổi hỗn số ${wholePart} ${numerator}/${denominator} thành phân số: (${wholePart} × ${denominator} + ${numerator})/${denominator}.`);
+    return `(${wholePart}+${numerator}/${denominator})`;
+  });
+  const normalized = expanded.replace(/\s/g, '').replace(/−/g, '-').replace(/×/g, '*').replace(/:/g, '÷').replace(/,/g, '.');
+  if (/\d+\/\d+\/\d+/.test(normalized))
+    throw new Error('Nhiều dấu / liền nhau dễ nhầm phân số. Em dùng dấu ÷ để chia hoặc thêm ngoặc quanh từng phân số nhé.');
   const tokens = normalized.match(/\d+(?:\.\d+)?|[+\-*/÷()%]/g) || [];
   if (!normalized || normalized.length > 120 || tokens.length > 60 || tokens.join('') !== normalized)
     throw new Error('Em nhập phép tính bằng các số và dấu trên bàn phím nhé.');
   let position = 0;
-  const steps: string[] = [];
+  const steps: string[] = [...mixedSteps];
   const apply = (a: Rational, b: Rational, op: Operator): Rational => {
     if (op === '÷' && !b.n) throw new Error('Không thể chia cho 0. Em sửa số chia nhé.');
     let n: number, d: number;
@@ -171,9 +187,12 @@ export function calculateExpression(source: string): Calculation & { remainder?:
       d = a.d * (op === '×' ? b.d : b.n);
     }
     const value = reduce(n, d);
-    if ([a.n, a.d, b.n, b.d].every(part => Math.abs(part) <= 999999)) {
-      const explained = calculate({ mode: a.d === 1 && b.d === 1 ? 'basic' : 'fraction', operator: op,
-        left: String(a.n), right: String(b.n), leftDenominator: String(a.d), rightDenominator: String(b.d) });
+    const decimalOperands = [numberText(a), numberText(b)];
+    const useDecimal = !source.includes('/') && decimalOperands.every(text => /^−?\d{1,6}(?:,\d{1,4})?$/.test(text));
+    if (useDecimal || [a.n, a.d, b.n, b.d].every(part => Math.abs(part) <= 999999)) {
+      const explained = calculate({ mode: useDecimal || (a.d === 1 && b.d === 1) ? 'basic' : 'fraction', operator: op,
+        left: useDecimal ? decimalOperands[0].replace('−', '-') : String(a.n),
+        right: useDecimal ? decimalOperands[1].replace('−', '-') : String(b.n), leftDenominator: String(a.d), rightDenominator: String(b.d) });
       steps.push(...explained.steps);
     } else {
       steps.push(`Tính ${fraction(a)} ${op} ${fraction(b)} = ${fraction(value)}. Giữ kết quả chính xác để tính tiếp.`);
@@ -230,5 +249,10 @@ export function calculateExpression(source: string): Calculation & { remainder?:
   steps.push(`${expression} = ${result}.`);
   const division = normalized.match(/^(\d{1,6})[\/÷](\d{1,6})$/);
   const remainder = division ? calculate({ mode: 'remainder', operator: '÷', left: division[1], right: division[2], leftDenominator: '', rightDenominator: '' }) : undefined;
-  return { expression, result, steps, remainder };
+  // One-digit mental arithmetic needs only its answer. Keep explanations for
+  // fractions, decimals, remainders and expressions with several operations.
+  const isSimple = /^\d[+*÷-]\d$/.test(normalized) && value.d === 1 && !source.includes('/');
+  const mixedResult = source.includes('/') && value.d > 1 && Math.abs(value.n) > value.d
+    ? `${value.n < 0 ? '−' : ''}${Math.floor(Math.abs(value.n) / value.d)} ${Math.abs(value.n) % value.d}/${value.d}` : undefined;
+  return { expression, result, steps: isSimple ? [] : steps, remainder, mixedResult };
 }

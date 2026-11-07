@@ -18,13 +18,15 @@ import java.util.UUID;
 public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
     
     // Default 7 days
     private final long refreshTokenDurationMs = 7L * 24 * 60 * 60 * 1000;
 
-    public RefreshTokenService(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
+    public RefreshTokenService(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository, JwtUtil jwtUtil) {
         this.refreshTokenRepository = refreshTokenRepository;
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     private String hashToken(String token) {
@@ -39,9 +41,16 @@ public class RefreshTokenService {
 
     @Transactional
     public String createRefreshToken(UUID userId) {
+        userRepository.lockSessions(userId).orElseThrow();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "User not found", HttpStatus.NOT_FOUND));
+        if (!Boolean.TRUE.equals(user.getActive())) {
+            throw new ApiException("UNAUTHORIZED", "Account is disabled.", HttpStatus.UNAUTHORIZED);
+        }
+        return issueRefreshToken(user);
+    }
 
+    private String issueRefreshToken(User user) {
         String rawToken = UUID.randomUUID().toString();
         
         RefreshToken refreshToken = new RefreshToken();
@@ -53,15 +62,21 @@ public class RefreshTokenService {
         return rawToken;
     }
 
-    @Transactional
-    public User verifyExpiration(String rawToken) {
+    @Transactional(noRollbackFor = ApiException.class)
+    public AuthResponse rotate(String rawToken) {
         String tokenHash = hashToken(rawToken);
+        UUID ownerId = refreshTokenRepository.findOwnerId(tokenHash)
+                .orElseThrow(() -> new ApiException("UNAUTHORIZED", "Refresh token is not in database!", HttpStatus.UNAUTHORIZED));
+        // Serialize rotation and revocation on the root user row before loading
+        // the token. A second request must see the first committed rotation.
+        userRepository.lockSessions(ownerId).orElseThrow();
         RefreshToken token = refreshTokenRepository.findByTokenHash(tokenHash)
                 .orElseThrow(() -> new ApiException("UNAUTHORIZED", "Refresh token is not in database!", HttpStatus.UNAUTHORIZED));
 
         if (token.isRevoked()) {
             // Compromised token detected: revoke all tokens for this user
             refreshTokenRepository.deleteByUser(token.getUser());
+            token.getUser().setTokenVersion(token.getUser().getTokenVersion() + 1);
             throw new ApiException("UNAUTHORIZED", "Compromised token detected. All sessions revoked.", HttpStatus.UNAUTHORIZED);
         }
 
@@ -79,13 +94,16 @@ public class RefreshTokenService {
         token.setRevoked(true);
         refreshTokenRepository.save(token);
 
-        return token.getUser();
+        User user = token.getUser();
+        return new AuthResponse(jwtUtil.generateToken(user.getEmail(), user.getRole()), issueRefreshToken(user));
     }
     
     @Transactional
     public void deleteByUserId(UUID userId) {
+        userRepository.lockSessions(userId).orElseThrow();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "User not found", HttpStatus.NOT_FOUND));
         refreshTokenRepository.deleteByUser(user);
+        user.setTokenVersion(user.getTokenVersion() + 1);
     }
 }

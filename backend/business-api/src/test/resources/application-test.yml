@@ -23,6 +23,8 @@ minio:
   secret-key: minioadmin123
 
 ai:
+  quiz:
+    adaptive-enabled: false
   gateway:
     url: http://localhost:8000/internal/v1/jobs
   service:

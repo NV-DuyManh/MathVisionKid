@@ -36,6 +36,8 @@ class SelfServiceAuthIntegrationTest {
     @Autowired PasswordResetCodeRepository codes;
     @Autowired PasswordEncoder encoder;
     @Autowired SelfServiceAuthService service;
+    @Autowired JwtUtil jwt;
+    @Autowired RefreshTokenService sessions;
     @MockBean JavaMailSender mail;
     User pupil;
     @BeforeEach void createPupil() {
@@ -82,10 +84,16 @@ class SelfServiceAuthIntegrationTest {
         verifyNoInteractions(mail);
     }
     @Test void resetCodeIsHashedAndCannotBeReused() {
+        String oldAccess = jwt.generateToken(pupil.getEmail(), pupil.getRole());
+        String oldRefresh = sessions.createRefreshToken(pupil.getId());
+        assertTrue(jwt.validateToken(oldAccess, pupil.getEmail()));
         String code=issueCode(); var stored=codes.findTopByUser_IdAndConsumedFalseOrderByCreatedAtDesc(pupil.getId()).orElseThrow();
         assertNotEquals(code,stored.getCodeHash()); assertTrue(encoder.matches(code,stored.getCodeHash()));
         assertTrue(service.confirmPasswordReset(reset(code))); assertFalse(service.confirmPasswordReset(reset(code)));
         assertTrue(encoder.matches("new-password",users.findById(pupil.getId()).orElseThrow().getPasswordHash()));
+        assertFalse(jwt.validateToken(oldAccess, pupil.getEmail()));
+        assertThrows(com.mathvisionkids.api.common.ApiException.class, () -> sessions.rotate(oldRefresh));
+        assertTrue(jwt.validateToken(jwt.generateToken(pupil.getEmail(), pupil.getRole()), pupil.getEmail()));
     }
     @Test void fiveFailedAttemptsBlockEvenTheCorrectCode() {
         String code=issueCode(); String bad=code.equals("111111") ? "222222":"111111";

@@ -7,6 +7,44 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 
+def clipped_edge_bounds(bgr):
+    """Locate only a visibly cut, very short ink strip at a tight photo edge.
+
+    No character recognition, semantic selection or deletion of complete rows.
+    Used only for a bounded reread after MULTIPLE, never for work annotations.
+    """
+    h, w = bgr.shape[:2]
+    scale = min(1., 1000 / w)
+    image = cv2.resize(bgr, None, fx=scale, fy=scale) if scale < 1 else bgr
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    if np.median(gray) < 160:
+        return None
+    mask = (gray < min(150, float(np.median(gray))*.68)).astype(np.uint8)
+    _, _, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+    bodies = stats[1:]
+    bodies = bodies[(bodies[:, 4] > 4) & (bodies[:, 3] >= 5)
+                    & (bodies[:, 3] < image.shape[0]*.4) & (bodies[:, 2] < image.shape[1]*.08)]
+    if len(bodies) < 12:
+        return None
+    body = float(np.percentile(bodies[:, 3], 70))
+    if image.shape[0] > body*20:
+        return None  # A full worksheet is not a tight single-question crop.
+    rows = np.flatnonzero(mask.sum(axis=1) >= max(3, image.shape[1]*.006))
+    groups = np.split(rows, np.flatnonzero(np.diff(rows) > 1)+1)
+    groups = [group for group in groups if len(group)]
+    if len(groups) < 3:
+        return None
+    top, bottom = 0, image.shape[0]
+    first, last = groups[0], groups[-1]
+    if first[0] <= 1 and len(first) < body*.5 and groups[1][0]-first[-1] > body*.5:
+        top = int(first[-1]+1)
+    if last[-1] >= image.shape[0]-2 and len(last) < body*.5 and last[0]-groups[-2][-1] > body*.5:
+        bottom = int(last[0])
+    if (not top and bottom == image.shape[0]) or bottom-top < body*3:
+        return None
+    return round(top/scale), min(h, round(bottom/scale))
+
+
 def _ink(bgr, *, neutral=False):
     scale = min(1., 1000 / max(bgr.shape[:2]))
     image = cv2.resize(bgr, None, fx=scale, fy=scale) if scale < 1 else bgr
