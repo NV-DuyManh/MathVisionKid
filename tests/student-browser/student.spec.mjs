@@ -29,6 +29,8 @@ test('anonymous Student deep link returns to login and missing bundles return 40
 test('Student calculator keeps simple answers compact and supports mixed numbers and exact unit conversion', async ({ page, app }) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
+  // Complete the Portal -> Student handoff before starting another navigation.
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   // Calculator is independent of lesson generation; open it without a source draft.
   await page.goto(`${sites.portal.origin}/study/learning/math-guide`);
   await page.getByRole('button', { name: 'Mở máy tính bỏ túi', exact: true }).click();

@@ -78,7 +78,9 @@ class PostgresUpgradeTest {
         var args = new java.util.ArrayList<String>();
         String container = System.getenv("PG_TOOLS_CONTAINER");
         if (container != null) {
-            if (!container.matches("mathvision-audit-[a-z0-9-]+")) throw new IllegalArgumentException("Disposable audit container required");
+            boolean ciService = "true".equals(System.getenv("GITHUB_ACTIONS")) && container.matches("[a-f0-9]{64}");
+            if (!container.matches("mathvision-audit-[a-z0-9-]+") && !ciService) throw new IllegalArgumentException("Disposable audit container required");
+            // Use the disposable server's matching pg_dump/pg_restore, not the runner's newer client.
             args.addAll(java.util.List.of("docker", "exec", "-i", container));
         }
         args.add(command); args.addAll(java.util.List.of("-U", user, "-d", database));

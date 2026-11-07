@@ -170,7 +170,11 @@ async def test_invalid_original_options_are_not_discarded_to_force_success(monke
 
 @pytest.mark.asyncio
 async def test_variant_endpoint_requires_the_internal_credential():
-    from app.main import app
+    from fastapi import FastAPI
+    from app.api.tutor import router
+    # Exercise the real authenticated boundary without importing unrelated OCR models.
+    app = FastAPI()
+    app.include_router(router, prefix='/internal/v1/tutor')
     async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='http://test') as client:
         response = await client.post('/internal/v1/tutor/quiz/variant', json={'owner': 'owner', 'problemText': 'Tính: 1 + 1'})
     assert response.status_code == 401
