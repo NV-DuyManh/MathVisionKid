@@ -94,6 +94,17 @@ it('retries the same recording after a service failure without recording or dele
   expect(TutorService.askLesson).not.toHaveBeenCalled();
 });
 
+it('describes upstream saturation without blaming the pupil or discarding the recording', async () => {
+  (TutorService.transcribeQuestion as jest.Mock).mockRejectedValueOnce({ response: { status: 429 } }).mockResolvedValueOnce('Vì sao quy đồng?');
+  await render(); await press('Ghi âm câu hỏi'); await press('Nói xong');
+  expect(text()).toContain('Dịch vụ chuyển giọng nói đang bận');
+  expect(text()).not.toContain('Em đã gửi nhiều');
+  expect(mockDelete).not.toHaveBeenCalled();
+  await press('Thử lại bản ghi này');
+  expect(input().props.value).toBe('Vì sao quy đồng?');
+  expect(mockRecorder.record).toHaveBeenCalledTimes(1);
+});
+
 it('clears the old question and recording when the pupil or opened step changes', async () => {
   await render(); await press('Ghi âm câu hỏi'); await press('Nói xong');
   await act(async () => view.update(<LessonQuestion sessionId="new-session" revision={0} stepIndex={0} scope="pupil-b" />));

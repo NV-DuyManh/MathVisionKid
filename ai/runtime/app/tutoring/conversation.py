@@ -1,6 +1,8 @@
 """Questions explain an opened step; they never grade or advance the lesson."""
 import asyncio
 import json
+import shutil
+import subprocess
 import time
 import io
 import wave
@@ -14,6 +16,11 @@ from app.tutoring import lesson
 from app.tutoring.service import TutorModel, TutorUnavailable, _generate
 
 MAX_AUDIO_BYTES = 3 * 1024 * 1024
+TRANSCRIPTION_PROMPT = (
+    'Học sinh hỏi bài toán tiểu học bằng tiếng Việt. Thuật ngữ toán học: '
+    'quy đồng mẫu số, tử số, mẫu số, phân số, rút gọn, số thập phân, '
+    'phép cộng, phép trừ, phép nhân, phép chia.'
+)
 _audio_slots = asyncio.Semaphore(2)
 
 
@@ -48,9 +55,6 @@ def owned_session(request: AskRequest):
 
 async def ask_question(request: AskRequest) -> AskResponse:
     session = owned_session(request)
-    if session.ask_count >= 20:
-        raise TutorUnavailable()
-    session.ask_count += 1
     public = lesson.present(request.sessionId, session)
     opened = (public.completed[request.stepIndex] if request.stepIndex < len(public.completed) else public.step)
     # Construct the context from published fields, never the private plan/keys.
@@ -122,6 +126,25 @@ def audio_format(data: bytes) -> tuple[str, str]:
     raise ValueError('Chưa đọc được bản ghi âm. Em thử ghi lại hoặc gõ câu hỏi nhé.')
 
 
+def reject_silent_compressed_audio(data: bytes) -> None:
+    ffmpeg = shutil.which('ffmpeg')
+    if not ffmpeg:
+        return
+    try:
+        pcm = subprocess.run(
+            [ffmpeg, '-nostdin', '-loglevel', 'error', '-protocol_whitelist', 'pipe',
+             '-i', 'pipe:0', '-vn', '-t', '35', '-ar', '16000', '-ac', '1', '-f', 's16le', 'pipe:1'],
+            input=data, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, check=True, timeout=2,
+        ).stdout
+    except (OSError, subprocess.SubprocessError):
+        return  # Some containers need a seekable file. Let the provider decode those.
+    # Reject digital silence, allowing a few quantization steps of codec noise.
+    if pcm:
+        samples = np.frombuffer(pcm, dtype='<i2')
+        if samples.min() >= -3 and samples.max() <= 3:
+            raise ValueError('Chưa nghe rõ tiếng nói. Em thử ghi lại hoặc gõ câu hỏi nhé.')
+
+
 async def transcribe_question(data: bytes) -> Transcript:
     filename, mime = audio_format(data)
     if not settings.groq_enabled or not settings.groq_api_keys.strip():
@@ -138,11 +161,14 @@ async def transcribe_question(data: bytes) -> Transcript:
     try:
         await asyncio.wait_for(_audio_slots.acquire(), timeout=0.25)
         acquired = True
+        if mime != 'audio/wav':
+            await asyncio.to_thread(reject_silent_compressed_audio, data)
         async with httpx.AsyncClient(timeout=httpx.Timeout(24, connect=5)) as client:
             response = await client.post('https://api.groq.com/openai/v1/audio/transcriptions',
                 headers={'Authorization': f'Bearer {entry.raw_key}'},
                 files={'file': (filename, data, mime)},
-                data={'model': 'whisper-large-v3-turbo', 'language': 'vi', 'response_format': 'verbose_json', 'temperature': '0'})
+                data={'model': 'whisper-large-v3-turbo', 'language': 'vi', 'response_format': 'verbose_json',
+                      'temperature': '0', 'prompt': TRANSCRIPTION_PROMPT})
         if response.status_code != 200:
             category = 'RATE_LIMIT' if response.status_code == 429 else 'AUTH_INVALID' if response.status_code == 401 else 'SERVER_ERROR'
             pool.report_failure(entry, category)

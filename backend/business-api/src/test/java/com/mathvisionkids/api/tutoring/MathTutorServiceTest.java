@@ -216,6 +216,23 @@ class MathTutorServiceTest {
         server.verify();
     }
 
+    @Test void recordingsRemainUsableAfterRepeatedFailuresAndSuccessfulQuestions() {
+        byte[] audio = new byte[]{0,0,0,24,'f','t','y','p','M','4','A',' '};
+        server.expect(org.springframework.test.web.client.ExpectedCount.times(5), requestTo(URL + "/internal/v1/tutor/transcribe"))
+                .andRespond(withStatus(HttpStatus.SERVICE_UNAVAILABLE));
+        server.expect(org.springframework.test.web.client.ExpectedCount.times(8), requestTo(URL + "/internal/v1/tutor/transcribe"))
+                .andRespond(withSuccess("{\"text\":\"Vì sao phải quy đồng?\"}", MediaType.APPLICATION_JSON));
+        var recording = new MockMultipartFile("file", "question.m4a", "audio/mp4", audio);
+        for (int attempt = 0; attempt < 5; attempt++) {
+            var error = assertThrows(ApiException.class, () -> service.transcribe(recording, true, "pupil-a"));
+            assertEquals(HttpStatus.SERVICE_UNAVAILABLE, error.getStatus());
+        }
+        for (int attempt = 0; attempt < 8; attempt++) {
+            assertEquals("Vì sao phải quy đồng?", service.transcribe(recording, true, "pupil-a").text());
+        }
+        server.verify();
+    }
+
     private static GuideRequest request() {
         return new GuideRequest("Lan có 12 bút, cho bạn 3 bút. Hỏi còn bao nhiêu bút?", true, "PLAN", "", 0, null);
     }

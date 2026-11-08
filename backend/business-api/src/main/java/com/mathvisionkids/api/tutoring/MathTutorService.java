@@ -30,7 +30,6 @@ public class MathTutorService {
     private final String baseUrl;
     private final String internalKey;
     private com.mathvisionkids.api.quiz.QuizSources quizSources;
-    private final java.util.Map<String, java.util.ArrayDeque<Long>> audioRequests = new java.util.HashMap<>();
 
     @Autowired
     public MathTutorService(RestTemplateBuilder builder,
@@ -294,7 +293,6 @@ public class MathTutorService {
                 && audio[8]=='W' && audio[9]=='A' && audio[10]=='V' && audio[11]=='E';
         boolean ogg = audio[0]=='O' && audio[1]=='g' && audio[2]=='g' && audio[3]=='S';
         if (!mp4 && !webm && !wav && !ogg) throw invalid("AUDIO_INVALID", "Chưa đọc được bản ghi âm. Em thử ghi lại nhé.");
-        reserveAudio(owner);
         logger.info("Question transcription requested bytes={}",audio.length);
         try {
             return new Transcript(text(call("/internal/v1/tutor/transcribe", audio,
@@ -304,16 +302,6 @@ public class MathTutorService {
             if (ex.getStatus()==HttpStatus.SERVICE_UNAVAILABLE) throw new ApiException("TRANSCRIPTION_UNAVAILABLE", "Chưa chuyển được bản ghi thành chữ lúc này. Em giữ bản ghi và thử lại nhé.",HttpStatus.SERVICE_UNAVAILABLE);
             throw ex;
         }
-    }
-
-    private synchronized void reserveAudio(String owner) {
-        long now = System.nanoTime(), window = Duration.ofMinutes(1).toNanos();
-        audioRequests.entrySet().removeIf(entry -> entry.getValue().isEmpty() || now - entry.getValue().getLast() >= window);
-        if (!audioRequests.containsKey(owner) && audioRequests.size() >= 1024) throw unavailable();
-        var recent = audioRequests.computeIfAbsent(owner, key -> new java.util.ArrayDeque<>());
-        while (!recent.isEmpty() && now - recent.getFirst() >= window) recent.removeFirst();
-        if (recent.size() >= 4) throw new ApiException("AUDIO_BUSY", "Em chờ một chút rồi ghi câu tiếp nhé.", HttpStatus.TOO_MANY_REQUESTS);
-        recent.addLast(now);
     }
 
     public WorkReviewResponse reviewWork(WorkReviewRequest request) {

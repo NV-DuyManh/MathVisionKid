@@ -104,6 +104,39 @@ def _join_cached(key):
     except (ValueError,wave.Error,EOFError):return None
 
 
+def _reuse_paragraphs(key):
+    """Read measured WAV slices from matching, already validated private audio."""
+    with _cache_lock:
+        now = time.monotonic()
+        assets = [(other[-1], data) for other, (expires, data) in reversed(_cache.items())
+                  if other[:4] == key[:4] and expires > now]
+    wanted = set(key[-1])
+    reusable = {}
+    remaining_bytes = MAX_BYTES
+    for parts, data in assets:
+        if not wanted.intersection(parts):
+            continue
+        cues = read_cues(data)
+        if not cues or len(cues) != len(parts):
+            continue
+        with wave.open(io.BytesIO(data), 'rb') as source:
+            frames = source.getnframes()
+            if cues[-1] >= frames:
+                continue
+            ends = [*cues[1:], frames]
+            for part, start, end in zip(parts, cues, ends):
+                size = (end - start) * 2
+                if part not in wanted or not 0 < size <= remaining_bytes:
+                    continue
+                source.setpos(start)
+                reusable[part] = source.readframes(end - start)
+                wanted.remove(part)
+                remaining_bytes -= size
+        if not wanted:
+            break
+    return {index: reusable[part] for index, part in enumerate(key[-1]) if part in reusable}
+
+
 def chunk_checkpoint(request, session):
     """Retain completed provider turns briefly; never serve incomplete audio to a pupil."""
     key = request_key(request)
@@ -287,7 +320,7 @@ def validate_audio(data):
             raise ValueError('Silent or incomplete narration audio')
 
 
-def render_audio(paragraphs, voice, on_progress=None, *, fallback=False, cancel_event=None, checkpoint=None, deadline=None):
+def render_audio(paragraphs, voice, on_progress=None, *, fallback=False, cancel_event=None, checkpoint=None, deadline=None, reused_pcm=None):
     deadline = min(time.monotonic()+RENDER_TIMEOUT_SECONDS, deadline) if deadline is not None else time.monotonic()+RENDER_TIMEOUT_SECONDS
     update = on_progress or (lambda *args: None)
     with tempfile.TemporaryDirectory(prefix='mathvision-narration-') as directory:
@@ -296,6 +329,7 @@ def render_audio(paragraphs, voice, on_progress=None, *, fallback=False, cancel_
         if not fallback:
             options = {'cancel_event': cancel_event} if cancel_event is not None else {}
             if checkpoint is not None: options['checkpoint'] = checkpoint
+            if reused_pcm: options['reused_pcm'] = reused_pcm
             synthesize_neural(text, output, min(deadline, time.monotonic()+ONLINE_TIMEOUT_SECONDS), max_seconds=240, voice=voice, on_progress=update, paragraphs=paragraphs, **options)
         else:
             update('fallback', 10, 0, 0, 'offline')
@@ -435,7 +469,11 @@ def _narrate(request: NarrationRequest, session, check, background=False, deadli
                     state.update(completedChunks=completed, totalChunks=total)
         options = {'deadline': deadline} if deadline is not None else {}
         if request.useFallback: options['fallback'] = True
-        else: options['checkpoint'] = chunk_checkpoint(request, session)
+        else:
+            options['checkpoint'] = chunk_checkpoint(request, session)
+            reused_pcm = _reuse_paragraphs(key)
+            if reused_pcm:
+                options['reused_pcm'] = reused_pcm
         if background: options['cancel_event'] = _background[key]
         data = render_audio(request.paragraphs, request.voice, update, **options)
         try:

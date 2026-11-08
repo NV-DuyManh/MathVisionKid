@@ -78,11 +78,25 @@ def project_scripts(session):
 
 
 def script_for_review(steps):
+    # Match the client's completedNarration. Preserve teaching for EVERY step,
+    # not just a single-step review, within the existing audio request budget.
+    budget = 4000 // max(1, len(steps))
     parts = []
     for step in steps:
         calculation = f'{step.expression} = {step.answer}' + (f' ({step.unit})' if step.unit else '') if step.expression else step.answer
-        parts.extend(' '.join(part.split()) for part in dict.fromkeys(part.strip() for part in
-            [step.solutionSentence or step.title, calculation, *([step.explanation] if len(steps) == 1 else [])] if part.strip()))
+        why = ' '.join(step.explanation.split())
+        how = next((part for value in step.guidance if (part := ' '.join(value.split()))
+                    and (not why or why not in part) and not part.startswith('Đọc điều cần tìm:')), '')
+        candidates = [' '.join((step.solutionSentence or step.title).split()), why, how, ' '.join(calculation.split())]
+        remaining, selected, seen = budget, {}, set()
+        for index in (1, 2, 0, 3):
+            part = candidates[index]
+            size = len(part.encode('utf-16-le')) // 2  # Same string-length budget as the client.
+            if part and part not in seen and size <= remaining:
+                selected[index] = part
+                seen.add(part)
+                remaining -= size
+        parts.extend(selected[index] for index in sorted(selected))
     return parts
 
 

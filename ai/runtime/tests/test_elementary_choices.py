@@ -14,6 +14,10 @@ PENTAGONS = ('Hỗn số biểu diễn phần tô màu trong hình là: '
     'A. 1 (2)/(5) B. 5 (2)/(3) C. 2 (2)/(3) D. 2 (3)/(5)\n'
     'Hình vẽ gồm 2 hình ngũ giác. Hình ngũ giác bên trái được chia thành 5 phần bằng nhau và tô màu cả 5 phần. '
     'Hình ngũ giác bên phải được chia thành 5 phần bằng nhau và tô màu 2 phần.')
+PENTAGON_COUNTS = ('Hỗn số biểu diễn phần tô màu trong hình là: '
+    '[Hình 1: hình ngũ giác chia 5 phần bằng nhau, 5 phần tô màu, 0 phần không tô màu. '
+    'Hình 2: hình ngũ giác chia 5 phần bằng nhau, 2 phần tô màu, 3 phần không tô màu.] '
+    'A. 1 (2)/(5) B. 5 (2)/(3) C. 2 (2)/(3) D. 2 (3)/(5)')
 JUGS = ('Mỗi ca đựng một lượng nước như hình dưới đây: '
     '[4 ca nước. Ca 1: 1/45 ml. Ca 2: 1,5 l. Ca 3: 1400 ml. Ca 4: 1,45 l.] '
     'Ca nào đựng ít nước nhất? A. Ca số 1 B. Ca số 2 C. Ca số 3 D. Ca số 4')
@@ -68,6 +72,7 @@ def test_ambiguous_duplicate_or_extra_conditions_still_require_review(source):
     (CIRCLES, '3 1/5'),
     (CIRCLES.replace('1 phần tô màu, 4 phần không tô màu', '4 phần tô màu, 1 phần không tô màu'), '3 4/5'),
     (PENTAGONS, '1 2/5'),
+    (PENTAGON_COUNTS, '1 2/5'),
     (JUGS, 'Ca số 1'),
     (JUGS.replace('1/45 ml', '1500 ml'), 'Ca số 3'),
 ])
@@ -87,6 +92,10 @@ async def test_explicit_diagram_transcript_uses_all_counts_and_units(source, exp
     CIRCLES.replace('Hình 4:', 'Hình 5:'),
     PENTAGONS.replace('tô màu 2 phần.', 'tô màu [?] phần.'),
     PENTAGONS.replace('bên phải được chia thành 5', 'bên phải được chia thành 0'),
+    PENTAGON_COUNTS.replace('2 phần tô màu, 3 phần không tô màu', '2 phần tô màu, 2 phần không tô màu'),
+    PENTAGON_COUNTS.replace('Hình 2:', 'Hình 3:'),
+    PENTAGON_COUNTS.replace('chia 5 phần', 'chia 4 phần'),
+    PENTAGON_COUNTS + ' Chỉ tính hình cuối.',
     JUGS.replace('Ca 1: 1/45 ml', 'Ca 1: 1400 ml'),
     JUGS.replace('Ca 1: 1/45 ml', 'Ca 1: 1/45'),
     JUGS.replace('Ca 4: 1,45 l.', ''),

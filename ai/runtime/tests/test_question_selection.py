@@ -56,6 +56,33 @@ def test_separates_two_conversion_columns_without_splitting_shared_word_data():
     assert len(selectable_questions([question('Tính diện tích.\nChiều dài = 8 m\nChiều rộng = 4 m')])) == 1
 
 
+def test_aligned_conversion_cells_split_without_splitting_chained_equalities():
+    source = question('Bài 1: Điền số hoặc đơn vị thích hợp vào chỗ chấm:\n'
+                      'a) 17 dm 2 cm = 17,2 .....                 8 tấn 3 kg = ..... tấn\n'
+                      'b) 3 ha 26 m² = ... ha\u00a0\u00a0\u00a05 tạ 7 kg = 0,507 ...')
+    parts = selectable_questions([source])
+    assert [item.problemText.split('\n')[-1] for item in parts] == [
+        '17 dm 2 cm = 17,2 .....', '8 tấn 3 kg = ..... tấn',
+        '3 ha 26 m² = ... ha', '5 tạ 7 kg = 0,507 ...',
+    ]
+    chain = question('Điền số thích hợp vào chỗ chấm:\n1 m = 100 cm     = ... mm')
+    incomplete = question('Điền số thích hợp vào chỗ chấm:\n1 m =     3 m = ... cm')
+    assert selectable_questions([chain]) == [chain]
+    assert selectable_questions([incomplete]) == [incomplete]
+
+
+def test_aligned_calculation_subparts_keep_their_complete_expressions():
+    source = question('Bài 4 (1 điểm): Tính bằng cách thuận tiện nhất:\n'
+                      'a. 11,2 + 12,3 + 13,4 – 1,2 – 2,3 – 10,4\t\tb. '
+                      '(1+ (1)/(2005)) x (1+ (1)/(2006)) x (1+ (1)/(2007)) x (1+ (1)/(2008))')
+    first, second = selectable_questions([source])
+    assert first.problemText.endswith('11,2 + 12,3 + 13,4 – 1,2 – 2,3 – 10,4')
+    assert second.problemText.endswith('(1+ (1)/(2005)) x (1+ (1)/(2006)) x (1+ (1)/(2007)) x (1+ (1)/(2008))')
+    assert first.label.endswith(' · a') and second.label.endswith(' · b')
+    shared = question('Mảnh ruộng dài 45 m.\na. Tính diện tích.   b. Tính số sắn thu hoạch.')
+    assert selectable_questions([shared]) == [shared]
+
+
 def test_uncertainty_and_large_page_remain_complete():
     source = question('Tính:\na) 1+[?]\nb) 2+3', uncertain=True)
     assert all(q.uncertain for q in selectable_questions([source]))
@@ -81,6 +108,30 @@ def test_independent_reading_disagreement_is_flagged_without_replacing_numbers()
     assert checked[0].problemText == first[0].problemText
     same = compared_questions([question('Tính (1)/(45) + 3')], [question('Tính 1/45 + 3')])
     assert not same[0].uncertain
+
+
+@pytest.mark.parametrize(('first', 'second'), [
+    ('Tính 7 + 3', 'Tính 7 − 3'),
+    ('Viết 1/2 dưới dạng số thập phân.', 'Viết 2/1 dưới dạng số thập phân.'),
+    ('Xếp 1,2; 2,3 từ bé đến lớn.', 'Xếp 1,2; 2,3 từ lớn đến bé.'),
+    ('1 m² = ... cm²', '1 m³ = ... cm³'),
+    ('Tính 15m × 4m', 'Tính 15m × 4dm'),
+    ('Tính 5 (1)/(3)', 'Tính 5(1)/(3)'),
+    ('Số gạo còn lại là bao nhiêu?', 'Số gạo bán đi là bao nhiêu?'),
+])
+def test_reader_agreement_requires_the_same_ordered_source(first, second):
+    source = question(first)
+    result, = compared_questions([source], [question(second)])
+    assert result.uncertain
+    assert result.problemText == first
+    assert not source.uncertain
+
+
+def test_equivalent_glyphs_and_spacing_agree_but_ambiguous_matches_do_not():
+    source = question('Tính (1)/(45) − 3')
+    other = question('Tính 1/45-3')
+    assert not compared_questions([source], [other])[0].uncertain
+    assert compared_questions([source], [source, other])[0].uncertain
 
 
 @pytest.mark.asyncio

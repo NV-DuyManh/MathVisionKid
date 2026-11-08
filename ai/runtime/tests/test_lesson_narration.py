@@ -246,6 +246,44 @@ def test_exact_cached_parts_join_in_order_without_provider_calls_and_keep_owner_
     assert len(calls)==3
 
 
+def test_new_hint_reuses_measured_speech_in_order_only_for_the_same_session_and_voice(audio_session, monkeypatch):
+    from app.tutoring import catalog, narration, speech_render
+    from app.tutoring.audio_cues import read_cues
+
+    monkeypatch.setattr(catalog.settings, 'lesson_catalog_enabled', False)
+    monkeypatch.setattr(speech_render.settings, 'speech_provider', 'azure')
+    first, last = audio_session.narration_texts
+    hint = 'Thử đếm thêm hai chiếc bút.'
+    audio_session.narration_texts.append(hint)
+    frames = {first: b'\x01\x00' * 3200, last: b'\x02\x00' * 4800, hint: b'\x03\x00' * 6400}
+    calls = []
+
+    async def speak(part, voice):
+        calls.append((part, voice))
+        return frames[part]
+
+    monkeypatch.setattr(speech_render, 'azure_pcm', speak)
+    request = narration.NarrationRequest(owner=audio_session.owner, sessionId='narration-session-12345',
+                                         revision=2, paragraphs=[first, last])
+    narration.narrate(request)
+    calls.clear()
+    updated = request.model_copy(update={'paragraphs': [last, hint, first]})
+    wav = narration.narrate(updated)
+    assert calls == [(hint, request.voice)]
+    assert read_cues(wav) == [0, 4800, 11200]
+    with wave.open(io.BytesIO(wav), 'rb') as audio:
+        assert audio.readframes(audio.getnframes()) == frames[last] + frames[hint] + frames[first]
+
+    female = speech_render.SPEECH_VOICES[1]
+    other_id = 'second-narration-session-12345'
+    lesson._sessions[other_id] = SimpleNamespace(**vars(audio_session))
+    for changed in ({'voice': female}, {'sessionId': other_id}):
+        calls.clear()
+        other_request = updated.model_copy(update=changed)
+        narration.narrate(other_request)
+        assert calls == [(part, other_request.voice) for part in updated.paragraphs]
+
+
 def test_failed_preparation_has_a_terminal_status_and_does_not_retain_audio_or_exception(audio_session,monkeypatch):
     from app.tutoring import narration
     from app.tutoring.service import TutorUnavailable

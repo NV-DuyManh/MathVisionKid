@@ -43,7 +43,9 @@ async def test_checked_exact_source_reused_after_reopening_without_model_call(en
     second=await lesson.start_lesson(request(source=SOURCE.replace('Vườn cây','Vườn\n cây')))
     assert first.sessionId!=second.sessionId and cloud.await_count==2
     assert first.step.expression==second.step.expression and second.completed==[] and second.revision==0
-    assert second.stepIndex==0 and '60' not in second.model_dump_json()
+    # A random session identifier may contain "60" without leaking the answer.
+    # Inspect the pupil-facing payload, excluding only that opaque identifier.
+    assert second.stepIndex==0 and '60' not in second.model_dump_json(exclude={'sessionId'})
     assert enabled.audit()['groups'][0]['hits']==1
 
 

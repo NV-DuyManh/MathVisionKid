@@ -9,7 +9,7 @@ type Entry = { controller: AbortController; promise: Promise<Uint8Array>; users:
 export type NarrationCache = ReturnType<typeof createNarrationCache>;
 // Keep already-prepared files from an older pronunciation policy out of a new
 // player, including when the app receives this change through Fast Refresh.
-export const NARRATION_RENDER_POLICY = 'pronunciation-v2-20261030';
+export const NARRATION_RENDER_POLICY = 'pronunciation-v3-20261108';
 const cacheKey = (source: NarrationSource, parts: string[], voice: NarrationVoice) =>
   JSON.stringify([NARRATION_RENDER_POLICY, source.sessionId, source.revision, voice, !!source.useFallback, parts.map(part => part.trim().replace(/\s+/g, ' ')).filter(Boolean)]);
 

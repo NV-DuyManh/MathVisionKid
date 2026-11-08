@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, MagicMock
 
 import httpx
 import pytest
-from PIL import Image
+from PIL import Image, ImageDraw
 
 from app.tutoring import notebook, service
 from app.integrations.groq import client
@@ -18,7 +18,7 @@ def test_views_cover_both_ends_with_overlap_without_changing_original():
     image = Image.new('RGB', (1000, 2100), 'white')
     image.paste('red', (0, 0, 1000, 1176))
     image.paste('blue', (0, 1176, 1000, 2100))
-    inputs = notebook._reading_images('full-image', image)
+    inputs = notebook._reading_images(image)
     assert isinstance(inputs, tuple) and len(inputs) == 2
     decoded = [Image.open(io.BytesIO(base64.b64decode(value))) for value in inputs]
     assert decoded[0].size == decoded[1].size == (1000, 1176)
@@ -27,7 +27,38 @@ def test_views_cover_both_ends_with_overlap_without_changing_original():
     assert decoded[1].getpixel((500, 100))[0] > 240  # Repeated overlap.
     assert image.size == (1000, 2100) and image.getpixel((500, 1175)) == (255, 0, 0)
     for size in [(1000, 600), (600, 2000), (2000, 1800)]:
-        assert notebook._reading_images('full-image', Image.new('RGB', size)) == 'full-image'
+        single = notebook._reading_images(Image.new('RGB', size))
+        assert isinstance(single, str)
+        assert Image.open(io.BytesIO(base64.b64decode(single))).size == size
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('size,mode', [((320, 160), 'RGBA'), ((900, 1800), 'P')])
+async def test_transparent_background_keeps_dark_ink_in_provider_views_and_geometry(monkeypatch, size, mode):
+    image = Image.new('RGBA', size)
+    ImageDraw.Draw(image).rectangle((80, 85, 130, 108), fill=(0, 0, 0, 255))
+    if mode == 'P':
+        image = image.convert('P')
+    buffer = io.BytesIO()
+    image.save(buffer, 'PNG')
+
+    def geometry(pixels, **kwargs):
+        assert (pixels[50, 50] == 255).all()
+        assert (pixels[90, 90] == 0).all()
+        return [(80, 85, 131, 109)]
+
+    monkeypatch.setattr(notebook, 'handwriting_rows', geometry)
+    cloud = AsyncMock(return_value={'kind': 'WORK', 'lines': [{'text': 'Bài giải:'}]})
+    monkeypatch.setattr(notebook, '_generate', cloud)
+    result = await notebook.inspect_notebook(buffer.getvalue())
+    assert result.kind == 'WORK' and result.lines[0].box is not None
+    views = cloud.await_args.args[2]
+    top = views if isinstance(views, str) else views[0]
+    with Image.open(io.BytesIO(base64.b64decode(top))) as provider_image:
+        assert min(provider_image.getpixel((50, 50))) > 240
+        assert max(provider_image.getpixel((90, 90))) < 10
+        assert not provider_image.getexif()
+    assert cloud.await_count == 1
 
 
 @pytest.mark.asyncio

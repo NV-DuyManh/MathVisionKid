@@ -130,8 +130,8 @@ without claiming correctness. Do not use question marks outside question.
 """
 
 
-def normalize_image(image_bytes: bytes) -> str:
-    """Check before decoding pixels; normalize orientation and strip metadata in memory."""
+def decode_tutor_image(image_bytes: bytes) -> Image.Image:
+    """Validate once and return the same oriented pixels for OCR and geometry."""
     if not image_bytes or len(image_bytes) > MAX_IMAGE_BYTES:
         raise ValueError("Ảnh trống hoặc quá lớn. Em hãy chọn ảnh nhỏ hơn.")
     try:
@@ -142,13 +142,29 @@ def normalize_image(image_bytes: bytes) -> str:
                 raise ValueError("Kích thước ảnh chưa phù hợp. Em hãy chụp rõ phần đề bài.")
             if getattr(raw, "is_animated", False):
                 raise ValueError("Em hãy chọn ảnh tĩnh của đề bài.")
-            oriented = ImageOps.exif_transpose(raw).convert("RGB")
-            oriented.thumbnail((2200, 2200), Image.Resampling.LANCZOS)
-            buffer = io.BytesIO()
-            oriented.save(buffer, format="JPEG", quality=90)
-            return base64.b64encode(buffer.getvalue()).decode("ascii")
+            oriented = ImageOps.exif_transpose(raw)
+            if oriented.has_transparency_data:
+                rgba = oriented.convert("RGBA")
+                paper = Image.new("RGB", rgba.size, "white")
+                paper.paste(rgba, mask=rgba.getchannel("A"))
+                return paper
+            return oriented.convert("RGB")
     except (UnidentifiedImageError, OSError, Image.DecompressionBombError) as exc:
         raise ValueError("Không đọc được ảnh. Em hãy chọn ảnh khác rõ hơn.") from exc
+
+
+def encode_tutor_image(image: Image.Image) -> str:
+    """Bound the upload size and encode a JPEG without source metadata."""
+    if max(image.size) > 2200:
+        image = image.copy()
+        image.thumbnail((2200, 2200), Image.Resampling.LANCZOS)
+    buffer = io.BytesIO()
+    image.save(buffer, format="JPEG", quality=90)
+    return base64.b64encode(buffer.getvalue()).decode("ascii")
+
+
+def normalize_image(image_bytes: bytes) -> str:
+    return encode_tutor_image(decode_tutor_image(image_bytes))
 
 
 def _retry_after_seconds(response: httpx.Response) -> float | None:

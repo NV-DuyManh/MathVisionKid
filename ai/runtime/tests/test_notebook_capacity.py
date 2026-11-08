@@ -21,16 +21,34 @@ def page(rows=0, ink=(140, 40, 20)):
     return pixels, stream.getvalue()
 
 
-def test_physical_overflow_requests_crop_before_cloud(monkeypatch):
+def test_physical_work_overflow_requests_crop_after_classification_without_partial_rows(monkeypatch):
     pixels, content = page(37)
     assert handwriting_rows(pixels) == []
     assert len(handwriting_rows(pixels, max_lines=200)) == 37
-    cloud = AsyncMock()
+    cloud = AsyncMock(return_value={"kind": "WORK", "lines": [{"text": "49 : 7 = 7"}]})
     monkeypatch.setattr(notebook, "_generate", cloud)
     result = asyncio.run(notebook.inspect_notebook(content))
     assert result.needsCrop and result.kind == "UNREADABLE"
     assert result.lines == [] and result.problemText == ""
-    cloud.assert_not_called()
+    assert cloud.await_count == 1  # Classify before applying the worked-row cap.
+
+
+@pytest.mark.parametrize('kind', ['PROBLEM', 'MULTIPLE'])
+def test_printed_tasks_do_not_run_or_inherit_work_geometry_limits(monkeypatch, kind):
+    source = ({'kind': 'PROBLEM', 'problemText': 'Tính 17/25 + 32/15'} if kind == 'PROBLEM' else
+              {'kind': 'MULTIPLE', 'questions': [
+                  {'label': 'Câu 1', 'problemText': 'Tính 17/25 + 32/15'},
+                  {'label': 'Câu 2', 'problemText': 'Đổi 1 tấn = ... kg'}]})
+    cloud = AsyncMock(return_value=source)
+    monkeypatch.setattr(notebook, '_generate', cloud)
+    def unexpected_geometry(*args, **kwargs):
+        pytest.fail('Printed tasks must not be rejected by the worked-row detector')
+    monkeypatch.setattr(notebook, 'handwriting_rows', unexpected_geometry)
+    result = asyncio.run(notebook.inspect_notebook(page(37)[1]))
+    assert result.kind == kind and not result.needsCrop and not result.lines
+    assert (result.problemText == source['problemText'] if kind == 'PROBLEM' else
+            [q.problemText for q in result.questions] == [q['problemText'] for q in source['questions']])
+    assert cloud.await_count == 1
 
 
 @pytest.mark.parametrize("lines", [
