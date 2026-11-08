@@ -43,17 +43,21 @@ def verified_choice(text, options):
     # These are proofs of an explicit, pupil-confirmed diagram transcription,
     # not an interpretation of image pixels or an inference from the options.
     circles = re.fullmatch(r'hon so thich hop bieu dien so phan hinh tron duoc to mau la: \[(.+)\]', text)
+    polygon_counts = re.fullmatch(r'hon so bieu dien phan to mau trong hinh la: \[(.+)\]', text)
     pentagons = re.fullmatch(r'hon so bieu dien phan to mau trong hinh la: hinh ve gom 2 hinh ngu giac\. '
         r'hinh ngu giac ben trai duoc chia thanh (\d{1,2}) phan bang nhau va to mau ca (\d{1,2}) phan\. '
         r'hinh ngu giac ben phai duoc chia thanh (\d{1,2}) phan bang nhau va to mau (\d{1,2}) phan\.', text)
-    if circles or pentagons:
-        if circles:
-            rows = circles[1].split('. ')
-            parts = [re.fullmatch(r'hinh (\d): chia (\d{1,2}) phan bang nhau, (\d{1,2}) phan to mau, (\d{1,2}) phan khong to mau[.]?', row) for row in rows]
+    if circles or polygon_counts or pentagons:
+        if circles or polygon_counts:
+            rows = (circles or polygon_counts)[1].split('. ')
+            shape = r'hinh ngu giac ' if polygon_counts else ''
+            parts = [re.fullmatch(r'hinh (\d): ' + shape + r'chia (\d{1,2}) phan bang nhau, (\d{1,2}) phan to mau, (\d{1,2}) phan khong to mau[.]?', row) for row in rows]
             if not 1 <= len(parts) <= 8 or any(part is None for part in parts):
                 return None
             counts = [tuple(map(int, part.groups())) for part in parts]
             if any(i != expected or not 2 <= d <= 12 or c + blank != d for expected, (i, d, c, blank) in enumerate(counts, 1)):
+                return None
+            if polygon_counts and any(d != 5 for _, d, _, _ in counts):
                 return None
             values = [Fraction(c, d) for _, d, c, _ in counts]
         else:

@@ -322,6 +322,29 @@ def test_failed_long_speech_resumes_only_missing_chunks_and_keeps_original_order
     assert progress[-1][2:]==(len(parts),len(parts))
 
 
+def test_retry_uses_original_chunk_indexes_after_a_reused_paragraph_is_evicted(monkeypatch):
+    paragraphs = ['Đoạn đầu.', 'Đoạn giữa.', 'Đoạn cuối.']
+    calls, saved = [], {}
+
+    async def render(part, voice):
+        calls.append(part)
+        return part.encode() + b'\0' * 128
+
+    monkeypatch.setattr(speech, '_neural_chunk', render)
+    checkpoint = (saved.get, saved.__setitem__)
+    async def run(reused_pcm):
+        return await speech._neural_audio(' '.join(paragraphs), speech.DEFAULT_VOICE,
+                                          checkpoint=checkpoint, paragraphs=paragraphs, reused_pcm=reused_pcm)
+
+    _, indexes = asyncio.run(run({1: b'\x01\x00'}))
+    assert indexes == [0, 2] and set(saved) == {0, 2}
+    calls.clear()
+    chunks, indexes = asyncio.run(run({}))
+    assert calls == [paragraphs[1]]
+    assert indexes == [0, 1, 2]
+    assert [chunk.rstrip(b'\0').decode() for chunk in chunks] == paragraphs
+
+
 def test_provider_connections_are_bounded_across_worker_event_loops(monkeypatch):
     import threading
     from concurrent.futures import ThreadPoolExecutor

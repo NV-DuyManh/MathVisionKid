@@ -56,13 +56,49 @@ def test_future_projection_never_advances_or_publishes_private_teaching(prepared
     model.assert_not_called()
 
 
+def test_completed_review_teaches_why_and_how_for_every_step_instead_of_only_reading_the_solution():
+    steps = [lesson.CompletedStep(title='Tìm giá một quyển vở', solutionSentence='Giá một quyển vở là:',
+        expression='102000/12', answer='8500', unit='đồng',
+        explanation='Các quyển vở có cùng giá, nên chia tổng tiền cho số quyển.',
+        guidance=['Các quyển vở có cùng giá, nên chia tổng tiền cho số quyển.',
+                  'Lấy 102000 chia 12 để tìm tiền của một quyển.', 'Đoạn hướng dẫn sâu còn lại.']),
+        lesson.CompletedStep(title='Tìm số tiền đang có', expression='68000-15000', answer='53000', unit='đồng',
+        explanation='Đã biết số tiền cần trả. Còn thiếu tiền nên lấy tiền cần trả trừ phần còn thiếu.',
+        guidance=['Lấy 68000 trừ 15000; không cộng phần còn thiếu vào số tiền cần trả.'])]
+    parts = media.script_for_review(steps)
+    assert parts == [steps[0].solutionSentence, steps[0].explanation, steps[0].guidance[1], '102000/12 = 8500 (đồng)',
+                     steps[1].title, steps[1].explanation, steps[1].guidance[0], '68000-15000 = 53000 (đồng)']
+    assert 'Đoạn hướng dẫn sâu còn lại.' not in parts
+
+
+def test_long_completed_review_retains_every_steps_reason_inside_the_shared_client_audio_budget():
+    steps = [lesson.CompletedStep(title=f'Bước {index+1}', expression=f'{index}+1', answer=str(index+1), unit='',
+        explanation=f'Lý do bước {index+1}: '+ '🍎'*200,
+        guidance=['Hướng dẫn dài. '*30]) for index in range(6)]
+    parts = media.script_for_review(steps)
+    assert sum(len(part.encode('utf-16-le'))//2 for part in parts) <= 4000
+    assert all(step.explanation in parts for step in steps)
+    assert media.script_for_review([]) == []
+
+
+def test_completed_review_uses_solving_instruction_instead_of_reading_source_again():
+    step = lesson.CompletedStep(title='Tìm chiều rộng', expression='8/2', answer='4', unit='m',
+        explanation='Chiều rộng bằng một nửa chiều dài.',
+        guidance=['Chiều rộng bằng một nửa chiều dài.', 'Đề cho chiều dài là 8 m. Chiều rộng bằng một nửa chiều dài.',
+                  'Đọc điều cần tìm: Hỏi chiều rộng bao nhiêu mét?',
+                  'Chia chiều dài thành hai phần bằng nhau để tìm chiều rộng.'])
+    assert media.script_for_review([step]) == [step.title, step.explanation, step.guidance[3], '8/2 = 4 (m)']
+
+
 def test_all_steps_and_two_voices_are_ready_before_the_future_step_opens(prepared):
     session,calls,model=prepared
     first=media.schedule(request(voice=speech.SPEECH_VOICES[1]))
     assert first['preparedSteps']==0 and first['totalSteps']==2
     job=media._jobs[SESSION]
     media._run()
-    assert len(calls)==10 and [call[1] for call in calls[:2]]==[speech.SPEECH_VOICES[1],speech.SPEECH_VOICES[0]]
+    # Two step scripts and two checked reviews per voice. The final teaching
+    # recap is assembled from those exact reviews, without another render.
+    assert len(calls)==8 and [call[1] for call in calls[:2]]==[speech.SPEECH_VOICES[1],speech.SPEECH_VOICES[0]]
     assert media.schedule(request(voice=speech.SPEECH_VOICES[1]))['preparedSteps']==2
     assert len(job.ready)==10
     future_parts=job.scripts[1]
@@ -71,7 +107,7 @@ def test_all_steps_and_two_voices_are_ready_before_the_future_step_opens(prepare
     lesson.answer_lesson(lesson.TurnRequest(owner='pupil-a',sessionId=SESSION,revision=0,answer='11/15'))
     public=lesson.present(SESSION,session).step
     assert media.script_for_step(public)==future_parts
-    assert narration.narrate(future.model_copy(update={'revision':1}))==pcm() and len(calls)==10
+    assert narration.narrate(future.model_copy(update={'revision':1}))==pcm() and len(calls)==8
     model.assert_not_called()
 
 
@@ -80,7 +116,7 @@ def test_repeated_prepare_requests_do_not_generate_more_speech(prepared):
     media.schedule(request());media._run()
     for _ in range(10):media.schedule(request())
     media._run()
-    assert len(calls)==10
+    assert len(calls)==8 and len(media._jobs[SESSION].ready)==10
 
 
 def test_checked_plan_refresh_keeps_both_unchanged_voices_and_cancels_changed_text(prepared,monkeypatch):
@@ -135,7 +171,8 @@ def test_two_workers_start_the_current_two_voices_together_without_duplicate_ren
             assert started==set(speech.SPEECH_VOICES)
         finally:release.set()
         for future in futures:future.result(timeout=3)
-    assert len(calls)==10 and len({(tuple(parts),voice) for parts,voice in calls})==10
+    assert len(calls)==8 and len({(tuple(parts),voice) for parts,voice in calls})==8
+    assert len(job.ready)==10
     assert not job.active_tasks and job.reserved_characters==0
 
 
@@ -169,12 +206,15 @@ def test_checked_step_reviews_and_final_summary_are_prepared_before_they_are_ope
     assert narration.narrate(query.model_copy(update={'revision':1,'paragraphs':review}))==pcm()
     lesson.answer_lesson(lesson.TurnRequest(owner='pupil-a',sessionId=SESSION,revision=1,answer='4/15'))
     assert summary==media.script_for_review(session.completed)
-    # The compact final recap is prepared separately from the richer per-step reviews.
+    # The final recap retains both teaching reviews and reuses their PCM in
+    # order, for both voices, rather than synthesizing a result-only recap.
     before=len(calls)
-    joined=narration.narrate(query.model_copy(update={'revision':2}))
-    narration.validate_audio(joined)
-    with wave.open(io.BytesIO(joined),'rb') as audio:assert audio.getnframes()==16000
-    assert len(calls)==before==10
+    assert summary==job.extra_scripts[2]+job.extra_scripts[3]
+    for voice in speech.SPEECH_VOICES:
+        joined=narration.narrate(query.model_copy(update={'revision':2,'voice':voice}))
+        narration.validate_audio(joined)
+        with wave.open(io.BytesIO(joined),'rb') as audio:assert audio.getnframes()==32000
+    assert len(calls)==before==8
 
 
 def test_current_review_warms_before_distant_steps_without_delaying_current_and_next(prepared):
@@ -322,7 +362,8 @@ def test_failure_of_other_voice_keeps_all_preferred_future_steps(prepared,monkey
     monkeypatch.setattr(narration,'render_audio',render)
     media.schedule(request());media._run()
     status=media.schedule(request())
-    assert status['preparedSteps']==2 and status['failedItems']==2 and len(calls)==5
+    assert status['preparedSteps']==2 and status['failedItems']==2 and len(calls)==4
+    assert (4,speech.DEFAULT_VOICE) in media._jobs[SESSION].ready
 
 
 def test_separated_transient_failures_do_not_disable_the_remaining_voice(prepared,monkeypatch):
@@ -354,7 +395,8 @@ def test_transient_missing_step_retries_once_after_untouched_steps_and_other_voi
         return original(parts,voice,*args,**kwargs)
     monkeypatch.setattr(narration,'render_audio',render)
     media.schedule(request());media._run()
-    assert len(attempts)==11 and attempts[0]==attempts[-1] and len(calls)==10
+    assert len(attempts)==9 and attempts[0]==attempts[-1] and len(calls)==8
+    assert len(media._jobs[SESSION].ready)==10
     assert media.schedule(request())['preparedSteps']==2
 
 

@@ -87,6 +87,7 @@ def _truth_statement(text):
         return None
     statement = normalized_units(match[1]).strip()
     value = None
+    worked = ''
     rounding = re.fullmatch(r'(' + _NUMBER + r') lam tron den '
         r'(hang phan muoi|hang phan tram|so tu nhien gan nhat) la (' + _NUMBER + r')[.]?', statement)
     if rounding:
@@ -102,12 +103,23 @@ def _truth_statement(text):
         if a is None or b is None:
             return None
         from app.tutoring.lesson import calculate_exact
-        value = calculate_exact(a) == calculate_exact(b)
+        from app.tutoring.number_tasks import _decimal
+        converted, given = calculate_exact(a), calculate_exact(b)
+        value = converted == given
         why = 'Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.'
-        how = 'Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài.'
+        how = 'Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị.'
+        unit = _UNIT_LABELS.get(target[1], target[1])
+        try:
+            worked = f'Vế trái đổi được {_decimal(converted)} {unit}, vế phải là {_decimal(given)} {unit}. Hai vế ' + (
+                'bằng nhau nên nhận định đúng.' if value else 'khác nhau nên nhận định sai.')
+        except ValueError:
+            pass  # Keep the exact check even when the decimal is too long for worked help.
     if value is None:
         return None
-    return _plan('Kiểm tra nhận định', why, how, options=['Đúng', 'Sai'], selected='Đúng' if value else 'Sai')
+    plan = _plan('Kiểm tra nhận định', why, how, options=['Đúng', 'Sai'], selected='Đúng' if value else 'Sai')
+    if worked:
+        plan['steps'][0]['guidance'].insert(1, worked)
+    return plan
 
 
 def _daily_sales_plan(text, options):

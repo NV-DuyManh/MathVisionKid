@@ -9,9 +9,27 @@ export function stepNarration(step: LessonStep, hint = ''): string[] {
 }
 
 export function completedNarration(steps: CompletedLessonStep[]): string[] {
-  return steps.flatMap(step => unique([step.solutionSentence || step.title,
-    step.expression ? `${step.expression} = ${step.answer}${step.unit ? ` (${step.unit})` : ''}` : step.answer,
-    ...(steps.length === 1 ? [step.explanation] : [])]));
+  // Match media_preparation.script_for_review so background audio is reusable.
+  // Keep WHY and one HOW paragraph before optional written labels/calculations.
+  const budget = Math.floor(4000 / Math.max(1, steps.length));
+  return steps.flatMap(step => {
+    const normalize = (text: string) => text.trim().replace(/\s+/g, ' ');
+    const why = normalize(step.explanation);
+    const how = (step.guidance || []).map(normalize)
+      .find(part => part && (!why || !part.includes(why)) && !part.startsWith('Đọc điều cần tìm:')) || '';
+    const parts = [normalize(step.solutionSentence || step.title), why, how,
+      normalize(step.expression ? `${step.expression} = ${step.answer}${step.unit ? ` (${step.unit})` : ''}` : step.answer)];
+    let remaining = budget;
+    const selected = new Set<number>();
+    const seen = new Set<string>();
+    for (const index of [1, 2, 0, 3]) {
+      const part = parts[index];
+      if (part && !seen.has(part) && part.length <= remaining) {
+        selected.add(index); seen.add(part); remaining -= part.length;
+      }
+    }
+    return parts.filter((_, index) => selected.has(index));
+  });
 }
 
 function unique(parts: string[]): string[] {
@@ -40,6 +58,8 @@ export function spokenMath(text: string): string {
     .replace(/(?<![\p{L}])(?:đề|đê|xăng|xen|ki|mi)[\s\-‐‑‒–—−]+(?:xi|ti|lô|li)[\s\-‐‑‒–—−]+(?:mét|gam|lít)(?:[\s\-‐‑‒–—−]+(?:vuông|khối))?(?![\p{L}])/giu,
       unit => unit.replace(/[-‐‑‒–—−]/g, ' '))
     .replace(/(?:mét|gam|lít)[\-‐‑‒–—−]+(?:vuông|khối)/giu, unit => unit.replace(/[-‐‑‒–—−]/g, ' '))
+    .replace(/(?<![\p{L}\p{N}_])héc\s*[-‐‑‒–—−]\s*ta(?![\p{L}\p{N}_])/giu, 'héc ta')
+    .replace(/(\d|(?<![\p{L}\p{N}_])(?:sang|theo|bằng|đơn vị|bao nhiêu))\s*(?:\(\s*ha\s*\)|ha(?![\p{L}\p{N}_]))/giu, '$1 héc ta')
     .replace(/\s*\(\s*\d+(?:[.,]\d+)?\s*điểm\s*\)\s*,?\s*/gi, ' ')
     .replace(/\b((?:Bài|Câu)\s+\d+)\.\s*\./gi, '$1.')
     .replace(/\(\s*((?:ki lô|đề xi|xăng ti|mi li)?\s*(?:mét|gam|lít)(?:\s+(?:vuông|khối))?)\s*\)/gi, ' $1 ')

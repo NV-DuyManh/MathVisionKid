@@ -183,11 +183,15 @@ async def test_explicit_measurement_and_truth_tasks_never_start_a_provider(sourc
     monkeypatch.setattr(lesson, 'generate_plan', AsyncMock(side_effect=AssertionError('Exact proof required')))
     response = await lesson.start_lesson(lesson.LessonRequest(owner='units', problemText=source, problemConfirmed=True))
     assert response.step.choices and response.status == 'READY'
+    if '4 l 45 ml' in source:
+        assert not any('4,045' in paragraph for paragraph in response.step.guidance)
     wrong = next(choice for choice in response.step.choices if choice != expected)
     retry = lesson.answer_lesson(lesson.TurnRequest(owner='units', sessionId=response.sessionId, revision=response.revision, answer=wrong))
     assert retry.stepIndex == 0 and not retry.conclusion
     complete = lesson.answer_lesson(lesson.TurnRequest(owner='units', sessionId=response.sessionId, revision=retry.revision, answer=expected))
     assert complete.status == 'COMPLETE' and complete.completed[-1].answer == expected
+    if '4 l 45 ml' in source:
+        assert any('4,045 l' in paragraph for paragraph in complete.completed[-1].guidance)
 
 
 @pytest.mark.parametrize('source', [

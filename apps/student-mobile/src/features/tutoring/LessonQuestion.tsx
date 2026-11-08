@@ -80,7 +80,7 @@ function QuestionSession({ sessionId, revision, stepIndex, scope, onReturn,initi
         setNoticeError('transcription');
         setNotice(error?.code === 'ERR_NETWORK' ? 'Chưa gửi được bản ghi. Em kiểm tra kết nối rồi thử lại bản ghi này nhé.'
           : error?.code === 'ECONNABORTED' || error?.code === 'ETIMEDOUT' ? 'Đã hết thời gian chuyển bản ghi thành chữ. Em có thể thử lại bản ghi này.'
-          : status === 429 ? 'Em đã gửi nhiều bản ghi liên tiếp. Chờ một chút rồi thử lại bản ghi này nhé.'
+          : status === 429 ? 'Dịch vụ chuyển giọng nói đang bận. Bản ghi vẫn được giữ để em thử lại.'
           : status === 503 ? 'Phần chuyển giọng nói thành chữ đang chưa sẵn sàng. Bản ghi vẫn được giữ để em thử lại.'
           : 'Chưa nghe rõ lúc này. Em có thể thử lại bản ghi này, ghi lại hoặc gõ câu hỏi nhé.');
         if (__DEV__) console.warn('[question-transcription]', { status: Number.isInteger(status) ? status : 0,

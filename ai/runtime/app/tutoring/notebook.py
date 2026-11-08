@@ -9,14 +9,14 @@ import time
 from difflib import SequenceMatcher
 from typing import Annotated, Literal
 
-from PIL import Image, ImageDraw, ImageOps
+from PIL import Image, ImageDraw
 import cv2
 import numpy as np
 from pydantic import Field, StrictBool, ValidationError, model_validator
 
 from app.tutoring.service import (
     TutorModel, GuideRequest, GuideResponse, Stage, _generate, _fold,
-    normalize_image, safe_fallback, _UNSUPPORTED_VERDICTS, TutorUnavailable,
+    decode_tutor_image, encode_tutor_image, safe_fallback, _UNSUPPORTED_VERDICTS, TutorUnavailable,
 )
 from app.tutoring.rows import handwriting_rows
 from app.tutoring.question_selection import selectable_questions, compared_questions
@@ -226,9 +226,10 @@ question cut off at the top/bottom edge does not make MULTIPLE. Ignore only that
 unreadable fragment, never a second complete question or a readable condition of
 the selected question. Never reconstruct missing text. A/B/C/D are the choices of
 ONE task, not four tasks. Preserve each choice on its own line in problemText.
-For non-math use UNREADABLE and empty content. If the page has more
-than 35 rows or cannot fit completely, return UNREADABLE, needsCrop=true and empty
-content. NEVER return just the first 35 rows of a longer page.
+For non-math use UNREADABLE and empty content. The 35-row limit applies to
+WORK/MIXED worked rows, not printed questions on a MULTIPLE worksheet. If worked
+rows exceed that limit or cannot fit completely, return UNREADABLE, needsCrop=true
+and empty content. NEVER return just the first 35 rows of a longer worked section.
 needsProblem=true whenever the original question is absent, including a diagram-only
 context with no explicit question. No feedback, answers, explanations or extra keys.
 """
@@ -363,7 +364,7 @@ def _mark_unread_division_digits(payload):
                               if isinstance(row, str) else row for row in payload["rows"]]}
 
 
-def _reading_images(image: str, oriented: Image.Image):
+def _reading_images(oriented: Image.Image):
     """Keep small crops fast; give dense pages two overlapping, legible views.
 
     Full source remains stored unchanged. These are exact pixel crops, with no
@@ -372,10 +373,10 @@ def _reading_images(image: str, oriented: Image.Image):
     """
     width, height = oriented.size
     if height < 1800 or width < 900 or height < width * 1.2:
-        return image
+        return encode_tutor_image(oriented)
     views = []
     for top, bottom in ((0, round(height * .56)), (round(height * .44), height)):
-        region = oriented.crop((0, top, width, bottom)).convert('RGB')
+        region = oriented.crop((0, top, width, bottom))
         region.thumbnail((1800, 1800), Image.Resampling.LANCZOS)
         buffer = io.BytesIO()
         region.save(buffer, 'JPEG', quality=82)
@@ -385,17 +386,12 @@ def _reading_images(image: str, oriented: Image.Image):
 
 async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
     started = time.monotonic()
-    image = normalize_image(image_bytes)
-    with Image.open(io.BytesIO(image_bytes)) as raw:
-        oriented = ImageOps.exif_transpose(raw)
-        width, height = oriented.size
-        pixels = cv2.cvtColor(np.array(oriented.convert("RGB")), cv2.COLOR_RGB2BGR)
-    physical = handwriting_rows(pixels)
-    if not physical and len(handwriting_rows(pixels, max_lines=200)) > 35:
-        return NotebookRead(kind="UNREADABLE", needsCrop=True)
+    oriented = decode_tutor_image(image_bytes)
+    width, height = oriented.size
+    pixels = cv2.cvtColor(np.asarray(oriented), cv2.COLOR_RGB2BGR)
     # A full printed worksheet can exceed the worked-row cap. Classify it first;
     # MULTIPLE questions have their own bounded list, never a truncated work log.
-    reading_images = _reading_images(image, oriented)
+    reading_images = _reading_images(oriented)
     view_instructions = ('The TWO images are the upper and lower regions of ONE photograph in reading order. '
         'Together they cover the ENTIRE source with a small repeated overlap. Read each task ONCE; '
         'never split a shared stem at the join. Use the larger views for tiny mixed-number digits '
@@ -455,19 +451,17 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
         top, bottom = bounds
         # Keep FULL SOURCE in the reread: a smaller complete neighbouring task
         # must not disappear simply because its font was shorter than the main one.
-        full = Image.fromarray(cv2.cvtColor(pixels, cv2.COLOR_BGR2RGB))
-        focus = full.crop((0, top, width, bottom))
+        focus = oriented.crop((0, top, width, bottom))
         sheet = Image.new('RGB', (width, height+focus.height+48), 'white')
         draw = ImageDraw.Draw(sheet)
         draw.text((4, 4), 'FULL SOURCE (authoritative)', fill='black')
-        sheet.paste(full, (0, 24))
+        sheet.paste(oriented, (0, 24))
         draw.text((4, height+28), 'FOCUS (same photograph, repeated)', fill='black')
         sheet.paste(focus, (0, height+48))
-        buffer = io.BytesIO(); sheet.save(buffer, 'PNG')
         try:
             retry = await asyncio.wait_for(_generate(READ_NOTEBOOK,
                 'The panels repeat ONE photograph. FULL SOURCE is authoritative; FOCUS only helps inspect its edge. Ignore the English panel labels. Return MULTIPLE if FULL SOURCE contains more than one complete task, even in smaller print. Ignore only an incomplete neighbouring fragment. Never choose a task by its answer or invent missing data.',
-                normalize_image(buffer.getvalue()), max_output_tokens=4000, timeout_seconds=8),
+                encode_tutor_image(sheet), max_output_tokens=4000, timeout_seconds=8),
                 timeout=min(8., max(.1, 33.-(time.monotonic()-started))))
             if not _reading_exceeds_capacity(retry):
                 candidate = _provider_reading(retry)
@@ -479,15 +473,19 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
         # Selecting one exercise is a normal next action, not an illegible page.
         # Providers may set needsCrop for this; keep the specific classification
         # while normalizing the wire shape expected by the student application.
-        from app.tutoring.diagram_reading import clarify_circles
+        from app.tutoring.diagram_reading import clarify_diagrams
+        # Associate a drawing with its individual subquestion before matching
+        # A/B/C/D. A whole worksheet can contain several such choice sets.
+        result.questions = selectable_questions(result.questions)
         remaining = min(7., 26.-(time.monotonic()-started))
         if remaining > 1:
-            result.questions = await clarify_circles(result.questions, pixels, remaining)
-        return NotebookRead(kind="MULTIPLE", questions=selectable_questions(result.questions))
+            result.questions = await clarify_diagrams(result.questions, pixels, remaining)
+        return NotebookRead(kind="MULTIPLE", questions=result.questions)
     if (result.kind in ("UNREADABLE", "MULTIPLE") or result.needsCrop) and (isolated or fraction_expression(pixels)):
         # A single fraction need not contain an original sentence. Retry only a
         # complete, ink-supported tight layout, not a broad illegible page.
         try:
+            image = reading_images if isinstance(reading_images, str) else encode_tutor_image(oriented)
             retry = await asyncio.wait_for(_generate(MATH_REVIEW,
                 "Read all visible fraction tiers and operators, including readable parts of a crossed-out result. A sentence is not required. Do not solve it.", image),
                 timeout=min(10., max(.1, 33.-(time.monotonic()-started))))
@@ -566,6 +564,19 @@ async def inspect_notebook(image_bytes: bytes) -> NotebookRead:
     if result.problemText and not result.lines:
         result.kind = "PROBLEM"
     result.needsProblem = not bool(result.problemText.strip())
+    if not result.lines:
+        remaining = min(4., 26.-(time.monotonic()-started))
+        if len(result.problemText.strip()) >= 3 and remaining > 1:
+            from app.tutoring.diagram_reading import clarify_diagrams
+            question, = await clarify_diagrams([NotebookQuestion(label='Đề bài', problemText=result.problemText)],
+                                              pixels, remaining)
+            result.problemText = question.problemText
+        return result  # Printed questions do not need worked-row geometry.
+    physical = handwriting_rows(pixels)
+    if not physical and len(handwriting_rows(pixels, max_lines=200)) > 35:
+        # Classify first: a dense question sheet has its own bounded question
+        # list. A worked section must still never return only its first rows.
+        return NotebookRead(kind="UNREADABLE", needsCrop=True)
     if result.kind == "MIXED" and result.problemText:
         heading = next((index for index, line in enumerate(result.lines)
             if re.fullmatch(r"(?:bai|loi) giai\s*[:.]?", _fold(line.text.strip()))), 0)
@@ -642,6 +653,7 @@ repeated in padding. Preserve distinct baselines when a sentence wraps. Compare
 complete strokes against FULL SOURCE. Do not force one row per band or infer text
 outside the source. For MULTIPLE/UNREADABLE return bands=[] and empty problemText.
 All other fields and line schemas remain the same. Never solve or correct."""
+                    image = reading_images if isinstance(reading_images, str) else encode_tutor_image(oriented)
                     reviewed = await asyncio.wait_for(_generate(review_system,
                     ("Independently read the numerator, ONE fraction bar and denominator as ONE expression. The upper and lower tiers are not separate exercises. Do not solve or correct it. Return the same JSON schema." if isolated else
                     "Independently verify this handwritten page. First count independent exercises across the WHOLE page, including separate long-division setups and numbered groups; return MULTIPLE with empty content if there is more than one. Intermediate steps of one word problem remain one exercise. Ignore diagram labels. Focus on crossed-out numbers, handwritten replacement words and bottom answer rows. A crossed-out value MUST contain [?] and uncertain=true; never choose a replacement by calculating. Return the same JSON schema.") +

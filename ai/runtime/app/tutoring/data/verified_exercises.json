@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "validationPolicy": "5d8755bd45852f922549d0e61d5001237e09657670fbed8cf923493c3d99fddc",
+  "validationPolicy": "e1b54ee1fa0e16ae3f28dc82899523efc57a6e175915f3272d0614829677d2e1",
   "entries": [
     {
       "id": "owner-reviewed-exams-20261107-001",
@@ -505,7 +505,7 @@
               "Lấy chiều dài nhân phân số chỉ chiều rộng."
             ],
             "fractionNotation": false,
-            "solutionSentence": "Chiều rộng mảnh đất là:",
+            "solutionSentence": "Chiều rộng nền nhà là:",
             "guidance": [
               "Chiều rộng bằng phân số đã cho của chiều dài.",
               "Lấy chiều dài nhân phân số chỉ chiều rộng."
@@ -530,7 +530,7 @@
               "Nhân chiều dài với chiều rộng vừa tìm."
             ],
             "fractionNotation": false,
-            "solutionSentence": "Diện tích mảnh đất là:",
+            "solutionSentence": "Diện tích nền nhà là:",
             "guidance": [
               "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
               "Nhân chiều dài với chiều rộng vừa tìm."
@@ -1835,7 +1835,7 @@
     },
     {
       "id": "owner-reviewed-exams-20261107-041",
-      "problemText": "Câu 6. Chú Minh thuê một số người thợ lát sàn gỗ cho nền nhà hình chữ nhật dài 9 m và chiều rộng 7m. Cứ 3m² sàn gỗ phải trả 930 000 đồng (gồm cả tiền sàn gỗ và tiền công). Hỏi chú Minh cần trả bao nhiêu tiền để lát nền căn nhà đó.\nA. 16 740 000 đồng\nB. 19 530 000 đồng\nC. 14 880 000 đồng\nD. 27 900 000 đồng",
+      "problemText": "Câu 6. Chú Minh thuê một số người thợ lát sàn gỗ cho nền nhà hình chữ nhật dài 9 m và chiều rộng 7m. Cứ 3m² sàn gỗ chú phải trả 930 000 đồng (gồm cả tiền sàn gỗ và tiền công). Hỏi chú Minh cần trả bao nhiêu tiền để lát nền căn nhà đó.\nA. 16 740 000 đồng\nB. 19 530 000 đồng\nC. 14 880 000 đồng\nD. 27 900 000 đồng",
       "plan": {
         "topic": "Diện tích và đại lượng theo diện tích",
         "goal": "Tính đủ các ý của đề với đúng đơn vị.",
@@ -3290,7 +3290,7 @@
               "Lấy chiều dài nhân phân số chỉ chiều rộng."
             ],
             "fractionNotation": false,
-            "solutionSentence": "Chiều rộng mảnh đất là:",
+            "solutionSentence": "Chiều rộng mảnh ruộng là:",
             "guidance": [
               "Chiều rộng bằng phân số đã cho của chiều dài.",
               "Lấy chiều dài nhân phân số chỉ chiều rộng."
@@ -3315,7 +3315,7 @@
               "Nhân chiều dài với chiều rộng vừa tìm."
             ],
             "fractionNotation": false,
-            "solutionSentence": "Diện tích mảnh đất là:",
+            "solutionSentence": "Diện tích mảnh ruộng là:",
             "guidance": [
               "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
               "Nhân chiều dài với chiều rộng vừa tìm."
@@ -3705,17 +3705,18 @@
             "workExcerpt": "",
             "hints": [
               "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
-              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị."
             ],
             "fractionNotation": false,
             "solutionSentence": "",
             "guidance": [
               "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
-              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+              "Vế trái đổi được 7,06 cm², vế phải là 7,06 cm². Hai vế bằng nhau nên nhận định đúng.",
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị."
             ],
             "initialGuidance": [
               "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
-              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị."
             ]
           }
         ],
@@ -3769,7 +3770,7 @@
     },
     {
       "id": "owner-reviewed-exams-20261107-080",
-      "problemText": "Câu 2: (1 điểm) Đúng ghi Đ, sai ghi S:\n4 145 ml = 4,45 l",
+      "problemText": "Câu 2: (1 điểm) Đúng ghi Đ, sai ghi S:\n4 l 45 ml = 4,45 l",
       "plan": {
         "topic": "Kiểm tra nhận định",
         "goal": "Em tự tính hoặc chọn kết quả rồi kiểm tra lại.",
@@ -3789,17 +3790,18 @@
             "workExcerpt": "",
             "hints": [
               "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
-              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị."
             ],
             "fractionNotation": false,
             "solutionSentence": "",
             "guidance": [
               "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
-              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+              "Vế trái đổi được 4,045 l, vế phải là 4,45 l. Hai vế khác nhau nên nhận định sai.",
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị."
             ],
             "initialGuidance": [
               "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
-              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị. Chú ý đơn vị diện tích khác đơn vị độ dài."
+              "Đổi từng phần của vế trái về đơn vị vế phải, cộng lại rồi so sánh hai giá trị."
             ]
           }
         ],

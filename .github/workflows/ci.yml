@@ -195,6 +195,7 @@ jobs:
           tests/test_image_resolver.py tests/test_notebook_tutor.py
           tests/test_notebook_row_panels.py tests/test_notebook_math_layout.py
           tests/test_notebook_views.py tests/test_notebook_edge_fragments.py
+          tests/test_notebook_capacity.py tests/test_notebook_provider_reading.py
           tests/test_question_selection.py tests/test_diagram_reading.py
           tests/test_short_math.py tests/test_number_tasks.py tests/test_area_tasks.py
           tests/test_elementary_choices.py tests/test_reported_exam.py

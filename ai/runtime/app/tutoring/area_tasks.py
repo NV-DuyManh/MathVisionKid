@@ -98,7 +98,7 @@ def verified_plan(text, options):
         r'b\. nguoi ta trong san tren manh ruong do, biet rang cu (' + _NUMBER + r')m² thi thu hoach duoc (' + _NUMBER +
         r')kg san\. hoi tren ca manh ruong do thu hoach duoc bao nhieu ta san\?', text)
     wood = re.fullmatch(r'chu ([a-z]{1,20}) thue mot so nguoi tho lat san go cho nen nha hinh chu nhat dai (' + _NUMBER +
-        r') m va chieu rong (' + _NUMBER + r')m\. cu (' + _NUMBER + r')m² san go phai tra (' + _NUMBER +
+        r') m va chieu rong (' + _NUMBER + r')m\. cu (' + _NUMBER + r')m² san go (?:chu )?phai tra (' + _NUMBER +
         r') dong \(gom ca tien san go va tien cong\)\. hoi chu \1 can tra bao nhieu tien de lat nen can nha do\.', text)
     if floor or harvest or wood:
         if (floor or harvest) and options:
@@ -120,11 +120,12 @@ def verified_plan(text, options):
                 return None
         else:
             length, share = values[:2]
+            subject = 'nền nhà' if floor else 'mảnh ruộng'
             descriptions = [
                 ('Tính chiều rộng', 'Chiều rộng bằng phân số đã cho của chiều dài.',
-                 'Lấy chiều dài nhân phân số chỉ chiều rộng.', f'{length}*({share})', 'm', 'Chiều rộng mảnh đất là:'),
+                 'Lấy chiều dài nhân phân số chỉ chiều rộng.', f'{length}*({share})', 'm', f'Chiều rộng {subject} là:'),
                 ('Tính diện tích', 'Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.',
-                 'Nhân chiều dài với chiều rộng vừa tìm.', f'{length}*{{s0}}', 'm²', 'Diện tích mảnh đất là:'),
+                 'Nhân chiều dài với chiều rộng vừa tìm.', f'{length}*{{s0}}', 'm²', f'Diện tích {subject} là:'),
             ]
             if floor:
                 side, rate_area, price = values[2:]

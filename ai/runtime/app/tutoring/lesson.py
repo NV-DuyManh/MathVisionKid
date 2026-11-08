@@ -239,7 +239,6 @@ class Session:
     givens: frozenset[str] = frozenset()
     summary: LessonSummary | None = None
     problem_text: str = ''
-    ask_count: int = 0
     conversation: list[dict] = field(default_factory=list)
     narration_texts: list[str] = field(default_factory=list)
     preparation_request: LessonRequest | None = field(default=None, repr=False)

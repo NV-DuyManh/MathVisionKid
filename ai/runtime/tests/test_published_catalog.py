@@ -55,6 +55,17 @@ def test_published_plans_do_not_share_progress_or_match_changed_source_work_and_
     assert catalog.load_plan(req) is None
 
 
+def test_reviewed_plan_takes_priority_over_valid_private_copy(published):
+    row = published['entries'][0]
+    req = lesson.LessonRequest(owner='pupil', problemText=row['problemText'], problemConfirmed=True)
+    private = lesson.Plan.model_validate(row['plan'])
+    private.steps[0].explanation = 'Em tính cẩn thận rồi xem lại phép tính.'
+    lesson.validate_plan(private, req, lesson.formula_constants(req.problemText))
+    catalog.save_plan(req, private)
+    assert catalog.plan_payload(catalog.load_plan(req)) == row['plan']
+    assert catalog.store().audit()['groups'][0]['hits'] == 0
+
+
 @pytest.mark.parametrize('damage', ['stale', 'invalid-json', 'private-field', 'bad-plan'])
 def test_stale_or_damaged_public_data_never_breaks_normal_checked_generation(published, monkeypatch, tmp_path, damage):
     source = published['entries'][0]['problemText']

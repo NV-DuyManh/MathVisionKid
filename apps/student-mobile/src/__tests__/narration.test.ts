@@ -18,10 +18,47 @@ it('builds richer current narration only from opened teaching, never hidden expr
 it('can narrate the calculation only after the step is earned', () => {
   const completed = { title: 'Tổng số bút', solutionSentence: 'Số bút có tất cả là:', expression: '12+5', answer: '17',
     unit: 'bút', explanation: 'Gộp các nhóm bút.', guidance: ['Em kiểm tra lại tổng.'], calculationDetails: ['Cộng hàng đơn vị: 2 + 5 = 7, giữ nguyên hàng chục.'] };
-  expect(completedNarration([completed])).toEqual([completed.solutionSentence, '12+5 = 17 (bút)', completed.explanation]);
+  expect(completedNarration([completed])).toEqual([completed.solutionSentence, completed.explanation, 'Em kiểm tra lại tổng.', '12+5 = 17 (bút)']);
   expect(completedNarration([completed, { ...completed, answer: '18' }])).toEqual([
-    completed.solutionSentence, '12+5 = 17 (bút)', completed.solutionSentence, '12+5 = 18 (bút)',
+    completed.solutionSentence, completed.explanation, 'Em kiểm tra lại tổng.', '12+5 = 17 (bút)',
+    completed.solutionSentence, completed.explanation, 'Em kiểm tra lại tổng.', '12+5 = 18 (bút)',
   ]);
+});
+
+it('teaches why and how for every finished step, without reading all the written working', () => {
+  const steps = [
+    { title: 'Tìm giá một quyển vở', solutionSentence: 'Giá một quyển vở là:', expression: '102000/12', answer: '8500', unit: 'đồng',
+      explanation: 'Các quyển vở có cùng giá, nên chia tổng tiền cho số quyển.',
+      guidance: ['Các quyển vở có cùng giá, nên chia tổng tiền cho số quyển.', 'Lấy 102000 chia 12 để tìm tiền của một quyển.', 'Đoạn hướng dẫn sâu còn lại.'] },
+    { title: 'Tìm số tiền đang có', expression: '68000-15000', answer: '53000', unit: 'đồng',
+      explanation: 'Đã biết số tiền cần trả. Còn thiếu tiền nên lấy tiền cần trả trừ phần còn thiếu.',
+      guidance: ['Lấy 68000 trừ 15000; không cộng phần còn thiếu vào số tiền cần trả.'] },
+  ];
+  const text = completedNarration(steps).join('\n');
+  for (const step of steps) expect(text).toContain(step.explanation);
+  expect(text).toContain(steps[0].guidance[1]);
+  expect(text).toContain(steps[1].guidance[0]);
+  expect(text).not.toContain('Đoạn hướng dẫn sâu còn lại.');
+  expect(text.match(/Các quyển vở có cùng giá/g)).toHaveLength(1);
+});
+
+it('keeps long completed lessons within the audio limit without clipping a sentence or losing a step', () => {
+  const steps = Array.from({ length: 6 }, (_, index) => ({ title: `Bước ${index + 1}`, expression: `${index}+1`, answer: `${index + 1}`, unit: '',
+    explanation: `Lý do bước ${index + 1}: ${'🍎'.repeat(200)}`, guidance: ['Hướng dẫn dài. '.repeat(30).trim()] }));
+  const parts = completedNarration(steps);
+  expect(parts.join('').length).toBeLessThanOrEqual(4000);
+  for (const step of steps) expect(parts).toContain(step.explanation);
+  expect(parts).not.toContain(steps[0].guidance[0].slice(0, 100));
+  expect(completedNarration([])).toEqual([]);
+});
+
+it('skips the fallback source-reading paragraph when a solving instruction is available', () => {
+  const completed = { title: 'Tìm chiều rộng', expression: '8/2', answer: '4', unit: 'm',
+    explanation: 'Chiều rộng bằng một nửa chiều dài.',
+    guidance: ['Chiều rộng bằng một nửa chiều dài.', 'Đề cho chiều dài là 8 m. Chiều rộng bằng một nửa chiều dài.',
+      'Đọc điều cần tìm: Hỏi chiều rộng bao nhiêu mét?',
+      'Chia chiều dài thành hai phần bằng nhau để tìm chiều rộng.'] };
+  expect(completedNarration([completed])).toEqual([completed.title, completed.explanation, completed.guidance[3], '8/2 = 4 (m)']);
 });
 
 it.each([
@@ -50,6 +87,10 @@ it.each([
   ['5 + -2 = 3', '5 cộng âm 2 bằng 3'],
   ['3 kg và 15 cm', '3 ki lô gam và 15 xăng ti mét'],
   ['250 ml và 2 l', '250 mi li lít và 2 lít'],
+  ['31500 ÷ 10000 = 3,15 (ha)', '31500 chia 10000 bằng 3,15 héc ta'],
+  ['Đổi sang héc-ta.', 'Đổi sang héc ta.'],
+  ['(1 HA + 2 ha) × 2', 'nhóm 1 héc ta cộng 2 héc ta, hết nhóm nhân 2'],
+  ['Ha ha, em đếm được 3 hạt!', 'Ha ha, em đếm được 3 hạt!'],
   ['Điểm (M) nằm trong hình', 'Điểm M nằm trong hình'],
   ['gam, làm, lớp và 3kg', 'gam, làm, lớp và 3 ki lô gam'],
   ['5dm² và 3 mm³', '5 đề xi mét vuông và 3 mi li mét khối'],

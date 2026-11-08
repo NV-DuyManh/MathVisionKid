@@ -68,24 +68,28 @@ def _operation(method,kind,owner,text,payload=None):
 
 def load_plan(request):
     if not settings.lesson_catalog_enabled or request.workText.strip():return None
-    raw=_operation('get','plan',request.owner,normalized_source(request.problemText))
-    published=False
-    if raw is None:
-        version,entries=published_entries()
-        if version==policy('plan'):
-            raw=entries.get(normalized_source(request.problemText))
-            published=raw is not None
-    if raw is None:return None
     from app.tutoring import lesson
-    try:
-        plan=lesson.Plan.model_validate_json(raw)
-        if any(step.kind!='MATH' for step in plan.steps):raise ValueError('Catalog stores only checked base plans')
-        lesson.validate_plan(plan,request,lesson.formula_constants(request.problemText))
-        logger.info('Lesson catalog plan hit scope=%s','published' if published else 'private')
-        return plan
-    except (ValueError,TypeError,SyntaxError,ArithmeticError):
-        if not published:_operation('remove','plan',request.owner,normalized_source(request.problemText))
-        return None
+    source = normalized_source(request.problemText)
+    version, entries = published_entries()
+    # The reviewed exact source takes priority over an older account copy.
+    for published in (True, False):
+        if published:
+            raw = entries.get(source) if version == policy('plan') else None
+        else:
+            raw = _operation('get', 'plan', request.owner, source)
+        if raw is None:
+            continue
+        try:
+            plan = lesson.Plan.model_validate_json(raw)
+            if any(step.kind != 'MATH' for step in plan.steps):
+                raise ValueError('Catalog stores only checked base plans')
+            lesson.validate_plan(plan, request, lesson.formula_constants(request.problemText))
+            logger.info('Lesson catalog plan hit scope=%s', 'published' if published else 'private')
+            return plan
+        except (ValueError, TypeError, SyntaxError, ArithmeticError):
+            if not published:
+                _operation('remove', 'plan', request.owner, source)
+    return None
 
 
 def plan_payload(plan):

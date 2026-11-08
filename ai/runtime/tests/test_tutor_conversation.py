@@ -50,6 +50,27 @@ async def test_question_uses_only_opened_step_without_key_or_advancing(session, 
 
 
 @pytest.mark.asyncio
+async def test_questions_remain_usable_beyond_the_former_session_cap_even_after_failures(session, monkeypatch):
+    calls = 0
+    async def generate(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        if calls <= 21:
+            raise conversation.TutorUnavailable('timeout')
+        return {'answer': 'Các phần có cùng kích thước.', 'spokenExplanation': 'Chia lại các miếng cho bằng nhau rồi mới gộp.', 'followUp': ''}
+    monkeypatch.setattr(conversation, '_generate', generate)
+    for _ in range(21):
+        with pytest.raises(conversation.TutorUnavailable):
+            await conversation.ask_question(request())
+    for _ in range(25):
+        response = await conversation.ask_question(request())
+        assert not response.guarded and response.answer == 'Các phần có cùng kích thước.'
+    assert calls == 46
+    assert len(session.conversation) == 4
+    assert session.answers == [] and session.revision == 0
+
+
+@pytest.mark.asyncio
 async def test_other_owner_stale_step_and_revision_rejected_before_model(session, monkeypatch):
     generate = AsyncMock()
     monkeypatch.setattr(conversation, '_generate', generate)
@@ -94,31 +115,43 @@ def test_pcm_silence_is_rejected_locally_before_a_provider_can_hallucinate():
         conversation.audio_format(buffer.getvalue())
 
 
-@pytest.mark.parametrize('status,quiet', [(200,False),(200,True),(429,False)], ids=['spoken','silence','quota'])
+@pytest.mark.parametrize('status,quiet,decoded_audio', [
+    (200, False, None),
+    (200, False, b'\x10\x00' * 16000),
+    (200, False, bytes(32000)),
+    (200, True, None),
+    (429, False, None),
+], ids=['no-local-decoder', 'spoken', 'digital-silence', 'provider-silence', 'quota'])
 @pytest.mark.asyncio
-async def test_transcription_is_bounded_vietnamese_and_does_not_sweep_quota_keys(status, quiet, monkeypatch):
+async def test_transcription_is_bounded_vietnamese_and_does_not_sweep_quota_keys(status, quiet, decoded_audio, monkeypatch):
     from app.integrations.groq import line_analyzer
     from app.integrations.groq.key_pool import GroqKeyPool
     monkeypatch.setattr(settings,'groq_enabled',True)
     monkeypatch.setattr(settings,'groq_api_keys','test-credential-one,test-credential-two')
     monkeypatch.setattr(line_analyzer,'_pool',GroqKeyPool(settings.groq_api_keys))
+    monkeypatch.setattr(conversation.shutil, 'which', lambda _: 'ffmpeg' if decoded_audio is not None else None)
+    monkeypatch.setattr(conversation.subprocess, 'run', lambda args, **_: conversation.subprocess.CompletedProcess(
+        args, returncode=0, stdout=decoded_audio))
     calls=[]
     def provider(request):
         calls.append(request)
         assert request.url.path.endswith('/audio/transcriptions')
         assert b'whisper-large-v3-turbo' in request.content and b'\r\nvi\r\n' in request.content
+        assert b'name="prompt"' in request.content
+        assert 'quy đồng mẫu số'.encode('utf-8') in request.content
         return httpx.Response(status,json={'text':'Vì sao phải quy đồng?', 'duration':2,
             'segments':[{'no_speech_prob':0.99 if quiet else 0.01}]})
     client=httpx.AsyncClient
     monkeypatch.setattr(conversation.httpx,'AsyncClient',lambda **kwargs: client(transport=httpx.MockTransport(provider),**kwargs))
     data=b'\x1aE\xdf\xa3'+bytes(28)
+    digital_silence = decoded_audio is not None and not any(decoded_audio)
     if status==429:
         with pytest.raises(conversation.TutorUnavailable): await conversation.transcribe_question(data)
-    elif quiet:
+    elif quiet or digital_silence:
         with pytest.raises(ValueError): await conversation.transcribe_question(data)
     else:
         assert (await conversation.transcribe_question(data)).text=='Vì sao phải quy đồng?'
-    assert len(calls)==1
+    assert len(calls) == (0 if digital_silence else 1)
 
 
 @pytest.mark.asyncio
