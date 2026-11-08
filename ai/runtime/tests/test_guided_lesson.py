@@ -28,6 +28,43 @@ def turn(response, answer='', owner='student-a', hint=False):
     return answer_lesson(TurnRequest(owner=owner, sessionId=response.sessionId, revision=response.revision, answer=answer, hint=hint))
 
 
+@pytest.mark.asyncio
+async def test_completed_history_keeps_original_questions_and_choices_without_future_steps():
+    response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText=PROBLEM))
+    question, choices = response.step.question, list(response.step.choices)
+    response = turn(response, 'Chiều cao')
+    assert len(response.completed) == 1
+    assert response.completed[0].question == question
+    assert response.completed[0].choices == choices
+    numeric_question = response.step.question
+    response = turn(response, '12')
+    assert len(response.completed) == 2
+    assert response.completed[0].question == question
+    assert response.completed[0].choices == choices
+    assert response.completed[1].question == numeric_question
+    assert response.completed[1].choices == []
+    assert 'correctChoice' not in response.model_dump_json()
+    from app.tutoring.lesson_followup import resume, ResumeRequest
+    before = (response.revision, response.stepIndex)
+    restored = resume(ResumeRequest(owner='student-a', sessionId=response.sessionId, problemText=PROBLEM))
+    assert restored.completed == response.completed
+    assert (restored.revision, restored.stepIndex) == before
+    with pytest.raises(LessonExpired):
+        resume(ResumeRequest(owner='student-b', sessionId=response.sessionId, problemText=PROBLEM))
+
+
+@pytest.mark.asyncio
+async def test_resuming_decimal_history_uses_the_published_answer_not_internal_fraction():
+    from app.tutoring.lesson_followup import resume, ResumeRequest
+    source = 'Tính: 0,5 + 0,25'
+    response = await start_lesson(LessonRequest(problemConfirmed=True, owner='student-a', problemText=source))
+    response = turn(response, '0,75')
+    assert response.status == 'COMPLETE'
+    assert response.completed[-1].answer == '0,75'
+    restored = resume(ResumeRequest(owner='student-a', sessionId=response.sessionId, problemText=source))
+    assert restored.review['studentAnswer'] == response.completed[-1].answer
+
+
 @pytest.mark.parametrize('updates', [
     {}, {'problemConfirmed': False}, {'problemConfirmed': 'true'},
     {'problemConfirmed': True, 'workText': '3/2 = 1'},
@@ -44,12 +81,15 @@ async def test_geometry_guides_three_reasoning_steps_without_returning_answer_ke
     response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText=PROBLEM))
     assert len(response.outline) == 3
     assert response.step.choices == ['Chiều cao', 'Chu vi', 'Đường chéo AC']
+    assert response.step.choiceChecks == [True, False, False]
+    assert not response.completed and response.revision == 0
     assert '138' not in response.model_dump_json(exclude={'sessionId'}) and '12' not in response.model_dump_json(exclude={'sessionId'})
     assert 'correctChoice' not in response.model_dump_json()
     wrong = turn(response, 'Chu vi')
     assert wrong.status == 'TRY_AGAIN' and wrong.stepIndex == 0 and wrong.revision == 0
     response = turn(wrong, 'Chiều cao')
     assert response.stepIndex == 1 and response.step.expression == '90 × 2 ÷ 15'
+    assert response.step.choiceChecks == []
     assert '12' not in response.model_dump_json(exclude={'sessionId'})
     wrong = turn(response, '90')
     assert wrong.stepIndex == 1 and '12' not in wrong.model_dump_json(exclude={'sessionId'})

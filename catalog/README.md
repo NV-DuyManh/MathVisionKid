@@ -1,6 +1,23 @@
 # Lesson catalog
 
-The application automatically collects **successfully checked, confirmed, source-only mathematical plans** and validated TTS WAVs. It reuses them for an exact normalized source and the same account; it never substitutes a similar problem, changes numbers/units, replays another pupil's work, or resumes another session's progress.
+The application collects **successfully checked, confirmed, source-only mathematical plans** and validated TTS WAVs privately. It also ships a separately reviewed **public exercise catalog** with Git. Reuse always requires the exact normalized source; it never substitutes a similar problem, changes numbers/units, replays another pupil's work, or resumes another session's progress.
+
+## Shared exercises included with every clone
+
+`ai/runtime/app/tutoring/data/verified_exercises.json` contains 81 reviewed exercise groups (85 questions/subparts/table cells) from the owner-provided exam set. It includes confirmed problem text, checked base plans and independent reference answers. Two subparts missing a mass unit and one ambiguous rounding question are excluded. No account IDs, sessions, photographs, recordings, private SQLite files or model weights are shipped.
+
+After `git pull` and restarting the AI service, every account on a fresh clone can reuse these exact exercises, with no private database migration or model call. Docker includes the file through its existing `COPY app`. New sessions and audio permissions remain private. The runtime checks the source and plan again; stale policy, malformed data or a different source uses the normal checked generation path. Policy hashing normalizes line endings so Windows/Linux checkouts agree.
+
+When updating the math rules, refresh the public plans using the existing reviewed answers, then commit the JSON with the code:
+
+```powershell
+python ai/runtime/scripts/refresh_published_catalog.py --write
+python ai/runtime/scripts/refresh_published_catalog.py
+```
+
+The tool never reads a pupil database or calls a cloud provider. It refuses to update when a current solver disagrees with the reviewed reference. New exercises need source/privacy and mathematical review before adding them to this public inventory; a successful private session is not automatic permission to publish pupil content. Include approved inventory updates in the same PR as the related code. AI CI checks every published exercise, both fresh accounts and Windows/Linux policy parity; the Catalog Bot displays the shared exercise count and checks its structure.
+
+Git transfers this published catalog when pushed/pulled; it does not continuously synchronize separate computers or train model weights. Speech caches remain private, so shipping a plan does not claim instant speech on every new device.
 
 ## Runtime
 
@@ -11,7 +28,7 @@ The application automatically collects **successfully checked, confirmed, source
 - New sessions always receive new IDs, revision zero and no completed answers. A cached plan does not expose future answers or grant permission to play unissued text.
 - Initial and private teaching paragraphs remain separate on disk. Draft/unconfirmed OCR sources and lessons containing pupil work are not collected as reusable plans.
 - Speech keys include owner scope, exact paragraph order, voice, fallback mode and synthesis-policy version. Both male and female speech keep their exact existing identities. Existing session/revision/issued-text guards run before any audio catalog lookup.
-- Content is **account scoped**. Cross-account publishing requires a separately reviewed, anonymized public catalog; it is not silently enabled here. SQLite is durable on one mounted server, not a distributed database for several hosts.
+- Private runtime content is **account scoped**. Only the explicitly reviewed public inventory above is shared across accounts. SQLite is durable on one mounted server, not a distributed database for several hosts.
 - Account scopes are hashes, not anonymization or encryption. Plans and generated TTS may contain source-derived text; keep the volume private and apply the application's data-retention rules.
 - The Docker AI service mounts `lessoncatalog:/app/state`. Back up this private volume as application data; never upload it to GitHub or a public artifact. This is not a training dataset.
 

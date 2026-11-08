@@ -30,5 +30,7 @@ with zipfile.ZipFile(archive) as package:
         if name.endswith('/LICENSE') or name.endswith('/LICENSE.txt'):
             (dest.parent/'LICENSE.txt').write_bytes(package.read(name)); break
 result={'source':URL,'archiveSha256':actual,'checksumVerified':True,'systemPathChanged':False,'destination':'infra/local-runtime/tools/ffmpeg/bin/ffmpeg.exe'}
-(ROOT/'report/smart-quiz-runtime-root-cause/ffmpeg-install.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
+receipt = ROOT/'.local-artifacts/setup/ffmpeg-install.json'
+receipt.parent.mkdir(parents=True, exist_ok=True)
+receipt.write_text(json.dumps(result, indent=2), encoding='utf-8')
 print('Portable FFmpeg verified and installed for the existing speech renderer.')

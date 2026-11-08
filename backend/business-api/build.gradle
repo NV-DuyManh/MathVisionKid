@@ -55,7 +55,7 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
-	jvmArgs = ['-Dfile.encoding=UTF-8']
+	jvmArgs = ['-Dfile.encoding=UTF-8', '-Duser.timezone=UTC']
 }
 
 tasks.named('bootJar') {

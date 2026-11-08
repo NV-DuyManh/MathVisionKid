@@ -520,6 +520,7 @@ export const LoginPage: React.FC = () => {
             color="primary"
             size="large"
             disabled={loading}
+            aria-busy={loading}
             startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
             sx={{ mt: 3, mb: 1.5, py: 1.5, fontSize: '1.05rem', borderRadius: 2.5, fontWeight: 700 }}
           >
@@ -610,8 +611,8 @@ export const LoginPage: React.FC = () => {
             id="register-phone" label="Số điện thoại" name="tel" type="tel" autoComplete="tel"
             value={phoneNumber} disabled={loading} onChange={(event) => setPhoneNumber(event.target.value)}
           />
-          <Button data-cy="submit-register" type="submit" fullWidth variant="contained" size="large" disabled={loading} sx={{ mt: 2, py: 1.4 }}>
-            {loading ? <CircularProgress size={22} color="inherit" /> : 'Tạo tài khoản'}
+          <Button data-cy="submit-register" type="submit" fullWidth variant="contained" size="large" disabled={loading} aria-busy={loading} startIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden /> : undefined} sx={{ mt: 2, py: 1.4 }}>
+            {loading ? 'Đang tạo tài khoản…' : 'Tạo tài khoản'}
           </Button>
           <Button data-cy="back-to-login-from-register" type="button" fullWidth disabled={loading} onClick={() => { setAuthView('login'); setError(null); setSuccess(null); }} sx={{ mt: 1, textTransform: 'none' }}>
             Đã có tài khoản? Đăng nhập
@@ -625,8 +626,8 @@ export const LoginPage: React.FC = () => {
             id="reset-email" label="Email đã đăng ký" name="email" type="email" autoComplete="email"
             value={email} disabled={loading} onChange={(event) => setEmail(event.target.value)}
           />
-          <Button data-cy="send-reset-code" type="submit" fullWidth variant="contained" size="large" disabled={loading} sx={{ mt: 2, py: 1.4 }}>
-            {loading ? <CircularProgress size={22} color="inherit" /> : 'Gửi mã xác nhận'}
+          <Button data-cy="send-reset-code" type="submit" fullWidth variant="contained" size="large" disabled={loading} aria-busy={loading} startIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden /> : undefined} sx={{ mt: 2, py: 1.4 }}>
+            {loading ? 'Đang gửi mã…' : 'Gửi mã xác nhận'}
           </Button>
           <Button data-cy="back-to-login" type="button" fullWidth disabled={loading} onClick={() => { setAuthView('login'); setError(null); setSuccess(null); }} sx={{ mt: 1, textTransform: 'none' }}>
             Quay lại đăng nhập
@@ -649,8 +650,8 @@ export const LoginPage: React.FC = () => {
             slotProps={{ htmlInput: { minLength: 8 } }} value={newPassword} disabled={loading}
             onChange={(event) => setNewPassword(event.target.value)} helperText="Ít nhất 8 ký tự"
           />
-          <Button data-cy="confirm-password-reset" type="submit" fullWidth variant="contained" size="large" disabled={loading} sx={{ mt: 2, py: 1.4 }}>
-            {loading ? <CircularProgress size={22} color="inherit" /> : 'Xác nhận và đổi mật khẩu'}
+          <Button data-cy="confirm-password-reset" type="submit" fullWidth variant="contained" size="large" disabled={loading} aria-busy={loading} startIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden /> : undefined} sx={{ mt: 2, py: 1.4 }}>
+            {loading ? 'Đang đổi mật khẩu…' : 'Xác nhận và đổi mật khẩu'}
           </Button>
           <Button type="button" fullWidth disabled={loading} onClick={() => { setAuthView('request-reset'); setError(null); setSuccess(null); }} sx={{ mt: 1, textTransform: 'none' }}>
             Gửi mã đến email khác
@@ -665,8 +666,8 @@ export const LoginPage: React.FC = () => {
           >
             {[1, 2, 3, 4, 5].map((grade) => <MenuItem key={grade} value={String(grade)}>Lớp {grade}</MenuItem>)}
           </TextField>
-          <Button type="submit" fullWidth variant="contained" size="large" disabled={loading} sx={{ mt: 2, py: 1.4 }}>
-            {loading ? <CircularProgress size={22} color="inherit" /> : 'Tiếp tục vào trang học sinh'}
+          <Button type="submit" fullWidth variant="contained" size="large" disabled={loading} aria-busy={loading} startIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden /> : undefined} sx={{ mt: 2, py: 1.4 }}>
+            {loading ? 'Đang mở trang học sinh…' : 'Tiếp tục vào trang học sinh'}
           </Button>
           <Button type="button" fullWidth disabled={loading} onClick={() => { setSocialSetupCredential(''); setAuthView('login'); setError(null); setSuccess(null); }} sx={{ mt: 1, textTransform: 'none' }}>
             Quay lại đăng nhập

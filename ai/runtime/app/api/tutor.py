@@ -14,12 +14,14 @@ from app.config import settings
 from app.tutoring.service import MAX_IMAGE_BYTES, GuideRequest, GuideResponse, ReadResponse, TutorUnavailable, guide_student, read_problem
 from app.tutoring.notebook import NotebookRead, CoachRequest, inspect_notebook, coach_notebook
 from app.tutoring.lesson import LessonRequest, TurnRequest, PreparationRequest, LessonResponse, LessonExpired, StaleTurn, start_lesson, answer_lesson, ready_for_answer, lesson_preparation
+from app.tutoring.source_clarification import SourceNeedsReview
 from app.tutoring.work_review import WorkReviewRequest, WorkReviewResponse, review_work
 from app.tutoring.conversation import AskRequest, AskResponse, Transcript, MAX_AUDIO_BYTES, ask_question, transcribe_question
 from app.tutoring import narration, media_preparation, quiz_narration, plan_preparation
 from app.tutoring import lesson as lesson_module
 from app.integrations.gemini.key_pool import get_gemini_pool
 from app.tutoring.lesson_followup import ResumeRequest, CheckRequest, resume, comprehension_check
+from app.tutoring.quiz_variants import VariantRequest, generate as generate_quiz_variant
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -31,6 +33,16 @@ async def require_internal_key(request: Request):
     provided = request.headers.get("X-Internal-API-Key", "")
     if not provided or not secrets.compare_digest(provided.encode(), settings.internal_api_key.encode()):
         raise HTTPException(status_code=401, detail="Không được phép thực hiện yêu cầu này.")
+
+
+@router.post('/quiz/variant', dependencies=[Depends(require_internal_key)])
+async def quiz_variant_endpoint(request: VariantRequest):
+    try:
+        return await generate_quiz_variant(request)
+    except TutorUnavailable:
+        raise HTTPException(status_code=503, detail='Đang chuẩn bị câu luyện tập theo bài học.') from None
+    except (ValueError, ArithmeticError, SyntaxError, TypeError):
+        raise HTTPException(status_code=422, detail='Cần kiểm tra lại dữ kiện để tạo câu luyện tập.') from None
 
 
 @router.get('/runtime', dependencies=[Depends(require_internal_key)])
@@ -149,6 +161,9 @@ async def lesson_endpoint(request: LessonRequest, http_request: Request):
             # Optional preparation must never turn a valid lesson into a failed request.
             logger.info('Lesson preparation not scheduled category=%s', type(exc).__name__)
         return result
+    except SourceNeedsReview as exc:
+        raise HTTPException(status_code=422, detail='Em kiểm tra lại chỗ chưa rõ trong đề nhé.',
+                            headers={'X-Tutor-Failure': 'source_' + exc.issue}) from None
     except ValueError:
         raise HTTPException(status_code=400, detail="Em kiểm tra lại đề bài nhé.") from None
     except TutorUnavailable as exc:

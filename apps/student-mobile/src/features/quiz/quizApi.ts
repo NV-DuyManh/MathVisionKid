@@ -6,7 +6,7 @@ export type QuizAttempt = { number: number; answer: string; correct: boolean; su
 export type Quiz = {
   quizId: string; sourceType: 'LESSON' | 'WORK_REVIEW'; sourceId: string; topicCode: string; topicName: string;
   skillCode: string; gradeLevel: number; taxonomyVersion: string; verificationStatus: string; confidencePercent: number;
-  questionText: string; unit: string; answerFormat: 'INTEGER' | 'FRACTION'; status: 'READY' | 'DEFERRED' | 'IN_PROGRESS' | 'COMPLETED';
+  questionText: string; unit: string; answerFormat: 'INTEGER' | 'FRACTION' | 'CHOICE'; status: 'READY' | 'DEFERRED' | 'IN_PROGRESS' | 'COMPLETED';
   createdAt: string; startedAt: string | null; completedAt: string | null; serverNow: string; elapsedMillis: number;
   stars: number; wrongAttempts: number; solutionViewed: boolean; completedWithSolution: boolean; canRevealSolution: boolean;
   attempts: QuizAttempt[]; explanationText: string | null; correctAnswer: string | null;
@@ -19,8 +19,8 @@ export type QuizPreparation = { preparationId: string; revision: number; status:
 const listeners = new Set<() => void>();
 export function onQuizChanged(listener: () => void) { listeners.add(listener); return () => { listeners.delete(listener); }; }
 function changed() { listeners.forEach(listener => listener()); }
-async function mutate<T>(path: string, body?: unknown, signal?: AbortSignal): Promise<T> {
-  const { data } = await apiClient.post<T>(`/student/quizzes/${path}`, body, { signal, timeout: 20000 });
+async function mutate<T>(path: string, body?: unknown, signal?: AbortSignal, timeout = 20000): Promise<T> {
+  const { data } = await apiClient.post<T>(`/student/quizzes/${path}`, body, { signal, timeout });
   changed(); return data;
 }
 export const quizApi = {
@@ -38,16 +38,27 @@ export const quizApi = {
   },
   async get(id: string, signal?: AbortSignal): Promise<Quiz> { return (await apiClient.get(`/student/quizzes/${id}`, { signal })).data; },
   async fromLearning(sourceType: 'LESSON' | 'WORK_REVIEW', sourceId: string, signal?: AbortSignal) {
-    for (let attempt = 0; ; attempt++) {
-      try { return await mutate<{ offered: boolean; quiz: Quiz }>('from-learning', { sourceType, sourceId }, signal); }
-      catch (error: any) {
-        if (error?.response?.data?.error?.code !== 'QUIZ_GENERATING' || attempt >= 7 || signal?.aborted) throw error;
-        await quizWait(500, signal);
+    const deadline = Date.now() + 60000;
+    for (;;) {
+      if (signal?.aborted) throw new Error('Đã dừng chuẩn bị Quiz.');
+      const remaining = deadline - Date.now();
+      if (remaining <= 0) throw new Error('Đã hết thời gian chuẩn bị Quiz. Em có thể thử lại.');
+      try {
+        const { data } = await apiClient.post<{ offered: boolean; quiz: Quiz }>('/student/quizzes/from-learning', { sourceType, sourceId }, { signal, timeout: remaining });
+        changed();
+        return data;
+      }
+      catch (error) {
+        if (quizErrorCode(error) !== 'QUIZ_GENERATING' || Date.now() >= deadline || signal?.aborted) throw error;
+        await quizWait(Math.min(500, deadline - Date.now()), signal);
       }
     }
   },
   start: (id: string, signal?: AbortSignal) => mutate<Quiz>(`${id}/start`, undefined, signal),
-  replay: (id: string, mode: 'PRACTICE' | 'CHALLENGE' = 'CHALLENGE', signal?: AbortSignal) => mutate<Quiz>(`${id}/replay`, { mode }, signal),
+  // Independently reviewed variants have a 26s server budget. The old 20s
+  // transport could fail while that valid request was still running. Do not
+  // retry a replay automatically: it changes the current run.
+  replay: (id: string, mode: 'PRACTICE' | 'CHALLENGE' = 'CHALLENGE', signal?: AbortSignal) => mutate<Quiz>(`${id}/replay`, { mode }, signal, mode === 'CHALLENGE' ? 35000 : 20000),
   defer: (id: string, signal?: AbortSignal) => mutate<Quiz>(`${id}/defer`, undefined, signal),
   async activity(id: string, startedAt: string, active: boolean, signal?: AbortSignal): Promise<Quiz> {
     return (await apiClient.post(`/student/quizzes/${id}/activity`, { active, startedAt }, { signal, timeout: 8000 })).data;
@@ -87,8 +98,12 @@ export function quizWait(milliseconds: number, signal?: AbortSignal): Promise<vo
     if (signal?.aborted) cancel();
   });
 }
+type QuizFailure = { response?: { data?: { error?: { code?: string; message?: string } }; status?: number } };
+export function quizErrorCode(error: unknown): string | undefined {
+  return (error as QuizFailure)?.response?.data?.error?.code;
+}
 export function quizError(error: unknown): string {
-  const failure = error as { response?: { data?: { error?: { code?: string; message?: string } }; status?: number } };
+  const failure = error as QuizFailure;
   const detail = failure?.response?.data?.error;
   return detail?.code?.startsWith('QUIZ_') && detail.message ? detail.message
     : failure?.response?.status === 401 ? 'Em đăng nhập lại để mở Quiz của mình nhé.'

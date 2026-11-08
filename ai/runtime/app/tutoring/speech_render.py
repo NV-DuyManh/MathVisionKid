@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 _provider_slots = threading.BoundedSemaphore(4)
 _edge_backoff_lock = threading.Lock()
 _edge_unavailable_until: dict[str, float] = {}
+_edge_failures: dict[str, int] = {}
 EDGE_BACKOFF_SECONDS = 15
 
 
@@ -41,6 +42,25 @@ async def _with_provider_slot(call):
 
 class SpeechNoAudio(TutorUnavailable):
     """The chosen provider returned no audio after its bounded transport retries."""
+
+
+def wait_for_speech_retry(voice, deadline, check=None):
+    """Respect the shared voice cooldown without holding a render/provider slot."""
+    with _edge_backoff_lock:
+        until = _edge_unavailable_until.get(voice, 0)
+    remaining = until - time.monotonic()
+    if max(.25, remaining) >= deadline - time.monotonic():
+        raise SpeechNoAudio()
+    if remaining <= 0:
+        if check: check()
+        time.sleep(.25)
+    else:
+        while (remaining := until - time.monotonic()) > 0:
+            if check: check()
+            time.sleep(min(.2, remaining))
+    if check: check()
+
+
 def _spoken_groups(text):
     # Read labels without bracket names, while retaining arithmetic precedence.
     previous = None
@@ -147,12 +167,19 @@ async def _neural_chunk(text: str, voice: str) -> bytes:
             outcome = 'ready'
             with _edge_backoff_lock:
                 _edge_unavailable_until.pop(voice, None)
+                _edge_failures.pop(voice, None)
             return bytes(result)
         except (edge_tts.exceptions.NoAudioReceived, TimeoutError, aiohttp.ClientConnectionError) as exc:
             outcome = type(exc).__name__
             if isinstance(exc, edge_tts.exceptions.NoAudioReceived) and attempt >= 1:
                 with _edge_backoff_lock:
-                    _edge_unavailable_until[voice] = time.monotonic() + EDGE_BACKOFF_SECONDS
+                    now = time.monotonic()
+                    # A transient empty response should recover promptly. Sustained
+                    # outages back off, once per voice/window across concurrent chunks.
+                    if _edge_unavailable_until.get(voice, 0) <= now:
+                        failures = min(5, _edge_failures.get(voice, 0) + 1)
+                        _edge_failures[voice] = failures
+                        _edge_unavailable_until[voice] = now + min(EDGE_BACKOFF_SECONDS, 2 ** (failures - 1))
                 raise
             if attempt == 2:
                 raise

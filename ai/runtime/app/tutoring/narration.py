@@ -14,7 +14,7 @@ from typing import Literal
 from pydantic import Field, field_validator
 from app.tutoring import lesson
 from app.tutoring.service import TutorModel, TutorUnavailable
-from app.tutoring.speech_render import DEFAULT_VOICE, SpeechNoAudio, synthesize_neural, synthesize, run
+from app.tutoring.speech_render import DEFAULT_VOICE, SpeechNoAudio, synthesize_neural, synthesize, run, wait_for_speech_retry
 from app.tutoring.audio_cues import add_cues, read_cues
 
 MAX_BYTES = 8 * 1024 * 1024
@@ -257,7 +257,9 @@ def _prepare_until_done(request,session,check,deadline,background=False,job=None
             if not request.useFallback and isinstance(error,SpeechNoAudio) and attempts==0 and deadline-time.monotonic()>1:
                 # One fresh provider turn can repair a short empty response while
                 # reading; share the original deadline and never switch voices.
-                attempts+=1;last_count=count;time.sleep(.25);continue
+                attempts+=1;last_count=count
+                wait_for_speech_retry(request.voice, deadline, check)
+                continue
             if request.useFallback or not count or count<=last_count:raise
             attempts+=1;last_count=count
     raise TutorUnavailable()
@@ -322,6 +324,8 @@ def narrate(request: NarrationRequest) -> bytes:
                 resumable = isinstance(error,SpeechNoAudio) or saved is not None and saved[0]>time.monotonic() and bool(saved[1])
             if attempt or request.useFallback or not resumable or deadline-time.monotonic()<1:
                 raise
+            if isinstance(error,SpeechNoAudio):
+                wait_for_speech_retry(request.voice, deadline, lambda: owned(request))
             logger.info('Narration resuming completed provider chunks within original request deadline')
 
 

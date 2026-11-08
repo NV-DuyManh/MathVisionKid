@@ -3,6 +3,7 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../../components/ui/AppButton';
 import { MathText } from '../../components/domain/MathText';
+import { problemPresentation } from '../../components/domain/problemPresentation';
 import { COLORS, FONTS } from '../../constants/theme';
 
 type Props = {
@@ -28,7 +29,7 @@ export function WorkReviewPreparation({ problem, work, problemImage, workImage, 
     {photo ? <View style={s.photoFrame}><Image source={{ uri: photo }} style={s.photo} resizeMode="contain"
       accessibilityLabel={section === 'problem' ? 'Ảnh đề bài' : photoCurrent ? 'Ảnh bài em đã làm' : 'Ảnh trước khi sửa bài bằng chữ'} /></View> : null}
     {section === 'work' && photo && !photoCurrent ? <Text style={s.note}>Ảnh trước khi sửa. Nhận xét tiếp theo sẽ dựa trên phần chữ mới bên dưới.</Text> : null}
-    <View style={s.transcript}><MathText style={s.body}>{source}</MathText></View>
+    <View style={s.transcript}><MathText style={s.body}>{section === 'problem' ? problemPresentation(source) : source}</MathText></View>
     <Pressable accessibilityRole="button" accessibilityLabel={section === 'problem' ? 'Chỉnh đề bài' : 'Chỉnh chỗ chưa đọc đúng'}
       onPress={() => onEdit(section)} disabled={disabled} style={({ pressed }) => [s.edit, pressed && s.pressed]}>
       <Ionicons name="create-outline" size={18} color={COLORS.primaryDark} accessible={false} /><Text style={s.editText}>Chỉnh phần chữ này</Text>

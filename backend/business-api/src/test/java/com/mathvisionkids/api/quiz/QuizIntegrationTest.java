@@ -28,6 +28,7 @@ class QuizIntegrationTest {
     @Autowired QuizNarration speech;
     @Autowired QuizPreparations preparations;
     @Autowired QuizPreparationRepository prepared;
+    @Autowired QuizGenerator generator;
     String owner, other;
     Preparation prepareAndWait(String principal, Prepare request) {
         var response=preparations.prepare(principal,request);
@@ -40,6 +41,174 @@ class QuizIntegrationTest {
     }
 
     @BeforeEach void accounts() { owner=account(); other=account(); }
+
+    @Test void verifiedDecimalSequencePublishesChoicesAndGradesTheSelectionWithoutExposingTheAnswerEarly() throws Exception {
+        var http=(org.springframework.web.client.RestTemplate)org.springframework.test.util.ReflectionTestUtils.getField(generator,"http");
+        var factory=http.getRequestFactory();
+        var remote=org.springframework.test.web.client.MockRestServiceServer.bindTo(http).build();
+        String source="Sắp xếp 1,25; 0,98; 3,56 theo thứ tự từ bé đến lớn.";
+        var response=json.createObjectNode().put("sourceFingerprint",QuizSources.fingerprint(source))
+                .put("verification","TUTOR_VERIFIED").put("review",false).put("topic","Sắp xếp số thập phân")
+                .put("questionText","Chọn dãy tăng dần.\nA. 1,26; 0,98; 3,56\nB. 0,98; 1,26; 3,56")
+                .put("answerFormat","CHOICE").put("answer","2").put("unit","")
+                .put("solution","So sánh phần nguyên và phần thập phân: 0,98 < 1,26 < 3,56. Chọn B.");
+        org.springframework.test.util.ReflectionTestUtils.setField(generator,"adaptiveEnabled",true);
+        try {
+            remote.expect(org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo("http://localhost:8000/internal/v1/tutor/quiz/variant"))
+                    .andRespond(org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess(json.writeValueAsString(response),MediaType.APPLICATION_JSON));
+            assertEquals("READY",prepareAndWait(owner,new Prepare(UUID.randomUUID(),1,source,true)).status());
+            sources.record(owner,"LESSON","sequence-source",source,false); sources.complete(owner,"sequence-source");
+            var quiz=service.fromLearning(owner,new FromLearning("LESSON","sequence-source")).quiz();
+            assertEquals("CHOICE",quiz.answerFormat()); assertNull(quiz.correctAnswer()); assertNull(quiz.explanationText());
+            quiz=service.start(owner,quiz.quizId());
+            assertTrue(quiz.questionText().contains("\nB. 0,98; 1,26; 3,56"));
+            assertTrue(service.submit(owner,quiz.quizId(),new Submission(UUID.randomUUID(),"2")).attempt().correct());
+            remote.verify();
+        } finally {
+            remote.reset(); http.setRequestFactory(factory);
+            org.springframework.test.util.ReflectionTestUtils.setField(generator,"adaptiveEnabled",false);
+        }
+    }
+
+    @Test void tutorVerifiedVariantIsPreparedPrivatelyThenPublishedOnlyForItsCompletedSource() throws Exception {
+        var http=(org.springframework.web.client.RestTemplate)org.springframework.test.util.ReflectionTestUtils.getField(generator,"http");
+        var originalFactory=http.getRequestFactory();
+        var remote=org.springframework.test.web.client.MockRestServiceServer.bindTo(http).build();
+        String source="15 dm 2 cm = ... dm";
+        var response=Map.of("sourceFingerprint",QuizSources.fingerprint(source),"verification","TUTOR_VERIFIED",
+                "review",false,"topic","Viết số đo theo một đơn vị","questionText","16 dm 2 cm = ... dm",
+                "answer","81/5","unit","dm","solution","16 + 2 / 10 = 81/5 dm");
+        org.springframework.test.util.ReflectionTestUtils.setField(generator,"adaptiveEnabled",true);
+        try {
+            remote.expect(org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo("http://localhost:8000/internal/v1/tutor/quiz/variant"))
+                    .andRespond(org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess(json.writeValueAsString(response),MediaType.APPLICATION_JSON));
+            var preparation=prepareAndWait(owner,new Prepare(UUID.randomUUID(),1,source,true));
+            assertEquals("READY",preparation.status());
+            sources.record(owner,"LESSON","adaptive-source",source,false);
+            var request=new FromLearning("LESSON","adaptive-source");
+            assertThrows(ApiException.class,() -> service.fromLearning(owner,request));
+            sources.complete(owner,"adaptive-source");
+            var quiz=service.fromLearning(owner,request).quiz();
+            assertEquals(QuizGenerator.ADAPTIVE,quiz.topicCode());
+            assertEquals("TUTOR_VERIFIED",quiz.verificationStatus());
+            assertNull(quiz.correctAnswer());
+            assertEquals(quiz.quizId(),service.fromLearning(owner,request).quiz().quizId());
+            assertThrows(ApiException.class,() -> service.fromLearning(other,request));
+            service.start(owner,quiz.quizId());
+            assertTrue(service.submit(owner,quiz.quizId(),new Submission(UUID.randomUUID(),"16.2")).attempt().correct());
+            remote.verify();
+            remote.reset();
+            var review=new HashMap<String,Object>(response);
+            review.put("review",true); review.put("questionText",source); review.put("answer","76/5");
+            review.put("solution","15 + 2 / 10 = 76/5 dm");
+            remote.expect(org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo("http://localhost:8000/internal/v1/tutor/quiz/variant"))
+                    .andRespond(org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess(json.writeValueAsString(review),MediaType.APPLICATION_JSON));
+            var replay=service.replay(owner,quiz.quizId(),"CHALLENGE");
+            assertEquals(QuizGenerator.REVIEW,replay.topicCode());
+            assertEquals("PRACTICE",replay.replayMode(),"Revisiting an unchanged source is practice, not a fresh challenge");
+            assertEquals(0,service.submit(owner,quiz.quizId(),new Submission(UUID.randomUUID(),"15.2")).attempt().stars());
+            remote.verify();
+        } finally {
+            remote.reset();
+            http.setRequestFactory(originalFactory);
+            org.springframework.test.util.ReflectionTestUtils.setField(generator,"adaptiveEnabled",false);
+        }
+    }
+
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings={"confirmed-problem-v7","confirmed-problem-v9","confirmed-problem-v10"})
+    void reportedClassFractionRecoversThePreviouslyUnsupportedDraft(String oldVersion) {
+        var preparation = prepareAndWait(owner, new Prepare(UUID.randomUUID(), 1, QuizMathTest.CLASS_EXAM, true));
+        assertEquals("READY", preparation.status());
+        var row = prepared.findById(preparation.preparationId()).orElseThrow();
+        row.generatorVersion = oldVersion;
+        row.status = "UNSUPPORTED";
+        row.validatedDraft = null;
+        row.errorCode = "QUIZ_UNSUPPORTED";
+        prepared.saveAndFlush(row);
+        sources.record(owner, "LESSON", "reported-class-fraction", QuizMathTest.CLASS_EXAM, false);
+        var request = new FromLearning("LESSON", "reported-class-fraction");
+        assertThrows(ApiException.class, () -> service.fromLearning(owner, request));
+        sources.complete(owner, "reported-class-fraction");
+        var invitation = service.fromLearning(owner, request);
+        assertTrue(invitation.offered());
+        assertEquals(QuizMath.CLASS_COMPLEMENT, invitation.quiz().topicCode());
+        assertNull(invitation.quiz().correctAnswer());
+        assertEquals(invitation.quiz().quizId(), service.fromLearning(owner, request).quiz().quizId());
+        assertThrows(ApiException.class, () -> service.fromLearning(other, request));
+        var opened = service.start(owner, invitation.quiz().quizId());
+        var verified = QuizMath.analyzeConfirmed(opened.questionText()).orElseThrow();
+        assertTrue(service.submit(owner, opened.quizId(), new Submission(UUID.randomUUID(), verified.answer().toString())).attempt().correct());
+    }
+
+    @Test void confirmedPurchaseIsPreparedBeforeCompletionAndCanReplaceTheLegacyAddition() {
+        String question=QuizMathTest.PURCHASE_EXAM;
+        var preparation=prepareAndWait(owner,new Prepare(UUID.randomUUID(),1,question,true));
+        assertEquals("READY",preparation.status());
+        assertEquals(question,prepared.findById(preparation.preparationId()).orElseThrow().confirmedProblemText);
+        var student=students.findByEmail(owner).orElseThrow();
+        var legacy=new Quiz();
+        legacy.studentId=student.getId(); legacy.sourceType="LESSON"; legacy.sourceId="purchase-exam";
+        legacy.sourceFingerprint=QuizSources.fingerprint(question);
+        legacy.topicCode=QuizMath.FOUNDATION_REVIEW; legacy.topicName="Ôn phép cộng"; legacy.skillCode="COMPUTE_SUM";
+        legacy.gradeLevel=3; legacy.questionText="Tính: 368 + 469"; legacy.unit="";
+        legacy.answerSpec="837"; legacy.validatedSolution="368 + 469 = 837";
+        legacy.createdAt=Instant.now(); legacy.updatedAt=legacy.createdAt;
+        quizzes.saveAndFlush(legacy);
+        service.start(owner,legacy.id);
+        service.submit(owner,legacy.id,new Submission(UUID.randomUUID(),"837"));
+        sources.record(owner,"LESSON","purchase-exam",question,false);
+        var request=new FromLearning("LESSON","purchase-exam");
+        assertThrows(ApiException.class,() -> service.fromLearning(owner,request));
+        sources.complete(owner,"purchase-exam");
+        var invitation=service.fromLearning(owner,request);
+        var id=invitation.quiz().quizId();
+        assertNotEquals(legacy.id,id);
+        assertEquals("COMPLETED",service.get(owner,legacy.id).status());
+        assertEquals(QuizMath.PURCHASE,invitation.quiz().topicCode());
+        assertNull(invitation.quiz().correctAnswer());
+        assertEquals(id,service.fromLearning(owner,request).quiz().quizId());
+        assertThrows(ApiException.class,() -> service.fromLearning(other,request));
+        var opened=service.start(owner,id);
+        var checked=QuizMath.analyzeConfirmed(opened.questionText()).orElseThrow();
+        assertTrue(service.submit(owner,id,new Submission(UUID.randomUUID(),checked.answer().toString())).attempt().correct());
+        var replay=service.replay(owner,id,"CHALLENGE");
+        var variant=QuizMath.analyzeConfirmed(replay.questionText()).orElseThrow();
+        assertEquals(QuizMath.PURCHASE,variant.code());
+        assertNotEquals(Rational.of(53_000),variant.answer());
+        assertNotEquals(checked.answer(),variant.answer());
+    }
+
+    @Test void unsupportedCompletionNeverPublishesAnUnrelatedExercise() {
+        String question="Điền vào chỗ chấm để 15 dm 2 cm = ... dm.";
+        sources.record(owner,"LESSON","no-prefetch",question,true);
+        assertEquals("QUIZ_UNSUPPORTED",assertThrows(ApiException.class,
+                () -> service.fromLearning(owner,new FromLearning("LESSON","no-prefetch"))).getCode());
+        prepareAndWait(owner,new Prepare(UUID.randomUUID(),1,question,true));
+        assertEquals("QUIZ_UNSUPPORTED",assertThrows(ApiException.class,
+                () -> service.fromLearning(owner,new FromLearning("LESSON","no-prefetch"))).getCode());
+        assertEquals(0,service.counts(owner).pendingCount());
+        String edited="Đổi 9 tấn 4 kg sang tấn.";
+        UUID workflow=UUID.randomUUID();
+        prepareAndWait(owner,new Prepare(workflow,1,edited,true));
+        sources.record(owner,"LESSON","edit-before-quiz",edited,true);
+        prepareAndWait(owner,new Prepare(workflow,2,"",false));
+        assertEquals("QUIZ_SOURCE_CHANGED",assertThrows(ApiException.class,
+                () -> service.fromLearning(owner,new FromLearning("LESSON","edit-before-quiz"))).getCode());
+    }
+    @Test void completedExamCalculationPublishesOnePreparedQuizWithoutASecondLesson() {
+        String question="Câu 6. Kết quả của phép tính (17)/(25) + (32)/(15) là: A. 49/40 B. 211/75 C. 211/40 D. 49/75";
+        var preparation=prepareAndWait(owner,new Prepare(UUID.randomUUID(),1,question,true));
+        assertEquals("READY",preparation.status());
+        sources.record(owner,"LESSON","exam-question-six",question,false);
+        assertThrows(ApiException.class,() -> service.fromLearning(owner,new FromLearning("LESSON","exam-question-six")));
+        sources.complete(owner,"exam-question-six");
+        var offer=service.fromLearning(owner,new FromLearning("LESSON","exam-question-six"));
+        assertTrue(offer.offered()); assertEquals("READY",offer.quiz().status());
+        assertNotEquals("211/75",answer(offer.quiz().quizId()));
+        assertEquals(offer.quiz().quizId(),service.fromLearning(owner,new FromLearning("LESSON","exam-question-six")).quiz().quizId());
+        assertThrows(ApiException.class,() -> service.fromLearning(other,new FromLearning("LESSON","exam-question-six")));
+    }
     String account() {
         var student=new Student(); student.setEmail("quiz-"+UUID.randomUUID()+"@test.invalid"); student.setRole("STUDENT");
         student.setDisplayName("Quiz test"); student.setGradeLevel(4); student.setPasswordHash("not-a-login-password"); students.saveAndFlush(student);

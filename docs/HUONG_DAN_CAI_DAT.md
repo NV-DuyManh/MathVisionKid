@@ -22,10 +22,21 @@ Không cần cài Gradle riêng. Lần cài đầu cần mạng để tải thư
 ```powershell
 git clone https://github.com/NV-DuyManh/MathVisionKid.git
 cd MathVisionKid
+.\SETUP_MATHVISION.bat
+```
+
+Hoặc mở thư mục vừa clone và nháy đúp **SETUP_MATHVISION.bat**. File này kiểm tra công cụ rồi cài phần thiếu qua WinGet, cài thư viện cho toàn bộ app web/Student, tạo môi trường Python 3.12 riêng cho AI, cài cả thư viện giọng đọc và FFmpeg, sau đó tải thư viện Java và biên dịch backend. Các thư viện dự án dùng phiên bản đã khóa. Windows có thể hỏi quyền cài đặt, chấp nhận điều khoản hoặc yêu cầu khởi động lại máy. Nếu thiếu WinGet, cài **App Installer** của Microsoft hoặc chuẩn bị các công cụ trong bảng trên rồi mở lại setup.
+
+Chờ tới dòng **Dependency setup completed**, mở Docker Desktop rồi chạy **RUN_MATHVISION.bat**. Lần chạy app đầu có thể tải thêm Docker images. API key và model riêng được cấu hình ở mục 2 bên dưới. Nếu chạy lại setup trên máy đang dùng, dừng các dịch vụ dự án trước. Script giữ lại `.env`, model và dữ liệu đã lưu, dừng và báo lỗi nếu một bước cài đặt thất bại.
+
+Tùy chọn `SETUP_MATHVISION.bat -CheckOnly` chỉ kiểm tra công cụ. Nếu muốn cài thư viện bằng tay sau khi đã chuẩn bị các công cụ:
+
+```powershell
 npm ci
 py -3.12 -m venv ai\runtime\.venv
-.\ai\runtime\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements-lock.txt
+.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements.txt -c ai\runtime\requirements-lock.txt
+.\ai\runtime\.venv\Scripts\python.exe scripts\dev\install-local-quiz-speech.py
+.\backend\business-api\gradlew.bat -p backend\business-api bootJar testClasses --no-daemon --console=plain
 ```
 
 `npm ci` ở thư mục gốc cài cho toàn bộ JavaScript workspaces. Nếu máy không có lệnh `py`, dùng đường dẫn tới Python 3.12 đã cài để tạo môi trường.

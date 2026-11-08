@@ -4,7 +4,7 @@ import { saveNarration } from './narrationFile';
 import { measureVoice } from './voiceMetrics';
 
 type Entry = { controller: AbortController; promise: Promise<Uint8Array>; users: number; foregroundUsers: number; bytes: number; expires: number; prefetch: boolean; deadline: number;
-  source: NarrationSource; text: string; asset?: ReturnType<typeof saveNarration>; evicted?: boolean;
+  source: NarrationSource; text: string; asset?: Awaited<ReturnType<typeof saveNarration>>; evicted?: boolean;
   progress?: NarrationProgress; failed?: boolean; listeners: Set<NarrationProgressListener> };
 export type NarrationCache = ReturnType<typeof createNarrationCache>;
 // Keep already-prepared files from an older pronunciation policy out of a new
@@ -75,10 +75,12 @@ export function createNarrationCache(options: { download?: typeof downloadNarrat
           if (controller.signal.aborted) return;
           next.progress = progress;
           next.listeners.forEach(listener => listener(progress));
-        }).then(bytes => {
+        }).then(async bytes => {
           if (controller.signal.aborted) throw new Error('Đã dừng chuẩn bị âm thanh.');
           // Write once while reading; reopening the sheet reuses the local file directly.
-          next.asset = saveNarration(bytes);
+          const asset = await saveNarration(bytes);
+          if (controller.signal.aborted || next.evicted) { asset.dispose(); throw new Error('Đã dừng chuẩn bị âm thanh.'); }
+          next.asset = asset;
           next.bytes = bytes.byteLength; next.expires = Date.now() + 5 * 60 * 1000;
           prune();
           return bytes;
@@ -124,12 +126,14 @@ export function createNarrationCache(options: { download?: typeof downloadNarrat
 }
 
 /** Hold the warm local file until the player releases it; no second write on sheet open. */
-export async function getPreparedNarrationAsset(cache: NarrationCache | null, source: NarrationSource, paragraphs: string[], signal: AbortSignal, voice: NarrationVoice, onProgress?: NarrationProgressListener): Promise<ReturnType<typeof saveNarration>> {
+export async function getPreparedNarrationAsset(cache: NarrationCache | null, source: NarrationSource, paragraphs: string[], signal: AbortSignal, voice: NarrationVoice, onProgress?: NarrationProgressListener): Promise<Awaited<ReturnType<typeof saveNarration>>> {
   if (signal.aborted) throw new Error('Đã dừng tải âm thanh.');
   if (!cache) {
     const bytes = await downloadNarration(source, paragraphs, signal, voice, onProgress);
     if (signal.aborted) throw new Error('Đã dừng tải âm thanh.');
-    return saveNarration(bytes);
+    const asset = await saveNarration(bytes);
+    if (signal.aborted) { asset.dispose(); throw new Error('Đã dừng tải âm thanh.'); }
+    return asset;
   }
   const lease = cache.acquire(source, paragraphs, voice, false, onProgress);
   return new Promise((resolve, reject) => {

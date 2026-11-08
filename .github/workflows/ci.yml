@@ -100,9 +100,27 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - name: Verify installed Student dependencies match the Expo SDK
+        working-directory: apps/student-mobile
+        run: npx expo install --check
       - run: npm run typecheck --workspace=student-mobile
       - run: npm run test:contracts --workspace=student-mobile
       - run: npm test --workspace=student-mobile -- --runInBand
+      - name: Install Chromium for the actual Student web export
+        run: npx playwright install --with-deps chromium
+      - name: Portal to actual Student app, navigation and protected deep links
+        run: npx playwright test --config=playwright.student.config.mjs
+      - name: Student browser failure evidence (synthetic data only)
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: student-browser-failure-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local-artifacts/student-browser/report/
+            .local-artifacts/student-browser/results/
+          retention-days: 7
+          include-hidden-files: true
+          if-no-files-found: ignore
 
   backend:
     name: Backend and migrations
@@ -143,6 +161,12 @@ jobs:
         run: |
           python3 -m unittest scripts/test/test_postgres_migrations_runner.py
           python3 scripts/test/test_postgres_migrations.py
+      - name: Flyway upgrade from existing version 28 data and checksum validation
+        working-directory: backend/business-api
+        env:
+          MATHVISION_POSTGRES_UPGRADE: 'true'
+          PG_TOOLS_CONTAINER: ${{ job.services.postgres.id }}
+        run: ./gradlew test --tests '*PostgresUpgradeTest' --rerun-tasks --no-daemon --console=plain
 
   ai:
     name: Offline tutoring and catalog
@@ -170,7 +194,14 @@ jobs:
           tests/test_math_knowledge.py tests/test_speech_pronunciation.py
           tests/test_image_resolver.py tests/test_notebook_tutor.py
           tests/test_notebook_row_panels.py tests/test_notebook_math_layout.py
+          tests/test_notebook_views.py tests/test_notebook_edge_fragments.py
+          tests/test_question_selection.py tests/test_diagram_reading.py
+          tests/test_short_math.py tests/test_number_tasks.py tests/test_area_tasks.py
+          tests/test_elementary_choices.py tests/test_reported_exam.py
+          tests/test_source_clarification.py tests/test_plan_preparation.py
+          tests/test_daily_sales.py tests/test_quiz_variants.py
           tests/test_neural_speech.py tests/test_quiz_narration.py tests/test_lesson_narration.py
+          tests/test_lesson_catalog.py tests/test_published_catalog.py
       - run: python ai/runtime/scripts/test_catalog_store.py -v
       - run: python ai/runtime/scripts/test_catalog_bot.py -v
       - run: python -m unittest scripts/test/test_runtime_tutor_auth.py
@@ -185,17 +216,30 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install locked Expo and Metro dependencies for launcher contracts
+        run: npm ci --ignore-scripts
       - shell: pwsh
         run: |
           ./scripts/test/local-env.test.ps1
           ./scripts/test/test_service_runtime_identity.ps1
+          ./scripts/test/test_setup_local.ps1
+          ./scripts/test/test_minio_launcher_guard.ps1
       - name: Windows PowerShell 5.1 launcher compatibility
         shell: powershell
         run: |
           ./scripts/test/local-env.test.ps1
           ./scripts/test/test_service_runtime_identity.ps1
+          ./scripts/test/test_setup_local.ps1
+          ./scripts/test/test_minio_launcher_guard.ps1
+      - run: node scripts/test/test_student_qr.cjs
+      - run: node scripts/test/test_student_metro_config.cjs
       - run: python -m unittest scripts/test/test_run_launcher.py
       - run: python -m unittest scripts/test/test_python_runtime_pins.py
+      - run: python -m unittest scripts/test/test_setup_speech_tools.py
 
   gate:
     name: Quality gate

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle, View } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle, View } from 'react-native';
 import { FONTS, COLORS, SIZES, SHADOWS } from '../../constants/theme';
 
 interface AppButtonProps {
@@ -8,6 +8,7 @@ interface AppButtonProps {
   variant?: 'primary' | 'secondary' | 'outlined' | 'danger' | 'ghost';
   disabled?: boolean;
   loading?: boolean;
+  loadingTitle?: string;
   style?: ViewStyle;
   textStyle?: TextStyle;
   icon?: React.ReactNode;
@@ -20,13 +21,14 @@ export const AppButton: React.FC<AppButtonProps> = ({
   variant = 'primary',
   disabled = false,
   loading = false,
+  loadingTitle = 'Đang xử lý…',
   style,
   textStyle,
   icon,
   accessibilityLabel,
 }) => {
   const getBackgroundColor = () => {
-    if (disabled) return COLORS.border;
+    if (disabled && !loading) return COLORS.border;
     switch (variant) {
       case 'primary': return COLORS.primary;
       case 'secondary': return COLORS.surfaceSubdued;
@@ -38,7 +40,7 @@ export const AppButton: React.FC<AppButtonProps> = ({
   };
 
   const getTextColor = () => {
-    if (disabled) return COLORS.textMuted;
+    if (disabled && !loading) return COLORS.textMuted;
     switch (variant) {
       case 'primary': return COLORS.surface;
       case 'secondary': return COLORS.primaryDark;
@@ -67,13 +69,12 @@ export const AppButton: React.FC<AppButtonProps> = ({
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel || title}
       accessibilityState={{ disabled: !isInteractive, busy: loading }}
+      aria-busy={loading}
     >
       {loading ? (
         <View style={styles.loadingContent}>
-          <Text style={[styles.text, { color: getTextColor() }]}>Đang xử lý…</Text>
-          <View style={[styles.loadingTrack, { backgroundColor: getTextColor() + '44' }]}>
-            <View style={[styles.loadingBar, { backgroundColor: getTextColor() }]} />
-          </View>
+          <ActivityIndicator size="small" color={getTextColor()} accessible={false} />
+          <Text accessibilityLiveRegion="polite" style={[styles.text, { color: getTextColor() }, textStyle]}>{loadingTitle}</Text>
         </View>
       ) : (
         <View style={styles.innerContent}>
@@ -119,7 +120,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E1D7F7',
   },
-  loadingContent: { alignItems: 'center', gap: 6 },
-  loadingTrack: { width: 90, height: 4, borderRadius: 2, overflow: 'hidden' },
-  loadingBar: { width: 40, height: 4, marginLeft: 25, borderRadius: 2 },
+  loadingContent: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 },
 });

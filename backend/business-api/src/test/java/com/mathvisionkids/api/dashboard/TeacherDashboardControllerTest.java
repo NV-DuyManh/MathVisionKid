@@ -124,7 +124,9 @@ public class TeacherDashboardControllerTest {
                 .andExpect(jsonPath("$.processedCount").value(1))
                 .andExpect(jsonPath("$.reviewRequiredCount").value(1))
                 .andExpect(jsonPath("$.recentBatches").isArray())
-                .andExpect(jsonPath("$.recentBatches[0].status").value("PROCESSING"));
+                .andExpect(jsonPath("$.recentBatches[0].status").value("COMPLETED"))
+                .andExpect(jsonPath("$.recentBatches[0].processedCount").value(2))
+                .andExpect(jsonPath("$.recentBatches[0].totalCount").value(2));
     }
 
     @Test

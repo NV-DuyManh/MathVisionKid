@@ -21,9 +21,11 @@ function validDivision(value: any): value is WrittenDivision {
     && Array.isArray(value.rows) && value.rows.length <= 30
     && value.rows.every((r: any) => typeof r === 'string' && r.length <= 40 && /^(?:[0-9 +\-−]|\[\?\])+$/.test(r));
 }
+export interface NotebookQuestion { label: string; problemText: string; uncertain: boolean }
 export interface NotebookRead {
   kind: 'PROBLEM' | 'WORK' | 'MIXED' | 'MULTIPLE' | 'UNREADABLE';
   problemText: string; lines: NotebookLine[]; needsProblem: boolean; needsCrop?: boolean;
+  questions?: NotebookQuestion[];
 }
 export type WorkReviewRequest = { sourceId: string; problemText: string; workText: string; problemConfirmed: boolean; workConfirmed: boolean };
 export type WorkReviewRow = { lineIndex: number; sourceText: string; status: 'OK' | 'FIX' | 'UNSURE'; feedback: string; hints: string[] };
@@ -59,8 +61,8 @@ const STAGES: TutorStage[] = ['UNDERSTAND', 'PLAN', 'NEXT_STEP', 'CHECK_WORK'];
 const TIMEOUT = 45000;
 const INVALID_RESPONSE = 'Chưa đọc được hướng dẫn. Em hãy thử lại nhé.';
 
-export type CompletedLessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string; expression: string; answer: string; unit: string; explanation: string; solutionSentence?: string; calculationDetails?: string[]; guidance?: string[] };
-export type LessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string; explanation: string; question: string; choices: string[]; expression: string; unit: string; workExcerpt: string; solutionSentence?: string; guidance?: string[] };
+export type CompletedLessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string; expression: string; answer: string; unit: string; explanation: string; solutionSentence?: string; calculationDetails?: string[]; guidance?: string[]; question?: string; choices?: string[] };
+export type LessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string; explanation: string; question: string; choices: string[]; expression: string; unit: string; workExcerpt: string; solutionSentence?: string; guidance?: string[]; choiceChecks?: boolean[] };
 export type LessonSummary = { givens: string[]; question: string };
 export type LessonReply = { answer: string; spokenExplanation: string; followUp: string; guarded: boolean };
 export type LearningCheck = {expression:string;question:string;checked:boolean;correct:boolean;feedback:string};
@@ -95,6 +97,9 @@ function lessonResponse(value: any): LessonResponse {
     && bounded(summary.question, 100) && summary.question.trim());
   const stepValid = (s: any) => s && bounded(s.title, 100) && bounded(s.explanation, 500) && bounded(s.question, 220)
     && Array.isArray(s.choices) && s.choices.length <= 4 && s.choices.every((c: any) => bounded(c, 100))
+    && (s.choiceChecks === undefined || (Array.isArray(s.choiceChecks) && (s.choiceChecks.length === 0
+      || (s.choiceChecks.length === s.choices.length && s.choiceChecks.every((check: unknown) => typeof check === 'boolean')
+        && s.choiceChecks.filter(Boolean).length === 1 && new Set(s.choices).size === s.choices.length))))
     && bounded(s.expression, 220) && bounded(s.unit, 20) && bounded(s.workExcerpt, 500)
     && (s.solutionSentence === undefined || bounded(s.solutionSentence, 220)) && guidanceValid(s.guidance);
   if (!value || !summaryValid || ![0, 3].includes(understanding) || !bounded(value.sessionId, 100) || value.sessionId.length < 20 || !Number.isInteger(value.revision) || value.revision < 0
@@ -104,6 +109,10 @@ function lessonResponse(value: any): LessonResponse {
       || !Array.isArray(value.completed) || value.completed.length > value.outline.length
       || !value.completed.every((s: any, index: number) => phaseValid(s, index) && bounded(s.title, 100) && bounded(s.expression, 220) && bounded(s.answer, 100) && bounded(s.unit, 20) && bounded(s.explanation, 500)
         && (s.solutionSentence === undefined || bounded(s.solutionSentence, 220))
+        && (s.question === undefined || bounded(s.question, 220))
+        && (s.choices === undefined || (Array.isArray(s.choices) && s.choices.length <= 4
+          && s.choices.every((choice: unknown) => bounded(choice, 100) && (choice as string).trim())
+          && new Set(s.choices).size === s.choices.length && (!s.choices.length || s.choices.includes(s.answer))))
         && guidanceValid(s.guidance)
         && (s.calculationDetails === undefined || (Array.isArray(s.calculationDetails) && s.calculationDetails.length <= 5 && s.calculationDetails.every((d: any) => bounded(d, 500)))))
       || (value.conclusion !== undefined && !bounded(value.conclusion, 150))
@@ -114,6 +123,16 @@ function lessonResponse(value: any): LessonResponse {
         : value.stepIndex >= value.outline.length || !phaseValid(value.step, value.stepIndex) || !stepValid(value.step)
           || (value.stepIndex < understanding && value.step.choices.length < 2))) throw new Error(INVALID_RESPONSE);
   if (value.status !== 'COMPLETE' && value.conclusion) throw new Error(INVALID_RESPONSE);
+  const reviewed = value.review;
+  if (reviewed !== undefined && reviewed !== null) {
+    const last = value.completed[value.completed.length - 1];
+    if (!last || !bounded(reviewed.question, 220) || !reviewed.question.trim()
+      || !bounded(reviewed.studentAnswer, 100) || reviewed.studentAnswer !== last.answer
+      || !Array.isArray(reviewed.choices) || reviewed.choices.length > 4
+      || reviewed.choices.some((choice: unknown) => !bounded(choice, 100) || !(choice as string).trim())
+      || new Set(reviewed.choices).size !== reviewed.choices.length
+      || (reviewed.choices.length && !reviewed.choices.includes(reviewed.studentAnswer))) throw new Error(INVALID_RESPONSE);
+  }
   return value as LessonResponse;
 }
 
@@ -229,6 +248,12 @@ export const TutorService = {
     if (!['PROBLEM', 'WORK', 'MIXED', 'MULTIPLE', 'UNREADABLE'].includes(data?.kind)
       || typeof data.problemText !== 'string' || data.problemText.length > 4000 || typeof data.needsProblem !== 'boolean'
       || (data.needsCrop !== undefined && typeof data.needsCrop !== 'boolean')
+      || (data.questions !== undefined && (!Array.isArray(data.questions) || data.questions.length > 30
+        || data.questions.some(q => !q || typeof q.label !== 'string' || !q.label.trim() || q.label.length > 100
+          || typeof q.problemText !== 'string' || q.problemText.trim().length < 3 || q.problemText.length > 4000 || typeof q.uncertain !== 'boolean')
+        || data.questions.reduce((size, q) => size + q.problemText.length, 0) > 24000
+        || new Set(data.questions.map(q => q.problemText.trim())).size !== data.questions.length
+        || (data.questions.length > 0 && (data.kind !== 'MULTIPLE' || data.problemText !== '' || data.lines?.length !== 0 || data.needsCrop))))
       || (data.needsCrop === true && (data.kind !== 'UNREADABLE' || data.problemText !== '' || data.lines?.length !== 0))
       || !Array.isArray(data.lines) || data.lines.length > 35 || data.lines.some(row => typeof row.text !== 'string'
         || !row.text.trim() || row.text.length > 500 || typeof row.uncertain !== 'boolean'

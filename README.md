@@ -86,12 +86,11 @@ The supported launcher workflow is **Windows + PowerShell**. Install **Node.js 2
 ~~~powershell
 git clone https://github.com/NV-DuyManh/MathVisionKid.git
 cd MathVisionKid
-npm ci
-py -3.12 -m venv ai\runtime\.venv
-.\ai\runtime\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\ai\runtime\.venv\Scripts\python.exe -m pip install -r ai\runtime\requirements-lock.txt
+.\SETUP_MATHVISION.bat
 .\RUN_MATHVISION.bat
 ~~~
+
+On a freshly cloned Windows machine, double-click **`SETUP_MATHVISION.bat`** first. It installs missing prerequisites through WinGet, installs all JavaScript workspaces and locked Python libraries (including speech), prepares FFmpeg, and compiles the backend. Allow the Windows installer prompts when needed. Then open Docker Desktop and run **`RUN_MATHVISION.bat`**. Private cloud keys and model weights are described in the [setup guide](docs/HUONG_DAN_CAI_DAT.md).
 
 Use **`RUN_MATHVISION.bat`** to start the local stack and display the student app QR code. **Keep its terminal open to scan the QR code.** The separate student development terminal also remains available. Open **http://localhost:8081/login** for the Student login page in a browser. Local web portals are available at the addresses below; this local launcher does not publish a website.
 
@@ -107,11 +106,12 @@ Use **`DEPLOY_WEB.bat`** only when you want to deploy or resume the public websi
 | Student app | Scan the launcher QR in a compatible Expo Go client |
 | Student web login | `http://localhost:8081/login` |
 | Runtime health | `.\scripts\health-check.bat` |
-| Stop the local stack | `.\scripts\stop-all.bat` |
+| First-time dependency setup | `.\SETUP_MATHVISION.bat` |
+| Stop the local stack | `.\STOP_MATHVISION.bat` |
 
 The local Portal also opens the shared Student interface at `http://localhost:5172/study/` after Portal login. Starting Portal prepares this generated preview automatically and retains the same browser session. Restart Portal after changing Student code to refresh its preview; the separate Expo development app continues to update normally. Generated Student files stay out of Git.
 
-The root launchers have separate purposes: `RUN_MATHVISION.bat` runs the local app, `RUN_CATALOG_BOT.bat` audits the lesson catalog, and `DEPLOY_WEB.bat` publishes the configured public trial. Maintenance commands live in `scripts/`; their PowerShell implementations live in `scripts/dev/`.
+The root launchers have separate purposes: `RUN_MATHVISION.bat` runs the local app, `STOP_MATHVISION.bat` stops it, `RUN_CATALOG_BOT.bat` audits the lesson catalog, and `DEPLOY_WEB.bat` publishes the configured public trial. Maintenance commands live in `scripts/`; their PowerShell implementations live in `scripts/dev/`.
 
 For phone setup, development accounts, model files, and configuration, follow [English setup](docs/LOCAL_SETUP.md) or [hướng dẫn tiếng Việt](docs/HUONG_DAN_CAI_DAT.md). For errors, see [troubleshooting](docs/TROUBLESHOOTING.md).
 

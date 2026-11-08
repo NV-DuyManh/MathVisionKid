@@ -294,7 +294,7 @@ export default function LoginScreen() {
                 <Pressable style={styles.forgotButton} onPress={() => openView('request-reset')} accessibilityRole="button">
                   <Text style={styles.switchText}>Quên mật khẩu?</Text>
                 </Pressable>
-                <AppButton title="Đăng nhập" onPress={handleLogin} loading={loading} disabled={loading} variant="primary" />
+                <AppButton title="Đăng nhập" loadingTitle="Đang đăng nhập…" onPress={handleLogin} loading={loading} disabled={loading} variant="primary" />
                 <Pressable style={styles.switchButton} onPress={() => openView('register')} accessibilityRole="button">
                   <Text style={styles.switchText}>Chưa có tài khoản? Đăng ký</Text>
                 </Pressable>
@@ -336,14 +336,14 @@ export default function LoginScreen() {
                 {field('Mật khẩu', registerPassword, setRegisterPassword, { placeholder: 'Từ 8 đến 72 ký tự', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72 })}
                 {field('Nhập lại mật khẩu', confirmPassword, setConfirmPassword, { placeholder: 'Nhập lại mật khẩu', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72 })}
                 <Text style={styles.helperText}>Mật khẩu cần có ít nhất 8 ký tự.</Text>
-                <AppButton title="Tạo tài khoản" onPress={handleRegister} loading={loading} disabled={loading} variant="primary" />
+                <AppButton title="Tạo tài khoản" loadingTitle="Đang tạo tài khoản…" onPress={handleRegister} loading={loading} disabled={loading} variant="primary" />
                 <Pressable style={styles.switchButton} onPress={() => openView('login')} accessibilityRole="button">
                   <Text style={styles.switchText}>Đã có tài khoản? Đăng nhập</Text>
                 </Pressable>
               </> : authView === 'request-reset' ? <>
                 <Text style={styles.helperText}>Nhập email dùng để tạo tài khoản. Mã có hiệu lực trong 10 phút.</Text>
                 {field('Email đăng ký', email, setEmail, { placeholder: 'ten@example.com', keyboardType: 'email-address', autoComplete: 'email', maxLength: 255 })}
-                <AppButton title="Gửi mã xác nhận" onPress={handleRequestPasswordReset} loading={loading} disabled={loading} variant="primary" />
+                <AppButton title="Gửi mã xác nhận" loadingTitle="Đang gửi mã…" onPress={handleRequestPasswordReset} loading={loading} disabled={loading} variant="primary" />
                 <Pressable style={styles.switchButton} onPress={() => openView('login')} accessibilityRole="button">
                   <Text style={styles.switchText}>Quay lại đăng nhập</Text>
                 </Pressable>
@@ -351,7 +351,7 @@ export default function LoginScreen() {
                 {field('Mã xác nhận 6 số', resetCode, setResetCode, { placeholder: '000000', keyboardType: 'number-pad', autoCapitalize: 'none', maxLength: 6 })}
                 {field('Mật khẩu mới', newPassword, setNewPassword, { placeholder: 'Từ 8 đến 72 ký tự', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72 })}
                 {field('Nhập lại mật khẩu mới', confirmNewPassword, setConfirmNewPassword, { placeholder: 'Nhập lại mật khẩu mới', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72 })}
-                <AppButton title="Xác nhận và đổi mật khẩu" onPress={handleConfirmPasswordReset} loading={loading} disabled={loading} variant="primary" />
+                <AppButton title="Xác nhận và đổi mật khẩu" loadingTitle="Đang đổi mật khẩu…" onPress={handleConfirmPasswordReset} loading={loading} disabled={loading} variant="primary" />
                 <Pressable style={styles.switchButton} onPress={() => openView('request-reset')} accessibilityRole="button">
                   <Text style={styles.switchText}>Gửi lại mã</Text>
                 </Pressable>

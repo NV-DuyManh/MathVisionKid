@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
@@ -24,6 +25,28 @@ def audit_corpus(path):
         ids.add(row['id']);sources.add(digest)
     return dict(cases=len(ids),distinctSources=len(sources),duplicateSources=0,
                 evidence='Structure/deduplication only; this is not mathematical or OCR accuracy.')
+
+
+def audit_published(path):
+    if path.stat().st_size > 1_000_000: raise ValueError('Public catalog is too large')
+    data=json.loads(path.read_text(encoding='utf-8'))
+    if set(data)!={'version','validationPolicy','entries'} or data['version']!=1 or not re.fullmatch(r'[a-f0-9]{64}',data['validationPolicy']):
+        raise ValueError('Invalid public catalog')
+    if not isinstance(data['entries'],list) or not 1<=len(data['entries'])<=500: raise ValueError('Invalid public entries')
+    ids=set();sources=set()
+    for row in data['entries']:
+        if set(row)!={'id','problemText','plan','expectedAnswers'}: raise ValueError('Unexpected/private public fields')
+        if not isinstance(row['id'],str) or not re.fullmatch(r'[a-z0-9-]{1,80}',row['id']) or row['id'] in ids: raise ValueError('Invalid public ID')
+        source=row['problemText']
+        if not isinstance(source,str) or not 3<=len(source)<=4000 or re.search(r'@|https?://|Bearer |accessToken|sessionId',source,re.I):
+            raise ValueError('Public source needs review')
+        key=normalized_source(source)
+        if key in sources: raise ValueError('Duplicate public source')
+        steps=row['plan']['steps'];expected=row['expectedAnswers']
+        if not 1<=len(steps)<=6 or not isinstance(expected,list) or len(steps)!=len(expected): raise ValueError('Incomplete public plan')
+        if any(step.get('kind')!='MATH' or step.get('workExcerpt') for step in steps): raise ValueError('Private work in public plan')
+        ids.add(row['id']);sources.add(key)
+    return dict(exercises=len(ids),version=1,evidence='Public structure/privacy checks; mathematical verification runs in AI CI.')
 
 
 if __name__=='__main__':

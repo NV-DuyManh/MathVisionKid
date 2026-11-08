@@ -12,6 +12,18 @@ const guidance = { stage: 'UNDERSTAND', hint: 'Tìm số bi ban đầu và số 
 
 beforeEach(() => jest.clearAllMocks());
 
+it('keeps question selection separate from lesson confirmation', async () => {
+  const data = { kind: 'MULTIPLE', problemText: '', lines: [], needsProblem: false, needsCrop: false,
+    questions: [{ label: 'Câu 1', problemText: 'Tính 1+1=?', uncertain: false }, { label: 'Câu 2', problemText: 'Tính 2+3=?', uncertain: false }] };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.inspect('file:///masked.jpg', true)).resolves.toEqual(data);
+  for (const patch of [{ questions: [null] }, { questions: [data.questions[0], data.questions[0]] },
+    { kind: 'PROBLEM' }, { needsCrop: true }, { questions: [{ ...data.questions[0], uncertain: 'false' }] }]) {
+    (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...data, ...patch } });
+    await expect(TutorService.inspect('file:///masked.jpg', true)).rejects.toThrow('Chưa đọc được hướng dẫn');
+  }
+});
+
 it('prepares a private source without claiming confirmation and keeps the normal timeout', async () => {
   (apiClient.post as jest.Mock).mockResolvedValue({ data: { phase: 'preparing' } });
   await TutorService.prepareLesson('Có 7 hộp, mỗi hộp 9 bút.', '');
@@ -77,6 +89,33 @@ const publicLesson = { sessionId: 'abcdefghijklmnopqrstuv', revision: 0, topic: 
   stepIndex: 0, completed: [], status: 'READY', feedback: '', step: { title: 'Chọn phép tính', explanation: 'Xem số bút thay đổi.', question: 'Em chọn phép tính nào?',
     choices: ['Cộng', 'Trừ'], expression: '', unit: '', workExcerpt: '' } };
 
+it('accepts bounded completed questions and refuses choices inconsistent with the checked answer', async () => {
+  const checked = { ...publicLesson.step, answer: 'Cộng' };
+  const data = { ...publicLesson, revision: 1, stepIndex: 1, completed: [checked] };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.startLesson(request.problemText, '', { problemConfirmed: true, workConfirmed: false })).resolves.toEqual(data);
+  for (const patch of [{ question: 'x'.repeat(221) }, { choices: null }, { choices: ['Cộng', 'Cộng'] },
+    { choices: ['Trừ', 'Nhân'] }, { choices: ['Cộng', ''] }, { choices: Array(5).fill('Cộng') }]) {
+    (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...data, completed: [{ ...checked, ...patch }] } });
+    await expect(TutorService.startLesson(request.problemText, '', { problemConfirmed: true, workConfirmed: false })).rejects.toThrow('Chưa đọc được hướng dẫn');
+  }
+});
+
+it('validates resumed review against the last checked answer before rendering it', async () => {
+  const checked = { ...publicLesson.step, answer: 'Cộng' };
+  const review = { question: checked.question, choices: checked.choices, studentAnswer: 'Cộng' };
+  const data = { ...publicLesson, revision: 1, stepIndex: 1, completed: [checked], review };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.resumeLesson(data.sessionId, request.problemText)).resolves.toEqual(data);
+  for (const patch of [{ review: true }, { review: { ...review, question: 'x'.repeat(221) } },
+    { review: { ...review, choices: null } }, { review: { ...review, choices: ['Cộng', 'Cộng'] } },
+    { review: { ...review, choices: ['Trừ', 'Nhân'] } }, { review: { ...review, studentAnswer: 'Trừ' } },
+    { completed: [], stepIndex: 0 }]) {
+    (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...data, ...patch } });
+    await expect(TutorService.resumeLesson(data.sessionId, request.problemText)).rejects.toThrow('Chưa đọc được hướng dẫn');
+  }
+});
+
 it('accepts a complete single-step calculation and a single-step multiple-choice exercise', async () => {
   for(const step of [
     { ...publicLesson.step, title:'Tính', choices:[], expression:'1+1' },
@@ -96,6 +135,21 @@ const summaryLesson = { ...publicLesson, revision: 2, understandingSteps: 3, ste
     { kind: 'UNDERSTAND', title: 'Dữ kiện', expression: '', answer: 'Lan có 12 bút', unit: '', explanation: 'Đọc đề.' },
     { kind: 'UNDERSTAND', title: 'Câu hỏi', expression: '', answer: 'Hỏi có tất cả bao nhiêu bút?', unit: '', explanation: 'Đọc đề.' },
   ], step: { ...publicLesson.step, kind: 'UNDERSTAND' } };
+
+it('accepts only an aligned boolean verdict for the current step and never sends it as a grade', async () => {
+  const data = { ...publicLesson, step: { ...publicLesson.step, choiceChecks: [true, false] } };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  const current = await TutorService.startLesson('Lan có 12 bút, thêm 5 bút.', '', { problemConfirmed: true, workConfirmed: false });
+  expect(current.step?.choiceChecks).toEqual([true, false]);
+  await TutorService.answerLesson(current, 'Trừ');
+  expect(apiClient.post).toHaveBeenLastCalledWith('/student/tutor/lesson/answer', {
+    sessionId: current.sessionId, revision: 0, answer: 'Trừ', hint: false,
+  }, expect.anything());
+  for (const choiceChecks of [null, true, [true], [true, true], [false, false], [1, false], [true, false, true]]) {
+    (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...data, step: { ...data.step, choiceChecks } } });
+    await expect(TutorService.startLesson('Lan có 12 bút, thêm 5 bút.', '', { problemConfirmed: true, workConfirmed: false })).rejects.toThrow();
+  }
+});
 const sourceSummary = { givens: ['Lan có 12 bút', 'thêm 5 bút', 'Hai nhóm cùng màu'], question: 'Hỏi có tất cả bao nhiêu bút?' };
 
 const readingOnly = { ...publicLesson, understandingSteps: 3, preparingMath: true,

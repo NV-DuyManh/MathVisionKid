@@ -63,9 +63,7 @@ if errorlevel 1 (
 :: 6. Run Complete Ecosystem Diagnostics
 echo.
 echo [3/3] Verifying Complete Ecosystem Diagnostics...
-set "PY_EXE=%SCRIPT_DIR%ai\runtime\.venv\Scripts\python.exe"
-if not exist "%PY_EXE%" set "PY_EXE=python"
-"%PY_EXE%" "%SCRIPT_DIR%tools\diagnostics\check_runtime.py"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT_DIR%scripts\dev\check-runtime.ps1"
 if errorlevel 1 (
     set "FAIL_REASON=Complete ecosystem diagnostics did not pass"
     goto :launcher_failed
@@ -79,7 +77,7 @@ echo  - Unified Portal:  http://localhost:5172  (Main Entry)
 echo  - Teacher Portal:  http://localhost:5173
 echo  - Admin Portal:    http://localhost:5174
 echo  - Student Mobile:  Scan the Expo Go QR code below
-echo  - Stop All:        scripts\stop-all.bat
+echo  - Stop All:        STOP_MATHVISION.bat
 echo  - Deploy Web:      DEPLOY_WEB.bat
 echo ============================================================
 echo.

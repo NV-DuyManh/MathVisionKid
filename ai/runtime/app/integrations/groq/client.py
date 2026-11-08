@@ -72,6 +72,10 @@ async def _execute_chat_completion(
             except ValueError:
                 pass
         raise GroqError("RATE_LIMIT", f"Groq 429 for key {key_entry.safe_id}", retry_after=retry_after)
+    if resp.status_code == 413:
+        # Includes a request exceeding the tier's input-token ceiling. It is
+        # deterministic for this payload: retrying or rotating keys cannot fix it.
+        raise GroqError("REQUEST_TOO_LARGE", "Groq request exceeds provider limits")
     if resp.status_code == 400:
         raise GroqError("BAD_REQUEST", f"Groq 400: {resp.text[:200]}")
     if resp.status_code == 404:

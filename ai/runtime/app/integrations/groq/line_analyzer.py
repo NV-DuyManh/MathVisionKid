@@ -149,7 +149,13 @@ async def analyze_with_groq(
     last_err_class = "UNKNOWN"
     t_start = time.time()
 
-    for model in [primary_model, fallback_model]:
+    from app.integrations.groq.validator import get_model_validation_status
+    validation = get_model_validation_status()
+    absent = {validation[role]['model'] for role in ('primary', 'fallback')
+        if time.time() - validation['checked_at'] < 300
+        and validation[role].get('catalogAvailable') is False}
+    models = [model for model in dict.fromkeys([primary_model, fallback_model]) if model and model not in absent]
+    for model in models:
         for attempt in range(max_attempts):
             entry = pool.acquire()
             if entry is None:
@@ -195,7 +201,7 @@ async def analyze_with_groq(
 
                 # Second pass if needed
                 fallback_used = (model == fallback_model)
-                if analysis.needs_second_pass or analysis.overall_confidence < second_pass_threshold:
+                if fallback_model in models and (analysis.needs_second_pass or analysis.overall_confidence < second_pass_threshold):
                     logger.info(f"[GroqAnalyzer] Second pass needed (conf={analysis.overall_confidence:.2f})")
                     second_entry = pool.acquire()
                     if second_entry:
@@ -247,6 +253,10 @@ async def analyze_with_groq(
 
                 if e.error_class == "MODEL_UNAVAILABLE":
                     break  # try fallback model, not next key
+
+                if e.error_class == "REQUEST_TOO_LARGE":
+                    _last_failure_reason = e.error_class
+                    return None  # A new key cannot shrink the same image/prompt.
 
                 if e.error_class == "RATE_LIMIT" and not rotate_on_429:
                     wait = getattr(e, "retry_after", None) or (retry_base_ms / 1000.0)

@@ -66,6 +66,16 @@ public class BatchControllerTest {
     private Student studentOutsideClass;
     private Assignment assignment;
     private Batch testBatch;
+    private static final byte[] IMAGE = java.util.Base64.getDecoder().decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aBXsAAAAASUVORK5CYII=");
+
+    @Autowired private com.mathvisionkids.api.submission.SubmissionRepository submissions;
+
+    @org.springframework.test.context.transaction.AfterTransaction
+    void clearRollbackCleanupInvocations() {
+        // Spring rolls test transactions back after Mockito's AFTER reset.
+        // Object cleanup belongs to this test, never to the next context user.
+        org.mockito.Mockito.clearInvocations(objectStorageService);
+    }
 
     @BeforeEach
     public void setup() throws Exception {
@@ -125,12 +135,46 @@ public class BatchControllerTest {
 
     @Test
     @WithMockUser(username = "teacher1@test.com", roles = "TEACHER")
+    void completedAndReviewRequiredSubmissionsDriveRealBatchProgress() throws Exception {
+        for (String state : List.of("PROPOSED_GRADE", "NEEDS_RETAKE")) {
+            var submission = new com.mathvisionkids.api.submission.Submission();
+            submission.setBatch(testBatch);
+            submission.setAssignment(assignment);
+            submission.setStudent(studentInClass);
+            submission.setStatus(state);
+            submissions.save(submission);
+        }
+        testBatch.setStatus("PROCESSING");
+        batchRepository.saveAndFlush(testBatch);
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/teacher/batches/" + testBatch.getBatchId()))
+                .andExpect(status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.status").value("COMPLETED"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.processedCount").value(2))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.totalCount").value(2))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.reviewRequiredCount").value(1));
+    }
+
+    @Test
+    @WithMockUser(username = "teacher1@test.com", roles = "TEACHER")
+    void spoofedImageAndNullManifestNeverStoreFiles() throws Exception {
+        BatchImageMapping mapping = new BatchImageMapping();
+        mapping.setFileIndex(0);
+        mapping.setStudentId(studentInClass.getId());
+        mockMvc.perform(multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions")
+                .file(new MockMultipartFile("images", "fake.jpg", "image/jpeg", "not an image".getBytes()))
+                .param("manifest", objectMapper.writeValueAsString(List.of(mapping))))
+                .andExpect(status().isUnprocessableEntity());
+        org.mockito.Mockito.verify(objectStorageService, org.mockito.Mockito.never()).store(any(), anyString());
+    }
+
+    @Test
+    @WithMockUser(username = "teacher1@test.com", roles = "TEACHER")
     public void testUpload10ValidFiles() throws Exception {
         List<BatchImageMapping> mappings = new ArrayList<>();
         var builder = multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions");
         
         for (int i = 0; i < 10; i++) {
-            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/jpeg", "content".getBytes());
+            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/png", IMAGE);
             builder.file(file);
             
             BatchImageMapping mapping = new BatchImageMapping();
@@ -152,7 +196,7 @@ public class BatchControllerTest {
         var builder = multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions");
         
         for (int i = 0; i < 30; i++) {
-            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/jpeg", "content".getBytes());
+            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/png", IMAGE);
             builder.file(file);
             
             BatchImageMapping mapping = new BatchImageMapping();
@@ -184,7 +228,7 @@ public class BatchControllerTest {
         List<BatchImageMapping> mappings = new ArrayList<>();
         var builder = multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions");
         
-        MockMultipartFile file = new MockMultipartFile("images", "file0.jpg", "image/jpeg", "content".getBytes());
+        MockMultipartFile file = new MockMultipartFile("images", "file0.jpg", "image/png", IMAGE);
         builder.file(file);
         
         BatchImageMapping mapping = new BatchImageMapping();
@@ -205,7 +249,7 @@ public class BatchControllerTest {
         var builder = multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions");
         
         for (int i = 0; i < 9; i++) {
-            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/jpeg", "content".getBytes());
+            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/png", IMAGE);
             builder.file(file);
             
             BatchImageMapping mapping = new BatchImageMapping();
@@ -227,7 +271,7 @@ public class BatchControllerTest {
         var builder = multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions");
         
         for (int i = 0; i < 31; i++) {
-            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/jpeg", "content".getBytes());
+            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/png", IMAGE);
             builder.file(file);
             
             BatchImageMapping mapping = new BatchImageMapping();
@@ -249,7 +293,7 @@ public class BatchControllerTest {
         var builder = multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions");
         
         for (int i = 0; i < 10; i++) {
-            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/jpeg", "content".getBytes());
+            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/png", IMAGE);
             builder.file(file);
             
             BatchImageMapping mapping = new BatchImageMapping();
@@ -271,7 +315,7 @@ public class BatchControllerTest {
         var builder = multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions");
         
         for (int i = 0; i < 10; i++) {
-            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/jpeg", "content".getBytes());
+            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/png", IMAGE);
             builder.file(file);
             
             BatchImageMapping mapping = new BatchImageMapping();
@@ -293,7 +337,7 @@ public class BatchControllerTest {
         var builder = multipart("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/submissions");
         
         for (int i = 0; i < 10; i++) {
-            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/jpeg", "content".getBytes());
+            MockMultipartFile file = new MockMultipartFile("images", "file" + i + ".jpg", "image/png", IMAGE);
             builder.file(file);
             
             BatchImageMapping mapping = new BatchImageMapping();

@@ -39,7 +39,9 @@ def test_unverified_model_geometry_is_not_displayed(monkeypatch):
     assert [line.text for line in result.lines][-1] == "Bò vàng: 35 con"
     assert all(line.box is None for line in result.lines)
     assert result.needsProblem is True
-    assert cloud.await_args_list[0].kwargs['max_output_tokens']==4000
+    # Multiple-question pages need bounded space for all original tasks; the
+    # worked-row/geometry safety limits above remain independently asserted.
+    assert cloud.await_args_list[0].kwargs['max_output_tokens']==7000
 
 
 @pytest.mark.parametrize('duplicate', [True, False])

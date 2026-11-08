@@ -31,7 +31,7 @@ def resume(request: ResumeRequest):
     response=lesson.present(request.sessionId, session)
     if session.answers:
         previous=session.plan.steps[len(session.answers)-1]
-        response.review=dict(question=previous.question,choices=previous.choices,studentAnswer=session.answers[-1])
+        response.review=dict(question=previous.question,choices=previous.choices,studentAnswer=session.completed[-1].answer)
     return response
 
 

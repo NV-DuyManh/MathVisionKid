@@ -26,7 +26,7 @@ export async function checkRegistry(directory = root) {
     if (entry.isDirectory() && !folders.has(entry.name)) throw new Error(`Unregistered skill: ${entry.name}`);
   }
   for (const [domain, route] of Object.entries(registry.routes)) {
-    if (!route.length || route.length > 3 || new Set(route).size !== route.length || route.some(id => !ids.has(id))) throw new Error(`Invalid route: ${domain}`);
+    if (!route.length || new Set(route).size !== route.length || route.some(id => !ids.has(id))) throw new Error(`Invalid route: ${domain}`);
   }
   return registry;
 }

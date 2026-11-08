@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificationExecutor<User> {
+    @org.springframework.data.jpa.repository.Query(value="select 1 from users where id = :id for update", nativeQuery=true)
+    Optional<Integer> lockSessions(@org.springframework.data.repository.query.Param("id") UUID id);
     // Lock only the root row: JOINED inheritance can add nullable outer joins,
     // which PostgreSQL cannot lock with an unqualified FOR UPDATE.
     @org.springframework.data.jpa.repository.Query(value="select 1 from users where email = :email for update", nativeQuery=true)

@@ -7,6 +7,7 @@ import json
 import sqlite3
 import time
 import wave
+from fractions import Fraction
 from unittest.mock import AsyncMock
 import pytest
 from app.config import settings
@@ -21,6 +22,8 @@ SOURCE='Vườn cây có 1/3 số cây là cây táo, 2/5 số cây là cây xo�
 def enabled(tmp_path,monkeypatch):
     monkeypatch.setattr(settings,'lesson_catalog_enabled',True)
     monkeypatch.setattr(settings,'lesson_catalog_path',str(tmp_path/'private.sqlite3'))
+    # Private-cache isolation is separate from the explicitly public inventory.
+    monkeypatch.setattr(catalog, 'published_entries', lambda: ('', {}))
     # These cases exercise generation/review caching, independently of optional
     # exact solvers, whose catalog integration is checked in its own suite.
     for name in ('fraction_remainder','digit_append'):
@@ -42,6 +45,22 @@ async def test_checked_exact_source_reused_after_reopening_without_model_call(en
     assert first.step.expression==second.step.expression and second.completed==[] and second.revision==0
     assert second.stepIndex==0 and '60' not in second.model_dump_json()
     assert enabled.audit()['groups'][0]['hits']==1
+
+
+@pytest.mark.asyncio
+async def test_fraction_division_keeps_checked_answer_after_persistent_catalog_reopen(enabled, monkeypatch):
+    source = 'Câu 2. Tính giá trị của biểu thức. 1 (1)/(3) + (5)/(8) : (7)/(2)'
+    cloud = AsyncMock(side_effect=AssertionError('Exact exercise must not use a model'))
+    monkeypatch.setattr(lesson, 'generate_plan', cloud)
+    req = request(source=source)
+    first = await lesson.checked_plan(req)
+    assert lesson.calculate_exact(first.steps[0].expression) == Fraction(127, 84)
+    # A new store/connection still reads the checked plan; block regeneration.
+    monkeypatch.setattr('app.tutoring.short_math.verified_plan', lambda _: pytest.fail('Catalog miss'))
+    second = await lesson.checked_plan(req)
+    assert second.steps[0].expression == first.steps[0].expression
+    assert catalog.load_plan(request(owner='another-child', source=source)) is None
+    assert cloud.await_count == 0
 
 
 @pytest.mark.asyncio
@@ -151,6 +170,23 @@ def test_catalog_setup_wait_is_bounded_and_recovers_after_contention(tmp_path,mo
         lock.release()
     store.put('audio','owner','male','policy',b'complete')
     assert store.get('audio','owner','male','policy')==b'complete'
+
+
+def test_initialized_catalog_does_not_wait_for_another_database_setup(tmp_path,monkeypatch):
+    import threading
+    from app.tutoring import catalog_store
+    path=tmp_path/'ready.sqlite3'
+    CatalogStore(path).put('audio','owner','male','policy',b'complete')
+    lock=threading.Lock()
+    monkeypatch.setattr(catalog_store,'_schema_lock',lock)
+    with lock:
+        # Separate instances/connections are used by the two voice workers.
+        store=CatalogStore(path)
+        assert store.get('audio','owner','male','policy')==b'complete'
+        store.put('audio','owner','female','policy',b'also-complete')
+        assert store.get('audio','owner','female','policy')==b'also-complete'
+    with sqlite3.connect(path) as db:
+        assert db.execute('PRAGMA journal_mode').fetchone()[0]=='wal'
 
 
 @pytest.mark.asyncio
