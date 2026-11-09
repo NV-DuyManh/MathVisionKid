@@ -9,10 +9,9 @@ import {
   Skeleton,
   Alert,
   Chip,
-  Tooltip,
 } from '@mui/material';
 import { School, Groups, AddCircleOutlined, Assignment, ArrowForward } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { PageHeader } from '../components/common/PageHeader';
 import { EmptyState } from '../components/common/EmptyState';
@@ -28,7 +27,7 @@ export default function ClassesPage() {
     <Box>
       <PageHeader
         title="Danh sách Lớp học"
-        description="Các lớp học được phân công giảng dạy và quản lý danh sách học sinh."
+        description="Xem học sinh và bài tập của các lớp được phân công."
         actions={
           <Button
             variant="contained"
@@ -138,28 +137,35 @@ export default function ClassesPage() {
                   </Box>
                 </CardContent>
 
-                <Box sx={{ px: 2.5, pb: 2.5, pt: 0, display: 'flex', gap: 1.25 }}>
+                <Box sx={{ px: 2.5, pb: 2.5, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   <Button
-                    variant="outlined"
+                    component={Link}
+                    to={`/classes/${encodeURIComponent(c.id || c.classId || '')}`}
+                    variant="contained"
                     size="small"
                     fullWidth
+                    endIcon={<ArrowForward />}
+                  >
+                    Xem học sinh
+                  </Button>
+                  <Button
+                    component={Link}
+                    to={`/assignments/create?classId=${encodeURIComponent(c.id || c.classId || '')}`}
+                    variant="outlined"
+                    size="small"
                     startIcon={<Assignment />}
-                    onClick={() => navigate(`/assignments/create?classId=${encodeURIComponent(c.id || c.classId || '')}`)}
-                    sx={{ borderRadius: 2, fontWeight: 700 }}
+                    sx={{ flex: 1 }}
                   >
                     Giao bài tập
                   </Button>
-                  <Tooltip title="Tạo đợt chấm bài cho lớp này">
-                    <Button
-                      variant="contained"
-                      size="small"
-                      endIcon={<ArrowForward />}
-                      sx={{ minWidth: 108, whiteSpace: 'nowrap', borderRadius: 2, fontWeight: 700 }}
-                      onClick={() => navigate('/assignments')}
-                    >
-                      Chấm bài
-                    </Button>
-                  </Tooltip>
+                  <Button
+                    component={Link}
+                    to={`/assignments?classId=${encodeURIComponent(c.id || c.classId || '')}`}
+                    size="small"
+                    sx={{ flex: 1 }}
+                  >
+                    Bài tập của lớp
+                  </Button>
                 </Box>
               </Card>
             </Grid>

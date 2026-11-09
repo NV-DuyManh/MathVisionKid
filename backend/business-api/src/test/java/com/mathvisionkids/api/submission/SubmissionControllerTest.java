@@ -169,6 +169,10 @@ public class SubmissionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(overrideData)))
                 .andExpect(status().isOk());
+        mockMvc.perform(get("/api/v1/teacher/submissions/" + submissionA.getSubmissionId()))
+                .andExpect(status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.teacherScore").value(85))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.teacherReason").value("Missed negative sign"));
     }
 
     @Test

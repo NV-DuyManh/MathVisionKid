@@ -1,7 +1,7 @@
 import type { TeacherService } from './TeacherService';
 import apiClient from './apiClient';
 import { AuthTokenStore } from './AuthTokenStore';
-import type { Assignment, Batch, Class, DashboardStats, MathType, Submission } from '../../types';
+import type { Assignment, Batch, Class, ClassDetail, DashboardStats, MathType, Submission } from '../../types';
 
 class SpringTeacherServiceImpl implements TeacherService {
   async login(email: string, password?: string): Promise<{ token: string }> {
@@ -33,6 +33,17 @@ class SpringTeacherServiceImpl implements TeacherService {
     return res.data.map((item: Class) => ({ ...item, id: item.classId }));
   }
 
+  async getClassDetail(classId: string): Promise<ClassDetail> {
+    const { data } = await apiClient.get(`/teacher/classes/${encodeURIComponent(classId)}`);
+    return {
+      ...data,
+      id: data.classId,
+      students: data.students.map((student: { userId: string; displayName: string }) => ({
+        id: student.userId, name: student.displayName,
+      })),
+    };
+  }
+
   async getAssignments(): Promise<Assignment[]> {
     const res = await apiClient.get('/teacher/assignments');
     return res.data.map((item: Assignment & { operationType: string }) => ({
@@ -43,10 +54,8 @@ class SpringTeacherServiceImpl implements TeacherService {
 
   async getAssignmentRoster(assignmentId: string): Promise<{ id: string; name: string }[]> {
     const assignment = await apiClient.get(`/teacher/assignments/${encodeURIComponent(assignmentId)}`);
-    const classroom = await apiClient.get(`/teacher/classes/${encodeURIComponent(assignment.data.classId)}`);
-    return classroom.data.students.map((student: { userId: string; displayName: string }) => ({
-      id: student.userId, name: student.displayName,
-    }));
+    const classroom = await this.getClassDetail(assignment.data.classId);
+    return classroom.students;
   }
 
   async createAssignment(classId: string, title: string, mathType: MathType, maxScore: number = 10): Promise<Assignment> {

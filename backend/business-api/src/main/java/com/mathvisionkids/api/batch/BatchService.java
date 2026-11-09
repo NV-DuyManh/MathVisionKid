@@ -197,21 +197,26 @@ public class BatchService {
     
     @Transactional(readOnly = true)
     public BatchResponse getBatch(String teacherEmail, UUID batchId) {
-        Teacher teacher = teacherRepository.findByEmail(teacherEmail).orElseThrow();
-        Batch batch = batchRepository.findById(batchId).orElseThrow();
-        if (!batch.getTeacher().getId().equals(teacher.getId())) throw new ApiException("FORBIDDEN", "Forbidden", HttpStatus.FORBIDDEN);
-        return BatchResponse.from(batch, submissionRepository.findByBatch_BatchId(batchId));
+        Batch batch = getOwnedBatch(teacherEmail, batchId);
+        return BatchResponse.from(batch, submissionRepository.findByBatch_BatchId(batchId), true);
     }
 
     @Transactional(readOnly = true)
     public List<UUID> getBatchReviewQueue(String teacherEmail, UUID batchId) {
-        Teacher teacher = teacherRepository.findByEmail(teacherEmail).orElseThrow();
-        Batch batch = batchRepository.findById(batchId).orElseThrow();
-        if (!batch.getTeacher().getId().equals(teacher.getId())) throw new ApiException("FORBIDDEN", "Forbidden", HttpStatus.FORBIDDEN);
-        
+        getOwnedBatch(teacherEmail, batchId);
         return submissionRepository.findByBatch_BatchId(batchId).stream()
-                .filter(s -> java.util.Set.of("REVIEW_REQUIRED", "PROPOSED_GRADE", "NEEDS_CONFIRMATION", "NEEDS_RETAKE").contains(s.getStatus()))
+                .filter(BatchResponse::needsTeacherReview)
                 .map(Submission::getSubmissionId)
                 .toList();
+    }
+
+    private Batch getOwnedBatch(String teacherEmail, UUID batchId) {
+        Teacher teacher = teacherRepository.findByEmail(teacherEmail).orElseThrow();
+        Batch batch = batchRepository.findById(batchId)
+                .orElseThrow(() -> new ApiException("NOT_FOUND", "Batch not found", HttpStatus.NOT_FOUND));
+        if (!batch.getTeacher().getId().equals(teacher.getId())) {
+            throw new ApiException("FORBIDDEN", "Forbidden", HttpStatus.FORBIDDEN);
+        }
+        return batch;
     }
 }
