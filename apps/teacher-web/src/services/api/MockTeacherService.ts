@@ -64,7 +64,7 @@ class MockTeacherServiceImpl implements TeacherService {
     }));
   }
 
-  async createAssignment(classId: string, title: string, mathType: MathType): Promise<Assignment> {
+  async createAssignment(classId: string, title: string, mathType: MathType, maxScore = 10): Promise<Assignment> {
     await delay(500);
     const newAssignment: Assignment = {
       id: `a_${Date.now()}`,
@@ -72,6 +72,7 @@ class MockTeacherServiceImpl implements TeacherService {
       classId,
       title,
       mathType,
+      maxScore,
       createdAt: new Date().toISOString(),
       status: 'ACTIVE',
     };
@@ -101,8 +102,15 @@ class MockTeacherServiceImpl implements TeacherService {
     return newBatch;
   }
 
-  async uploadImages(batchId: string, _files: File[], _mappings?: { fileIndex: number, studentId: string }[]): Promise<void> {
-    await delay(1500); // simulate upload
+  async uploadImages(batchId: string, _files: File[], _mappings?: { fileIndex: number, studentId: string }[], onProgress?: (percentage: number) => void): Promise<void> {
+    if (onProgress) {
+      onProgress(30);
+      await delay(400);
+      onProgress(70);
+      await delay(500);
+      onProgress(100);
+    }
+    await delay(600); // simulate upload
     // In background, we simulate processing
     setTimeout(() => {
       const b = MOCK_BATCHES.find(x => x.id === batchId);

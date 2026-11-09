@@ -199,6 +199,7 @@ jobs:
           tests/test_question_selection.py tests/test_diagram_reading.py
           tests/test_short_math.py tests/test_number_tasks.py tests/test_area_tasks.py
           tests/test_elementary_choices.py tests/test_reported_exam.py
+          tests/test_notation_diversity.py
           tests/test_source_clarification.py tests/test_plan_preparation.py
           tests/test_daily_sales.py tests/test_quiz_variants.py
           tests/test_neural_speech.py tests/test_quiz_narration.py tests/test_lesson_narration.py

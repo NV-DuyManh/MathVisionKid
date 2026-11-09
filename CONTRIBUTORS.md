@@ -18,4 +18,6 @@ Bổ sung trên nhánh **Kha**, 31/10/2026: sửa vòng đời Voice Quiz, chín
 
 [PR #11](https://github.com/NV-DuyManh/MathVisionKid/pull/11) giữ nguyên hai commit gốc của Kha: `3fbab4a` và `94f56bb`. Phần tích hợp có sửa thêm khởi động MinIO để dùng được trên máy clone mới, bảo toàn dữ liệu và bổ sung kiểm thử; xem [review độc lập](report/kha-latest-review-20261031/REPORT.md). Các sửa của người tích hợp không đổi tác giả commit gốc.
 
+**Dependabot** đề xuất cập nhật GitHub Actions, Java, Python và npm trong [PR #41](https://github.com/NV-DuyManh/MathVisionKid/pull/41), [#42](https://github.com/NV-DuyManh/MathVisionKid/pull/42), [#43](https://github.com/NV-DuyManh/MathVisionKid/pull/43) và [#44](https://github.com/NV-DuyManh/MathVisionKid/pull/44). Các sửa tương thích được ghi trong commit riêng, với commit đề xuất gốc được giữ trong lịch sử.
+
 Các thư viện, font, công cụ và phần mã bên thứ ba giữ thông báo tác giả/giấy phép riêng. Bảng này không thay đổi giấy phép hoặc tự xác lập quyền sở hữu pháp lý.

@@ -42,6 +42,25 @@ function harness(path) {
     counts: () => ({ refreshes, retries }), switchAccount: () => { id = 'session-b'; access = 'access-b'; refresh = 'refresh-b'; } };
 }
 for (const [name, path] of clients) {
+  test(name + ': a queued write cannot use the next account credentials', async () => {
+    const h = harness(path);
+    const request = await h.onRequest({ url: '/resource', method: 'post', headers: {} });
+    h.switchAccount();
+    await assert.rejects(async () => h.onRequest(request), /thay đổi/);
+    assert.equal(request.headers.Authorization, 'Bearer access-a');
+  });
+
+  test(name + ': an anonymous request cannot adopt a new session on 401', async () => {
+    const h = harness(path);
+    h.store.clearTokens();
+    const request = await h.onRequest({ url: '/me', headers: {} });
+    h.switchAccount();
+    h.finish();
+    await assert.rejects(h.onError({ response: { status: 401 }, config: request }));
+    assert.deepEqual(h.counts(), { refreshes: 0, retries: 0 });
+    assert.equal(h.store.getAccessToken(), 'access-b');
+  });
+
   test(name + ': simultaneous 401 responses share one refresh and keep current-session data', async () => {
     const h = harness(path);
     const first = await h.onRequest({ url: '/me', headers: {} });
@@ -66,6 +85,15 @@ for (const [name, path] of clients) {
     await assert.rejects(pending);
     assert.equal(h.store.getAccessToken(), 'access-b');
     assert.equal(h.store.getRefreshToken(), 'refresh-b');
+  });
+}
+
+for (const [name, path] of clients.filter(([name]) => name !== 'Student')) {
+  test(name + ': a protected SSO ticket cannot cross account boundaries', async () => {
+    const h = harness(path);
+    const request = await h.onRequest({ url: '/auth/sso/ticket', headers: {} });
+    h.switchAccount();
+    await assert.rejects(async () => h.onSuccess({ config: request, data: { code: 'old-ticket' } }), /thay đổi/);
   });
 }
 

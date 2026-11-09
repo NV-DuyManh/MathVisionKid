@@ -97,7 +97,7 @@ test('teacher cannot cross into the admin portal', async ({ page, app }) => {
   expect(app.requests.filter(r => r.path === '/auth/sso/ticket' && r.body.targetApp === 'ADMIN')).toEqual([]);
 });
 
-test('teacher creates a selected-class subtraction assignment through the form', async ({ page, app }) => {
+test('teacher creates a selected-class subtraction assignment with a custom grading scale', async ({ page, app }) => {
   await login(page, 'TEACHER');
   await openNavigation(page, 'TEACHER');
   await page.getByRole('link', { name: 'Lớp học', exact: true }).click();
@@ -106,6 +106,9 @@ test('teacher creates a selected-class subtraction assignment through the form',
   const submit = page.getByRole('button', { name: 'Tạo bài tập & Thu thập ảnh', exact: true });
   await expect(submit).toBeDisabled();
   await page.getByLabel('Tên bài tập', { exact: true }).fill('Phép trừ kiểm thử');
+  const maxScore = page.getByRole('spinbutton', { name: 'Thang điểm tối đa' });
+  await expect(maxScore).toHaveValue('10');
+  await maxScore.fill('100');
   await page.getByRole('combobox', { name: 'Dạng phép tính (Phạm vi hỗ trợ MVP)' }).click();
   await page.getByRole('option', { name: /Phép trừ đặt tính dọc/ }).click();
   await submit.click();
@@ -113,7 +116,7 @@ test('teacher creates a selected-class subtraction assignment through the form',
   await expect(page.getByRole('heading', { name: 'Tạo đợt chấm bài', exact: true })).toBeVisible();
   await expect.poll(() => app.requests.some(r => r.path === '/teacher/classes/class-5a')).toBe(true);
   expect(app.requests.filter(r => r.path === '/teacher/assignments' && r.method === 'POST').map(r => r.body))
-    .toEqual([{ classId: 'class-5a', title: 'Phép trừ kiểm thử', operationType: 'VERTICAL_SUBTRACTION', maxScore: 10 }]);
+    .toEqual([{ classId: 'class-5a', title: 'Phép trừ kiểm thử', operationType: 'VERTICAL_SUBTRACTION', maxScore: 100 }]);
 });
 
 test('teacher can retry a failed class list without reloading the page', async ({ page, app }) => {

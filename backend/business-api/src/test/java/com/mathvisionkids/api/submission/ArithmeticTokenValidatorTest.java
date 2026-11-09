@@ -31,6 +31,19 @@ class ArithmeticTokenValidatorTest {
         assertFalse(incorrect.evidence().get(0).containsKey("expectedAnswer"));
     }
 
+    @Test void equivalentOperatorNotationsAreAccepted() {
+        // Unicode minus \u2212 (PB20)
+        assertEquals(true, check(arithmetic("50", "\u2212", "17", "33")).validation().get("isValid"));
+        // En-dash \u2013 (PB20)
+        assertEquals(true, check(arithmetic("50", "\u2013", "17", "33")).validation().get("isValid"));
+        // Em-dash \u2014 (PB20)
+        assertEquals(true, check(arithmetic("50", "\u2014", "17", "33")).validation().get("isValid"));
+        // Fullwidth hyphen-minus \uff0d (PB20)
+        assertEquals(true, check(arithmetic("50", "\uff0d", "17", "33")).validation().get("isValid"));
+        // Fullwidth plus \uff0b (PB20)
+        assertEquals(true, check(arithmetic("50", "\uff0b", "17", "67")).validation().get("isValid"));
+    }
+
     @Test void wrongOperatorRowCannotBeGradedAfterADigitConfirmation() {
         var tokens = arithmetic("12", "+", "22", "34");
         tokens.get(tokens.size() - 1).put("row", 0);

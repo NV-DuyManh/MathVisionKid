@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "test:config": "node --test tests/environment.test.mjs tests/api-contracts.test.mjs tests/auth-session.test.mjs tests/workflow-regression.test.mjs tests/refresh-race.test.mjs",
+    "test:config": "node --test tests/environment.test.mjs tests/api-contracts.test.mjs tests/auth-session.test.mjs tests/workflow-regression.test.mjs tests/refresh-race.test.mjs tests/review-fixes-regression.test.mjs",
     "test:production": "node --test tests/production-bundle.test.mjs",
     "preview": "vite preview"
   },
