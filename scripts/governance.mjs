@@ -13,7 +13,9 @@ export function planChecks(paths, full = false) {
     student: shared || paths.some(p => /^apps\/student-mobile\/|^tests\/(?:student-browser\/|browser\/fixtures\.mjs$|browser\/sites\.mjs$)|^playwright(?:\.student)?\.config\.mjs$/.test(p)),
     backend: shared || paths.some(p => /^backend\/business-api\/|^scripts\/test\/test_postgres_migrations(?:_runner)?\.py$/.test(p)),
     ai: shared || paths.some(p => /^(?:ai\/runtime\/|catalog\/|contracts\/)|^scripts\/(?:ci-tutoring-requirements\.txt|test\/test_runtime_tutor_auth\.py)$/.test(p)),
-    launcher: shared || paths.some(p => /^scripts\/(?:dev\/|deploy\/|test\/|[^/]+\.(?:ps1|bat)$)|^[^/]+\.bat$/.test(p)),
+    launcher: shared || paths.some(p =>
+      /^scripts\/(?:dev\/|deploy\/|test\/|[^/]+\.(?:ps1|bat)$)|^[^/]+\.bat$/.test(p)
+      || /^ai\/runtime\/(?:pyproject\.toml|uv\.lock|requirements(?:-lock)?\.txt)$/.test(p)),
   };
 }
 export function checkNewPaths(paths) {

@@ -43,6 +43,9 @@ test('scope covers shared/CI changes, docs-only changes, deleted files and unusu
   assert.equal(planChecks(['ai/runtime/app/tutoring/speech_render.py']).ai, true);
   assert.equal(planChecks(['backend/business-api/src/main/a.java']).backend, true);
   assert.equal(planChecks(['scripts/dev/start-all.ps1']).launcher, true);
+  for (const file of ['pyproject.toml', 'uv.lock', 'requirements.txt', 'requirements-lock.txt']) {
+    assert.deepEqual(planChecks([`ai/runtime/${file}`]), { web: false, student: false, backend: false, ai: true, launcher: true });
+  }
   for (const path of ['scripts/test/test_setup_local.ps1', 'scripts/test/test_minio_launcher_guard.ps1',
     'scripts/test/test_student_qr.cjs', 'scripts/test/test_student_metro_config.cjs', 'scripts/test/test_python_runtime_pins.py']) {
     assert.equal(planChecks([path]).launcher, true, path);
