@@ -1,5 +1,6 @@
 package com.mathvisionkids.api.ocr.multiline;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +24,6 @@ public class MultilineTrialResponse {
     private Integer pageWidth;
     private Integer pageHeight;
     private boolean privacyConfirmed;
-    @com.fasterxml.jackson.annotation.JsonProperty("isTestData")
     private boolean isTestData;
     private String dataOrigin;
     private String domain;
@@ -38,6 +38,11 @@ public class MultilineTrialResponse {
     private String correctionSource;
     private String finalTextSource;
     private String requestId;
+
+    @JsonProperty("isTestData")
+    public boolean isTestData() {
+        return isTestData;
+    }
 
     public static MultilineTrialResponse fromEntity(OcrMultilineTrial entity) {
         if (entity == null) return null;
