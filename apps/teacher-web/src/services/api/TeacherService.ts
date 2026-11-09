@@ -6,10 +6,10 @@ export interface TeacherService {
   getClasses(): Promise<Class[]>;
   getAssignments(): Promise<Assignment[]>;
   getAssignmentRoster(assignmentId: string): Promise<{ id: string; name: string }[]>;
-  createAssignment(classId: string, title: string, mathType: MathType): Promise<Assignment>;
+  createAssignment(classId: string, title: string, mathType: MathType, maxScore?: number): Promise<Assignment>;
   getBatches(): Promise<Batch[]>;
   createBatch(assignmentId: string, imagesCount: number): Promise<Batch>;
-  uploadImages(batchId: string, files: File[], mappings?: { fileIndex: number, studentId: string }[]): Promise<void>;
+  uploadImages(batchId: string, files: File[], mappings?: { fileIndex: number, studentId: string }[], onProgress?: (percentage: number) => void): Promise<void>;
   getBatchStatus(batchId: string): Promise<Batch>;
   getReviewQueue(batchId: string): Promise<Submission[]>;
   getSubmissionDetail(submissionId: string): Promise<Submission>;

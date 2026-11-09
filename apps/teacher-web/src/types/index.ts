@@ -24,6 +24,7 @@ export interface Assignment {
   classId: string;
   title: string;
   mathType: MathType;
+  maxScore?: number;
   createdAt?: string;
   status?: string;
 }

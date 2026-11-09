@@ -64,6 +64,8 @@ public class SubmissionControllerTest {
     private AnalysisResultRepository analysisResultRepository;
     @Autowired
     private com.mathvisionkids.api.analysis.TeacherDecisionRepository decisions;
+    @Autowired
+    private com.mathvisionkids.api.audit.AuditEventRepository auditEvents;
 
     private Teacher teacherA;
     private Teacher teacherB;
@@ -269,5 +271,77 @@ public class SubmissionControllerTest {
         mockMvc.perform(get("/api/v1/teacher/submissions/" + submissionA.getSubmissionId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "teachera@test.com", roles = "TEACHER")
+    public void testTeacherOverrideRejectsMalformedReasonAndScoreInputsWithHttp400() throws Exception {
+        java.util.List<String> invalidBodies = java.util.List.of(
+                "{\"score\":5,\"reason\":123}",
+                "{\"score\":5,\"reason\":true}",
+                "{\"score\":5,\"reason\":{}}",
+                "{\"score\":5,\"reason\":[]}",
+                "{\"score\":5,\"reason\":null}",
+                "{\"score\":5}",
+                "{\"score\":5,\"reason\":\"   \"}",
+                "{\"score\":-1,\"reason\":\"valid\"}",
+                "{\"score\":101,\"reason\":\"valid\"}",
+                "{\"score\":\"not_a_number\",\"reason\":\"valid\"}",
+                "{\"reason\":\"valid\"}"
+        );
+
+        for (String body : invalidBodies) {
+            mockMvc.perform(post("/api/v1/teacher/submissions/" + submissionA.getSubmissionId() + "/override")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(body))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.error.code").value("VALIDATION_ERROR"));
+
+            Submission current = submissionRepository.findById(submissionA.getSubmissionId()).orElseThrow();
+            org.junit.jupiter.api.Assertions.assertEquals("PROPOSED_GRADE", current.getStatus(),
+                    "Status must remain PROPOSED_GRADE for invalid body: " + body);
+            org.junit.jupiter.api.Assertions.assertTrue(decisions.findBySubmission_SubmissionId(submissionA.getSubmissionId()).isEmpty(),
+                    "No decision should be saved for invalid body: " + body);
+            org.junit.jupiter.api.Assertions.assertTrue(auditEvents.findBySubmission_SubmissionIdOrderByCreatedAtDesc(submissionA.getSubmissionId()).isEmpty(),
+                    "No audit should be saved for invalid body: " + body);
+        }
+    }
+
+    @Test
+    @WithMockUser(username = "teachera@test.com", roles = "TEACHER")
+    public void testTeacherOverrideAcceptsValidScoresAndPositiveControls() throws Exception {
+        // Valid override
+        String validBody = "{\"score\":9,\"reason\":\"Chấm lại hợp lệ\"}";
+        mockMvc.perform(post("/api/v1/teacher/submissions/" + submissionA.getSubmissionId() + "/override")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(validBody))
+                .andExpect(status().isOk());
+
+        Submission reloaded = submissionRepository.findById(submissionA.getSubmissionId()).orElseThrow();
+        org.junit.jupiter.api.Assertions.assertEquals("TEACHER_OVERRIDDEN", reloaded.getStatus());
+
+        var decision = decisions.findBySubmission_SubmissionId(submissionA.getSubmissionId()).orElseThrow();
+        org.junit.jupiter.api.Assertions.assertEquals("OVERRIDDEN", decision.getType());
+        org.junit.jupiter.api.Assertions.assertEquals(9, decision.getFinalScore());
+        org.junit.jupiter.api.Assertions.assertEquals("Chấm lại hợp lệ", decision.getReason());
+
+        var events = auditEvents.findBySubmission_SubmissionIdOrderByCreatedAtDesc(submissionA.getSubmissionId());
+        org.junit.jupiter.api.Assertions.assertFalse(events.isEmpty());
+        org.junit.jupiter.api.Assertions.assertEquals("TEACHER_OVERRIDDEN", events.get(0).getEventType());
+        org.junit.jupiter.api.Assertions.assertEquals(9, events.get(0).getMetadata().get("finalScore"));
+    }
+
+    @Test
+    @WithMockUser(username = "teacherb@test.com", roles = "TEACHER")
+    public void testTeacherOverrideUnauthorizedTeacherForbidden() throws Exception {
+        String validBody = "{\"score\":8,\"reason\":\"Teacher B tries to override\"}";
+        mockMvc.perform(post("/api/v1/teacher/submissions/" + submissionA.getSubmissionId() + "/override")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(validBody))
+                .andExpect(status().isForbidden());
+
+        Submission current = submissionRepository.findById(submissionA.getSubmissionId()).orElseThrow();
+        org.junit.jupiter.api.Assertions.assertEquals("PROPOSED_GRADE", current.getStatus());
+        org.junit.jupiter.api.Assertions.assertTrue(decisions.findBySubmission_SubmissionId(submissionA.getSubmissionId()).isEmpty());
     }
 }

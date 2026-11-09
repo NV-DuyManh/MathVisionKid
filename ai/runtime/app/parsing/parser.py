@@ -1,6 +1,17 @@
 from typing import List, Optional
 from app.schemas.core import ImageRecognitionResult, ParsedExercise, Token
 
+def normalize_operator(op: Optional[str]) -> Optional[str]:
+    """Normalizes equivalent arithmetic operator glyphs (PB20 Notation Diversity)."""
+    if not op:
+        return None
+    op = op.strip()
+    if op in ("+", "\uff0b"):
+        return "+"
+    if op in ("-", "\u2212", "\u2013", "\u2014", "\uff0d"):
+        return "-"
+    return op
+
 class StructuredParser:
     def parse(self, recognition_result: ImageRecognitionResult,
               allowed_operations: Optional[List[str]] = None, max_digits: int = 6,
@@ -46,10 +57,11 @@ class StructuredParser:
         op2 = build_number(rows[1])
         res = build_number(rows[2])
         
+        norm_operator = normalize_operator(operator)
         op_type = "UNKNOWN"
-        if operator == "+":
+        if norm_operator == "+":
             op_type = "VERTICAL_ADDITION"
-        elif operator == "-":
+        elif norm_operator == "-":
             op_type = "VERTICAL_SUBTRACTION"
             
         if not op1 or not op2 or not res or op_type == "UNKNOWN":
@@ -68,9 +80,9 @@ class StructuredParser:
             reason = "OPERATION_NOT_ALLOWED"
         elif not 1 <= max_digits <= 6:
             reason = "UNSUPPORTED_DIGIT_LIMIT"
-        elif max(len(op1), len(op2)) > max_digits or len(res) > max_digits + (operator == "+"):
+        elif max(len(op1), len(op2)) > max_digits or len(res) > max_digits + (norm_operator == "+"):
             reason = "MAX_DIGITS_EXCEEDED"
-        elif operator == "-" and int(op1) < int(op2):
+        elif norm_operator == "-" and int(op1) < int(op2):
             reason = "NEGATIVE_RESULT_UNSUPPORTED"
         if reason:
             return ParsedExercise(operationType=op_type, operands=[op1, op2], result=res, tokens=tokens,

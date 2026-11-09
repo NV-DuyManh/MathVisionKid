@@ -26,6 +26,7 @@ export default function AssignmentCreatePage() {
   const [selectedClass, setSelectedClass] = useState('');
   const [title, setTitle] = useState('');
   const [mathType, setMathType] = useState<MathType>(MathType.VERTICAL_ADDITION);
+  const [maxScore, setMaxScore] = useState<string>("10");
   const [loadingClasses, setLoadingClasses] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -60,13 +61,27 @@ export default function AssignmentCreatePage() {
       setError('Vui lòng chọn lớp học và nhập tiêu đề bài tập.');
       return;
     }
+    const trimmedScore = maxScore.trim();
+    if (!trimmedScore) {
+      setError('Vui lòng nhập thang điểm tối đa.');
+      return;
+    }
+    if (!/^\d+$/.test(trimmedScore)) {
+      setError('Thang điểm tối đa phải là số nguyên (không chứa số thập phân hoặc ký tự đặc biệt).');
+      return;
+    }
+    const parsedScore = Number(trimmedScore);
+    if (!Number.isSafeInteger(parsedScore) || parsedScore < 1 || parsedScore > 100) {
+      setError('Thang điểm tối đa phải là số nguyên từ 1 đến 100.');
+      return;
+    }
 
     if (submitLock.current) return;
     submitLock.current = true;
     try {
       setSubmitting(true);
       setError(null);
-      const assignment = await AppTeacherService.createAssignment(selectedClass, title.trim(), mathType);
+      const assignment = await AppTeacherService.createAssignment(selectedClass, title.trim(), mathType, parsedScore);
       navigate(`/batches/create?assignmentId=${encodeURIComponent(assignment.assignmentId || assignment.id || '')}`);
     } catch (err: any) {
       setError(err.response?.data?.error?.message || 'Không thể tạo bài tập. Vui lòng thử lại.');
@@ -128,6 +143,18 @@ export default function AssignmentCreatePage() {
               placeholder="Ví dụ: Phép cộng có nhớ trong phạm vi 1000"
               disabled={submitting}
               helperText="Nên ghi rõ dạng bài để dễ nhận diện trong sổ điểm"
+              sx={{ mb: 3 }}
+            />
+
+            <TextField
+              fullWidth
+              type="number"
+              label="Thang điểm tối đa"
+              value={maxScore}
+              onChange={(e) => setMaxScore(e.target.value)}
+              slotProps={{ htmlInput: { min: 1, max: 100, step: 1 } }}
+              disabled={submitting}
+              helperText="Thang điểm chuẩn dành cho bài tập (từ 1 đến 100 điểm, mặc định là 10)"
               sx={{ mb: 3 }}
             />
 

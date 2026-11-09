@@ -13,7 +13,8 @@ final class ArithmeticTokenValidator {
         List<Map<String, Object>> operators = tokens.stream().filter(t -> "operator".equals(t.get("tokenClass"))).toList();
         if (operators.size() != 1) return uncertain();
         if (!(operators.get(0).get("row") instanceof Number operatorRow) || operatorRow.intValue() != 1) return uncertain();
-        String operator = String.valueOf(operators.get(0).get("value"));
+        String rawOperator = String.valueOf(operators.get(0).get("value"));
+        String operator = normalizeOperator(rawOperator);
         if (!List.of("+", "-").contains(operator)) return uncertain();
         if (!allowedOperations.contains("+".equals(operator) ? "VERTICAL_ADDITION" : "VERTICAL_SUBTRACTION") ||
                 maxDigits < 1 || maxDigits > 6) return uncertain();
@@ -92,5 +93,13 @@ final class ArithmeticTokenValidator {
 
     private static String placeName(int column) {
         return "Hàng " + List.of("đơn vị", "chục", "trăm", "nghìn", "chục nghìn", "trăm nghìn", "triệu").get(column);
+    }
+
+    static String normalizeOperator(String op) {
+        if (op == null) return null;
+        op = op.trim();
+        if ("+".equals(op) || "\uff0b".equals(op)) return "+";
+        if ("-".equals(op) || "\u2212".equals(op) || "\u2013".equals(op) || "\u2014".equals(op) || "\uff0d".equals(op)) return "-";
+        return op;
     }
 }
