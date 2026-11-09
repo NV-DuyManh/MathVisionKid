@@ -17,12 +17,16 @@ apiClient.interceptors.request.use(async config => {
   config.baseURL = ENV.API_BASE_URL;
   if (config.url?.startsWith('/student/quizzes')) config.headers['X-MathVision-Client'] = `confirmed-quiz-v3:${Platform.OS}`;
   const before = await identity();
+  const request = config as typeof config & { _identity?: string | null; _session?: string | null };
+  if (request._identity !== undefined && request._identity !== before) {
+    throw new CanceledError('Phiên đăng nhập đã thay đổi.');
+  }
   const publicAuth = /\/auth\/(login|refresh)(?:\?|$)/.test(config.url || '');
   const token = publicAuth ? null : await tokenStorage.getAccessToken();
   const refresh = await tokenStorage.getRefreshToken();
   if (before !== await identity()) throw new CanceledError('Phiên đăng nhập đã thay đổi.');
-  const request = config as any;
-  request._identity ??= before; request._session ??= refresh;
+  request._identity = before;
+  request._session ??= refresh;
   if (publicAuth) {
     delete config.headers.Authorization;
   } else if (!config.url?.startsWith('/auth/')) {
