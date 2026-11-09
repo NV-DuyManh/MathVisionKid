@@ -155,7 +155,7 @@ export default function DashboardPage() {
                 variant="contained"
                 endIcon={<ArrowForward />}
                 onClick={() => {
-                  const targetBatch = stats?.recentBatches?.find((b) => b.reviewRequiredCount > 0);
+                  const targetBatch = stats?.recentBatches?.find((b) => (b.pendingReviewCount ?? b.reviewRequiredCount) > 0);
                   if (targetBatch) {
                     navigate(`/batches/${targetBatch.id || targetBatch.batchId}/review`);
                   } else {
@@ -312,9 +312,9 @@ export default function DashboardPage() {
                         size="small"
                         sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, border: '1px solid #A7F3D0' }}
                       />
-                      {batch.reviewRequiredCount > 0 && (
+                      {(batch.pendingReviewCount ?? batch.reviewRequiredCount) > 0 && (
                         <Chip
-                          label={`${batch.reviewRequiredCount} cần xem`}
+                          label={`${batch.pendingReviewCount ?? batch.reviewRequiredCount} cần xem`}
                           size="small"
                           sx={{ bgcolor: '#FEF2F2', color: '#DC2626', fontWeight: 800, border: '1px solid #FECACA' }}
                         />

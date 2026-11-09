@@ -32,10 +32,6 @@ public class DashboardService {
         this.submissionRepository = submissionRepository;
     }
 
-    private static final Set<String> REVIEW_STATES = Set.of(
-            "REVIEW_REQUIRED", "PROPOSED_GRADE", "NEEDS_CONFIRMATION", "NEEDS_RETAKE"
-    );
-
     private static final Set<String> TERMINAL_STATES = Set.of(
             "TEACHER_APPROVED", "TEACHER_OVERRIDDEN"
     );
@@ -58,15 +54,13 @@ public class DashboardService {
             List<Submission> submissions = submissionRepository.findByBatch_BatchId(batch.getBatchId());
             var progress = com.mathvisionkids.api.batch.BatchResponse.from(batch, submissions);
             progressByBatch.put(batch.getBatchId(), progress);
+            reviewRequiredCount += progress.pendingReviewCount();
             for (Submission s : submissions) {
                 if (s.getCreatedAt() != null && s.getCreatedAt().isAfter(todayStart)) {
                     todayTotal++;
                 }
                 if (TERMINAL_STATES.contains(s.getStatus())) {
                     processedCount++;
-                }
-                if (REVIEW_STATES.contains(s.getStatus())) {
-                    reviewRequiredCount++;
                 }
             }
         }
@@ -82,6 +76,7 @@ public class DashboardService {
                     summary.setTotalCount(progress.totalCount());
                     summary.setProcessedCount(progress.processedCount());
                     summary.setReviewRequiredCount(progress.reviewRequiredCount());
+                    summary.setPendingReviewCount(progress.pendingReviewCount());
                     summary.setCreatedAt(b.getCreatedAt() != null ? b.getCreatedAt().toString() : "");
                     return summary;
                 })

@@ -136,7 +136,7 @@ public class BatchControllerTest {
     @Test
     @WithMockUser(username = "teacher1@test.com", roles = "TEACHER")
     void completedAndReviewRequiredSubmissionsDriveRealBatchProgress() throws Exception {
-        for (String state : List.of("PROPOSED_GRADE", "NEEDS_RETAKE")) {
+        for (String state : List.of("PROPOSED_GRADE", "NEEDS_RETAKE", "FEEDBACK_READY", "TEACHER_APPROVED")) {
             var submission = new com.mathvisionkids.api.submission.Submission();
             submission.setBatch(testBatch);
             submission.setAssignment(assignment);
@@ -149,9 +149,17 @@ public class BatchControllerTest {
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/teacher/batches/" + testBatch.getBatchId()))
                 .andExpect(status().isOk())
                 .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.status").value("COMPLETED"))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.processedCount").value(2))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.totalCount").value(2))
-                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.reviewRequiredCount").value(1));
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.processedCount").value(4))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.totalCount").value(4))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.reviewRequiredCount").value(1))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.pendingReviewCount").value(3))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.finalizedCount").value(1))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.assignmentId").value(assignment.getAssignmentId().toString()))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.assignmentTitle").value("Test Assignment"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.submissions.length()").value(4));
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/review"))
+                .andExpect(status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.length()").value(3));
     }
 
     @Test
@@ -351,5 +359,9 @@ public class BatchControllerTest {
         // teacher2 does not own testBatch
         mockMvc.perform(builder)
                .andExpect(status().isForbidden());
+        var get = org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/teacher/batches/" + testBatch.getBatchId());
+        mockMvc.perform(get).andExpect(status().isForbidden());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/teacher/batches/" + testBatch.getBatchId() + "/review"))
+                .andExpect(status().isForbidden());
     }
 }

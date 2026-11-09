@@ -379,6 +379,12 @@ public class SubmissionService {
         detail.put("batchId", submission.getBatchId());
         detail.put("maxScore", getGradingScale(submission));
         if (submission.getStudent() != null) detail.put("studentName", submission.getStudent().getDisplayName());
+        if ("TEACHER_APPROVED".equals(submission.getStatus()) || "TEACHER_OVERRIDDEN".equals(submission.getStatus())) {
+            teacherDecisionRepository.findBySubmission_SubmissionId(submissionId).ifPresent(decision -> {
+                detail.put("teacherScore", decision.getFinalScore());
+                if (decision.getReason() != null) detail.put("teacherReason", decision.getReason());
+            });
+        }
         detail.put("imageUrl", "/api/v1/teacher/submissions/" + submissionId + "/image");
         if ("PROCESSING".equals(submission.getStatus())) return detail;
         AiJob latest = aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDesc(submissionId).orElse(null);

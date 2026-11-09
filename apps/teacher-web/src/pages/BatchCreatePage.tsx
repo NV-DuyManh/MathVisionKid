@@ -31,7 +31,7 @@ import {
   FactCheck,
 } from '@mui/icons-material';
 import { PageHeader } from '../components/common/PageHeader';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { useQuery } from '@tanstack/react-query';
 import PrivacyEditorModal from './PrivacyEditorModal';
@@ -59,15 +59,29 @@ export default function BatchCreatePage() {
   const assignmentId = location.state?.assignmentId;
 
   const [params, setParams] = useSearchParams();
-  const chosenId = params.get('assignmentId') || assignmentId;
+  const resumeId = params.get('batchId') || '';
+  const resume = useQuery({
+    queryKey: ['batch', resumeId], queryFn: () => AppTeacherService.getBatchStatus(resumeId),
+    enabled: !!resumeId, refetchOnMount: 'always', refetchOnWindowFocus: false,
+  });
+  const canResume = resume.data?.status === 'CREATED' && (resume.data.totalCount ?? resume.data.totalImages ?? 0) === 0;
+  const chosenId = resumeId ? resume.data?.assignmentId : params.get('assignmentId') || assignmentId;
   const [hasDraft, setHasDraft] = useState(false);
   const { data: assignments = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['teacher-assignments'], queryFn: () => AppTeacherService.getAssignments(),
   });
   return <Box>
-    <PageHeader title="Tạo đợt chấm bài" subtitle="Chọn bài tập rồi tải ảnh bài làm của học sinh." />
+    <PageHeader title={resumeId ? 'Tiếp tục tải ảnh' : 'Tạo đợt chấm bài'} subtitle="Chọn bài tập rồi tải ảnh bài làm của học sinh." />
+    {resumeId && (resume.isPending || resume.isFetching) && <Typography role="status" sx={{ mb: 2 }}>Đang kiểm tra đợt chấm…</Typography>}
+    {resumeId && resume.isError && <Alert severity="error" action={<Button onClick={() => void resume.refetch()}>Thử lại</Button>}>
+      Chưa kiểm tra được đợt chấm. Vui lòng thử lại.
+    </Alert>}
+    {resumeId && !resume.isFetching && resume.isSuccess && (!canResume || !chosenId) &&
+      <Alert severity="info" action={<Button component={Link} to={`/batches/${encodeURIComponent(resumeId)}`}>Xem đợt chấm</Button>}>
+        Đợt này đã nhận ảnh hoặc không còn mở để tải ảnh.
+      </Alert>}
     {isError && <Alert severity="error" action={<Button onClick={() => void refetch()}>Thử lại</Button>}>Chưa tải được bài tập.</Alert>}
-    <FormControl fullWidth sx={{ mb: 3 }} disabled={isLoading || hasDraft}>
+    <FormControl fullWidth sx={{ mb: 3 }} disabled={isLoading || hasDraft || !!resumeId}>
       <InputLabel id="batch-assignment-label">Bài tập cần chấm</InputLabel>
       <Select labelId="batch-assignment-label" label="Bài tập cần chấm" value={chosenId || ''}
         onChange={e => setParams({ assignmentId: e.target.value })}>
@@ -79,11 +93,14 @@ export default function BatchCreatePage() {
     {hasDraft && <Typography variant="body2" sx={{ mb: 2 }}>Xóa các ảnh đã chọn nếu muốn đổi bài tập.</Typography>}
     {!isLoading && !isError && assignments.length === 0 && !chosenId &&
       <Alert severity="info" action={<Button onClick={() => navigate('/assignments/create')}>Tạo bài tập</Button>}>Chưa có bài tập để chấm.</Alert>}
-    {chosenId && <BatchUpload key={chosenId} assignmentId={chosenId} onDraftChange={setHasDraft} />}
+    {chosenId && (!resumeId || (canResume && !resume.isFetching && !resume.isError)) &&
+      <BatchUpload key={resumeId || chosenId} assignmentId={chosenId} resumeBatchId={resumeId} onDraftChange={setHasDraft} />}
   </Box>;
 }
 
-function BatchUpload({ assignmentId, onDraftChange }: { assignmentId: string; onDraftChange: (value: boolean) => void }) {
+function BatchUpload({ assignmentId, resumeBatchId, onDraftChange }: {
+  assignmentId: string; resumeBatchId: string; onDraftChange: (value: boolean) => void;
+}) {
   const navigate = useNavigate();
   const [files, setFiles] = useState<FileState[]>([]);
   const [editingFile, setEditingFile] = useState<FileState | null>(null);
@@ -245,8 +262,11 @@ function BatchUpload({ assignmentId, onDraftChange }: { assignmentId: string; on
     try {
       setUploadProgress(null);
       setUploading(true);
-      const batch = await AppTeacherService.createBatch(assignmentId, files.length);
-      const batchId = batch.batchId || batch.id;
+      let batchId = resumeBatchId;
+      if (!batchId) {
+        const batch = await AppTeacherService.createBatch(assignmentId, files.length);
+        batchId = batch.batchId || batch.id || '';
+      }
       if (!batchId) throw new Error('Missing batch identifier');
       setCreatedBatchId(batchId);
       const uploadFiles = files.map(
@@ -279,7 +299,7 @@ function BatchUpload({ assignmentId, onDraftChange }: { assignmentId: string; on
 
       {rosterLoading && <Typography role="status" sx={{ mb: 2 }}>Đang tải danh sách học sinh…</Typography>}
       {rosterError && <Alert severity="error" sx={{ mb: 2 }} action={<Button onClick={() => void refetch()}>Thử lại</Button>}>Chưa tải được danh sách học sinh.</Alert>}
-      {!rosterLoading && !rosterError && !roster.length && <Alert severity="info" sx={{ mb: 2 }}>Lớp chưa có học sinh. Hãy thêm học sinh trước khi gửi bài.</Alert>}
+      {!rosterLoading && !rosterError && !roster.length && <Alert severity="info" sx={{ mb: 2 }}>Lớp chưa có học sinh. Hãy liên hệ quản trị viên để cập nhật danh sách trước khi gửi bài.</Alert>}
 
       {uploading && (
         <Paper variant="outlined" sx={{ p: 2, mb: 3, borderRadius: 2, bgcolor: '#EFF6FF', borderColor: '#BFDBFE' }}>

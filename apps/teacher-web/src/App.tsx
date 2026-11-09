@@ -3,6 +3,7 @@ import Layout from './components/layout/Layout';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import ClassesPage from './pages/ClassesPage';
+import ClassDetailPage from './pages/ClassDetailPage';
 import AssignmentsPage from './pages/AssignmentsPage';
 import AssignmentCreatePage from './pages/AssignmentCreatePage';
 import BatchesPage from './pages/BatchesPage';
@@ -24,6 +25,7 @@ function App() {
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<DashboardPage />} />
             <Route path="classes" element={<ClassesPage />} />
+            <Route path="classes/:id" element={<ClassDetailPage />} />
             <Route path="assignments" element={<AssignmentsPage />} />
             <Route path="assignments/create" element={<AssignmentCreatePage />} />
             <Route path="batches" element={<BatchesPage />} />

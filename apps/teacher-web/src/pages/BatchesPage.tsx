@@ -74,7 +74,7 @@ export default function BatchesPage() {
                   <TableCell>Lớp & Bài tập</TableCell>
                   <TableCell align="center">Tổng số bài</TableCell>
                   <TableCell align="center">Đã xử lý</TableCell>
-                  <TableCell align="center">Cần xem lại</TableCell>
+                  <TableCell align="center">Chờ giáo viên</TableCell>
                   <TableCell>Trạng thái đợt</TableCell>
                   <TableCell>Thời gian tạo</TableCell>
                   <TableCell align="right">Thao tác</TableCell>
@@ -85,7 +85,7 @@ export default function BatchesPage() {
                   const batchId = batch.id || batch.batchId || '';
                   const total = batch.totalImages || batch.totalCount || 0;
                   const processed = batch.processedCount || 0;
-                  const reviewCount = batch.reviewRequiredCount || 0;
+                  const reviewCount = batch.pendingReviewCount ?? batch.reviewRequiredCount ?? 0;
 
                   return (
                     <TableRow key={batchId} hover>

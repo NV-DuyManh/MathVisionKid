@@ -166,6 +166,7 @@ export default function ReviewQueuePage() {
               <MenuItem value="ALL">Tất cả trạng thái</MenuItem>
               <MenuItem value="REVIEW_REQUIRED">Cần giáo viên duyệt</MenuItem>
               <MenuItem value="PROPOSED_GRADE">Có điểm đề xuất</MenuItem>
+              <MenuItem value="FEEDBACK_READY">Có phản hồi</MenuItem>
               <MenuItem value="NEEDS_CONFIRMATION">Cần xác nhận nét chữ</MenuItem>
               <MenuItem value="NEEDS_RETAKE">Cần chụp lại</MenuItem>
             </Select>
@@ -319,7 +320,7 @@ export default function ReviewQueuePage() {
                       fullWidth
                       size="medium"
                       endIcon={<ArrowForward />}
-                      onClick={() => navigate(`/submissions/${subId}`)}
+                      onClick={() => navigate(`/submissions/${encodeURIComponent(subId)}?from=review`)}
                       sx={{
                         py: 1.1,
                         fontWeight: 700,
