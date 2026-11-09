@@ -317,3 +317,43 @@ test('R5: AssignmentCreatePage preserves decimal/exponent strings and validates 
     assert.equal(createdAssignmentScore, 100, 'Submits integer 100 successfully');
   });
 });
+
+test('SubmissionReviewPage blocks approve and override buttons when submission image is not ready', async () => {
+  await screen(async ({ dom, render, imports }) => {
+    const mockService = {
+      getSubmissionDetail: async () => ({
+        submissionId: 'sub-1',
+        studentName: 'An kiểm thử',
+        status: 'PROPOSED_GRADE',
+        maxScore: 100,
+        suggestedScore: 80,
+        gradeProposal: { suggestedScore: 80, maxScore: 100 },
+        imageUrl: '/api/v1/teacher/submissions/sub-1/image',
+      }),
+      approveSubmission: async () => {},
+      overrideSubmission: async () => {},
+    };
+
+    imports['react-router-dom'] = { ...routerRuntime, useParams: () => ({ id: 'sub-1' }) };
+    imports['../services/api/ServiceLocator'] = { AppTeacherService: mockService };
+    imports['../components/common/SubmissionImage'] = {
+      SubmissionImage: ({ onStatusChange }) => {
+        React.useEffect(() => {
+          onStatusChange?.({ ready: false, reason: 'Ảnh bài làm không tải được hoặc không hợp lệ.' });
+        }, [onStatusChange]);
+        return React.createElement('div', { 'data-testid': 'mock-image' }, 'Mock Image Loading');
+      }
+    };
+
+    const Page = load('pages/SubmissionReviewPage', imports);
+    await render(Page, {}, '/submissions/sub-1');
+
+    const alerts = [...dom.window.document.querySelectorAll('[role=alert], [role=status]')].map(el => el.textContent);
+    assert.ok(alerts.some(t => t.includes('Chưa thể duyệt hoặc điều chỉnh điểm')),
+      'Alert explains grading is blocked until image is loaded');
+
+    const approveBtn = [...dom.window.document.querySelectorAll('button')].find(b => b.textContent?.includes('Duyệt điểm'));
+    assert.equal(approveBtn, undefined, 'Approve button must not be active when image is not ready');
+  });
+});
+

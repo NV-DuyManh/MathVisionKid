@@ -18,11 +18,11 @@ Playwright build và chạy Portal, Teacher, Admin thật ở chế độ produc
 - Teacher/Admin: khách không vào được trang bảo vệ; SSO đổi ticket đúng một lần, xóa fragment và reload giữ phiên; đăng xuất xóa cả phiên app và Portal; phiên hết hạn không lặp refresh/chuyển trang.
 - Vai trò Student bị chặn ở Admin; Teacher không được chuyển tiếp vào Admin qua Portal.
 - Teacher: tạo bài tập theo lớp và phép toán đã chọn, xác minh payload và trang thu thập ảnh; danh sách lớp lỗi có thể thử lại.
-- Teacher: mở danh sách học sinh theo lớp, lọc bài tập của lớp, tải ảnh vào đợt đang mở, kiểm tra quyền riêng tư ảnh, duyệt đề xuất và mở lại điểm chính thức.
+- Teacher: mở danh sách học sinh theo lớp, lọc bài tập theo phân công lớp học.
 - Admin: lọc vai trò/trạng thái/tìm kiếm và bỏ bộ lọc không gửi sai tham số.
 - Student: chỉ kiểm tra yêu cầu điều hướng sang `/study/`, không thay trang đó bằng app giả hoặc tuyên bố đã test toàn bộ Student web.
 
-`npx playwright test --config=playwright.student.config.mjs` export Expo Web thật và kiểm tra thêm đăng nhập, tải lại deep link, máy tính, xác nhận đề, phục hồi chuẩn bị bài, giải từng bước và phát lời giảng. Các tệp WAV trong kiểm thử trình duyệt được tạo từ tín hiệu tổng hợp để kiểm tra phát âm thanh và chuyển giọng. Kiểm tra giọng tiếng Việt từ nhà cung cấp được thực hiện riêng bằng đề tổng hợp.
+`npx playwright test --config=playwright.student.config.mjs` export Expo Web thật và kiểm tra đăng nhập, tải lại deep link, máy tính bỏ túi và đổi đơn vị toán học. Luồng xử lý bài làm ảnh thực tế, che thông tin cá nhân, chấm điểm, duyệt bài và giọng giảng tiếng Việt được kiểm chứng bằng kiểm thử tích hợp thực tế với backend và AI runtime, loại bỏ kiểm thử dùng ảnh 1×1 pixel và âm thanh sóng sin giả lập.
 
 ## Cách ly và bằng chứng
 

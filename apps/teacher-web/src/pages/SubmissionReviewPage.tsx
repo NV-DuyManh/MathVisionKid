@@ -26,7 +26,7 @@ import {
   AutoAwesome,
 } from '@mui/icons-material';
 import { StatusChip } from '../components/common/StatusChip';
-import { SubmissionImage } from '../components/common/SubmissionImage';
+import { SubmissionImage, type ImageStatus } from '../components/common/SubmissionImage';
 
 export default function SubmissionReviewPage() {
   const { id } = useParams<{ id: string }>();
@@ -42,6 +42,10 @@ function SubmissionReview({ id }: { id?: string }) {
   const [editScore, setEditScore] = useState<number | string>('');
   const [editReason, setEditReason] = useState('');
   const [actionError, setActionError] = useState<string | null>(null);
+  const [imageStatus, setImageStatus] = useState<ImageStatus>({
+    ready: false,
+    reason: 'Đang tải ảnh bài làm...',
+  });
 
   const { data: sub, isLoading, isError, refetch } = useQuery({
     queryKey: ['submission', id],
@@ -106,6 +110,10 @@ function SubmissionReview({ id }: { id?: string }) {
   }
 
   const handleApprove = () => {
+    if (!imageStatus.ready) {
+      setActionError(`Chưa thể duyệt điểm: ${imageStatus.reason || 'Ảnh bài làm chưa tải và giải mã thành công.'}`);
+      return;
+    }
     if (id) {
       setActionError(null);
       approveMutation.mutate(id);
@@ -113,6 +121,10 @@ function SubmissionReview({ id }: { id?: string }) {
   };
 
   const handleOverride = () => {
+    if (!imageStatus.ready) {
+      setActionError(`Chưa thể điều chỉnh điểm: ${imageStatus.reason || 'Ảnh bài làm chưa tải và giải mã thành công.'}`);
+      return;
+    }
     if (id && editScore !== '') {
       const score = Number(editScore);
       if (!Number.isInteger(score) || score < 0 || score > (sub.maxScore ?? 10) || !editReason.trim()) {
@@ -196,7 +208,12 @@ function SubmissionReview({ id }: { id?: string }) {
                 p: 2,
               }}
             >
-              <SubmissionImage id={id!} mockUrl={sub.imageUrl} studentName={sub.studentName} />
+              <SubmissionImage
+                id={id!}
+                mockUrl={sub.imageUrl}
+                studentName={sub.studentName}
+                onStatusChange={setImageStatus}
+              />
             </Box>
 
             {/* Evidence Overlay / Position Indicator */}
@@ -358,6 +375,15 @@ function SubmissionReview({ id }: { id?: string }) {
 
                 {!canDecide ? (
                   <Alert severity="info">Chưa thể chốt điểm cho bài làm ở trạng thái này.</Alert>
+                ) : !imageStatus.ready ? (
+                  <Box>
+                    <Alert severity="warning" sx={{ mb: 2, borderRadius: 2 }} role="status">
+                      Chưa thể duyệt hoặc điều chỉnh điểm: {imageStatus.reason || 'Ảnh bài làm chưa được tải hoặc giải mã thành công.'}
+                    </Alert>
+                    <Typography variant="body2" color="text.secondary">
+                      Giáo viên cần nhìn rõ bài làm thực tế của học sinh trước khi quyết định điểm số chính thức.
+                    </Typography>
+                  </Box>
                 ) : !isEditing ? (
                   <Box>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -369,7 +395,7 @@ function SubmissionReview({ id }: { id?: string }) {
                         size="large"
                         startIcon={isPending ? <CircularProgress size={18} color="inherit" /> : <CheckCircle />}
                         onClick={handleApprove}
-                        disabled={isPending || suggestedScore === undefined}
+                        disabled={!imageStatus.ready || isPending || suggestedScore === undefined}
                         sx={{ flex: 2, py: 1.25, fontWeight: 700 }}
                       >
                         {isPending ? 'Đang lưu...' : `Duyệt điểm ${suggestedScore !== undefined ? suggestedScore : ''}`}
@@ -379,7 +405,7 @@ function SubmissionReview({ id }: { id?: string }) {
                         size="large"
                         startIcon={<Edit />}
                         onClick={() => { setEditScore(suggestedScore ?? ''); setEditReason(''); setIsEditing(true); }}
-                        disabled={isPending}
+                        disabled={!imageStatus.ready || isPending}
                         sx={{ flex: 1, py: 1.25, fontWeight: 700 }}
                       >
                         Điều chỉnh
@@ -435,7 +461,7 @@ function SubmissionReview({ id }: { id?: string }) {
                       <Button
                         variant="contained"
                         onClick={handleOverride}
-                        disabled={editScore === '' || !editReason.trim() || isPending}
+                        disabled={!imageStatus.ready || editScore === '' || !editReason.trim() || isPending}
                         startIcon={isPending ? <CircularProgress size={18} color="inherit" /> : null}
                         sx={{ flex: 1, py: 1, fontWeight: 700 }}
                       >
