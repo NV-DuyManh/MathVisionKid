@@ -1,3 +1,4 @@
+import { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   Box,
@@ -13,8 +14,11 @@ import {
   Alert,
   Chip,
   Card,
+  TextField,
+  InputAdornment,
+  MenuItem,
 } from '@mui/material';
-import { AddCircleOutlined, FactCheck, ArrowForward, PendingActions } from '@mui/icons-material';
+import { AddCircleOutlined, FactCheck, ArrowForward, PendingActions, Search, FilterList } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { StatusChip } from '../components/common/StatusChip';
@@ -23,10 +27,34 @@ import { EmptyState } from '../components/common/EmptyState';
 
 export default function BatchesPage() {
   const navigate = useNavigate();
-  const { data: batches = [], isLoading: loading, isError, refetch } = useQuery({
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('ALL');
+
+  const { data: batches = [], isLoading: loading, isFetching, isError, refetch } = useQuery({
     queryKey: ['teacher-batches'],
     queryFn: () => AppTeacherService.getBatches(),
+    refetchInterval: 5000, // Tự động cập nhật tiến độ các đợt chấm mỗi 5s
   });
+
+  const filteredBatches = useMemo(() => {
+    return batches.filter((b) => {
+      const matchSearch =
+        !searchTerm.trim() ||
+        (b.className && b.className.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (b.assignmentTitle && b.assignmentTitle.toLowerCase().includes(searchTerm.toLowerCase()));
+
+      let matchStatus = true;
+      if (statusFilter === 'REVIEW_REQUIRED') {
+        matchStatus = (b.reviewRequiredCount || 0) > 0;
+      } else if (statusFilter === 'COMPLETED') {
+        matchStatus = b.status === 'COMPLETED';
+      } else if (statusFilter === 'PROCESSING') {
+        matchStatus = b.status === 'PROCESSING' || b.status === 'CREATED';
+      }
+
+      return matchSearch && matchStatus;
+    });
+  }, [batches, searchTerm, statusFilter]);
 
   return (
     <Box>
@@ -34,16 +62,68 @@ export default function BatchesPage() {
         title="Quản lý Đợt chấm bài"
         description="Theo dõi tiến độ chấm hàng loạt và các bài làm cần giáo viên thẩm định lại."
         actions={
-          <Button
-            variant="contained"
-            startIcon={<AddCircleOutlined />}
-            onClick={() => navigate('/batches/create')}
-            sx={{ borderRadius: 2.5, fontWeight: 700 }}
-          >
-            Tạo đợt chấm mới
-          </Button>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => void refetch()}
+              disabled={isFetching}
+              sx={{ borderRadius: 2.5, fontWeight: 600, textTransform: 'none' }}
+            >
+              {isFetching ? 'Đang cập nhật...' : 'Làm mới'}
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<AddCircleOutlined />}
+              onClick={() => navigate('/batches/create')}
+              sx={{ borderRadius: 2.5, fontWeight: 700 }}
+            >
+              Tạo đợt chấm mới
+            </Button>
+          </Box>
         }
       />
+
+      {/* Filter and Search Bar */}
+      <Box sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap', alignItems: 'center' }}>
+        <TextField
+          size="small"
+          placeholder="Tìm theo tên lớp hoặc bài tập..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{ flexGrow: 1, minWidth: 260, bgcolor: '#FFFFFF' }}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search sx={{ color: '#94A3B8', fontSize: 20 }} />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
+        <TextField
+          select
+          size="small"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          sx={{ minWidth: 200, bgcolor: '#FFFFFF' }}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <FilterList sx={{ color: '#94A3B8', fontSize: 18 }} />
+                </InputAdornment>
+              ),
+            },
+          }}
+        >
+          <MenuItem value="ALL">Tất cả trạng thái</MenuItem>
+          <MenuItem value="REVIEW_REQUIRED">🔴 Có bài cần xem lại</MenuItem>
+          <MenuItem value="PROCESSING">⏳ Đang xử lý</MenuItem>
+          <MenuItem value="COMPLETED">✅ Đã hoàn thành</MenuItem>
+        </TextField>
+      </Box>
 
       {isError ? (
         <Alert severity="error" action={<Button color="inherit" onClick={() => void refetch()}>Thử lại</Button>}>
@@ -65,6 +145,15 @@ export default function BatchesPage() {
             icon={<FactCheck sx={{ fontSize: 42, color: '#94A3B8' }} />}
           />
         </Card>
+      ) : filteredBatches.length === 0 ? (
+        <Card sx={{ p: 4, borderRadius: 3.5, border: '1px solid #E2E8F0', textAlign: 'center' }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#475569', mb: 1 }}>
+            Không tìm thấy đợt chấm phù hợp với bộ lọc
+          </Typography>
+          <Button size="small" onClick={() => { setSearchTerm(''); setStatusFilter('ALL'); }}>
+            Xóa bộ lọc tìm kiếm
+          </Button>
+        </Card>
       ) : (
         <Card sx={{ borderRadius: 3.5, overflow: 'hidden', border: '1px solid #E2E8F0' }}>
           <TableContainer>
@@ -81,7 +170,7 @@ export default function BatchesPage() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {batches.map((batch) => {
+                {filteredBatches.map((batch) => {
                   const batchId = batch.id || batch.batchId || '';
                   const total = batch.totalImages || batch.totalCount || 0;
                   const processed = batch.processedCount || 0;

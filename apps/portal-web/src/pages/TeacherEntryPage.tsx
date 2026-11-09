@@ -25,7 +25,10 @@ export const TeacherEntryPage: React.FC = () => {
         const role = user.role ? user.role.toUpperCase().replace('ROLE_', '') : '';
 
         if (role !== 'TEACHER') {
-          navigate(`/access-denied?target=Giáo viên&current=${role}`);
+          // If already logged in as Student or another role, clear session so user can login with Teacher credentials
+          tokenStore.clearTokens();
+          window.dispatchEvent(new Event('portal_auth_changed'));
+          navigate('/login?role=TEACHER');
           return;
         }
 

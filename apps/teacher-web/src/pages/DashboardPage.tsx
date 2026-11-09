@@ -34,11 +34,14 @@ import { EmptyState } from '../components/common/EmptyState';
 export default function DashboardPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { data: stats, isLoading: statsLoading, refetch } = useQuery({
-    queryKey: ['teacher-dashboard'], queryFn: () => AppTeacherService.getDashboard(),
+  const { data: stats, isLoading: statsLoading, isFetching: statsFetching, refetch } = useQuery({
+    queryKey: ['teacher-dashboard'],
+    queryFn: () => AppTeacherService.getDashboard(),
+    refetchInterval: 5000, // Cập nhật số liệu thời gian thực mỗi 5s
   });
   const { data: classes = [], isLoading: classesLoading, isError: classesError, refetch: refetchClasses } = useQuery({
-    queryKey: ['teacher-classes'], queryFn: () => AppTeacherService.getClasses(),
+    queryKey: ['teacher-classes'],
+    queryFn: () => AppTeacherService.getClasses(),
   });
   const loading = statsLoading || classesLoading;
 
@@ -75,6 +78,15 @@ export default function DashboardPage() {
         description="Theo dõi lớp học, quản lý bài tập ô ly và phê duyệt kết quả chấm bài của học sinh."
         actions={
           <>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => { void refetch(); void refetchClasses(); }}
+              disabled={statsFetching}
+              sx={{ borderRadius: 2.5, fontWeight: 600, mr: 1, textTransform: 'none' }}
+            >
+              {statsFetching ? 'Đang đồng bộ...' : 'Làm mới'}
+            </Button>
             <Button
               variant="outlined"
               startIcon={<AddCircleOutlined />}

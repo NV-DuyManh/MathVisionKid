@@ -10,10 +10,6 @@ import { AccessDeniedPage } from './pages/AccessDeniedPage';
 import { SessionExpiredPage } from './pages/SessionExpiredPage';
 import { LogoutPage } from './pages/LogoutPage';
 
-const DevRuntimePage = import.meta.env.DEV && import.meta.env.VITE_SHOW_DEV_TOOLS === 'true'
-  ? React.lazy(() => import('./pages/DevRuntimePage').then((page) => ({ default: page.DevRuntimePage })))
-  : null;
-
 export const App: React.FC = () => {
   return (
     <Routes>
@@ -26,8 +22,6 @@ export const App: React.FC = () => {
         <Route path="admin" element={<AdminEntryPage />} />
         <Route path="admin-entry" element={<AdminEntryPage />} />
         <Route path="logout" element={<LogoutPage />} />
-        <Route path="dev/mobile" element={DevRuntimePage ? <React.Suspense fallback={null}><DevRuntimePage /></React.Suspense> : <Navigate to="/" replace />} />
-        <Route path="dev/runtime" element={DevRuntimePage ? <React.Suspense fallback={null}><DevRuntimePage /></React.Suspense> : <Navigate to="/" replace />} />
         <Route path="access-denied" element={<AccessDeniedPage />} />
         <Route path="session-expired" element={<SessionExpiredPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />

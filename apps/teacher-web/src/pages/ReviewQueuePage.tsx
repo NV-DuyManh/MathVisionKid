@@ -1,19 +1,37 @@
+import { useState } from 'react';
 import { Box, Typography, Grid, Card, CardContent, Button, CircularProgress, Paper, Divider } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AppTeacherService } from '../services/api/ServiceLocator';
-import { CheckCircle, ArrowBack, ArrowForward, AutoAwesome } from '@mui/icons-material';
+import { CheckCircle, ArrowBack, ArrowForward, AutoAwesome, Check } from '@mui/icons-material';
 import { StatusChip } from '../components/common/StatusChip';
 import { PageHeader } from '../components/common/PageHeader';
 
 export default function ReviewQueuePage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [quickApproveId, setQuickApproveId] = useState<string | null>(null);
 
-  const { data: queue, isLoading, isError } = useQuery({
+  const { data: queue, isLoading, isError, refetch } = useQuery({
     queryKey: ['reviewQueue', id],
     queryFn: () => AppTeacherService.getReviewQueue(id!),
     enabled: !!id,
+    refetchInterval: 5000, // Tự động làm mới khi các bài được duyệt xong
+  });
+
+  const quickApproveMutation = useMutation({
+    mutationFn: (subId: string) => AppTeacherService.approveSubmission(subId),
+    onSuccess: (_, subId) => {
+      setQuickApproveId(null);
+      queryClient.invalidateQueries({ queryKey: ['reviewQueue', id] });
+      queryClient.invalidateQueries({ queryKey: ['submission', subId] });
+      queryClient.invalidateQueries({ queryKey: ['batch', id] });
+      queryClient.invalidateQueries({ queryKey: ['teacher-dashboard'] });
+    },
+    onError: () => {
+      setQuickApproveId(null);
+    },
   });
 
   if (isLoading) {
@@ -87,6 +105,16 @@ export default function ReviewQueuePage() {
       <PageHeader
         title="Hàng đợi Thẩm định & Duyệt bài"
         subtitle={`Có ${queue.length} bài làm cần giáo viên thẩm định và quyết định điểm số chính thức.`}
+        actions={
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => void refetch()}
+            sx={{ borderRadius: 2.5, fontWeight: 600, textTransform: 'none' }}
+          >
+            Làm mới danh sách
+          </Button>
+        }
       />
 
       <Grid container spacing={3}>
@@ -180,20 +208,45 @@ export default function ReviewQueuePage() {
                     </Grid>
                   </Box>
 
-                  {/* Primary Action */}
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    size="medium"
-                    endIcon={<ArrowForward />}
-                    onClick={() => navigate(`/submissions/${subId}`)}
-                    sx={{
-                      py: 1.1,
-                      fontWeight: 700,
-                    }}
-                  >
-                    Duyệt bài này
-                  </Button>
+                  {/* Actions */}
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    {suggested !== undefined && (
+                      <Button
+                        variant="outlined"
+                        size="medium"
+                        color="success"
+                        startIcon={quickApproveId === subId ? <CircularProgress size={16} color="inherit" /> : <Check />}
+                        disabled={quickApproveMutation.isPending}
+                        onClick={() => {
+                          setQuickApproveId(subId);
+                          quickApproveMutation.mutate(subId);
+                        }}
+                        sx={{
+                          py: 1.1,
+                          fontWeight: 700,
+                          flexShrink: 0,
+                          borderColor: '#10B981',
+                          color: '#059669',
+                          '&:hover': { bgcolor: '#ECFDF5', borderColor: '#059669' },
+                        }}
+                      >
+                        Duyệt nhanh
+                      </Button>
+                    )}
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      size="medium"
+                      endIcon={<ArrowForward />}
+                      onClick={() => navigate(`/submissions/${subId}`)}
+                      sx={{
+                        py: 1.1,
+                        fontWeight: 700,
+                      }}
+                    >
+                      Chi tiết & Chấm
+                    </Button>
+                  </Box>
                 </CardContent>
               </Card>
             </Grid>

@@ -54,6 +54,7 @@ function SubmissionReview({ id }: { id?: string }) {
       queryClient.invalidateQueries({ queryKey: ['submission', id] });
       queryClient.invalidateQueries({ queryKey: ['reviewQueue'] });
       queryClient.invalidateQueries({ queryKey: ['batch'] });
+      queryClient.invalidateQueries({ queryKey: ['teacher-dashboard'] });
       navigate(-1);
     },
     onError: (err: any) => {
@@ -68,6 +69,7 @@ function SubmissionReview({ id }: { id?: string }) {
       queryClient.invalidateQueries({ queryKey: ['submission', id] });
       queryClient.invalidateQueries({ queryKey: ['reviewQueue'] });
       queryClient.invalidateQueries({ queryKey: ['batch'] });
+      queryClient.invalidateQueries({ queryKey: ['teacher-dashboard'] });
       navigate(-1);
     },
     onError: (err: any) => {
@@ -390,6 +392,33 @@ function SubmissionReview({ id }: { id?: string }) {
                         />
                       </Grid>
                     </Grid>
+
+                    {/* Quick reason suggestions */}
+                    <Box sx={{ mb: 2, display: 'flex', gap: 0.75, flexWrap: 'wrap', alignItems: 'center' }}>
+                      <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 700 }}>
+                        Chọn nhanh lý do:
+                      </Typography>
+                      {[
+                        'Nét chữ mờ, AI nhận diện nhầm số',
+                        'Đặt tính đúng nhưng tính nhầm hàng chục',
+                        'Thiếu nét nhớ khi cộng/trừ',
+                        'Chấm khuyến khích phương pháp làm đúng',
+                      ].map((preset) => (
+                        <Chip
+                          key={preset}
+                          label={preset}
+                          size="small"
+                          variant="outlined"
+                          onClick={() => setEditReason(preset)}
+                          sx={{
+                            cursor: 'pointer',
+                            fontSize: '0.72rem',
+                            borderRadius: 1.5,
+                            '&:hover': { bgcolor: '#F1F5F9' },
+                          }}
+                        />
+                      ))}
+                    </Box>
 
                     <Box
                       sx={{

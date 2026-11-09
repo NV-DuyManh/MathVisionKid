@@ -19,11 +19,9 @@ import {
 import { Outlet, Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SchoolIcon from '@mui/icons-material/School';
-import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import { RoleBadge } from '../common/RoleBadge';
 import { authService, type UserProfile } from '../../services/authService';
 import { tokenStore } from '../../services/apiClient';
-import { showDevTools } from '../../config/runtime';
 
 export const PortalLayout: React.FC = () => {
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -389,19 +387,6 @@ export const PortalLayout: React.FC = () => {
                   />
                 </MenuItem>
               </Menu>
-
-              {showDevTools && (
-                <Button
-                  component={RouterLink}
-                  to="/dev/mobile"
-                  startIcon={<DeveloperModeIcon />}
-                  color="warning"
-                  size="small"
-                  sx={{ fontWeight: 700, borderRadius: 2 }}
-                >
-                  Dev Tools
-                </Button>
-              )}
 
               {/* User profile or Login CTA */}
               {user ? (

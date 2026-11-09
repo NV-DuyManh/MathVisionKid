@@ -11,10 +11,6 @@ import {
   CircularProgress,
   IconButton,
   InputAdornment,
-  Chip,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
@@ -22,11 +18,9 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import { authService } from '../services/authService';
 import { tokenStore } from '../services/apiClient';
-import { appConfig, googleClientId, facebookConfigured, showDevTools } from '../config/runtime';
+import { appConfig, googleClientId, facebookConfigured } from '../config/runtime';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -60,7 +54,8 @@ export const LoginPage: React.FC = () => {
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const googleRequestedRole = searchParams.get('role') === 'TEACHER' ? 'TEACHER' : undefined;
+  const requestedRoleParam = searchParams.get('role')?.toUpperCase();
+  const googleRequestedRole = requestedRoleParam === 'TEACHER' ? 'TEACHER' : undefined;
 
   // Display session expired notice if redirected after expiry
   useEffect(() => {
@@ -81,7 +76,7 @@ export const LoginPage: React.FC = () => {
         if (controller.signal.aborted) return;
         const role = user.role ? user.role.toUpperCase().replace('ROLE_', '') : '';
         if (role === 'STUDENT') {
-          navigate('/student', { replace: true });
+          window.location.replace('/study/');
         } else if (role === 'TEACHER') {
           const ticket = await authService.requestSsoTicket('TEACHER', controller.signal);
           if (!controller.signal.aborted) {
@@ -117,7 +112,7 @@ export const LoginPage: React.FC = () => {
             const user = await authService.loginWithGoogle(credential, googleRequestedRole);
             const role = user.role.toUpperCase().replace('ROLE_', '');
             if (role === 'STUDENT') {
-              navigate('/student');
+              window.location.replace('/study/');
             } else if (role === 'TEACHER' || role === 'ADMIN') {
               const target = role === 'TEACHER' ? 'TEACHER' : 'ADMIN';
               const origin = role === 'TEACHER' ? appConfig.teacherOrigin : appConfig.adminOrigin;
@@ -183,7 +178,7 @@ export const LoginPage: React.FC = () => {
       try {
         const user = await authService.loginWithFacebook(credential, googleRequestedRole);
         const role = user.role.toUpperCase().replace('ROLE_', '');
-        if (role === 'STUDENT') navigate('/student');
+        if (role === 'STUDENT') window.location.replace('/study/');
         else if (role === 'TEACHER' || role === 'ADMIN') {
           const target = role === 'TEACHER' ? 'TEACHER' : 'ADMIN';
           const origin = role === 'TEACHER' ? appConfig.teacherOrigin : appConfig.adminOrigin;
@@ -246,7 +241,7 @@ export const LoginPage: React.FC = () => {
         ? await authService.loginWithGoogle(socialSetupCredential, 'STUDENT', Number(socialSetupGrade))
         : await authService.loginWithFacebook(socialSetupCredential, 'STUDENT', Number(socialSetupGrade));
       setSocialSetupCredential('');
-      if (user.role.toUpperCase().replace('ROLE_', '') === 'STUDENT') navigate('/student');
+      if (user.role.toUpperCase().replace('ROLE_', '') === 'STUDENT') window.location.replace('/study/');
       else {
         tokenStore.clearTokens();
         setError('Tài khoản này không thuộc cổng học sinh.');
@@ -277,7 +272,7 @@ export const LoginPage: React.FC = () => {
 
       switch (role) {
         case 'STUDENT':
-          navigate('/student');
+          window.location.replace('/study/');
           break;
         case 'TEACHER': {
           const ticket = await authService.requestSsoTicket('TEACHER');
@@ -423,12 +418,6 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const fillCredentials = (demoEmail: string, demoPass: string) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
-    setError(null);
-  };
-
   return (
     <Box sx={{ py: { xs: 5, md: 8 }, px: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 120px)' }}>
       <Container maxWidth="sm" disableGutters>
@@ -454,10 +443,28 @@ export const LoginPage: React.FC = () => {
             onError={(e: any) => { e.currentTarget.src = '/logo.svg'; }}
           />
           <Typography variant="h4" component="h1" sx={{ fontWeight: 900, color: '#0F172A', mb: 0.75, fontSize: { xs: '1.5rem', sm: '1.85rem' } }}>
-            {authView === 'login' ? 'Đăng nhập cùng MathVision' : authView === 'register' ? 'Tạo tài khoản học tập' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
+            {authView === 'login'
+              ? requestedRoleParam === 'TEACHER'
+                ? 'Đăng nhập Cổng Giáo viên'
+                : requestedRoleParam === 'ADMIN'
+                ? 'Đăng nhập Cổng Quản trị viên'
+                : 'Đăng nhập cùng MathVision'
+              : authView === 'register'
+              ? 'Tạo tài khoản học tập'
+              : authView === 'social-student-setup'
+              ? 'Chọn lớp của em'
+              : 'Khôi phục mật khẩu'}
           </Typography>
           <Typography variant="body2" sx={{ color: '#475569', fontSize: '0.95rem' }}>
-            {authView === 'register' ? 'Điền thông tin để cùng Ngôi sao MathVision học toán' : authView === 'social-student-setup' ? 'Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.' : 'Chào mừng em! Đăng nhập để cùng khám phá môn Toán nhé!'}
+            {authView === 'register'
+              ? 'Điền thông tin để cùng Ngôi sao MathVision học toán'
+              : authView === 'social-student-setup'
+              ? 'Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.'
+              : requestedRoleParam === 'TEACHER'
+              ? 'Vui lòng đăng nhập bằng tài khoản Giáo viên để tiếp tục vào không gian giảng dạy.'
+              : requestedRoleParam === 'ADMIN'
+              ? 'Vui lòng đăng nhập bằng tài khoản Quản trị viên để quản lý hệ thống.'
+              : 'Chào mừng em! Đăng nhập để cùng khám phá môn Toán nhé!'}
           </Typography>
         </Box>
 
@@ -732,53 +739,6 @@ export const LoginPage: React.FC = () => {
               Tiến độ học tập sẽ được lưu trong tài khoản của em.
             </Typography>
           </Paper>
-        )}
-
-        {/* Developer Demo Tools — Rendered ONLY when VITE_SHOW_DEV_TOOLS=true */}
-        {showDevTools && (
-          <Box sx={{ mt: 3 }}>
-            <Accordion sx={{ bgcolor: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '12px !important', '&:before': { display: 'none' } }}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <DeveloperModeIcon sx={{ fontSize: 18, color: '#D97706' }} />
-                  <Typography variant="caption" sx={{ fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: 0.5 }}>
-                    Kiểm thử nhanh (Dev Demo)
-                  </Typography>
-                </Box>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="caption" sx={{ color: '#64748B', display: 'block', mb: 1.5 }}>
-                  Chọn vai trò để điền nhanh thông tin thử nghiệm:
-                </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  <Chip
-                    label="Tài khoản Học sinh mẫu"
-                    onClick={() => fillCredentials('minh.student@mathvision.local', '123')}
-                    size="small"
-                    color="primary"
-                    variant="outlined"
-                    sx={{ cursor: 'pointer', fontWeight: 700 }}
-                  />
-                  <Chip
-                    label="Tài khoản Giáo viên mẫu"
-                    onClick={() => fillCredentials('lan.teacher@mathvision.local', '123')}
-                    size="small"
-                    color="success"
-                    variant="outlined"
-                    sx={{ cursor: 'pointer', fontWeight: 700 }}
-                  />
-                  <Chip
-                    label="Tài khoản Quản trị mẫu"
-                    onClick={() => fillCredentials('admin.demo@mathvision.local', '123')}
-                    size="small"
-                    color="secondary"
-                    variant="outlined"
-                    sx={{ cursor: 'pointer', fontWeight: 700 }}
-                  />
-                </Box>
-              </AccordionDetails>
-            </Accordion>
-          </Box>
         )}
       </Paper>
     </Container>

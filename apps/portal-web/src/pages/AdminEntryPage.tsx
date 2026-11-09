@@ -15,7 +15,7 @@ export const AdminEntryPage: React.FC = () => {
     const controller = new AbortController();
     const handleEntry = async () => {
       if (!tokenStore.hasTokens()) {
-        navigate('/login');
+        navigate('/login?role=ADMIN');
         return;
       }
 
@@ -25,7 +25,10 @@ export const AdminEntryPage: React.FC = () => {
         const role = user.role ? user.role.toUpperCase().replace('ROLE_', '') : '';
 
         if (role !== 'ADMIN') {
-          navigate(`/access-denied?target=Quản trị viên&current=${role}`);
+          // If logged in as Student or Teacher, clear session to allow admin login
+          tokenStore.clearTokens();
+          window.dispatchEvent(new Event('portal_auth_changed'));
+          navigate('/login?role=ADMIN');
           return;
         }
 

@@ -4,11 +4,33 @@ import { useQuery } from '@tanstack/react-query';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { BatchStatus } from '../types';
 import { StatusChip } from '../components/common/StatusChip';
-import { CheckCircle, Warning, ArrowBack, PendingActions, Refresh } from '@mui/icons-material';
+import { CheckCircle, Warning, ArrowBack, PendingActions, Refresh, FileDownload } from '@mui/icons-material';
 
 export default function BatchDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+  const handleExportCsv = () => {
+    if (!batch) return;
+    const rows = [
+      ['Ma dot cham', batch.id || batch.batchId || ''],
+      ['Lop hoc', batch.className || ''],
+      ['Bai tap', batch.assignmentTitle || ''],
+      ['Tong so bai', String(totalImgs)],
+      ['Da xu ly', String(processed)],
+      ['Can xem lai', String(reviewCount)],
+      ['Trang thai', String(batch.status)],
+      ['Thoi gian xuat', new Date().toLocaleString('vi-VN')],
+    ];
+    const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + rows.map(e => e.join(',')).join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `Ket_Qua_Dot_Cham_${batch.className || 'Lop'}_${id?.slice(0, 8)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const { data: batch, isLoading, isError, refetch } = useQuery({
     queryKey: ['batch', id],
@@ -100,14 +122,26 @@ export default function BatchDetailPage() {
             {batch.assignmentTitle || 'Bài tập Toán đặt tính'} • Tổng số: <strong>{totalImgs} bài làm</strong>
           </Typography>
         </Box>
-        <Button
-          variant="outlined"
-          startIcon={<Refresh />}
-          onClick={() => refetch()}
-          size="small"
-        >
-          Làm mới
-        </Button>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Button
+            variant="outlined"
+            startIcon={<FileDownload />}
+            onClick={handleExportCsv}
+            size="small"
+            sx={{ fontWeight: 600, borderRadius: 2 }}
+          >
+            Xuất file CSV
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<Refresh />}
+            onClick={() => refetch()}
+            size="small"
+            sx={{ fontWeight: 600, borderRadius: 2 }}
+          >
+            Làm mới
+          </Button>
+        </Box>
       </Box>
 
       {/* In-Progress State */}

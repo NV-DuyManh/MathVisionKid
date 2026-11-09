@@ -1,3 +1,4 @@
+import { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   Box,
@@ -13,8 +14,10 @@ import {
   Alert,
   Chip,
   Card,
+  TextField,
+  InputAdornment,
 } from '@mui/material';
-import { AddCircleOutlined, Assignment, ArrowForward } from '@mui/icons-material';
+import { AddCircleOutlined, Assignment, ArrowForward, Search } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { PageHeader } from '../components/common/PageHeader';
@@ -23,10 +26,21 @@ import { StatusChip } from '../components/common/StatusChip';
 
 export default function AssignmentsPage() {
   const navigate = useNavigate();
-  const { data: assignments = [], isLoading: loading, isError, refetch } = useQuery({
+  const [searchTerm, setSearchTerm] = useState('');
+  const { data: assignments = [], isLoading: loading, isFetching, isError, refetch } = useQuery({
     queryKey: ['teacher-assignments'],
     queryFn: () => AppTeacherService.getAssignments(),
   });
+
+  const filteredAssignments = useMemo(() => {
+    return assignments.filter((a) => {
+      return (
+        !searchTerm.trim() ||
+        (a.title && a.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        ((a as any).className && (a as any).className.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+    });
+  }, [assignments, searchTerm]);
 
   const getMathTypeLabel = (type?: string) => {
     switch (type) {
@@ -45,16 +59,47 @@ export default function AssignmentsPage() {
         title="Danh sách Bài tập"
         description="Quản lý các đề bài toán đặt tính và khởi tạo các đợt thu thập bài làm."
         actions={
-          <Button
-            variant="contained"
-            startIcon={<AddCircleOutlined />}
-            onClick={() => navigate('/assignments/create')}
-            sx={{ borderRadius: 2.5, fontWeight: 700 }}
-          >
-            Tạo bài tập mới
-          </Button>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => void refetch()}
+              disabled={isFetching}
+              sx={{ borderRadius: 2.5, fontWeight: 600, textTransform: 'none' }}
+            >
+              {isFetching ? 'Đang tải...' : 'Làm mới'}
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<AddCircleOutlined />}
+              onClick={() => navigate('/assignments/create')}
+              sx={{ borderRadius: 2.5, fontWeight: 700 }}
+            >
+              Tạo bài tập mới
+            </Button>
+          </Box>
         }
       />
+
+      {/* Search Bar */}
+      <Box sx={{ mb: 3 }}>
+        <TextField
+          size="small"
+          placeholder="Tìm bài tập theo tên hoặc lớp..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{ maxWidth: 420, width: '100%', bgcolor: '#FFFFFF' }}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search sx={{ color: '#94A3B8', fontSize: 20 }} />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
+      </Box>
 
       {isError ? (
         <Alert severity="error" action={<Button color="inherit" onClick={() => void refetch()}>Thử lại</Button>}>
@@ -76,6 +121,15 @@ export default function AssignmentsPage() {
             icon={<Assignment sx={{ fontSize: 42, color: '#94A3B8' }} />}
           />
         </Card>
+      ) : filteredAssignments.length === 0 ? (
+        <Card sx={{ p: 4, borderRadius: 3.5, border: '1px solid #E2E8F0', textAlign: 'center' }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#475569', mb: 1 }}>
+            Không tìm thấy bài tập phù hợp
+          </Typography>
+          <Button size="small" onClick={() => setSearchTerm('')}>
+            Xóa từ khóa tìm kiếm
+          </Button>
+        </Card>
       ) : (
         <Card sx={{ borderRadius: 3.5, overflow: 'hidden', border: '1px solid #E2E8F0' }}>
           <TableContainer>
@@ -90,7 +144,7 @@ export default function AssignmentsPage() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {assignments.map((a) => {
+                {filteredAssignments.map((a) => {
                   const mathTypeInfo = getMathTypeLabel(a.mathType);
                   return (
                     <TableRow key={a.id || a.assignmentId} hover>
