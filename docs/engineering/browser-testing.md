@@ -22,7 +22,7 @@ Playwright build và chạy Portal, Teacher, Admin thật ở chế độ produc
 - Admin: lọc vai trò/trạng thái/tìm kiếm và bỏ bộ lọc không gửi sai tham số.
 - Student: chỉ kiểm tra yêu cầu điều hướng sang `/study/`, không thay trang đó bằng app giả hoặc tuyên bố đã test toàn bộ Student web.
 
-`npx playwright test --config=playwright.student.config.mjs` export Expo Web thật và kiểm tra đăng nhập, tải lại deep link, máy tính bỏ túi và đổi đơn vị toán học. Luồng xử lý bài làm ảnh thực tế, che thông tin cá nhân, chấm điểm, duyệt bài và giọng giảng tiếng Việt được kiểm chứng bằng kiểm thử tích hợp thực tế với backend và AI runtime, loại bỏ kiểm thử dùng ảnh 1×1 pixel và âm thanh sóng sin giả lập.
+`npx playwright test --config=playwright.student.config.mjs` export Expo Web thật và kiểm tra đăng nhập, tải lại deep link, máy tính bỏ túi và đổi đơn vị toán học bằng hợp đồng API giả lập. Nghiệm thu ảnh, xử lý bài và âm thanh thật dùng các lệnh opt-in bên dưới.
 
 ## Cách ly và bằng chứng
 
@@ -35,3 +35,23 @@ API trả fixture tổng hợp qua browser routing, gồm 401/403/503, tài kho�
 CI chạy trong job `Web checks`; bất kỳ ca lỗi khiến job và `Quality gate` thất bại. Không retry để che lỗi chập chờn. Lỗi giữ HTML report, ảnh và trace dữ liệu tổng hợp trong artifact GitHub tối đa 7 ngày; local lưu `.local-artifacts/browser/` được ignore. Không upload build hoặc dữ liệu dự án thật.
 
 Nguồn hướng dẫn: [Playwright webServer](https://playwright.dev/docs/test-webserver), [Playwright CI](https://playwright.dev/docs/ci-intro).
+
+## Nghiệm thu bằng dịch vụ thật
+
+Hai lệnh sau dùng backend và dịch vụ đang chạy, có thể tạo bản ghi và sử dụng quota OCR, tạo bài, giọng đọc. Chuẩn bị PostgreSQL, Redis và MinIO riêng cho kiểm thử, Spring chạy gateway FASTAPI và AI chạy `RUNTIME_MODE=MODEL` với model/provider được cấu hình. Portal và Teacher phải trỏ tới backend này. Lệnh yêu cầu `MATHVISION_LIVE_DISPOSABLE=true` và các URL localhost/127.0.0.1.
+
+Đặt `MATHVISION_LIVE_API` tới backend có hậu tố `/api/v1`, `MATHVISION_LIVE_PORTAL` và `MATHVISION_LIVE_TEACHER` tới hai web đang chạy. Dùng `MATHVISION_LIVE_IMAGE` cho đường dẫn ảnh JPEG đã loại thông tin cá nhân và `MATHVISION_LIVE_OUTPUT` cho thư mục bằng chứng trong `.local-artifacts/`.
+
+Teacher cần các biến `MATHVISION_LIVE_TEACHER_EMAIL`, `MATHVISION_LIVE_TEACHER_PASSWORD`, `MATHVISION_LIVE_ADMIN_EMAIL`, `MATHVISION_LIVE_ADMIN_PASSWORD`. Tài khoản Teacher phải có lớp và học sinh. Đặt `MATHVISION_LIVE_SCORE` trong khoảng 0–100 và `MATHVISION_LIVE_REASON` theo quyết định đã đối chiếu với ảnh. Lệnh đăng nhập qua Portal/SSO, tạo bài tập, xác nhận ảnh, upload bằng giao diện, so SHA-256 của JPEG thực gửi với ảnh backend trả, chờ callback AI, kiểm tra xoay ảnh, lưu điểm và thử tài khoản khác lớp. Ảnh chỉ có đề bài có thể nhận `OUT_OF_SCOPE` ở bộ chấm đặt tính dọc và được giáo viên quyết định điểm thủ công.
+
+```sh
+node scripts/test/live_teacher_review.mjs
+```
+
+Student cần `MATHVISION_LIVE_STUDENT_EMAIL`, `MATHVISION_LIVE_STUDENT_PASSWORD` và `MATHVISION_LIVE_TRUTH` trỏ tới JSON do người kiểm tra đối chiếu với ảnh, gồm `problemText` và `answer`. Lệnh giữ nguyên các số và phân số khi so bản đọc, kiểm tra bắt buộc xác nhận đề, chuẩn bị bài, tải giọng nam/nữ/dự phòng qua API thật, giải các biểu thức bằng phép tính phân số độc lập và đối chiếu đáp số cuối. WAV được kiểm tra định dạng, thời lượng, âm lượng và hash riêng từng chế độ.
+
+```sh
+ai/runtime/.venv/Scripts/python.exe scripts/test/live_student_lesson.py
+```
+
+Các lệnh này không chạy mặc định trong PR CI. Bằng chứng lưu ảnh, WAV và kết quả kiểm tra, cần giữ ngoài Git. Kiểm tra WAV không tự chứng minh phát âm chính xác hoặc playback trên thiết bị. Báo cáo nghiệm thu cần ghi riêng quan sát trình duyệt, đối chiếu lời đọc và kết quả nhà cung cấp.
