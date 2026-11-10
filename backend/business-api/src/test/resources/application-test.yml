@@ -16,6 +16,8 @@ app:
     secret: test_only_signing_key_for_backend_authentication_tests_1234567890
   cors:
     allowed-origins: http://localhost:3000,http://localhost:5173
+  storage:
+    upload-root: build/test-uploads/
 
 minio:
   endpoint: http://localhost:9000

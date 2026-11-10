@@ -20,4 +20,6 @@ Bổ sung trên nhánh **Kha**, 31/10/2026: sửa vòng đời Voice Quiz, chín
 
 **Dependabot** đề xuất cập nhật GitHub Actions, Java, Python và npm trong [PR #41](https://github.com/NV-DuyManh/MathVisionKid/pull/41), [#42](https://github.com/NV-DuyManh/MathVisionKid/pull/42), [#43](https://github.com/NV-DuyManh/MathVisionKid/pull/43) và [#44](https://github.com/NV-DuyManh/MathVisionKid/pull/44). Các sửa tương thích được ghi trong commit riêng, với commit đề xuất gốc được giữ trong lịch sử.
 
+Đợt tích hợp **10/11/2026** tiếp nối bản sửa local do chủ repository cung cấp qua Antigravity trên nền `090759dc5bb383254cfc13036372f3d03a0d15fc`. Codex review, sửa tiếp khung ảnh xoay, phục hồi JSON của provider và khóa khởi tạo catalog; kiểm chứng ảnh, bài học và giọng đọc bằng dịch vụ thật. Các thay đổi local không có commit nguồn riêng; không gán danh tính Git mới cho công cụ hỗ trợ.
+
 Các thư viện, font, công cụ và phần mã bên thứ ba giữ thông báo tác giả/giấy phép riêng. Bảng này không thay đổi giấy phép hoặc tự xác lập quyền sở hữu pháp lý.

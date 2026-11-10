@@ -26,14 +26,17 @@ class CatalogStore:
         db=sqlite3.connect(self.path,timeout=.15)
         try:
             db.execute('PRAGMA journal_size_limit=1048576')
-            # WAL and the table persist across connections. Repeating the WAL
-            # transition during ordinary cache reads can block the other voice.
             if (db.execute('PRAGMA journal_mode').fetchone()[0]=='wal'
                     and db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='entries'").fetchone()):
                 return db
+            # Release the probing reader before another voice switches this
+            # database to WAL. Waiting with it open can block that transition.
+            db.close()
             if not _schema_lock.acquire(timeout=.15):
                 raise sqlite3.OperationalError('Catalog initialization busy')
             try:
+                db=sqlite3.connect(self.path,timeout=.15)
+                db.execute('PRAGMA journal_size_limit=1048576')
                 db.execute('PRAGMA journal_mode=WAL')
                 db.execute('''CREATE TABLE IF NOT EXISTS entries (
                     kind TEXT NOT NULL, scope TEXT NOT NULL, key TEXT NOT NULL, policy TEXT NOT NULL,

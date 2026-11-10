@@ -18,7 +18,15 @@ function load(name, imports, globals = {}) {
     compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.ReactJSX, esModuleInterop: true },
   }).outputText;
   const exports = {};
-  vm.runInNewContext(source, { exports, ...globals, require: id => imports[id] ?? require(id) });
+  vm.runInNewContext(source, {
+    exports,
+    window: globalThis.window,
+    document: globalThis.document,
+    setTimeout: globalThis.setTimeout,
+    clearTimeout: globalThis.clearTimeout,
+    ...globals,
+    require: id => imports[id] ?? require(id)
+  });
   return exports.default;
 }
 
@@ -43,7 +51,7 @@ async function screen(run) {
       controls[props.label || props.placeholder] = props;
       return React.createElement('div', null, props.label, props.children);
     };
-    if (name === 'Box') return ({ children, onKeyDown, tabIndex, ...p }) => React.createElement('div', { ref: p.ref, onKeyDown, tabIndex }, children);
+    if (name === 'Box') return ({ children, component, ...p }) => React.createElement(component || 'div', p, children);
     return block;
   };
   const mui = new Proxy({}, { get: (target, name) => target[name] ??= makeMui(name) });
@@ -357,3 +365,152 @@ test('SubmissionReviewPage blocks approve and override buttons when submission i
   });
 });
 
+// ---------------------------------------------------------
+// SubmissionImage: Retry, Zoom/Scroll, and Accessible Modal
+// ---------------------------------------------------------
+test('SubmissionImage: retry on broken image clears error and restores ready state on valid image', async () => {
+  await screen(async ({ dom, render, imports }) => {
+    let callCount = 0;
+    const mockApiClient = {
+      get: async () => {
+        callCount++;
+        if (callCount === 1) {
+          return { data: new Blob([]) };
+        }
+        return { data: new Blob(['valid-image-bytes'], { type: 'image/jpeg' }) };
+      }
+    };
+
+    const statuses = [];
+    const Component = load('components/common/SubmissionImage', {
+      ...imports,
+      '../../services/api/apiClient': mockApiClient,
+      '../../config/runtime': { useMocks: false },
+    }, {
+      URL: {
+        createObjectURL: () => 'blob:mock-image-url',
+        revokeObjectURL: () => {},
+      }
+    });
+
+    await render(Component, {
+      id: 'sub-retry-test',
+      studentName: 'Học sinh kiểm thử',
+      onStatusChange: status => statuses.push(status),
+    });
+
+    let alert = dom.window.document.querySelector('[role=alert]');
+    assert.ok(alert, 'Must display error alert on 0-byte image');
+    assert.match(alert.textContent, /Tệp ảnh rỗng/, 'Explains empty file');
+    assert.equal(statuses[statuses.length - 1].ready, false);
+
+    const retryBtn = [...dom.window.document.querySelectorAll('button')].find(b => b.textContent?.includes('Thử lại'));
+    assert.ok(retryBtn, 'Retry button is present');
+    await act(async () => retryBtn.click());
+    await act(async () => { await new Promise(resolve => setTimeout(resolve, 60)); });
+    await act(async () => { await new Promise(resolve => setTimeout(resolve, 60)); });
+
+    const img = dom.window.document.querySelector('img');
+    assert.ok(img, 'Valid image element is rendered on successful retry');
+
+    Object.defineProperty(img, 'naturalWidth', { value: 640, configurable: true });
+    Object.defineProperty(img, 'naturalHeight', { value: 480, configurable: true });
+    await act(async () => {
+      img.dispatchEvent(new dom.window.Event('load'));
+    });
+
+    assert.equal(dom.window.document.querySelector('[role=alert]'), null, 'Error alert removed after successful decode');
+    assert.equal(statuses[statuses.length - 1].ready, true, 'Status is marked ready for grading');
+  });
+});
+
+test('SubmissionImage: zoom level scales rendered layout and rotation swaps bounding dimensions', async () => {
+  await screen(async ({ dom, render, imports }) => {
+    const Component = load('components/common/SubmissionImage', {
+      ...imports,
+      '../../services/api/apiClient': {
+        get: async () => ({ data: new Blob(['valid-image-bytes'], { type: 'image/jpeg' }) })
+      },
+      '../../config/runtime': { useMocks: false },
+    }, {
+      URL: { createObjectURL: () => 'blob:mock-zoom', revokeObjectURL: () => {} }
+    });
+
+    await render(Component, { id: 'sub-zoom-test', studentName: 'Test Zoom' });
+
+    const img = dom.window.document.querySelector('img');
+    assert.ok(img, 'Image must be rendered');
+    Object.defineProperty(img, 'naturalWidth', { value: 640, configurable: true });
+    Object.defineProperty(img, 'naturalHeight', { value: 480, configurable: true });
+    await act(async () => { img.dispatchEvent(new dom.window.Event('load')); });
+
+    assert.equal(dom.window.document.body.textContent.includes('125%'), false);
+
+    const rotateAtFit = dom.window.document.querySelector('button[aria-label="Xoay ảnh 90 độ"]');
+    await act(async () => rotateAtFit.click());
+    assert.equal(img.parentElement.style.width, '480px', 'Rotation reserves its full width at 100%');
+    assert.equal(img.parentElement.style.height, '640px', 'Rotation reserves its full height at 100%');
+    await act(async () => dom.window.document.querySelector('button[aria-label="Đặt lại kích thước"]').click());
+
+    const zoomInBtn = dom.window.document.querySelector('button[aria-label="Phóng to ảnh"]');
+    assert.ok(zoomInBtn, 'Zoom in button exists');
+    await act(async () => zoomInBtn.click());
+
+    assert.ok(dom.window.document.body.textContent.includes('125%'), 'Displays 125% badge');
+    assert.equal(img.style.width, '800px');
+    assert.equal(img.style.height, '600px');
+
+    const rotateBtn = dom.window.document.querySelector('button[aria-label="Xoay ảnh 90 độ"]');
+    assert.ok(rotateBtn, 'Rotate button exists');
+    await act(async () => rotateBtn.click());
+
+    const boxContainer = img.parentElement;
+    assert.equal(boxContainer.style.width, '600px', 'Rotated bounding box width swaps to 600px');
+    assert.equal(boxContainer.style.height, '800px', 'Rotated bounding box height swaps to 800px');
+    assert.match(img.style.transform, /rotate\(90deg\)/, 'Image has 90deg transform');
+
+    const resetBtn = dom.window.document.querySelector('button[aria-label="Đặt lại kích thước"]');
+    await act(async () => resetBtn.click());
+    assert.equal(dom.window.document.body.textContent.includes('125%'), false, 'Reset removes zoom badge');
+  });
+});
+
+test('SubmissionImage: fullscreen modal traps focus, handles Escape key, and restores focus to trigger button', async () => {
+  await screen(async ({ dom, render, imports }) => {
+    const Component = load('components/common/SubmissionImage', {
+      ...imports,
+      '../../services/api/apiClient': {
+        get: async () => ({ data: new Blob(['valid-image-bytes'], { type: 'image/jpeg' }) })
+      },
+      '../../config/runtime': { useMocks: false },
+    }, {
+      URL: { createObjectURL: () => 'blob:mock-modal', revokeObjectURL: () => {} }
+    });
+
+    await render(Component, { id: 'sub-modal-test', studentName: 'Test Modal' });
+    const img = dom.window.document.querySelector('img');
+    Object.defineProperty(img, 'naturalWidth', { value: 640, configurable: true });
+    Object.defineProperty(img, 'naturalHeight', { value: 480, configurable: true });
+    await act(async () => { img.dispatchEvent(new dom.window.Event('load')); });
+
+    const fullscreenBtn = dom.window.document.querySelector('button[aria-label="Xem chi tiết toàn màn hình"]');
+    assert.ok(fullscreenBtn, 'Fullscreen trigger button exists');
+
+    fullscreenBtn.focus();
+    await act(async () => fullscreenBtn.click());
+    await act(async () => { await new Promise(r => setTimeout(r, 60)); });
+
+    const dialog = dom.window.document.querySelector('[role=dialog][aria-modal=true]');
+    assert.ok(dialog, 'Fullscreen dialog is open with aria-modal="true"');
+    assert.equal(dom.window.document.body.style.overflow, 'hidden', 'Locks body scroll');
+
+    await act(async () => {
+      dom.window.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    });
+    await act(async () => { await new Promise(r => setTimeout(r, 20)); });
+
+    assert.equal(dom.window.document.querySelector('[role=dialog]'), null, 'Escape closes dialog');
+    assert.equal(dom.window.document.body.style.overflow, '', 'Restores body overflow');
+    assert.equal(dom.window.document.activeElement, fullscreenBtn, 'Returns focus to triggering button');
+  });
+});
