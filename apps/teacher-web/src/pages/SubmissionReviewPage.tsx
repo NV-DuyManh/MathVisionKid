@@ -22,7 +22,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { StatusChip } from '../components/common/StatusChip';
 import { SubmissionImage, type ImageStatus } from '../components/common/SubmissionImage';
@@ -68,20 +68,20 @@ function SubmissionReview({ id }: { id?: string }) {
   const prevSub = currentIndex > 0 ? submissionsList[currentIndex - 1] : null;
   const nextSub = currentIndex >= 0 && currentIndex < totalSubmissions - 1 ? submissionsList[currentIndex + 1] : null;
 
-  useEffect(() => {
-    if (sub) {
-      if (typeof sub.teacherScore === 'number') {
-        setEditScore(sub.teacherScore);
-      } else if (typeof sub.suggestedScore === 'number') {
-        setEditScore(sub.suggestedScore);
-      } else {
-        setEditScore(10);
-      }
-      if (sub.teacherReason) {
-        setEditReason(sub.teacherReason);
-      }
+  const [prevSubId, setPrevSubId] = useState<string | null>(null);
+  if (sub && sub.id !== prevSubId) {
+    setPrevSubId(sub.id);
+    if (typeof sub.teacherScore === 'number') {
+      setEditScore(sub.teacherScore);
+    } else if (typeof sub.suggestedScore === 'number') {
+      setEditScore(sub.suggestedScore);
+    } else {
+      setEditScore(10);
     }
-  }, [sub]);
+    if (sub.teacherReason) {
+      setEditReason(sub.teacherReason);
+    }
+  }
 
   const overrideMutation = useMutation({
     mutationFn: ({ subId, score, reason }: { subId: string; score: number; reason: string }) =>

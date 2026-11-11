@@ -137,7 +137,9 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
     retry: false,
   });
 
-  useEffect(() => {
+  const [prevId, setPrevId] = useState<string | undefined>(id);
+  if (id !== prevId) {
+    setPrevId(id);
     setZoomLevel(1);
     setRotation(0);
     setDecodeError(null);
@@ -145,8 +147,14 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
     setRetryCount(0);
     setStrokes([]);
     setStamps([]);
+  }
+
+  useEffect(() => {
     currentStroke.current = [];
   }, [id]);
+
+  const isZeroByte = !useMocks && !image.isFetching && !!image.data && image.data.size === 0;
+  const effectiveError = decodeError || (isZeroByte ? 'Tệp ảnh rỗng (0 byte), không có dữ liệu để hiển thị.' : null);
 
   useEffect(() => {
     if (useMocks && mockUrl) {
@@ -156,7 +164,6 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
     if (!image.data) return;
 
     if (image.data.size === 0) {
-      setDecodeError('Tệp ảnh rỗng (0 byte), không có dữ liệu để hiển thị.');
       onStatusChange?.({ ready: false, reason: 'Tệp ảnh rỗng (0 byte)' });
       return;
     }
@@ -178,7 +185,7 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
     } else if (image.isError) {
       onStatusChange?.({ ready: false, reason: 'Không thể tải ảnh bài làm từ máy chủ' });
     }
-  }, [image.isLoading, image.isFetching, image.isError, useMocks, mockUrl, onStatusChange]);
+  }, [image.isLoading, image.isFetching, image.isError, mockUrl, onStatusChange]);
 
   const handleRetry = async () => {
     setDecodeError(null);
@@ -527,11 +534,11 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
     );
   }
 
-  if (decodeError) {
+  if (effectiveError) {
     return (
       <Box sx={{ p: 3, maxWidth: 520, mx: 'auto', textAlign: 'center' }}>
         <Alert severity="error" sx={{ mb: 2, textAlign: 'left' }} role="alert">
-          {decodeError}
+          {effectiveError}
         </Alert>
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1.5, flexWrap: 'wrap' }}>
           <Box
