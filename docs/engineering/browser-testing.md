@@ -48,6 +48,8 @@ Teacher cần các biến `MATHVISION_LIVE_TEACHER_EMAIL`, `MATHVISION_LIVE_TEAC
 node scripts/test/live_teacher_review.mjs
 ```
 
+Để kiểm tra đợt đầy đủ, đặt `MATHVISION_LIVE_BATCH_SIZE=30` và `MATHVISION_LIVE_BATCH_IMAGES` tới thư mục chứa 30 ảnh JPEG tổng hợp khác nhau, tên từ `worksheet-1.jpg` đến `worksheet-30.jpg`. Kịch bản bổ sung tài khoản tổng hợp qua Admin nếu danh sách lớp có dưới 30 học sinh, sau đó gán từng ảnh trên giao diện và đối chiếu SHA-256 theo học sinh. Chạy ở chế độ `FIXTURE` khi kiểm tra năng lực luồng xử lý cách ly. Số đo của chế độ này không dùng để nghiệm thu độ chính xác hoặc p95 OCR.
+
 Student cần `MATHVISION_LIVE_STUDENT_EMAIL`, `MATHVISION_LIVE_STUDENT_PASSWORD` và `MATHVISION_LIVE_TRUTH` trỏ tới JSON do người kiểm tra đối chiếu với ảnh, gồm `problemText` và `answer`. Lệnh giữ nguyên các số và phân số khi so bản đọc, kiểm tra bắt buộc xác nhận đề, chuẩn bị bài, tải giọng nam/nữ/dự phòng qua API thật, giải các biểu thức bằng phép tính phân số độc lập và đối chiếu đáp số cuối. WAV được kiểm tra định dạng, thời lượng, âm lượng và hash riêng từng chế độ.
 
 ```sh

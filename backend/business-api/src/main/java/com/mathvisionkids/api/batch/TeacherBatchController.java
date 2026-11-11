@@ -67,4 +67,9 @@ public class TeacherBatchController {
     public ResponseEntity<List<UUID>> getBatchReviewQueue(@PathVariable UUID batchId, Principal principal) {
         return ResponseEntity.ok(batchService.getBatchReviewQueue(principal.getName(), batchId));
     }
+
+    @GetMapping("/{batchId}/review-summary")
+    public ResponseEntity<List<BatchReviewSummary>> getBatchReviewSummary(@PathVariable UUID batchId, Principal principal) {
+        return ResponseEntity.ok(batchService.getBatchReviewSummary(principal.getName(), batchId));
+    }
 }

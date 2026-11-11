@@ -8,12 +8,15 @@ import com.mathvisionkids.api.analysis.TeacherDecision;
 import com.mathvisionkids.api.analysis.TeacherDecisionRepository;
 import com.mathvisionkids.api.assignment.Assignment;
 import com.mathvisionkids.api.assignment.AssignmentRepository;
+import com.mathvisionkids.api.audit.AuditEvent;
+import com.mathvisionkids.api.audit.AuditEventRepository;
 import com.mathvisionkids.api.batch.Batch;
 import com.mathvisionkids.api.batch.BatchImageMapping;
 import com.mathvisionkids.api.batch.BatchRepository;
 import com.mathvisionkids.api.batch.BatchService;
 import com.mathvisionkids.api.classroom.Classroom;
 import com.mathvisionkids.api.classroom.ClassroomRepository;
+import com.mathvisionkids.api.common.ApiException;
 import com.mathvisionkids.api.storage.LocalFileObjectStorageService;
 import com.mathvisionkids.api.storage.MinioObjectStorageService;
 import com.mathvisionkids.api.storage.ObjectStorageService;
@@ -33,8 +36,10 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -45,17 +50,23 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
+@SpringBootTest(properties = "ai.callback.api-key=teacher-review-workflow-test")
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Transactional
@@ -74,6 +85,10 @@ class TeacherReviewWorkflowIntegrationTest {
     @Autowired SubmissionImageRepository images;
     @Autowired AnalysisResultRepository analysisResults;
     @Autowired TeacherDecisionRepository teacherDecisions;
+    @Autowired AuditEventRepository auditEvents;
+    @Autowired SubmissionService submissionService;
+    @Autowired com.mathvisionkids.api.analysis.AiJobRepository aiJobs;
+    @Autowired TransactionTemplate transactions;
 
     @Autowired LocalFileObjectStorageService localFileStorage;
     @MockBean MinioObjectStorageService minioStorage;
@@ -367,5 +382,346 @@ class TeacherReviewWorkflowIntegrationTest {
         TeacherDecision decision = teacherDecisions.findBySubmission_SubmissionId(submission.getSubmissionId()).orElseThrow();
         assertEquals(90, decision.getFinalScore());
         assertEquals("APPROVED", decision.getType());
+    }
+
+    @Test
+    void teacherCanManuallyGradeAnUncertainSubmissionWithoutAProposal() throws Exception {
+        String token = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
+        Submission submission = saveSubmission("NEEDS_CONFIRMATION");
+        String submissionUrl = "/api/v1/teacher/submissions/" + submission.getSubmissionId();
+        String batchUrl = "/api/v1/teacher/batches/" + batch.getBatchId();
+        String reason = "Ảnh đủ rõ để đối chiếu. Kết quả phép cộng chưa đúng.";
+
+        mvc.perform(post(submissionUrl + "/approve").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isBadRequest());
+        mvc.perform(post(submissionUrl + "/override")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(Map.of("score", 0, "reason", reason, "imageLegible", true))))
+                .andExpect(status().isOk());
+        mvc.perform(get(submissionUrl).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("TEACHER_OVERRIDDEN"))
+                .andExpect(jsonPath("$.teacherScore").value(0))
+                .andExpect(jsonPath("$.teacherReason").value(reason));
+        mvc.perform(get(batchUrl).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.pendingReviewCount").value(0))
+                .andExpect(jsonPath("$.finalizedCount").value(1));
+        List<AuditEvent> events = auditEvents.findBySubmission_SubmissionIdOrderByCreatedAtDesc(submission.getSubmissionId());
+        assertEquals(List.of("TEACHER_OVERRIDDEN"), events.stream().map(AuditEvent::getEventType).toList());
+        assertEquals(true, events.get(0).getMetadata().get("imageLegible"));
+    }
+
+    @Test
+    void teacherMustAffirmEvidenceIsLegibleBeforeGradingAnUncertainSubmission() throws Exception {
+        String token = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
+        Submission submission = saveSubmission("NEEDS_CONFIRMATION");
+        String submissionUrl = "/api/v1/teacher/submissions/" + submission.getSubmissionId();
+
+        for (Map<String, Object> body : List.<Map<String, Object>>of(
+                Map.of("score", 0, "reason", "Đã đối chiếu bài làm"),
+                Map.of("score", 0, "reason", "Đã đối chiếu bài làm", "imageLegible", false),
+                Map.of("score", 0, "reason", "Đã đối chiếu bài làm", "imageLegible", "true"))) {
+            mvc.perform(post(submissionUrl + "/override")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(mapper.writeValueAsString(body)))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.error.code").value("VALIDATION_ERROR"));
+        }
+        mvc.perform(get(submissionUrl).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("NEEDS_CONFIRMATION"))
+                .andExpect(jsonPath("$.teacherScore").doesNotExist());
+        assertTrue(auditEvents.findBySubmission_SubmissionIdOrderByCreatedAtDesc(submission.getSubmissionId()).isEmpty());
+    }
+
+    @Test
+    void submissionRequiringRetakeRemainsInReviewWithoutAnOfficialGrade() throws Exception {
+        String token = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
+        Submission submission = saveSubmission("NEEDS_RETAKE");
+        String submissionUrl = "/api/v1/teacher/submissions/" + submission.getSubmissionId();
+        String reviewUrl = "/api/v1/teacher/batches/" + batch.getBatchId() + "/review";
+
+        mvc.perform(post(submissionUrl + "/override")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(Map.of("score", 50, "reason", "Ảnh cần chụp lại"))))
+                .andExpect(status().isBadRequest());
+        mvc.perform(get(reviewUrl).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0]").value(submission.getSubmissionId().toString()));
+        assertTrue(teacherDecisions.findBySubmission_SubmissionId(submission.getSubmissionId()).isEmpty());
+    }
+
+    @Test
+    void batchReviewSummaryReturnsOnlyCurrentPendingCardFieldsToTheOwningTeacher() throws Exception {
+        String owner = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
+        String other = obtainJwtToken(unauthorizedTeacher.getEmail(), UNAUTH_TEACHER_PASSWORD);
+        Submission current = saveSubmission("PROPOSED_GRADE");
+        Submission stale = saveSubmission("NEEDS_RETAKE");
+        saveSubmission("TEACHER_APPROVED");
+
+        var originalJob = new com.mathvisionkids.api.analysis.AiJob();
+        originalJob.setSubmission(stale);
+        originalJob.setStatus("COMPLETED");
+        aiJobs.saveAndFlush(originalJob);
+
+        for (Submission submission : List.of(current, stale)) {
+            AnalysisResult result = new AnalysisResult();
+            result.setSubmission(submission);
+            result.setStatus(submission.getStatus());
+            result.setRecognizedExercise(Map.of("expression", "private expression"));
+            result.setGradeProposal(Map.of("suggestedScore", 7, "maxScore", 10, "details", "private"));
+            result.setReviewReasons(Map.of("recognition", 0.9, "diagnosis", 0.8, "structure", 0.7,
+                    "jobId", originalJob.getJobId().toString()));
+            result.setEvidence(Map.of("rule", "PLACE_VALUE", "position", "Tens",
+                    "items", List.of(Map.of("description", "Check the tens column", "source", "private"),
+                            Map.of("description", "Second detail"))));
+            analysisResults.saveAndFlush(result);
+        }
+        var retry = new com.mathvisionkids.api.analysis.AiJob();
+        retry.setSubmission(stale);
+        retry.setStatus("COMPLETED");
+        aiJobs.saveAndFlush(retry);
+
+        String url = "/api/v1/teacher/batches/" + batch.getBatchId() + "/review-summary";
+        mvc.perform(get("/api/v1/teacher/batches/" + batch.getBatchId() + "/review")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + owner))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", contains(current.getSubmissionId().toString(), stale.getSubmissionId().toString())));
+        mvc.perform(get(url).header(HttpHeaders.AUTHORIZATION, "Bearer " + other))
+                .andExpect(status().isForbidden());
+        mvc.perform(get(url).header(HttpHeaders.AUTHORIZATION, "Bearer " + owner))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].submissionId").value(current.getSubmissionId().toString()))
+                .andExpect(jsonPath("$[0].status").value("PROPOSED_GRADE"))
+                .andExpect(jsonPath("$[0].studentName").value(pupil.getDisplayName()))
+                .andExpect(jsonPath("$[0].maxScore").value(100))
+                .andExpect(jsonPath("$[0].gradeProposal.suggestedScore").value(7))
+                .andExpect(jsonPath("$[0].gradeProposal.maxScore").value(10))
+                .andExpect(jsonPath("$[0].gradeProposal.details").doesNotExist())
+                .andExpect(jsonPath("$[0].confidenceBundle.recognition").value(0.9))
+                .andExpect(jsonPath("$[0].confidenceBundle.diagnosis").value(0.8))
+                .andExpect(jsonPath("$[0].confidenceBundle.structure").doesNotExist())
+                .andExpect(jsonPath("$[0].evidence.rule").value("PLACE_VALUE"))
+                .andExpect(jsonPath("$[0].evidence.position").value("Tens"))
+                .andExpect(jsonPath("$[0].evidence.items", hasSize(1)))
+                .andExpect(jsonPath("$[0].evidence.items[0].description").value("Check the tens column"))
+                .andExpect(jsonPath("$[0].evidence.items[0].source").doesNotExist())
+                .andExpect(jsonPath("$[0].recognizedText").doesNotExist())
+                .andExpect(jsonPath("$[0].studentId").doesNotExist())
+                .andExpect(jsonPath("$[0].imageUrl").doesNotExist())
+                .andExpect(jsonPath("$[1].submissionId").value(stale.getSubmissionId().toString()))
+                .andExpect(jsonPath("$[1].gradeProposal").doesNotExist())
+                .andExpect(jsonPath("$[1].confidenceBundle").doesNotExist())
+                .andExpect(jsonPath("$[1].evidence").doesNotExist());
+    }
+
+    @Test
+    void changingClassroomTeacherRemovesHistoricalWorkFromTeacherWorkspace() throws Exception {
+        String formerTeacherToken = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
+        String currentTeacherToken = obtainJwtToken(unauthorizedTeacher.getEmail(), UNAUTH_TEACHER_PASSWORD);
+        Submission submission = saveSubmission("REVIEW_REQUIRED");
+        String submissionUrl = "/api/v1/teacher/submissions/" + submission.getSubmissionId();
+        String batchUrl = "/api/v1/teacher/batches/" + batch.getBatchId();
+        String assignmentUrl = "/api/v1/teacher/assignments/" + assignment.getAssignmentId();
+
+        classroom.setTeacher(unauthorizedTeacher);
+        classrooms.saveAndFlush(classroom);
+
+        mvc.perform(get("/api/v1/teacher/batches").header(HttpHeaders.AUTHORIZATION, "Bearer " + formerTeacherToken))
+                .andExpect(status().isOk()).andExpect(jsonPath("$").isEmpty());
+        mvc.perform(get("/api/v1/teacher/assignments").header(HttpHeaders.AUTHORIZATION, "Bearer " + formerTeacherToken))
+                .andExpect(status().isOk()).andExpect(jsonPath("$").isEmpty());
+        mvc.perform(get("/api/v1/teacher/dashboard").header(HttpHeaders.AUTHORIZATION, "Bearer " + formerTeacherToken))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.recentBatches").isEmpty());
+
+        for (String token : List.of(formerTeacherToken, currentTeacherToken)) {
+            for (String url : List.of(assignmentUrl, batchUrl, batchUrl + "/review", batchUrl + "/review-summary",
+                    submissionUrl, submissionUrl + "/image")) {
+                mvc.perform(get(url).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                        .andExpect(status().isForbidden());
+            }
+            mvc.perform(post(submissionUrl + "/approve").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                    .andExpect(status().isForbidden());
+            mvc.perform(post(submissionUrl + "/override")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(mapper.writeValueAsString(Map.of("score", 50, "reason", "Kiểm tra quyền chấm"))))
+                    .andExpect(status().isForbidden());
+        }
+        assertTrue(teacherDecisions.findBySubmission_SubmissionId(submission.getSubmissionId()).isEmpty());
+    }
+
+    @Test
+    void concurrentManualDecisionsRecordOneGradeAndAuditEvent() throws Exception {
+        UUID submissionId = saveSubmission("NEEDS_CONFIRMATION").getSubmissionId();
+        String teacherEmail = authorizedTeacher.getEmail();
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
+
+        var start = new CountDownLatch(1);
+        try (var executor = Executors.newFixedThreadPool(2)) {
+            var first = executor.submit(() -> tryGrade(start, teacherEmail, submissionId, 0));
+            var second = executor.submit(() -> tryGrade(start, teacherEmail, submissionId, 75));
+            start.countDown();
+            String firstResult = first.get(10, TimeUnit.SECONDS);
+            String secondResult = second.get(10, TimeUnit.SECONDS);
+
+            assertEquals(List.of("INVALID_STATE", "SAVED"), List.of(firstResult, secondResult).stream().sorted().toList());
+            int winningScore = "SAVED".equals(firstResult) ? 0 : 75;
+            assertEquals(winningScore, teacherDecisions.findBySubmission_SubmissionId(submissionId).orElseThrow().getFinalScore());
+            assertEquals(List.of("TEACHER_OVERRIDDEN"), auditEvents
+                    .findBySubmission_SubmissionIdOrderByCreatedAtDesc(submissionId).stream()
+                    .map(AuditEvent::getEventType).toList());
+        } finally {
+            transactions.executeWithoutResult(status -> {
+                auditEvents.deleteAll(auditEvents.findBySubmission_SubmissionIdOrderByCreatedAtDesc(submissionId));
+                teacherDecisions.findBySubmission_SubmissionId(submissionId).ifPresent(teacherDecisions::delete);
+                submissions.deleteById(submissionId);
+                batches.deleteById(batch.getBatchId());
+                assignments.deleteById(assignment.getAssignmentId());
+                classrooms.deleteById(classroom.getClassId());
+                students.deleteById(pupil.getId());
+                teachers.deleteById(authorizedTeacher.getId());
+                teachers.deleteById(unauthorizedTeacher.getId());
+            });
+        }
+    }
+
+    @Test
+    void teacherRetakeReplacesTheCurrentImageAndIgnoresLateCallbacks() throws Exception {
+        Submission submission = saveSubmission("NEEDS_RETAKE");
+        UUID id = submission.getSubmissionId();
+        SubmissionImage original = new SubmissionImage();
+        original.setSubmission(submission);
+        original.setContentType("image/jpeg");
+        original.setFileSize((long) realImageBytes.length);
+        original.setFilePath("original-image-reference");
+        original.setCreatedAt(java.time.Instant.now().minusSeconds(60));
+        images.saveAndFlush(original);
+        var job = new com.mathvisionkids.api.analysis.AiJob();
+        job.setSubmission(submission);
+        job.setStatus("QUEUED");
+        UUID oldJob = aiJobs.saveAndFlush(job).getJobId();
+
+        String url = "/api/v1/teacher/submissions/" + id;
+        String token = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
+        String outsider = obtainJwtToken(unauthorizedTeacher.getEmail(), UNAUTH_TEACHER_PASSWORD);
+        String student = obtainJwtToken(pupil.getEmail(), "StudentPass123!");
+        var replacement = new MockMultipartFile("image", "redacted.jpg", "image/jpeg", realImageBytes);
+        mvc.perform(multipart(url + "/retake").file(replacement)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + outsider))
+                .andExpect(status().isForbidden());
+        mvc.perform(multipart("/api/v1/student/submissions/" + id + "/retry").file(replacement)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + student))
+                .andExpect(status().isForbidden());
+        mvc.perform(multipart(url + "/retake")
+                        .file(new MockMultipartFile("image", "invalid.jpg", "image/jpeg", new byte[]{1, 2, 3}))
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isBadRequest());
+        mvc.perform(multipart(url + "/retake").file(replacement)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isAccepted()).andExpect(content().string(""));
+        mvc.perform(multipart(url + "/retake").file(replacement)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isConflict());
+        mvc.perform(post("/internal/v1/ai/jobs/" + oldJob + "/callback")
+                        .header("X-Internal-API-Key", "teacher-review-workflow-test")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"status\":\"PROPOSED_GRADE\"}"))
+                .andExpect(status().isOk());
+        assertEquals("SUPERSEDED", aiJobs.findById(oldJob).orElseThrow().getStatus());
+        assertTrue(analysisResults.findBySubmission_SubmissionId(id).isEmpty());
+        UUID version = images.findFirstBySubmission_SubmissionIdOrderByCreatedAtDesc(id).orElseThrow().getImageId();
+        assertNotEquals(original.getImageId(), version);
+        assertTrue(images.existsById(original.getImageId()));
+        assertEquals(List.of("TEACHER_RETAKE_UPLOADED"), auditEvents
+                .findBySubmission_SubmissionIdOrderByCreatedAtDesc(id).stream().map(AuditEvent::getEventType).toList());
+        mvc.perform(get(url).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.submissionId").value(id.toString()))
+                .andExpect(jsonPath("$.imageVersion").value(version.toString()))
+                .andExpect(jsonPath("$.status").value("PROCESSING"));
+        mvc.perform(get(url + "/image").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk()).andExpect(content().bytes(realImageBytes));
+    }
+
+    @Test
+    void teacherRetakeRollbackRemovesReplacementAndSkipsDispatch() throws Exception {
+        doAnswer(invocation -> {
+            localFileStorage.delete(invocation.getArgument(0));
+            return null;
+        }).when(minioStorage).delete(anyString());
+        UUID id = saveSubmission("NEEDS_RETAKE").getSubmissionId();
+        submissionService.retakeTeacherSubmission(authorizedTeacher.getEmail(), id,
+                new MockMultipartFile("image", "redacted.jpg", "image/jpeg", realImageBytes));
+        String path = images.findFirstBySubmission_SubmissionIdOrderByCreatedAtDesc(id).orElseThrow().getFilePath();
+        assertArrayEquals(realImageBytes, localFileStorage.loadBytes(path));
+
+        TestTransaction.flagForRollback();
+        TestTransaction.end();
+
+        assertThrows(java.io.IOException.class, () -> localFileStorage.loadBytes(path));
+        assertTrue(images.findFirstBySubmission_SubmissionIdOrderByCreatedAtDesc(id).isEmpty());
+        verifyNoInteractions(aiGateway);
+    }
+
+    @Test
+    void teacherRetriesTechnicalFailureUsingTheSameImage() throws Exception {
+        Submission submission = saveSubmission("REVIEW_REQUIRED");
+        UUID id = submission.getSubmissionId();
+        SubmissionImage image = new SubmissionImage();
+        image.setSubmission(submission);
+        image.setContentType("image/jpeg");
+        image.setFileSize((long) realImageBytes.length);
+        image.setFilePath("original-image-reference");
+        UUID imageId = images.saveAndFlush(image).getImageId();
+        var job = new com.mathvisionkids.api.analysis.AiJob();
+        job.setSubmission(submission);
+        job.setStatus("FAILED");
+        UUID failedJobId = aiJobs.saveAndFlush(job).getJobId();
+
+        String url = "/api/v1/teacher/submissions/" + id;
+        String token = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
+        String outsider = obtainJwtToken(unauthorizedTeacher.getEmail(), UNAUTH_TEACHER_PASSWORD);
+        mvc.perform(get(url).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.canRetryProcessing").value(true));
+        mvc.perform(post(url + "/retry-processing").header(HttpHeaders.AUTHORIZATION, "Bearer " + outsider))
+                .andExpect(status().isForbidden());
+        mvc.perform(post(url + "/retry-processing").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isAccepted()).andExpect(content().string(""));
+        mvc.perform(post(url + "/retry-processing").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isConflict());
+        assertEquals("SUPERSEDED", aiJobs.findById(failedJobId).orElseThrow().getStatus());
+        assertEquals(List.of("TEACHER_PROCESSING_RETRY_REQUESTED"), auditEvents
+                .findBySubmission_SubmissionIdOrderByCreatedAtDesc(id).stream().map(AuditEvent::getEventType).toList());
+        mvc.perform(get(url).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("PROCESSING"))
+                .andExpect(jsonPath("$.canRetryProcessing").value(false))
+                .andExpect(jsonPath("$.imageVersion").value(imageId.toString()));
+    }
+
+    private Submission saveSubmission(String status) {
+        Submission submission = new Submission();
+        submission.setBatch(batch);
+        submission.setAssignment(assignment);
+        submission.setStudent(pupil);
+        submission.setStatus(status);
+        return submissions.saveAndFlush(submission);
+    }
+
+    private String tryGrade(CountDownLatch start, String email, UUID submissionId, int score) throws InterruptedException {
+        assertTrue(start.await(5, TimeUnit.SECONDS));
+        try {
+            submissionService.overrideSubmission(email, submissionId,
+                    Map.of("score", score, "reason", "Đã đối chiếu bài làm", "imageLegible", true));
+            return "SAVED";
+        } catch (ApiException error) {
+            return error.getCode();
+        }
     }
 }

@@ -16,7 +16,7 @@ public record BatchResponse(UUID batchId, UUID assignmentId, String assignmentTi
     private static final Set<String> TERMINAL = Set.of("PROPOSED_GRADE", "FEEDBACK_READY", "REVIEW_REQUIRED",
             "NEEDS_CONFIRMATION", "NEEDS_RETAKE", "TEACHER_APPROVED", "TEACHER_OVERRIDDEN", "FAILED");
     private static final Set<String> REVIEW = Set.of("REVIEW_REQUIRED", "NEEDS_CONFIRMATION", "NEEDS_RETAKE");
-    private static final Set<String> PENDING_REVIEW = Set.of(
+    static final Set<String> PENDING_REVIEW = Set.of(
             "REVIEW_REQUIRED", "NEEDS_CONFIRMATION", "NEEDS_RETAKE", "PROPOSED_GRADE", "FEEDBACK_READY");
     private static final Set<String> FINALIZED = Set.of("TEACHER_APPROVED", "TEACHER_OVERRIDDEN");
 

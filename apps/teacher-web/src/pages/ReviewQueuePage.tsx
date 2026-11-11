@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import {
   Box,
   Typography,
@@ -17,26 +17,62 @@ import {
   Chip,
   Alert,
 } from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { AuthTokenStore } from '../services/api/AuthTokenStore';
 import { AppTeacherService } from '../services/api/ServiceLocator';
-import { CheckCircle, ArrowBack, ArrowForward, AutoAwesome, FilterList, Search } from '@mui/icons-material';
+import { ArrowBack, ArrowForward, AutoAwesome, FilterList, Search } from '@mui/icons-material';
 import { StatusChip } from '../components/common/StatusChip';
 import { PageHeader } from '../components/common/PageHeader';
 
+const processingStatuses = ['UPLOADING', 'QUEUED', 'PROCESSING'];
+const defaultFilters = { statusFilter: 'ALL', searchQuery: '', sortBy: 'DEFAULT' };
+
 export default function ReviewQueuePage() {
-  const { id } = useParams<{ id: string }>();
+  const { id = '' } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
+  const sessionId = AuthTokenStore.getSessionId();
+  const saved = location.state?.reviewQueue;
+  const filters: typeof defaultFilters = sessionId && saved?.sessionId === sessionId && saved?.batchId === id
+    ? saved.filters : defaultFilters;
+  const { statusFilter, searchQuery, sortBy } = filters;
 
-  const [statusFilter, setStatusFilter] = useState<string>('ALL');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [sortBy, setSortBy] = useState<string>('DEFAULT');
+  const reviewState = (nextFilters: typeof defaultFilters) => ({ reviewQueue: { sessionId, batchId: id, filters: nextFilters } });
+  const updateFilters = (nextFilters: typeof defaultFilters) => {
+    navigate({ pathname: location.pathname, search: location.search, hash: location.hash }, {
+      replace: true,
+      state: reviewState(nextFilters),
+    });
+  };
 
-  const { data: queue, isLoading, isError } = useQuery({
+  const queueQuery = useQuery({
     queryKey: ['reviewQueue', id],
-    queryFn: () => AppTeacherService.getReviewQueue(id!),
+    queryFn: () => AppTeacherService.getReviewQueue(id),
     enabled: !!id,
   });
+  const batchQuery = useQuery({
+    queryKey: ['batch', id],
+    queryFn: () => AppTeacherService.getBatchStatus(id),
+    enabled: !!id,
+    refetchInterval: ({ state }) => state.status === 'success'
+      && processingStatuses.includes(state.data?.status ?? '') ? 3000 : false,
+  });
+  const { data: queue, refetch: reloadQueue } = queueQuery;
+  const batch = batchQuery.data;
+  const observedBatch = useRef<typeof batch>(undefined);
+  const pending = batch?.pendingReviewCount ?? batch?.reviewRequiredCount;
+  const queueLength = queue?.length;
+
+  useEffect(() => {
+    if (!batch || queueQuery.fetchStatus !== 'idle' || observedBatch.current === batch) return;
+    // Let any older in-flight queue read finish before reconciling it with newer progress.
+    const hasPreviousBatch = !!observedBatch.current;
+    observedBatch.current = batch;
+    if (hasPreviousBatch || (queueLength !== undefined && queueLength !== pending)) {
+      void reloadQueue();
+    }
+  }, [batch, pending, queueLength, queueQuery.fetchStatus, reloadQueue]);
 
   const filteredQueue = useMemo(() => {
     if (!queue) return [];
@@ -56,78 +92,102 @@ export default function ReviewQueuePage() {
     return list;
   }, [queue, statusFilter, searchQuery, sortBy]);
 
-  if (isLoading) {
+  const batchPath = `/batches/${encodeURIComponent(id)}`;
+  const isFetching = queueQuery.isFetching || batchQuery.isFetching;
+  const isPaused = queueQuery.isPaused || batchQuery.isPaused;
+  const isChecking = isFetching || isPaused;
+  const heading = <>
+    <Button component={Link} to={batchPath} startIcon={<ArrowBack />} sx={{ mb: 2 }}>
+      Quay lại chi tiết đợt chấm
+    </Button>
+    <PageHeader
+      title="Hàng đợi Thẩm định & Duyệt bài"
+      subtitle={queue?.length && !queueQuery.isError && !batchQuery.isError
+        ? `Có ${queue.length} bài làm cần giáo viên thẩm định và quyết định điểm số chính thức.`
+        : undefined}
+      actions={<Button variant="outlined" disabled={isFetching} onClick={() => {
+        void batchQuery.refetch();
+        void reloadQueue();
+      }}>Làm mới</Button>}
+    />
+  </>;
+
+  if (queueQuery.isLoading || batchQuery.isLoading) {
     return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 8 }}>
-        <CircularProgress size={40} />
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-          Đang tải danh sách bài làm cần xem lại...
-        </Typography>
+      <Box>
+        {heading}
+        <Box role="status" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 8 }}>
+          <CircularProgress size={40} />
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+            Đang tải tiến độ và hàng đợi duyệt…
+          </Typography>
+        </Box>
       </Box>
     );
   }
 
-  if (isError || !queue) {
+  if (batchQuery.isError || !batch || queueQuery.isError || !queue) {
     return (
-      <Box sx={{ textAlign: 'center', mt: 6, p: 4 }}>
-        <Typography color="error" variant="h6" component="h1" sx={{ mb: 2 }}>
-          Đã xảy ra lỗi khi tải hàng đợi duyệt.
-        </Typography>
-        <Button variant="outlined" onClick={() => navigate(`/batches/${id}`)}>
-          Quay lại đợt chấm
-        </Button>
+      <Box>
+        {heading}
+        <Alert severity="error">
+          {batchQuery.isError || !batch ? 'Chưa tải được tiến độ đợt chấm.' : 'Chưa tải được hàng đợi duyệt.'}
+          {' '}Chọn Làm mới để thử lại.
+        </Alert>
       </Box>
     );
   }
 
-  // Meaningful completion state per Section 34
-  if (queue.length === 0) {
-    return (
-      <Box sx={{ maxWidth: 680, mx: 'auto', textAlign: 'center', mt: 8 }}>
-        <Paper
-          variant="outlined"
-          sx={{
-            p: 5,
-            bgcolor: '#F0FDF4',
-            borderColor: '#86EFAC',
-            borderRadius: 3,
-          }}
-        >
-          <CheckCircle sx={{ fontSize: 56, color: '#16A34A', mb: 1.5 }} />
-          <Typography variant="h5" component="h1" sx={{ fontWeight: 800, color: '#15803D', mb: 1 }}>
-            Đã xử lý hết các bài cần giáo viên xem lại.
-          </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 440, mx: 'auto', mb: 3 }}>
-            Tất cả các bài làm trong đợt này đã được giáo viên xem xét hoặc đã có đầy đủ đề xuất từ hệ thống.
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
-            <Button variant="outlined" onClick={() => navigate(`/batches/${id}`)}>
-              Xem chi tiết đợt chấm
-            </Button>
-            <Button variant="contained" onClick={() => navigate('/dashboard')}>
-              Về trang tổng quan
-            </Button>
-          </Box>
-        </Paper>
-      </Box>
-    );
+  const total = batch.totalCount ?? batch.totalImages ?? 0;
+  const failed = batch.failedCount ?? 0;
+  const isProcessing = processingStatuses.includes(batch.status);
+  const isWaitingForUpload = batch.status === 'CREATED' && total === 0;
+  const hasFailures = failed > 0 || batch.status === 'FAILED' || batch.status === 'PARTIAL';
+  const queueDisagrees = pending !== queue.length;
+  const allFinalized = batch.status === 'COMPLETED' && total > 0 && batch.processedCount === total
+    && batch.finalizedCount === total && batch.failedCount === 0 && pending === 0;
+  const notices = <>
+    {isProcessing && <Alert severity="info" role="status" sx={{ mb: 2 }}>
+      {total > 0 ? `Đã xử lý ${batch.processedCount} / ${total} ảnh.` : 'Đợt chấm đang nhận ảnh.'}
+    </Alert>}
+    {hasFailures && <Alert severity="warning" sx={{ mb: 2 }}>
+      {failed > 0 ? `${failed} bài chưa xử lý được.` : 'Đợt chấm có bài chưa xử lý được.'}
+      <Button component={Link} to={batchPath} size="small" sx={{ display: 'flex', width: 'fit-content' }}>
+        Xem bài xử lý thất bại
+      </Button>
+    </Alert>}
+    {queueDisagrees && !isChecking && <Alert severity="warning" sx={{ mb: 2 }}>
+      Dữ liệu hàng đợi và tiến độ đợt chấm chưa khớp. Chọn Làm mới để kiểm tra lại.
+    </Alert>}
+  </>;
+
+  if (!queue.length) {
+    return <Box>
+      {heading}
+      {notices}
+      {isWaitingForUpload && <Alert severity="info" role="status">
+        Đợt chấm đang chờ tải ảnh.
+        {batch.assignmentId && <Button component={Link} to={`/batches/create?${new URLSearchParams({ batchId: id })}`}
+          size="small" sx={{ display: 'flex', width: 'fit-content' }}>
+          Tiếp tục tải ảnh
+        </Button>}
+      </Alert>}
+      {!isProcessing && !isWaitingForUpload && !hasFailures && (isChecking
+        ? <Alert severity="info" role="status">
+          {isPaused ? 'Đang chờ kết nối để kiểm tra tiến độ đợt chấm…' : 'Đang kiểm tra tiến độ đợt chấm…'}
+        </Alert>
+        : allFinalized
+          ? <Alert severity="success" role="status">Đã chốt điểm cho toàn bộ bài làm.</Alert>
+          : !queueDisagrees && <Alert severity="warning">
+            Chưa xác nhận được tất cả bài làm đã chốt điểm. Xem chi tiết đợt chấm hoặc chọn Làm mới.
+          </Alert>)}
+    </Box>;
   }
 
   return (
     <Box>
-      <Button
-        variant="text"
-        startIcon={<ArrowBack />}
-        onClick={() => navigate(`/batches/${id}`)}
-        sx={{ mb: 2 }}
-      >
-        Quay lại chi tiết đợt chấm
-      </Button>
-
-      <PageHeader
-        title="Hàng đợi Thẩm định & Duyệt bài"
-        subtitle={`Có ${queue.length} bài làm cần giáo viên thẩm định và quyết định điểm số chính thức.`}
-      />
+      {heading}
+      {notices}
 
       {/* Filter and Sorting Toolbar (SCRUM-111) */}
       <Paper
@@ -146,7 +206,7 @@ export default function ReviewQueuePage() {
             label="Tên học sinh"
             placeholder="Tìm theo tên học sinh..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => updateFilters({ ...filters, searchQuery: e.target.value })}
             slotProps={{
               input: {
                 startAdornment: <Search sx={{ fontSize: 18, color: '#94A3B8', mr: 1 }} />,
@@ -161,7 +221,7 @@ export default function ReviewQueuePage() {
               labelId="filter-status-label"
               value={statusFilter}
               label="Trạng thái"
-              onChange={(e) => setStatusFilter(e.target.value)}
+              onChange={(e) => updateFilters({ ...filters, statusFilter: e.target.value })}
             >
               <MenuItem value="ALL">Tất cả trạng thái</MenuItem>
               <MenuItem value="REVIEW_REQUIRED">Cần giáo viên duyệt</MenuItem>
@@ -178,7 +238,7 @@ export default function ReviewQueuePage() {
               labelId="sort-by-label"
               value={sortBy}
               label="Sắp xếp theo"
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) => updateFilters({ ...filters, sortBy: e.target.value })}
             >
               <MenuItem value="DEFAULT">Thứ tự mặc định</MenuItem>
               <MenuItem value="CONFIDENCE_ASC">Độ tin cậy: Thấp → Cao</MenuItem>
@@ -191,11 +251,7 @@ export default function ReviewQueuePage() {
             <Button
               variant="text"
               size="small"
-              onClick={() => {
-                setStatusFilter('ALL');
-                setSearchQuery('');
-                setSortBy('DEFAULT');
-              }}
+              onClick={() => updateFilters(defaultFilters)}
               sx={{ textTransform: 'none', color: '#64748B' }}
             >
               Đặt lại bộ lọc
@@ -320,7 +376,9 @@ export default function ReviewQueuePage() {
                       fullWidth
                       size="medium"
                       endIcon={<ArrowForward />}
-                      onClick={() => navigate(`/submissions/${encodeURIComponent(subId)}?from=review`)}
+                      onClick={() => navigate(`/submissions/${encodeURIComponent(subId)}?from=review`, {
+                        state: reviewState(filters),
+                      })}
                       sx={{
                         py: 1.1,
                         fontWeight: 700,

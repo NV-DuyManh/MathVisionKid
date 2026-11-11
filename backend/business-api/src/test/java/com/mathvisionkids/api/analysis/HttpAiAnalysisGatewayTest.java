@@ -236,7 +236,8 @@ public class HttpAiAnalysisGatewayTest {
         AiGatewayConfig config = new AiGatewayConfig();
         AiAnalysisGateway stubGateway = config.stubAiAnalysisGateway(
                 submissionRepository, mock(AnalysisResultRepository.class),
-                mock(com.mathvisionkids.api.audit.AuditEventRepository.class), aiJobRepository
+                mock(com.mathvisionkids.api.audit.AuditEventRepository.class), aiJobRepository,
+                mock(org.springframework.transaction.PlatformTransactionManager.class)
         );
         assertNotNull(stubGateway);
         assertTrue(stubGateway instanceof StubAiAnalysisGateway);

@@ -13,12 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Set;
 
 @Service
 public class DashboardService {
+
+    private static final ZoneId SCHOOL_ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
 
     private final TeacherRepository teacherRepository;
     private final BatchRepository batchRepository;
@@ -38,12 +40,18 @@ public class DashboardService {
 
     @Transactional(readOnly = true)
     public DashboardResponse getDashboard(String teacherEmail) {
+        return getDashboard(teacherEmail, Instant.now());
+    }
+
+    DashboardResponse getDashboard(String teacherEmail, Instant now) {
         Teacher teacher = teacherRepository.findByEmail(teacherEmail)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Teacher not found", HttpStatus.NOT_FOUND));
 
-        List<Batch> batches = batchRepository.findByTeacher_IdOrderByCreatedAtDesc(teacher.getId());
+        List<Batch> batches = batchRepository.findOwnedByAssignedTeacherOrderByCreatedAtDesc(teacher.getId());
 
-        Instant todayStart = LocalDate.now(ZoneOffset.UTC).atStartOfDay().toInstant(ZoneOffset.UTC);
+        LocalDate today = LocalDate.ofInstant(now, SCHOOL_ZONE);
+        Instant todayStart = today.atStartOfDay(SCHOOL_ZONE).toInstant();
+        Instant tomorrowStart = today.plusDays(1).atStartOfDay(SCHOOL_ZONE).toInstant();
 
         int todayTotal = 0;
         int processedCount = 0;
@@ -56,7 +64,8 @@ public class DashboardService {
             progressByBatch.put(batch.getBatchId(), progress);
             reviewRequiredCount += progress.pendingReviewCount();
             for (Submission s : submissions) {
-                if (s.getCreatedAt() != null && s.getCreatedAt().isAfter(todayStart)) {
+                Instant submittedAt = s.getCreatedAt();
+                if (submittedAt != null && !submittedAt.isBefore(todayStart) && submittedAt.isBefore(tomorrowStart)) {
                     todayTotal++;
                 }
                 if (TERMINAL_STATES.contains(s.getStatus())) {

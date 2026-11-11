@@ -8,6 +8,7 @@ import com.mathvisionkids.api.classroom.ClassroomRepository;
 import com.mathvisionkids.api.common.ApiException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -44,7 +45,7 @@ public class TeacherAssignmentController {
     @GetMapping
     public ResponseEntity<List<AssignmentResponse>> getAssignments(Principal principal) {
         Teacher teacher = teacherRepository.findByEmail(principal.getName()).orElseThrow();
-        List<AssignmentResponse> responses = assignmentRepository.findByTeacher_Id(teacher.getId())
+        List<AssignmentResponse> responses = assignmentRepository.findOwnedByAssignedTeacher(teacher.getId())
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
@@ -52,12 +53,13 @@ public class TeacherAssignmentController {
     }
 
     @GetMapping("/{assignmentId}")
+    @Transactional(readOnly = true)
     public ResponseEntity<AssignmentResponse> getAssignment(@PathVariable UUID assignmentId, Principal principal) {
         Teacher teacher = teacherRepository.findByEmail(principal.getName()).orElseThrow();
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Assignment not found", HttpStatus.NOT_FOUND));
 
-        if (!assignment.getTeacher().getId().equals(teacher.getId())) {
+        if (!assignment.isOwnedByAssignedTeacher(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized", HttpStatus.FORBIDDEN);
         }
 

@@ -8,7 +8,7 @@ import {
   Button,
   List,
   ListItem,
-  ListItemText,
+  ListItemButton,
   Paper,
   Skeleton,
   Chip,
@@ -23,7 +23,7 @@ import {
   School,
   ArrowForward,
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { useAuth } from '../components/layout/AuthContext';
 import { StatusChip } from '../components/common/StatusChip';
@@ -276,51 +276,50 @@ export default function DashboardPage() {
                   <ListItem
                     key={batch.id || batch.batchId || index}
                     divider={index !== stats.recentBatches.length - 1}
-                    sx={{
-                      py: 1.75,
-                      px: 2.5,
-                      '&:hover': { bgcolor: '#F8FAFC' },
-                      cursor: 'pointer',
-                      transition: 'background-color 140ms',
-                    }}
-                    onClick={() => navigate(`/batches/${batch.id || batch.batchId}`)}
+                    disablePadding
                   >
-                    <ListItemText
-                      primary={
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 0.25 }}>
-                          <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '0.9375rem' }}>
+                    <ListItemButton
+                      component={Link}
+                      to={`/batches/${encodeURIComponent(batch.id || batch.batchId || '')}`}
+                      sx={{ py: 1.75, px: 2.5, gap: 1, flexWrap: 'wrap', minWidth: 0,
+                        '&:hover': { bgcolor: '#F8FAFC' },
+                        '&.Mui-focusVisible': { outline: '2px solid #047857', outlineOffset: -2 } }}
+                    >
+                      <Box sx={{ flex: '1 1 180px', minWidth: 0 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1.25, mb: 0.25 }}>
+                          <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '0.9375rem', overflowWrap: 'anywhere' }}>
                             {batch.className ? `Lớp ${batch.className}` : 'Lớp học'} — {batch.assignmentTitle || 'Bài tập Toán'}
                           </Typography>
                           <StatusChip status={batch.status} />
                         </Box>
-                      }
-                      secondary={
                         <Typography variant="caption" sx={{ color: '#64748B' }}>
-                          {batch.createdAt ? new Date(batch.createdAt).toLocaleDateString('vi-VN') : 'Hôm nay'}
+                          {batch.createdAt
+                            ? new Date(batch.createdAt).toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })
+                            : 'Hôm nay'}
                         </Typography>
-                      }
-                    />
-                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                      <Chip
-                        label={`${batch.totalImages || batch.totalCount || 0} bài`}
-                        size="small"
-                        variant="outlined"
-                        sx={{ borderColor: '#CBD5E1', color: '#475569', fontWeight: 700 }}
-                      />
-                      <Chip
-                        label={`${batch.processedCount || 0} đã xử lý`}
-                        size="small"
-                        sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, border: '1px solid #A7F3D0' }}
-                      />
-                      {(batch.pendingReviewCount ?? batch.reviewRequiredCount) > 0 && (
+                      </Box>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, alignItems: 'center', minWidth: 0 }}>
                         <Chip
-                          label={`${batch.pendingReviewCount ?? batch.reviewRequiredCount} cần xem`}
+                          label={`${batch.totalImages ?? batch.totalCount ?? 0} bài`}
                           size="small"
-                          sx={{ bgcolor: '#FEF2F2', color: '#DC2626', fontWeight: 800, border: '1px solid #FECACA' }}
+                          variant="outlined"
+                          sx={{ borderColor: '#CBD5E1', color: '#475569', fontWeight: 700 }}
                         />
-                      )}
-                      <ChevronRight sx={{ color: '#94A3B8', ml: 0.5 }} />
-                    </Box>
+                        <Chip
+                          label={`${batch.processedCount ?? 0} đã xử lý`}
+                          size="small"
+                          sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, border: '1px solid #A7F3D0' }}
+                        />
+                        {(batch.pendingReviewCount ?? batch.reviewRequiredCount) > 0 && (
+                          <Chip
+                            label={`${batch.pendingReviewCount ?? batch.reviewRequiredCount} cần xem`}
+                            size="small"
+                            sx={{ bgcolor: '#FEF2F2', color: '#DC2626', fontWeight: 800, border: '1px solid #FECACA' }}
+                          />
+                        )}
+                        <ChevronRight sx={{ color: '#94A3B8', ml: 0.5 }} />
+                      </Box>
+                    </ListItemButton>
                   </ListItem>
                 ))}
               </List>

@@ -4,6 +4,7 @@ import com.mathvisionkids.api.analysis.AiAnalysisGateway;
 import com.mathvisionkids.api.audit.AuditEvent;
 import com.mathvisionkids.api.audit.AuditEventRepository;
 import com.mathvisionkids.api.common.ApiException;
+import com.mathvisionkids.api.storage.ImageContentType;
 import com.mathvisionkids.api.storage.ObjectStorageService;
 import com.mathvisionkids.api.user.Student;
 import com.mathvisionkids.api.user.StudentRepository;
@@ -16,17 +17,24 @@ import com.mathvisionkids.api.analysis.AiJobRepository;
 import com.mathvisionkids.api.user.Teacher;
 import com.mathvisionkids.api.user.TeacherRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class SubmissionService {
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SubmissionService.class);
     private final SubmissionRepository submissionRepository;
     private final SubmissionImageRepository submissionImageRepository;
     private final ObjectStorageService objectStorageService;
@@ -37,6 +45,7 @@ public class SubmissionService {
     private final TeacherDecisionRepository teacherDecisionRepository;
     private final AnalysisResultRepository analysisResultRepository;
     private final AiJobRepository aiJobRepository;
+    private final TransactionTemplate transactions;
 
     public SubmissionService(SubmissionRepository submissionRepository,
                              SubmissionImageRepository submissionImageRepository,
@@ -47,7 +56,8 @@ public class SubmissionService {
                              TeacherRepository teacherRepository,
                              TeacherDecisionRepository teacherDecisionRepository,
                              AnalysisResultRepository analysisResultRepository,
-                             AiJobRepository aiJobRepository) {
+                             AiJobRepository aiJobRepository,
+                             PlatformTransactionManager transactionManager) {
         this.submissionRepository = submissionRepository;
         this.submissionImageRepository = submissionImageRepository;
         this.objectStorageService = objectStorageService;
@@ -58,6 +68,7 @@ public class SubmissionService {
         this.teacherDecisionRepository = teacherDecisionRepository;
         this.analysisResultRepository = analysisResultRepository;
         this.aiJobRepository = aiJobRepository;
+        this.transactions = new TransactionTemplate(transactionManager);
     }
 
     @Transactional
@@ -265,6 +276,9 @@ public class SubmissionService {
     @Transactional
     public void retrySubmission(String email, UUID submissionId, MultipartFile file, String source) {
         Submission submission = ownedStudentForUpdate(email, submissionId);
+        if (submission.getBatch() != null) {
+            throw new ApiException("FORBIDDEN", "Not authorized", HttpStatus.FORBIDDEN);
+        }
         if (!RETRYABLE_STATES.contains(submission.getStatus())) {
             throw new ApiException("INVALID_STATE", "Submission cannot be retried at this state", HttpStatus.BAD_REQUEST);
         }
@@ -301,13 +315,8 @@ public class SubmissionService {
 
         submission.setStatus("PROCESSING");
         submissionRepository.save(submission);
-        for (AiJob job : aiJobRepository.findBySubmission_SubmissionId(submissionId)) {
-            if (!"COMPLETED".equals(job.getStatus())) {
-                job.setStatus("SUPERSEDED");
-                aiJobRepository.save(job);
-            }
-        }
-        
+        supersedeIncompleteJobs(submissionId);
+
         AuditEvent auditEvent = new AuditEvent();
         auditEvent.setSubmission(submission);
         auditEvent.setUser(studentRepository.findByEmail(email).orElseThrow());
@@ -327,6 +336,15 @@ public class SubmissionService {
         auditEventRepository.save(auditEvent2);
 
         dispatchAfterCommit(submission.getSubmissionId());
+    }
+
+    private void supersedeIncompleteJobs(UUID submissionId) {
+        for (AiJob job : aiJobRepository.findBySubmission_SubmissionId(submissionId)) {
+            if (!"COMPLETED".equals(job.getStatus()) && !"SUPERSEDED".equals(job.getStatus())) {
+                job.setStatus("SUPERSEDED");
+                aiJobRepository.save(job);
+            }
+        }
     }
 
     private Submission ownedStudentForUpdate(String email, UUID submissionId) {
@@ -354,17 +372,19 @@ public class SubmissionService {
     
     @Transactional(readOnly = true)
     public Submission getTeacherSubmission(String email, UUID submissionId) {
-        Teacher teacher = teacherRepository.findByEmail(email)
-                .orElseThrow(() -> new ApiException("NOT_FOUND", "Teacher not found", HttpStatus.NOT_FOUND));
-        
         Submission submission = submissionRepository.findById(submissionId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Submission not found", HttpStatus.NOT_FOUND));
-
-        if (submission.getBatch() == null || !submission.getBatch().getTeacher().getId().equals(teacher.getId())) {
-             throw new ApiException("FORBIDDEN", "Not authorized", HttpStatus.FORBIDDEN);
-        }
-        
+        requireTeacherSubmissionAccess(email, submission);
         return submission;
+    }
+
+    private Teacher requireTeacherSubmissionAccess(String email, Submission submission) {
+        Teacher teacher = teacherRepository.findByEmail(email)
+                .orElseThrow(() -> new ApiException("NOT_FOUND", "Teacher not found", HttpStatus.NOT_FOUND));
+        if (submission.getBatch() == null || !submission.getBatch().isOwnedByAssignedTeacher(teacher.getId())) {
+            throw new ApiException("FORBIDDEN", "Not authorized", HttpStatus.FORBIDDEN);
+        }
+        return teacher;
     }
 
     @Transactional(readOnly = true)
@@ -386,13 +406,17 @@ public class SubmissionService {
             });
         }
         detail.put("imageUrl", "/api/v1/teacher/submissions/" + submissionId + "/image");
+        var image = submissionImageRepository.findFirstBySubmission_SubmissionIdOrderByCreatedAtDesc(submissionId);
+        image.ifPresent(value -> detail.put("imageVersion", value.getImageId().toString()));
+        detail.put("canRetryProcessing", false);
         if ("PROCESSING".equals(submission.getStatus())) return detail;
-        AiJob latest = aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDesc(submissionId).orElse(null);
-        if (latest != null && "FAILED".equals(latest.getStatus())) return detail;
-        analysisResultRepository.findBySubmission_SubmissionId(submissionId).ifPresent(result -> {
+        AiJob latest = aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDescJobIdDesc(submissionId).orElse(null);
+        var analysis = analysisResultRepository.findBySubmission_SubmissionId(submissionId);
+        detail.put("canRetryProcessing", image.isPresent()
+                && isTeacherProcessingRetryable(submission, latest, analysis.orElse(null)));
+        analysis.ifPresent(result -> {
             Map<String, Object> reasons = result.getReviewReasons();
-            if (latest != null && reasons != null && reasons.get("jobId") != null
-                    && !latest.getJobId().toString().equals(reasons.get("jobId"))) return;
+            if (latest != null && !AnalysisResult.isVisibleForTeacher(latest.getJobId(), latest.getStatus(), reasons)) return;
             detail.put("analysisStatus", result.getStatus());
             if (result.getGradeProposal() != null) {
                 detail.put("gradeProposal", result.getGradeProposal());
@@ -417,12 +441,136 @@ public class SubmissionService {
         });
         return detail;
     }
+
+    private boolean isTeacherProcessingRetryable(Submission submission, AiJob latest, AnalysisResult analysis) {
+        if (latest != null && !java.util.Set.of("FAILED", "COMPLETED", "SUPERSEDED").contains(latest.getStatus())) {
+            return false;
+        }
+        if ("FAILED".equals(submission.getStatus())) return true;
+        if (!java.util.Set.of("REVIEW_REQUIRED", "NEEDS_RETAKE").contains(submission.getStatus())) return false;
+        if (latest != null && "FAILED".equals(latest.getStatus())) return true;
+        if (analysis == null || !"MODEL_NOT_AVAILABLE".equals(analysis.getStatus())) return false;
+        Map<String, Object> reasons = analysis.getReviewReasons();
+        return latest == null || ("COMPLETED".equals(latest.getStatus())
+                && (reasons == null || reasons.get("jobId") == null
+                || latest.getJobId().toString().equals(reasons.get("jobId"))));
+    }
+
+    @Transactional
+    public void retryTeacherProcessing(String email, UUID submissionId) {
+        Submission submission = submissionRepository.findForUpdate(submissionId)
+                .orElseThrow(() -> new ApiException("NOT_FOUND", "Submission not found", HttpStatus.NOT_FOUND));
+        Teacher teacher = requireTeacherSubmissionAccess(email, submission);
+        var image = submissionImageRepository.findFirstBySubmission_SubmissionIdOrderByCreatedAtDesc(submissionId);
+        AiJob latest = aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDesc(submissionId).orElse(null);
+        AnalysisResult analysis = analysisResultRepository.findBySubmission_SubmissionId(submissionId).orElse(null);
+        if (image.isEmpty() || !isTeacherProcessingRetryable(submission, latest, analysis)) {
+            throw new ApiException("INVALID_STATE", "Bài làm hiện không thể xử lý lại.", HttpStatus.CONFLICT);
+        }
+        queueTeacherProcessing(submission, teacher, image.get(), "TEACHER_PROCESSING_RETRY_REQUESTED");
+    }
+
+    @Transactional
+    public void retakeTeacherSubmission(String email, UUID submissionId, MultipartFile file) {
+        Submission submission = submissionRepository.findForUpdate(submissionId)
+                .orElseThrow(() -> new ApiException("NOT_FOUND", "Submission not found", HttpStatus.NOT_FOUND));
+        Teacher teacher = requireTeacherSubmissionAccess(email, submission);
+        if (!"NEEDS_RETAKE".equals(submission.getStatus())) {
+            throw new ApiException("INVALID_STATE", "Bài làm hiện không cần thay ảnh.", HttpStatus.CONFLICT);
+        }
+        validateTeacherRetakeImage(file);
+
+        String path;
+        try {
+            path = objectStorageService.store(file, "batches/" + submission.getBatchId());
+        } catch (IOException error) {
+            throw new ApiException("STORAGE_UNAVAILABLE", "Chưa lưu được ảnh. Hãy thử lại.", HttpStatus.SERVICE_UNAVAILABLE);
+        }
+
+        SubmissionImage image = new SubmissionImage();
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCompletion(int status) {
+                if (status == STATUS_ROLLED_BACK) {
+                    try {
+                        objectStorageService.delete(path);
+                    } catch (IOException error) {
+                        logger.error("Could not remove rolled back retake image for submission {}", submissionId);
+                    }
+                }
+            }
+
+        });
+        image.setSubmission(submission);
+        image.setFilePath(path);
+        image.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        image.setFileSize(file.getSize());
+        image.setSource(SubmissionImage.TEACHER_RETAKE_SOURCE);
+        submissionImageRepository.save(image);
+
+        queueTeacherProcessing(submission, teacher, image, "TEACHER_RETAKE_UPLOADED");
+    }
+
+    private void queueTeacherProcessing(Submission submission, Teacher teacher, SubmissionImage image, String eventType) {
+        UUID submissionId = submission.getSubmissionId();
+        UUID imageId = image.getImageId();
+        submission.setStatus("PROCESSING");
+        supersedeIncompleteJobs(submissionId);
+        analysisResultRepository.findBySubmission_SubmissionId(submissionId).ifPresent(analysisResultRepository::delete);
+
+        AuditEvent audit = new AuditEvent();
+        audit.setSubmission(submission);
+        audit.setUser(teacher);
+        audit.setEventType(eventType);
+        audit.setMetadata(Map.of("imageId", imageId.toString()));
+        auditEventRepository.save(audit);
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                CompletableFuture.runAsync(() -> dispatchTeacherProcessing(submissionId, imageId));
+            }
+        });
+    }
+
+    private void validateTeacherRetakeImage(MultipartFile file) {
+        if (file.isEmpty() || file.getSize() > SubmissionImage.TEACHER_UPLOAD_MAX_BYTES) {
+            throw new ApiException("VALIDATION_ERROR", "Ảnh phải có nội dung và không vượt quá 8 MB.", HttpStatus.BAD_REQUEST);
+        }
+        try (var stream = file.getInputStream()) {
+            if (MediaType.IMAGE_JPEG_VALUE.equals(file.getContentType())
+                    && MediaType.IMAGE_JPEG.equals(ImageContentType.detect(stream.readNBytes(12)))) {
+                return;
+            }
+        } catch (IOException error) {
+            throw new ApiException("IMAGE_INVALID", "Chưa đọc được ảnh. Hãy chọn lại ảnh.", HttpStatus.BAD_REQUEST);
+        } catch (ApiException error) {
+            // Use the retake-specific validation message for unrecognized file signatures.
+        }
+        throw new ApiException("IMAGE_UNSUPPORTED", "Hãy chọn ảnh JPG đã che thông tin học sinh.", HttpStatus.BAD_REQUEST);
+    }
+
+    private void dispatchTeacherProcessing(UUID submissionId, UUID imageId) {
+        try {
+            aiAnalysisGateway.analyze(submissionId);
+        } catch (RuntimeException error) {
+            logger.error("Could not dispatch teacher processing for submission {}", submissionId);
+            transactions.executeWithoutResult(status -> {
+                Submission submission = submissionRepository.findForUpdate(submissionId).orElseThrow();
+                boolean isCurrentImage = submissionImageRepository.findFirstBySubmission_SubmissionIdOrderByCreatedAtDesc(submissionId)
+                        .map(image -> imageId.equals(image.getImageId())).orElse(false);
+                if ("PROCESSING".equals(submission.getStatus()) && isCurrentImage) {
+                    supersedeIncompleteJobs(submissionId);
+                    submission.setStatus("FAILED");
+                }
+            });
+        }
+    }
     
     @Transactional
     public void approveSubmission(String email, UUID submissionId) {
         Submission submission = submissionRepository.findForUpdate(submissionId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Submission not found", HttpStatus.NOT_FOUND));
-        getTeacherSubmission(email, submissionId);
+        Teacher teacher = requireTeacherSubmissionAccess(email, submission);
 
         if (!APPROVABLE_STATES.contains(submission.getStatus())) {
             throw new ApiException("INVALID_STATE", "Submission not in approvable state", HttpStatus.BAD_REQUEST);
@@ -444,14 +592,14 @@ public class SubmissionService {
         
         TeacherDecision decision = new TeacherDecision();
         decision.setSubmission(submission);
-        decision.setTeacher(teacherRepository.findByEmail(email).orElseThrow());
+        decision.setTeacher(teacher);
         decision.setType("APPROVED");
         decision.setFinalScore(finalScore);
         teacherDecisionRepository.save(decision);
         
         AuditEvent auditEvent = new AuditEvent();
         auditEvent.setSubmission(submission);
-        auditEvent.setUser(teacherRepository.findByEmail(email).orElseThrow());
+        auditEvent.setUser(teacher);
         auditEvent.setEventType("TEACHER_APPROVED");
         Map<String, Object> meta = new HashMap<>();
         meta.put("finalScore", finalScore);
@@ -465,14 +613,20 @@ public class SubmissionService {
     public void overrideSubmission(String email, UUID submissionId, Map<String, Object> overrideData) {
         Submission submission = submissionRepository.findForUpdate(submissionId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Submission not found", HttpStatus.NOT_FOUND));
-        getTeacherSubmission(email, submissionId);
+        Teacher teacher = requireTeacherSubmissionAccess(email, submission);
 
-        if (!APPROVABLE_STATES.contains(submission.getStatus())) {
+        boolean needsConfirmation = "NEEDS_CONFIRMATION".equals(submission.getStatus());
+        if (!APPROVABLE_STATES.contains(submission.getStatus()) && !needsConfirmation) {
             throw new ApiException("INVALID_STATE", "Submission not in overridable state", HttpStatus.BAD_REQUEST);
         }
 
         if (overrideData == null) {
             throw new ApiException("VALIDATION_ERROR", "Override data is required", HttpStatus.BAD_REQUEST);
+        }
+
+        Object imageLegibility = overrideData.get("imageLegible");
+        if (needsConfirmation && !Boolean.TRUE.equals(imageLegibility)) {
+            throw new ApiException("VALIDATION_ERROR", "Hãy xác nhận ảnh đủ rõ để chấm điểm.", HttpStatus.BAD_REQUEST);
         }
 
         Object rawReason = overrideData.get("reason");
@@ -509,7 +663,7 @@ public class SubmissionService {
 
         TeacherDecision decision = new TeacherDecision();
         decision.setSubmission(submission);
-        decision.setTeacher(teacherRepository.findByEmail(email).orElseThrow());
+        decision.setTeacher(teacher);
         decision.setType("OVERRIDDEN");
         decision.setFinalScore(finalScore);
         decision.setReason(reason);
@@ -517,12 +671,15 @@ public class SubmissionService {
 
         AuditEvent auditEvent = new AuditEvent();
         auditEvent.setSubmission(submission);
-        auditEvent.setUser(teacherRepository.findByEmail(email).orElseThrow());
+        auditEvent.setUser(teacher);
         auditEvent.setEventType("TEACHER_OVERRIDDEN");
         Map<String, Object> meta = new HashMap<>();
         meta.put("finalScore", decision.getFinalScore());
         meta.put("decisionType", "OVERRIDDEN");
         meta.put("reason", reason);
+        if (imageLegibility instanceof Boolean imageLegible) {
+            meta.put("imageLegible", imageLegible);
+        }
         meta.put("submissionId", submission.getSubmissionId().toString());
         auditEvent.setMetadata(meta);
         auditEventRepository.save(auditEvent);

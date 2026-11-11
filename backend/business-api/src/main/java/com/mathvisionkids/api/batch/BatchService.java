@@ -59,7 +59,7 @@ public class BatchService {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Assignment not found", HttpStatus.NOT_FOUND));
 
-        if (!assignment.getTeacher().getId().equals(teacher.getId())) {
+        if (!assignment.isOwnedByAssignedTeacher(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized for this assignment", HttpStatus.FORBIDDEN);
         }
 
@@ -76,7 +76,7 @@ public class BatchService {
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Teacher not found", HttpStatus.NOT_FOUND));
         Batch batch = batchRepository.findForUpdate(batchId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Batch not found", HttpStatus.NOT_FOUND));
-        if (!batch.getTeacher().getId().equals(teacher.getId())) {
+        if (!batch.isOwnedByAssignedTeacher(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized for this batch", HttpStatus.FORBIDDEN);
         }
         if (!"CREATED".equals(batch.getStatus()) || !submissionRepository.findByBatch_BatchId(batchId).isEmpty()) {
@@ -104,7 +104,7 @@ public class BatchService {
                     .noneMatch(s -> s.getId().equals(student.getId()))) {
                 throw new ApiException("VALIDATION_ERROR", "Student outside classroom", HttpStatus.BAD_REQUEST);
             }
-            if (file == null || file.isEmpty() || file.getSize() > 8L * 1024 * 1024) {
+            if (file == null || file.isEmpty() || file.getSize() > SubmissionImage.TEACHER_UPLOAD_MAX_BYTES) {
                 throw new ApiException("VALIDATION_ERROR", "Mỗi ảnh phải có nội dung và nhỏ hơn 8 MB.", HttpStatus.BAD_REQUEST);
             }
             totalBytes += file.getSize();
@@ -190,7 +190,7 @@ public class BatchService {
     @Transactional(readOnly = true)
     public List<BatchResponse> getBatches(String teacherEmail) {
         Teacher teacher = teacherRepository.findByEmail(teacherEmail).orElseThrow();
-        return batchRepository.findByTeacher_IdOrderByCreatedAtDesc(teacher.getId()).stream()
+        return batchRepository.findOwnedByAssignedTeacherOrderByCreatedAtDesc(teacher.getId()).stream()
                 .map(batch -> BatchResponse.from(batch, submissionRepository.findByBatch_BatchId(batch.getBatchId())))
                 .toList();
     }
@@ -204,9 +204,14 @@ public class BatchService {
     @Transactional(readOnly = true)
     public List<UUID> getBatchReviewQueue(String teacherEmail, UUID batchId) {
         getOwnedBatch(teacherEmail, batchId);
-        return submissionRepository.findByBatch_BatchId(batchId).stream()
-                .filter(BatchResponse::needsTeacherReview)
-                .map(Submission::getSubmissionId)
+        return submissionRepository.findBatchReviewIds(batchId, BatchResponse.PENDING_REVIEW);
+    }
+
+    @Transactional(readOnly = true)
+    public List<BatchReviewSummary> getBatchReviewSummary(String teacherEmail, UUID batchId) {
+        getOwnedBatch(teacherEmail, batchId);
+        return submissionRepository.findBatchReviewRows(batchId, BatchResponse.PENDING_REVIEW).stream()
+                .map(BatchReviewSummary::from)
                 .toList();
     }
 
@@ -214,7 +219,7 @@ public class BatchService {
         Teacher teacher = teacherRepository.findByEmail(teacherEmail).orElseThrow();
         Batch batch = batchRepository.findById(batchId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Batch not found", HttpStatus.NOT_FOUND));
-        if (!batch.getTeacher().getId().equals(teacher.getId())) {
+        if (!batch.isOwnedByAssignedTeacher(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Forbidden", HttpStatus.FORBIDDEN);
         }
         return batch;
