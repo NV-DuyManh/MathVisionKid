@@ -68,9 +68,10 @@ function SubmissionReview({ id }: { id?: string }) {
   const prevSub = currentIndex > 0 ? submissionsList[currentIndex - 1] : null;
   const nextSub = currentIndex >= 0 && currentIndex < totalSubmissions - 1 ? submissionsList[currentIndex + 1] : null;
 
+  const currentSubId = (sub ? sub.id || (sub as any).submissionId || id : null) ?? null;
   const [prevSubId, setPrevSubId] = useState<string | null>(null);
-  if (sub && sub.id !== prevSubId) {
-    setPrevSubId(sub.id);
+  if (sub && currentSubId !== prevSubId) {
+    setPrevSubId(currentSubId);
     if (typeof sub.teacherScore === 'number') {
       setEditScore(sub.teacherScore);
     } else if (typeof sub.suggestedScore === 'number') {
