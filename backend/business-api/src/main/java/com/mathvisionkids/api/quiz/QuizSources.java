@@ -27,7 +27,6 @@ public class QuizSources {
         return student.getId();
     }
     void lockStudent(UUID id) { em.find(Student.class, id, LockModeType.PESSIMISTIC_WRITE); }
-    Integer grade(UUID id) { return students.findById(id).map(Student::getGradeLevel).orElse(null); }
     static String fingerprint(String text) {
         try { return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(text.strip().replaceAll("\\s+", " ").getBytes(StandardCharsets.UTF_8))); }
         catch (NoSuchAlgorithmException ex) { throw new IllegalStateException(ex); }

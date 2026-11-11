@@ -26,7 +26,12 @@ public class TeacherBatchController {
 
     @PostMapping
     public ResponseEntity<Batch> createBatch(@RequestBody Map<String, String> request, Principal principal) {
-        UUID assignmentId = UUID.fromString(request.get("assignmentId"));
+        UUID assignmentId;
+        try {
+            assignmentId = UUID.fromString(request.get("assignmentId"));
+        } catch (IllegalArgumentException | NullPointerException error) {
+            throw new com.mathvisionkids.api.common.ApiException("VALIDATION_ERROR", "A valid assignmentId is required", HttpStatus.BAD_REQUEST);
+        }
         Batch batch = batchService.createBatch(principal.getName(), assignmentId);
         return ResponseEntity.status(HttpStatus.CREATED).body(batch);
     }
@@ -49,12 +54,12 @@ public class TeacherBatchController {
     }
     
     @GetMapping
-    public ResponseEntity<List<Batch>> getBatches(Principal principal) {
+    public ResponseEntity<List<BatchResponse>> getBatches(Principal principal) {
         return ResponseEntity.ok(batchService.getBatches(principal.getName()));
     }
 
     @GetMapping("/{batchId}")
-    public ResponseEntity<Batch> getBatch(@PathVariable UUID batchId, Principal principal) {
+    public ResponseEntity<BatchResponse> getBatch(@PathVariable UUID batchId, Principal principal) {
         return ResponseEntity.ok(batchService.getBatch(principal.getName(), batchId));
     }
 

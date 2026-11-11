@@ -6,10 +6,13 @@ import java.util.regex.Pattern;
 
 /** Versioned validators form the supported taxonomy. Unrecognised prose fails closed. */
 public final class QuizMath {
-    public static final String VERSION = "confirmed-problem-v5";
+    public static final String VERSION = "confirmed-problem-v11";
     public static final String REMAINDER = "FRACTION_FIND_TOTAL_FROM_REMAINDER";
     public static final String DIGIT_APPEND = "DIGIT_APPEND_FIND_ORIGINAL_NUMBER";
     public static final String DIGIT_APPEND_SKILL = "RECOVER_ORIGINAL_NUMBER_FROM_DIGIT_APPEND";
+    static final String PURCHASE = "UNIT_PRICE_FIND_CASH";
+    static final String CLASS_COMPLEMENT = "FRACTION_FIND_CLASS_COMPLEMENT";
+    static final String FOUNDATION_REVIEW = "FOUNDATION_REVIEW";
     public record Verified(String code, String name, String skill, int grade, String question,
                            String unit, Rational answer, String solution, List<String> data) {}
     private static final Pattern FRACTION = Pattern.compile("(?<![\\d/])(\\d{1,3})\\s*/\\s*(\\d{1,3})(?![\\d/])");
@@ -19,6 +22,21 @@ public final class QuizMath {
     );
     private static final Pattern DIGIT_APPEND_P2 = Pattern.compile(
         "^(?:(?:de|bai|bai toan|cau)\\s*[:.]\\s*)?(?:neu|khi)?\\s*(?:viet\\s+them|them)\\s+(?:chu\\s+so\\s+)?(\\d)\\s+vao\\s+(?:tan\\s+cung\\s+)?ben\\s+phai\\s+(?:mot\\s+)?so(?:\\s+(?:do|phai\\s+tim|ban\\s+dau|tu\\s+nhien))?(?:\\s+(?:thi\\s+duoc|ta\\s+duoc|thi|ta|duoc))?\\s+(?:duoc\\s+)?so\\s+moi\\s+(?:lon\\s+hon|hon)\\s+so\\s+(?:phai\\s+tim|do|ban\\s+dau|da\\s+cho|cu|can\\s+tim)\\s+(\\d{1,8})(?:\\s*don\\s+vi)?[.;]?(?:\\s*(?:tim\\s+so\\s+do|tim\\s+so\\s+phai\\s+tim|tim\\s+so\\s+can\\s+tim|hoi\\s+so\\s+do\\s+la\\s+bao\\s+nhieu|tim\\s+mot\\s+so))?[.?]?$"
+    );
+    private static final String MONEY = "(?:[0-9]{1,3}(?: [0-9]{3}){1,2}|[0-9]{1,9})";
+    private static final Pattern CHOICE_LABEL = Pattern.compile("(?iU)(?<!\\w)([A-D])[.)]\\s*");
+    private static final String PERSON = "[a-z]{1,18}(?: [a-z]{1,18}){0,2}";
+    private static final Pattern CLASS_FRACTION = Pattern.compile(
+        "lop (?<class>[1-5][a-z][0-9]?) co (?<total>[0-9]{1,3}) hoc sinh[.;] "
+        + "(?:biet |trong do[,;]? )?(?:rang )?so (?:hoc sinh|ban) (?<given>nam|nu) chiem (?<share>[0-9]{1,3}/[0-9]{1,3}) "
+        + "(?:tong )?so hoc sinh (?:ca |cua )?lop[.;] hoi lop (?:do|nay) co bao nhieu (?:hoc sinh|ban) (?<asked>nam|nu)[?.]?"
+    );
+    private static final Pattern PURCHASE_SHORTAGE = Pattern.compile(
+        "(?<first>" + PERSON + ") va (?<second>" + PERSON + ") cung vao (?:mot )?cua hang [a-z ]{1,40}\\. "
+        + "\\k<first> mua (?<count>[0-9]{1,3}) (?<item>(?:quyen|cuon|bong|cay|chiec|hop|tui|goi|chai|cai) [a-z]{1,18}(?: [a-z]{1,18}){0,2})"
+        + " (?:het|voi tong gia) (?<paid>" + MONEY + ") dong\\. "
+        + "\\k<second> muon mua (?<wanted>[0-9]{1,3}) \\k<item> (?:giong|nhu) (?:cua )?\\k<first>,? nhung (?:con )?thieu (?<shortage>" + MONEY + ") dong\\. "
+        + "hoi \\k<second> (?:dang )?co bao nhieu tien[?.]?"
     );
     static String plain(String text) {
         // Explicit fraction bars only: bare digits on separate lines remain ambiguous.
@@ -35,6 +53,10 @@ public final class QuizMath {
             if (expression.matches()) return Optional.of(expression(problem, expression.group(1), expression.group(2), expression.group(3)));
             var digitAppendMatch = digitAppend(problem, text);
             if (digitAppendMatch.isPresent()) return digitAppendMatch;
+            var purchase = purchase(problem, text);
+            if (purchase.isPresent()) return purchase;
+            var classFraction = classFraction(problem, text);
+            if (classFraction.isPresent()) return classFraction;
             return remainder(problem, text);
         } catch (IllegalArgumentException | ArithmeticException ex) { return Optional.empty(); }
     }
@@ -48,6 +70,39 @@ public final class QuizMath {
         // Exam score/page decoration is not mathematical data. Preserve the original string in storage.
         String mathematicalText=problem.replaceAll("[\\u200B-\\u200D\\uFEFF]", "")
                 .replaceAll("(?iu)\\s*\\(\\s*\\d+(?:[.,]\\d+)?\\s*điểm\\s*\\)\\s*[.]?\\s*$", "").strip();
+        // A single exercise heading/score does not change the mathematical task.
+        mathematicalText=mathematicalText.replaceFirst("(?iu)^(?:câu|bài)\\s+\\d+\\s*[.):]?\\s*(?:\\(\\s*\\d+(?:[.,]\\d+)?\\s*điểm\\s*\\)\\s*)?", "");
+        // An ordered A-D question is one task. Check every option
+        // against the exact calculation before offering a related exercise.
+        var choices=CHOICE_LABEL.matcher(mathematicalText);
+        var positions=new ArrayList<Integer>(); var ends=new ArrayList<Integer>(); var labels=new StringBuilder();
+        while(choices.find()) { labels.append(choices.group(1).toUpperCase(Locale.ROOT)); positions.add(choices.start()); ends.add(choices.end()); }
+        if(!positions.isEmpty()) {
+            if(!labels.toString().equals("ABCD")) return Optional.empty();
+            String stem=mathematicalText.substring(0,positions.get(0)).strip();
+            stem=stem.replaceFirst("(?iu)^kết quả (?:của )?phép tính\\s*", "Tính: ")
+                    .replaceFirst("(?iu)\\s+là\\s*[:?]$", "");
+            var checked=classify(stem,true);
+            if(checked.isEmpty()) return Optional.empty();
+            try {
+                var values=new ArrayList<Rational>();
+                var task = checked.get();
+                for (int i = 0; i < 4; i++) {
+                    String option = plain(mathematicalText.substring(ends.get(i), i == 3 ? mathematicalText.length() : positions.get(i + 1)));
+                    if (PURCHASE.equals(task.code()) || CLASS_COMPLEMENT.equals(task.code())) {
+                        option = option.replaceFirst(" " + Pattern.quote(plain(task.unit())) + "$", "");
+                        if (!option.matches(MONEY)) return Optional.empty();
+                        values.add(Rational.of(money(option)));
+                    } else {
+                        values.add(Rational.parse(option));
+                    }
+                }
+                if (new HashSet<>(values).size() != 4 || values.stream().filter(task.answer()::equals).count() != 1) return Optional.empty();
+                if (!PURCHASE.equals(task.code()) && !CLASS_COMPLEMENT.equals(task.code())) return checked;
+                return Optional.of(new Verified(task.code(), task.name(), task.skill(), task.grade(), mathematicalText,
+                        task.unit(), task.answer(), task.solution(), task.data()));
+            } catch(IllegalArgumentException | ArithmeticException ex) { return Optional.empty(); }
+        }
         var strict=classify(mathematicalText,true);
         if(strict.isPresent()) return strict;
         // Parse the mathematical clauses separately, rather than requiring one whole-sentence template.
@@ -236,10 +291,139 @@ public final class QuizMath {
         int largest=Math.max(Math.max(left,right),result);
         return largest<=20 ? 1 : largest<=100 ? 2 : 3;
     }
+
+    private static long money(String text) {
+        return Long.parseLong(text.replace(" ", ""));
+    }
+
+    private static Optional<Verified> classFraction(String original, String text) {
+        var match = CLASS_FRACTION.matcher(text);
+        if (!match.matches() || match.group("given").equals(match.group("asked"))) return Optional.empty();
+        long total = Long.parseLong(match.group("total"));
+        Rational share = Rational.parse(match.group("share"));
+        if (total < 2 || total > 100 || !share.positive() || !Rational.ONE.subtract(share).positive()) return Optional.empty();
+        Rational known = Rational.of(total).multiply(share);
+        if (!known.integer()) return Optional.empty();
+        Rational answer = Rational.of(total).subtract(known);
+        String given = match.group("given").equals("nu") ? "nữ" : "nam";
+        String asked = match.group("asked").equals("nu") ? "nữ" : "nam";
+        String solution = "Số học sinh " + given + " là " + total + " × " + share + " = " + known + " học sinh.\n"
+                + "Số học sinh " + asked + " là " + total + " − " + known + " = " + answer + " học sinh.\n"
+                + "Đáp số: " + answer + " học sinh.";
+        return Optional.of(new Verified(CLASS_COMPLEMENT, "Tìm phần còn lại của một số", "FRACTION_OF_TOTAL_THEN_SUBTRACT", 4,
+                original, "học sinh", answer, solution, List.of(match.group("class"), Long.toString(total), share.toString(), match.group("given"))));
+    }
+
+    private static Verified classFractionVariant(Verified source, Random random, Set<String> excludedAnswers) {
+        var variants = new ArrayList<Verified>();
+        // Multiples of the denominator keep both groups whole and the classroom size realistic.
+        for (int denominator = 3; denominator <= 8; denominator++) {
+            for (int numerator = 1; numerator < denominator; numerator++) {
+                var share = Rational.parse(numerator + "/" + denominator);
+                if (share.toString().equals(source.data().get(2))) continue;
+                for (int total = 24; total <= 50; total++) {
+                    if (Integer.toString(total).equals(source.data().get(1)) || !Rational.of(total).multiply(share).integer()) continue;
+                    String className = source.data().getFirst().equals("4b") ? "4C" : "4B";
+                    String given = source.data().get(3).equals("nu") ? "nam" : "nữ";
+                    String asked = given.equals("nam") ? "nữ" : "nam";
+                    String question = "Lớp " + className + " có " + total + " học sinh. Biết số học sinh " + given
+                            + " chiếm " + share + " số học sinh cả lớp. Hỏi lớp đó có bao nhiêu học sinh " + asked + "?";
+                    var candidate = classFraction(question, plain(question)).orElseThrow();
+                    if (candidate.answer().equals(source.answer()) || excludedAnswers.contains(candidate.answer().toString())) continue;
+                    variants.add(candidate);
+                }
+            }
+        }
+        if (variants.isEmpty()) throw new IllegalArgumentException("No validated class fraction variant");
+        var chosen = variants.get(random.nextInt(variants.size()));
+        if (!CHOICE_LABEL.matcher(source.question()).find()) return chosen;
+        long total = Long.parseLong(chosen.data().get(1));
+        long answer = chosen.answer().numerator().longValueExact();
+        var options = new LinkedHashSet<>(List.of(answer, total - answer, total));
+        for (long value = answer + 1; options.size() < 4; value++) options.add(value);
+        var shuffled = new ArrayList<>(options);
+        Collections.shuffle(shuffled, random);
+        String question = chosen.question();
+        for (int i = 0; i < shuffled.size(); i++) question += "\n" + (char) ('A' + i) + ". " + shuffled.get(i) + " học sinh";
+        return analyzeConfirmed(question).orElseThrow(() -> new IllegalArgumentException("Invalid class fraction choices"));
+    }
+
+    private static String moneyText(long amount) {
+        return String.format(Locale.ROOT, "%,d", amount).replace(',', ' ');
+    }
+
+    private static Optional<Verified> purchase(String original, String text) {
+        var match = PURCHASE_SHORTAGE.matcher(text);
+        if (!match.matches() || match.group("first").equals(match.group("second"))) return Optional.empty();
+        int count = Integer.parseInt(match.group("count"));
+        int wanted = Integer.parseInt(match.group("wanted"));
+        long paid = money(match.group("paid"));
+        long shortage = money(match.group("shortage"));
+        if (count < 2 || wanted < 2 || paid <= 0 || paid % count != 0 || shortage <= 0) return Optional.empty();
+        long price = paid / count;
+        long total = price * wanted;
+        long cash = total - shortage;
+        if (cash <= 0 || total > 999_999_999) return Optional.empty();
+        String solution = "Giá một món là " + moneyText(paid) + " ÷ " + count + " = " + moneyText(price) + " đồng.\n"
+                + "Số tiền cần để mua " + wanted + " món là " + moneyText(price) + " × " + wanted + " = " + moneyText(total) + " đồng.\n"
+                + "Vì còn thiếu " + moneyText(shortage) + " đồng, số tiền đang có là "
+                + moneyText(total) + " − " + moneyText(shortage) + " = " + moneyText(cash) + " đồng.\n"
+                + "Đáp số: " + moneyText(cash) + " đồng.";
+        return Optional.of(new Verified(PURCHASE, "Tính số tiền đang có", "UNIT_PRICE_MULTIPLY_SUBTRACT", 4,
+                original, "đồng", Rational.of(cash), solution,
+                List.of(match.group("item"), match.group("count"), Long.toString(price), match.group("wanted"), Long.toString(shortage))));
+    }
+
+    private static Verified purchaseVariant(Verified source, Random random, Set<String> excludedAnswers) {
+        int sourceCount = Integer.parseInt(source.data().get(1));
+        long sourcePrice = Long.parseLong(source.data().get(2));
+        int sourceWanted = Integer.parseInt(source.data().get(3));
+        long sourceShortage = Long.parseLong(source.data().get(4));
+        String[] items = {"bông hoa", "chiếc bánh", "quyển vở"};
+        String[] places = {"hoa", "bánh", "văn phòng phẩm"};
+        String[] foldedItems = {"bong hoa", "chiec banh", "quyen vo"};
+        boolean withChoices = CHOICE_LABEL.matcher(source.question()).find();
+        for (int attempt = 0; attempt < 100; attempt++) {
+            int context = random.nextInt(items.length);
+            if (foldedItems[context].equals(source.data().getFirst())) continue;
+            int count = Math.min(999, Math.max(2, sourceCount + random.nextInt(7) - 3));
+            int wanted = Math.min(999, Math.max(2, sourceWanted + random.nextInt(7) - 3));
+            long price = Math.max(1, sourcePrice + (random.nextInt(7) - 3) * Math.max(1, sourcePrice / 20));
+            long paid = count * price;
+            long total = wanted * price;
+            long shortage = Math.min(total - 2, Math.max(1, sourceShortage * (7 + random.nextInt(7)) / 10));
+            long cash = total - shortage;
+            if ((count == sourceCount && wanted == sourceWanted) || shortage <= 0
+                    || paid > 999_999_999 || total + shortage > 999_999_999
+                    || source.answer().equals(Rational.of(cash)) || excludedAnswers.contains(Long.toString(cash))) continue;
+            String first = context == 0 ? "Hòa" : context == 1 ? "An" : "Linh";
+            String second = context == 0 ? "Long" : context == 1 ? "Vy" : "Bình";
+            String item = items[context];
+            String question = first + " và " + second + " cùng vào một cửa hàng " + places[context] + ". "
+                    + first + " mua " + count + " " + item + " hết " + moneyText(paid) + " đồng. "
+                    + second + " muốn mua " + wanted + " " + item + " như của " + first
+                    + " nhưng còn thiếu " + moneyText(shortage) + " đồng. Hỏi " + second + " đang có bao nhiêu tiền?";
+            if (withChoices) {
+                var values = new ArrayList<>(List.of(cash, total, total + shortage, Math.max(1, cash - price)));
+                Collections.shuffle(values, random);
+                for (int i = 0; i < values.size(); i++) {
+                    question += "\n" + (char) ('A' + i) + ". " + moneyText(values.get(i)) + " đồng";
+                }
+            }
+            var checked = analyzeConfirmed(question);
+            if (checked.isPresent() && PURCHASE.equals(checked.get().code()) && checked.get().answer().equals(Rational.of(cash))) {
+                return checked.get();
+            }
+        }
+        throw new IllegalArgumentException("No validated purchase variant");
+    }
+
     public static Verified generate(Verified source, Random random) {
         return generate(source,random,Set.of());
     }
     public static Verified generate(Verified source, Random random, Set<String> excludedAnswers) {
+        if (PURCHASE.equals(source.code())) return purchaseVariant(source, random, excludedAnswers);
+        if (CLASS_COMPLEMENT.equals(source.code())) return classFractionVariant(source, random, excludedAnswers);
         if (source.code().equals(DIGIT_APPEND)) {
             int currentX = Integer.parseInt(source.data().get(2));
             for (int attempt = 0; attempt < 200; attempt++) {

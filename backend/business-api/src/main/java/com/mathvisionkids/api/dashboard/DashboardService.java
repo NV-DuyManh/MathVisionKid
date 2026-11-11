@@ -32,10 +32,6 @@ public class DashboardService {
         this.submissionRepository = submissionRepository;
     }
 
-    private static final Set<String> REVIEW_STATES = Set.of(
-            "REVIEW_REQUIRED", "PROPOSED_GRADE", "NEEDS_CONFIRMATION"
-    );
-
     private static final Set<String> TERMINAL_STATES = Set.of(
             "TEACHER_APPROVED", "TEACHER_OVERRIDDEN"
     );
@@ -52,18 +48,19 @@ public class DashboardService {
         int todayTotal = 0;
         int processedCount = 0;
         int reviewRequiredCount = 0;
+        var progressByBatch = new java.util.HashMap<java.util.UUID, com.mathvisionkids.api.batch.BatchResponse>();
 
         for (Batch batch : batches) {
             List<Submission> submissions = submissionRepository.findByBatch_BatchId(batch.getBatchId());
+            var progress = com.mathvisionkids.api.batch.BatchResponse.from(batch, submissions);
+            progressByBatch.put(batch.getBatchId(), progress);
+            reviewRequiredCount += progress.pendingReviewCount();
             for (Submission s : submissions) {
                 if (s.getCreatedAt() != null && s.getCreatedAt().isAfter(todayStart)) {
                     todayTotal++;
                 }
                 if (TERMINAL_STATES.contains(s.getStatus())) {
                     processedCount++;
-                }
-                if (REVIEW_STATES.contains(s.getStatus())) {
-                    reviewRequiredCount++;
                 }
             }
         }
@@ -73,11 +70,13 @@ public class DashboardService {
                 .map(b -> {
                     DashboardResponse.RecentBatchSummary summary = new DashboardResponse.RecentBatchSummary();
                     summary.setBatchId(b.getBatchId());
+                    var progress = progressByBatch.get(b.getBatchId());
                     summary.setAssignmentTitle(b.getAssignment() != null ? b.getAssignment().getTitle() : "");
-                    summary.setStatus(b.getStatus());
-                    summary.setTotalCount(b.getTotalCount());
-                    summary.setProcessedCount(b.getProcessedCount());
-                    summary.setReviewRequiredCount(b.getReviewRequiredCount());
+                    summary.setStatus(progress.status());
+                    summary.setTotalCount(progress.totalCount());
+                    summary.setProcessedCount(progress.processedCount());
+                    summary.setReviewRequiredCount(progress.reviewRequiredCount());
+                    summary.setPendingReviewCount(progress.pendingReviewCount());
                     summary.setCreatedAt(b.getCreatedAt() != null ? b.getCreatedAt().toString() : "");
                     return summary;
                 })

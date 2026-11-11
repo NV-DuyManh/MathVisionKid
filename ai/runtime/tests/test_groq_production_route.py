@@ -130,20 +130,26 @@ async def test_model4_03_fallback_catalog_available():
 
 @pytest.mark.asyncio
 async def test_model4_04_fallback_real_image_request_evidence():
-    """MODEL4-04: Fallback live probe accurately captures real provider error (model_not_found / 404)."""
+    """MODEL4-04: Catalog absence is reported without an unnecessary text inference."""
     init_pool(settings.groq_api_keys)
     res = await validate_groq_models()
     if res['fallback']['lastHttpStatus'] is None:
         pytest.skip('Live Groq fallback response unavailable; no HTTP evidence')
     assert res["fallback"]["liveProbe"] is False
-    assert res["fallback"]["lastHttpStatus"] == 404
-    assert res["fallback"]["lastErrorClass"] == "model_not_found"
+    assert res["fallback"]["lastHttpStatus"] == 200
+    assert res["fallback"]["catalogAvailable"] is False
+    assert res["fallback"]["lastErrorClass"] == "MODEL_NOT_IN_CATALOG"
     assert res["fallback"]["status"] == "UNAVAILABLE"
 
 
 @pytest.mark.asyncio
-async def test_model4_05_primary_forced_unavailable_fallback_routing():
-    """MODEL4-05: When primary model fails with MODEL_UNAVAILABLE, system routes to fallback model."""
+async def test_model4_05_primary_forced_unavailable_fallback_routing(monkeypatch):
+    """MODEL4-05: A configured fallback is attempted unless catalog evidence rules it out."""
+    from app.integrations.groq import line_analyzer, validator
+    monkeypatch.setattr(settings, 'groq_enabled', True)
+    monkeypatch.setattr(line_analyzer, '_pool', GroqKeyPool('fixture-only-key'))
+    monkeypatch.setattr(line_analyzer, '_cache', {})
+    monkeypatch.setattr(validator, '_validation_cache', None)
     img = np.full((200, 200, 3), 255, dtype=np.uint8)
     local = [LineBox(line_id="1", x=0, y=0, width=100, height=20, order=1)]
 
@@ -159,6 +165,27 @@ async def test_model4_05_primary_forced_unavailable_fallback_routing():
         assert res is None
         assert settings.groq_primary_vision_model in calls
         assert settings.groq_fallback_vision_model in calls
+
+
+@pytest.mark.asyncio
+async def test_known_absent_fallback_is_skipped_without_a_wasted_provider_call(monkeypatch):
+    from app.integrations.groq import line_analyzer, validator
+    monkeypatch.setattr(settings, 'groq_enabled', True)
+    monkeypatch.setattr(line_analyzer, '_pool', GroqKeyPool('fixture-only-key'))
+    monkeypatch.setattr(line_analyzer, '_cache', {})
+    primary, fallback = settings.groq_primary_vision_model, settings.groq_fallback_vision_model
+    monkeypatch.setattr(validator, '_validation_cache', {'checked_at': time.time(),
+        'primary': {'model': primary, 'catalogAvailable': True},
+        'fallback': {'model': fallback, 'catalogAvailable': False}})
+    calls = []
+    async def fail_primary(model, *args, **kwargs):
+        calls.append(model)
+        raise GroqError('MODEL_UNAVAILABLE', 'Synthetic unavailable response')
+    with patch('app.integrations.groq.line_analyzer.call_groq_vision', side_effect=fail_primary):
+        result = await analyze_with_groq(np.full((200, 200, 3), 255, dtype=np.uint8),
+            [LineBox(line_id='1', x=0, y=0, width=100, height=20, order=1)], primary, fallback)
+    assert result is None
+    assert calls == [primary]
 
 
 @pytest.mark.asyncio

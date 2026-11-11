@@ -41,21 +41,36 @@ async def _execute_chat_completion(
     }
 
     t0 = time.time()
-    try:
-        async with httpx.AsyncClient(
-            timeout=httpx.Timeout(timeout=timeout_seconds, connect=connect_timeout)
-        ) as client:
-            resp = await client.post(
-                f"{GROQ_API_BASE}/chat/completions",
-                headers=headers,
-                json=payload,
-            )
-    except httpx.ConnectTimeout:
-        raise GroqError("TIMEOUT", "Groq connect timeout")
-    except httpx.ReadTimeout:
-        raise GroqError("TIMEOUT", "Groq read timeout")
-    except httpx.NetworkError as e:
-        raise GroqError("TRANSIENT_NETWORK", f"Groq network error: {type(e).__name__}")
+    deadline = time.monotonic() + timeout_seconds
+    generation_failed = False
+    for attempt in range(2):
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise GroqError("TIMEOUT", "Groq generation deadline exceeded")
+        try:
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(timeout=remaining, connect=min(connect_timeout, remaining))
+            ) as client:
+                resp = await client.post(
+                    f"{GROQ_API_BASE}/chat/completions",
+                    headers=headers,
+                    json=payload,
+                )
+        except httpx.ConnectTimeout:
+            raise GroqError("TIMEOUT", "Groq connect timeout")
+        except httpx.ReadTimeout:
+            raise GroqError("TIMEOUT", "Groq read timeout")
+        except httpx.NetworkError as e:
+            raise GroqError("TRANSIENT_NETWORK", f"Groq network error: {type(e).__name__}")
+        generation_failed = False
+        if resp.status_code == 400:
+            try:
+                generation_failed = resp.json().get("error", {}).get("code") == "json_validate_failed"
+            except (ValueError, AttributeError):
+                pass
+        if not generation_failed or attempt:
+            break
+        logger.info("Groq retrying invalid generated JSON once within the existing deadline")
 
     elapsed = time.time() - t0
 
@@ -72,7 +87,13 @@ async def _execute_chat_completion(
             except ValueError:
                 pass
         raise GroqError("RATE_LIMIT", f"Groq 429 for key {key_entry.safe_id}", retry_after=retry_after)
+    if resp.status_code == 413:
+        # Includes a request exceeding the tier's input-token ceiling. It is
+        # deterministic for this payload: retrying or rotating keys cannot fix it.
+        raise GroqError("REQUEST_TOO_LARGE", "Groq request exceeds provider limits")
     if resp.status_code == 400:
+        if generation_failed:
+            raise GroqError("JSON_GENERATION_FAILED", "Groq could not generate matching JSON")
         raise GroqError("BAD_REQUEST", f"Groq 400: {resp.text[:200]}")
     if resp.status_code == 404:
         raise GroqError("MODEL_UNAVAILABLE", f"Groq 404 model={payload.get('model')}")

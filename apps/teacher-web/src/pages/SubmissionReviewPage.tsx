@@ -12,7 +12,7 @@ import {
   Alert,
   Chip,
 } from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import {
@@ -26,7 +26,7 @@ import {
   AutoAwesome,
 } from '@mui/icons-material';
 import { StatusChip } from '../components/common/StatusChip';
-import { SubmissionImage } from '../components/common/SubmissionImage';
+import { SubmissionImage, type ImageStatus } from '../components/common/SubmissionImage';
 
 export default function SubmissionReviewPage() {
   const { id } = useParams<{ id: string }>();
@@ -35,18 +35,25 @@ export default function SubmissionReviewPage() {
 
 function SubmissionReview({ id }: { id?: string }) {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
   const queryClient = useQueryClient();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editScore, setEditScore] = useState<number | string>('');
   const [editReason, setEditReason] = useState('');
   const [actionError, setActionError] = useState<string | null>(null);
+  const [imageStatus, setImageStatus] = useState<ImageStatus>({
+    ready: false,
+    reason: 'Đang tải ảnh bài làm...',
+  });
 
-  const { data: sub, isLoading, isError } = useQuery({
+  const { data: sub, isLoading, isError, refetch } = useQuery({
     queryKey: ['submission', id],
     queryFn: () => AppTeacherService.getSubmissionDetail(id!),
     enabled: !!id,
   });
+  const fromReview = params.get('from') === 'review';
+  const returnPath = sub?.batchId ? '/batches/' + encodeURIComponent(sub.batchId) + (fromReview ? '/review' : '') : '/batches';
 
   const approveMutation = useMutation({
     mutationFn: (subId: string) => AppTeacherService.approveSubmission(subId),
@@ -55,7 +62,8 @@ function SubmissionReview({ id }: { id?: string }) {
       queryClient.invalidateQueries({ queryKey: ['reviewQueue'] });
       queryClient.invalidateQueries({ queryKey: ['batch'] });
       queryClient.invalidateQueries({ queryKey: ['teacher-dashboard'] });
-      navigate(-1);
+      queryClient.invalidateQueries({ queryKey: ['teacher-batches'] });
+      navigate(returnPath || -1);
     },
     onError: (err: any) => {
       setActionError(err.response?.data?.error?.message || 'Có lỗi khi duyệt điểm. Vui lòng thử lại.');
@@ -70,7 +78,8 @@ function SubmissionReview({ id }: { id?: string }) {
       queryClient.invalidateQueries({ queryKey: ['reviewQueue'] });
       queryClient.invalidateQueries({ queryKey: ['batch'] });
       queryClient.invalidateQueries({ queryKey: ['teacher-dashboard'] });
-      navigate(-1);
+      queryClient.invalidateQueries({ queryKey: ['teacher-batches'] });
+      navigate(returnPath || -1);
     },
     onError: (err: any) => {
       setActionError(err.response?.data?.error?.message || 'Có lỗi khi điều chỉnh điểm. Vui lòng thử lại.');
@@ -94,7 +103,8 @@ function SubmissionReview({ id }: { id?: string }) {
         <Typography color="error" variant="h6" component="h1" sx={{ mb: 2 }}>
           Đã xảy ra lỗi khi tải chi tiết bài làm.
         </Typography>
-        <Button variant="outlined" onClick={() => navigate(-1)}>
+        <Button onClick={() => void refetch()}>Thử lại</Button>
+        <Button variant="outlined" component={Link} to="/batches">
           Quay lại danh sách
         </Button>
       </Box>
@@ -102,6 +112,10 @@ function SubmissionReview({ id }: { id?: string }) {
   }
 
   const handleApprove = () => {
+    if (!imageStatus.ready) {
+      setActionError(`Chưa thể duyệt điểm: ${imageStatus.reason || 'Ảnh bài làm chưa tải và giải mã thành công.'}`);
+      return;
+    }
     if (id) {
       setActionError(null);
       approveMutation.mutate(id);
@@ -109,10 +123,14 @@ function SubmissionReview({ id }: { id?: string }) {
   };
 
   const handleOverride = () => {
+    if (!imageStatus.ready) {
+      setActionError(`Chưa thể điều chỉnh điểm: ${imageStatus.reason || 'Ảnh bài làm chưa tải và giải mã thành công.'}`);
+      return;
+    }
     if (id && editScore !== '') {
       const score = Number(editScore);
-      if (!Number.isFinite(score) || score < 0 || score > (sub.maxScore ?? 10) || !editReason.trim()) {
-        setActionError(`Nhập điểm từ 0 đến ${sub.maxScore ?? 10} và lý do điều chỉnh.`);
+      if (!Number.isInteger(score) || score < 0 || score > (sub.maxScore ?? 10) || !editReason.trim()) {
+        setActionError(`Nhập điểm nguyên từ 0 đến ${sub.maxScore ?? 10} và lý do điều chỉnh.`);
         return;
       }
       setActionError(null);
@@ -120,7 +138,9 @@ function SubmissionReview({ id }: { id?: string }) {
     }
   };
 
-  const suggestedScore = sub.suggestedScore !== undefined ? sub.suggestedScore : sub.gradeProposal?.score;
+  const suggestedScore = sub.suggestedScore;
+  const isFinalized = sub.status === 'TEACHER_APPROVED' || sub.status === 'TEACHER_OVERRIDDEN';
+  const canDecide = sub.status === 'PROPOSED_GRADE' || sub.status === 'REVIEW_REQUIRED' || sub.status === 'FEEDBACK_READY';
   const isPending = approveMutation.isPending || overrideMutation.isPending;
 
   return (
@@ -131,12 +151,13 @@ function SubmissionReview({ id }: { id?: string }) {
           <Button
             variant="text"
             startIcon={<ArrowBack />}
-            onClick={() => navigate(-1)}
+            component={Link}
+            to={returnPath}
             sx={{ mb: 1, px: 0 }}
           >
-            Quay lại hàng đợi duyệt
+            {fromReview ? 'Quay lại hàng đợi duyệt' : 'Quay lại đợt chấm'}
           </Button>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1.5 }}>
             <Typography variant="h5" component="h1" sx={{ fontWeight: 800 }}>
               Thẩm định bài làm: {sub.studentName || 'Học sinh'}
             </Typography>
@@ -147,6 +168,17 @@ function SubmissionReview({ id }: { id?: string }) {
           </Typography>
         </Box>
       </Box>
+
+      {isFinalized && (
+        <Alert severity="success" sx={{ mb: 3 }}>
+          <Typography variant="h6">
+            {typeof sub.teacherScore === 'number'
+              ? `Điểm chính thức ${sub.teacherScore} / ${sub.maxScore ?? 10}`
+              : 'Đã chốt điểm'}
+          </Typography>
+          {sub.teacherReason && <Typography sx={{ overflowWrap: 'anywhere' }}>{sub.teacherReason}</Typography>}
+        </Alert>
+      )}
 
       {actionError && (
         <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }} role="alert">
@@ -166,7 +198,7 @@ function SubmissionReview({ id }: { id?: string }) {
               borderRadius: 2.5,
               overflow: 'hidden',
               position: 'relative',
-              minHeight: 520,
+              minHeight: { xs: 240, md: 520 },
             }}
           >
             <Box
@@ -178,7 +210,12 @@ function SubmissionReview({ id }: { id?: string }) {
                 p: 2,
               }}
             >
-              <SubmissionImage id={id!} mockUrl={sub.imageUrl} studentName={sub.studentName} />
+              <SubmissionImage
+                id={id!}
+                mockUrl={sub.imageUrl}
+                studentName={sub.studentName}
+                onStatusChange={setImageStatus}
+              />
             </Box>
 
             {/* Evidence Overlay / Position Indicator */}
@@ -284,7 +321,7 @@ function SubmissionReview({ id }: { id?: string }) {
                     </Typography>
                   </Box>
                   <Chip
-                    label="Chưa chốt điểm"
+                    label={isFinalized ? 'Điểm tham khảo' : 'Chưa chốt điểm'}
                     size="small"
                     sx={{ bgcolor: '#FEF3C7', color: '#B45309', fontWeight: 600, fontSize: '0.75rem' }}
                   />
@@ -323,7 +360,7 @@ function SubmissionReview({ id }: { id?: string }) {
             </Card>
 
             {/* Card 3: Teacher Authority & Final Decision */}
-            <Card
+            {!isFinalized && <Card
               sx={{
                 borderRadius: 2.5,
                 border: '2px solid #059669',
@@ -338,18 +375,29 @@ function SubmissionReview({ id }: { id?: string }) {
                   </Typography>
                 </Box>
 
-                {!isEditing ? (
+                {!canDecide ? (
+                  <Alert severity="info">Chưa thể chốt điểm cho bài làm ở trạng thái này.</Alert>
+                ) : !imageStatus.ready ? (
+                  <Box>
+                    <Alert severity="warning" sx={{ mb: 2, borderRadius: 2 }} role="status">
+                      Chưa thể duyệt hoặc điều chỉnh điểm: {imageStatus.reason || 'Ảnh bài làm chưa được tải hoặc giải mã thành công.'}
+                    </Alert>
+                    <Typography variant="body2" color="text.secondary">
+                      Giáo viên cần nhìn rõ bài làm thực tế của học sinh trước khi quyết định điểm số chính thức.
+                    </Typography>
+                  </Box>
+                ) : !isEditing ? (
                   <Box>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                       Nếu đồng ý với đánh giá của hệ thống, chọn <strong>Duyệt điểm</strong>. Nếu cần chỉnh sửa theo quy chế nhà trường, chọn <strong>Điều chỉnh điểm</strong>.
                     </Typography>
-                    <Box sx={{ display: 'flex', gap: 2 }}>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                       <Button
                         variant="contained"
                         size="large"
                         startIcon={isPending ? <CircularProgress size={18} color="inherit" /> : <CheckCircle />}
                         onClick={handleApprove}
-                        disabled={isPending || suggestedScore === undefined}
+                        disabled={!imageStatus.ready || isPending || suggestedScore === undefined}
                         sx={{ flex: 2, py: 1.25, fontWeight: 700 }}
                       >
                         {isPending ? 'Đang lưu...' : `Duyệt điểm ${suggestedScore !== undefined ? suggestedScore : ''}`}
@@ -359,7 +407,7 @@ function SubmissionReview({ id }: { id?: string }) {
                         size="large"
                         startIcon={<Edit />}
                         onClick={() => { setEditScore(suggestedScore ?? ''); setEditReason(''); setIsEditing(true); }}
-                        disabled={isPending}
+                        disabled={!imageStatus.ready || isPending}
                         sx={{ flex: 1, py: 1.25, fontWeight: 700 }}
                       >
                         Điều chỉnh
@@ -376,7 +424,7 @@ function SubmissionReview({ id }: { id?: string }) {
                           type="number"
                           value={editScore}
                           onChange={(e) => setEditScore(e.target.value)}
-                          slotProps={{ htmlInput: { min: 0, max: 10, step: 0.5 } }}
+                          slotProps={{ htmlInput: { min: 0, max: sub.maxScore ?? 10, step: 1 } }}
                           disabled={isPending}
                           autoFocus
                         />
@@ -442,7 +490,7 @@ function SubmissionReview({ id }: { id?: string }) {
                       <Button
                         variant="contained"
                         onClick={handleOverride}
-                        disabled={editScore === '' || !editReason.trim() || isPending}
+                        disabled={!imageStatus.ready || editScore === '' || !editReason.trim() || isPending}
                         startIcon={isPending ? <CircularProgress size={18} color="inherit" /> : null}
                         sx={{ flex: 1, py: 1, fontWeight: 700 }}
                       >
@@ -460,7 +508,7 @@ function SubmissionReview({ id }: { id?: string }) {
                   </Box>
                 )}
               </CardContent>
-            </Card>
+            </Card>}
           </Box>
         </Grid>
       </Grid>

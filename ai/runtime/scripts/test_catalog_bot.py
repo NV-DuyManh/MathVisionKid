@@ -24,6 +24,7 @@ class BotChecks(unittest.TestCase):
         self.assertIsNone(report['private'])
         self.assertEqual(report['scope'],'public-ci')
         self.assertGreater(report['inventory']['cases'],0)
+        self.assertEqual(report['published']['exercises'],81)
         self.assertIn('Không truy cập',bot.markdown(report))
 
     def test_private_snapshot_is_aggregate_only_and_read_only(self):

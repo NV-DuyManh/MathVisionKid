@@ -1,8 +1,8 @@
 # Core API & Runtime
-fastapi==0.141.1
-uvicorn==0.52.4
-pydantic==2.13.5
-pydantic-settings==2.15.0
+fastapi==0.162.0
+uvicorn==0.54.0
+pydantic==2.14.2
+pydantic-settings==2.16.2
 httpx==0.28.1
 edge-tts==7.3.1
 
@@ -13,7 +13,7 @@ redis==8.1.0
 # Storage
 minio==7.2.20
 pillow==13.0.0
-certifi==2026.10.18
+certifi==2026.10.23
 urllib3==2.8.0
 filelock==4.2.9
 setuptools==84.2.1
@@ -25,6 +25,6 @@ ultralytics==8.4.143
 opencv-python==5.0.0.93
 
 # Testing
-pytest==9.1.1
-pytest-asyncio==1.4.0
-pytest-mock==3.15.1
+pytest==9.2.0
+pytest-asyncio==1.4.1.post1
+pytest-mock==3.17.0

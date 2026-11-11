@@ -18,7 +18,7 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { AddCircleOutlined, Assignment, ArrowForward, Search } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { PageHeader } from '../components/common/PageHeader';
 import { EmptyState } from '../components/common/EmptyState';
@@ -26,21 +26,25 @@ import { StatusChip } from '../components/common/StatusChip';
 
 export default function AssignmentsPage() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const classId = params.get('classId');
+  const createPath = classId ? `/assignments/create?classId=${encodeURIComponent(classId)}` : '/assignments/create';
   const [searchTerm, setSearchTerm] = useState('');
   const { data: assignments = [], isLoading: loading, isFetching, isError, refetch } = useQuery({
     queryKey: ['teacher-assignments'],
     queryFn: () => AppTeacherService.getAssignments(),
   });
+  const visibleAssignments = classId ? assignments.filter(assignment => assignment.classId === classId) : assignments;
 
   const filteredAssignments = useMemo(() => {
-    return assignments.filter((a) => {
+    return visibleAssignments.filter((a) => {
       return (
         !searchTerm.trim() ||
         (a.title && a.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
         ((a as any).className && (a as any).className.toLowerCase().includes(searchTerm.toLowerCase()))
       );
     });
-  }, [assignments, searchTerm]);
+  }, [visibleAssignments, searchTerm]);
 
   const getMathTypeLabel = (type?: string) => {
     switch (type) {
@@ -56,7 +60,7 @@ export default function AssignmentsPage() {
   return (
     <Box>
       <PageHeader
-        title="Danh sách Bài tập"
+        title={classId ? 'Bài tập của lớp' : 'Danh sách Bài tập'}
         description="Quản lý các đề bài toán đặt tính và khởi tạo các đợt thu thập bài làm."
         actions={
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -72,7 +76,7 @@ export default function AssignmentsPage() {
             <Button
               variant="contained"
               startIcon={<AddCircleOutlined />}
-              onClick={() => navigate('/assignments/create')}
+              onClick={() => navigate(createPath)}
               sx={{ borderRadius: 2.5, fontWeight: 700 }}
             >
               Tạo bài tập mới
@@ -80,6 +84,7 @@ export default function AssignmentsPage() {
           </Box>
         }
       />
+      {classId && <Button component={Link} to="/assignments" sx={{ mb: 2 }}>Xem bài tập của tất cả lớp</Button>}
 
       {/* Search Bar */}
       <Box sx={{ mb: 3 }}>
@@ -111,13 +116,13 @@ export default function AssignmentsPage() {
             <Skeleton key={i} variant="rectangular" height={52} sx={{ mb: 1.5, borderRadius: 2 }} />
           ))}
         </Card>
-      ) : assignments.length === 0 ? (
+      ) : visibleAssignments.length === 0 ? (
         <Card sx={{ borderRadius: 3.5, border: '1px solid #E2E8F0' }}>
           <EmptyState
             title="Chưa có bài tập nào"
             description="Hãy tạo bài tập toán đặt tính đầu tiên để bắt đầu thu thập ảnh và chấm bài bằng AI."
             actionText="Tạo bài tập đầu tiên"
-            onAction={() => navigate('/assignments/create')}
+            onAction={() => navigate(createPath)}
             icon={<Assignment sx={{ fontSize: 42, color: '#94A3B8' }} />}
           />
         </Card>
@@ -153,7 +158,7 @@ export default function AssignmentsPage() {
                           {a.title}
                         </Typography>
                         <Typography variant="caption" sx={{ color: '#64748B' }}>
-                          Mã bài: {a.assignmentId || a.id}
+                          {a.maxScore ? `Thang điểm ${a.maxScore}` : 'Chưa có thang điểm'}
                         </Typography>
                       </TableCell>
                       <TableCell>

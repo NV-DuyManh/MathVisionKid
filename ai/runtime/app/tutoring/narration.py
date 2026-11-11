@@ -14,7 +14,7 @@ from typing import Literal
 from pydantic import Field, field_validator
 from app.tutoring import lesson
 from app.tutoring.service import TutorModel, TutorUnavailable
-from app.tutoring.speech_render import DEFAULT_VOICE, SpeechNoAudio, synthesize_neural, synthesize, run
+from app.tutoring.speech_render import DEFAULT_VOICE, SpeechNoAudio, synthesize_neural, synthesize, run, wait_for_speech_retry
 from app.tutoring.audio_cues import add_cues, read_cues
 
 MAX_BYTES = 8 * 1024 * 1024
@@ -102,6 +102,39 @@ def _join_cached(key):
         data=output.getvalue();validate_audio(data)
         return add_cues(data,points) if aligned else data
     except (ValueError,wave.Error,EOFError):return None
+
+
+def _reuse_paragraphs(key):
+    """Read measured WAV slices from matching, already validated private audio."""
+    with _cache_lock:
+        now = time.monotonic()
+        assets = [(other[-1], data) for other, (expires, data) in reversed(_cache.items())
+                  if other[:4] == key[:4] and expires > now]
+    wanted = set(key[-1])
+    reusable = {}
+    remaining_bytes = MAX_BYTES
+    for parts, data in assets:
+        if not wanted.intersection(parts):
+            continue
+        cues = read_cues(data)
+        if not cues or len(cues) != len(parts):
+            continue
+        with wave.open(io.BytesIO(data), 'rb') as source:
+            frames = source.getnframes()
+            if cues[-1] >= frames:
+                continue
+            ends = [*cues[1:], frames]
+            for part, start, end in zip(parts, cues, ends):
+                size = (end - start) * 2
+                if part not in wanted or not 0 < size <= remaining_bytes:
+                    continue
+                source.setpos(start)
+                reusable[part] = source.readframes(end - start)
+                wanted.remove(part)
+                remaining_bytes -= size
+        if not wanted:
+            break
+    return {index: reusable[part] for index, part in enumerate(key[-1]) if part in reusable}
 
 
 def chunk_checkpoint(request, session):
@@ -257,7 +290,9 @@ def _prepare_until_done(request,session,check,deadline,background=False,job=None
             if not request.useFallback and isinstance(error,SpeechNoAudio) and attempts==0 and deadline-time.monotonic()>1:
                 # One fresh provider turn can repair a short empty response while
                 # reading; share the original deadline and never switch voices.
-                attempts+=1;last_count=count;time.sleep(.25);continue
+                attempts+=1;last_count=count
+                wait_for_speech_retry(request.voice, deadline, check)
+                continue
             if request.useFallback or not count or count<=last_count:raise
             attempts+=1;last_count=count
     raise TutorUnavailable()
@@ -285,7 +320,7 @@ def validate_audio(data):
             raise ValueError('Silent or incomplete narration audio')
 
 
-def render_audio(paragraphs, voice, on_progress=None, *, fallback=False, cancel_event=None, checkpoint=None, deadline=None):
+def render_audio(paragraphs, voice, on_progress=None, *, fallback=False, cancel_event=None, checkpoint=None, deadline=None, reused_pcm=None):
     deadline = min(time.monotonic()+RENDER_TIMEOUT_SECONDS, deadline) if deadline is not None else time.monotonic()+RENDER_TIMEOUT_SECONDS
     update = on_progress or (lambda *args: None)
     with tempfile.TemporaryDirectory(prefix='mathvision-narration-') as directory:
@@ -294,6 +329,7 @@ def render_audio(paragraphs, voice, on_progress=None, *, fallback=False, cancel_
         if not fallback:
             options = {'cancel_event': cancel_event} if cancel_event is not None else {}
             if checkpoint is not None: options['checkpoint'] = checkpoint
+            if reused_pcm: options['reused_pcm'] = reused_pcm
             synthesize_neural(text, output, min(deadline, time.monotonic()+ONLINE_TIMEOUT_SECONDS), max_seconds=240, voice=voice, on_progress=update, paragraphs=paragraphs, **options)
         else:
             update('fallback', 10, 0, 0, 'offline')
@@ -322,6 +358,8 @@ def narrate(request: NarrationRequest) -> bytes:
                 resumable = isinstance(error,SpeechNoAudio) or saved is not None and saved[0]>time.monotonic() and bool(saved[1])
             if attempt or request.useFallback or not resumable or deadline-time.monotonic()<1:
                 raise
+            if isinstance(error,SpeechNoAudio):
+                wait_for_speech_retry(request.voice, deadline, lambda: owned(request))
             logger.info('Narration resuming completed provider chunks within original request deadline')
 
 
@@ -431,7 +469,11 @@ def _narrate(request: NarrationRequest, session, check, background=False, deadli
                     state.update(completedChunks=completed, totalChunks=total)
         options = {'deadline': deadline} if deadline is not None else {}
         if request.useFallback: options['fallback'] = True
-        else: options['checkpoint'] = chunk_checkpoint(request, session)
+        else:
+            options['checkpoint'] = chunk_checkpoint(request, session)
+            reused_pcm = _reuse_paragraphs(key)
+            if reused_pcm:
+                options['reused_pcm'] = reused_pcm
         if background: options['cancel_event'] = _background[key]
         data = render_audio(request.paragraphs, request.voice, update, **options)
         try:

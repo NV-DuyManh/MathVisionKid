@@ -193,7 +193,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
           <Pressable accessibilityRole="button" accessibilityLabel="Đặt lại ảnh và khung cắt" disabled={disabled} style={styles.secondary} onPress={reset}><Ionicons name="refresh" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Đặt lại</Text></Pressable>
           <Pressable accessibilityRole="button" accessibilityLabel="Dùng toàn ảnh" disabled={disabled} style={styles.secondary} onPress={() => select(true)}><Ionicons name="expand" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Toàn ảnh</Text></Pressable>
         </View>
-        <AppButton title={processing ? 'Đang lưu ảnh…' : 'Dùng ảnh này'} accessibilityLabel="Xác nhận cắt ảnh" onPress={done} disabled={disabled} loading={processing} />
+        <AppButton title="Dùng ảnh này" loadingTitle="Đang lưu ảnh…" accessibilityLabel="Xác nhận cắt ảnh" onPress={done} disabled={disabled} loading={processing} />
       </View>
     </View>
   </SafeAreaView></GestureHandlerRootView>;

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useRef, useEffect } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, IconButton, Tooltip, Typography, Alert } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, IconButton, Tooltip, Typography, Alert, Checkbox, FormControlLabel } from '@mui/material';
 import { Close, Brush, ClearAll, Save, Delete as DeleteIcon } from '@mui/icons-material';
 
 interface PrivacyEditorModalProps {
@@ -23,6 +23,7 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [masks, setMasks] = useState<Mask[]>([]);
+  const [noPersonalInfo, setNoPersonalInfo] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isMoving, setIsMoving] = useState<string | null>(null);
   const [isResizing, setIsResizing] = useState<string | null>(null);
@@ -38,6 +39,7 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
 
   useEffect(() => {
     setMasks([]);
+    setNoPersonalInfo(false);
     setSelectedMask(null);
     setImageObj(null);
     setImageError(null);
@@ -300,7 +302,7 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
   };
 
   const handleSave = () => {
-    if (!imageObj || !file || saving || isDrawing || isMoving || isResizing) return;
+    if (!imageObj || !file || saving || isDrawing || isMoving || isResizing || (!masks.length && !noPersonalInfo)) return;
 
     const offscreen = document.createElement('canvas');
     offscreen.width = imageObj.width;
@@ -371,10 +373,15 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
             style={{ touchAction: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', outline: 'none' }}
           />
         </Box>
+        {imageObj && masks.length === 0 && <FormControlLabel
+          sx={{ mt: 1 }}
+          control={<Checkbox checked={noPersonalInfo} onChange={event => setNoPersonalInfo(event.target.checked)} />}
+          label="Ảnh không có thông tin cá nhân cần che"
+        />}
       </DialogContent>
       <DialogActions sx={{ p: 2 }}>
         <Button onClick={onClose} color="inherit">Hủy</Button>
-        <Button disabled={!imageObj || saving || isDrawing || Boolean(isMoving) || Boolean(isResizing)} onClick={handleSave} variant="contained" startIcon={<Save />}>
+        <Button disabled={!imageObj || saving || isDrawing || Boolean(isMoving) || Boolean(isResizing) || (!masks.length && !noPersonalInfo)} onClick={handleSave} variant="contained" startIcon={<Save />}>
           {saving ? 'Đang lưu…' : 'Lưu ảnh đã che'}
         </Button>
       </DialogActions>

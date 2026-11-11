@@ -28,7 +28,9 @@ let refreshing: { token: string; promise: Promise<string> } | null = null;
 const identity = () => tokenStore.getSessionId?.() ?? tokenStore.getRefreshToken();
 apiClient.interceptors.request.use((config: Request) => {
   const token = tokenStore.getAccessToken();
-  config._identity ??= identity();
+  const current = identity();
+  if (config._identity !== undefined && config._identity !== current) throw new axios.CanceledError('Phiên đăng nhập đã thay đổi.');
+  config._identity = current;
   config._session ??= tokenStore.getRefreshToken();
   if (!config.url?.startsWith('/auth/') || config.url === '/auth/sso/ticket') {
     if (token) config.headers.Authorization = `Bearer ${token}`;
@@ -38,12 +40,14 @@ apiClient.interceptors.request.use((config: Request) => {
 });
 apiClient.interceptors.response.use(response => {
   const request = response.config as Request;
-  if (!request.url?.startsWith('/auth/') && request._identity !== identity()) throw new Error('Phiên đăng nhập đã thay đổi.');
+  if ((!request.url?.startsWith('/auth/') || request.url === '/auth/sso/ticket') && request._identity !== identity()) {
+    throw new axios.CanceledError('Phiên đăng nhập đã thay đổi.');
+  }
   return response;
 }, async (error: AxiosError) => {
   const request = error.config as Request | undefined;
   if (!request || request.url?.startsWith('/auth/') || error.response?.status !== 401 || request.signal?.aborted) throw error;
-  request._identity ??= identity();
+  if (request._identity === undefined) request._identity = identity();
   const refreshToken = tokenStore.getRefreshToken();
   request._session ??= refreshToken;
   if (request._identity !== identity()) throw error;

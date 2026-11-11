@@ -1,15 +1,16 @@
-import type { Assignment, Batch, Class, DashboardStats, MathType, Submission } from '../../types';
+import type { Assignment, Batch, Class, ClassDetail, DashboardStats, MathType, Submission } from '../../types';
 
 export interface TeacherService {
   login(email: string, password?: string): Promise<{ token: string }>;
   getDashboard(): Promise<DashboardStats>;
   getClasses(): Promise<Class[]>;
+  getClassDetail(classId: string): Promise<ClassDetail>;
   getAssignments(): Promise<Assignment[]>;
   getAssignmentRoster(assignmentId: string): Promise<{ id: string; name: string }[]>;
-  createAssignment(classId: string, title: string, mathType: MathType): Promise<Assignment>;
+  createAssignment(classId: string, title: string, mathType: MathType, maxScore?: number): Promise<Assignment>;
   getBatches(): Promise<Batch[]>;
   createBatch(assignmentId: string, imagesCount: number): Promise<Batch>;
-  uploadImages(batchId: string, files: File[], mappings?: { fileIndex: number, studentId: string }[]): Promise<void>;
+  uploadImages(batchId: string, files: File[], mappings?: { fileIndex: number, studentId: string }[], onProgress?: (percentage: number) => void): Promise<void>;
   getBatchStatus(batchId: string): Promise<Batch>;
   getReviewQueue(batchId: string): Promise<Submission[]>;
   getSubmissionDetail(submissionId: string): Promise<Submission>;

@@ -107,45 +107,15 @@ async def validate_groq_models(
 
                 result["fallback"]["catalogAvailable"] = fallback_in_catalog
 
-                if fallback_in_catalog:
-                    result["fallback"]["status"] = "AVAILABLE"
-                    result["fallback"]["available"] = True
-                    result["fallback"]["lastHttpStatus"] = 200
-                    result["fallback"]["lastErrorClass"] = None
-                else:
-                    # Probe fallback model directly to capture sanitized live error
-                    try:
-                        result["fallback"]["probeKind"] = "text"
-                        result["fallback"]["probeKeySafeId"] = entry.safe_id
-                        result["fallback"]["probeTimestamp"] = time.time()
-                        probe_resp = await client.post(
-                            "https://api.groq.com/openai/v1/chat/completions",
-                            headers={"Authorization": f"Bearer {entry.raw_key}", "Content-Type": "application/json"},
-                            json={"model": fallback, "messages": [{"role": "user", "content": "ping"}]},
-                            timeout=5.0,
-                        )
-                        result["fallback"]["lastHttpStatus"] = probe_resp.status_code
-                        if probe_resp.status_code == 200:
-                            result["fallback"]["liveProbe"] = True
-                            result["fallback"]["status"] = "AVAILABLE"
-                            result["fallback"]["available"] = True
-                            result["fallback"]["lastErrorClass"] = None
-                        else:
-                            err_body = probe_resp.json().get("error", {}) if probe_resp.headers.get("content-type", "").startswith("application/json") else {}
-                            err_code = err_body.get("code") or err_body.get("type") or f"http_{probe_resp.status_code}"
-                            result["fallback"]["liveProbe"] = False
-                            result["fallback"]["status"] = "UNAVAILABLE"
-                            result["fallback"]["available"] = False
-                            # Provider bodies are untrusted and can echo credentials.
-                            known_codes = {"model_not_found", "model_decommissioned", "rate_limit_exceeded",
-                                           "invalid_api_key", "authentication_error", "insufficient_quota",
-                                           "invalid_request_error", "permission_denied", "service_unavailable"}
-                            result["fallback"]["lastErrorClass"] = err_code if isinstance(err_code, str) and err_code in known_codes else f"HTTP_{probe_resp.status_code}"
-                    except Exception as pe:
-                        result["fallback"]["liveProbe"] = False
-                        result["fallback"]["status"] = "UNAVAILABLE"
-                        result["fallback"]["available"] = False
-                        result["fallback"]["lastErrorClass"] = type(pe).__name__
+                # A missing model cannot become an image fallback after a text
+                # "ping". Do not spend inference quota or mislabel catalog checks
+                # as live image evidence. The HTTP status belongs to GET /models.
+                result["fallback"]["status"] = "AVAILABLE" if fallback_in_catalog else "UNAVAILABLE"
+                result["fallback"]["available"] = fallback_in_catalog
+                result["fallback"]["lastHttpStatus"] = 200
+                for role in ('primary', 'fallback'):
+                    if result[role]['catalogAvailable'] is False:
+                        result[role]['lastErrorClass'] = 'MODEL_NOT_IN_CATALOG'
             else:
                 result["error"] = f"HTTP {resp.status_code}"
                 for role in ('primary', 'fallback'):

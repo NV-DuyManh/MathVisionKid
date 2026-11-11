@@ -12,6 +12,12 @@ export interface Class {
   studentCount: number;
 }
 
+export interface ClassDetail extends Class {
+  gradeLevel?: number;
+  academicYear?: string;
+  students: { id: string; name: string }[];
+}
+
 export type MathType = 'VERTICAL_ADDITION' | 'VERTICAL_SUBTRACTION';
 export const MathType = {
   VERTICAL_ADDITION: 'VERTICAL_ADDITION',
@@ -24,6 +30,7 @@ export interface Assignment {
   classId: string;
   title: string;
   mathType: MathType;
+  maxScore?: number;
   createdAt?: string;
   status?: string;
 }
@@ -87,6 +94,10 @@ export interface Batch {
   totalCount?: number;
   processedCount: number;
   reviewRequiredCount: number;
+  pendingReviewCount?: number;
+  finalizedCount?: number;
+  failedCount?: number;
+  submissions?: { submissionId: string; studentName?: string; status: SubmissionStatus }[];
   status: BatchStatus;
   createdAt?: string;
 }
@@ -112,6 +123,7 @@ export interface Submission {
   maxScore?: number;
   gradeProposal?: { score: number; confidence: number; metadata: any };
   teacherScore?: number;
+  teacherReason?: string;
   decision?: string; // VALID, INVALID
   confidenceBundle?: { recognition?: number; structure?: number; diagnosis?: number };
   validation?: { isValid?: boolean; diagnosisState?: string };

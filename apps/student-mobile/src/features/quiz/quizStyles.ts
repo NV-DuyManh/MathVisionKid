@@ -16,6 +16,7 @@ export const quizStyles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: 10, flexWrap: 'wrap' },
   groups: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
   group: { minHeight: 48, paddingVertical: 12, paddingHorizontal: 15, borderRadius: 16, backgroundColor: '#FFF', borderColor: '#DDD0F0', borderWidth: 1 },
+  choiceList: { gap: 8 },
   selected: { backgroundColor: '#E9DFFD', borderColor: COLORS.primaryDark },
   input: { minHeight: 58, borderWidth: 2, borderColor: '#A991C8', borderRadius: 16, padding: 14, fontFamily: FONTS.bold, fontSize: 23, color: COLORS.textPrimary, backgroundColor: '#FCFAFF' },
   question: { fontFamily: FONTS.semiBold, fontSize: 20, lineHeight: 33, color: COLORS.textPrimary },

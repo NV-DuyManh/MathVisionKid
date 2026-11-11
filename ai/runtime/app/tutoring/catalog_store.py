@@ -8,7 +8,7 @@ import unicodedata
 from pathlib import Path
 
 # SQLite's first WAL transition can return SQLITE_BUSY without its busy timeout.
-# Serialize only connection setup, never synthesis or the catalog transactions.
+# Serialize only first initialization, never synthesis or catalog transactions.
 # ponytail: process-local setup lock; multi-host writes need the existing database.
 _schema_lock = threading.Lock()
 
@@ -25,11 +25,19 @@ class CatalogStore:
         self.path.parent.mkdir(parents=True,exist_ok=True)
         db=sqlite3.connect(self.path,timeout=.15)
         try:
+            db.execute('PRAGMA journal_size_limit=1048576')
+            if (db.execute('PRAGMA journal_mode').fetchone()[0]=='wal'
+                    and db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='entries'").fetchone()):
+                return db
+            # Release the probing reader before another voice switches this
+            # database to WAL. Waiting with it open can block that transition.
+            db.close()
             if not _schema_lock.acquire(timeout=.15):
                 raise sqlite3.OperationalError('Catalog initialization busy')
             try:
-                db.execute('PRAGMA journal_mode=WAL')
+                db=sqlite3.connect(self.path,timeout=.15)
                 db.execute('PRAGMA journal_size_limit=1048576')
+                db.execute('PRAGMA journal_mode=WAL')
                 db.execute('''CREATE TABLE IF NOT EXISTS entries (
                     kind TEXT NOT NULL, scope TEXT NOT NULL, key TEXT NOT NULL, policy TEXT NOT NULL,
                     payload BLOB NOT NULL, digest TEXT NOT NULL, created REAL NOT NULL, used REAL NOT NULL,

@@ -3,6 +3,7 @@
 import asyncio
 import base64
 import io
+import json
 from unittest.mock import AsyncMock
 
 import httpx
@@ -231,6 +232,46 @@ def test_groq_quota_sets_cooldown_without_sweeping_keys(monkeypatch):
         run(service._call_groq("prompt", "data", None))
     assert transport.await_count == 1
     assert pool._entries[0].state == KeyState.COOLING_DOWN
+    assert pool._entries[1].failure_count == 0
+
+
+@pytest.mark.parametrize('provider_code,error_class', [
+    ('json_validate_failed', 'JSON_GENERATION_FAILED'),
+    ('invalid_parameter', 'BAD_REQUEST'),
+])
+def test_groq_distinguishes_generation_failure_from_invalid_request(monkeypatch, provider_code, error_class):
+    from app.integrations.groq.client import _execute_chat_completion
+    response = httpx.Response(400, json={'error': {'code': provider_code}})
+    monkeypatch.setattr(httpx.AsyncClient, 'post', AsyncMock(return_value=response))
+    entry = GroqKeyPool('test-key').acquire()
+    with pytest.raises(GroqError) as caught:
+        run(_execute_chat_completion({}, entry))
+    assert caught.value.error_class == error_class
+
+
+def test_groq_retries_invalid_generated_json_once_on_the_same_key(monkeypatch):
+    pool = GroqKeyPool('first-key,second-key')
+    monkeypatch.setattr(service, 'get_pool', lambda: pool)
+    invalid = httpx.Response(400, json={'error': {'code': 'json_validate_failed'}})
+    valid = httpx.Response(200, json={'choices': [{'message': {'content': json.dumps(safe_response())}}]})
+    transport = AsyncMock(side_effect=[invalid, valid])
+    monkeypatch.setattr(httpx.AsyncClient, 'post', transport)
+    assert run(service._call_groq('policy', 'source', None)) == safe_response()
+    assert transport.await_count == 2
+    first, retry = transport.await_args_list
+    assert first == retry
+    assert pool._entries[1].success_count == 0
+
+
+def test_groq_generation_retries_are_bounded(monkeypatch):
+    pool = GroqKeyPool('first-key,second-key')
+    monkeypatch.setattr(service, 'get_pool', lambda: pool)
+    invalid = httpx.Response(400, json={'error': {'code': 'json_validate_failed'}})
+    transport = AsyncMock(return_value=invalid)
+    monkeypatch.setattr(httpx.AsyncClient, 'post', transport)
+    with pytest.raises(service.TutorUnavailable):
+        run(service._call_groq('policy', 'source', None))
+    assert transport.await_count == 2
     assert pool._entries[1].failure_count == 0
 
 

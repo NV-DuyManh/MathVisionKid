@@ -7,6 +7,7 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  CircularProgress,
 } from '@mui/material';
 
 interface ConfirmDialogProps {
@@ -52,10 +53,12 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         <Button
           onClick={onConfirm}
           disabled={loading}
+          aria-busy={loading}
+          startIcon={loading ? <CircularProgress size={18} color="inherit" aria-hidden /> : undefined}
           variant="contained"
           color={isDestructive ? 'error' : 'primary'}
         >
-          {confirmText}
+          {loading ? 'Đang xử lý…' : confirmText}
         </Button>
       </DialogActions>
     </Dialog>

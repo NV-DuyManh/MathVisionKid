@@ -69,7 +69,7 @@ Bạn chưa cần thêm Orca-cli, Spec-kit hoặc nhiều nhà cung cấp model 
 
 ## AI chọn skill như thế nào
 
-Bảng này dành cho AI; bạn có thể yêu cầu bằng ngôn ngữ bình thường. Chọn theo từng nhiệm vụ nhỏ, mặc định tối đa 3 skill phù hợp theo quy tắc dự án, không nạp toàn bộ bảng.
+Bảng này dành cho AI; bạn có thể yêu cầu bằng ngôn ngữ bình thường. Chọn skill theo từng giai đoạn và lĩnh vực thực sự đang làm; không giới hạn cứng số lượng. Đọc skill phù hợp trước khi sửa và định tuyến lại khi chuyển sang lĩnh vực khác, không nạp toàn bộ bảng hoặc skill không liên quan.
 
 | Bạn nói | Skill/nhóm phù hợp đã có | Lưu ý |
 |---|---|---|

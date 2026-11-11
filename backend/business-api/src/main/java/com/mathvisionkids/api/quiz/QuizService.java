@@ -18,41 +18,55 @@ public class QuizService {
     private final QuizSources identities;
     private final Clock clock;
     private final QuizPreparations preparations;
+    private final QuizGenerator generator;
     @org.springframework.beans.factory.annotation.Autowired
-    public QuizService(QuizRepository quizzes, QuizSourceRepository sources, QuizAttemptRepository attempts, QuizSources identities, QuizPreparations preparations) {
-        this(quizzes,sources,attempts,identities,preparations,Clock.systemUTC());
+    public QuizService(QuizRepository quizzes, QuizSourceRepository sources, QuizAttemptRepository attempts, QuizSources identities, QuizPreparations preparations, QuizGenerator generator) {
+        this(quizzes,sources,attempts,identities,preparations,generator,Clock.systemUTC());
     }
-    QuizService(QuizRepository quizzes, QuizSourceRepository sources, QuizAttemptRepository attempts, QuizSources identities, QuizPreparations preparations, Clock clock) {
+    QuizService(QuizRepository quizzes, QuizSourceRepository sources, QuizAttemptRepository attempts, QuizSources identities, QuizPreparations preparations, QuizGenerator generator, Clock clock) {
         this.quizzes=quizzes; this.sources=sources; this.attempts=attempts; this.identities=identities; this.preparations=preparations; this.clock=clock;
+        this.generator=generator;
     }
     private Instant now() { return clock.instant().truncatedTo(java.time.temporal.ChronoUnit.MICROS); }
     @Transactional
     public Invitation fromLearning(String principal, FromLearning request) {
         UUID student=identities.student(principal); identities.lockStudent(student);
-        var source=sources.findByStudentIdAndSourceTypeAndSourceId(student,request.sourceType(),request.sourceId()).filter(s -> s.completed)
+        var source=sources.findByStudentIdAndSourceTypeAndSourceId(student,request.sourceType(),request.sourceId())
+                .filter(s -> s.completed && !s.problemText.contains("[?]") && !s.problemText.contains("\uFFFD"))
                 .orElseThrow(() -> error("QUIZ_SOURCE_NOT_COMPLETE", "Bài học chưa được xác nhận hoàn tất. Em có thể quay lại bài học hoặc trang chủ.", HttpStatus.CONFLICT));
         var previous=quizzes.findFirstByStudentIdAndSourceFingerprintOrderByCreatedAtAsc(student,source.fingerprint);
-        if (previous.isPresent() && !"INVALIDATED".equals(previous.get().status)) return new Invitation(false, view(previous.get(),false));
+        var legacyReview = previous.filter(q -> QuizMath.FOUNDATION_REVIEW.equals(q.topicCode));
+        var related = previous.filter(q -> !QuizMath.FOUNDATION_REVIEW.equals(q.topicCode));
+        if (related.isPresent() && !"INVALIDATED".equals(related.get().status)) return new Invitation(false, view(related.get(),false));
         QuizMath.Verified prepared=preparations.forSource(source);
-        if (previous.isPresent() && "INVALIDATED".equals(previous.get().status)) {
-            if (prepared==null) throw error("QUIZ_SOURCE_CHANGED","Đề đã được sửa. Em xác nhận và hoàn tất phần học theo đề mới nhé.",HttpStatus.CONFLICT);
+        if (prepared==null && previous.filter(q -> "INVALIDATED".equals(q.status)).isPresent())
+            throw error("QUIZ_SOURCE_CHANGED","Đề đã được sửa. Em xác nhận và hoàn tất phần học theo đề mới nhé.",HttpStatus.CONFLICT);
+        if (related.isPresent()) {
             // Returning to the same confirmed text may reuse unfinished work, never reset its timer/attempts.
-            var q=quizzes.ownedForUpdate(previous.get().id,student).orElseThrow(QuizService::missing);
+            var q=quizzes.ownedForUpdate(related.get().id,student).orElseThrow(QuizService::missing);
             if ("INVALIDATED".equals(q.status)) { q.status=q.startedAt==null ? "READY" : "IN_PROGRESS"; q.sourceType=source.sourceType; q.sourceId=source.sourceId; q.updatedAt=now(); }
+            return new Invitation(false, view(q,false));
         }
-        if (previous.isPresent()) return new Invitation(false, view(previous.get(),false));
         // The trusted completed lesson supplies the difficulty. Profile grade is metadata,
         // not an access rule that can reject the very lesson this student just completed.
         QuizMath.Verified generated=prepared;
-        try { if (generated==null) generated=QuizMath.generateFromConfirmed(source.problemText,new SecureRandom()); }
-        catch (QuizMath.UnsupportedProblem ex) { throw error("QUIZ_UNSUPPORTED","Sao chưa kiểm chứng được quan hệ toán trong đề này. Em vẫn có thể lưu bài học nhé.",HttpStatus.UNPROCESSABLE_ENTITY); }
+        try { if (generated==null) generated=generator.generate(student,source.problemText); }
+        catch (QuizMath.UnsupportedProblem ex) { throw unsupported(); }
         catch (IllegalArgumentException ex) { throw error("QUIZ_GENERATION_FAILED","Chưa chuẩn bị được câu đố phù hợp. Em thử lại hoặc về trang chủ nhé.",HttpStatus.SERVICE_UNAVAILABLE); }
+        // Keep previously opened reviews in history, but free the source for a related Quiz.
+        legacyReview.ifPresent(old -> {
+            var review = quizzes.ownedForUpdate(old.id, student).orElseThrow(QuizService::missing);
+            review.sourceFingerprint = QuizSources.fingerprint("legacy-foundation-review:" + review.id);
+            if (review.startedAt == null && review.firstCompletedAt == null) review.status = "INVALIDATED";
+            quizzes.saveAndFlush(review);
+        });
         var q=new Quiz(); q.studentId=student; q.sourceType=source.sourceType; q.sourceId=source.sourceId; q.sourceFingerprint=source.fingerprint;
         q.topicCode=generated.code(); q.topicName=generated.name(); q.skillCode=generated.skill(); q.gradeLevel=generated.grade();
         q.questionText=generated.question(); q.unit=generated.unit(); q.answerSpec=generated.answer().toString();
         q.validatedSolution=generated.solution(); q.createdAt=now(); q.updatedAt=q.createdAt;
         q.originalQuestionText=generated.question(); q.originalAnswerSpec=generated.answer().toString();
         q.originalValidatedSolution=generated.solution(); q.originalUnit=generated.unit();
+        if (QuizGenerator.isAdaptive(generated.code())) { q.verificationStatus="TUTOR_VERIFIED"; q.confidencePercent=0; }
         quizzes.saveAndFlush(q);
         org.slf4j.LoggerFactory.getLogger(QuizService.class).info("quiz_published quiz={} preparation={} source={} fingerprint={} state=READY version={}",q.id,source.preparationId,source.sourceId,source.fingerprint,QuizMath.VERSION);
         return new Invitation(true,view(q,false));
@@ -130,8 +144,7 @@ public class QuizService {
         } else {
             String base = q.originalQuestionText != null ? q.originalQuestionText : q.questionText;
             var source = QuizMath.analyzeConfirmed(base)
-                    .or(() -> QuizMath.classify(base, true))
-                    .orElseThrow(() -> error("QUIZ_VARIANT_UNSUPPORTED", "Dạng toán này chưa hỗ trợ tạo thử thách biến thể.", HttpStatus.UNPROCESSABLE_ENTITY));
+                    .or(() -> QuizMath.classify(base, true));
             var seenAnswers = new HashSet<String>();
             seenAnswers.add(q.answerSpec);
             if (q.originalAnswerSpec != null) seenAnswers.add(q.originalAnswerSpec);
@@ -148,13 +161,19 @@ public class QuizService {
             sources.findByStudentIdAndSourceTypeAndSourceId(q.studentId,q.sourceType,q.sourceId)
                 .flatMap(s -> QuizMath.analyzeConfirmed(s.problemText)).ifPresent(s -> seenAnswers.add(s.answer().toString()));
             QuizMath.Verified variant;
-            try { variant = QuizMath.generate(source, new SecureRandom(), seenAnswers); }
+            try {
+                variant = source.isPresent() ? QuizMath.generate(source.get(), new SecureRandom(), seenAnswers)
+                        : generator.generate(q.studentId, sources.findByStudentIdAndSourceTypeAndSourceId(q.studentId,q.sourceType,q.sourceId)
+                                .filter(value -> value.completed).orElseThrow(QuizService::missing).problemText,seenAnswers);
+            }
             catch (IllegalArgumentException ex) { throw error("QUIZ_VARIANTS_EXHAUSTED","Em đã khám phá hết biến thể hiện có. Em có thể ôn lại bài cũ nhé.",HttpStatus.CONFLICT); }
             q.questionText = variant.question();
             q.answerSpec = variant.answer().toString();
             q.validatedSolution = variant.solution();
             q.unit = variant.unit();
-            q.replayMode = "CHALLENGE";
+            q.topicCode=variant.code(); q.topicName=variant.name(); q.skillCode=variant.skill();
+            q.replayMode = QuizGenerator.REVIEW.equals(variant.code()) ? "PRACTICE" : "CHALLENGE";
+            if (QuizGenerator.isAdaptive(variant.code())) { q.verificationStatus="TUTOR_VERIFIED"; q.confidencePercent=0; }
         }
         q.status = "IN_PROGRESS";
         q.replaying = true;
@@ -244,9 +263,17 @@ public class QuizService {
     private Quiz locked(String principal, UUID id) { return quizzes.ownedForUpdate(id,identities.student(principal)).filter(q -> !"INVALIDATED".equals(q.status)).orElseThrow(QuizService::missing); }
     private View view(Quiz q, boolean detail) {
         boolean published = q.solutionViewed || (q.status.equals("COMPLETED") && !q.replaying);
+        String prompt = q.questionText;
+        if (q.startedAt == null) {
+            prompt = QuizGenerator.REVIEW.equals(q.topicCode) ? "Ôn lại đề vừa học để nhớ cách làm. Bấm Bắt đầu để mở đề nhé."
+                    : QuizMath.FOUNDATION_REVIEW.equals(q.topicCode)
+                    ? "Một câu ôn phép cộng phù hợp với lớp của em. Bấm Bắt đầu để mở đề nhé."
+                    : "Một câu đố mới cùng dạng toán em vừa học. Bấm Bắt đầu để mở đề nhé.";
+        }
         return new View(q.id,q.sourceType,q.sourceId,q.topicCode,q.topicName,q.skillCode,q.gradeLevel,q.taxonomyVersion,
-                q.verificationStatus,q.confidencePercent,q.startedAt == null ? "Một câu đố mới cùng dạng toán em vừa học. Bấm Bắt đầu để mở đề nhé." : q.questionText,
-                q.unit,q.topicCode.equals("FRACTION_ADDITION_SUBTRACTION") ? "FRACTION" : "INTEGER",
+                q.verificationStatus,q.confidencePercent,prompt,
+                q.unit,QuizGenerator.CHOICE_SKILL.equals(q.skillCode) ? "CHOICE"
+                        : "FRACTION_ADDITION_SUBTRACTION".equals(q.topicCode) || !Rational.parse(q.answerSpec).integer() ? "FRACTION" : "INTEGER",
                 q.status,q.createdAt,q.startedAt,q.completedAt,now(),q.elapsedMillis(now()),q.stars,q.wrongAttempts,
                 q.solutionViewed,q.completedWithSolution,q.wrongAttempts>=2 || (q.status.equals("COMPLETED") && !q.replaying),
                 detail ? attempts.findByQuizIdOrderByAttemptNumber(q.id).stream().map(QuizService::attempt).toList() : List.of(),
@@ -256,5 +283,8 @@ public class QuizService {
     }
     private static Attempt attempt(QuizAttempt a) { return new Attempt(a.attemptNumber,a.answer,a.correct,a.submittedAt,a.elapsedMillis,a.stars,a.replayMode,a.questionText,a.solutionViewed,a.runStartedAt); }
     private static ApiException missing() { return error("QUIZ_NOT_FOUND","Chưa tìm thấy Quiz của em.",HttpStatus.NOT_FOUND); }
+    static ApiException unsupported() {
+        return error("QUIZ_UNSUPPORTED", "Sao chưa có câu luyện tập cùng dạng đã kiểm tra cho bài này.", HttpStatus.UNPROCESSABLE_ENTITY);
+    }
     static ApiException error(String code, String message, HttpStatus status) { return new ApiException(code,message,status); }
 }

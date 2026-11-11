@@ -140,7 +140,7 @@ class ReadingPlan(TutorModel):
 class DraftStep(Step):
     kind: Literal["MATH"] = "MATH"
     title: str = Field(min_length=1, max_length=100, pattern=r'^[^0-9]*$')
-    solutionSentence: str = Field(default='', max_length=220, pattern=r'^[^0-9]*$')
+    solutionSentence: str = Field(default='', max_length=220, pattern=r'^(?:|[^0-9]*là:)$')
     workExcerpt: str = Field(default="", max_length=0)
     workLineIndexes: list[Annotated[int, Field(ge=0, strict=True)]] = Field(default_factory=list, max_length=3)
     initialGuidance: list[str] = Field(default_factory=list, max_length=3,
@@ -168,6 +168,8 @@ class PublicStep(TutorModel):
     workExcerpt: str
     solutionSentence: str = ""
     guidance: list[str] = Field(default_factory=list)
+    # Current-choice teaching feedback only. Progress remains server checked.
+    choiceChecks: list[bool] = Field(default_factory=list)
 
 
 class CompletedStep(TutorModel):
@@ -180,6 +182,8 @@ class CompletedStep(TutorModel):
     solutionSentence: str = ""
     calculationDetails: list[str] = Field(default_factory=list)
     guidance: list[str] = Field(default_factory=list)
+    question: str = ""
+    choices: list[str] = Field(default_factory=list)
 
 
 class LessonSummary(TutorModel):
@@ -235,7 +239,6 @@ class Session:
     givens: frozenset[str] = frozenset()
     summary: LessonSummary | None = None
     problem_text: str = ''
-    ask_count: int = 0
     conversation: list[dict] = field(default_factory=list)
     narration_texts: list[str] = field(default_factory=list)
     preparation_request: LessonRequest | None = field(default=None, repr=False)
@@ -725,6 +728,17 @@ def labelled_understanding(source: str) -> list[Step]:
 
 
 def validate_plan(plan: Plan, request: LessonRequest, formula_constants=frozenset({"1", "2"})):
+    from app.tutoring.number_tasks import verified_plan as open_number_plan
+    # Open number exercises have no printed alternatives. Authorize generated
+    # choices only when a complete source proof reproduces their exact order,
+    # key and unit. This grants no new operands or permission to leak answers.
+    proof = open_number_plan(request.problemText)
+    proved_choices = (proof['steps'] if proof and len(plan.steps) == len(proof['steps'])
+        and all(not step.expression and step.kind == 'MATH' and step.unit == expected.get('unit', '')
+            and step.choices == expected['choices'] and step.correctChoice == expected['correctChoice']
+            for step, expected in zip(plan.steps, proof['steps'])) else [])
+    if proof and any(step.choices for step in plan.steps) and not proved_choices:
+        raise ValueError('Choices or key disagree with the exact open-task proof')
     givens = numeric_values(request.problemText) | formula_constants
     given_values={}
     for literal in sorted(givens,key=lambda item:(len(item),item)):given_values.setdefault(Fraction(literal),literal)
@@ -793,7 +807,11 @@ def validate_plan(plan: Plan, request: LessonRequest, formula_constants=frozense
             initial = guidance_at(step, answers[:index], earned, reveal_work=False)
             if initial:
                 step.explanation = next((item for item in initial if re.search(r"vi|nen|can|truoc", _fold(item))), initial[0])
-        automatic = "\n".join([step.title, step.solutionSentence, step.explanation, step.question, step.unit, *step.choices])
+        automatic = "\n".join([step.title, step.solutionSentence, step.explanation, step.question, step.unit,
+                               *([] if proved_choices else step.choices)])
+        if proved_choices:
+            for choice in step.choices:
+                safe_public(choice)
         safe_public(automatic)
         quantity = _fold(" ".join([step.title, step.solutionSentence, step.question]))
         if re.search(r"\b(?:phan so chi|so phan chi|ti le)\b", quantity) and step.unit not in {"", "phần", "%"}:
@@ -859,7 +877,7 @@ def completed_step(step: Step, session: Session, answer: str) -> CompletedStep:
     return CompletedStep(kind=step.kind, title=step.title, expression=display_expression(expression, step.fractionNotation),
         answer=shown, unit=step.unit, explanation=step.explanation, solutionSentence=solution_sentence(step),
         calculationDetails=fraction_working(expression, solved=True) if step.expression and step.fractionNotation else [],
-        guidance=guidance_at(step, session.answers))
+        guidance=guidance_at(step, session.answers), question=step.question, choices=list(step.choices))
 
 
 def present(key: str, session: Session, status="READY", feedback="") -> LessonResponse:
@@ -868,7 +886,9 @@ def present(key: str, session: Session, status="READY", feedback="") -> LessonRe
     public = None if step is None else PublicStep(kind=step.kind, title=step.title, explanation=step.explanation,
         question=step.question, choices=step.choices, expression=display_expression(expression_at(step, session.answers), step.fractionNotation),
         unit=step.unit, workExcerpt=step.workExcerpt, solutionSentence=solution_sentence(step),
-        guidance=guidance_at(step, session.answers, session.givens, reveal_work=session.hint_count >= 2))
+        guidance=guidance_at(step, session.answers, session.givens, reveal_work=session.hint_count >= 2),
+        choiceChecks=[choice == step.correctChoice for choice in step.choices]
+            if step.choices and len(set(step.choices)) == len(step.choices) else [])
     conclusion = ""
     waiting = isinstance(session.plan, ReadingPlan) and step is None
     if waiting:
@@ -1181,6 +1201,8 @@ async def generate_plan(request: LessonRequest) -> Plan:
 
 
 async def checked_plan(request):
+    from app.tutoring.source_clarification import require_clear_source
+    require_clear_source(request.problemText)
     # Both background preparation and confirmed lessons use the same checked
     # solvers. Work review failures may fall back to math without claiming that
     # the pupil's written work was reviewed.
@@ -1315,6 +1337,8 @@ def lesson_preparation(request: PreparationRequest):
 
 
 async def start_lesson(request: LessonRequest) -> LessonResponse:
+    from app.tutoring.source_clarification import require_clear_source
+    require_clear_source(request.problemText)
     comprehension = []
     from app.tutoring.short_math import verified_plan as short_plan
     # A standalone calculation/choice is already a complete task. Do not inflate

@@ -101,7 +101,7 @@ export function DivisionReview({ division, imageUri, uncertain, onChange }: Prop
       <Text style={[styles.body, styles.flex]}>{repairing ? 'Em đã kiểm tra phần vừa sửa' : 'Em đã đối chiếu các số với ảnh'}</Text>
     </Pressable>
     <AppButton title={result?.status === 'CORRECT' ? 'Đã kiểm tra phép chia' : 'Kiểm tra phép chia'} onPress={() => void check()}
-      loading={busy} disabled={!confirmed || busy || result?.status === 'CORRECT'} />
+      loading={busy} loadingTitle="Đang kiểm tra phép chia…" disabled={!confirmed || busy || result?.status === 'CORRECT'} />
     {result ? <View style={result.status === 'CORRECT' ? styles.success : styles.feedback} accessibilityLiveRegion="polite">
       <Text style={styles.label}>{result.status === 'CORRECT' ? 'Em làm đúng rồi!' : result.status === 'TRY_AGAIN' ? 'Cùng sửa một chỗ nhé' : 'Cần nhìn lại hàng tính'}</Text>
       <Text style={styles.body}>{result.message}</Text>

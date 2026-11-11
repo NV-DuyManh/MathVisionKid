@@ -31,6 +31,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
   const playerMeasure = useRef<ReturnType<typeof measureVoice> | null>(null);
   const [uri, setUri] = useState(''), [error, setError] = useState(''), [attempt, setAttempt] = useState(0), [expanded, setExpanded] = useState(false);
   const [voice, setVoice] = useState<NarrationChoice | null>(currentNarrationVoice);
+  const [serverFallback, setServerFallback] = useState(false);
   const onlineVoice = useRef<NarrationVoice>(isNarrationVoice(voice) ? voice : DEFAULT_NARRATION_VOICE);
   const [progress, setProgress] = useState<NarrationProgress | null>(null);
   const deviceVoice = voice === 'device';
@@ -49,7 +50,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
   const transcriptId = useId();
   const deviceReady = useCallback((points: AudioCue[]) => { setCues(points); setAudioReady(true); }, []);
   const sourceId = source.sessionId, revision = source.revision, text = JSON.stringify(paragraphs);
-  const bookmarkId = JSON.stringify([sourceId,voice,text]);
+  const bookmarkId = JSON.stringify([sourceId, voice, text, ...(serverFallback ? ['server-fallback'] : [])]);
   const onPosition = useCallback((seconds:number,duration:number)=>{
     bookmarks?.set(bookmarkId,seconds,duration);
     const index=cues.findIndex(cue=>seconds>=cue.start&&seconds<cue.end);
@@ -59,9 +60,9 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
     playerMeasure.current?.('failed');
     if (readyDeadline.current) clearTimeout(readyDeadline.current);
     if (preparationDelay.current) clearTimeout(preparationDelay.current);
-    if (isNarrationVoice(voice)) cache?.forget({ sessionId: sourceId, revision }, JSON.parse(text), voice);
+    if (isNarrationVoice(voice)) cache?.forget({ sessionId: sourceId, revision, ...(serverFallback ? { useFallback: true } : {}) }, JSON.parse(text), voice);
     setError('Tệp âm thanh chưa mở được. Em thử lại nhé.');
-  }, [cache, sourceId, revision, text, voice]);
+  }, [cache, sourceId, revision, text, voice, serverFallback]);
   useEffect(() => {
     let active = true;
     void readNarrationVoice().then(saved => { if (active) setVoice(saved); });
@@ -70,11 +71,11 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
   useEffect(() => {
     if (disabled || !isNarrationVoice(voice)) return;
     playbackStarted.current = Date.now(); readinessLogged.current = false;
-    let active = true, interrupted = false, asset: ReturnType<typeof saveNarration> | undefined;
+    let active = true, interrupted = false, asset: Awaited<ReturnType<typeof saveNarration>> | undefined;
     const displayTimer = setTimeout(() => { if (active) setShowPreparation(true); }, 180);
     preparationDelay.current = displayTimer;
     const controller = new AbortController();
-    const audioSource = { sessionId: sourceId, revision };
+    const audioSource = { sessionId: sourceId, revision, ...(serverFallback ? { useFallback: true } : {}) };
     const watchdog = setTimeout(() => { controller.abort(); if (active) setError('Đã hết thời gian chờ. Em thử lại nhé.'); }, NARRATION_WAIT_SECONDS*1000);
     readyDeadline.current = watchdog;
     const listener = AppState.addEventListener('change', state => {
@@ -109,11 +110,12 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
         : 'Em thử lại hoặc nghe bằng giọng thiết bị nhé.');
     });
     return () => { active = false; clearTimeout(watchdog); clearTimeout(displayTimer); controller.abort(); listener.remove(); asset?.dispose(); playerMeasure.current?.('cancelled');void bookmarks?.flush(); };
-  }, [sourceId, revision, text, disabled, attempt, voice, cache, bookmarks, bookmarkId, audioLoader]);
+  }, [sourceId, revision, text, disabled, attempt, voice, cache, bookmarks, bookmarkId, audioLoader, serverFallback]);
   const chooseVoice = (selected: NarrationChoice) => {
     if (!voice || disabled || voice === selected) return;
     if (isNarrationVoice(voice)) onlineVoice.current = voice;
     if (isNarrationVoice(selected)) onlineVoice.current = selected;
+    setServerFallback(false);
     setUri(''); setError(''); setProgress(null); setVoice(selected);
     setCues([]); setActiveCue(-1);
     setAudioReady(false); setShowPreparation(false);
@@ -123,18 +125,33 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
     setUri(''); setError(''); setProgress(null);
     setAudioReady(false); setShowPreparation(false); setAttempt(value => value + 1);
   };
+  const changeFallback = (enabled: boolean) => {
+    setServerFallback(enabled);
+    retry();
+  };
+  const preparationDetail = uri ? 'Đã nhận âm thanh. Đang mở lời giảng.'
+    : progress?.retrying ? serverFallback ? 'Đang thử lại giọng Việt dự phòng.' : 'Đang thử lại, giữ nguyên giọng em đã chọn.'
+    : progress?.totalChunks ? `Đã tạo ${progress.completedChunks}/${progress.totalChunks} đoạn giọng đọc.`
+    : serverFallback ? 'Đang chuẩn bị giọng Việt dự phòng.' : 'Đang chuẩn bị đúng giọng em đã chọn.';
   return <View style={styles.stack}>
-    <VoicePicker value={voice} disabled={disabled} onChange={chooseVoice} />
+    <VoicePicker value={voice} disabled={disabled || serverFallback} onChange={chooseVoice} />
+    {serverFallback ? <View style={styles.currentWords} accessibilityLiveRegion="polite">
+      <Text style={styles.body}>Đang dùng giọng Việt dự phòng.</Text>
+      <Pressable accessibilityRole="button" onPress={() => changeFallback(false)} style={styles.transcript}>
+        <Text style={styles.link}>Quay lại giọng đã chọn</Text>
+      </Pressable>
+    </View> : null}
     {disabled ? <Text style={styles.link}>Đang chờ bài học</Text> : deviceVoice ? <DeviceNarration paragraphs={paragraphs} compact={compact} controlRef={audioControl} onReady={deviceReady} onPosition={onPosition} onFinished={onFinished} onReturn={() => chooseVoice(onlineVoice.current)} /> : error ? <RecoveryNotice
       title="Chưa mở được giọng đọc" message={error} actions={[
         { label: 'Thử lại', accessibilityLabel: 'Tải lại lời giảng', icon: 'refresh-outline', onPress: retry },
+        ...(!serverFallback && !audioLoader ? [{ label: 'Dùng giọng Việt dự phòng', onPress: () => changeFallback(true) }] : []),
         { label: 'Giọng có sẵn', accessibilityLabel: 'Dùng giọng đọc trên thiết bị', onPress: () => chooseVoice('device') },
     ]} /> : <>
       {!audioReady ? <View testID="narration-preparation" style={[styles.preparing, !showPreparation && styles.hidden]} aria-hidden={!showPreparation} importantForAccessibility={showPreparation ? 'auto' : 'no-hide-descendants'}>
         <Text style={styles.preparingTitle}>Chuẩn bị lời giảng</Text>
         <TaskProgress compact key={`${voice}:${attempt}`} steps={NARRATION_PROGRESS_STEPS} activeStep={uri ? 2 : voice ? 1 : 0} percent={uri ? 95 : voice ? Math.max(10, Math.min(90, progress?.percent || 0)) : 0} timeoutSeconds={NARRATION_WAIT_SECONDS}
           complete={audioReady}
-          detail={audioReady ? undefined : uri ? 'Đã nhận âm thanh. Đang mở lời giảng.' : progress?.retrying ? 'Đang thử lại, giữ nguyên giọng em đã chọn.' : progress?.totalChunks ? `Đã tạo ${progress.completedChunks}/${progress.totalChunks} đoạn giọng đọc.` : 'Đang chuẩn bị đúng giọng em đã chọn.'} />
+          detail={audioReady ? undefined : preparationDetail} />
       </View> : null}
       {uri ? <View testID="narration-player" style={!audioReady && styles.hidden}
         aria-hidden={!audioReady} importantForAccessibility={!audioReady ? 'no-hide-descendants' : 'auto'}>

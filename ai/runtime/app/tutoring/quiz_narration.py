@@ -15,7 +15,7 @@ from uuid import UUID
 from pydantic import Field
 from app.tutoring.service import TutorModel, TutorUnavailable
 from app.tutoring import narration, catalog
-from app.tutoring.speech_render import SpeechNoAudio
+from app.tutoring.speech_render import SpeechNoAudio, wait_for_speech_retry
 
 logger = logging.getLogger(__name__)
 
@@ -84,6 +84,7 @@ def narrate(request: QuizNarrationRequest) -> bytes:
                 except SpeechNoAudio:
                     if attempt or deadline - time.monotonic() < 1:
                         raise
+                    wait_for_speech_retry(request.voice, deadline)
             narration.validate_audio(data)
             catalog.save_audio(audio_request, data)
         narration.validate_audio(data)

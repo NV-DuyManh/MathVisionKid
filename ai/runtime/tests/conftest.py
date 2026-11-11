@@ -31,3 +31,4 @@ def isolate_media_preparation_worker(monkeypatch):
 def isolate_speech_provider_backoff(monkeypatch):
     from app.tutoring import speech_render
     monkeypatch.setattr(speech_render, '_edge_unavailable_until', {})
+    monkeypatch.setattr(speech_render, '_edge_failures', {})

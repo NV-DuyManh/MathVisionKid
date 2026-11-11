@@ -12,6 +12,33 @@ let cache: ReturnType<typeof createNarrationCache>;
 beforeEach(() => { jest.useFakeTimers(); cache = createNarrationCache(); jest.clearAllMocks(); (downloadNarration as jest.Mock).mockReset().mockResolvedValue(bytes); (prioritizeNarration as jest.Mock).mockReset().mockResolvedValue(undefined); });
 afterEach(() => { cache.clear(); jest.useRealTimers(); });
 
+it('disposes a late asynchronous write when the pupil leaves during speech prefetch', async () => {
+  let finish!: (asset: unknown) => void;
+  (saveNarration as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  const warm = cache.acquire(source, parts, male, true);
+  await Promise.resolve();
+  const rejected = expect(warm.promise).rejects.toThrow('Đã dừng chuẩn bị âm thanh.');
+  warm.release();
+  const asset = { uri: 'file:///late.wav', dispose: jest.fn() };
+  finish(asset);
+  await rejected;
+  expect(asset.dispose).toHaveBeenCalledTimes(1);
+  expect(warm.asset).toBeUndefined();
+});
+
+it('disposes an uncached asynchronous write cancelled before playback can open it', async () => {
+  let finish!: (asset: unknown) => void;
+  (saveNarration as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  const controller = new AbortController();
+  const prepared = getPreparedNarrationAsset(null, source, parts, controller.signal, male);
+  await Promise.resolve();
+  controller.abort();
+  const asset = { uri: 'file:///late.wav', dispose: jest.fn() };
+  finish(asset);
+  await expect(prepared).rejects.toThrow('Đã dừng tải âm thanh.');
+  expect(asset.dispose).toHaveBeenCalledTimes(1);
+});
+
 it('shares a warming request with an early tap and reuses the ready audio when reopening', async () => {
   let finish!: (data: Uint8Array) => void;
   (downloadNarration as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));

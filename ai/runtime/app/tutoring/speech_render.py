@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 _provider_slots = threading.BoundedSemaphore(4)
 _edge_backoff_lock = threading.Lock()
 _edge_unavailable_until: dict[str, float] = {}
+_edge_failures: dict[str, int] = {}
 EDGE_BACKOFF_SECONDS = 15
 
 
@@ -41,6 +42,25 @@ async def _with_provider_slot(call):
 
 class SpeechNoAudio(TutorUnavailable):
     """The chosen provider returned no audio after its bounded transport retries."""
+
+
+def wait_for_speech_retry(voice, deadline, check=None):
+    """Respect the shared voice cooldown without holding a render/provider slot."""
+    with _edge_backoff_lock:
+        until = _edge_unavailable_until.get(voice, 0)
+    remaining = until - time.monotonic()
+    if max(.25, remaining) >= deadline - time.monotonic():
+        raise SpeechNoAudio()
+    if remaining <= 0:
+        if check: check()
+        time.sleep(.25)
+    else:
+        while (remaining := until - time.monotonic()) > 0:
+            if check: check()
+            time.sleep(min(.2, remaining))
+    if check: check()
+
+
 def _spoken_groups(text):
     # Read labels without bracket names, while retaining arithmetic precedence.
     previous = None
@@ -58,6 +78,8 @@ def spoken_math(text: str) -> str:
     text = re.sub(r'(?<!\w)(?:đề|đê|xăng|xen|ki|mi)[\s\-‐‑‒–—−]+(?:xi|ti|lô|li)[\s\-‐‑‒–—−]+(?:mét|gam|lít)(?:[\s\-‐‑‒–—−]+(?:vuông|khối))?(?!\w)',
                   lambda match: re.sub(r'[-‐‑‒–—−]', ' ', match[0]), text, flags=re.I)
     text = re.sub(r'(?:mét|gam|lít)[\-‐‑‒–—−]+(?:vuông|khối)', lambda m: re.sub(r'[-‐‑‒–—−]', ' ', m[0]), text, flags=re.I)
+    text = re.sub(r'\bhéc\s*[\-‐‑‒–—−]\s*ta\b', 'héc ta', text, flags=re.I)
+    text = re.sub(r'(\d|\b(?:sang|theo|bằng|đơn vị|bao nhiêu))\s*(?:\(\s*ha\s*\)|ha\b)', r'\1 héc ta', text, flags=re.I)
     text = re.sub(r'\s*\(\s*\d+(?:[.,]\d+)?\s*điểm\s*\)\s*,?\s*', ' ', text, flags=re.I)
     text = re.sub(r'\b((?:Bài|Câu)\s+\d+)\.\s*\.', r'\1.', text, flags=re.I)
     text = re.sub(r'\(\s*((?:(?:ki lô|đề xi|xăng ti|mi li)\s+)?(?:mét|gam|lít)(?:\s+(?:vuông|khối))?)\s*\)', r' \1 ', text, flags=re.I)
@@ -147,12 +169,19 @@ async def _neural_chunk(text: str, voice: str) -> bytes:
             outcome = 'ready'
             with _edge_backoff_lock:
                 _edge_unavailable_until.pop(voice, None)
+                _edge_failures.pop(voice, None)
             return bytes(result)
         except (edge_tts.exceptions.NoAudioReceived, TimeoutError, aiohttp.ClientConnectionError) as exc:
             outcome = type(exc).__name__
             if isinstance(exc, edge_tts.exceptions.NoAudioReceived) and attempt >= 1:
                 with _edge_backoff_lock:
-                    _edge_unavailable_until[voice] = time.monotonic() + EDGE_BACKOFF_SECONDS
+                    now = time.monotonic()
+                    # A transient empty response should recover promptly. Sustained
+                    # outages back off, once per voice/window across concurrent chunks.
+                    if _edge_unavailable_until.get(voice, 0) <= now:
+                        failures = min(5, _edge_failures.get(voice, 0) + 1)
+                        _edge_failures[voice] = failures
+                        _edge_unavailable_until[voice] = now + min(EDGE_BACKOFF_SECONDS, 2 ** (failures - 1))
                 raise
             if attempt == 2:
                 raise
@@ -166,15 +195,18 @@ async def _neural_chunk(text: str, voice: str) -> bytes:
                         attempt + 1, first_audio_ms, (time.monotonic()-started)*1000, len(result), outcome)
 
 
-async def _neural_audio(text: str, voice: str, on_progress=None, checkpoint=None, paragraphs=None):
+async def _neural_audio(text: str, voice: str, on_progress=None, checkpoint=None, paragraphs=None, *, reused_pcm=None):
     # Long provider turns can stall past our deadline. Keep every word, in order,
     # and synthesize at most two short turns concurrently (four across both render slots).
     layout = [(index, part) for index, paragraph in enumerate(paragraphs or [text])
               for part in textwrap.wrap(paragraph, width=220, break_long_words=False, break_on_hyphens=False)]
-    parts = [part for _,part in layout]
+    missing = [(index, paragraph, part) for index, (paragraph, part) in enumerate(layout)
+               if not reused_pcm or paragraph not in reused_pcm]
+    if not missing and reused_pcm:
+        return [], []
     slots = asyncio.Semaphore(2)
     total = 0
-    completed = 0
+    completed = len(layout) - len(missing)
 
     async def render(index, part):
         nonlocal total, completed
@@ -188,10 +220,12 @@ async def _neural_audio(text: str, voice: str, on_progress=None, checkpoint=None
                 raise ValueError('Speech exceeds audio limit')
             completed += 1
             if on_progress:
-                on_progress('synthesizing', 10 + int(70 * completed / len(parts)), completed, len(parts))
+                on_progress('synthesizing', 10 + int(70 * completed / len(layout)), completed, len(layout))
             return data
 
-    tasks = [asyncio.create_task(render(index, part)) for index, part in enumerate(parts)]
+    # Use original chunk indexes so a retry can safely reuse its checkpoint
+    # even if some paragraph WAVs are evicted between attempts.
+    tasks = [asyncio.create_task(render(index, part)) for index, _, part in missing]
     try:
         chunks = await asyncio.gather(*tasks)
         data = b''.join(chunks)
@@ -202,22 +236,24 @@ async def _neural_audio(text: str, voice: str, on_progress=None, checkpoint=None
         await asyncio.gather(*tasks, return_exceptions=True)
     if not 128 <= len(data) <= 2 * 1024 * 1024:
         raise ValueError('Invalid complete speech response')
-    return (chunks, [index for index,_ in layout]) if paragraphs is not None else data
+    return (chunks, [paragraph for _, paragraph, _ in missing]) if paragraphs is not None else data
 
 
-def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, voice=DEFAULT_VOICE, on_progress=None, cancel_event=None, checkpoint=None, paragraphs=None):
+def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, voice=DEFAULT_VOICE, on_progress=None, cancel_event=None, checkpoint=None, paragraphs=None, *, reused_pcm=None):
     if voice not in SPEECH_VOICES:
         raise ValueError('Unsupported narration voice')
     official = settings.speech_provider == 'azure'
     ffmpeg = None if official else shutil.which('ffmpeg')
     remaining = min(30, deadline - time.monotonic())
-    if (not official and not ffmpeg) or remaining <= 0:
+    reused_pcm = reused_pcm or {}
+    if (not official and not ffmpeg and len(reused_pcm) != len(paragraphs or [text])) or remaining <= 0:
         raise TutorUnavailable()
 
     async def bounded_audio():
         if official and paragraphs is not None:
             slots = asyncio.Semaphore(2)
-            completed = 0
+            completed = len(reused_pcm)
+            indexes = [index for index in range(len(paragraphs)) if index not in reused_pcm]
             async def render_paragraph(part):
                 nonlocal completed
                 async with slots:
@@ -226,8 +262,8 @@ def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, v
                     if on_progress: on_progress('synthesizing', 10+int(70*completed/len(paragraphs)), completed, len(paragraphs))
                     return pcm
             async def aligned():
-                tasks = [asyncio.create_task(render_paragraph(part)) for part in paragraphs]
-                try: return await asyncio.gather(*tasks), list(range(len(paragraphs)))
+                tasks = [asyncio.create_task(render_paragraph(paragraphs[index])) for index in indexes]
+                try: return await asyncio.gather(*tasks), indexes
                 finally:
                     for task in tasks:
                         if not task.done(): task.cancel()
@@ -237,7 +273,8 @@ def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, v
             # The official route returns complete PCM. Never mix its bytes with Edge MP3 checkpoints.
             work = _with_provider_slot(lambda: azure_pcm(spoken_math(text), voice))
         elif paragraphs is not None:
-            work = _neural_audio(spoken_math(text), voice, on_progress, checkpoint, [spoken_math(part) for part in paragraphs])
+            options = {'reused_pcm': reused_pcm} if reused_pcm else {}
+            work = _neural_audio(spoken_math(text), voice, on_progress, checkpoint, [spoken_math(part) for part in paragraphs], **options)
         elif checkpoint is not None:
             work = _neural_audio(spoken_math(text), voice, on_progress, checkpoint)
         else:
@@ -267,7 +304,7 @@ def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, v
         if paragraphs is not None:
             from app.tutoring.audio_cues import join_pcm
             chunks, indexes = data
-            if official:
+            if official or not chunks:
                 pcm = chunks
             else:
                 # Decode all provider turns in one process. Boundaries use actual
@@ -281,7 +318,12 @@ def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, v
                     outputs += ['-map', f'{index}:a:0', '-ar', '16000', '-ac', '1', '-f', 's16le', '-threads', '1', str(target)]
                 run([ffmpeg, '-hide_banner', '-loglevel', 'error', '-y', *inputs, *outputs], deadline)
                 pcm = [path.with_name(f'part-{index}.pcm').read_bytes() for index in range(len(chunks))]
-            path.write_bytes(join_pcm(pcm, indexes))
+            segments = list(zip(indexes, pcm, strict=True))
+            segments.extend(reused_pcm.items())
+            segments.sort(key=lambda segment: segment[0])
+            if sum(len(part) for _, part in segments) >= max_seconds * 32000:
+                raise ValueError('Speech exceeds duration limit')
+            path.write_bytes(join_pcm([part for _, part in segments], [index for index, _ in segments]))
         elif official:
             with wave.open(str(path), 'wb') as audio:
                 audio.setnchannels(1); audio.setsampwidth(2); audio.setframerate(16000)
@@ -290,8 +332,8 @@ def synthesize_neural(text: str, path: Path, deadline: float, max_seconds=240, v
             source.write_bytes(data)
             run([ffmpeg, '-hide_banner', '-loglevel', 'error', '-y', '-i', str(source),
                  '-ar', '16000', '-ac', '1', '-c:a', 'pcm_s16le', '-threads', '1', str(path)], deadline)
-        logger.info('Vietnamese narration synthesized provider=%s provider_ms=%d decode_ms=%d',
-                    'azure' if official else 'edge', (received-started)*1000, (time.monotonic()-received)*1000)
+        logger.info('Vietnamese narration synthesized provider=%s provider_ms=%d decode_ms=%d reused_paragraphs=%d',
+                    'azure' if official else 'edge', (received-started)*1000, (time.monotonic()-received)*1000, len(reused_pcm))
     except Exception as exc:
         # Provider errors may contain URLs/text. Never log their messages or fall back to an unrelated voice.
         category = exc.category if isinstance(exc, AzureSpeechError) else type(exc).__name__

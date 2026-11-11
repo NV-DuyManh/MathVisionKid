@@ -48,8 +48,13 @@ public final class MathTutorDtos {
             this(text, box, uncertain, null);
         }
     }
+    public record NotebookQuestion(String label, String problemText, boolean uncertain) {}
     public record NotebookRead(String kind, String problemText, java.util.List<NotebookLine> lines,
-                               boolean needsProblem, boolean needsCrop) {}
+                               boolean needsProblem, boolean needsCrop, java.util.List<NotebookQuestion> questions) {
+        public NotebookRead(String kind, String problemText, java.util.List<NotebookLine> lines, boolean needsProblem, boolean needsCrop) {
+            this(kind, problemText, lines, needsProblem, needsCrop, java.util.List.of());
+        }
+    }
     public record CoachRequest(
             @NotNull @Size(max = 4000) String problemText,
             @NotNull @Size(max = 6000) String workText,
@@ -147,9 +152,15 @@ public final class MathTutorDtos {
                                     @NotNull @Min(0) Integer revision, boolean retry) {}
     public record Transcript(String text) {}
     public record LessonStep(String title, String explanation, String question, java.util.List<String> choices,
-                             String expression, String unit, String workExcerpt, String solutionSentence, java.util.List<String> guidance, String kind) {}
+                             String expression, String unit, String workExcerpt, String solutionSentence, java.util.List<String> guidance, String kind, java.util.List<Boolean> choiceChecks) {}
     public record CompletedStep(String title, String expression, String answer, String unit, String explanation,
-                                String solutionSentence, java.util.List<String> calculationDetails, java.util.List<String> guidance, String kind) {}
+                                String solutionSentence, java.util.List<String> calculationDetails, java.util.List<String> guidance, String kind,
+                                String question, java.util.List<String> choices) {
+        public CompletedStep(String title, String expression, String answer, String unit, String explanation,
+                             String solutionSentence, java.util.List<String> calculationDetails, java.util.List<String> guidance, String kind) {
+            this(title, expression, answer, unit, explanation, solutionSentence, calculationDetails, guidance, kind, "", java.util.List.of());
+        }
+    }
     public record LessonSummary(java.util.List<String> givens, String question) {}
     public record StepReview(String question, java.util.List<String> choices, String studentAnswer) {}
     public record LessonResponse(String sessionId, int revision, String topic, String goal, java.util.List<String> outline,

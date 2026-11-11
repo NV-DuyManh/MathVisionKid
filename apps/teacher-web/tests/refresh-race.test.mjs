@@ -22,7 +22,7 @@ function client() {
   const api = async () => { retries++; return {}; };
   api.interceptors = { request: { use: fn => { before = fn; } },
     response: { use: (good, bad) => { acceptResponse = good; rejectResponse = bad; } } };
-  load('apiClient', { axios: { create: () => api, post: () => { refreshes++; return pending; } },
+  load('apiClient', { axios: { create: () => api, post: () => { refreshes++; return pending; }, CanceledError: Error },
     './AuthTokenStore': { AuthTokenStore: tokens }, '../../config/runtime': { appConfig: { apiBaseUrl: 'https://teacher.mathvision.example/api/v1' } } });
   return { dom, tokens, before: config => before(config), response: response => acceptResponse(response),
     rejected: error => rejectResponse(error), finish, fail, stats: () => ({ refreshes, retries }) };
@@ -61,5 +61,17 @@ test('concurrent Teacher 401 responses share one refresh and preserve the sessio
     const late = c.before({ url: '/teacher/classes', headers: {} });
     c.tokens.setTokens('b', 'rb', true);
     assert.throws(() => c.response({ config: late }), /Phiên đăng nhập đã thay đổi/);
+  } finally { c.dom.window.close(); }
+});
+
+test('Teacher cancels a pending write and discards an SSO ticket from the previous account', () => {
+  const c = client();
+  try {
+    c.tokens.setTokens('a', 'ra', true);
+    const write = c.before({ url: '/teacher/assignments', method: 'post', headers: {} });
+    const ticket = c.before({ url: '/auth/sso/ticket', headers: {} });
+    c.tokens.setTokens('b', 'rb', true);
+    assert.throws(() => c.before(write), /thay đổi/);
+    assert.throws(() => c.response({ config: ticket }), /thay đổi/);
   } finally { c.dom.window.close(); }
 });

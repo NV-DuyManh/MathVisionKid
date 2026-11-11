@@ -14,7 +14,7 @@ const pageOf = content => ({ content, number: 0, size: 20, totalElements: conten
 // responses are fixtures; this suite does not claim to verify backend RBAC.
 export const test = base.extend({
   app: async ({ context }, use) => {
-    const state = { requests: [], unexpected: [], errors: [], expired: false, classesDown: false, assignments: [] };
+    const state = { requests: [], unexpected: [], errors: [], expired: false, classesDown: false, assignments: [], responses: new Map() };
     const tickets = new Map();
     const watch = page => page.on('pageerror', error => state.errors.push(error.message));
     context.pages().forEach(watch);
@@ -24,7 +24,8 @@ export const test = base.extend({
       const url = new URL(request.url());
       const site = Object.values(sites).find(site => site.origin === url.origin);
       if (site && !url.pathname.startsWith('/api/v1/')) {
-        const response = await route.fetch({ url: `http://127.0.0.1:${site.port}${url.pathname}${url.search}` });
+        const port = state.realStudent && url.pathname.startsWith('/study/') ? 43173 : site.port;
+        const response = await route.fetch({ url: `http://127.0.0.1:${port}${url.pathname}${url.search}` });
         return route.fulfill({ response });
       }
       if (url.origin !== apiOrigin && !(site && url.pathname.startsWith('/api/v1/'))) {
@@ -35,7 +36,7 @@ export const test = base.extend({
       }
       const path = url.pathname.replace(/^\/api\/v1/, '');
       const method = request.method();
-      const body = request.postDataJSON();
+      const body = request.headers()['content-type']?.includes('application/json') ? request.postDataJSON() : null;
       const role = request.headers().authorization?.match(/^Bearer fixture\.(STUDENT|TEACHER|ADMIN)\.access$/)?.[1];
       const record = { method, path, body, role, origin: request.headers().origin, query: Object.fromEntries(url.searchParams) };
       state.requests.push(record);
@@ -67,8 +68,12 @@ export const test = base.extend({
       }
       if (state.expired || !role) return reject();
       if (path === '/me') return json(profile(role));
+      if (state.realStudent && path === '/student/quizzes/pending-count') return json({ pendingCount: 0, totalStars: 0 });
+      if (state.realStudent && path === '/student/quizzes') return json({ items: [], page: 0, totalPages: 0, totalElements: 0 });
       if (path.startsWith('/teacher/') && role !== 'TEACHER') return reject(403);
       if (path.startsWith('/admin/') && role !== 'ADMIN') return reject(403);
+      const respond = state.responses.get(`${method} ${path}`);
+      if (respond) return respond({ body, json, reject, route });
       if (path === '/teacher/dashboard') return json({ todayTotal: 0, processedCount: 0, reviewRequiredCount: 0, recentBatches: [] });
       if (path === '/teacher/classes') return state.classesDown ? reject(503) : json([{ classId: 'class-5a', name: '5A', studentCount: 2 }]);
       if (path === '/teacher/assignments' && method === 'POST') {
@@ -78,7 +83,7 @@ export const test = base.extend({
       }
       if (path === '/teacher/assignments') return json(state.assignments);
       if (path === '/teacher/assignments/assignment-1') return json(state.assignments[0]);
-      if (path === '/teacher/classes/class-5a') return json({ classId: 'class-5a', name: '5A', students: [profile('STUDENT')] });
+      if (path === '/teacher/classes/class-5a') return json({ classId: 'class-5a', name: '5A', studentCount: 1, students: [profile('STUDENT')] });
       if (path === '/teacher/batches') return json([]);
       if (path === '/admin/dashboard') return json({ totalStudents: 2, activeStudents: 1, disabledStudents: 1,
         totalTeachers: 1, activeTeachers: 1, disabledTeachers: 0, totalClasses: 1 });

@@ -148,15 +148,22 @@ public class AuthControllerTest {
         // 2. Refresh to rotate it
         Map<String, String> refreshReq = new HashMap<>();
         refreshReq.put("refreshToken", oldRefreshToken);
-        mockMvc.perform(post("/api/v1/auth/refresh")
+        MvcResult rotated = mockMvc.perform(post("/api/v1/auth/refresh")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(refreshReq)))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()).andReturn();
+        Map<String, String> rotatedTokens = objectMapper.readValue(rotated.getResponse().getContentAsString(), new TypeReference<Map<String, String>>() {});
 
         // 3. Attempt to use old token again (replay attack) — should trigger compromise revocation
         mockMvc.perform(post("/api/v1/auth/refresh")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(refreshReq)))
+                .andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(Map.of("refreshToken", rotatedTokens.get("refreshToken")))))
+                .andExpect(status().isUnauthorized());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me")
+                .header("Authorization", "Bearer " + rotatedTokens.get("accessToken")))
                 .andExpect(status().isUnauthorized());
     }
 

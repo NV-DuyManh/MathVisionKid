@@ -11,7 +11,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from catalog_audit import audit_corpus
+from catalog_audit import audit_corpus, audit_published
 from test_catalog_store import CatalogChecks
 from app.tutoring.catalog_store import CatalogStore
 
@@ -25,7 +25,7 @@ def inspect_catalog(corpus, database=None):
         raise ValueError('Private database inspection is local only')
     report = dict(generatedAt=datetime.now(timezone.utc).isoformat(timespec='seconds'),
                   scope='local' if database is not None else 'public-ci', checks=[],
-                  inventory=None, private=None)
+                  inventory=None, published=None, private=None)
     result = unittest.TextTestRunner(stream=io.StringIO()).run(
         unittest.defaultTestLoader.loadTestsFromTestCase(CatalogChecks))
     report['checks'].append(dict(name='Lưu, dùng lại và cách ly catalog',
@@ -38,6 +38,11 @@ def inspect_catalog(corpus, database=None):
         report['checks'].append(dict(name='Cấu trúc và trùng đề công khai', passed=True))
     except (OSError, ValueError, TypeError, KeyError, AttributeError):
         report['checks'].append(dict(name='Cấu trúc và trùng đề công khai', passed=False))
+    try:
+        report['published']=audit_published(ROOT/'ai/runtime/app/tutoring/data/verified_exercises.json')
+        report['checks'].append(dict(name='Catalog dùng chung đã đưa vào Git',passed=True))
+    except (OSError,ValueError,TypeError,KeyError,AttributeError):
+        report['checks'].append(dict(name='Catalog dùng chung đã đưa vào Git',passed=False))
     if database is not None:
         if not database.is_file():
             report['private'] = dict(status='not-created')
@@ -59,13 +64,14 @@ def inspect_catalog(corpus, database=None):
 
 
 def metrics(report):
+    shared=[('Đề dùng chung đã phát hành',(report.get('published') or {}).get('exercises','—'))]
     private = report.get('private')
     if private and private['status'] == 'read':
         groups = {row['kind']: row for row in private['groups']}
-        return [('Kế hoạch đang lưu', groups.get('plan', {}).get('entries', 0)),
+        return shared+[('Kế hoạch đang lưu', groups.get('plan', {}).get('entries', 0)),
                 ('Tệp âm thanh đang lưu', groups.get('audio', {}).get('entries', 0)),
                 ('Lượt dùng lại còn ghi nhận', sum(row['hits'] for row in groups.values()))]
-    return [('Đề trong bộ kiểm thử công khai', (report.get('inventory') or {}).get('cases', '—')),
+    return shared+[('Đề trong bộ kiểm thử công khai', (report.get('inventory') or {}).get('cases', '—')),
             ('Kiểm thử lưu trữ đã chạy', report['checks'][0]['tests']),
             ('Kho học sinh trên máy chủ', 'Không truy cập')]
 

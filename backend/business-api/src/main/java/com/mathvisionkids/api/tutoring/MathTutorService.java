@@ -30,7 +30,6 @@ public class MathTutorService {
     private final String baseUrl;
     private final String internalKey;
     private com.mathvisionkids.api.quiz.QuizSources quizSources;
-    private final java.util.Map<String, java.util.ArrayDeque<Long>> audioRequests = new java.util.HashMap<>();
 
     @Autowired
     public MathTutorService(RestTemplateBuilder builder,
@@ -102,7 +101,21 @@ public class MathTutorService {
         String problem = text(body, "problemText", 4000, true);
         boolean needsCrop = body.has("needsCrop") && flag(body, "needsCrop");
         if (needsCrop && (!kind.equals("UNREADABLE") || !problem.isEmpty() || !lines.isEmpty())) throw unavailable();
-        return new NotebookRead(kind, problem, lines, flag(body, "needsProblem"), needsCrop);
+        java.util.ArrayList<NotebookQuestion> questions = new java.util.ArrayList<>();
+        JsonNode candidates = body.get("questions");
+        if (candidates != null && !candidates.isNull()) {
+            if (!candidates.isArray() || candidates.size() > 30) throw unavailable();
+            int total = 0;
+            java.util.HashSet<String> distinct = new java.util.HashSet<>();
+            for (JsonNode item : candidates) {
+                String source = text(item, "problemText", 4000, false);
+                total += source.length();
+                if (source.strip().length() < 3 || !distinct.add(source.strip()) || total > 24000) throw unavailable();
+                questions.add(new NotebookQuestion(text(item, "label", 100, false), source, flag(item, "uncertain") || source.contains("[?]")));
+            }
+            if (!questions.isEmpty() && (!kind.equals("MULTIPLE") || !problem.isEmpty() || !lines.isEmpty() || needsCrop)) throw unavailable();
+        }
+        return new NotebookRead(kind, problem, lines, flag(body, "needsProblem"), needsCrop, questions);
     }
 
     private WrittenDivision writtenDivision(JsonNode value) {
@@ -212,7 +225,7 @@ public class MathTutorService {
             if(value==null || !value.isIntegralNumber() || !value.canConvertToInt() || value.asInt()<0) throw unavailable();
             result.put(field,value.asInt());
         }
-        if(body.path("totalSteps").asInt()<2 || body.path("totalSteps").asInt()>9 || body.path("preparedSteps").asInt()>body.path("totalSteps").asInt()
+        if(body.path("totalSteps").asInt()<1 || body.path("totalSteps").asInt()>9 || body.path("preparedSteps").asInt()>body.path("totalSteps").asInt()
                 || body.path("preparedCharacters").asInt()>72000) throw unavailable();
         return result;
     }
@@ -280,7 +293,6 @@ public class MathTutorService {
                 && audio[8]=='W' && audio[9]=='A' && audio[10]=='V' && audio[11]=='E';
         boolean ogg = audio[0]=='O' && audio[1]=='g' && audio[2]=='g' && audio[3]=='S';
         if (!mp4 && !webm && !wav && !ogg) throw invalid("AUDIO_INVALID", "Chưa đọc được bản ghi âm. Em thử ghi lại nhé.");
-        reserveAudio(owner);
         logger.info("Question transcription requested bytes={}",audio.length);
         try {
             return new Transcript(text(call("/internal/v1/tutor/transcribe", audio,
@@ -290,16 +302,6 @@ public class MathTutorService {
             if (ex.getStatus()==HttpStatus.SERVICE_UNAVAILABLE) throw new ApiException("TRANSCRIPTION_UNAVAILABLE", "Chưa chuyển được bản ghi thành chữ lúc này. Em giữ bản ghi và thử lại nhé.",HttpStatus.SERVICE_UNAVAILABLE);
             throw ex;
         }
-    }
-
-    private synchronized void reserveAudio(String owner) {
-        long now = System.nanoTime(), window = Duration.ofMinutes(1).toNanos();
-        audioRequests.entrySet().removeIf(entry -> entry.getValue().isEmpty() || now - entry.getValue().getLast() >= window);
-        if (!audioRequests.containsKey(owner) && audioRequests.size() >= 1024) throw unavailable();
-        var recent = audioRequests.computeIfAbsent(owner, key -> new java.util.ArrayDeque<>());
-        while (!recent.isEmpty() && now - recent.getFirst() >= window) recent.removeFirst();
-        if (recent.size() >= 4) throw new ApiException("AUDIO_BUSY", "Em chờ một chút rồi ghi câu tiếp nhé.", HttpStatus.TOO_MANY_REQUESTS);
-        recent.addLast(now);
     }
 
     public WorkReviewResponse reviewWork(WorkReviewRequest request) {
@@ -362,9 +364,21 @@ public class MathTutorService {
                     details.add(detail.asText());
                 }
             }
+            java.util.ArrayList<String> previousChoices = new java.util.ArrayList<>();
+            if (row.has("choices")) {
+                JsonNode options = row.get("choices");
+                if (!options.isArray() || options.size() > 4) throw unavailable();
+                for (JsonNode option : options) {
+                    if (!option.isTextual() || option.asText().isBlank() || option.asText().length() > 100
+                            || previousChoices.contains(option.asText())) throw unavailable();
+                    previousChoices.add(option.asText());
+                }
+                if (!previousChoices.isEmpty() && !previousChoices.contains(text(row, "answer", 100, false))) throw unavailable();
+            }
             done.add(new CompletedStep(text(row, "title", 100, false), text(row, "expression", 220, true),
                 text(row, "answer", 100, false), text(row, "unit", 20, true), text(row, "explanation", 500, false),
-                row.has("solutionSentence") ? text(row, "solutionSentence", 220, true) : "", details, guidance(row), kind));
+                row.has("solutionSentence") ? text(row, "solutionSentence", 220, true) : "", details, guidance(row), kind,
+                row.has("question") ? text(row, "question", 220, true) : "", previousChoices));
         }
         LessonStep current = null;
         if (step != null && !step.isNull()) {
@@ -377,9 +391,20 @@ public class MathTutorService {
                 if (!choice.isTextual() || choice.asText().isBlank() || choice.asText().length() > 100) throw unavailable();
                 labels.add(choice.asText());
             }
+            java.util.ArrayList<Boolean> choiceChecks = new java.util.ArrayList<>();
+            JsonNode checks = step.get("choiceChecks");
+            if (checks != null) {
+                if (!checks.isArray() || (checks.size() != 0 && checks.size() != labels.size())) throw unavailable();
+                for (JsonNode check : checks) {
+                    if (!check.isBoolean()) throw unavailable();
+                    choiceChecks.add(check.booleanValue());
+                }
+                if (!choiceChecks.isEmpty() && (choiceChecks.stream().filter(Boolean::booleanValue).count() != 1
+                        || new java.util.HashSet<>(labels).size() != labels.size())) throw unavailable();
+            }
             current = new LessonStep(text(step, "title", 100, false), text(step, "explanation", 500, false),
                     text(step, "question", 220, false), labels, text(step, "expression", 220, true), text(step, "unit", 20, true), text(step, "workExcerpt", 500, true),
-                    step.has("solutionSentence") ? text(step, "solutionSentence", 220, true) : "", guidance(step), kind);
+                    step.has("solutionSentence") ? text(step, "solutionSentence", 220, true) : "", guidance(step), kind, choiceChecks);
         }
         JsonNode revision = body.get("revision"), index = body.get("stepIndex");
         if (revision == null || !revision.isIntegralNumber() || revision.asInt() < 0 || index == null || !index.isIntegralNumber()
@@ -476,6 +501,16 @@ public class MathTutorService {
                 throw new ApiException("LESSON_EXPIRED", "Em mở lại bài học để tiếp tục nhé.", HttpStatus.valueOf(ex.getStatusCode().value()));
             }
             if (ex.getStatusCode().value() == 400 || ex.getStatusCode().value() == 422) {
+                String sourceReason = ex.getResponseHeaders() == null ? "" : ex.getResponseHeaders().getFirst("X-Tutor-Failure");
+                if (path.equals("/internal/v1/tutor/lesson")) {
+                    String sourceMessage = switch (sourceReason == null ? "" : sourceReason) {
+                        case "source_mixed_number" -> "Em đối chiếu phần nguyên và phần phân số với ảnh trước nhé.";
+                        case "source_missing_yield_unit" -> "Đề chưa ghi đơn vị của lượng thóc thu hoạch trên mỗi mét vuông. Em bổ sung đơn vị trước nhé.";
+                        case "source_rounding_place" -> "Đề chưa nói làm tròn đến hàng nào. Em bổ sung yêu cầu làm tròn trước nhé.";
+                        default -> null;
+                    };
+                    if (sourceMessage != null) throw new ApiException("TUTOR_SOURCE_NEEDS_REVIEW", sourceMessage, HttpStatus.UNPROCESSABLE_ENTITY);
+                }
                 throw new ApiException("TUTOR_INPUT_INVALID", "Chưa đọc rõ bài toán. Em hãy kiểm tra lại đề hoặc chọn ảnh rõ hơn.",
                         HttpStatus.valueOf(ex.getStatusCode().value()));
             }
@@ -507,18 +542,7 @@ public class MathTutorService {
     }
 
     private static MediaType imageType(byte[] image) {
-        if (image.length >= 8 && image[0] == (byte) 0x89 && image[1] == 'P' && image[2] == 'N'
-                && image[3] == 'G' && image[4] == 13 && image[5] == 10 && image[6] == 26 && image[7] == 10) {
-            return MediaType.IMAGE_PNG;
-        }
-        if (image.length >= 3 && image[0] == (byte) 0xff && image[1] == (byte) 0xd8 && image[2] == (byte) 0xff) {
-            return MediaType.IMAGE_JPEG;
-        }
-        if (image.length >= 12 && new String(image, 0, 4, StandardCharsets.US_ASCII).equals("RIFF")
-                && new String(image, 8, 4, StandardCharsets.US_ASCII).equals("WEBP")) {
-            return MediaType.parseMediaType("image/webp");
-        }
-        throw new ApiException("IMAGE_UNSUPPORTED", "Em hãy chọn ảnh PNG, JPG hoặc WebP.", HttpStatus.UNPROCESSABLE_ENTITY);
+        return com.mathvisionkids.api.storage.ImageContentType.detect(image);
     }
 
     private static String text(JsonNode body, String field, int limit, boolean allowBlank) {

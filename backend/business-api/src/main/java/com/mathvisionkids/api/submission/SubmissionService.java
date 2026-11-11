@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -376,8 +377,14 @@ public class SubmissionService {
         detail.put("studentId", submission.getStudentId());
         detail.put("assignmentId", submission.getAssignmentId());
         detail.put("batchId", submission.getBatchId());
-        if (submission.getAssignment() != null) detail.put("maxScore", submission.getAssignment().getMaxScore());
+        detail.put("maxScore", getGradingScale(submission));
         if (submission.getStudent() != null) detail.put("studentName", submission.getStudent().getDisplayName());
+        if ("TEACHER_APPROVED".equals(submission.getStatus()) || "TEACHER_OVERRIDDEN".equals(submission.getStatus())) {
+            teacherDecisionRepository.findBySubmission_SubmissionId(submissionId).ifPresent(decision -> {
+                detail.put("teacherScore", decision.getFinalScore());
+                if (decision.getReason() != null) detail.put("teacherReason", decision.getReason());
+            });
+        }
         detail.put("imageUrl", "/api/v1/teacher/submissions/" + submissionId + "/image");
         if ("PROCESSING".equals(submission.getStatus())) return detail;
         AiJob latest = aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDesc(submissionId).orElse(null);
@@ -430,7 +437,7 @@ public class SubmissionService {
                 score.doubleValue() < 0 || score.doubleValue() > scale.doubleValue()) {
             throw new ApiException("VALIDATION_ERROR", "Invalid grade proposal; use a manual override", HttpStatus.BAD_REQUEST);
         }
-        int maxScore = submission.getAssignment() != null ? submission.getAssignment().getMaxScore() : 10;
+        int maxScore = getGradingScale(submission);
         int finalScore = (int) Math.round(score.doubleValue() / scale.doubleValue() * maxScore);
         submission.setStatus("TEACHER_APPROVED");
         submissionRepository.save(submission);
@@ -446,6 +453,11 @@ public class SubmissionService {
         auditEvent.setSubmission(submission);
         auditEvent.setUser(teacherRepository.findByEmail(email).orElseThrow());
         auditEvent.setEventType("TEACHER_APPROVED");
+        Map<String, Object> meta = new HashMap<>();
+        meta.put("finalScore", finalScore);
+        meta.put("decisionType", "APPROVED");
+        meta.put("submissionId", submission.getSubmissionId().toString());
+        auditEvent.setMetadata(meta);
         auditEventRepository.save(auditEvent);
     }
     
@@ -459,39 +471,65 @@ public class SubmissionService {
             throw new ApiException("INVALID_STATE", "Submission not in overridable state", HttpStatus.BAD_REQUEST);
         }
 
-        String reason = (String) overrideData.get("reason");
-        if (reason == null || reason.isBlank()) {
+        if (overrideData == null) {
+            throw new ApiException("VALIDATION_ERROR", "Override data is required", HttpStatus.BAD_REQUEST);
+        }
+
+        Object rawReason = overrideData.get("reason");
+        if (rawReason == null) {
             throw new ApiException("VALIDATION_ERROR", "Reason is required for override", HttpStatus.BAD_REQUEST);
         }
-        
+        if (!(rawReason instanceof String reason) || reason.isBlank()) {
+            throw new ApiException("VALIDATION_ERROR", "Reason must be a non-blank string", HttpStatus.BAD_REQUEST);
+        }
+
+        int maxScore = getGradingScale(submission);
+
+        Object rawScore = overrideData.getOrDefault("score", overrideData.get("finalScore"));
+
+        if (rawScore == null) {
+            throw new ApiException("VALIDATION_ERROR", "Score is required for override", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!(rawScore instanceof Number scoreNum)) {
+            throw new ApiException("VALIDATION_ERROR", "Score must be a finite numeric value", HttpStatus.BAD_REQUEST);
+        }
+
+        double scoreVal = scoreNum.doubleValue();
+        if (!Double.isFinite(scoreVal) || scoreVal < 0.0 || scoreVal > (double) maxScore) {
+            throw new ApiException("VALIDATION_ERROR",
+                    "Score must be between 0 and " + maxScore + " (received: " + scoreVal + ")",
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        int finalScore = (int) Math.round(scoreVal);
+
         submission.setStatus("TEACHER_OVERRIDDEN");
         submissionRepository.save(submission);
-        
+
         TeacherDecision decision = new TeacherDecision();
         decision.setSubmission(submission);
         decision.setTeacher(teacherRepository.findByEmail(email).orElseThrow());
         decision.setType("OVERRIDDEN");
-        Number scoreNum = null;
-        if (overrideData.containsKey("score")) {
-            Object s = overrideData.get("score");
-            if (s instanceof Number) {
-                scoreNum = (Number) s;
-            }
-        }
-        if (scoreNum == null && overrideData.containsKey("finalScore")) {
-            Object fs = overrideData.get("finalScore");
-            if (fs instanceof Number) {
-                scoreNum = (Number) fs;
-            }
-        }
-        decision.setFinalScore(scoreNum != null ? (int) Math.round(scoreNum.doubleValue()) : 0);
+        decision.setFinalScore(finalScore);
         decision.setReason(reason);
         teacherDecisionRepository.save(decision);
-        
+
         AuditEvent auditEvent = new AuditEvent();
         auditEvent.setSubmission(submission);
         auditEvent.setUser(teacherRepository.findByEmail(email).orElseThrow());
         auditEvent.setEventType("TEACHER_OVERRIDDEN");
+        Map<String, Object> meta = new HashMap<>();
+        meta.put("finalScore", decision.getFinalScore());
+        meta.put("decisionType", "OVERRIDDEN");
+        meta.put("reason", reason);
+        meta.put("submissionId", submission.getSubmissionId().toString());
+        auditEvent.setMetadata(meta);
         auditEventRepository.save(auditEvent);
+    }
+
+    private static int getGradingScale(Submission submission) {
+        Integer scale = submission.getAssignment() == null ? null : submission.getAssignment().getMaxScore();
+        return scale != null && scale > 0 ? scale : 10;
     }
 }

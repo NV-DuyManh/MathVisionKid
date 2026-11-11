@@ -2,6 +2,7 @@ import React, { useId, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MathText } from '../../components/domain/MathText';
+import { problemPresentation } from '../../components/domain/problemPresentation';
 import { COLORS, FONTS } from '../../constants/theme';
 
 /** Stays above the working area; long questions scroll without pushing the task away. */
@@ -37,7 +38,7 @@ export function LessonProblem({ problem, imageUri, onEdit }: { problem: string; 
     {expanded ? <ScrollView nativeID={contentId} testID="lesson-problem-content" nestedScrollEnabled tabIndex={0} accessibilityLabel="Nội dung đề bài"
       onContentSizeChange={(_, value) => setContentHeight(value)}
       style={[styles.content, { maxHeight: maxBodyHeight, ...(contentHeight > 0 ? { height: Math.min(contentHeight, maxBodyHeight) } : {}) }]} contentContainerStyle={styles.words}>
-      <MathText style={styles.body}>{problem}</MathText>
+      <MathText style={styles.body}>{problemPresentation(problem)}</MathText>
       {imageUri && showImage ? <Image source={{ uri: imageUri }} resizeMode="contain" style={styles.photo} accessibilityLabel="Ảnh đề bài đã che thông tin" /> : null}
     </ScrollView> : null}
   </View>;

@@ -40,6 +40,25 @@ class MathTutorServiceTest {
         assertThrows(ApiException.class,()->service.prepareLesson(new LessonDraft("Có 7 hộp, mỗi hộp 9 bút.",""),"real-pupil"));
     }
 
+    @ParameterizedTest @ValueSource(strings = {"source_mixed_number", "source_missing_yield_unit", "source_rounding_place"})
+    void knownSourceGapsReturnAnActionableSafeCode(String reason) {
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))
+                .andRespond(withStatus(HttpStatus.UNPROCESSABLE_ENTITY).header("X-Tutor-Failure", reason)
+                        .body("private provider details"));
+        error("TUTOR_SOURCE_NEEDS_REVIEW", HttpStatus.UNPROCESSABLE_ENTITY,
+                () -> service.lesson(new LessonRequest("Đề cần làm rõ dữ kiện", "", true, false), "pupil-a"));
+        server.verify();
+    }
+
+    @Test void arbitrarySourceFailureHeaderCannotBecomeAStudentFacingMessage() {
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))
+                .andRespond(withStatus(HttpStatus.UNPROCESSABLE_ENTITY).header("X-Tutor-Failure", "source_private-secret")
+                        .body("private provider details"));
+        error("TUTOR_INPUT_INVALID", HttpStatus.UNPROCESSABLE_ENTITY,
+                () -> service.lesson(new LessonRequest("Đề cần làm rõ dữ kiện", "", true, false), "pupil-a"));
+        server.verify();
+    }
+
     @Test void preparationForwardsOnlyAuthenticatedOwnerAndValidatesBoundedCounters() {
         server.expect(requestTo(URL+"/internal/v1/tutor/lesson/media/prepare"))
                 .andExpect(jsonPath("$.owner").value("real-pupil"))
@@ -51,6 +70,21 @@ class MathTutorServiceTest {
         server.expect(requestTo(URL+"/internal/v1/tutor/lesson/media/prepare"))
                 .andRespond(withSuccess("{\"totalSteps\":5,\"preparedSteps\":6,\"preparedCharacters\":1200,\"failedItems\":0}",MediaType.APPLICATION_JSON));
         assertThrows(ApiException.class,()->service.prepareMedia(new MediaPrepareRequest("prepare-session-123456",0,null),"real-pupil"));
+    }
+
+    @ParameterizedTest @ValueSource(ints={1,2,9})
+    void speechPreparationAcceptsSingleStepLessonsAndExistingOutlineBounds(int count) {
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/media/prepare"))
+                .andRespond(withSuccess("{\"totalSteps\":%d,\"preparedSteps\":1,\"preparedCharacters\":120,\"failedItems\":0}".formatted(count),MediaType.APPLICATION_JSON));
+        assertEquals(count,service.prepareMedia(new MediaPrepareRequest("prepare-session-123456",0,"vi-VN-NamMinhNeural"),"real-pupil").get("totalSteps"));
+        server.verify();
+    }
+
+    @ParameterizedTest @ValueSource(ints={0,10})
+    void speechPreparationStillRejectsEmptyOrOversizedOutlines(int count) {
+        server.expect(requestTo(URL+"/internal/v1/tutor/lesson/media/prepare"))
+                .andRespond(withSuccess("{\"totalSteps\":%d,\"preparedSteps\":0,\"preparedCharacters\":0,\"failedItems\":0}".formatted(count),MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class,()->service.prepareMedia(new MediaPrepareRequest("prepare-session-123456",0,"vi-VN-NamMinhNeural"),"real-pupil"));
     }
 
     @ParameterizedTest @ValueSource(strings = {"prepare", "status"})
@@ -178,6 +212,23 @@ class MathTutorServiceTest {
         for (byte[] audio : new byte[][] {new byte[]{0,0,0,24,'f','t','y','p','M','4','A',' '},
                 new byte[]{0x1a,0x45,(byte)0xdf,(byte)0xa3,0,0,0,0,0,0,0,0}}) {
             assertEquals("Vì sao phải quy đồng?", service.transcribe(new MockMultipartFile("file", "private-name", "application/octet-stream", audio), true, "pupil-a").text());
+        }
+        server.verify();
+    }
+
+    @Test void recordingsRemainUsableAfterRepeatedFailuresAndSuccessfulQuestions() {
+        byte[] audio = new byte[]{0,0,0,24,'f','t','y','p','M','4','A',' '};
+        server.expect(org.springframework.test.web.client.ExpectedCount.times(5), requestTo(URL + "/internal/v1/tutor/transcribe"))
+                .andRespond(withStatus(HttpStatus.SERVICE_UNAVAILABLE));
+        server.expect(org.springframework.test.web.client.ExpectedCount.times(8), requestTo(URL + "/internal/v1/tutor/transcribe"))
+                .andRespond(withSuccess("{\"text\":\"Vì sao phải quy đồng?\"}", MediaType.APPLICATION_JSON));
+        var recording = new MockMultipartFile("file", "question.m4a", "audio/mp4", audio);
+        for (int attempt = 0; attempt < 5; attempt++) {
+            var error = assertThrows(ApiException.class, () -> service.transcribe(recording, true, "pupil-a"));
+            assertEquals(HttpStatus.SERVICE_UNAVAILABLE, error.getStatus());
+        }
+        for (int attempt = 0; attempt < 8; attempt++) {
+            assertEquals("Vì sao phải quy đồng?", service.transcribe(recording, true, "pupil-a").text());
         }
         server.verify();
     }
@@ -538,12 +589,41 @@ class MathTutorServiceTest {
         server.verify();
     }
 
+    @ParameterizedTest @ValueSource(strings={"[true,false]", "[]"})
+    void currentChoiceFeedbackIsForwardedWithoutGrantingProgress(String checks) {
+        String response = """
+            {"sessionId":"abcdefghijklmnopqrstuv","revision":0,"topic":"Tính","goal":"Chọn phép tính",
+             "outline":["Chọn"],"stepIndex":0,"completed":[],"status":"READY","feedback":"",
+             "step":{"title":"Chọn","explanation":"Xem đề.","question":"Em chọn gì?","choices":["Cộng","Trừ"],
+                     "choiceChecks":%s,"expression":"","unit":"","workExcerpt":""}}
+            """.formatted(checks);
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson")).andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        var result = service.lesson(new LessonRequest("Lan có 12 bút, thêm 5 bút.", "", true, false), "pupil-a");
+        assertEquals(checks.equals("[]") ? java.util.List.of() : java.util.List.of(true,false), result.step().choiceChecks());
+        assertEquals(0, result.revision()); assertTrue(result.completed().isEmpty());
+        server.verify();
+    }
+
+    @ParameterizedTest @ValueSource(strings={"null", "true", "[true]", "[true,true]", "[false,false]", "[1,false]", "[true,false,true]"})
+    void malformedChoiceFeedbackFailsClosed(String checks) {
+        String response = """
+            {"sessionId":"abcdefghijklmnopqrstuv","revision":0,"topic":"Tính","goal":"Chọn phép tính",
+             "outline":["Chọn"],"stepIndex":0,"completed":[],"status":"READY","feedback":"",
+             "step":{"title":"Chọn","explanation":"Xem đề.","question":"Em chọn gì?","choices":["Cộng","Trừ"],
+                     "choiceChecks":%s,"expression":"","unit":"","workExcerpt":""}}
+            """.formatted(checks);
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson")).andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class, () -> service.lesson(new LessonRequest("Lan có 12 bút, thêm 5 bút.", "", true, false), "pupil-a"));
+        server.verify();
+    }
+
     @Test void classroomSolutionFieldsAreBoundedAndFinalAnswerRequiresCompletion() {
         String response = """
                 {"sessionId":"abcdefghijklmnopqrstuv","revision":2,"topic":"Tìm số bút","goal":"Gộp hai nhóm",
                  "outline":["Hiểu đề","Tính"],"stepIndex":2,"step":null,"status":"COMPLETE","feedback":"Đã xong",
                  "conclusion":"Đáp số: 17 bút.","completed":[
-                  {"title":"Hiểu đề","expression":"","answer":"Cộng","unit":"","explanation":"Gộp hai nhóm."},
+                  {"title":"Hiểu đề","expression":"","answer":"Cộng","unit":"","explanation":"Gộp hai nhóm.",
+                   "question":"Em chọn phép tính nào?","choices":["Cộng","Trừ"]},
                   {"title":"Tính","expression":"12 + 5","answer":"17","unit":"bút","explanation":"Gộp hai nhóm.",
                    "solutionSentence":"Số bút có tất cả là:","calculationDetails":["12 + 5 = 17"],
                    "guidance":["Đọc điều được cho.","Gộp hai nhóm rồi viết lời giải."]}]}
@@ -553,6 +633,8 @@ class MathTutorServiceTest {
                 .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
         var result = service.answer(new LessonAnswer("abcdefghijklmnopqrstuv", 1, "17", false), "student-a");
         assertEquals("Đáp số: 17 bút.", result.conclusion());
+        assertEquals("Em chọn phép tính nào?", result.completed().get(0).question());
+        assertEquals(java.util.List.of("Cộng", "Trừ"), result.completed().get(0).choices());
         assertEquals("Số bút có tất cả là:", result.completed().get(1).solutionSentence());
         assertEquals(java.util.List.of("12 + 5 = 17"), result.completed().get(1).calculationDetails());
         assertEquals(java.util.List.of("Đọc điều được cho.", "Gộp hai nhóm rồi viết lời giải."), result.completed().get(1).guidance());
@@ -562,6 +644,19 @@ class MathTutorServiceTest {
                 .andRespond(withSuccess(response.replace("12 + 5 = 17", "x".repeat(501)), MediaType.APPLICATION_JSON));
         error("TUTOR_UNAVAILABLE", HttpStatus.SERVICE_UNAVAILABLE,
                 () -> service.answer(new LessonAnswer("abcdefghijklmnopqrstuv", 1, "17", false), "student-a"));
+        server.verify();
+    }
+
+    @ParameterizedTest @ValueSource(strings={"null", "true", "[\"Trừ\"]", "[\"Cộng\",\"Cộng\"]", "[\"Cộng\",\"\"]"})
+    void malformedCompletedChoicesFailClosed(String choices) {
+        String response = """
+            {"sessionId":"abcdefghijklmnopqrstuv","revision":1,"topic":"Tính","goal":"Chọn phép tính",
+             "outline":["Chọn"],"stepIndex":1,"step":null,"status":"COMPLETE","feedback":"",
+             "completed":[{"title":"Chọn","expression":"","answer":"Cộng","unit":"","explanation":"Gộp hai nhóm.",
+                           "question":"Em chọn phép tính nào?","choices":%s}]}
+            """.formatted(choices);
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson/answer")).andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class, () -> service.answer(new LessonAnswer("abcdefghijklmnopqrstuv", 0, "Cộng", false), "student-a"));
         server.verify();
     }
 
@@ -664,6 +759,29 @@ class MathTutorServiceTest {
         assertEquals(java.util.List.of(120, 300, 700, 410), result.lines().getFirst().box());
         assertTrue(result.needsProblem());
         assertFalse(result.needsCrop()); // Older runtimes omitted this optional flag.
+        server.verify();
+    }
+
+    @Test void notebookInspectionPreservesQuestionSourcesWithoutSelectingOne() {
+        String response = """
+                {"kind":"MULTIPLE","problemText":"","needsProblem":false,"needsCrop":false,"lines":[],
+                "questions":[{"label":"Câu 1","problemText":"Tính 1+1=?","uncertain":false},
+                {"label":"Câu 2","problemText":"Tính 7+[?]=?","uncertain":false}]}
+                """;
+        server.expect(requestTo(URL+"/internal/v1/tutor/inspect")).andRespond(withSuccess(response,MediaType.APPLICATION_JSON));
+        NotebookRead result = service.inspect(png(),true);
+        assertEquals(2,result.questions().size());
+        assertTrue(result.problemText().isEmpty());
+        assertTrue(result.questions().get(1).uncertain());
+        server.verify();
+    }
+
+    @ParameterizedTest @ValueSource(strings={"PROBLEM","WORK","MIXED","UNREADABLE"})
+    void notebookInspectionRejectsSourcesInTheWrongClassification(String kind) {
+        String response = "{\"kind\":\""+kind+"\",\"problemText\":\"\",\"needsProblem\":false,\"lines\":[],"
+                +"\"questions\":[{\"label\":\"Câu 1\",\"problemText\":\"Tính 1+1=?\",\"uncertain\":false}]}";
+        server.expect(requestTo(URL+"/internal/v1/tutor/inspect")).andRespond(withSuccess(response,MediaType.APPLICATION_JSON));
+        error("TUTOR_UNAVAILABLE",HttpStatus.SERVICE_UNAVAILABLE,()->service.inspect(png(),true));
         server.verify();
     }
 

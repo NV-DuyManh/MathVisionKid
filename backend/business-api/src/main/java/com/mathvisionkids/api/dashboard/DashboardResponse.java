@@ -19,6 +19,7 @@ public class DashboardResponse {
         private int totalCount;
         private int processedCount;
         private int reviewRequiredCount;
+        private int pendingReviewCount;
         private String createdAt;
     }
 }

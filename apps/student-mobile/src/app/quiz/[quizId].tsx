@@ -8,6 +8,7 @@ import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
 import { MathText } from '../../components/domain/MathText';
 import { TaskProgress } from '../../components/ui/TaskProgress';
+import { PendingTask } from '../../components/ui/PendingTask';
 import { Quiz, quizApi, quizError } from '../../features/quiz/quizApi';
 import { quizTime, submissionId, validQuizAnswer } from '../../features/quiz/quizInput';
 import { QuizVoice, QuizNarrationPreparation } from '../../features/quiz/QuizVoice';
@@ -35,10 +36,12 @@ export default function QuizScreen() {
   const auth = useContext(AuthContext), owner = auth?.user?.id || auth?.user?.userId;
   return owner && typeof quizId === 'string' ? <Challenge key={`${owner}:${quizId}`} id={quizId} owner={owner} /> : null;
 }
+type QuizTask = 'start' | 'submit' | 'challenge' | 'practice' | 'save' | 'reveal';
 function Challenge({ id, owner }: { id: string; owner: string }) {
   const router = useRouter();
   const [quiz, setQuiz] = useState<Quiz | null>(null), [answer, setAnswer] = useState(''), [feedback, setFeedback] = useState('');
-  const [error, setError] = useState(''), [busy, setBusy] = useState(false), [loading, setLoading] = useState(true);
+  const [error, setError] = useState(''), [task, setTask] = useState<QuizTask | null>(null), [loading, setLoading] = useState(true);
+  const busy = task !== null;
   const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'solution' | 'history' | null>(null);
   const elapsed = useQuizActivity(quiz);
   const [retry, setRetry] = useState(0);
@@ -56,14 +59,14 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
       .catch(failure => { if (active.current && !abort.signal.aborted) setError(quizError(failure)); })
       .finally(() => { if (active.current && !abort.signal.aborted) { setLoading(false); controller.current = null; } });
     const listener = AppState.addEventListener('change', state => { if (state === 'active') setRetry(value => value + 1); });
-    return () => { active.current = false; abort.abort(); controller.current?.abort(); controller.current = null; listener.remove(); setBusy(false); };
+    return () => { active.current = false; abort.abort(); controller.current?.abort(); controller.current = null; listener.remove(); setTask(null); };
   }, [id, retry, apply]));
-  const perform = async (action: (signal: AbortSignal) => Promise<Quiz>) => {
+  const perform = async (kind: QuizTask, action: (signal: AbortSignal) => Promise<Quiz>) => {
     if (controller.current || loading) return;
-    const abort = new AbortController(); controller.current = abort; setBusy(true); setError('');
+    const abort = new AbortController(); controller.current = abort; setTask(kind); setError('');
     try { const next = await action(abort.signal); if (active.current && !abort.signal.aborted) apply(next); }
     catch (failure) { if (active.current && !abort.signal.aborted) setError(quizError(failure)); }
-    finally { if (active.current && !abort.signal.aborted) { controller.current = null; setBusy(false); } }
+    finally { if (active.current && !abort.signal.aborted) { controller.current = null; setTask(null); } }
   };
   const submit = () => {
     if (!quiz || busy || loading || controller.current) return;
@@ -71,7 +74,7 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
     setInvalidAnswer(false);
     if (!pending.current || pending.current.answer !== answer.trim()) pending.current = { requestId: submissionId(), answer: answer.trim() };
     const request = pending.current;
-    void perform(async signal => {
+    void perform('submit', async signal => {
       const result = await quizApi.submit(id, request.requestId, request.answer, signal);
       if (active.current && !signal.aborted) {
         pending.current = null;
@@ -84,14 +87,16 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
     });
   };
   const replayQuiz = (mode: 'PRACTICE' | 'CHALLENGE' = 'CHALLENGE') => {
-    void perform(async signal => {
+    void perform(mode === 'CHALLENGE' ? 'challenge' : 'practice', async signal => {
       const next = await quizApi.replay(id, mode, signal);
-      if (active.current && !signal.aborted) { setAnswer(''); setFeedback(''); pending.current = null; }
+      if (active.current && !signal.aborted) { setAnswer(''); setFeedback(''); setTool(null); pending.current = null; }
       return next;
     });
   };
-  const saveForLater = () => { void perform(async signal => { const next = await quizApi.defer(id, signal); if (active.current && !signal.aborted) router.replace('/quiz' as never); return next; }); };
+  const saveForLater = () => { void perform('save', async signal => { const next = await quizApi.defer(id, signal); if (active.current && !signal.aborted) router.replace('/quiz' as never); return next; }); };
   const done = quiz?.status === 'COMPLETED', running = quiz?.status === 'IN_PROGRESS';
+  const parts = quiz?.questionText.split(/\n(?=[A-D]\. )/) ?? [''];
+  const [question, ...choices] = parts.length >= 3 && parts.length <= 5 ? parts : [quiz?.questionText ?? ''];
   const latestCompletion = quiz?.attempts.slice().reverse().find(attempt => attempt.correct);
   const earnedStars = latestCompletion?.stars ?? quiz?.stars ?? 0;
 
@@ -110,7 +115,8 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
             </View>
             <View style={s.questionPanel}>
               <Text style={s.workTopic}>Lớp {quiz.gradeLevel} · {quiz.topicName}</Text>
-              <MathText style={s.quizQuestion}>{quiz.questionText}</MathText>
+              <MathText style={s.quizQuestion}>{question}</MathText>
+              {!running ? choices.map(choice => <Text key={choice} style={s.body}>{choice}</Text>) : null}
             </View>
             {done ? <View style={s.result}>
               <View style={s.resultPanel}>
@@ -118,42 +124,56 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
               <Text style={[s.heading,{textAlign:'center'}]}>{quiz.completedWithSolution ? 'Cùng Sao hiểu thêm một bài!' : 'Em đã hoàn thành rồi!'}</Text>
               <Text style={[s.body,{textAlign:'center'}]}>{quiz.replayMode === 'PRACTICE' ? 'Em đã ôn lại bài cũ. Thành tích của em được giữ nguyên.' : `Lượt này: ${earnedStars} sao · Kỷ lục: ${quiz.stars} sao`}</Text>
               </View>
-              <AppButton title="Thử thách nâng sao" style={s.workButton} disabled={busy} loading={busy} onPress={() => replayQuiz('CHALLENGE')}/>
+              <AppButton title="Thử thách nâng sao" loadingTitle="Đang chuẩn bị câu mới…" style={s.workButton} disabled={busy} loading={task === 'challenge'} onPress={() => replayQuiz('CHALLENGE')}/>
+              {task === 'challenge' || task === 'practice' ? <PendingTask key={task} title={task === 'challenge' ? 'Sao đang tạo câu mới cùng dạng' : 'Sao đang mở lại bài cũ'} detail="Em có thể xem lại cách giải hoặc về trang chủ trong lúc chờ. Bài đã làm vẫn được giữ."/> : null}
               <AppButton title="Về trang chủ" style={s.workButton} variant="secondary" icon={<Ionicons name="home-outline" size={19} color="#7953D8"/>} onPress={() => router.replace('/(tabs)')}/>
               <AppButton title="Chọn câu đố khác" variant="ghost" onPress={() => router.replace('/quiz' as never)}/>
             </View> : running ? <>
               {quiz.replayMode === 'CHALLENGE' ? <Text style={s.small}>Thử thách nâng sao · Câu hỏi mới cho em</Text> : quiz.replayMode === 'PRACTICE' ? <Text style={s.small}>Ôn lại bài cũ · Giữ nguyên thành tích</Text> : null}
               <Text nativeID="quiz-answer-label" style={s.title}>Đáp án của em{quiz.unit ? ` (${quiz.unit})` : ''}</Text>
-              <TextInput accessibilityLabel={`Đáp án của em${quiz.unit ? `, ${quiz.unit}` : ''}`} aria-describedby={invalidAnswer ? 'quiz-answer-help quiz-answer-error' : 'quiz-answer-help'} aria-invalid={invalidAnswer}
-                value={answer} onChangeText={value => { setAnswer(value); setError(''); setInvalidAnswer(false); }} style={[s.input,s.workInput,invalidAnswer&&s.workInputError]} editable={!busy} maxLength={100}
-                placeholder={quiz.answerFormat === 'FRACTION' ? 'Ví dụ: 3/4' : 'Em tính được…'} keyboardType={quiz.answerFormat === 'FRACTION' ? 'default' : 'decimal-pad'} returnKeyType="done" onSubmitEditing={submit}/>
-              <Text nativeID="quiz-answer-help" style={s.small}>{quiz.answerFormat === 'FRACTION' ? 'Nhập phân số a/b hoặc số thập phân chính xác.' : 'Chỉ cần nhập kết quả cuối cùng.'}</Text>
+              {choices.length ? <View accessibilityRole="radiogroup" accessibilityLabel="Chọn đáp án của em" style={s.choiceList}>
+                {choices.map((choice, index) => {
+                  let value = quiz.answerFormat === 'CHOICE' ? String(index + 1) : choice.slice(3).trim();
+                  if (quiz.unit && value.endsWith(' ' + quiz.unit)) value = value.slice(0, -quiz.unit.length).trim();
+                  value = value.replace(/\s+/g, '');
+                  const selected = answer === value;
+                  return <Pressable key={choice} accessibilityRole="radio" accessibilityLabel={choice} accessibilityState={{ checked: selected, disabled: busy }}
+                    disabled={busy} style={[s.group, selected && s.selected]} onPress={() => { setAnswer(value); setError(''); }}>
+                    <Text style={s.body}>{choice}</Text>
+                  </Pressable>;
+                })}
+              </View> : <>
+                <TextInput accessibilityLabel={`Đáp án của em${quiz.unit ? `, ${quiz.unit}` : ''}`} aria-describedby={invalidAnswer ? 'quiz-answer-help quiz-answer-error' : 'quiz-answer-help'} aria-invalid={invalidAnswer}
+                  value={answer} onChangeText={value => { setAnswer(value); setError(''); setInvalidAnswer(false); }} style={[s.input,s.workInput,invalidAnswer&&s.workInputError]} editable={!busy} maxLength={100}
+                  placeholder={quiz.answerFormat === 'FRACTION' ? 'Ví dụ: 3/4' : 'Em tính được…'} keyboardType={quiz.answerFormat === 'FRACTION' ? 'default' : 'decimal-pad'} returnKeyType="done" onSubmitEditing={submit}/>
+                <Text nativeID="quiz-answer-help" style={s.small}>{quiz.answerFormat === 'FRACTION' ? 'Nhập phân số a/b hoặc số thập phân chính xác.' : 'Chỉ cần nhập kết quả cuối cùng.'}</Text>
+              </>}
               {feedback ? <Text accessibilityLiveRegion="polite" style={s.error}>{feedback}</Text> : null}
-              <AppButton title="Hoàn thành" style={s.workButton} disabled={busy || !answer.trim()} loading={busy} onPress={submit}/>
+              <AppButton title="Hoàn thành" loadingTitle="Đang kiểm tra đáp án…" style={s.workButton} disabled={busy || !answer.trim()} loading={task === 'submit'} onPress={submit}/>
               {quiz.solutionViewed ? <Text style={s.small}>{quiz.replayMode === 'PRACTICE' ? 'Em cứ luyện theo nhịp của mình nhé.' : 'Em đang luyện cùng hướng dẫn. Hoàn thành lượt này em nhận 1 sao.'}</Text> : null}
             </> : <>
               <Text style={s.body}>Sẵn sàng thử sức chưa em?</Text>
               <Text style={s.small}>Đúng trong 30 giây: 3 sao · đến 60 giây: 2 sao · sau đó: 1 sao. Đồng hồ chỉ tính khi em đang làm trong Quiz; rời màn hình sẽ tạm dừng.</Text>
-              <AppButton title="Bắt đầu tính giờ" style={s.workButton} disabled={busy} loading={busy} onPress={() => void perform(signal => quizApi.start(id, signal))}/>
+              <AppButton title="Bắt đầu tính giờ" loadingTitle="Đang mở câu đố…" style={s.workButton} disabled={busy} loading={task === 'start'} onPress={() => void perform('start', signal => quizApi.start(id, signal))}/>
             </>}
             {quiz.startedAt ? <View style={[s.tools,s.workTools]}>
-              {([['audio','volume-high-outline','Nghe giảng'],['ask','mic-outline','Hỏi bài'],['menu','ellipsis-horizontal','Xem thêm']] as const).map(([value,icon,label])=><Pressable key={value} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{disabled:busy}} disabled={busy} style={({pressed})=>[s.tool,s.workTool,pressed&&s.selected,busy&&{opacity:.5}]} onPress={()=>setTool(value)}>
+              {([['audio','volume-high-outline','Nghe giảng'],['ask','mic-outline','Hỏi bài'],['menu','ellipsis-horizontal','Xem thêm']] as const).map(([value,icon,label])=><Pressable key={value} accessibilityRole="button" accessibilityLabel={label} style={({pressed})=>[s.tool,s.workTool,pressed&&s.selected]} onPress={()=>setTool(value)}>
                 <Ionicons name={icon} size={22} color="#6940C9" accessible={false}/><Text style={s.toolLabel}>{label}</Text>
               </Pressable>)}
             </View> : null}
             {quiz.explanationText ? <Pressable accessibilityRole="button" accessibilityLabel="Xem cách giải" style={s.detailLink} onPress={()=>setTool('solution')}><Ionicons name="reader-outline" size={19} color="#7953D8"/><Text style={s.topic}>Xem cách giải</Text><Ionicons name="chevron-forward" size={17} color="#7953D8"/></Pressable> : null}
           </View>
-          {!done ? <AppButton title="Lưu để làm sau" variant="ghost" disabled={busy} onPress={saveForLater}/> : null}
+          {!done ? <AppButton title="Lưu để làm sau" loadingTitle="Đang lưu bài…" variant="ghost" disabled={busy} loading={task === 'save'} onPress={saveForLater}/> : null}
         </> : null}
         {!done ? <AppButton title="Trở về danh sách" variant="ghost" onPress={() => router.replace('/quiz' as never)} /> : null}
       </ScrollView>
     </KeyboardAvoidingView>
     {quiz && tool ? <LessonSheet title={{audio:'Nghe giảng',ask:'Hỏi bài',menu:'Em cần gì thêm?',solution:'Cách giải',history:'Những lần em đã thử'}[tool]} onClose={()=>setTool(null)}>
       {tool==='audio' ? <QuizVoice key={`${quiz.quizId}:${quiz.startedAt}:${!!quiz.explanationText}`} quizId={quiz.quizId} content={quiz.explanationText?'SOLUTION':'QUESTION'} paragraphs={[quiz.explanationText || quiz.questionText]}/> : null}
-      {tool==='ask' ? <NarrationPreparation owner={owner}><QuizHelp quiz={quiz} onAssisted={apply} onReturn={()=>setTool(null)}/></NarrationPreparation> : null}
+      {tool==='ask' ? busy ? <PendingTask key={task} title="Sao đang hoàn tất thao tác vừa rồi" detail="Phần hỏi bài sẽ mở ngay khi xong, để câu hỏi của em đi đúng với bài đang làm."/> : <NarrationPreparation owner={owner}><QuizHelp quiz={quiz} onAssisted={apply} onReturn={()=>setTool(null)}/></NarrationPreparation> : null}
       {tool==='solution' ? <MathText style={s.body}>{quiz.explanationText || ''}</MathText> : null}
       {tool==='menu' ? <>
-        {quiz.canRevealSolution && !quiz.solutionViewed && !done ? <AppButton title="Xem cách giải" variant="secondary" disabled={busy} onPress={()=>void perform(async signal=>{const next=await quizApi.reveal(id,signal);if(active.current&&!signal.aborted)setTool('solution');return next;})}/> : null}
+        {quiz.canRevealSolution && !quiz.solutionViewed && !done ? <AppButton title="Xem cách giải" loadingTitle="Đang mở cách giải…" variant="secondary" disabled={busy} loading={task === 'reveal'} onPress={()=>void perform('reveal', async signal=>{const next=await quizApi.reveal(id,signal);if(active.current&&!signal.aborted)setTool('solution');return next;})}/> : null}
         {quiz.explanationText ? <AppButton title="Xem cách giải" variant="secondary" onPress={()=>setTool('solution')}/> : null}
         {quiz.attempts.length ? <AppButton title={`Xem ${quiz.attempts.length} lần đã thử`} variant="secondary" onPress={()=>setTool('history')}/> : null}
         {done ? <AppButton title="Ôn lại bài cũ" variant="secondary" disabled={busy} onPress={()=>{setTool(null);replayQuiz('PRACTICE');}}/> : <AppButton title="Lưu để làm sau" variant="secondary" disabled={busy} onPress={saveForLater}/>}

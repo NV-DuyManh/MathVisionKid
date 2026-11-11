@@ -125,12 +125,16 @@ async def test_labelled_parts_open_source_reading_without_waiting_for_model(monk
         await gate.wait()
         return lesson.Plan.model_validate(candidate())
     monkeypatch.setattr(lesson, 'checked_plan', AsyncMock(side_effect=slow))
-    response = await asyncio.wait_for(lesson.start_lesson(confirmed(guidedUnderstanding=True, startWithReading=True)), 1)
+    # The original floor task now has a local exact proof, so it intentionally
+    # skips the three reading questions. Exercise the pending provider path
+    # with an unsupported but complete two-part source instead.
+    source = SOURCE.replace('nền nhà', 'sân trường')
+    response = await asyncio.wait_for(lesson.start_lesson(confirmed(problemText=source, guidedUnderstanding=True, startWithReading=True)), 1)
     assert response.preparingMath and response.understandingSteps == 3 and response.step.kind == 'UNDERSTAND'
     session = lesson._sessions[response.sessionId]
     assert session.summary is None  # Neither individual question claims to summarize both parts.
     assert 'Ý a' in session.plan.steps[1].question and 'Ý b' in session.plan.steps[2].question
-    assert session.plan.steps[2].correctChoice in SOURCE
+    assert session.plan.steps[2].correctChoice in source
     gate.set()
     assert await session.preparation_task
     assert len(session.plan.steps) == 8

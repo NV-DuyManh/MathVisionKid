@@ -1,9 +1,10 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
 import { AuthContext } from '../context/AuthContext';
-import { QuizInvitation } from '../features/quiz/QuizInvitation';
+import { QuizAfterLearningButton, QuizInvitation } from '../features/quiz/QuizInvitation';
 import { QuizShortcut } from '../features/quiz/QuizShortcut';
 import QuizScreen from '../app/quiz/[quizId]';
+import QuizFromLearningScreen from '../app/quiz/from-learning';
 import { quizApi } from '../features/quiz/quizApi';
 import { NarrationPreparation } from '../features/tutoring/NarrationPreparation';
 import { QuizNarrationPreparation } from '../features/quiz/QuizVoice';
@@ -11,7 +12,8 @@ import { QuizNarrationPreparation } from '../features/quiz/QuizVoice';
 jest.setTimeout(30000);
 
 const mockPush = jest.fn(), mockReplace = jest.fn();
-jest.mock('expo-router', () => ({ useRouter: () => ({ push: mockPush, replace: mockReplace }), useLocalSearchParams: () => ({ quizId: 'quiz-one' }),
+const mockParams = { quizId: 'quiz-one', sourceType: 'LESSON', sourceId: 'lesson-purchase' };
+jest.mock('expo-router', () => ({ useRouter: () => ({ push: mockPush, replace: mockReplace }), useLocalSearchParams: () => mockParams,
   useFocusEffect: (fn: () => (() => void)) => require('react').useEffect(fn, [fn]) }));
 jest.mock('../features/quiz/QuizHelp', () => ({ QuizHelp: 'QuizHelp' }));
 jest.mock('../features/quiz/QuizVoice', () => ({ QuizVoice: 'QuizVoice', QuizNarrationPreparation: ({children}: any) => children }));
@@ -31,6 +33,19 @@ beforeEach(() => {
   (quizApi.fromLearning as jest.Mock).mockResolvedValue({ offered: true, quiz: ready });
 });
 afterEach(() => { if (view) act(() => view.unmount()); });
+it('submits the selected ordinal for a verified sequence rather than parsing the sequence as a number', async () => {
+  const sequence = { ...ready, status: 'IN_PROGRESS', answerFormat: 'CHOICE', unit: '',
+    questionText: 'Chọn dãy tăng dần.\nA. 1,25; 0,98; 3,56\nB. 0,98; 1,25; 3,56' };
+  (quizApi.get as jest.Mock).mockResolvedValue(sequence);
+  (quizApi.submit as jest.Mock).mockResolvedValue({ quiz: { ...sequence, wrongAttempts: 1 }, attempt: { correct: false } });
+  await act(async () => { view = TestRenderer.create(wrapper(<QuizScreen />)); });
+  act(() => button('B. 0,98; 1,25; 3,56').props.onPress());
+  await act(async () => button('Hoàn thành').props.onPress());
+  expect(quizApi.submit).toHaveBeenCalledWith('quiz-one', expect.any(String), '2', expect.any(AbortSignal));
+  expect(button('B. 0,98; 1,25; 3,56').props.accessibilityState.checked).toBe(true);
+  act(() => button('A. 1,25; 0,98; 3,56').props.onPress());
+  expect(button('A. 1,25; 0,98; 3,56').props.accessibilityState.checked).toBe(true);
+});
 it('offers a Quiz from the completed review source and sends only its server reference', async () => {
   await act(async () => { view = TestRenderer.create(<QuizInvitation sourceType="WORK_REVIEW" sourceId="review-source" />); });
   expect(quizApi.fromLearning).toHaveBeenCalledWith('WORK_REVIEW', 'review-source', expect.any(AbortSignal));
@@ -159,10 +174,98 @@ it('keeps the reported long completed duration truthful and frozen with explicit
   } finally { jest.useRealTimers(); }
 });
 
-it.each(['LESSON','WORK_REVIEW'] as const)('hides unavailable %s suggestions without a placeholder or failure card', async sourceType => {
-  (quizApi.fromLearning as jest.Mock).mockRejectedValue({response:{data:{error:{code:'QUIZ_UNSUPPORTED',message:'No verified quiz'}}}});
-  await act(async () => {view=TestRenderer.create(<QuizInvitation sourceType={sourceType} sourceId="no-quiz"/>);});
-  expect(view.toJSON()).toBeNull();
+it('opens a separate Quiz page and retries a transient connection error', async () => {
+  (quizApi.fromLearning as jest.Mock)
+    .mockRejectedValueOnce(new Error('Connection interrupted'))
+    .mockResolvedValueOnce({ offered: true, quiz: ready });
+  await act(async () => { view = TestRenderer.create(wrapper(<QuizFromLearningScreen />)); });
+  expect(text()).toContain('Quiz sau bài học');
+  expect(button('Về trang chủ')).toBeDefined();
+  expect(button('Làm ngay')).toBeUndefined();
+  await act(async () => button('Thử lại Quiz').props.onPress());
+  expect(quizApi.fromLearning).toHaveBeenLastCalledWith('LESSON', 'lesson-purchase', expect.any(AbortSignal));
+  expect(text()).toContain('cùng dạng toán');
+  act(() => button('Làm ngay').props.onPress());
+  expect(mockPush).toHaveBeenCalledWith('/quiz/quiz-one');
+});
+it('explains that an unsupported lesson has no verified Quiz of the same type', async () => {
+  (quizApi.fromLearning as jest.Mock).mockRejectedValue({ response: { data: { error: {
+    code: 'QUIZ_UNSUPPORTED', message: 'Sao chưa có câu luyện tập cùng dạng đã kiểm tra cho bài này.',
+  } } } });
+  await act(async () => { view = TestRenderer.create(wrapper(<QuizFromLearningScreen />)); });
+  expect(text()).toContain('Chưa có Quiz cùng dạng');
+  expect(button('Thử lại Quiz')).toBeUndefined();
+  expect(button('Làm ngay')).toBeUndefined();
+});
+it('does not offer a Quiz when the server says no verified Quiz is available', async () => {
+  (quizApi.fromLearning as jest.Mock).mockRejectedValue({ response: { data: { error: { code: 'QUIZ_UNSUPPORTED' } } } });
+  await act(async () => { view = TestRenderer.create(<QuizAfterLearningButton sourceType="LESSON" sourceId="lesson-purchase" />); });
+  expect(quizApi.fromLearning).toHaveBeenCalledWith('LESSON', 'lesson-purchase', expect.any(AbortSignal));
+  expect(button('Thử sức với Quiz')).toBeUndefined();
+  expect(button('Thử lại Quiz')).toBeUndefined();
+  expect(mockPush).not.toHaveBeenCalled();
+});
+it('waits for a verified Quiz and opens its existing page without generating it again', async () => {
+  let resolve: (value: any) => void = () => {};
+  (quizApi.fromLearning as jest.Mock).mockImplementationOnce(() => new Promise(done => { resolve = done; }));
+  await act(async () => { view = TestRenderer.create(wrapper(<QuizAfterLearningButton sourceType="LESSON" sourceId="lesson-purchase" />)); });
+  expect(text()).toContain('Đang chuẩn bị Quiz…');
+  expect(button('Thử sức với Quiz')).toBeUndefined();
+  expect(mockPush).not.toHaveBeenCalled();
+  await act(async () => resolve({ offered: true, quiz: ready }));
+  expect(text()).not.toContain('Đang chuẩn bị Quiz…');
+  act(() => button('Thử sức với Quiz').props.onPress());
+  expect(mockPush).toHaveBeenCalledWith('/quiz/quiz-one');
+  expect(quizApi.fromLearning).toHaveBeenCalledTimes(1);
+});
+it('recovers a connection failure on the lesson page before offering navigation', async () => {
+  (quizApi.fromLearning as jest.Mock).mockRejectedValueOnce(new Error('Connection interrupted'))
+    .mockResolvedValueOnce({ offered: true, quiz: ready });
+  await act(async () => { view = TestRenderer.create(<QuizAfterLearningButton sourceType="WORK_REVIEW" sourceId="review-source" />); });
+  expect(button('Thử sức với Quiz')).toBeUndefined();
+  expect(text()).toContain('Bài học của em đã hoàn thành.');
+  await act(async () => button('Thử lại Quiz').props.onPress());
+  act(() => button('Thử sức với Quiz').props.onPress());
+  expect(mockPush).toHaveBeenCalledWith('/quiz/quiz-one');
+});
+it.each([
+  ['IN_PROGRESS', '', 'Tiếp tục Quiz'],
+  ['COMPLETED', '', 'Xem kết quả Quiz'],
+  ['READY', 'CHECKED_SOURCE_REVIEW', 'Ôn lại bài vừa học'],
+])('describes the available %s Quiz truthfully', async (status, topicCode, label) => {
+  (quizApi.fromLearning as jest.Mock).mockResolvedValue({ offered: false, quiz: { ...ready, status, topicCode } });
+  await act(async () => { view = TestRenderer.create(<QuizAfterLearningButton sourceType="LESSON" sourceId="lesson-purchase" />); });
+  expect(button(label)).toBeDefined();
+  expect(button('Thử sức với Quiz')).toBeUndefined();
+});
+it('discards late readiness and old Quiz ids when the source or account changes', async () => {
+  let finishOld: (value: any) => void = () => {};
+  (quizApi.fromLearning as jest.Mock).mockImplementationOnce(() => new Promise(done => { finishOld = done; }));
+  await act(async () => { view = TestRenderer.create(wrapper(<QuizAfterLearningButton sourceType="LESSON" sourceId="old-source" />)); });
+  const oldSignal = (quizApi.fromLearning as jest.Mock).mock.calls[0][2];
+  (quizApi.fromLearning as jest.Mock).mockRejectedValue({ response: { data: { error: { code: 'QUIZ_UNSUPPORTED' } } } });
+  await act(async () => view.update(wrapper(<QuizAfterLearningButton sourceType="LESSON" sourceId="new-source" />,'student-b')));
+  expect(oldSignal.aborted).toBe(true);
+  await act(async () => finishOld({ offered: true, quiz: ready }));
+  expect(button('Thử sức với Quiz')).toBeUndefined();
+  expect(mockPush).not.toHaveBeenCalled();
+});
+it.each([
+  ['UNIT_PRICE_FIND_CASH', 'đồng', 'Long đang có bao nhiêu tiền?\nA. 48 000 đồng\nB. 66 000 đồng\nC. 81 000 đồng\nD. 96 000 đồng', 'B. 66 000 đồng', '66000'],
+  ['FRACTION_FIND_CLASS_COMPLEMENT', 'học sinh', 'Lớp có bao nhiêu học sinh nam?\nA. 15 học sinh\nB. 18 học sinh\nC. 27 học sinh\nD. 20 học sinh', 'B. 18 học sinh', '18'],
+  ['CHECKED_LESSON_VARIANT', '', 'Tính phân số\nA. 3/2\nB. 5/2\nC. 7/2\nD. 9/2', 'B. 5/2', '5/2'],
+])('submits the selected answer from %s for server grading', async (topicCode, unit, questionText, selectedLabel, value) => {
+  const quiz = { ...ready, topicCode, status: 'IN_PROGRESS', unit, questionText };
+  (quizApi.get as jest.Mock).mockResolvedValue(quiz);
+  (quizApi.activity as jest.Mock).mockResolvedValue(quiz);
+  (quizApi.submit as jest.Mock).mockResolvedValue({ quiz: { ...quiz, wrongAttempts: 1 }, attempt: { correct: false } });
+  await act(async () => { view = TestRenderer.create(wrapper(<QuizScreen />)); });
+  act(() => button(selectedLabel).props.onPress());
+  expect(button(selectedLabel).props.accessibilityState.checked).toBe(true);
+  expect(quizApi.submit).not.toHaveBeenCalled();
+  await act(async () => button('Hoàn thành').props.onPress());
+  expect(quizApi.submit).toHaveBeenCalledWith('quiz-one', expect.any(String), value, expect.any(AbortSignal));
+  expect(button(selectedLabel).props.accessibilityState.checked).toBe(true);
 });
 it('keeps one work area and opens audio/questions in the same sheets as lessons', async () => {
   (quizApi.get as jest.Mock).mockResolvedValue({...ready,status:'IN_PROGRESS'});
@@ -183,4 +286,48 @@ it('does not prefetch the placeholder or an unopened Quiz question',async()=>{
   (quizApi.get as jest.Mock).mockResolvedValue({...ready,startedAt:null});
   await act(async()=>{view=TestRenderer.create(wrapper(<QuizScreen/>));});
   expect(view.root.findByType(QuizNarrationPreparation).props.paragraphs).toEqual([]);
+});
+
+it('acknowledges challenge preparation immediately, preserves the result and keeps safe tools usable', async () => {
+  const completed = { ...ready, status: 'COMPLETED', stars: 3, explanationText: 'Cách giải bài cũ.' };
+  (quizApi.get as jest.Mock).mockResolvedValue(completed);
+  let resolve!: (value: any) => void;
+  (quizApi.replay as jest.Mock).mockImplementation(() => new Promise(done => { resolve = done; }));
+  await act(async () => { view = TestRenderer.create(wrapper(<QuizScreen />)); });
+  act(() => { button('Thử thách nâng sao').props.onPress(); button('Thử thách nâng sao').props.onPress(); });
+  expect(quizApi.replay).toHaveBeenCalledTimes(1);
+  expect(text()).toContain('Đang chuẩn bị câu mới…');
+  expect(text()).toContain('Sao đang tạo câu mới cùng dạng');
+  expect(text()).toContain('Em đã hoàn thành rồi!');
+  expect(button('Thử thách nâng sao').props.accessibilityState.busy).toBe(true);
+  expect(button('Về trang chủ').props.accessibilityState.busy).toBe(false);
+  act(() => button('Nghe giảng').props.onPress());
+  expect(view.root.findByType('QuizVoice' as any).props.paragraphs).toEqual(['Cách giải bài cũ.']);
+  act(() => button('Đóng Nghe giảng').props.onPress());
+  act(() => button('Hỏi bài').props.onPress());
+  // Read-only tools work; a second mutation cannot target a run being replaced.
+  expect(view.root.findAllByType('QuizHelp' as any)).toHaveLength(0);
+  expect(text()).toContain('Sao đang hoàn tất thao tác vừa rồi');
+  await act(async () => resolve({ ...ready, status: 'IN_PROGRESS', questionText: 'Câu mới đã kiểm tra.' }));
+  expect(text()).toContain('Câu mới đã kiểm tra.');
+  expect(text()).not.toContain('Sao đang tạo câu mới cùng dạng');
+  expect(view.root.findAllByType('QuizHelp' as any)).toHaveLength(0);
+  expect(button('Hoàn thành')).toBeDefined();
+});
+
+it('clears the preparation indicator on failure and aborts a late replay when leaving', async () => {
+  (quizApi.get as jest.Mock).mockResolvedValue({ ...ready, status: 'COMPLETED', stars: 3 });
+  (quizApi.replay as jest.Mock).mockRejectedValueOnce(new Error('network'));
+  await act(async () => { view = TestRenderer.create(wrapper(<QuizScreen />)); });
+  await act(async () => button('Thử thách nâng sao').props.onPress());
+  expect(button('Thử thách nâng sao').props.accessibilityState.busy).toBe(false);
+  expect(text()).toContain('Em đã hoàn thành rồi!');
+  let resolve!: (value: any) => void;
+  (quizApi.replay as jest.Mock).mockImplementation(() => new Promise(done => { resolve = done; }));
+  act(() => button('Thử thách nâng sao').props.onPress());
+  const signal = (quizApi.replay as jest.Mock).mock.calls[1][2];
+  act(() => view.unmount());
+  expect(signal.aborted).toBe(true);
+  await act(async () => resolve({ ...ready, status: 'IN_PROGRESS' }));
+  expect(mockReplace).not.toHaveBeenCalled();
 });

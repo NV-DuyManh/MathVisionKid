@@ -37,7 +37,7 @@ client = TestClient(app)
 AUTH_HEADERS = {"X-Internal-API-Key": settings.internal_api_key}
 
 from app.integrations.groq.line_analyzer import get_pool
-from app.integrations.groq.key_pool import KeyState
+from app.integrations.groq.key_pool import GroqKeyPool, KeyState
 
 @pytest.fixture(autouse=True)
 def reset_groq_pool():
@@ -252,19 +252,26 @@ def test_corr_09_invalid_groq_json_handled_safely():
         GroqOcrCorrectionResponse.model_validate_json(raw_malformed)
 
 
+@pytest.fixture
+def correction_pool(monkeypatch):
+    pool = GroqKeyPool("mock-correction-key")
+    monkeypatch.setattr("app.integrations.groq.corrector.get_pool", lambda: pool)
+
+
 @pytest.mark.asyncio
-async def test_corr_10_groq_timeout_fallback_to_keep_raw():
+async def test_corr_10_groq_timeout_fallback_to_keep_raw(correction_pool):
     """CORR-10: Timeout during correction returns None, falling back to KEEP_RAW."""
-    with patch("app.integrations.groq.corrector.call_groq_correction", side_effect=GroqError("TIMEOUT", "Read timeout")):
+    with patch("app.integrations.groq.corrector.call_groq_correction", side_effect=GroqError("TIMEOUT", "Read timeout")) as mock_call:
         crop = np.ones((40, 200, 3), dtype=np.uint8) * 255
         result = await request_groq_correction(
             crop, raw_text="test", raw_confidence=0.50, domain="HANDWRITING_TEXT"
         )
         assert result is None  # Safe fallback to raw CRNN text
+        mock_call.assert_awaited()
 
 
 @pytest.mark.asyncio
-async def test_corr_11_correction_cache_hit():
+async def test_corr_11_correction_cache_hit(correction_pool):
     """CORR-11: Identical line crop and raw text hit cache on second request."""
     clear_correction_cache()
     mock_resp = {
@@ -291,7 +298,7 @@ async def test_corr_11_correction_cache_hit():
 
 
 @pytest.mark.asyncio
-async def test_corr_12_raw_ocr_changed_cache_miss():
+async def test_corr_12_raw_ocr_changed_cache_miss(correction_pool):
     """CORR-12: Changed raw OCR text results in cache miss."""
     clear_correction_cache()
     mock_resp = {

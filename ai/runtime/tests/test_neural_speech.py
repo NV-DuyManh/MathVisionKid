@@ -90,6 +90,54 @@ def test_empty_voice_cools_down_across_requests_and_recovers_without_changing_vo
     assert speech.DEFAULT_VOICE not in speech._edge_unavailable_until
 
 
+def test_voice_retry_cooldown_never_waits_past_the_original_deadline(monkeypatch):
+    monkeypatch.setattr(speech.time, 'monotonic', lambda: 100)
+    monkeypatch.setitem(speech._edge_unavailable_until, speech.DEFAULT_VOICE, 115)
+    pauses = []
+    monkeypatch.setattr(speech.time, 'sleep', pauses.append)
+    with pytest.raises(speech.SpeechNoAudio):
+        speech.wait_for_speech_retry(speech.DEFAULT_VOICE, 110)
+    assert not pauses
+    speech.wait_for_speech_retry(speech.SPEECH_VOICES[1], 110)
+    assert pauses == [.25], 'An unavailable male voice must not delay the female voice'
+
+
+def test_transient_outage_recovers_after_one_second_but_sustained_outage_backs_off(monkeypatch):
+    now, healthy = [100.0], [False]
+    class Communicate:
+        def __init__(self, *args, **kwargs): pass
+        async def stream(self):
+            if not healthy[0]: raise speech.edge_tts.exceptions.NoAudioReceived('unavailable')
+            yield {'type': 'audio', 'data': b'a' * 256}
+    monkeypatch.setattr(speech.edge_tts, 'Communicate', Communicate)
+    monkeypatch.setattr(speech.time, 'monotonic', lambda: now[0])
+    monkeypatch.setattr(speech.asyncio, 'sleep', AsyncMock())
+    for delay in [1, 2, 4, 8, 15, 15]:
+        with pytest.raises(speech.edge_tts.exceptions.NoAudioReceived):
+            asyncio.run(speech._neural_chunk('Chào em!', speech.DEFAULT_VOICE))
+        assert speech._edge_unavailable_until[speech.DEFAULT_VOICE] - now[0] == delay
+        now[0] += delay + .01
+    healthy[0] = True
+    assert asyncio.run(speech._neural_chunk('Chào em!', speech.DEFAULT_VOICE)) == b'a' * 256
+    assert speech.DEFAULT_VOICE not in speech._edge_failures
+    healthy[0] = False
+    with pytest.raises(speech.edge_tts.exceptions.NoAudioReceived):
+        asyncio.run(speech._neural_chunk('Chào em!', speech.DEFAULT_VOICE))
+    assert speech._edge_unavailable_until[speech.DEFAULT_VOICE] - now[0] == 1
+
+
+def test_voice_retry_wait_stops_when_the_session_is_cancelled(monkeypatch):
+    monkeypatch.setattr(speech.time, 'monotonic', lambda: 100)
+    monkeypatch.setitem(speech._edge_unavailable_until, speech.DEFAULT_VOICE, 115)
+    pauses = []
+    monkeypatch.setattr(speech.time, 'sleep', pauses.append)
+    def cancelled():
+        raise InterruptedError()
+    with pytest.raises(InterruptedError):
+        speech.wait_for_speech_retry(speech.DEFAULT_VOICE, 160, cancelled)
+    assert not pauses
+
+
 @pytest.mark.parametrize('status', [401, 403, 429])
 def test_provider_credentials_and_quota_errors_are_not_retried(monkeypatch, status):
     calls=[]
@@ -272,6 +320,29 @@ def test_failed_long_speech_resumes_only_missing_chunks_and_keeps_original_order
     assert result==b''.join(part.encode()+b'\0'*128 for part in parts)
     assert [part for part,_ in calls[before:]]==[part for index,part in enumerate(parts) if index not in previously_ready]
     assert progress[-1][2:]==(len(parts),len(parts))
+
+
+def test_retry_uses_original_chunk_indexes_after_a_reused_paragraph_is_evicted(monkeypatch):
+    paragraphs = ['Đoạn đầu.', 'Đoạn giữa.', 'Đoạn cuối.']
+    calls, saved = [], {}
+
+    async def render(part, voice):
+        calls.append(part)
+        return part.encode() + b'\0' * 128
+
+    monkeypatch.setattr(speech, '_neural_chunk', render)
+    checkpoint = (saved.get, saved.__setitem__)
+    async def run(reused_pcm):
+        return await speech._neural_audio(' '.join(paragraphs), speech.DEFAULT_VOICE,
+                                          checkpoint=checkpoint, paragraphs=paragraphs, reused_pcm=reused_pcm)
+
+    _, indexes = asyncio.run(run({1: b'\x01\x00'}))
+    assert indexes == [0, 2] and set(saved) == {0, 2}
+    calls.clear()
+    chunks, indexes = asyncio.run(run({}))
+    assert calls == [paragraphs[1]]
+    assert indexes == [0, 1, 2]
+    assert [chunk.rstrip(b'\0').decode() for chunk in chunks] == paragraphs
 
 
 def test_provider_connections_are_bounded_across_worker_event_loops(monkeypatch):

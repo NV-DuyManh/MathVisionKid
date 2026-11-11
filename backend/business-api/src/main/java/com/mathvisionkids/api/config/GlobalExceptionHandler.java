@@ -5,6 +5,7 @@ import com.mathvisionkids.api.common.ApiException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
@@ -59,6 +60,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleAccessDenied(AccessDeniedException ex, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(buildError("FORBIDDEN", "Access Denied", getRequestId(request), null));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiErrorResponse> handleUnreadableRequest(HttpServletRequest request) {
+        return ResponseEntity.badRequest()
+                .body(buildError("VALIDATION_ERROR", "Nội dung yêu cầu không hợp lệ.", getRequestId(request), null));
     }
 
     @ExceptionHandler(AuthenticationException.class)

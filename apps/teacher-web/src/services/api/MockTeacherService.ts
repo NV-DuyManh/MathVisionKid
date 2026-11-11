@@ -3,6 +3,7 @@ import { SubmissionStatus, BatchStatus, MathType } from '../../types';
 import type { TeacherService } from './TeacherService';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const pendingReview = new Set(['REVIEW_REQUIRED', 'NEEDS_RETAKE', 'NEEDS_CONFIRMATION', 'PROPOSED_GRADE', 'FEEDBACK_READY']);
 
 // Mock Data
 const MOCK_CLASSES: Class[] = [
@@ -51,20 +52,26 @@ class MockTeacherServiceImpl implements TeacherService {
     return MOCK_CLASSES;
   }
 
+  async getClassDetail(classId: string) {
+    const classroom = MOCK_CLASSES.find(item => item.id === classId);
+    if (!classroom) throw new Error('Không tìm thấy lớp học');
+    const students = Array.from({ length: classroom.studentCount }, (_, index) => ({
+      id: `st_${index + 1}`, name: `Học sinh ${index + 1} (${classroom.name})`,
+    }));
+    return { ...classroom, students };
+  }
+
   async getAssignments(): Promise<Assignment[]> {
     await delay(300);
     return MOCK_ASSIGNMENTS;
   }
 
   async getAssignmentRoster(assignmentId: string): Promise<{ id: string; name: string }[]> {
-    const assignment = MOCK_ASSIGNMENTS.find(item => item.assignmentId === assignmentId);
-    const classroom = MOCK_CLASSES.find(item => item.id === assignment?.classId);
-    return Array.from({ length: classroom?.studentCount ?? 0 }, (_, index) => ({
-      id: `st_${index + 1}`, name: `Học sinh ${index + 1} (${classroom?.name})`,
-    }));
+    const assignment = MOCK_ASSIGNMENTS.find(item => (item.assignmentId || item.id) === assignmentId);
+    return assignment ? (await this.getClassDetail(assignment.classId)).students : [];
   }
 
-  async createAssignment(classId: string, title: string, mathType: MathType): Promise<Assignment> {
+  async createAssignment(classId: string, title: string, mathType: MathType, maxScore = 10): Promise<Assignment> {
     await delay(500);
     const newAssignment: Assignment = {
       id: `a_${Date.now()}`,
@@ -72,6 +79,7 @@ class MockTeacherServiceImpl implements TeacherService {
       classId,
       title,
       mathType,
+      maxScore,
       createdAt: new Date().toISOString(),
       status: 'ACTIVE',
     };
@@ -84,25 +92,37 @@ class MockTeacherServiceImpl implements TeacherService {
     return MOCK_BATCHES;
   }
 
-  async createBatch(assignmentId: string, imagesCount: number): Promise<Batch> {
+  async createBatch(assignmentId: string): Promise<Batch> {
     await delay(600);
     const newBatch: Batch = {
       id: `b_${Date.now()}`,
       assignmentId,
       className: 'Lớp mới', // Simplification
       assignmentTitle: 'Bài tập mới',
-      totalImages: imagesCount,
+      totalImages: 0,
       processedCount: 0,
       reviewRequiredCount: 0,
-      status: BatchStatus.PROCESSING,
+      status: BatchStatus.CREATED,
       createdAt: new Date().toISOString(),
     };
     MOCK_BATCHES.unshift(newBatch);
     return newBatch;
   }
 
-  async uploadImages(batchId: string, _files: File[], _mappings?: { fileIndex: number, studentId: string }[]): Promise<void> {
-    await delay(1500); // simulate upload
+  async uploadImages(batchId: string, files: File[], _mappings?: { fileIndex: number, studentId: string }[], onProgress?: (percentage: number) => void): Promise<void> {
+    if (onProgress) {
+      onProgress(30);
+      await delay(400);
+      onProgress(70);
+      await delay(500);
+      onProgress(100);
+    }
+    await delay(600); // simulate upload
+    const batch = MOCK_BATCHES.find(item => item.id === batchId);
+    if (batch) {
+      batch.totalImages = files.length;
+      batch.status = BatchStatus.PROCESSING;
+    }
     // In background, we simulate processing
     setTimeout(() => {
       const b = MOCK_BATCHES.find(x => x.id === batchId);
@@ -133,13 +153,19 @@ class MockTeacherServiceImpl implements TeacherService {
         }
       }
     }
-    return { ...b };
+    const submissions = (MOCK_SUBMISSIONS[batchId] || []).flatMap(submission =>
+      submission.id ? [{ submissionId: submission.id, studentName: submission.studentName, status: submission.status }] : []);
+    return {
+      ...b, submissions,
+      pendingReviewCount: submissions.filter(s => pendingReview.has(s.status)).length,
+      finalizedCount: submissions.filter(s => s.status === 'TEACHER_APPROVED' || s.status === 'TEACHER_OVERRIDDEN').length,
+    };
   }
 
   async getReviewQueue(batchId: string): Promise<Submission[]> {
     await delay(600);
     const subs = MOCK_SUBMISSIONS[batchId] || [];
-    return subs.filter(s => s.status === SubmissionStatus.REVIEW_REQUIRED || s.status === SubmissionStatus.NEEDS_RETAKE || s.status === SubmissionStatus.NEEDS_CONFIRMATION);
+    return subs.filter(s => pendingReview.has(s.status));
   }
 
   async getSubmissionDetail(submissionId: string): Promise<Submission> {
@@ -156,28 +182,21 @@ class MockTeacherServiceImpl implements TeacherService {
     return this.updateSubmissionStatus(submissionId, SubmissionStatus.TEACHER_APPROVED);
   }
 
-  async overrideSubmission(submissionId: string, newScore: number, _reason: string): Promise<Submission> {
+  async overrideSubmission(submissionId: string, newScore: number, reason: string): Promise<Submission> {
     await delay(500);
-    const sub = await this.updateSubmissionStatus(submissionId, SubmissionStatus.TEACHER_OVERRIDDEN);
-    sub.teacherScore = newScore;
-    return sub;
+    return this.updateSubmissionStatus(submissionId, SubmissionStatus.TEACHER_OVERRIDDEN, newScore, reason);
   }
 
-  private async updateSubmissionStatus(id: string, newStatus: SubmissionStatus): Promise<Submission> {
-    for (const batchId in MOCK_SUBMISSIONS) {
-      const idx = MOCK_SUBMISSIONS[batchId].findIndex(s => s.id === id);
-      if (idx !== -1) {
-        MOCK_SUBMISSIONS[batchId][idx].status = newStatus;
-        // update batch counters
-        const batch = MOCK_BATCHES.find(b => b.id === batchId);
-        if (batch && batch.reviewRequiredCount > 0) {
-          batch.reviewRequiredCount--;
-          if (batch.reviewRequiredCount === 0) {
-            batch.status = BatchStatus.COMPLETED;
-          }
-        }
-        return { ...MOCK_SUBMISSIONS[batchId][idx] };
-      }
+  private async updateSubmissionStatus(id: string, newStatus: SubmissionStatus, score?: number, reason?: string): Promise<Submission> {
+    for (const [batchId, submissions] of Object.entries(MOCK_SUBMISSIONS)) {
+      const submission = submissions.find(item => item.id === id);
+      if (!submission) continue;
+      submission.status = newStatus;
+      submission.teacherScore = score ?? submission.suggestedScore;
+      submission.teacherReason = reason;
+      const batch = MOCK_BATCHES.find(item => item.id === batchId);
+      if (batch) batch.pendingReviewCount = submissions.filter(item => pendingReview.has(item.status)).length;
+      return { ...submission };
     }
     throw new Error("Not found");
   }

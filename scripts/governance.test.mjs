@@ -13,6 +13,24 @@ test('registry resolves backend/review without unrelated UI or complexity-only r
   assert.ok((await routeSkills('review', registry)).some(s => s.id === 'mathvision-review'));
   await assert.rejects(routeSkills('missing-domain', registry), /Unknown domain/);
 });
+test('skill routes allow more than three relevant skills but still reject duplicates and unknown ids', async () => {
+  const fixture = mkdtempSync(join(tmpdir(), 'mathvision-skills-'));
+  const registry = { skills: ['one', 'two', 'three', 'four'].map(id => ({ id, folder: id })), routes: { complex: ['one','two','three','four'] } };
+  try {
+    for (const skill of registry.skills) {
+      const dir = join(fixture,'.agents','skills',skill.folder);
+      mkdirSync(dir,{recursive:true});
+      writeFileSync(join(dir,'SKILL.md'),`---\nname: ${skill.id}\ndescription: Test skill\n---\n`);
+    }
+    const save = () => writeFileSync(join(fixture,'.agents','registry.json'),JSON.stringify(registry));
+    save();
+    assert.equal((await checkRegistry(fixture)).routes.complex.length,4);
+    registry.routes.complex.push('one'); save();
+    await assert.rejects(checkRegistry(fixture),/Invalid route/);
+    registry.routes.complex = ['unknown']; save();
+    await assert.rejects(checkRegistry(fixture),/Invalid route/);
+  } finally { rmSync(fixture,{recursive:true,force:true}); }
+});
 test('new PR title has useful Conventional Commit text, not a cafe task requirement', () => {
   assert.equal(validateTitle('fix(voice): preserve selected voice across steps'), true);
   assert.equal(validateTitle('chore(deps): bump dependencies'), true);
@@ -25,6 +43,13 @@ test('scope covers shared/CI changes, docs-only changes, deleted files and unusu
   assert.equal(planChecks(['ai/runtime/app/tutoring/speech_render.py']).ai, true);
   assert.equal(planChecks(['backend/business-api/src/main/a.java']).backend, true);
   assert.equal(planChecks(['scripts/dev/start-all.ps1']).launcher, true);
+  for (const file of ['pyproject.toml', 'uv.lock', 'requirements.txt', 'requirements-lock.txt']) {
+    assert.deepEqual(planChecks([`ai/runtime/${file}`]), { web: false, student: false, backend: false, ai: true, launcher: true });
+  }
+  for (const path of ['scripts/test/test_setup_local.ps1', 'scripts/test/test_minio_launcher_guard.ps1',
+    'scripts/test/test_student_qr.cjs', 'scripts/test/test_student_metro_config.cjs', 'scripts/test/test_python_runtime_pins.py']) {
+    assert.equal(planChecks([path]).launcher, true, path);
+  }
   for (const path of ['DEPLOY_WEB.bat', 'scripts/start-all.bat', 'scripts/start-student-metro.ps1', 'scripts/deploy/Start-PC-Preview.ps1']) assert.equal(planChecks([path]).launcher, true);
   assert.equal(planChecks(['scripts/deploy/Start-PC-Preview.ps1']).web, true);
   for (const path of ['tests/browser/workflows.spec.mjs', 'tests/browser/fixtures.mjs', 'playwright.config.mjs']) assert.equal(planChecks([path]).web, true);
@@ -95,11 +120,14 @@ test('PR workflow cannot execute with privileged trigger or movable action tags'
   assert.throws(() => verifyWorkflow('run: echo ${{ github.event.pull_request.title }}'), /untrusted/);
 });
 test('gate never turns failure, cancellation or unexpectedly skipped checks into success', () => {
-  const plan = {web:true,student:false,backend:false,ai:false};
+  const plan = {web:true,student:false,backend:false,ai:false,launcher:false};
   const results = {governance:'success',web:'success',student:'skipped',backend:'skipped',ai:'skipped',launcher:'skipped'};
   checkGate(results, plan);
   for (const status of ['failure','cancelled','skipped']) assert.throws(() => checkGate({...results, web:status},plan), /web/);
   assert.throws(() => checkGate({...results,governance:'failure'},plan), /Governance/);
+  for (const malformed of [{}, {...plan, web: undefined}, {...plan, launcher: 'yes'}, null]) {
+    assert.throws(() => checkGate(results, malformed), /plan/);
+  }
   checkGate(results, {web:'true',student:'false',backend:'false',ai:'false',launcher:'false'});
 });
 

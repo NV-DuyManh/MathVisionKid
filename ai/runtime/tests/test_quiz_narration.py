@@ -73,6 +73,24 @@ def test_simultaneous_identical_requests_render_once_and_busy_work_is_bounded(mo
     assert len(calls) == 2
 
 
+def test_quiz_retry_respects_provider_cooldown_and_preserves_voice_and_deadline(monkeypatch):
+    from app.tutoring import speech_render
+    clock, calls = [100.0], []
+    monkeypatch.setattr(time, 'monotonic', lambda: clock[0])
+    monkeypatch.setattr(time, 'sleep', lambda seconds: clock.__setitem__(0, clock[0] + seconds))
+    def render(parts, voice, **options):
+        calls.append((parts, voice, options['deadline']))
+        if len(calls) == 1:
+            speech_render._edge_unavailable_until[voice] = clock[0] + 15
+            raise speech.SpeechNoAudio()
+        assert clock[0] >= speech_render._edge_unavailable_until[voice]
+        return pcm()
+    monkeypatch.setattr(speech.narration, 'render_audio', render)
+    assert speech.narrate(request()) == pcm()
+    assert len(calls) == 2 and calls[0] == calls[1]
+    assert clock[0] == pytest.approx(115)
+
+
 def test_failed_tts_has_no_cache_entry_and_can_retry_without_changing_solution(monkeypatch):
     source = request()
     monkeypatch.setattr(speech.narration, 'render_audio', lambda *_, **__: (_ for _ in ()).throw(TutorUnavailable()))

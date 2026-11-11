@@ -20,6 +20,13 @@ def test_conversion_blank_grounds_target_unit_and_its_factor(blank):
     assert math_knowledge.unit_conversions('Hà có 2 viên bi.') == []
 
 
+def test_parenthesized_fraction_grounds_only_the_explicit_mass_units():
+    source = 'Cứ 1 m² thu hoạch được (6)/(5) kg thóc. Hỏi thu được bao nhiêu tạ thóc?'
+    assert dict(fromUnit='tạ', toUnit='kg', factor='100') in math_knowledge.unit_conversions(source)
+    assert '100' in math_knowledge.formula_constants(source)
+    assert not math_knowledge.unit_conversions(source.replace(' kg thóc', ' thóc'))
+
+
 @pytest.mark.parametrize('source,target,factor',[
     ('tấn','kg','1000'),('tạ','kg','100'),('yến','kg','10'),('kg','g','1000'),
     ('hg','g','100'),('dag','g','10'),('g','mg','1000'),('kg','mg','1000000'),

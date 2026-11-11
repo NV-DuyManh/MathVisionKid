@@ -7,11 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.transaction.support.TransactionTemplate;
-import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.UUID;
 
-/** Generation starts only after the full confirmed text has committed. No cloud dependency. */
+/** Generation starts only after the full confirmed text has committed. */
 @Service
 class QuizGenerationWorker {
     record Requested(UUID id,long revision) {}
@@ -19,8 +18,10 @@ class QuizGenerationWorker {
     private final QuizSources identities;
     private final ObjectMapper json;
     private final TransactionTemplate transaction;
-    QuizGenerationWorker(QuizPreparationRepository rows,QuizSources identities,ObjectMapper json,PlatformTransactionManager manager) {
+    private final QuizGenerator generator;
+    QuizGenerationWorker(QuizPreparationRepository rows,QuizSources identities,ObjectMapper json,PlatformTransactionManager manager,QuizGenerator generator) {
         this.rows=rows; this.identities=identities; this.json=json; this.transaction=new TransactionTemplate(manager);
+        this.generator=generator;
     }
     @org.springframework.context.event.EventListener(org.springframework.boot.context.event.ApplicationReadyEvent.class)
     public void recover(org.springframework.boot.context.event.ApplicationReadyEvent event) {
@@ -33,7 +34,7 @@ class QuizGenerationWorker {
         var source=rows.findById(request.id()).orElse(null);
         if(source==null || source.revision!=request.revision() || !"GENERATING".equals(source.status)) return;
         long start=System.nanoTime(); String draft=null,error=null,status="READY";
-        try { draft=json.writeValueAsString(QuizMath.generateFromConfirmed(source.confirmedProblemText,new SecureRandom())); }
+        try { draft=json.writeValueAsString(generator.generate(source.studentId,source.confirmedProblemText)); }
         catch(QuizMath.UnsupportedProblem ex) { status="UNSUPPORTED"; error="QUIZ_UNSUPPORTED"; }
         catch(Exception ex) { status="FAILED"; error="QUIZ_GENERATION_FAILED"; }
         final String result=draft,code=error,state=status;

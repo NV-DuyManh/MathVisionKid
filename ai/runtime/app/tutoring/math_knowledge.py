@@ -24,7 +24,7 @@ _UNITS.update({'ha':('area',Fraction(10000)),
 _CANONICAL={_fold(unit):unit for unit in _UNITS}
 _CANONICAL.update({'t':'tấn','h':'giờ','min':'phút','s':'giây'})
 _TOKENS=re.compile(r'(?<![a-z])('+ '|'.join(re.escape(unit) for unit in sorted(_CANONICAL,key=len,reverse=True)) +r')(?![a-z0-9²³])')
-_CONTEXT=re.compile(r'(?:\d+(?:[.,]\d+)?\s*|(?:sang|ra|thanh|theo|bang|so|bao nhieu|don vi|doi)\s+|=\s*(?:\.{2,}|…|\?)\s*)$')
+_CONTEXT=re.compile(r'(?:(?:\d+(?:[.,]\d+)?|\(\s*\d+\s*\)\s*/\s*\(\s*\d+\s*\))\s*|(?:sang|ra|thanh|theo|bang|so|bao nhieu|don vi|doi)\s+|=\s*(?:\.{2,}|…+|\?)\s*)$')
 _JOIN=r'[\s\-‐‑‒–—−]*'
 _ALIASES=[
     (r'(?:ki'+_JOIN+r'lo|kilo)'+_JOIN+r'met','km'),

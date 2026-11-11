@@ -5,6 +5,104 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuizMathTest {
+    static final String CLASS_EXAM = """
+            Câu 6. Lớp 4A có 45 học sinh. Biết số học sinh nữ chiếm (3)/(5) số học sinh cả lớp. Hỏi lớp đó có bao nhiêu học sinh nam?
+            A. 15 học sinh
+            B. 18 học sinh
+            C. 27 học sinh
+            D. 20 học sinh
+            """;
+
+    @Test void reportedClassFractionPreservesTheTwoStepReasoningAndChoices() {
+        var source = QuizMath.analyzeConfirmed(CLASS_EXAM).orElseThrow();
+        assertEquals(QuizMath.CLASS_COMPLEMENT, source.code());
+        assertEquals(Rational.of(18), source.answer());
+        for (int seed = 0; seed < 40; seed++) {
+            var generated = QuizMath.generateFromConfirmed(CLASS_EXAM, new Random(seed));
+            var verified = QuizMath.analyzeConfirmed(generated.question()).orElseThrow();
+            assertEquals(QuizMath.CLASS_COMPLEMENT, verified.code());
+            assertEquals(4, verified.grade());
+            assertTrue(verified.answer().integer());
+            assertTrue(verified.answer().positive());
+            assertNotEquals(source.answer(), verified.answer());
+            assertNotEquals(source.data().get(1), verified.data().get(1));
+            assertNotEquals(source.data().get(2), verified.data().get(2));
+            int total = Integer.parseInt(verified.data().get(1));
+            var part = Rational.parse(verified.data().get(2));
+            assertEquals(Rational.of(total).multiply(Rational.ONE.subtract(part)), verified.answer());
+            assertTrue(verified.solution().contains(" × ") && verified.solution().contains(" − "));
+            assertEquals(5, verified.question().lines().count());
+            var replay = QuizMath.generate(verified, new Random(seed), java.util.Set.of("18", verified.answer().toString()));
+            assertNotEquals(verified.answer(), replay.answer());
+            assertNotEquals(Rational.of(18), replay.answer());
+        }
+        for (String invalid : new String[]{
+                CLASS_EXAM.replace("45 học sinh.", "44 học sinh."),
+                CLASS_EXAM.replace("(3)/(5)", "(5)/(3)"),
+                CLASS_EXAM.replace("(3)/(5)", "(3)/(0)"),
+                CLASS_EXAM.replace("học sinh nam?", "học sinh nữ?"),
+                CLASS_EXAM.replace("B. 18 học sinh", "B. 19 học sinh"),
+                CLASS_EXAM.replace("D. 20 học sinh", "D. 18 học sinh"),
+                CLASS_EXAM.replace("D. 20 học sinh", "D. 20 kg"),
+                CLASS_EXAM + "Sau đó 5 bạn nam chuyển lớp."}) {
+            assertTrue(QuizMath.analyzeConfirmed(invalid).isEmpty(), invalid);
+        }
+    }
+
+    static final String PURCHASE_EXAM = """
+            Câu 5. Hiền và Mai cùng vào một cửa hàng văn phòng phẩm. Hiền mua 12 quyển vở hết 102 000 đồng.
+            Mai muốn mua 8 quyển vở như của Hiền nhưng còn thiếu 15 000 đồng. Hỏi Mai đang có bao nhiêu tiền?
+            A. 53 000 đồng
+            B. 68 000 đồng
+            C. 51 000 đồng
+            D. 62 000
+            """;
+    @Test void confirmedPurchaseKeepsAllThreeOperationsAndIntegerMoney() {
+        var source = QuizMath.analyzeConfirmed(PURCHASE_EXAM).orElseThrow();
+        assertEquals(QuizMath.PURCHASE, source.code());
+        assertEquals(Rational.of(53_000), source.answer());
+        for (int seed = 0; seed < 40; seed++) {
+            var quiz = QuizMath.generate(source, new Random(seed));
+            var checked = QuizMath.analyzeConfirmed(quiz.question()).orElseThrow();
+            assertEquals(QuizMath.PURCHASE, checked.code());
+            assertEquals(source.grade(), checked.grade());
+            assertEquals("đồng", checked.unit());
+            assertTrue(checked.answer().positive());
+            assertTrue(checked.answer().integer());
+            assertNotEquals(source.answer(), checked.answer());
+            assertNotEquals(source.data().getFirst(), checked.data().getFirst());
+            assertEquals(5, quiz.question().lines().count());
+            assertEquals(4, quiz.solution().lines().count());
+            assertTrue(quiz.solution().contains(" ÷ ") && quiz.solution().contains(" × ") && quiz.solution().contains(" − "));
+        }
+        for (String invalid : new String[]{
+                PURCHASE_EXAM.replace("102 000", "102 001"),
+                PURCHASE_EXAM.replace("8 quyển vở", "8 cây bút"),
+                PURCHASE_EXAM.replace("15 000 đồng", "15 000 đô"),
+                PURCHASE_EXAM.replace("A. 53 000", "A. 53 500"),
+                PURCHASE_EXAM.replace("D. 62 000", "D. 53 000"),
+                PURCHASE_EXAM.replace("15 000", "85 000"),
+                PURCHASE_EXAM + "Câu 6. Tính 1 + 2"}) {
+            assertTrue(QuizMath.analyzeConfirmed(invalid).isEmpty(), invalid);
+        }
+    }
+    @Test void exerciseHeadingAndOriginalArithmeticChoicesDoNotHideAQuiz() {
+        String source="Câu 6. Kết quả của phép tính 17/25 + 32/15 là: A. 49/40 B. 211/75 C. 211/40 D. 49/75";
+        for(String variant:new String[]{source,source.replace("A.","a.").replace("B.","b.").replace("C.","c.").replace("D.","d."),
+                source.replace("17/25", "(17)/(25)").replace("32/15", "(32)/(15)")}) {
+            var parsed=QuizMath.analyzeConfirmed(variant).orElseThrow();
+            assertEquals(Rational.parse("211/75"),parsed.answer());
+            var generated=QuizMath.generateFromConfirmed(variant,new Random(42));
+            assertNotEquals(parsed.answer(),generated.answer());
+            assertEquals(generated.answer(),QuizMath.classify(generated.question(),true).orElseThrow().answer());
+        }
+        assertTrue(QuizMath.analyzeConfirmed("Bài 6: (2 điểm) "+REPORTED_TREE).isPresent());
+        // The c in "lạc." is part of a Vietnamese word, not an answer label C.
+        assertEquals(Rational.of(40),QuizMath.analyzeConfirmed(CANDY.replace("kẹo chanh", "kẹo lạc")).orElseThrow().answer());
+        for(String invalid:new String[]{source+" Câu 7: Tính 1+2",source.replace("D. 49/75","D. 211/75"),
+                source.replace("B. 211/75","B. 213/75"),source.replace("C. 211/40","B. 211/40")})
+            assertTrue(QuizMath.analyzeConfirmed(invalid).isEmpty());
+    }
     @Test void actualPhoneScoreDecorationAndEquivalentClausesDoNotGateGenerationOnATopicLabel() {
         for(String original:new String[]{REPORTED_TREE+" (2 điểm)",REPORTED_TREE+" (2,5 điểm)",
                 REPORTED_TREE.replace(", 2/5","; 2/5").replace("còn lại là","còn lại gồm")+" (2 điểm)"}) {
