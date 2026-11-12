@@ -53,8 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         const data = await AppTeacherService.getMe();
         if (!active || version !== sessionVersion.current) return;
-        const normalizedRole = data.role ? String(data.role).toUpperCase().replace('ROLE_', '') : '';
-        if (normalizedRole !== 'TEACHER') {
+        if (data.role !== 'TEACHER') {
           throw new Error('Unauthorized role');
         }
         setUser(data);
