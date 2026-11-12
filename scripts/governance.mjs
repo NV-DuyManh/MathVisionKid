@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { appendFileSync, lstatSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { checkPullRequestRepository } from './git-flow.mjs';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export function validateTitle(title) {
   return /^(feat|fix|docs|test|refactor|perf|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: \S.{7,}$/u.test(title) && !/[\r\n]/.test(title);
@@ -57,6 +58,11 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
       checkTrackedArtifacts();
       for (const name of readdirSync(resolve(root, '.github/workflows')).filter(n => /\.ya?ml$/.test(n))) verifyWorkflow(readFileSync(resolve(root, '.github/workflows', name), 'utf8'));
       if (process.env.GITHUB_EVENT_NAME === 'pull_request' && !validateTitle(process.env.PR_TITLE ?? '')) throw new Error('PR title: use fix(voice): describe the resulting behavior');
+      if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
+        const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+        const policy = JSON.parse(readFileSync(resolve(root, '.github/git-flow.json'), 'utf8'));
+        checkPullRequestRepository(event.pull_request, policy, root);
+      }
       if (process.env.BASE_SHA) checkNewPaths(changedPaths(process.env.BASE_SHA, 'A'));
       console.log('Governance policy checks passed. Semantic review remains a human responsibility.');
     } else if (command === 'plan') {

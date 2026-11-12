@@ -12,7 +12,7 @@
   "scripts": {
     "test:browser": "playwright test",
     "test:browser:report": "playwright show-report .local-artifacts/browser/report",
-    "check:governance": "node scripts/skills.mjs check && node scripts/governance.mjs check && node --test scripts/governance.test.mjs",
+    "check:governance": "node scripts/skills.mjs check && node scripts/governance.mjs check && node --test scripts/governance.test.mjs scripts/git-flow.test.mjs",
     "start:device": "npm run start:device --workspace=student-mobile",
     "start:mobile": "npm run start:device --workspace=student-mobile",
     "test:mobile": "npm test --workspace=student-mobile",
