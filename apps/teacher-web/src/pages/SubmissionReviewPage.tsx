@@ -2,7 +2,6 @@ import {
   ArrowBack,
   CheckCircle,
   CheckCircleOutlined,
-  Edit,
   NavigateBefore,
   NavigateNext,
   School,
@@ -38,7 +37,6 @@ function SubmissionReview({ id }: { id?: string }) {
   const [params] = useSearchParams();
   const queryClient = useQueryClient();
 
-  const [isEditing, setIsEditing] = useState(false);
   const [editScore, setEditScore] = useState<number | string>('');
   const [editReason, setEditReason] = useState('');
   const [actionError, setActionError] = useState<string | null>(null);
@@ -145,7 +143,6 @@ function SubmissionReview({ id }: { id?: string }) {
         { subId: id, score, reason },
         {
           onSuccess: () => {
-            setIsEditing(false);
             if (advanceNext && nextSub) {
               navigate(`/submissions/${encodeURIComponent(nextSub.submissionId)}${fromReview ? '?from=review' : ''}`);
             } else if (!advanceNext && !returnPath) {
@@ -219,21 +216,11 @@ function SubmissionReview({ id }: { id?: string }) {
         )}
       </Box>
 
-      {isFinalized && !isEditing && (
+      {isFinalized && (
         <Alert
           severity="success"
-          sx={{ mb: 3, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-          action={
-            <Button
-              color="inherit"
-              size="small"
-              startIcon={<Edit />}
-              onClick={() => setIsEditing(true)}
-              sx={{ fontWeight: 700, textTransform: 'none' }}
-            >
-              Chấm lại
-            </Button>
-          }
+          sx={{ mb: 3, borderRadius: 2 }}
+          icon={<CheckCircle sx={{ fontSize: 24 }} />}
         >
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
@@ -242,6 +229,9 @@ function SubmissionReview({ id }: { id?: string }) {
                 : 'Đã hoàn tất chấm điểm'}
             </Typography>
             {sub.teacherReason && <Typography variant="body2">{sub.teacherReason}</Typography>}
+            <Typography variant="caption" sx={{ color: '#047857', display: 'block', mt: 0.5 }}>
+              ✓ Bài làm đã được giáo viên phê duyệt chính thức vào sổ điểm.
+            </Typography>
           </Box>
         </Alert>
       )}
@@ -284,6 +274,9 @@ function SubmissionReview({ id }: { id?: string }) {
                 studentName={sub.studentName}
                 onStatusChange={setImageStatus}
               />
+              <Typography variant="caption" sx={{ display: 'block', mt: 1, color: '#64748B', textAlign: 'center', fontSize: '0.75rem' }}>
+                💡 Nét vẽ và tem chấm được lưu tự động theo từng bài trong phiên làm việc của giáo viên.
+              </Typography>
             </Box>
           </Card>
         </Grid>
@@ -345,7 +338,7 @@ function SubmissionReview({ id }: { id?: string }) {
                         Phương pháp giải
                       </Typography>
                       <Typography variant="body2" sx={{ fontWeight: 800, color: '#059669' }}>
-                        6.0 / 10 đ
+                        {((sub.maxScore ?? 10) * 0.6).toFixed(0)} / {sub.maxScore ?? 10} đ
                       </Typography>
                     </Box>
                   </Grid>
@@ -355,7 +348,7 @@ function SubmissionReview({ id }: { id?: string }) {
                         Kết quả số học
                       </Typography>
                       <Typography variant="body2" sx={{ fontWeight: 800, color: '#059669' }}>
-                        3.0 / 10 đ
+                        {((sub.maxScore ?? 10) * 0.3).toFixed(0)} / {sub.maxScore ?? 10} đ
                       </Typography>
                     </Box>
                   </Grid>
@@ -365,7 +358,7 @@ function SubmissionReview({ id }: { id?: string }) {
                         Trình bày & ô ly
                       </Typography>
                       <Typography variant="body2" sx={{ fontWeight: 800, color: '#059669' }}>
-                        1.0 / 10 đ
+                        {((sub.maxScore ?? 10) * 0.1).toFixed(0)} / {sub.maxScore ?? 10} đ
                       </Typography>
                     </Box>
                   </Grid>
@@ -374,7 +367,7 @@ function SubmissionReview({ id }: { id?: string }) {
             </Card>
 
             {/* Card 3: Teacher Direct Grading & Feedback Card */}
-            {(!isFinalized || isEditing) && (
+            {!isFinalized && (
               <Card
                 sx={{
                   borderRadius: 2.5,
@@ -501,18 +494,6 @@ function SubmissionReview({ id }: { id?: string }) {
                           >
                             {isPending ? 'Đang lưu...' : `Lưu kết quả chấm bài (${editScore}đ)`}
                           </Button>
-
-                          {isEditing && (
-                            <Button
-                              variant="outlined"
-                              color="inherit"
-                              onClick={() => setIsEditing(false)}
-                              disabled={isPending}
-                              sx={{ flex: 1, py: 1.25 }}
-                            >
-                              Hủy
-                            </Button>
-                          )}
                         </Box>
                       </Stack>
                     </Box>

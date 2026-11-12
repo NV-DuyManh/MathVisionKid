@@ -100,6 +100,35 @@ function RefreshIcon() {
   );
 }
 
+function loadSubmissionAnnotations(subId?: string): { strokes: Stroke[]; stamps: Stamp[] } {
+  if (!subId || typeof window === 'undefined') return { strokes: [], stamps: [] };
+  try {
+    const raw = window.sessionStorage?.getItem(`mvk_annotations_${subId}`);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed?.strokes) && Array.isArray(parsed?.stamps)) {
+        return { strokes: parsed.strokes, stamps: parsed.stamps };
+      }
+    }
+  } catch {
+    // SessionStorage may be restricted or unavailable
+  }
+  return { strokes: [], stamps: [] };
+}
+
+function saveSubmissionAnnotations(subId: string | undefined, strokes: Stroke[], stamps: Stamp[]) {
+  if (!subId || typeof window === 'undefined') return;
+  try {
+    if (strokes.length > 0 || stamps.length > 0) {
+      window.sessionStorage?.setItem(`mvk_annotations_${subId}`, JSON.stringify({ strokes, stamps }));
+    } else {
+      window.sessionStorage?.removeItem(`mvk_annotations_${subId}`);
+    }
+  } catch {
+    // SessionStorage quota exceeded or restricted
+  }
+}
+
 export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: SubmissionImageProps) {
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [rotation, setRotation] = useState<number>(0);
@@ -109,10 +138,11 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
   const [retryCount, setRetryCount] = useState<number>(0);
   const [loaded, setLoaded] = useState<{ blob: Blob; url: string; retryCount: number } | null>(null);
 
-  // Interactive Teacher Canvas State
+  // Interactive Teacher Canvas State with per-submission persistence
+  const initialAnnotations = loadSubmissionAnnotations(id);
   const [activeTool, setActiveTool] = useState<ToolMode>('pen');
-  const [strokes, setStrokes] = useState<Stroke[]>([]);
-  const [stamps, setStamps] = useState<Stamp[]>([]);
+  const [strokes, setStrokes] = useState<Stroke[]>(initialAnnotations.strokes);
+  const [stamps, setStamps] = useState<Stamp[]>(initialAnnotations.stamps);
   const [isDrawing, setIsDrawing] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
   const currentStroke = useRef<StrokePoint[]>([]);
@@ -145,9 +175,14 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
     setDecodeError(null);
     setNaturalDimensions(null);
     setRetryCount(0);
-    setStrokes([]);
-    setStamps([]);
+    const saved = loadSubmissionAnnotations(id);
+    setStrokes(saved.strokes);
+    setStamps(saved.stamps);
   }
+
+  useEffect(() => {
+    saveSubmissionAnnotations(id, strokes, stamps);
+  }, [id, strokes, stamps]);
 
   useEffect(() => {
     currentStroke.current = [];
@@ -482,13 +517,20 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
   };
 
   const handleClear = () => {
-    setStrokes([]);
-    setStamps([]);
-    currentStroke.current = [];
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext ? canvas.getContext('2d') : null;
-      ctx?.clearRect(0, 0, canvas.width, canvas.height);
+    if (strokes.length === 0 && stamps.length === 0) return;
+    const confirmed = typeof window !== 'undefined' && typeof window.confirm === 'function'
+      ? window.confirm('Thầy cô có chắc chắn muốn xóa toàn bộ nét vẽ và tem chấm trên bài làm này?')
+      : true;
+    if (confirmed) {
+      setStrokes([]);
+      setStamps([]);
+      currentStroke.current = [];
+      saveSubmissionAnnotations(id, [], []);
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext ? canvas.getContext('2d') : null;
+        ctx?.clearRect(0, 0, canvas.width, canvas.height);
+      }
     }
   };
 

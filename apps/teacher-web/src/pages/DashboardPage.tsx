@@ -13,8 +13,6 @@ import {
   Skeleton,
   Chip,
   Alert,
-  LinearProgress,
-  Stack,
 } from '@mui/material';
 import {
   AssignmentTurnedIn,
@@ -24,8 +22,6 @@ import {
   AddCircleOutlined,
   School,
   ArrowForward,
-  BarChart,
-  LightbulbOutlined,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
@@ -38,14 +34,11 @@ import { EmptyState } from '../components/common/EmptyState';
 export default function DashboardPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { data: stats, isLoading: statsLoading, isFetching: statsFetching, refetch } = useQuery({
-    queryKey: ['teacher-dashboard'],
-    queryFn: () => AppTeacherService.getDashboard(),
-    refetchInterval: 5000, // Cập nhật số liệu thời gian thực mỗi 5s
+  const { data: stats, isLoading: statsLoading, refetch } = useQuery({
+    queryKey: ['teacher-dashboard'], queryFn: () => AppTeacherService.getDashboard(),
   });
   const { data: classes = [], isLoading: classesLoading, isError: classesError, refetch: refetchClasses } = useQuery({
-    queryKey: ['teacher-classes'],
-    queryFn: () => AppTeacherService.getClasses(),
+    queryKey: ['teacher-classes'], queryFn: () => AppTeacherService.getClasses(),
   });
   const loading = statsLoading || classesLoading;
 
@@ -82,15 +75,6 @@ export default function DashboardPage() {
         description="Theo dõi lớp học, quản lý bài tập ô ly và phê duyệt kết quả chấm bài của học sinh."
         actions={
           <>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={() => { void refetch(); void refetchClasses(); }}
-              disabled={statsFetching}
-              sx={{ borderRadius: 2.5, fontWeight: 600, mr: 1, textTransform: 'none' }}
-            >
-              {statsFetching ? 'Đang đồng bộ...' : 'Làm mới'}
-            </Button>
             <Button
               variant="outlined"
               startIcon={<AddCircleOutlined />}
@@ -254,118 +238,6 @@ export default function DashboardPage() {
         </Grid>
       </Grid>
 
-      {/* Learning Analytics: Grade Distribution & AI Class Insights */}
-      <Grid container spacing={3} sx={{ mb: 3.5 }}>
-        {/* Left: Phổ điểm học sinh toàn lớp */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{ height: '100%', borderRadius: 3, border: '1px solid #E2E8F0', p: 2.5 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <BarChart sx={{ color: '#059669', fontSize: 22 }} />
-                <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '1rem' }}>
-                  Phổ điểm học lực của học sinh
-                </Typography>
-              </Box>
-              <Chip label="Tổng hợp tuần này" size="small" sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 700 }} />
-            </Box>
-
-            <Stack spacing={1.75}>
-              <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                  <Typography variant="caption" sx={{ fontWeight: 700, color: '#065F46' }}>
-                    Xuất sắc (9 – 10 điểm)
-                  </Typography>
-                  <Typography variant="caption" sx={{ fontWeight: 800, color: '#059669' }}>
-                    42% (12 em)
-                  </Typography>
-                </Box>
-                <LinearProgress variant="determinate" value={42} sx={{ height: 8, borderRadius: 4, bgcolor: '#E2E8F0', '& .MuiLinearProgress-bar': { bgcolor: '#059669' } }} />
-              </Box>
-
-              <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                  <Typography variant="caption" sx={{ fontWeight: 700, color: '#1E40AF' }}>
-                    Khá (7 – 8.5 điểm)
-                  </Typography>
-                  <Typography variant="caption" sx={{ fontWeight: 800, color: '#2563EB' }}>
-                    38% (11 em)
-                  </Typography>
-                </Box>
-                <LinearProgress variant="determinate" value={38} sx={{ height: 8, borderRadius: 4, bgcolor: '#E2E8F0', '& .MuiLinearProgress-bar': { bgcolor: '#2563EB' } }} />
-              </Box>
-
-              <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                  <Typography variant="caption" sx={{ fontWeight: 700, color: '#92400E' }}>
-                    Trung bình (5 – 6.5 điểm)
-                  </Typography>
-                  <Typography variant="caption" sx={{ fontWeight: 800, color: '#D97706' }}>
-                    15% (4 em)
-                  </Typography>
-                </Box>
-                <LinearProgress variant="determinate" value={15} sx={{ height: 8, borderRadius: 4, bgcolor: '#E2E8F0', '& .MuiLinearProgress-bar': { bgcolor: '#D97706' } }} />
-              </Box>
-
-              <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                  <Typography variant="caption" sx={{ fontWeight: 700, color: '#991B1B' }}>
-                    Cần hỗ trợ (&lt; 5 điểm)
-                  </Typography>
-                  <Typography variant="caption" sx={{ fontWeight: 800, color: '#DC2626' }}>
-                    5% (1 em)
-                  </Typography>
-                </Box>
-                <LinearProgress variant="determinate" value={5} sx={{ height: 8, borderRadius: 4, bgcolor: '#E2E8F0', '& .MuiLinearProgress-bar': { bgcolor: '#DC2626' } }} />
-              </Box>
-            </Stack>
-          </Card>
-        </Grid>
-
-        {/* Right: Thống kê Lỗ hổng kiến thức & Khuyến nghị */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{ height: '100%', borderRadius: 3, border: '1px solid #E2E8F0', p: 2.5, bgcolor: '#FAFAFA' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
-              <LightbulbOutlined sx={{ color: '#2563EB', fontSize: 22 }} />
-              <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '1rem' }}>
-                Thống kê lỗ hổng kiến thức phổ biến của lớp
-              </Typography>
-            </Box>
-
-            <Stack spacing={1.5}>
-              <Paper sx={{ p: 1.5, borderRadius: 2, bgcolor: '#FEF2F2', border: '1px solid #FECACA' }}>
-                <Typography variant="caption" sx={{ fontWeight: 800, color: '#DC2626', display: 'block' }}>
-                  ⚠️ 42% HỌC SINH NHẦM LẪN KHI SO SÁNH PHÂN SỐ
-                </Typography>
-                <Typography variant="caption" sx={{ color: '#7F1D1D', display: 'block', mt: 0.25 }}>
-                  Học sinh so sánh trực tiếp tử số mà chưa thực hiện bước quy đồng mẫu số chung.
-                </Typography>
-              </Paper>
-
-              <Paper sx={{ p: 1.5, borderRadius: 2, bgcolor: '#FFFBEB', border: '1px solid #FDE68A' }}>
-                <Typography variant="caption" sx={{ fontWeight: 800, color: '#D97706', display: 'block' }}>
-                  ⚠️ 28% HỌC SINH QUÊN NHỚ KHI CỘNG/TRỪ HÀNG CHỤC
-                </Typography>
-                <Typography variant="caption" sx={{ color: '#78350F', display: 'block', mt: 0.25 }}>
-                  Đặt tính thẳng hàng nhưng quên cộng số nhớ vào hàng tiếp theo khi cộng qua 10.
-                </Typography>
-              </Paper>
-
-              <Paper sx={{ p: 1.5, borderRadius: 2, bgcolor: '#ECFDF5', border: '1px solid #A7F3D0' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                  <LightbulbOutlined sx={{ fontSize: 16, color: '#059669' }} />
-                  <Typography variant="caption" sx={{ fontWeight: 800, color: '#065F46' }}>
-                    KIẾN NGHỊ SƯ PHẠM CHO TIẾT HỌC TỚI:
-                  </Typography>
-                </Box>
-                <Typography variant="caption" sx={{ color: '#047857', display: 'block', mt: 0.25 }}>
-                  Dành 10 phút đầu buổi học để sửa 2 bài toán mẫu về so sánh phân số và đặt tính có nhớ.
-                </Typography>
-              </Paper>
-            </Stack>
-          </Card>
-        </Grid>
-      </Grid>
-
       {/* 2-Column Operational Grid matching Admin Dashboard */}
       <Box className="dashboard-columns">
         {/* Left Column: Recent Batches List */}
@@ -387,30 +259,17 @@ export default function DashboardPage() {
 
           <Card sx={{ borderRadius: 3.5, overflow: 'hidden', border: '1px solid #E2E8F0' }}>
             {!stats?.recentBatches || stats.recentBatches.length === 0 ? (
-              <Box sx={{ p: 2, textAlign: 'center' }}>
-                <EmptyState
-                  title={stats ? 'Chưa có đợt chấm bài nào gần đây' : 'Chưa tải được danh sách đợt chấm'}
-                  description={
-                    stats
-                      ? 'Bắt đầu bằng việc tạo đợt chấm bài mới hoặc tạo bài tập từ Ngân hàng đề bài để học sinh nộp bài.'
-                      : 'Vui lòng kiểm tra lại kết nối mạng hoặc làm mới trang.'
-                  }
-                  actionText={stats ? 'Tạo đợt chấm mới' : undefined}
-                  onAction={stats ? () => navigate('/batches/create') : undefined}
-                  icon={<AssignmentTurnedIn sx={{ fontSize: 36, color: '#94A3B8' }} />}
-                />
-                <Box sx={{ pb: 2, display: 'flex', justifyContent: 'center', gap: 1.5 }}>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<School />}
-                    onClick={() => navigate('/assignments/create')}
-                    sx={{ borderRadius: 2, fontWeight: 700, textTransform: 'none' }}
-                  >
-                    Tạo bài tập từ đề mẫu SGK
-                  </Button>
-                </Box>
-              </Box>
+              <EmptyState
+                title={stats ? 'Chưa có đợt chấm bài nào gần đây' : 'Chưa tải được danh sách đợt chấm'}
+                description={
+                  stats
+                    ? 'Bắt đầu bằng việc tạo đợt chấm bài mới hoặc tải ảnh bài làm của học sinh để hệ thống AI hỗ trợ phân tích.'
+                    : 'Vui lòng kiểm tra lại kết nối mạng hoặc làm mới trang.'
+                }
+                actionText={stats ? 'Tạo đợt chấm mới' : undefined}
+                onAction={stats ? () => navigate('/batches/create') : undefined}
+                icon={<AssignmentTurnedIn sx={{ fontSize: 36, color: '#94A3B8' }} />}
+              />
             ) : (
               <List sx={{ p: 0 }}>
                 {stats.recentBatches.map((batch, index) => (
