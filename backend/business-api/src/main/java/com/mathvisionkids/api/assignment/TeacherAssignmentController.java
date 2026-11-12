@@ -67,8 +67,13 @@ public class TeacherAssignmentController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<AssignmentResponse> createAssignment(@Valid @RequestBody AssignmentRequest request, Principal principal) {
         Teacher teacher = teacherRepository.findByEmail(principal.getName()).orElseThrow();
+        UUID requestId = request.getCreationRequestId();
+        if (requestId != null) {
+            teacherRepository.lockForAssignmentCreation(teacher.getId()).orElseThrow();
+        }
         Classroom classroom = classroomRepository.findById(request.getClassId())
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Classroom not found", HttpStatus.NOT_FOUND));
 
@@ -76,7 +81,22 @@ public class TeacherAssignmentController {
             throw new ApiException("FORBIDDEN", "Not authorized for this classroom", HttpStatus.FORBIDDEN);
         }
 
+        if (requestId != null) {
+            var previous = assignmentRepository.findByTeacher_IdAndCreationRequestId(teacher.getId(), requestId);
+            if (previous.isPresent()) {
+                Assignment saved = previous.get();
+                if (!request.getClassId().equals(saved.getClassroom().getClassId())
+                        || !request.getTitle().equals(saved.getTitle())
+                        || !request.getOperationType().equals(saved.getOperationType())
+                        || !request.getMaxScore().equals(saved.getMaxScore())) {
+                    throw new ApiException("ASSIGNMENT_REQUEST_CONFLICT", "Yêu cầu này đã được dùng để tạo bài tập khác.", HttpStatus.CONFLICT);
+                }
+                return ResponseEntity.ok(toResponse(saved));
+            }
+        }
+
         Assignment assignment = new Assignment();
+        assignment.setCreationRequestId(requestId);
         assignment.setTeacher(teacher);
         assignment.setClassroom(classroom);
         assignment.setTitle(request.getTitle());

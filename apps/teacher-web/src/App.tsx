@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, RouterProvider, Outlet, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
@@ -14,11 +14,8 @@ import SubmissionReviewPage from './pages/SubmissionReviewPage';
 import SettingsPage from './pages/SettingsPage';
 import { AuthProvider } from './components/layout/AuthContext';
 
-function App() {
-  return (
-    <Router>
-      <AuthProvider>
-        <Routes>
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route element={<AuthProvider><Outlet /></AuthProvider>}>
           <Route path="/login" element={<LoginPage />} />
           
           <Route path="/" element={<Layout />}>
@@ -36,10 +33,11 @@ function App() {
             <Route path="settings" element={<SettingsPage />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
-        </Routes>
-      </AuthProvider>
-    </Router>
-  );
+  </Route>
+));
+
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;

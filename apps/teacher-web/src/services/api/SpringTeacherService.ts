@@ -64,7 +64,7 @@ class SpringTeacherServiceImpl implements TeacherService {
 
   async getDashboard(): Promise<DashboardStats> {
     const res = await apiClient.get('/teacher/dashboard');
-    const { todayTotal, processedCount, reviewRequiredCount, recentBatches } = res.data ?? {};
+    const { todayTotal, processedCount, reviewRequiredCount, nextReviewBatchId, recentBatches } = res.data ?? {};
     if (![todayTotal, processedCount, reviewRequiredCount].every(value => Number.isSafeInteger(value) && value >= 0)
       || !Array.isArray(recentBatches)) {
       throw new Error('Dữ liệu tổng quan chưa hợp lệ. Vui lòng thử lại.');
@@ -73,6 +73,7 @@ class SpringTeacherServiceImpl implements TeacherService {
       totalToday: todayTotal,
       completed: processedCount,
       reviewRequired: reviewRequiredCount,
+      nextReviewBatchId: typeof nextReviewBatchId === 'string' ? nextReviewBatchId : undefined,
       recentBatches,
     };
   }
@@ -107,12 +108,13 @@ class SpringTeacherServiceImpl implements TeacherService {
     return classroom.students;
   }
 
-  async createAssignment(classId: string, title: string, mathType: MathType, maxScore: number = 10): Promise<Assignment> {
+  async createAssignment(classId: string, title: string, mathType: MathType, maxScore = 10, creationRequestId?: string): Promise<Assignment> {
     const res = await apiClient.post('/teacher/assignments', {
       classId,
       title,
       operationType: mathType,
       maxScore,
+      creationRequestId,
     });
     return res.data;
   }
@@ -122,8 +124,8 @@ class SpringTeacherServiceImpl implements TeacherService {
     return res.data;
   }
 
-  async createBatch(assignmentId: string, imagesCount: number): Promise<Batch> {
-    const res = await apiClient.post('/teacher/batches', { assignmentId, totalCount: imagesCount });
+  async createBatch(assignmentId: string, imagesCount: number, creationRequestId?: string): Promise<Batch> {
+    const res = await apiClient.post('/teacher/batches', { assignmentId, totalCount: imagesCount, creationRequestId });
     return res.data;
   }
 

@@ -1,12 +1,15 @@
 import { Alert, Box, Button, Card, LinearProgress, List, ListItem, ListItemText, Skeleton, Stack, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { PageHeader } from '../components/common/PageHeader';
 import { StatusChip } from '../components/common/StatusChip';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 
 export default function BatchDetailPage() {
   const { id = '' } = useParams();
+  const { state } = useLocation();
+  const [params] = useSearchParams();
+  const failedOnly = params.get('status') === 'failed';
   const { data: batch, isPending, isError, isFetching, refetch } = useQuery({
     queryKey: ['batch', id],
     queryFn: () => AppTeacherService.getBatchStatus(id),
@@ -21,6 +24,8 @@ export default function BatchDetailPage() {
   const finalized = batch?.finalizedCount ?? 0;
   const percent = total ? Math.min(100, Math.round(processed * 100 / total)) : 0;
   const batchPath = '/batches/' + encodeURIComponent(id);
+  const submissions = batch?.submissions ?? [];
+  const visibleSubmissions = failedOnly ? submissions.filter(submission => submission.status === 'FAILED') : submissions;
   const uploadPath = '/batches/create?' + new URLSearchParams({ batchId: id });
   const counts = [
     { label: 'Ảnh đã xử lý', value: processed + ' / ' + total },
@@ -30,7 +35,8 @@ export default function BatchDetailPage() {
   ];
 
   return <Box>
-    <Button component={Link} to="/batches" sx={{ mb: 2 }}>Quay lại danh sách đợt chấm</Button>
+    <Button component={Link} to={state?.batchListFilter === 'pending' || state?.batchListFilter === 'failed'
+      ? '/batches?filter=' + state.batchListFilter : '/batches'} sx={{ mb: 2 }}>Quay lại danh sách đợt chấm</Button>
     <PageHeader title={batch?.assignmentTitle || 'Chi tiết đợt chấm'} subtitle={batch?.className}
       actions={<Button variant="outlined" disabled={isFetching} onClick={() => void refetch()}>Làm mới</Button>} />
     {isPending && <Skeleton variant="rounded" height={160} aria-label="Đang tải đợt chấm" />}
@@ -45,7 +51,7 @@ export default function BatchDetailPage() {
               <Typography component="h2" variant="h6">Tiến độ đợt chấm</Typography>
               <StatusChip status={batch.status} />
             </Box>
-            {pending > 0 && <Button component={Link} to={batchPath + '/review'} variant="contained">
+            {pending > 0 && <Button component={Link} to={batchPath + '/review'} state={state} variant="contained">
               Vào hàng đợi duyệt ({pending} bài)
             </Button>}
           </Stack>
@@ -63,19 +69,25 @@ export default function BatchDetailPage() {
             </Box>
           </>}
           {failed > 0 && <Alert severity="warning" sx={{ mt: 2 }}>
-            {failed} bài chưa xử lý được. Mở từng bài để xem tình trạng trước khi tạo đợt bổ sung.
+            {failed} bài chưa xử lý được. Mở bài lỗi để xem cách xử lý tiếp.
+            {!failedOnly && <Button component={Link} to={batchPath + '?status=failed'} state={state} size="small"
+              sx={{ display: 'flex', width: 'fit-content' }}>Xem bài xử lý thất bại</Button>}
           </Alert>}
         </Card>
         <Card variant="outlined" sx={{ p: { xs: 2, sm: 3 } }}>
           <Typography component="h2" variant="h6">Bài làm trong đợt</Typography>
-          {batch.submissions?.length ? <List aria-label="Bài làm trong đợt">
-            {batch.submissions.map(submission => <ListItem key={submission.submissionId} disableGutters divider
+          {failedOnly && <Button component={Link} to={batchPath} state={state} size="small">Xem tất cả bài</Button>}
+          {visibleSubmissions.length ? <List aria-label="Bài làm trong đợt">
+            {visibleSubmissions.map(submission => <ListItem key={submission.submissionId} disableGutters divider
               sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1 }}>
               <ListItemText primary={submission.studentName || 'Chưa có tên học sinh'} sx={{ flex: '1 1 160px', minWidth: 0, overflowWrap: 'anywhere' }} />
               <StatusChip status={submission.status} />
-              <Button component={Link} to={'/submissions/' + encodeURIComponent(submission.submissionId)}>Xem bài</Button>
+              <Button component={Link} state={state} to={'/submissions/' + encodeURIComponent(submission.submissionId)
+                + (failedOnly ? '?from=failed' : '')}>Xem bài</Button>
             </ListItem>)}
-          </List> : <Typography color="text.secondary" sx={{ mt: 1 }}>Chưa có bài làm trong đợt này.</Typography>}
+          </List> : <Typography role="status" color="text.secondary" sx={{ mt: 1 }}>
+            {failedOnly ? 'Không có bài ở trạng thái xử lý thất bại.' : 'Chưa có bài làm trong đợt này.'}
+          </Typography>}
         </Card>
       </Stack>
     </>}

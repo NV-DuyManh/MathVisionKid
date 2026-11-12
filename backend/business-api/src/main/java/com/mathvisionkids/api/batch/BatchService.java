@@ -52,9 +52,20 @@ public class BatchService {
 
     @Transactional
     public Batch createBatch(String teacherEmail, UUID assignmentId) {
+        return createBatch(teacherEmail, assignmentId, null).batch();
+    }
+
+    public record BatchCreation(Batch batch, boolean created) {}
+
+    @Transactional
+    public BatchCreation createBatch(String teacherEmail, UUID assignmentId, UUID creationRequestId) {
         Teacher teacher = teacherRepository.findByEmail(teacherEmail)
                 .map(u -> teacherRepository.findById(u.getId()).orElse(null))
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Teacher not found", HttpStatus.NOT_FOUND));
+
+        if (creationRequestId != null) {
+            teacherRepository.lockForAssignmentCreation(teacher.getId()).orElseThrow();
+        }
 
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Assignment not found", HttpStatus.NOT_FOUND));
@@ -63,11 +74,23 @@ public class BatchService {
             throw new ApiException("FORBIDDEN", "Not authorized for this assignment", HttpStatus.FORBIDDEN);
         }
 
+        if (creationRequestId != null) {
+            var previous = batchRepository.findByTeacher_IdAndCreationRequestId(teacher.getId(), creationRequestId);
+            if (previous.isPresent()) {
+                Batch saved = previous.get();
+                if (!assignmentId.equals(saved.getAssignment().getAssignmentId())) {
+                    throw new ApiException("BATCH_REQUEST_CONFLICT", "Yêu cầu này đã được dùng để tạo đợt chấm khác.", HttpStatus.CONFLICT);
+                }
+                return new BatchCreation(saved, false);
+            }
+        }
+
         Batch batch = new Batch();
+        batch.setCreationRequestId(creationRequestId);
         batch.setAssignment(assignment);
         batch.setTeacher(teacher);
         batch.setStatus("CREATED");
-        return batchRepository.save(batch);
+        return new BatchCreation(batchRepository.save(batch), true);
     }
 
     @Transactional
@@ -190,8 +213,8 @@ public class BatchService {
     @Transactional(readOnly = true)
     public List<BatchResponse> getBatches(String teacherEmail) {
         Teacher teacher = teacherRepository.findByEmail(teacherEmail).orElseThrow();
-        return batchRepository.findOwnedByAssignedTeacherOrderByCreatedAtDesc(teacher.getId()).stream()
-                .map(batch -> BatchResponse.from(batch, submissionRepository.findByBatch_BatchId(batch.getBatchId())))
+        return batchRepository.findOwnedByAssignedTeacherProgress(teacher.getId()).stream()
+                .map(BatchResponse::from)
                 .toList();
     }
     

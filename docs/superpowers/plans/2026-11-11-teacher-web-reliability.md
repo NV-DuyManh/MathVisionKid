@@ -1,6 +1,6 @@
 # Teacher Web Reliability Implementation Plan
 
-> Hướng phát triển đã được duyệt. Luồng chốt điểm vòng 1 đã được kiểm chứng cục bộ trên `Loc/Teacher-features`. Vòng 2 và pilot vẫn đang mở.
+> Mốc hiện tại là hoàn thiện Teacher Web trên `Loc/Teacher-features`. Tiêu chí bàn giao gồm luồng giáo viên qua stack cách ly, phân quyền, tính toàn vẹn dữ liệu và hồi quy trình duyệt. Đánh giá model thật và pilot là phần việc nghiệm thu cấp dự án sau mốc này. Xem [báo cáo tiến độ hiện tại](../../../report/teacher-web-reliability-session-2026-11-12.md).
 
 **Mục tiêu** — Giáo viên tiểu học có thể đi từ danh sách lớp tới điểm chính thức và biết chính xác cần làm gì với từng bài AI chưa xử lý được.
 
@@ -54,29 +54,31 @@ Luồng chính đã có trên nhánh khảo sát. Portal cấp phiên Teacher. G
 
 ## Vòng 1 · Chốt điểm đáng tin cậy
 
+Các mục dưới đây đã triển khai và được kiểm tra trong phạm vi ghi tại “Kết quả vòng 1”. Ca ảnh không đọc được dùng fixture để xác minh trạng thái và bước xử lý. Pilot với giáo viên và model thật ở vòng 3.
+
 ### 1. Phân biệt đã lưu điểm và tải lại dữ liệu
 
 **Tệp chính** — `apps/teacher-web/src/services/api/{TeacherService,SpringTeacherService,MockTeacherService}.ts`, `pages/SubmissionReviewPage.tsx`, `tests/api-contracts.test.mjs` và `tests/review-fixes-regression.test.mjs`.
 
-- [ ] Thêm ca POST trả 204 rồi GET trả 503, và ca POST bị ngắt trước khi nhận phản hồi nhưng GET sau đó trả điểm đã chốt.
-- [ ] Giữ endpoint hiện hành. Cho `approveSubmission(submissionId: string)` và `overrideSubmission(submissionId: string, score: number, reason: string)` trả `Promise<void>` sau POST thành công. Trang lấy dữ liệu cập nhật qua React Query. Cập nhật ca contract cũ đang yêu cầu adapter tự GET sau khi ghi. Nếu biết POST đã thành công, giao diện thông báo đã lưu dù tải lại lỗi. Khi chưa biết POST có thành công, cho kiểm tra lại trước khi gửi tiếp.
-- [ ] Chạy `npm run test:config --workspace=teacher-web` và các ca trình duyệt. Xác nhận người dùng thấy đúng kết quả, thao tác không tự gửi lần hai và tải lại hiển thị điểm chính thức.
+- [x] Thêm ca POST trả 204 rồi GET trả 503, và ca POST bị ngắt trước khi nhận phản hồi nhưng GET sau đó trả điểm đã chốt.
+- [x] Giữ endpoint hiện hành. Cho `approveSubmission(submissionId: string)` và `overrideSubmission(submissionId: string, score: number, reason: string)` trả `Promise<void>` sau POST thành công. Trang lấy dữ liệu cập nhật qua React Query. Cập nhật ca contract cũ đang yêu cầu adapter tự GET sau khi ghi. Nếu biết POST đã thành công, giao diện thông báo đã lưu dù tải lại lỗi. Khi chưa biết POST có thành công, cho kiểm tra lại trước khi gửi tiếp.
+- [x] Chạy `npm run test:config --workspace=teacher-web` và các ca trình duyệt. Xác nhận người dùng thấy đúng kết quả, thao tác không tự gửi lần hai và tải lại hiển thị điểm chính thức.
 
 ### 2. Dùng trạng thái của đợt để hiển thị hàng đợi
 
 **Tệp chính** — `apps/teacher-web/src/pages/{ReviewQueuePage,BatchDetailPage}.tsx`, `apps/teacher-web/tests/review-fixes-regression.test.mjs`, `tests/browser/teacher-review.spec.mjs`.
 
-- [ ] Thêm ca đợt có 3/30 ảnh đã xử lý và hàng đợi rỗng, đợt chỉ có bài thất bại, đợt chờ ảnh và đợt đã chốt toàn bộ.
-- [ ] Đọc chi tiết đợt qua query `['batch', batchId]` hiện có. Dùng `status`, `processedCount`, `pendingReviewCount`, `failedCount` và `finalizedCount` để hiển thị trạng thái. Cập nhật có giới hạn khi đang xử lý và cho thử lại khi tải lỗi. Điều kiện “đã chốt toàn bộ” cần đối chiếu số đã chốt với số bài trong đợt.
-- [ ] Kiểm tra trên desktop và màn hẹp. Mở đường dẫn trực tiếp hoặc quay lại từ một bài đang duyệt phải thấy cùng tiến độ. Bài lỗi có đường dẫn tới chi tiết và thông báo bước tiếp theo.
+- [x] Thêm ca đợt có 3/30 ảnh đã xử lý và hàng đợi rỗng, đợt chỉ có bài thất bại, đợt chờ ảnh và đợt đã chốt toàn bộ.
+- [x] Đọc chi tiết đợt qua query `['batch', batchId]` hiện có. Dùng `status`, `processedCount`, `pendingReviewCount`, `failedCount` và `finalizedCount` để hiển thị trạng thái. Cập nhật có giới hạn khi đang xử lý và cho thử lại khi tải lỗi. Điều kiện “đã chốt toàn bộ” cần đối chiếu số đã chốt với số bài trong đợt.
+- [x] Kiểm tra trên desktop và màn hẹp. Mở đường dẫn trực tiếp hoặc quay lại từ một bài đang duyệt phải thấy cùng tiến độ. Bài lỗi có đường dẫn tới chi tiết và thông báo bước tiếp theo.
 
 ### 3. Cho giáo viên xử lý bài AI không chắc chắn
 
 **Tệp chính** — `backend/business-api/src/main/java/com/mathvisionkids/api/{submission/SubmissionService,batch/BatchResponse}.java`, `apps/teacher-web/src/pages/SubmissionReviewPage.tsx`, `TeacherReviewWorkflowIntegrationTest.java` và `tests/browser/teacher-review.spec.mjs`.
 
-- [ ] Thêm ca bài `NEEDS_CONFIRMATION` có ảnh đọc được, bài `NEEDS_RETAKE` có ảnh không đọc được, bài chưa có đề xuất, bài đã chốt, và tài khoản không còn được phân lớp. Xác nhận 0 là điểm hợp lệ nếu được chủ động nhập và có lý do. Kiểm tra hai lần ghi đồng thời chỉ tạo một quyết định.
-- [ ] Sau khi chủ dự án duyệt quy tắc, dùng `POST /api/v1/teacher/submissions/{id}/override` cho chấm thủ công ở trạng thái được phép. Giữ kiểm tra quyền sở hữu, thang điểm, lý do, tính bất biến của điểm đã chốt và audit. Chỉ cho duyệt đề xuất khi có đề xuất hợp lệ. Ở ca cần ảnh mới, vòng đầu hiển thị lý do và giữ bài cần xử lý. Đường thay ảnh trên cùng bài nộp thuộc vòng 2, sau khi chốt cách lưu lịch sử.
-- [ ] Chạy `gradlew.bat test --tests '*TeacherReviewWorkflowIntegrationTest' --tests '*BatchUploadTransactionTest' --tests '*TeacherSubmissionImageTest'` với profile `test`, sau đó chạy thử browser và kịch bản dịch vụ riêng. Kiểm tra quyết định tồn tại sau reload, ảnh riêng tư và bộ đếm phản ánh đúng trạng thái.
+- [x] Thêm ca bài `NEEDS_CONFIRMATION` có ảnh đọc được, bài `NEEDS_RETAKE` từ fixture, bài chưa có đề xuất, bài đã chốt, và tài khoản không còn được phân lớp. Xác nhận 0 là điểm hợp lệ nếu được chủ động nhập và có lý do. Kiểm tra hai lần ghi đồng thời chỉ tạo một quyết định.
+- [x] Dùng `POST /api/v1/teacher/submissions/{id}/override` cho chấm thủ công ở trạng thái được phép. Giữ kiểm tra quyền sở hữu, thang điểm, lý do, tính bất biến của điểm đã chốt và audit. Chỉ cho duyệt đề xuất khi có đề xuất hợp lệ. Ở ca cần ảnh mới, vòng đầu hiển thị lý do và giữ bài cần xử lý. Đường thay ảnh trên cùng bài nộp thuộc vòng 2.
+- [x] Kiểm tra các ca Spring với profile `test`, sau đó chạy thử browser và kịch bản dịch vụ riêng. Kiểm tra quyết định tồn tại sau reload, ảnh riêng tư và bộ đếm phản ánh đúng trạng thái.
 
 ### Kết quả vòng 1
 
@@ -91,11 +93,11 @@ Luồng chính đã có trên nhánh khảo sát. Portal cấp phiên Teacher. G
 - Hàng đợi đã giữ bộ lọc, từ khóa và cách sắp xếp khi mở bài, quay lại hoặc tải lại trong cùng đợt và phiên đăng nhập. Từ khóa nằm trong trạng thái điều hướng của trình duyệt. Dashboard đã có liên kết mở đợt bằng bàn phím. Bộ đếm “Tổng bài hôm nay” và ngày hiển thị trên Dashboard dùng `Asia/Ho_Chi_Minh`, gồm bài nộp đúng 00:00 và loại bài từ 00:00 ngày kế tiếp.
 - Hàng đợi tải tóm tắt qua `GET /api/v1/teacher/batches/{batchId}/review-summary`; API `/review` vẫn trả mảng ID. Chromium với API tổng hợp đo 3/12/32 request dữ liệu trước sửa và 2/2/2 sau sửa cho 1/10/30 bài. Một lượt desktop ghi thời gian đến khi đủ thẻ hiển thị là 214/282/332 ms trước và 299/301/306 ms sau; số đo đơn lẻ trên fixture chưa xác định độ trễ thực tế. Spring/PostgreSQL 16 cách ly đã trả 30 bản ghi có đúng thứ tự và phần tóm tắt điểm, độ tin cậy, bằng chứng. Đo Dashboard với lịch sử nhiều đợt và đo tải lạnh vẫn là công việc riêng.
 
-## Vòng 3 · Nghiệm thu pilot
+## Vòng 3 · Nghiệm thu Teacher Web
 
 - Đã chạy luồng 1 và 30 ảnh tổng hợp qua Chromium, Spring, PostgreSQL 16, MinIO, Redis và worker `FIXTURE` trong môi trường cách ly. Đợt 30 có 30 ảnh khác nhau gán cho 30 học sinh, khớp 30/30 SHA-256 theo học sinh, không có ảnh xử lý lỗi. Chốt một bài, tải lại giữ điểm và hàng đợi còn 29 bài. Lượt chạy quan sát hoàn tất xử lý sau 5.695 ms từ khi gửi request upload, gồm thời gian polling, với một lượt fixture. Kịch bản tái chạy có ở [hướng dẫn kiểm thử trình duyệt](../../engineering/browser-testing.md#nghiệm-thu-bằng-dịch-vụ-thật).
-- Quan sát giáo viên tự tạo đợt và vào hàng đợi theo tiêu chí Capstone. Ghi số lần phải nhờ trợ giúp, thời gian tới bài đầu tiên và điểm gây nhầm. Đo riêng p95 AI theo ảnh đã cắt và thời gian upload đến khi có kết quả. Ghi môi trường, số mẫu, loại ảnh và số thất bại cùng các số đo.
-- Xác minh nhu cầu xuất bảng điểm, xử lý học sinh trùng trong nhiều đợt, và thao tác với tên tiếng Việt không dấu. Nếu có nhu cầu xuất điểm, chốt phiên bản bài nộp, phạm vi lớp, ai được xuất và trường được phép xuất trước khi xây.
+- Chốt hồi quy desktop/mobile cho luồng đăng nhập, lớp, giao bài, tải ảnh, xử lý lỗi, duyệt và xem kết quả. Ba kịch bản tạo đợt trước đây timeout ở bước chọn học sinh đã dùng lại fixture đúng hợp đồng Spring. Xem kết quả tại checklist cuối.
+- Đối chiếu kết quả hồi quy với bằng chứng stack thật, kiểm tra thay đổi cuối về quyền và dữ liệu, rồi cập nhật báo cáo bàn giao Teacher Web.
 
 ## Kiểm chứng trong phiên khảo sát
 
@@ -110,7 +112,54 @@ Luồng chính đã có trên nhánh khảo sát. Portal cấp phiên Teacher. G
 | Spring `TeacherReviewWorkflowIntegrationTest`, `BatchUploadTransactionTest`, `TeacherClassControllerTest`, `TeacherDashboardControllerTest`, `TeacherSubmissionImageTest` | 26/26 với H2, storage và gateway được mô phỏng ở các ca liên quan. Lần đầu `--offline` thiếu Spring Boot plugin trong cache. |
 | Chrome DevTools MCP, website công khai | Truy cập Teacher với phiên trống chuyển sang Portal và hiển thị form đăng nhập. Chưa xác định revision của bản triển khai hoặc kiểm tra sau đăng nhập trên website công khai. [Teacher PC Preview](https://mathvisionkid-teacher.vercel.app/) |
 
-Phiên này chưa nghiệm thu dịch vụ OCR/AI, PostgreSQL, MinIO và Redis cùng nhau, chưa đo p95 AI và chưa quan sát giáo viên sử dụng. Docker daemon không chạy khi kiểm tra. Dữ liệu tổng hợp và H2 xác nhận hành vi trong phạm vi đã nêu.
+Phiên khảo sát ban đầu dùng API mô phỏng và H2. Các lượt tích hợp sau đó ở Vòng 1–3 dùng PostgreSQL, MinIO, Redis và worker ở chế độ `FIXTURE`. Nghiệm thu với OCR thật, đo p95 AI và quan sát giáo viên sử dụng vẫn đang mở.
+
+## Đối chiếu nhánh Teacher Web
+
+| Hạng mục | Trạng thái và bằng chứng |
+| --- | --- |
+| Chốt điểm, đọc lại sau khi mất phản hồi, chấm thủ công bài ảnh đọc được | Đã có trên nhánh `Loc/Teacher-features`. Playwright mô phỏng lỗi mạng và OCR không chắc chắn. Kịch bản tích hợp 30 ảnh kiểm tra điểm chính thức còn nguyên sau tải lại và 29 bài vẫn chờ duyệt. |
+| Thay ảnh và thử xử lý lại | Cả hai thao tác đã triển khai. Kịch bản stack cách ly xác nhận thay ảnh riêng tư trên cùng bài nộp và xử lý lại bằng worker fixture. Ca HTTP 503 từ adapter giữa Spring và FastAPI phát hiện đợt từng báo `COMPLETED` dù job lỗi. Sau bản sửa, đợt báo `FAILED`, giáo viên thử lại từ chi tiết bài và chốt điểm sau callback. PostgreSQL xác nhận một ảnh, hai job (`SUPERSEDED`, `COMPLETED`) và một sự kiện audit retry. |
+| Quyền và dữ liệu | Spring/H2 kiểm tra phân công lớp, chủ đợt, từ chối học sinh sửa ảnh thuộc đợt và bỏ qua callback cũ. Kịch bản stack cách ly xác nhận tài khoản ngoài phạm vi nhận 403 với chi tiết bài, ảnh và hai thao tác chấm điểm. |
+| Hàng đợi và Dashboard | Playwright xác nhận hàng đợi dùng 2 request cho 1, 10 và 30 bài. Dashboard chuyển sang truy vấn tổng hợp theo đợt trong DB. Hibernate/H2 ghi nhận trước sửa 5 và 25 câu SQL với 1 và 21 đợt. Sau sửa là 2 câu trong cả hai trường hợp. Bộ đếm Dashboard khớp chi tiết ba đợt trên PostgreSQL cách ly. Tổng vẫn gồm lịch sử và danh sách hiển thị tối đa 10 đợt. Chưa đo độ trễ tải thật. |
+| Tạo bài và mất phản hồi | Đã triển khai migration V30 sau khi duyệt. Chromium với Spring và PostgreSQL cách ly đã ngắt phản hồi `201` sau khi lưu, tải lại và gửi lại. API trả `200` với cùng ID và chỉ có một bản ghi. Hai request đồng thời cùng khóa cũng trả cùng ID. Hai thao tác riêng vẫn tạo được bài cùng tiêu đề. |
+| Pilot và OCR thật | Chưa có quan sát giáo viên hoặc số đo chất lượng và p95 cho model chấm phép tính. Cần trọng số YOLO đúng manifest và bộ ảnh bài làm đã khử định danh có nhãn đối chiếu. |
+
+Nút “Xử lý ngay” dùng `nextReviewBatchId` từ truy vấn tổng hợp sẵn có và mở hàng đợi của đợt gần nhất còn bài chờ duyệt, kể cả đợt nằm ngoài 10 đợt gần đây. Playwright tái hiện nút mở danh sách chung trước bản sửa. Trên PostgreSQL cách ly, Chromium đăng nhập qua Portal, mở đúng đợt cũ và hiển thị bài chờ khi cả 10 đợt mới hơn đều trống. Ca này kiểm chứng điều hướng và hợp đồng API, không chạy model.
+
+Kết quả chạy lại sau bản sửa chọn lớp: 64/64 Playwright trên desktop và viewport mobile với API mô phỏng, 46/46 ca cấu hình và hành vi Teacher Web, TypeScript thành công. Spring đạt 577 ca, bỏ qua 2. Các ca Spring lỗi ở lần đầu dùng bài thuộc đợt để kiểm tra nộp độc lập hoặc kỳ vọng đợt chỉ có job lỗi báo `COMPLETED`. Lần chạy lại dùng đúng loại bài nộp và kiểm tra đợt lỗi hiện trong chi tiết đợt, ngoài hàng đợi duyệt.
+
+### Chống tạo trùng khi mất phản hồi
+
+Teacher Web tạo một UUID cho thao tác lưu và dùng lại UUID khi thử gửi cùng nội dung. Spring kiểm tra quyền hiện tại của giáo viên trước khi xử lý. PostgreSQL lưu UUID tùy chọn trên bài tập và áp ràng buộc duy nhất theo giáo viên và UUID. Gửi lại cùng UUID và nội dung trả về bài đã tạo. Gửi cùng UUID với nội dung khác trả `409`. Thao tác tạo bài mới dùng UUID mới để giáo viên vẫn có thể chủ động giao bài cùng tiêu đề. Migration bổ sung cột nullable và ràng buộc, dữ liệu cũ giữ nguyên.
+
+PostgreSQL cách ly xác nhận V30, hai request đồng thời, xung đột `409` và hai thao tác chủ động có cùng nội dung. Chromium trên stack thật xác nhận chỉ có một bản ghi sau khi mất phản hồi và tải lại. Ca quyền lớp bị thu hồi được kiểm tra bằng Spring/H2. Các biên nhận nằm tại `.local-artifacts/teacher-round1/assignment-idempotency-postgres.json` và `.local-artifacts/teacher-round1/assignment-idempotency-browser.json`.
+
+### Đánh giá cấp dự án sau mốc Teacher Web
+
+Hai hoạt động có thể chạy độc lập. Benchmark model cần trọng số đã xác minh và ảnh ẩn danh có nhãn đối chiếu để đo chất lượng đề xuất và độ trễ. Pilot UX cần giáo viên và kịch bản thực tế, có thể dùng fixture nếu mục tiêu chỉ là quan sát thao tác. Pilot đánh giá mức tiết kiệm công chấm cần kết quả model thật. Mục tiêu Capstone về AI p95 và quan sát giáo viên được giữ tại đây cho lần nghiệm thu cấp dự án.
+
+1. Lấy trọng số YOLO từ chủ dự án và đối chiếu SHA-256 với `ai/runtime/models/model_manifest.json`. Trọng số chỉ định hiện thiếu tại đường dẫn cấu hình. Checkpoint CRNN dùng cho ảnh dòng chữ cắt sẵn thuộc pipeline khác.
+2. Chuẩn bị tập ảnh bài làm đã khử định danh, có nhãn được đối chiếu độc lập. Ghi phạm vi phép cộng và trừ, độ dài số, tiêu chí ảnh không đọc được và nguồn ảnh. Tách mẫu pilot khỏi tập dùng để tinh chỉnh. Harness đánh giá hiện có ghi trạng thái sẵn sàng của dữ liệu và provenance, chưa thực hiện benchmark đầy đủ.
+3. Chọn revision và khởi động stack cách ly với `RUNTIME_MODE=MODEL`. Kiểm tra `/ready` báo đúng mode, Redis, worker và model sẵn sàng. Kiểm tra provenance của kết quả từng job trước khi ghi nhận là model thật. Chạy smoke một ảnh trước khi chạy đợt 1–30 ảnh theo [hướng dẫn tích hợp](../../engineering/browser-testing.md#nghiệm-thu-bằng-dịch-vụ-thật).
+4. Đo riêng p95 AI mỗi ảnh đã cắt theo mục tiêu ≤ 12 giây và thời gian upload đến kết quả. Ghi số mẫu, môi trường, phiên bản model, các lỗi và số ca model yêu cầu xác nhận. Một lượt fixture hoặc một mẫu smoke không đủ để nghiệm thu p95.
+5. Quan sát giáo viên tự tạo bài, gán ảnh, theo dõi và chốt điểm. Ghi thời gian tới bài đầu tiên, số lần cần trợ giúp và điểm gây nhầm. Giáo viên quyết định điểm chính thức trong mọi lượt.
+
+### Tiến độ bổ sung · 12/11/2026
+
+- Đã thêm duyệt bài tiếp theo sau khi xác nhận lưu. Kịch bản tích hợp 30 ảnh mở bài khác trong cùng đợt và vẫn ghi đúng một điểm chính thức. Chrome DevTools MCP kiểm tra trực tiếp luồng duyệt tiếp và quay lại bộ lọc chờ duyệt tại viewport 390 px.
+- Trang lịch sử có bộ lọc đợt chờ duyệt và có bài lỗi. Spring/H2 xác nhận truy vấn danh sách đợt dùng 2 câu SQL cho 1 hoặc 21 đợt. Trên PostgreSQL cách ly, 21 dòng tóm tắt khớp dữ liệu chi tiết.
+- Đã thêm lưu và mở ảnh tiếp theo, xác nhận che riêng từng ảnh. Bản tích hợp 30 ảnh kiểm tra 30 xác nhận độc lập, 30/30 SHA-256 đúng học sinh, 0 lỗi và 29 bài còn chờ sau khi chốt một bài. FastAPI và provenance kết quả đều ở chế độ `FIXTURE`.
+- Ảnh chưa gửi được bảo vệ khi tải lại hoặc rời trang. Đã sửa lỗi từng làm mất ảnh khi dùng Back trong SPA. Khi kết nối lại, chỉ cho gửi nếu đợt còn mở. Nếu đợt đã nhận ảnh từ tab khác, giữ bản nháp và khóa gửi thêm.
+- Đã tái hiện mất phản hồi tạo đợt chấm trước V31: hai `201` với hai ID, một đợt trống và một đợt nhận ảnh. Migration khóa UUID tùy chọn theo giáo viên đã triển khai trên stack cách ly sau khi được duyệt.
+- [x] Thêm khóa riêng cho đợt, áp ràng buộc duy nhất theo giáo viên và đối chiếu bài tập khi phát lại. Kiểm tra quyền hiện tại trước khi trả lại đợt. Client giữ khóa theo phiên, bài tập và mục lịch sử của thao tác.
+- [x] Nghiệm thu stack cách ly. Chromium xác nhận mất phản hồi sau khi lưu, phát lại cùng ID, một lần upload và một dòng lịch sử. PostgreSQL xác nhận V31, hai yêu cầu đồng thời, xung đột 409, thu hồi quyền 403, khóa độc lập theo giáo viên, hai thao tác riêng và phát lại sau khi đợt đã nhận ảnh.
+- [x] Xác nhận trước khi bỏ bản nháp bằng Browser Back/Forward. Chrome DevTools MCP tái kiểm sau SSO cho thấy giữ ảnh khi ở lại và cho phép đi tiếp khi xác nhận rời trang. Ảnh nháp nằm trong bộ nhớ trang.
+- [x] Chốt hồi quy Playwright với API mô phỏng. Lượt cuối trên mã bàn giao đạt 94/94 sau khi sửa fixture lớp theo DTO `userId/displayName`. Kiểm thử kết nối lại cũng xác nhận giữ ảnh đã che và khóa gửi nếu đợt đã nhận ảnh. [Log hồi quy](../../../.local-artifacts/teacher-round1/final-playwright-regression.log)
+- [x] Kiểm chứng Chromium trên stack cách ly với FastAPI `FIXTURE`. Đợt 30 ảnh đạt 11 kiểm tra, 30/30 ảnh khớp hash, 0 lỗi, chốt một bài rồi mở bài tiếp theo. Kịch bản mất phản hồi và Back xác nhận hai phản hồi 201/200 cùng ID, một lần gửi ảnh, một dòng lịch sử và bản nháp được giữ khi chọn ở lại. [Biên nhận 30 ảnh](../../../.local-artifacts/teacher-round1/e2e-teacher-web-final-rerun-30/teacher-live-results.json) · [Biên nhận gửi lại và Back](../../../.local-artifacts/teacher-round1/duplicate-batch-live-results.json)
+- [x] Rà soát độc lập và kiểm chứng bằng Chrome DevTools MCP trên stack cách ly. Mở danh sách lớp và form giao bài chọn sẵn lớp, kiểm tra đợt 30/30, mở hàng đợi, duyệt một bài tổng hợp và mở bài tiếp theo. Hai vấn đề về bản nháp được sửa trước bàn giao.
+
+[Báo cáo phiên nghiệm thu](../../../report/teacher-web-reliability-session-2026-11-12.md) ghi rõ môi trường, hồi quy và biên nhận.
 
 ## Skills Applied
 

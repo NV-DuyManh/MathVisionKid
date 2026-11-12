@@ -32,8 +32,16 @@ public class TeacherBatchController {
         } catch (IllegalArgumentException | NullPointerException error) {
             throw new com.mathvisionkids.api.common.ApiException("VALIDATION_ERROR", "A valid assignmentId is required", HttpStatus.BAD_REQUEST);
         }
-        Batch batch = batchService.createBatch(principal.getName(), assignmentId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(batch);
+        UUID creationRequestId = null;
+        if (request.containsKey("creationRequestId") && request.get("creationRequestId") != null) {
+            try {
+                creationRequestId = UUID.fromString(request.get("creationRequestId"));
+            } catch (IllegalArgumentException error) {
+                throw new com.mathvisionkids.api.common.ApiException("VALIDATION_ERROR", "A valid creationRequestId is required", HttpStatus.BAD_REQUEST);
+            }
+        }
+        var result = batchService.createBatch(principal.getName(), assignmentId, creationRequestId);
+        return ResponseEntity.status(result.created() ? HttpStatus.CREATED : HttpStatus.OK).body(result.batch());
     }
 
     @PostMapping("/{batchId}/submissions")

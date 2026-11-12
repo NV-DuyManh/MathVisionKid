@@ -14,6 +14,8 @@ import {
 import { ArrowBack, CheckCircleOutlined } from '@mui/icons-material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
+import { newCreationRequestId } from '../services/api/newCreationRequestId';
+import { useAuth } from '../components/layout/AuthContext';
 import type { Class } from '../types';
 import { MathType } from '../types';
 
@@ -21,13 +23,20 @@ export default function AssignmentCreatePage() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const requestedClass = params.get('classId');
+  const { user } = useAuth();
+  const storageKey = user?.userId ? `teacher:assignment-create:${user.userId}` : undefined;
   const submitLock = useRef(false);
+  const pending = useRef(new Map<string, string>());
   const [classes, setClasses] = useState<Class[]>([]);
   const [selectedClass, setSelectedClass] = useState('');
   const [title, setTitle] = useState('');
   const [mathType, setMathType] = useState<MathType>(MathType.VERTICAL_ADDITION);
   const [maxScore, setMaxScore] = useState<string>("10");
-  const [loadingClasses, setLoadingClasses] = useState(true);
+  const [classLoad, setClassLoad] = useState<{ requestedClass: string | null; failed: boolean }>();
+  const loadingClasses = !classLoad || classLoad.requestedClass !== requestedClass;
+  const classLoadFailed = !loadingClasses && classLoad.failed;
+  const unavailableClass = !loadingClasses && !classLoadFailed && requestedClass
+    && !classes.some(c => (c.id || c.classId) === requestedClass);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,17 +46,16 @@ export default function AssignmentCreatePage() {
       .then((data) => {
         if (isMounted) {
           setClasses(data);
-          if (data.length > 0) {
-            const chosen = data.find(c => (c.id || c.classId) === requestedClass) || data[0];
-            setSelectedClass(chosen.id || chosen.classId || '');
-          }
-          setLoadingClasses(false);
+          const chosen = requestedClass ? data.find(c => (c.id || c.classId) === requestedClass) : data[0];
+          setSelectedClass(chosen?.id || chosen?.classId || '');
+          setClassLoad({ requestedClass, failed: false });
         }
       })
       .catch(() => {
         if (isMounted) {
-          setError('Chưa tải được lớp học. Hãy quay lại danh sách lớp rồi thử lại.');
-          setLoadingClasses(false);
+          setClasses([]);
+          setSelectedClass('');
+          setClassLoad({ requestedClass, failed: true });
         }
       });
 
@@ -57,6 +65,7 @@ export default function AssignmentCreatePage() {
   }, [requestedClass]);
 
   const handleCreate = async () => {
+    if (loadingClasses || classLoadFailed) return;
     if (!selectedClass || !title.trim()) {
       setError('Vui lòng chọn lớp học và nhập tiêu đề bài tập.');
       return;
@@ -81,7 +90,22 @@ export default function AssignmentCreatePage() {
     try {
       setSubmitting(true);
       setError(null);
-      const assignment = await AppTeacherService.createAssignment(selectedClass, title.trim(), mathType, parsedScore);
+      const payload = JSON.stringify([selectedClass, title.trim(), mathType, parsedScore]);
+      const key = `${storageKey ?? 'memory'}:${payload}`;
+      let id = pending.current.get(key);
+      if (storageKey) {
+        try { id ??= window.sessionStorage.getItem(key) ?? undefined; } catch { /* in-memory retry */ }
+      }
+      id ??= newCreationRequestId();
+      pending.current.set(key, id);
+      if (storageKey) {
+        try { window.sessionStorage.setItem(key, id); } catch { /* in-memory retry */ }
+      }
+      const assignment = await AppTeacherService.createAssignment(selectedClass, title.trim(), mathType, parsedScore, id);
+      pending.current.delete(key);
+      if (storageKey) {
+        try { window.sessionStorage.removeItem(key); } catch { /* storage unavailable */ }
+      }
       navigate(`/batches/create?assignmentId=${encodeURIComponent(assignment.assignmentId || assignment.id || '')}`);
     } catch (err: any) {
       setError(err.response?.data?.error?.message || 'Không thể tạo bài tập. Vui lòng thử lại.');
@@ -114,6 +138,16 @@ export default function AssignmentCreatePage() {
           {error && (
             <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }} role="alert">
               {error}
+            </Alert>
+          )}
+          {classLoadFailed && (
+            <Alert severity="error" sx={{ mb: 3 }}>
+              Chưa tải được lớp học. Hãy quay lại danh sách lớp rồi thử lại.
+            </Alert>
+          )}
+          {unavailableClass && !selectedClass && (
+            <Alert severity="warning" sx={{ mb: 3 }}>
+              Lớp trong liên kết không còn khả dụng. Hãy chọn lớp phụ trách.
             </Alert>
           )}
 
@@ -215,7 +249,7 @@ export default function AssignmentCreatePage() {
                 variant="contained"
                 size="large"
                 onClick={handleCreate}
-                disabled={!selectedClass || !title.trim() || submitting}
+                disabled={loadingClasses || !selectedClass || !title.trim() || submitting}
                 startIcon={submitting ? <CircularProgress size={20} color="inherit" /> : null}
                 sx={{ flex: 2, py: 1.25 }}
               >

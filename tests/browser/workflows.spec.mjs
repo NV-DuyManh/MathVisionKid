@@ -116,7 +116,46 @@ test('teacher creates a selected-class subtraction assignment with a custom grad
   await expect(page.getByRole('heading', { name: 'Tạo đợt chấm bài', exact: true })).toBeVisible();
   await expect.poll(() => app.requests.some(r => r.path === '/teacher/classes/class-5a')).toBe(true);
   expect(app.requests.filter(r => r.path === '/teacher/assignments' && r.method === 'POST').map(r => r.body))
-    .toEqual([{ classId: 'class-5a', title: 'Phép trừ kiểm thử', operationType: 'VERTICAL_SUBTRACTION', maxScore: 100 }]);
+    .toEqual([{ classId: 'class-5a', title: 'Phép trừ kiểm thử', operationType: 'VERTICAL_SUBTRACTION', maxScore: 100,
+      creationRequestId: expect.stringMatching(/^[0-9a-f-]{36}$/) }]);
+});
+
+test('retries assignment creation with the original key after a lost response and reload', async ({ page, app }) => {
+  app.responses.set('POST /teacher/assignments', ({ body, json, route }) => {
+    if (!app.assignments.length) {
+      app.assignments.push({ ...body, assignmentId: 'assignment-1' });
+      return route.abort('connectionreset');
+    }
+    expect(body.creationRequestId).toBe(app.assignments[0].creationRequestId);
+    return json(app.assignments[0], 200);
+  });
+  await login(page, 'TEACHER');
+  await page.goto(`${sites.teacher.origin}/assignments/create?classId=class-5a`);
+  const title = page.getByLabel('Tên bài tập', { exact: true });
+  const submit = page.getByRole('button', { name: 'Tạo bài tập & Thu thập ảnh', exact: true });
+  await title.fill('Luyện phép cộng');
+  await submit.click();
+  await expect(page.getByText('Không thể tạo bài tập. Vui lòng thử lại.')).toBeVisible();
+  await page.reload();
+  await title.fill('Luyện phép cộng');
+  await submit.click();
+  await expect(page).toHaveURL(/\/batches\/create\?assignmentId=assignment-1$/);
+});
+
+test('a stale class link requires a deliberate new class selection', async ({ page, app }) => {
+  await login(page, 'TEACHER');
+  await page.goto(`${sites.teacher.origin}/assignments/create?classId=former-class`);
+  await page.getByLabel('Tên bài tập', { exact: true }).fill('Bài tập kiểm thử');
+  await expect(page.getByText('Lớp trong liên kết không còn khả dụng. Hãy chọn lớp phụ trách.')).toBeVisible();
+  const submit = page.getByRole('button', { name: 'Tạo bài tập & Thu thập ảnh', exact: true });
+  await expect(submit).toBeDisabled();
+  const writes = () => app.requests.filter(r => r.path === '/teacher/assignments' && r.method === 'POST');
+  expect(writes()).toHaveLength(0);
+  await page.getByRole('combobox', { name: 'Lớp học áp dụng' }).click();
+  await page.getByRole('option', { name: /Lớp 5A/ }).click();
+  await submit.click();
+  await expect(page).toHaveURL(`${sites.teacher.origin}/batches/create?assignmentId=assignment-1`);
+  expect(writes().map(r => r.body.classId)).toEqual(['class-5a']);
 });
 
 test('teacher can retry a failed class list without reloading the page', async ({ page, app }) => {

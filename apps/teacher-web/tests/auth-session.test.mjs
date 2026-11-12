@@ -141,6 +141,8 @@ test('teacher SSO exchanges a scrubbed ticket once in StrictMode and starts a cl
   const dom = new JSDOM('<div id="root"></div>', {
     url: 'https://teacher.mathvision.example/login#sso=teacher-ticket', virtualConsole,
   });
+  const routerHistory = { idx: 0, key: 'sso-entry' };
+  dom.window.history.replaceState(routerHistory, '');
   const previous = { window: globalThis.window, document: globalThis.document,
     IS_REACT_ACT_ENVIRONMENT: globalThis.IS_REACT_ACT_ENVIRONMENT };
   Object.assign(globalThis, { window: dom.window, document: dom.window.document, IS_REACT_ACT_ENVIRONMENT: true });
@@ -171,6 +173,7 @@ test('teacher SSO exchanges a scrubbed ticket once in StrictMode and starts a cl
     '../config/runtime': { appConfig: { portalOrigin: 'https://portal.mathvision.example' }, showDevTools: false },
     '../services/api/apiClient': { post: (url, payload) => {
       assert.equal(dom.window.location.hash, '');
+      assert.deepEqual(dom.window.history.state, routerHistory);
       calls.push({ url, payload });
       return response;
     } },

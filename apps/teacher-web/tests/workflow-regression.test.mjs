@@ -51,6 +51,9 @@ async function screen(run) {
   };
   const imports = { '@tanstack/react-query': queryRuntime, 'react-router-dom': routerRuntime,
     '@mui/material': mui, '@mui/icons-material': new Proxy({}, { get: () => () => null }),
+    '../services/api/newCreationRequestId': { newCreationRequestId: () => '173f718e-2c21-4a98-8c0e-f01337cabaf1' },
+    '../services/api/AuthTokenStore': { AuthTokenStore: { getSessionId: () => null } },
+    '../hooks/useUploadDraftGuard': { useUploadDraftGuard: () => ({ confirmation: null, allowNextNavigation() {} }) },
     '../components/common/PageHeader': { PageHeader: block }, '../components/common/EmptyState': { EmptyState: block },
     '../components/common/StatusChip': { StatusChip: block } };
   try { await run({ dom, root, render, imports, controls, path: () => path }); }
@@ -120,10 +123,10 @@ test('batch upload uses the redacted JPEG and does not create a second batch aft
     '../services/api/ServiceLocator': { AppTeacherService: {
       getAssignments: async () => [{ assignmentId: 'a-1', title: 'Cộng' }],
       getAssignmentRoster: async () => [{ id: 's-1', name: 'A' }],
-      createBatch: async () => { created++; return { batchId: 'b-1' }; },
+      createBatch: async () => { created++; return { batchId: 'b-1', status: 'CREATED', totalCount: 0 }; },
       uploadImages: async (_id, files) => { uploaded = files; throw new Error('Response lost'); },
     } },
-  }, { File: dom.window.File, URL: { createObjectURL: () => 'blob:preview', revokeObjectURL() {} } });
+  }, { window: dom.window, File: dom.window.File, URL: { createObjectURL: () => 'blob:preview', revokeObjectURL() {} } });
   await render(Component, {}, '/batches/create?assignmentId=a-1');
   const input = dom.window.document.querySelector('input[type="file"]');
   Object.defineProperty(input, 'files', { value: [new dom.window.File(['original'], 'image.webp', { type: 'image/webp' })] });

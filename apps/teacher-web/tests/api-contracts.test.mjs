@@ -24,12 +24,13 @@ function service(responses) {
 test('dashboard maps the backend DTO counts and retains actual recent batches', async () => {
   const recentBatches = [{ batchId: 'b', assignmentTitle: 'Phép cộng', totalCount: 7, processedCount: 4, reviewRequiredCount: 2, status: 'PARTIAL' }];
   const { service: api, calls } = service({
-    '/teacher/dashboard': { todayTotal: 7, processedCount: 4, reviewRequiredCount: 2, recentBatches },
+    '/teacher/dashboard': { todayTotal: 7, processedCount: 4, reviewRequiredCount: 2, nextReviewBatchId: 'older', recentBatches },
   });
   const result = await api.getDashboard();
   assert.equal(result.totalToday, 7);
   assert.equal(result.completed, 4);
   assert.equal(result.reviewRequired, 2);
+  assert.equal(result.nextReviewBatchId, 'older');
   assert.equal(result.recentBatches, recentBatches);
   assert.equal(calls[0].url, '/teacher/dashboard');
 });

@@ -37,8 +37,12 @@ export default function ReviewQueuePage() {
   const filters: typeof defaultFilters = sessionId && saved?.sessionId === sessionId && saved?.batchId === id
     ? saved.filters : defaultFilters;
   const { statusFilter, searchQuery, sortBy } = filters;
+  const batchListFilter = location.state?.batchListFilter;
 
-  const reviewState = (nextFilters: typeof defaultFilters) => ({ reviewQueue: { sessionId, batchId: id, filters: nextFilters } });
+  const reviewState = (nextFilters: typeof defaultFilters) => ({
+    batchListFilter,
+    reviewQueue: { sessionId, batchId: id, filters: nextFilters },
+  });
   const updateFilters = (nextFilters: typeof defaultFilters) => {
     navigate({ pathname: location.pathname, search: location.search, hash: location.hash }, {
       replace: true,
@@ -97,7 +101,7 @@ export default function ReviewQueuePage() {
   const isPaused = queueQuery.isPaused || batchQuery.isPaused;
   const isChecking = isFetching || isPaused;
   const heading = <>
-    <Button component={Link} to={batchPath} startIcon={<ArrowBack />} sx={{ mb: 2 }}>
+    <Button component={Link} to={batchPath} state={{ batchListFilter }} startIcon={<ArrowBack />} sx={{ mb: 2 }}>
       Quay lại chi tiết đợt chấm
     </Button>
     <PageHeader
@@ -152,7 +156,8 @@ export default function ReviewQueuePage() {
     </Alert>}
     {hasFailures && <Alert severity="warning" sx={{ mb: 2 }}>
       {failed > 0 ? `${failed} bài chưa xử lý được.` : 'Đợt chấm có bài chưa xử lý được.'}
-      <Button component={Link} to={batchPath} size="small" sx={{ display: 'flex', width: 'fit-content' }}>
+      <Button component={Link} to={batchPath + '?status=failed'} state={{ batchListFilter }}
+        size="small" sx={{ display: 'flex', width: 'fit-content' }}>
         Xem bài xử lý thất bại
       </Button>
     </Alert>}
@@ -377,7 +382,10 @@ export default function ReviewQueuePage() {
                       size="medium"
                       endIcon={<ArrowForward />}
                       onClick={() => navigate(`/submissions/${encodeURIComponent(subId)}?from=review`, {
-                        state: reviewState(filters),
+                        state: {
+                          ...reviewState(filters),
+                          nextReviewIds: filteredQueue.slice(idx + 1).map(item => item.id || item.submissionId).filter(Boolean),
+                        },
                       })}
                       sx={{
                         py: 1.1,

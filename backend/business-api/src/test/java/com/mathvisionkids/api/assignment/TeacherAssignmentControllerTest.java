@@ -18,6 +18,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -89,6 +94,48 @@ public class TeacherAssignmentControllerTest {
         classroomRepository.deleteAll();
         teacherRepository.deleteAll();
         userRepository.deleteAll();
+    }
+
+    @Test
+    void sameCreationRequestIsSerializedAndDifferentIntentCanRepeatTitle() throws Exception {
+        var request = new AssignmentRequest();
+        request.setClassId(classroom1.getClassId());
+        request.setTitle("Bài cùng tiêu đề");
+        request.setOperationType("VERTICAL_ADDITION");
+        request.setMaxScore(10);
+        request.setCreationRequestId(UUID.randomUUID());
+        String body = objectMapper.writeValueAsString(request);
+        var start = new CountDownLatch(1);
+        try (var workers = Executors.newVirtualThreadPerTaskExecutor()) {
+            var first = workers.submit(() -> { start.await(); return create(body); });
+            var second = workers.submit(() -> { start.await(); return create(body); });
+            start.countDown();
+            var a = first.get(10, TimeUnit.SECONDS);
+            var b = second.get(10, TimeUnit.SECONDS);
+            assertEquals(java.util.Set.of(200, 201), java.util.Set.of(a.getStatus(), b.getStatus()));
+            assertEquals(assignmentId(a), assignmentId(b));
+            assertEquals(1, assignmentRepository.count());
+            request.setMaxScore(9);
+            assertEquals(409, create(objectMapper.writeValueAsString(request)).getStatus());
+            request.setMaxScore(10);
+            request.setCreationRequestId(UUID.randomUUID());
+            var distinct = create(objectMapper.writeValueAsString(request));
+            assertEquals(201, distinct.getStatus());
+            assertNotEquals(assignmentId(a), assignmentId(distinct));
+            classroom1.setTeacher(teacher2);
+            classroomRepository.saveAndFlush(classroom1);
+            assertEquals(403, create(body).getStatus());
+        }
+    }
+
+    private org.springframework.mock.web.MockHttpServletResponse create(String body) throws Exception {
+        return mockMvc.perform(post("/api/v1/teacher/assignments")
+                .header("Authorization", "Bearer " + teacher1Token)
+                .contentType(MediaType.APPLICATION_JSON).content(body)).andReturn().getResponse();
+    }
+
+    private String assignmentId(org.springframework.mock.web.MockHttpServletResponse response) throws Exception {
+        return objectMapper.readTree(response.getContentAsString()).get("assignmentId").asText();
     }
 
     @Test

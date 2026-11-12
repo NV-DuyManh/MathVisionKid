@@ -64,6 +64,8 @@ export default function DashboardPage() {
   }
 
   const reviewCount = stats?.reviewRequired || 0;
+  const recentReviewBatch = stats?.recentBatches.find(batch => (batch.pendingReviewCount ?? batch.reviewRequiredCount) > 0);
+  const reviewBatchId = stats?.nextReviewBatchId || recentReviewBatch?.batchId || recentReviewBatch?.id;
   const totalCount = stats?.totalToday || 0;
   const completedCount = stats?.completed || 0;
 
@@ -144,24 +146,18 @@ export default function DashboardPage() {
                 </Box>
                 <Box>
                   <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#991B1B' }}>
-                    Có {reviewCount} bài làm cần giáo viên xem xét lại
+                    Có {reviewCount} bài làm chờ giáo viên duyệt
                   </Typography>
                   <Typography variant="body2" sx={{ color: '#B91C1C', fontSize: '0.8125rem' }}>
-                    AI nhận diện có điểm chưa chắc chắn hoặc bất thường về quy tắc tính toán.
+                    Xem bài làm và chốt điểm khi đã kiểm tra.
                   </Typography>
                 </Box>
               </Box>
               <Button
+                component={Link}
+                to={reviewBatchId ? `/batches/${encodeURIComponent(reviewBatchId)}/review` : '/batches'}
                 variant="contained"
                 endIcon={<ArrowForward />}
-                onClick={() => {
-                  const targetBatch = stats?.recentBatches?.find((b) => (b.pendingReviewCount ?? b.reviewRequiredCount) > 0);
-                  if (targetBatch) {
-                    navigate(`/batches/${targetBatch.id || targetBatch.batchId}/review`);
-                  } else {
-                    navigate('/batches');
-                  }
-                }}
                 sx={{
                   bgcolor: '#DC2626',
                   '&:hover': { bgcolor: '#B91C1C' },
@@ -170,7 +166,7 @@ export default function DashboardPage() {
                   fontWeight: 700,
                 }}
               >
-                Xử lý ngay
+                {reviewBatchId ? 'Xử lý ngay' : 'Xem các đợt chấm'}
               </Button>
             </Box>
           </CardContent>

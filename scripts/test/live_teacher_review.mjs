@@ -14,15 +14,22 @@ assert.equal(process.env.MATHVISION_LIVE_DISPOSABLE, 'true', 'Explicit disposabl
 const api = required('MATHVISION_LIVE_API').replace(/\/$/, '');
 const portal = required('MATHVISION_LIVE_PORTAL').replace(/\/$/, '');
 const teacherSite = required('MATHVISION_LIVE_TEACHER').replace(/\/$/, '');
-for (const address of [api, portal, teacherSite]) {
+const ai = process.env.MATHVISION_LIVE_AI?.replace(/\/$/, '');
+const expectedMode = process.env.MATHVISION_LIVE_EXPECT_AI_MODE;
+assert(Boolean(ai) === Boolean(expectedMode), 'Set both MATHVISION_LIVE_AI and MATHVISION_LIVE_EXPECT_AI_MODE for readiness verification');
+assert(!expectedMode || ['FIXTURE', 'MODEL'].includes(expectedMode), 'Expected AI mode must be FIXTURE or MODEL');
+for (const address of [api, portal, teacherSite, ...(ai ? [ai] : [])]) {
   assert(['127.0.0.1', 'localhost'].includes(new URL(address).hostname), 'This check targets local services');
 }
 const email = required('MATHVISION_LIVE_TEACHER_EMAIL');
 const password = required('MATHVISION_LIVE_TEACHER_PASSWORD');
 const output = resolve(required('MATHVISION_LIVE_OUTPUT'));
 const fixtureRetake = process.env.MATHVISION_LIVE_RETAKE_FIXTURE === 'true';
+const fixtureRetry = process.env.MATHVISION_LIVE_RETRY_FIXTURE === 'true';
 const batchSize = Number(process.env.MATHVISION_LIVE_BATCH_SIZE ?? 1);
-assert([1, 30].includes(batchSize) && (!fixtureRetake || batchSize === 1), 'Choose a batch of 1 or 30; retake fixture uses 1');
+assert([1, 30].includes(batchSize) && (!(fixtureRetake || fixtureRetry) || batchSize === 1)
+  && !(fixtureRetake && fixtureRetry), 'Choose a batch of 1 or 30; use one fault fixture at a time with one image');
+assert(expectedMode !== 'MODEL' || (!fixtureRetake && !fixtureRetry), 'Fault fixtures are for FIXTURE mode');
 const batchImages = batchSize === 30 ? resolve(required('MATHVISION_LIVE_BATCH_IMAGES')) : null;
 const images = await Promise.all(Array.from({ length: batchSize }, async (_, index) => {
   const name = fixtureRetake ? 'quality-fail-worksheet.jpg' : `worksheet-${index + 1}.jpg`;
@@ -34,7 +41,17 @@ const expectedScore = Number(required('MATHVISION_LIVE_SCORE'));
 assert(Number.isInteger(expectedScore) && expectedScore >= 0 && expectedScore <= 100);
 const decisionReason = required('MATHVISION_LIVE_REASON');
 await mkdir(output, { recursive: true });
-const results = { started: new Date().toISOString(), mockedResponses: false, fixtureRetake, batchSize, checks: [] };
+const results = { started: new Date().toISOString(), mockedResponses: false, fixtureRetake, fixtureRetry, batchSize, checks: [] };
+if (ai) {
+  const response = await fetch(ai + '/ready', { redirect: 'error', signal: AbortSignal.timeout(10000) });
+  assert.equal(response.status, 200, 'FastAPI /ready must succeed before creating test records');
+  const readiness = await response.json();
+  assert.equal(readiness.mode, expectedMode, 'FastAPI is running in an unexpected AI mode');
+  for (const field of ['redis_connected', 'model_loaded', 'worker_available', 'arithmetic_ready']) {
+    assert.equal(readiness[field], true, 'FastAPI readiness check failed: ' + field);
+  }
+  results.fastApiReadiness = { mode: readiness.mode, arithmeticReady: true };
+}
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 assert.equal(new Set(images.map(image => hash(image.buffer))).size, batchSize, 'Use distinct synthetic worksheets');
 async function json(path, token, method = 'GET', body) {
@@ -66,7 +83,7 @@ if (batchSize === 30 && classroom.students.length < batchSize) {
 const students = classroom.students.slice(0, batchSize);
 assert.equal(students.length, batchSize, 'A separate roster student is required for each image');
 assert.equal(new Set(students.map(student => student.displayName)).size, batchSize, 'Test roster names must be distinct');
-const student = students[0];
+let student = students[0];
 const browser = await chromium.launch();
 try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
@@ -105,21 +122,35 @@ try {
   for (const [index, pupil] of students.entries()) {
     await page.getByRole('combobox', { name: 'Học sinh thực hiện' }).nth(index).click();
     await page.getByRole('option', { name: pupil.displayName, exact: true }).click();
-    await page.getByRole('button', { name: 'Che thông tin cá nhân', exact: true }).first().click();
-    const save = editor.getByRole('button', { name: 'Lưu ảnh đã che', exact: true });
-    await expect(save).toBeDisabled();
-    await editor.getByRole('checkbox', { name: 'Ảnh không có thông tin cá nhân cần che' }).check();
-    await save.click();
-    await expect(editor).toBeHidden();
   }
+  await page.getByRole('button', { name: 'Che thông tin cá nhân', exact: true }).first().click();
+  for (const [index, selected] of images.entries()) {
+    await expect(editor.getByText(`Ảnh ${index + 1}/${batchSize}: ${selected.name}`, { exact: true })).toBeVisible();
+    const save = editor.getByRole('button', { name: 'Lưu ảnh đã che', exact: true });
+    const attestation = editor.getByRole('checkbox', { name: 'Ảnh không có thông tin cá nhân cần che' });
+    await expect(save).toBeDisabled();
+    await expect(attestation).not.toBeChecked();
+    await attestation.check();
+    if (index < batchSize - 1) {
+      await editor.getByRole('button', { name: 'Lưu và mở ảnh tiếp theo', exact: true }).click();
+    } else {
+      await save.click();
+      await expect(editor).toBeHidden();
+    }
+  }
+  results.checks.push('Each image requires a new privacy attestation before advancing');
   results.timing = { prepareMs: Math.round(performance.now() - prepareStarted) };
   const uploadRequest = page.waitForRequest(request => request.method() === 'POST' && /\/teacher\/batches\/[^/]+\/submissions$/.test(new URL(request.url()).pathname));
+  const uploadResponse = page.waitForResponse(response => response.request().method() === 'POST'
+    && /\/teacher\/batches\/[^/]+\/submissions$/.test(new URL(response.url()).pathname));
   await page.getByRole('button', { name: 'Bắt đầu chấm bài bằng AI', exact: true }).click();
   await uploadRequest;
   const uploadStarted = performance.now();
   const uploadedImages = await page.evaluate(() => window.reviewUploadedImages);
   assert.equal(uploadedImages?.length, batchSize, 'Actual multipart images are required');
   assert.equal(new Set(uploadedImages.map(image => image.sha256)).size, batchSize, 'Redacted uploads must remain distinct');
+  const uploaded = await uploadResponse;
+  assert(uploaded.ok(), `Batch upload returned ${uploaded.status()}`);
   await expect(page).toHaveURL(/\/batches\/[a-f0-9-]+$/);
   const batchId = new URL(page.url()).pathname.split('/').at(-1);
   results.timing.uploadToBatchPageMs = Math.round(performance.now() - uploadStarted);
@@ -131,11 +162,36 @@ try {
     await new Promise(resolve => setTimeout(resolve, 1000));
   } while (Date.now() < deadline);
   assert.equal(batch.totalCount, batchSize);
-  assert.equal(batch.processedCount, batchSize, 'Real AI worker must finish all uploaded images');
+  assert.equal(batch.processedCount, batchSize, 'Every upload must reach a terminal processing status');
+  if (fixtureRetry) {
+    assert.equal(batch.status, 'FAILED');
+    assert.equal(batch.failedCount, 1);
+    assert.equal(batch.pendingReviewCount, 0);
+    const submissionId = batch.submissions[0].submissionId;
+    const submissionPath = '/teacher/submissions/' + submissionId;
+    const failed = await json(submissionPath, auth.accessToken);
+    assert.equal(failed.status, 'FAILED');
+    assert.ok(failed.imageVersion);
+    assert.equal(failed.canRetryProcessing, true);
+    await page.getByRole('link', { name: 'Xem bài', exact: true }).click();
+    const retry = page.waitForResponse(response => response.request().method() === 'POST'
+      && new URL(response.url()).pathname.endsWith(`/submissions/${submissionId}/retry-processing`));
+    await page.getByRole('button', { name: 'Thử xử lý lại', exact: true }).click();
+    assert.equal((await retry).status(), 202);
+    await expect(page.getByRole('button', { name: 'Điều chỉnh', exact: true })).toBeEnabled();
+    batch = await json('/teacher/batches/' + batchId, auth.accessToken);
+    assert.equal(batch.submissions[0].submissionId, submissionId);
+    assert.equal(batch.processedCount, 1);
+    assert.equal((await json(submissionPath, auth.accessToken)).imageVersion, failed.imageVersion);
+    results.retry = { submissionId, imageVersion: failed.imageVersion };
+    results.checks.push('Technical failure is visible, and retry reprocesses the same submission and image');
+    await page.goto(teacherSite + '/batches/' + batchId);
+  }
   assert.equal(batch.failedCount, 0);
   assert.equal(batch.pendingReviewCount, batchSize);
   results.timing.uploadToAllProcessedObservedMs = Math.round(performance.now() - uploadStarted);
   const indexByStudent = new Map(students.map((pupil, index) => [pupil.userId, index]));
+  const storedSubmissions = new Map();
   let detail;
   let returnedImage;
   for (const submission of batch.submissions) {
@@ -148,21 +204,24 @@ try {
     assert.equal(imageResponse.headers.get('cache-control'), 'no-store');
     const bytes = Buffer.from(await imageResponse.arrayBuffer());
     assert.equal(hash(bytes), uploadedImages[index].sha256, 'Private storage must return the exact redacted upload');
+    storedSubmissions.set(record.submissionId, { record, bytes, pupil: students[index] });
     if (index === 0) { detail = record; returnedImage = bytes; }
   }
   assert.equal(indexByStudent.size, 0);
   results.batch = { processed: batch.processedCount, pendingReview: batch.pendingReviewCount,
     failed: batch.failedCount, matchingRedactedImages: batchSize, distinctRosterStudents: batchSize };
-  const id = detail.submissionId;
-  results.analysis = { status: detail.status, analysisStatus: detail.analysisStatus, reasonCode: detail.reasonCode, validation: detail.validation };
-  results.image = { sha256: hash(returnedImage), bytes: returnedImage.length };
   results.checks.push('Real upload, private storage round-trip and asynchronous AI callback');
   await page.getByRole('link', { name: `Vào hàng đợi duyệt (${batchSize} bài)`, exact: true }).click();
   const reviewButtons = page.getByRole('button', { name: 'Duyệt bài này', exact: true });
   await expect(reviewButtons).toHaveCount(batchSize);
-  if (batchSize > 1) await page.getByRole('textbox', { name: 'Tên học sinh' }).fill(student.displayName);
-  await expect(reviewButtons).toHaveCount(1);
-  await reviewButtons.click();
+  await reviewButtons.first().click();
+  await expect(page).toHaveURL(/\/submissions\/[^/?]+\?from=review$/);
+  const id = new URL(page.url()).pathname.split('/').at(-1);
+  const selected = storedSubmissions.get(id);
+  assert(selected, 'The first queue item must belong to the uploaded batch');
+  ({ record: detail, bytes: returnedImage, pupil: student } = selected);
+  results.analysis = { status: detail.status, analysisStatus: detail.analysisStatus, reasonCode: detail.reasonCode, validation: detail.validation };
+  results.image = { sha256: hash(returnedImage), bytes: returnedImage.length };
   const reviewUrl = teacherSite + '/submissions/' + id + '?from=review';
   await expect(page).toHaveURL(reviewUrl);
   const image = page.getByRole('img', { name: 'Bài làm của ' + student.displayName, exact: true });
@@ -234,14 +293,33 @@ try {
   const saved = await json('/teacher/submissions/' + id, auth.accessToken);
   assert.equal(saved.teacherScore, expectedScore); assert.equal(saved.teacherReason, decisionReason);
   results.checks.push('Actual teacher decision and persistence after reload');
+  if (batchSize === 30) {
+    await page.getByRole('button', { name: 'Duyệt bài tiếp theo', exact: true }).click();
+    await expect(page).toHaveURL(url => url.pathname !== `/submissions/${id}`
+      && /^\/submissions\/[^/]+$/.test(url.pathname) && url.searchParams.get('from') === 'review');
+    const nextId = new URL(page.url()).pathname.split('/').at(-1);
+    assert.notEqual(nextId, id, 'Next review must open a different submission');
+    assert(storedSubmissions.has(nextId), 'Next review must remain in the same batch');
+    const next = await json('/teacher/submissions/' + nextId, auth.accessToken);
+    assert.equal(next.batchId, batchId);
+    assert(!['TEACHER_APPROVED', 'TEACHER_OVERRIDDEN'].includes(next.status));
+    results.checks.push('Next review opens another pending submission in the same batch');
+  }
   await page.getByRole('link', { name: 'Quay lại hàng đợi duyệt', exact: true }).click();
   if (batchSize === 1) {
     await expect(page.getByText('Đã chốt điểm cho toàn bộ bài làm.', { exact: true })).toBeVisible();
   } else {
-    await page.getByRole('button', { name: 'Đặt lại bộ lọc' }).click();
     await expect(reviewButtons).toHaveCount(batchSize - 1);
   }
   const finalized = await json('/teacher/batches/' + batchId, auth.accessToken);
+  if (batchSize === 30) {
+    const listed = (await json('/teacher/batches', auth.accessToken)).find(entry => entry.batchId === batchId);
+    assert(listed, 'Batch must be visible in the owner’s history');
+    for (const [field, value] of Object.entries(finalized)) {
+      if (field !== 'submissions') assert.deepEqual(listed[field], value, `List and detail disagree on ${field}`);
+    }
+    results.checks.push('Batch list metadata and counters agree with detail on PostgreSQL');
+  }
   assert.equal(finalized.finalizedCount, 1);
   assert.equal(finalized.pendingReviewCount, batchSize - 1);
   assert.equal(finalized.failedCount, 0);

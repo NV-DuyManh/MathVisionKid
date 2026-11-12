@@ -15,9 +15,10 @@ import {
   Checkbox,
   FormControlLabel,
 } from '@mui/material';
-import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AppTeacherService } from '../services/api/ServiceLocator';
+import { AuthTokenStore } from '../services/api/AuthTokenStore';
 import {
   CheckCircle,
   Edit,
@@ -43,6 +44,7 @@ export default function SubmissionReviewPage() {
 function SubmissionReview({ id }: { id?: string }) {
   const [params] = useSearchParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -52,7 +54,14 @@ function SubmissionReview({ id }: { id?: string }) {
   const [actionError, setActionError] = useState<string | null>(null);
   const [needsOutcomeCheck, setNeedsOutcomeCheck] = useState(false);
   const [needsRetryCheck, setNeedsRetryCheck] = useState(false);
+  const [findingNext, setFindingNext] = useState(false);
+  const [nextError, setNextError] = useState(false);
   const writeInFlight = useRef(false);
+  const reviewMounted = useRef(false);
+  useEffect(() => {
+    reviewMounted.current = true;
+    return () => { reviewMounted.current = false; };
+  }, []);
   const decisionNoticeRef = useRef<HTMLDivElement>(null);
   const [imageReadiness, setImageReadiness] = useState<{ version?: string; status: ImageStatus } | null>(null);
 
@@ -67,9 +76,49 @@ function SubmissionReview({ id }: { id?: string }) {
   const imageStatus = imageReadiness && imageReadiness.version === imageVersion
     ? imageReadiness.status : { ready: false, reason: 'Đang tải ảnh bài làm...' };
   const isRefreshing = fetchStatus !== 'idle';
-  const fromReview = params.get('from') === 'review';
-  const returnPath = sub?.batchId ? '/batches/' + encodeURIComponent(sub.batchId) + (fromReview ? '/review' : '') : '/batches';
-  const returnState = fromReview && sub?.batchId ? location.state : undefined;
+  const origin = params.get('from');
+  const fromReview = origin === 'review';
+  const returnSuffix = fromReview ? '/review' : origin === 'failed' ? '?status=failed' : '';
+  const returnPath = sub?.batchId ? '/batches/' + encodeURIComponent(sub.batchId) + returnSuffix : '/batches';
+  const returnState = sub?.batchId ? location.state : undefined;
+  const queueState = returnState?.reviewQueue;
+  const sessionId = AuthTokenStore.getSessionId();
+  const nextIds: string[] = fromReview && sessionId && queueState?.sessionId === sessionId
+    && queueState?.batchId === sub?.batchId && Array.isArray(returnState?.nextReviewIds)
+    ? returnState.nextReviewIds : [];
+
+  const openNextReview = async () => {
+    const batchId = sub?.batchId;
+    if (!batchId || findingNext) return;
+    setFindingNext(true);
+    setNextError(false);
+    try {
+      const queue = await queryClient.fetchQuery({
+        queryKey: ['reviewQueue', batchId],
+        queryFn: () => AppTeacherService.getReviewQueue(batchId),
+        staleTime: 0,
+      });
+      if (!reviewMounted.current || AuthTokenStore.getSessionId() !== sessionId) return;
+      const { statusFilter, searchQuery } = queueState.filters;
+      const search = searchQuery.trim().toLocaleLowerCase('vi');
+      const nextIndex = nextIds.findIndex(candidate => queue.some(item =>
+        (item.id || item.submissionId) === candidate
+        && (statusFilter === 'ALL' || item.status === statusFilter)
+        && (!search || item.studentName?.toLocaleLowerCase('vi').includes(search))));
+      if (nextIndex < 0) {
+        navigate(returnPath, { state: returnState, replace: true });
+      } else {
+        navigate(`/submissions/${encodeURIComponent(nextIds[nextIndex])}?from=review`, {
+          state: { ...returnState, nextReviewIds: nextIds.slice(nextIndex + 1) },
+          replace: true,
+        });
+      }
+    } catch {
+      setNextError(true);
+    } finally {
+      setFindingNext(false);
+    }
+  };
 
   const refreshGradeCounts = () => {
     if (sub?.batchId) {
@@ -157,6 +206,12 @@ function SubmissionReview({ id }: { id?: string }) {
     }
   };
 
+  const nextAction = nextIds.length > 0 && <>
+    <Button onClick={() => void openNextReview()} disabled={findingNext}>
+      {findingNext ? 'Đang tìm bài tiếp theo…' : 'Duyệt bài tiếp theo'}
+    </Button>
+    {nextError && <Typography>Chưa tải được hàng đợi. Hãy thử lại hoặc quay lại hàng đợi duyệt.</Typography>}
+  </>;
   const decisionNotice = isFinalized && !isError ? (
     <Alert ref={decisionNoticeRef} tabIndex={-1} severity="success" role="status" sx={{ mb: 3 }}>
       <Typography variant="h6">
@@ -165,10 +220,12 @@ function SubmissionReview({ id }: { id?: string }) {
           : 'Đã chốt điểm'}
       </Typography>
       {sub?.teacherReason && <Typography sx={{ overflowWrap: 'anywhere' }}>{sub.teacherReason}</Typography>}
+      {nextAction}
     </Alert>
   ) : decisionMutation.isSuccess ? (
     <Alert ref={decisionNoticeRef} tabIndex={-1} severity="success" role="status" sx={{ mb: 3 }}>
       Đã lưu quyết định chấm điểm.
+      {nextAction}
     </Alert>
   ) : needsOutcomeCheck ? (
     <Alert ref={decisionNoticeRef} tabIndex={-1} severity="warning" sx={{ mb: 3 }}>

@@ -19,7 +19,9 @@ export const test = base.extend({
     const watch = page => page.on('pageerror', error => state.errors.push(error.message));
     context.pages().forEach(watch);
     context.on('page', watch);
-    await context.route('**/*', async route => {
+    let draining = false;
+    const activeRoutes = new Set();
+    const handleRoute = async route => {
       const request = route.request();
       const url = new URL(request.url());
       const site = Object.values(sites).find(site => site.origin === url.origin);
@@ -97,8 +99,18 @@ export const test = base.extend({
       }
       state.unexpected.push(`${method} ${path}`);
       return reject(404);
+    };
+    await context.route('**/*', async route => {
+      if (draining) return route.abort('aborted');
+      const work = handleRoute(route);
+      activeRoutes.add(work);
+      try { await work; } finally { activeRoutes.delete(work); }
     });
     await use(state);
+    // Unregistering first can cause Playwright to continue an intercepted
+    // request while its proxy fetch is still running. Drain it before unroute.
+    draining = true;
+    await Promise.all(activeRoutes);
     await context.unrouteAll({ behavior: 'wait' });
     expect(state.unexpected, 'No unhandled fixture API or external network calls').toEqual([]);
     expect(state.errors, 'No uncaught browser errors').toEqual([]);

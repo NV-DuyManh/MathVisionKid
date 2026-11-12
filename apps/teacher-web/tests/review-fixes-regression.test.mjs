@@ -64,6 +64,7 @@ async function screen(run) {
     await act(async () => { await new Promise(resolve => setTimeout(resolve, 50)); });
   };
   const imports = {
+    '../services/api/AuthTokenStore': { AuthTokenStore: { getSessionId: () => 'test-session' } },
     '@tanstack/react-query': queryRuntime,
     'react-router-dom': routerRuntime,
     '@mui/material': mui,
@@ -236,6 +237,9 @@ test('R4: BatchCreatePage alerts when files exceed 30 limit, keeps selected file
     const Component = load('pages/BatchCreatePage', {
       ...imports,
       './PrivacyEditorModal': () => null,
+      '../services/api/newCreationRequestId': { newCreationRequestId: () => '173f718e-2c21-4a98-8c0e-f01337cabaf1' },
+      '../services/api/AuthTokenStore': { AuthTokenStore: { getSessionId: () => null } },
+      '../hooks/useUploadDraftGuard': { useUploadDraftGuard: () => ({ confirmation: null, allowNextNavigation() {} }) },
       '../services/api/ServiceLocator': {
         AppTeacherService: {
           getAssignments: async () => [{ assignmentId: 'a1', title: 'Test Bài tập' }],
@@ -274,6 +278,8 @@ test('R5: AssignmentCreatePage preserves decimal/exponent strings and validates 
     let createdAssignmentScore = null;
     const Component = load('pages/AssignmentCreatePage', {
       ...imports,
+      '../components/layout/AuthContext': { useAuth: () => ({ user: null }) },
+      '../services/api/newCreationRequestId': { newCreationRequestId: () => '173f718e-2c21-4a98-8c0e-f01337cabaf1' },
       '../services/api/ServiceLocator': {
         AppTeacherService: {
           getClasses: async () => [{ classId: 'c1', name: '4A', studentCount: 25 }],

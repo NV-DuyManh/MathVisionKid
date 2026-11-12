@@ -1,3 +1,4 @@
+import { readFile } from 'node:fs/promises';
 import { test, expect, login, sites } from './fixtures.mjs';
 
 const batchId = 'batch-review-queue';
@@ -83,6 +84,31 @@ test('teacher can open failed work from an empty queue', async ({ page, app }) =
   await page.getByRole('link', { name: 'Xem bài xử lý thất bại' }).click();
   await expect(page.getByRole('heading', { name: 'Bài làm trong đợt' })).toBeVisible();
   await expect(page.getByRole('list', { name: 'Bài làm trong đợt' })).toContainText('Học sinh 1');
+});
+
+test('teacher can find and reopen failed work in a mixed batch of thirty', async ({ page, app }) => {
+  const submissions = Array.from({ length: 30 }, (_, index) => submission(index + 1,
+    index >= 28 ? 'FAILED' : index === 0 ? 'PROPOSED_GRADE' : 'TEACHER_APPROVED'));
+  respondToBatch(app, {
+    status: 'PARTIAL', totalCount: 30, processedCount: 30, pendingReviewCount: 1,
+    failedCount: 2, finalizedCount: 27, submissions,
+  }, [submissions[0]]);
+  app.responses.set('GET /teacher/submissions/submission-29', ({ json }) => json({
+    ...submissions[28], batchId, canRetryProcessing: true, maxScore: 10,
+  }));
+  app.responses.set('GET /teacher/submissions/submission-29/image', ({ reject }) => reject(503));
+  await login(page, 'TEACHER');
+  await page.goto(reviewUrl);
+  await page.getByRole('link', { name: 'Xem bài xử lý thất bại' }).click();
+  const list = page.getByRole('list', { name: 'Bài làm trong đợt' });
+  await expect(list.getByRole('listitem')).toHaveCount(2);
+  const failedWork = list.getByRole('listitem').filter({ hasText: 'Học sinh 29' });
+  await failedWork.getByRole('link', { name: 'Xem bài' }).click();
+  await expect(page.getByRole('button', { name: 'Thử xử lý lại' })).toBeVisible();
+  await page.getByRole('link', { name: 'Quay lại đợt chấm' }).click();
+  await expect(list.getByRole('listitem')).toHaveCount(2);
+  await page.getByRole('link', { name: 'Xem tất cả bài' }).click();
+  await expect(list.getByRole('listitem')).toHaveCount(30);
 });
 
 test('teacher can resume the upload when the batch has not received any images', async ({ page, app }) => {
@@ -183,4 +209,48 @@ test('teacher keeps queue filters through review navigation without putting stud
   await page.reload();
   await expect(search).toHaveValue('');
   await expect(page.getByRole('button', { name: 'Duyệt bài này' })).toHaveCount(2);
+});
+
+test('after saving, next review skips finished work and keeps the filtered queue', async ({ page, app }) => {
+  const image = await readFile(new URL('../../apps/teacher-web/public/ui/mathvision-star.png', import.meta.url));
+  const entries = [1, 2, 3, 4].map(number => ({
+    ...submission(number, number === 4 ? 'NEEDS_CONFIRMATION' : 'PROPOSED_GRADE'),
+    batchId, maxScore: 10, gradeProposal: { suggestedScore: 8, maxScore: 10 },
+  }));
+  respondToBatch(app, { status: 'COMPLETED', totalCount: 4, processedCount: 4, pendingReviewCount: 4 }, entries);
+  for (const entry of entries) {
+    const path = `/teacher/submissions/${entry.submissionId}`;
+    app.responses.set(`GET ${path}`, ({ json }) => json(entry));
+    app.responses.set(`GET ${path}/image`, ({ route }) => route.fulfill({
+      body: image, contentType: 'image/png', headers: { 'access-control-allow-origin': '*' },
+    }));
+  }
+  const firstPath = '/teacher/submissions/submission-1';
+  app.responses.set(`POST ${firstPath}/approve`, ({ route }) => {
+    app.responses.set(`GET ${firstPath}`, ({ json }) => json({
+      ...entries[0], status: 'TEACHER_APPROVED', teacherScore: 8,
+    }));
+    respondToBatch(app, { status: 'COMPLETED', totalCount: 4, processedCount: 4, pendingReviewCount: 2, finalizedCount: 2 },
+      entries.slice(2));
+    app.responses.set(`GET ${batchPath}/review-summary`, ({ reject }) => reject(503));
+    return route.fulfill({ status: 204, headers: { 'access-control-allow-origin': '*' } });
+  });
+  await login(page, 'TEACHER');
+  await page.goto(reviewUrl);
+  await page.getByRole('combobox', { name: 'Trạng thái' }).click();
+  await page.getByRole('option', { name: 'Có điểm đề xuất' }).click();
+  await page.getByRole('button', { name: 'Duyệt bài này' }).first().click();
+  const next = page.getByRole('button', { name: 'Duyệt bài tiếp theo' });
+  await expect(next).toHaveCount(0);
+  await page.getByRole('button', { name: 'Duyệt điểm 8' }).click();
+  await next.click();
+  await expect(page.getByText('Chưa tải được hàng đợi. Hãy thử lại hoặc quay lại hàng đợi duyệt.')).toBeVisible();
+  await expect(page).toHaveURL(`${sites.teacher.origin}/submissions/submission-1?from=review`);
+  app.responses.set(`GET ${batchPath}/review-summary`, ({ json }) => json(entries.slice(2)));
+  await next.click();
+  await expect(page).toHaveURL(`${sites.teacher.origin}/submissions/submission-3?from=review`);
+  await expect(page.getByRole('heading', { name: /Học sinh 3/ })).toBeVisible();
+  await page.getByRole('link', { name: 'Quay lại hàng đợi duyệt' }).click();
+  await expect(page.getByRole('combobox', { name: 'Trạng thái' })).toHaveText('Có điểm đề xuất');
+  await expect(page.getByRole('button', { name: 'Duyệt bài này' })).toHaveCount(1);
 });

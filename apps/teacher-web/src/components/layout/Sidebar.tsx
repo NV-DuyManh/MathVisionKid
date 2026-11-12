@@ -145,7 +145,11 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
                   <ListItemButton
                     component={Link}
                     to={item.path}
-                    onClick={onClose}
+                    onClick={(event) => {
+                      const sameTab = event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+                      if (!sameTab) return;
+                      onClose();
+                    }}
                     selected={active}
                     aria-label={item.label}
                     aria-current={active ? 'page' : undefined}

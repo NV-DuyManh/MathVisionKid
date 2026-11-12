@@ -145,5 +145,6 @@ export interface DashboardStats {
   totalToday: number;
   completed: number;
   reviewRequired: number;
+  nextReviewBatchId?: string;
   recentBatches: Batch[];
 }

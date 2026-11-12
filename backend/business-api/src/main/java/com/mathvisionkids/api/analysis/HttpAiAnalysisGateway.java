@@ -205,11 +205,7 @@ public class HttpAiAnalysisGateway implements AiAnalysisGateway {
         AiJob latest = aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDesc(submission.getSubmissionId())
                 .orElse(failedJob);
         if (latest.getJobId().equals(failedJob.getJobId()) && "PROCESSING".equals(submission.getStatus())) {
-            boolean isTeacherRetake = submissionImageRepository
-                    .findFirstBySubmission_SubmissionIdOrderByCreatedAtDesc(submission.getSubmissionId())
-                    .map(image -> com.mathvisionkids.api.submission.SubmissionImage.TEACHER_RETAKE_SOURCE.equals(image.getSource()))
-                    .orElse(false);
-            submission.setStatus(isTeacherRetake ? "NEEDS_RETAKE" : "REVIEW_REQUIRED");
+            submission.setStatus(submission.getBatch() != null ? "FAILED" : "REVIEW_REQUIRED");
             submissionRepository.save(submission);
         }
     }

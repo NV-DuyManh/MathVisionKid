@@ -29,13 +29,15 @@ const ROUTE_META: RouteMeta[] = [
 export interface TopbarProps {
   onMenuClick: () => void;
   navigationOpen: boolean;
+  confirmLogout?: () => boolean;
   title?: string;
   subtitle?: string;
 }
 
-export default function Topbar({ onMenuClick, navigationOpen, title: propTitle, subtitle: propSubtitle }: TopbarProps) {
+export default function Topbar({ onMenuClick, navigationOpen, confirmLogout, title: propTitle, subtitle: propSubtitle }: TopbarProps) {
   const { user, logout } = useAuth();
   const location = useLocation();
+
 
   const matchedMeta = ROUTE_META.find((item) => item.pattern.test(location.pathname));
   const title = propTitle || matchedMeta?.title || 'Không gian giáo viên';
@@ -169,7 +171,7 @@ export default function Topbar({ onMenuClick, navigationOpen, title: propTitle, 
           <IconButton
             aria-label="Đăng xuất"
             onClick={() => {
-              void logout();
+              if (confirmLogout?.() !== false) void logout();
             }}
             sx={{ color: '#64748B', '&:hover': { color: '#DC2626', bgcolor: '#FEF2F2' } }}
           >

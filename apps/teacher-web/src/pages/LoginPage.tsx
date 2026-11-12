@@ -46,7 +46,7 @@ export default function LoginPage() {
 
     // IMMEDIATELY scrub the URL (fragment or query) before any network operation
     ssoStarted.current = true;
-    window.history.replaceState({}, document.title, window.location.pathname);
+    window.history.replaceState(window.history.state, document.title, window.location.pathname);
 
     const exchangeTicket = async () => {
       try {

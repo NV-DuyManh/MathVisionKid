@@ -385,6 +385,51 @@ class TeacherReviewWorkflowIntegrationTest {
     }
 
     @Test
+    void finalizedGradeCannotBeApprovedOrOverriddenAgain() throws Exception {
+        String token = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
+        Submission submission = saveSubmission("PROPOSED_GRADE");
+        AnalysisResult result = new AnalysisResult();
+        result.setSubmission(submission);
+        result.setStatus("PROPOSED_GRADE");
+        result.setGradeProposal(Map.of("suggestedScore", 73, "maxScore", 100));
+        analysisResults.saveAndFlush(result);
+        String submissionUrl = "/api/v1/teacher/submissions/" + submission.getSubmissionId();
+
+        mvc.perform(post(submissionUrl + "/approve").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk());
+
+        TeacherDecision originalDecision = teacherDecisions.findBySubmission_SubmissionId(submission.getSubmissionId()).orElseThrow();
+        AuditEvent originalAuditEvent = auditEvents.findBySubmission_SubmissionIdOrderByCreatedAtDesc(submission.getSubmissionId()).getFirst();
+        assertEquals(73, originalDecision.getFinalScore());
+        assertEquals("APPROVED", originalDecision.getType());
+        assertEquals("TEACHER_APPROVED", originalAuditEvent.getEventType());
+
+        mvc.perform(post(submissionUrl + "/approve").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error.code").value("INVALID_STATE"));
+        mvc.perform(post(submissionUrl + "/override")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(Map.of("score", 10, "reason", "Second decision"))))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error.code").value("INVALID_STATE"));
+
+        mvc.perform(get(submissionUrl).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("TEACHER_APPROVED"))
+                .andExpect(jsonPath("$.teacherScore").value(73));
+        TeacherDecision unchangedDecision = teacherDecisions.findBySubmission_SubmissionId(submission.getSubmissionId()).orElseThrow();
+        List<AuditEvent> unchangedEvents = auditEvents.findBySubmission_SubmissionIdOrderByCreatedAtDesc(submission.getSubmissionId());
+        assertEquals(originalDecision.getDecisionId(), unchangedDecision.getDecisionId());
+        assertEquals(originalDecision.getFinalScore(), unchangedDecision.getFinalScore());
+        assertEquals(originalDecision.getType(), unchangedDecision.getType());
+        assertEquals(List.of(originalAuditEvent.getAuditEventId()), unchangedEvents.stream()
+                .map(AuditEvent::getAuditEventId).toList());
+        assertEquals(originalAuditEvent.getEventType(), unchangedEvents.getFirst().getEventType());
+        assertEquals(originalAuditEvent.getMetadata(), unchangedEvents.getFirst().getMetadata());
+    }
+
+    @Test
     void teacherCanManuallyGradeAnUncertainSubmissionWithoutAProposal() throws Exception {
         String token = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
         Submission submission = saveSubmission("NEEDS_CONFIRMATION");
@@ -459,13 +504,15 @@ class TeacherReviewWorkflowIntegrationTest {
     void batchReviewSummaryReturnsOnlyCurrentPendingCardFieldsToTheOwningTeacher() throws Exception {
         String owner = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
         String other = obtainJwtToken(unauthorizedTeacher.getEmail(), UNAUTH_TEACHER_PASSWORD);
-        Submission current = saveSubmission("PROPOSED_GRADE");
-        Submission stale = saveSubmission("NEEDS_RETAKE");
+        var first = java.time.Instant.parse("2026-11-11T00:00:00Z");
+        Submission current = saveSubmission("PROPOSED_GRADE", first);
+        Submission stale = saveSubmission("NEEDS_RETAKE", first.plusSeconds(1));
         saveSubmission("TEACHER_APPROVED");
 
         var originalJob = new com.mathvisionkids.api.analysis.AiJob();
         originalJob.setSubmission(stale);
         originalJob.setStatus("COMPLETED");
+        originalJob.setSubmittedAt(first.plusSeconds(2));
         aiJobs.saveAndFlush(originalJob);
 
         for (Submission submission : List.of(current, stale)) {
@@ -484,6 +531,7 @@ class TeacherReviewWorkflowIntegrationTest {
         var retry = new com.mathvisionkids.api.analysis.AiJob();
         retry.setSubmission(stale);
         retry.setStatus("COMPLETED");
+        retry.setSubmittedAt(first.plusSeconds(3));
         aiJobs.saveAndFlush(retry);
 
         String url = "/api/v1/teacher/batches/" + batch.getBatchId() + "/review-summary";
@@ -706,11 +754,16 @@ class TeacherReviewWorkflowIntegrationTest {
     }
 
     private Submission saveSubmission(String status) {
+        return saveSubmission(status, java.time.Instant.now());
+    }
+
+    private Submission saveSubmission(String status, java.time.Instant createdAt) {
         Submission submission = new Submission();
         submission.setBatch(batch);
         submission.setAssignment(assignment);
         submission.setStudent(pupil);
         submission.setStatus(status);
+        submission.setCreatedAt(createdAt);
         return submissions.saveAndFlush(submission);
     }
 

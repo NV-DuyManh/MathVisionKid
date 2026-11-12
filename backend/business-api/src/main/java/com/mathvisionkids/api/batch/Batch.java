@@ -30,6 +30,9 @@ public class Batch {
     @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    private UUID creationRequestId;
+
     @Column(nullable = false)
     private String status;
 
