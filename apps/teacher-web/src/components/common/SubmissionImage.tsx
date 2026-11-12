@@ -14,6 +14,7 @@ export interface SubmissionImageProps {
   mockUrl?: string;
   studentName?: string;
   onStatusChange?: (status: ImageStatus) => void;
+  onAnnotationsChange?: (hasAnnotations: boolean) => void;
 }
 
 type ToolMode = 'pen' | 'highlight' | 'circle' | 'check' | 'cross' | 'star' | null;
@@ -100,10 +101,18 @@ function RefreshIcon() {
   );
 }
 
+function getSessionAnnotationKey(subId?: string): string | null {
+  if (!subId || typeof window === 'undefined') return null;
+  const sessId = window.sessionStorage?.getItem('teacher_session_id') || 'active';
+  return `mvk_annotations_${sessId}_${subId}`;
+}
+
 function loadSubmissionAnnotations(subId?: string): { strokes: Stroke[]; stamps: Stamp[] } {
   if (!subId || typeof window === 'undefined') return { strokes: [], stamps: [] };
   try {
-    const raw = window.sessionStorage?.getItem(`mvk_annotations_${subId}`);
+    const key = getSessionAnnotationKey(subId);
+    if (!key) return { strokes: [], stamps: [] };
+    const raw = window.sessionStorage?.getItem(key) || window.sessionStorage?.getItem(`mvk_annotations_${subId}`);
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed?.strokes) && Array.isArray(parsed?.stamps)) {
@@ -119,9 +128,12 @@ function loadSubmissionAnnotations(subId?: string): { strokes: Stroke[]; stamps:
 function saveSubmissionAnnotations(subId: string | undefined, strokes: Stroke[], stamps: Stamp[]) {
   if (!subId || typeof window === 'undefined') return;
   try {
+    const key = getSessionAnnotationKey(subId);
+    if (!key) return;
     if (strokes.length > 0 || stamps.length > 0) {
-      window.sessionStorage?.setItem(`mvk_annotations_${subId}`, JSON.stringify({ strokes, stamps }));
+      window.sessionStorage?.setItem(key, JSON.stringify({ strokes, stamps }));
     } else {
+      window.sessionStorage?.removeItem(key);
       window.sessionStorage?.removeItem(`mvk_annotations_${subId}`);
     }
   } catch {
@@ -129,7 +141,7 @@ function saveSubmissionAnnotations(subId: string | undefined, strokes: Stroke[],
   }
 }
 
-export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: SubmissionImageProps) {
+export function SubmissionImage({ id, mockUrl, studentName, onStatusChange, onAnnotationsChange }: SubmissionImageProps) {
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [rotation, setRotation] = useState<number>(0);
   const [fullscreenOpen, setFullscreenOpen] = useState<boolean>(false);
@@ -182,7 +194,8 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
 
   useEffect(() => {
     saveSubmissionAnnotations(id, strokes, stamps);
-  }, [id, strokes, stamps]);
+    onAnnotationsChange?.(strokes.length > 0 || stamps.length > 0);
+  }, [id, strokes, stamps, onAnnotationsChange]);
 
   useEffect(() => {
     currentStroke.current = [];
@@ -915,22 +928,30 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
 
       {/* Floating Teacher Grading Tool Bar */}
       <Box
+        role="toolbar"
+        aria-label="Thanh công cụ chấm bài của giáo viên"
         sx={{
           position: 'absolute',
-          bottom: 14,
+          bottom: 12,
           left: '50%',
           transform: 'translateX(-50%)',
+          maxWidth: 'calc(100% - 16px)',
+          width: 'max-content',
           bgcolor: 'rgba(15, 23, 42, 0.94)',
           backdropFilter: 'blur(10px)',
           borderRadius: 3,
-          px: 1.25,
-          py: 0.75,
+          px: { xs: 0.75, sm: 1.25 },
+          py: 0.5,
           display: 'flex',
           alignItems: 'center',
-          gap: 0.75,
+          gap: { xs: 0.4, sm: 0.75 },
           zIndex: 25,
           boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
           border: '1px solid rgba(255, 255, 255, 0.18)',
+          overflowX: 'auto',
+          scrollbarWidth: 'none',
+          WebkitOverflowScrolling: 'touch',
+          '&::-webkit-scrollbar': { display: 'none' },
         }}
       >
         {/* Tool: Pan / View mode */}
@@ -943,7 +964,7 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            px: 1.2,
+            px: { xs: 0.8, sm: 1.2 },
             py: 0.5,
             fontSize: '0.8rem',
             fontWeight: 700,
@@ -952,10 +973,12 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             border: 'none',
             borderRadius: 1.5,
             cursor: 'pointer',
+            flexShrink: 0,
             '&:hover': { bgcolor: activeTool === null ? '#047857' : 'rgba(255,255,255,0.1)' },
+            '&:focus-visible': { outline: '2px solid #38BDF8', outlineOffset: '1px' },
           }}
         >
-          ✋ Xem ảnh
+          ✋ <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Xem ảnh</Box><Box component="span" sx={{ display: { xs: 'inline', sm: 'none' }, ml: 0.25 }}>Xem</Box>
         </Box>
 
         {/* Tool: Red Pen */}
@@ -968,7 +991,7 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            px: 1.2,
+            px: { xs: 0.8, sm: 1.2 },
             py: 0.5,
             fontSize: '0.8rem',
             fontWeight: 700,
@@ -977,10 +1000,12 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             border: 'none',
             borderRadius: 1.5,
             cursor: 'pointer',
+            flexShrink: 0,
             '&:hover': { bgcolor: activeTool === 'pen' ? '#DC2626' : 'rgba(255,255,255,0.1)' },
+            '&:focus-visible': { outline: '2px solid #38BDF8', outlineOffset: '1px' },
           }}
         >
-          ✏️ Bút đỏ
+          ✏️ <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Bút đỏ</Box><Box component="span" sx={{ display: { xs: 'inline', sm: 'none' }, ml: 0.25 }}>Bút</Box>
         </Box>
 
         {/* Tool: Highlighter */}
@@ -993,7 +1018,7 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            px: 1.2,
+            px: { xs: 0.8, sm: 1.2 },
             py: 0.5,
             fontSize: '0.8rem',
             fontWeight: 700,
@@ -1002,10 +1027,12 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             border: 'none',
             borderRadius: 1.5,
             cursor: 'pointer',
+            flexShrink: 0,
             '&:hover': { bgcolor: activeTool === 'highlight' ? '#F59E0B' : 'rgba(255,255,255,0.1)' },
+            '&:focus-visible': { outline: '2px solid #38BDF8', outlineOffset: '1px' },
           }}
         >
-          ✨ Dạ quang
+          ✨ <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Dạ quang</Box>
         </Box>
 
         {/* Tool: Checkmark */}
@@ -1027,7 +1054,9 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             border: 'none',
             borderRadius: 1.5,
             cursor: 'pointer',
+            flexShrink: 0,
             '&:hover': { bgcolor: activeTool === 'check' ? '#059669' : 'rgba(255,255,255,0.1)' },
+            '&:focus-visible': { outline: '2px solid #38BDF8', outlineOffset: '1px' },
           }}
         >
           ✓
@@ -1052,7 +1081,9 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             border: 'none',
             borderRadius: 1.5,
             cursor: 'pointer',
+            flexShrink: 0,
             '&:hover': { bgcolor: activeTool === 'cross' ? '#DC2626' : 'rgba(255,255,255,0.1)' },
+            '&:focus-visible': { outline: '2px solid #38BDF8', outlineOffset: '1px' },
           }}
         >
           ✗
@@ -1076,7 +1107,9 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             border: 'none',
             borderRadius: 1.5,
             cursor: 'pointer',
+            flexShrink: 0,
             '&:hover': { bgcolor: activeTool === 'circle' ? '#DC2626' : 'rgba(255,255,255,0.1)' },
+            '&:focus-visible': { outline: '2px solid #38BDF8', outlineOffset: '1px' },
           }}
         >
           ⭕
@@ -1100,13 +1133,15 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             border: 'none',
             borderRadius: 1.5,
             cursor: 'pointer',
+            flexShrink: 0,
             '&:hover': { bgcolor: activeTool === 'star' ? '#D97706' : 'rgba(255,255,255,0.1)' },
+            '&:focus-visible': { outline: '2px solid #38BDF8', outlineOffset: '1px' },
           }}
         >
           ⭐
         </Box>
 
-        <Box sx={{ width: 1, height: 20, bgcolor: 'rgba(255,255,255,0.2)', mx: 0.5 }} />
+        <Box sx={{ width: 1, height: 20, bgcolor: 'rgba(255,255,255,0.2)', mx: { xs: 0.25, sm: 0.5 }, flexShrink: 0 }} />
 
         {/* Undo */}
         <Box
@@ -1127,7 +1162,9 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             cursor: strokes.length === 0 && stamps.length === 0 ? 'default' : 'pointer',
             opacity: strokes.length === 0 && stamps.length === 0 ? 0.35 : 1,
             fontSize: '0.85rem',
+            flexShrink: 0,
             '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' },
+            '&:focus-visible': { outline: '2px solid #38BDF8', outlineOffset: '1px' },
           }}
         >
           ↩️
@@ -1136,7 +1173,7 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
         {/* Clear */}
         <Box
           component="button"
-          title="Xóa toàn bộ đánh dấu trên ảnh"
+          title="Xóa toàn bộ đánh dấu trên ảnh (Có xác nhận)"
           aria-label="Xóa tất cả"
           onClick={handleClear}
           disabled={strokes.length === 0 && stamps.length === 0}
@@ -1152,7 +1189,9 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             cursor: strokes.length === 0 && stamps.length === 0 ? 'default' : 'pointer',
             opacity: strokes.length === 0 && stamps.length === 0 ? 0.35 : 1,
             fontSize: '0.85rem',
+            flexShrink: 0,
             '&:hover': { bgcolor: 'rgba(239,68,68,0.2)', color: '#EF4444' },
+            '&:focus-visible': { outline: '2px solid #38BDF8', outlineOffset: '1px' },
           }}
         >
           🗑️
@@ -1175,7 +1214,9 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
             borderRadius: 1,
             cursor: 'pointer',
             fontSize: '0.85rem',
+            flexShrink: 0,
             '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' },
+            '&:focus-visible': { outline: '2px solid #38BDF8', outlineOffset: '1px' },
           }}
         >
           {showOverlay ? '👁️' : '🙈'}
