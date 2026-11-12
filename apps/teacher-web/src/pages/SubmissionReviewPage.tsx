@@ -75,8 +75,8 @@ function SubmissionReview({ id }: { id?: string }) {
 
   const suggestedScore = typeof sub?.suggestedScore === 'number'
     ? sub.suggestedScore
-    : typeof sub?.gradeProposal?.suggestedScore === 'number'
-    ? sub.gradeProposal.suggestedScore
+    : typeof sub?.gradeProposal?.score === 'number'
+    ? sub.gradeProposal.score
     : undefined;
 
   const isFinalized = sub?.status === 'TEACHER_APPROVED' || sub?.status === 'TEACHER_OVERRIDDEN';
