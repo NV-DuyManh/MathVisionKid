@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import apiClient from '../services/api/apiClient';
 import { AuthTokenStore } from '../services/api/AuthTokenStore';
-import { appConfig, showDevTools } from '../config/runtime';
+import { appConfig } from '../config/runtime';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -32,15 +32,8 @@ export default function LoginPage() {
     if (!ssoCode) {
       ssoCode = searchParams.get('code');
     }
-    // Handle SSO Ticket Exchange if redirected from Unified Portal (URL Fragment #sso= preferred)
+    // If no SSO ticket in URL, allow direct teacher login
     if (!ssoCode) {
-      const hasFallbackParam = searchParams.get('fallback') === 'true' || searchParams.get('direct') === 'true';
-      const isAllowedFallback = showDevTools && hasFallbackParam;
-
-      if (!isAllowedFallback) {
-        window.location.href = appConfig.portalOrigin;
-        return;
-      }
       return;
     }
 

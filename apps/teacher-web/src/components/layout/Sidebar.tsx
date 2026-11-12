@@ -10,6 +10,7 @@ import {
   Typography,
   Avatar,
   Chip,
+  Badge,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
@@ -25,6 +26,8 @@ import HomeOutlined from '@mui/icons-material/HomeOutlined';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { appConfig } from '../../config/runtime';
+import { useQuery } from '@tanstack/react-query';
+import { AppTeacherService } from '../../services/api/ServiceLocator';
 
 const items = [
   { path: '/dashboard', label: 'Tổng quan', icon: DashboardOutlined, group: 'VẬN HÀNH GIẢNG DẠY' },
@@ -47,6 +50,13 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
   const desktop = useMediaQuery(useTheme().breakpoints.up('md'));
   const compact = desktop && collapsed;
   const width = compact ? 80 : 260;
+
+  const { data: stats } = useQuery({
+    queryKey: ['teacher-dashboard'],
+    queryFn: () => AppTeacherService.getDashboard(),
+    refetchInterval: 5000,
+  });
+  const pendingReviews = stats?.reviewRequired || 0;
 
   const displayName = user?.firstName
     ? `${user.lastName || ''} ${user.firstName}`.trim()
@@ -170,21 +180,44 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
                         justifyContent: 'center',
                       }}
                     >
-                      <Icon fontSize="small" />
+                      {item.path === '/batches' && pendingReviews > 0 ? (
+                        <Badge badgeContent={pendingReviews} color="error" max={99} sx={{ '& .MuiBadge-badge': { fontSize: '0.65rem', height: 16, minWidth: 16 } }}>
+                          <Icon fontSize="small" />
+                        </Badge>
+                      ) : (
+                        <Icon fontSize="small" />
+                      )}
                     </ListItemIcon>
                     {!compact && (
-                      <ListItemText
-                        primary={item.label}
-                        slotProps={{
-                          primary: {
-                            sx: {
-                              fontWeight: active ? 800 : 600,
-                              fontSize: '0.875rem',
-                              color: active ? '#059669' : '#334155',
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                        <ListItemText
+                          primary={item.label}
+                          slotProps={{
+                            primary: {
+                              sx: {
+                                fontWeight: active ? 800 : 600,
+                                fontSize: '0.875rem',
+                                color: active ? '#059669' : '#334155',
+                              },
                             },
-                          },
-                        }}
-                      />
+                          }}
+                        />
+                        {item.path === '/batches' && pendingReviews > 0 && (
+                          <Chip
+                            label={`${pendingReviews} cần duyệt`}
+                            size="small"
+                            color="error"
+                            sx={{
+                              height: 20,
+                              fontSize: '0.68rem',
+                              fontWeight: 800,
+                              bgcolor: '#FEE2E2',
+                              color: '#DC2626',
+                              border: '1px solid #FECACA',
+                            }}
+                          />
+                        )}
+                      </Box>
                     )}
                   </ListItemButton>
                 </Tooltip>
