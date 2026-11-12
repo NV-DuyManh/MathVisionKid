@@ -102,6 +102,7 @@ test('tracked artifacts are blocked even when forced into Git; local outputs and
     return true;
   });
   write('scripts/governance.mjs', readFileSync(new URL('./governance.mjs', import.meta.url), 'utf8'));
+  write('scripts/git-flow.mjs', readFileSync(new URL('./git-flow.mjs', import.meta.url), 'utf8'));
   assert.throws(() => execFileSync(process.execPath, [join(fixture, 'scripts/governance.mjs'), 'check'], {stdio: 'pipe'}), error => {
     assert.equal(error.status, 1);
     assert.ok(error.stderr.toString().includes('ignored file(s) are tracked'));
@@ -131,15 +132,16 @@ test('gate never turns failure, cancellation or unexpectedly skipped checks into
   checkGate(results, {web:'true',student:'false',backend:'false',ai:'false',launcher:'false'});
 });
 
-test('main policies reserve the final PR decision to the owner without bypassing checks', () => {
+test('owner approval exemption never bypasses PR, CI or history protections', () => {
   const policy = name => JSON.parse(readFileSync(new URL(`../.github/rulesets/${name}.json`, import.meta.url), 'utf8'));
-  const owner = policy('main-owner-only-merge');
+  const owner = policy('git-flow-review-required');
   const quality = policy('main-pr-and-history-protection');
   for (const rule of [owner, quality]) {
     assert.equal(rule.enforcement, 'active');
-    assert.deepEqual(rule.conditions.ref_name, {include:['refs/heads/main'],exclude:[]});
   }
-  assert.deepEqual(owner.rules, [{type:'update'}]);
+  assert.deepEqual(owner.conditions.ref_name.include, ['refs/heads/main','refs/heads/develop','refs/heads/release/*','refs/heads/hotfix/*']);
+  assert.deepEqual(owner.rules.map(r => r.type), ['pull_request']);
+  assert.equal(owner.rules[0].parameters.required_approving_review_count, 1);
   assert.deepEqual(owner.bypass_actors, [{actor_id:154242112,actor_type:'User',bypass_mode:'pull_request'}]);
   assert.deepEqual(quality.bypass_actors, []);
   const review = quality.rules.find(r => r.type === 'pull_request').parameters;
@@ -150,4 +152,17 @@ test('main policies reserve the final PR decision to the owner without bypassing
   assert.ok(quality.rules.some(r => r.type === 'deletion'));
   assert.ok(quality.rules.some(r => r.type === 'non_fast_forward'));
   assert.deepEqual(quality.rules.find(r => r.type === 'required_status_checks').parameters.required_status_checks, [{context:'Quality gate', integration_id:15368}]);
+  assert.deepEqual(quality.rules.find(r => r.type === 'pull_request').parameters.allowed_merge_methods, ['merge']);
+  for (const name of ['develop-pr-and-history-protection','release-pr-and-history-protection']) {
+    const rule = policy(name);
+    assert.equal(rule.enforcement, 'active');
+    assert.deepEqual(rule.bypass_actors, []);
+    assert.ok(rule.rules.some(r => r.type === 'non_fast_forward'));
+    assert.ok(rule.rules.some(r => r.type === 'pull_request'));
+    assert.deepEqual(rule.rules.find(r => r.type === 'required_status_checks').parameters.required_status_checks, [{context:'Quality gate', integration_id:15368}]);
+  }
+  const tags = policy('release-tags-immutable');
+  assert.deepEqual(tags.bypass_actors, []);
+  assert.equal(tags.target, 'tag');
+  assert.deepEqual(tags.rules, [{type:'update'}, {type:'deletion'}]);
 });

@@ -1,0 +1,13 @@
+{
+  "repository": "NV-DuyManh/MathVisionKid",
+  "integrationBranch": "develop",
+  "releaseBranch": "main",
+  "legacyPullRequests": [
+    {
+      "number": 51,
+      "head": "codex/teacher-web-pedagogical-review",
+      "createdAt": "2026-11-12T00:19:16Z",
+      "expiresAt": "2026-11-26T00:00:00Z"
+    }
+  ]
+}

@@ -2,6 +2,10 @@
 
 Nguồn yêu cầu / issue thật:
 
+Git Flow: head → base, nguồn tách nhánh, release/hotfix cần backmerge vào develop:
+
+Assignee / reviewer thực tế:
+
 Hành vi trước → sau:
 
 ## Kiểm tra
@@ -10,7 +14,12 @@ Hành vi trước → sau:
 - Ảnh UI đã lọc dữ liệu riêng tư, nếu thay giao diện:
 - Chưa kiểm tra và lý do:
 
-## Tác động
+## AI review
+
+- Revision đã review, agent/người thực hiện, findings và cách xử lý:
+- Người review đọc kết quả bot/CI trước khi Approve; không tự resolve bình luận của người khác.
+
+## Tác động và phát hành
 
 - API / migration / cấu hình / dependency:
 - Rủi ro và cách rollback:
@@ -20,7 +29,8 @@ Hành vi trước → sau:
 ## Trước khi merge
 
 - [ ] Đạt tiêu chí nghiệm thu; required checks đạt
-- [ ] Owner `NV-DuyManh` đã xem xét và quyết định merge; đã xử lý blockers/discussions
+- [ ] Đúng đích Git Flow; đã xử lý blockers/discussions; có 1 approval từ người khác (owner `NV-DuyManh` được miễn approval)
+- [ ] Nếu vào main: có release notes đúng version; giữ release/hotfix tới khi backmerge develop
 - [ ] Không có secret, ảnh học sinh hoặc dữ liệu nghiên cứu riêng tư
 - [ ] Không bỏ kiểm chứng toán / backend RBAC để làm xanh giao diện
 - [ ] Ghi đúng giới hạn kiểm thử, không coi mock là bằng chứng thiết bị thật

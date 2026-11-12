@@ -8,11 +8,11 @@ Small, focused improvements with clear evidence are easier to review. Set up the
 
 Read [workflow](docs/engineering/team-working-agreement.md), [naming conventions](docs/engineering/naming-conventions.md), [API/data](docs/engineering/api-and-data.md), [quality/security](docs/engineering/quality-and-security.md), and [GitHub settings](docs/engineering/github-settings.md). The rules apply to new/changed work; do not rename existing routes, rewrite migrations or reformat research evidence as housekeeping.
 
-Use focused task branches from current `main` and PRs back into `main`. Existing member branches remain compatible. New PR titles use Conventional Commits, e.g. `fix(voice): retain selected voice between steps`. Keep related corrections on the same open PR. Only the owner `NV-DuyManh` decides and merges into `main`, through a PR after required checks/discussions pass. Teammate reviews support that decision; no separate teammate approval is required. Bots do not self-approve or auto-merge.
+Follow [Git Flow](docs/engineering/git-flow.md). Create focused `feature/*` or `bugfix/*` branches from current `develop` and open PRs back into `develop`. Only versioned `release/*` and `hotfix/*` PRs target `main`; backmerge them into develop afterwards. New PR titles use Conventional Commits, e.g. `fix(voice): retain selected voice between steps`. Keep related corrections on the same open PR. At least one other reviewer must approve; only verified owner `NV-DuyManh` is exempt from approval through a separate ruleset. PR routing, required CI and discussion resolution still apply to the owner. Bots do not self-approve or auto-merge. The explicitly listed pre-migration PR #51 has a time-limited exception for develop only; new tasks cannot reuse legacy names.
 
 Run `npm run check:governance` for registry and workflow policy. CI selects affected web/Student/backend/AI checks and reports one stable `Quality gate`; a skipped unaffected module is not the same as a failed/cancelled check. PR checks use synthetic data and offline provider mocks, never private datasets or live narration quota. The Catalog Bot remains separate.
 
-GitHub auto-delete removes a PR head on the server after merge, including a member branch used as a PR head; it does not delete local branches or erase commits/attribution. Use `git fetch origin --prune` and `git branch -d <merged-task>` only after verifying the PR and any remaining local commits. Never force-delete branches in bulk.
+Automatic head deletion is disabled so release/hotfix branches survive until both main and develop contain their changes. Use `git fetch origin --prune` and `git branch -d <merged-task>` only after verifying the PR, remaining local commits and open PR head/base references. Never force-delete branches in bulk.
 
 See [maintenance](docs/engineering/maintenance.md) before removing reports, datasets or local artifacts. New task evidence belongs in the PR or one dated folder under `report/`; do not create a second parallel report tree.
 
@@ -104,6 +104,7 @@ Check the staged diff and file list before committing. Do not add secrets even i
 - Describe the concrete problem and resulting behavior.
 - Include relevant test results and visual evidence for UI changes.
 - Identify remaining limitations.
+- Record the AI review revision, findings/corrections, real assignee/reviewer and correct Git Flow destination. Read the policy/CI bot results before approving. Do not resolve someone else's review comments.
 - Preserve third-party notices and licenses.
 - Keep demo fixtures clearly labeled as synthetic.
 - Avoid putting architecture, development commands, service URLs, or demo account details into student-facing screens.

@@ -1,10 +1,10 @@
 name: MathVision CI
 on:
   pull_request:
-    branches: [main]
+    branches: [main, develop, 'release/**', 'hotfix/**']
     types: [opened, synchronize, reopened, edited, ready_for_review]
   push:
-    branches: [main]
+    branches: [main, develop, 'release/**', 'hotfix/**']
   workflow_dispatch:
 permissions:
   contents: read
@@ -258,3 +258,23 @@ jobs:
           CHECK_PLAN: ${{ toJSON(needs.governance.outputs) }}
           CHECK_RESULTS: '{"governance":"${{ needs.governance.result }}","web":"${{ needs.web.result }}","student":"${{ needs.student.result }}","backend":"${{ needs.backend.result }}","ai":"${{ needs.ai.result }}","launcher":"${{ needs.launcher.result }}"}'
         run: node scripts/governance.mjs gate
+
+  source-release:
+    name: Publish source release
+    needs: gate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version-file: .nvmrc
+      - name: Publish immutable source tag and reviewed release notes after Quality gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/git-flow-release.mjs

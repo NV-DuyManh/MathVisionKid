@@ -1,0 +1,15 @@
+{
+  "name": "git-flow-review-required",
+  "target": "branch",
+  "enforcement": "active",
+  "conditions": {"ref_name": {"include": ["refs/heads/main", "refs/heads/develop", "refs/heads/release/*", "refs/heads/hotfix/*"], "exclude": []}},
+  "bypass_actors": [{"actor_id": 154242112, "actor_type": "User", "bypass_mode": "pull_request"}],
+  "rules": [{"type": "pull_request", "parameters": {
+    "required_approving_review_count": 1,
+    "dismiss_stale_reviews_on_push": true,
+    "require_code_owner_review": false,
+    "require_last_push_approval": false,
+    "required_review_thread_resolution": true,
+    "allowed_merge_methods": ["merge", "squash"]
+  }}]
+}
