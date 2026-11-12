@@ -9,7 +9,7 @@ on:
       - 'catalog/**'
       - 'RUN_CATALOG_BOT.bat'
   push:
-    branches: [main]
+    branches: [main, develop, 'release/**', 'hotfix/**']
     paths:
       - 'ai/runtime/app/tutoring/**'
       - 'ai/runtime/scripts/*catalog*'

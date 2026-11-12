@@ -1,0 +1,8 @@
+{
+  "name": "release-tags-immutable",
+  "target": "tag",
+  "enforcement": "active",
+  "conditions": {"ref_name": {"include": ["refs/tags/v*_prod", "refs/tags/v*_stg"], "exclude": []}},
+  "bypass_actors": [],
+  "rules": [{"type": "update"}, {"type": "deletion"}]
+}
