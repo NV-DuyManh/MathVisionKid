@@ -142,6 +142,7 @@ test('owner approval exemption never bypasses PR, CI or history protections', ()
   assert.deepEqual(owner.conditions.ref_name.include, ['refs/heads/main','refs/heads/develop','refs/heads/release/*','refs/heads/hotfix/*']);
   assert.deepEqual(owner.rules.map(r => r.type), ['pull_request']);
   assert.equal(owner.rules[0].parameters.required_approving_review_count, 1);
+  assert.equal(owner.rules[0].parameters.require_extra_approval_for_unattributed_changes, false);
   assert.deepEqual(owner.bypass_actors, [{actor_id:154242112,actor_type:'User',bypass_mode:'pull_request'}]);
   assert.deepEqual(quality.bypass_actors, []);
   const review = quality.rules.find(r => r.type === 'pull_request').parameters;
@@ -159,6 +160,7 @@ test('owner approval exemption never bypasses PR, CI or history protections', ()
     assert.deepEqual(rule.bypass_actors, []);
     assert.ok(rule.rules.some(r => r.type === 'non_fast_forward'));
     assert.ok(rule.rules.some(r => r.type === 'pull_request'));
+    assert.equal(rule.rules.find(r => r.type === 'pull_request').parameters.require_extra_approval_for_unattributed_changes, false);
     assert.deepEqual(rule.rules.find(r => r.type === 'required_status_checks').parameters.required_status_checks, [{context:'Quality gate', integration_id:15368}]);
   }
   const tags = policy('release-tags-immutable');

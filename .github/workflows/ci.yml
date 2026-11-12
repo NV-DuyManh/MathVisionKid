@@ -102,6 +102,9 @@ jobs:
       - run: npm ci
       - name: Verify installed Student dependencies match the Expo SDK
         working-directory: apps/student-mobile
+        env:
+          # Check the locked SDK's bundled compatibility table, not mutable online recommendations.
+          EXPO_OFFLINE: '1'
         run: npx expo install --check
       - run: npm run typecheck --workspace=student-mobile
       - run: npm run test:contracts --workspace=student-mobile

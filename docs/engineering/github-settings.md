@@ -18,6 +18,8 @@ Repo: `NV-DuyManh/MathVisionKid`; nhánh mặc định `develop`, nhánh phát h
 
 CI PR không dùng secrets/production DB, không chạy `pull_request_target`, action được pin commit SHA và checkout không giữ credential. Dependency bot chỉ đề xuất PR; không tự duyệt hoặc merge.
 
+Student chạy `expo install --check` với `EXPO_OFFLINE=1` để so với bảng tương thích đi kèm đúng SDK trong lockfile, tránh metadata online thay đổi làm cùng revision có kết quả khác. Không đặt `EXPO_NO_DEPENDENCY_VALIDATION`; typecheck, Jest và browser export vẫn chạy. Cập nhật SDK/dependency mới qua Dependabot và PR riêng. [Expo CLI environment variables](https://docs.expo.dev/more/expo-cli/#environment-variables).
+
 Dependency được kiểm hàng tuần, thứ Hai 08:00 giờ Việt Nam. PR phiên bản thường được gom theo nhóm, tối đa 5 PR mở (npm 2, Gradle/Python/Actions mỗi nhóm 1); chỉ đề xuất minor/patch. Expo/React và model có nhóm riêng, vẫn cần kiểm thử tương thích và owner duyệt. Major thường được nâng trong đợt riêng. Cooldown 7 ngày chỉ áp dụng cập nhật phiên bản, không trì hoãn bản vá bảo mật. Security có nhóm riêng và giới hạn riêng của GitHub; tổng PR không bị khóa cứng ở 5. Không ignore toàn bộ thư viện ML hoặc tắt cảnh báo để làm gọn số đếm.
 
 Python dùng một updater `uv` cho `/ai/runtime` và `/scripts`, gồm requirements và uv.lock, tránh pip/uv cùng sửa một pin. Khi gom PR cũ vào PR thay thế, ghi rõ số PR/commit nguồn, giữ tác giả với `cherry-pick -x`, chỉ đóng nguồn sau khi phần thay thế được chấp nhận. PR nâng không tương thích được từ chối kèm lý do kiểm chứng. Không đóng bản vá chưa có giải pháp chỉ để giảm số PR.
