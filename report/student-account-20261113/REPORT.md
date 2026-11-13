@@ -33,6 +33,8 @@ Backend integration còn kiểm: 401 khi chưa đăng nhập, 403 Teacher upload
 
 Browser fixture không phải chứng minh backend RBAC/chuẩn hóa ảnh. Live dùng tài khoản/ảnh minh họa riêng, sau nghiệm thu tài khoản bị disable; không đổi mật khẩu tài khoản thật hoặc tạo thành tích giả cho học sinh.
 
+Lượt main 1.0.2 có một lần runner không bind được cổng browser 43170 (đã đạt khi chạy lại). Đổi cổng test mặc định xuống 23170 để tránh vùng cổng ephemeral Linux; vẫn strictPort và không dùng lại server ngoài test. Không thay cổng ứng dụng hoặc bỏ assertion.
+
 ![Trang riêng trên web kích thước điện thoại, backend thật](account-phone.png)
 
 ## Phát hành và giới hạn
