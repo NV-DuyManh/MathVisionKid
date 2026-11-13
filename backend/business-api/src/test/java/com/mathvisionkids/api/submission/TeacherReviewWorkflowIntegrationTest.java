@@ -569,10 +569,17 @@ class TeacherReviewWorkflowIntegrationTest {
     }
 
     @Test
-    void changingClassroomTeacherRemovesHistoricalWorkFromTeacherWorkspace() throws Exception {
+    void changingClassroomTeacherTransfersHistoricalWorkToCurrentTeacher() throws Exception {
         String formerTeacherToken = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
         String currentTeacherToken = obtainJwtToken(unauthorizedTeacher.getEmail(), UNAUTH_TEACHER_PASSWORD);
         Submission submission = saveSubmission("REVIEW_REQUIRED");
+        var image = new SubmissionImage();
+        image.setSubmission(submission);
+        image.setContentType("image/jpeg");
+        image.setFileSize((long) realImageBytes.length);
+        image.setFilePath(localFileStorage.store(
+                new MockMultipartFile("image", "handover.jpg", "image/jpeg", realImageBytes), "handover"));
+        images.saveAndFlush(image);
         String submissionUrl = "/api/v1/teacher/submissions/" + submission.getSubmissionId();
         String batchUrl = "/api/v1/teacher/batches/" + batch.getBatchId();
         String assignmentUrl = "/api/v1/teacher/assignments/" + assignment.getAssignmentId();
@@ -587,21 +594,31 @@ class TeacherReviewWorkflowIntegrationTest {
         mvc.perform(get("/api/v1/teacher/dashboard").header(HttpHeaders.AUTHORIZATION, "Bearer " + formerTeacherToken))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.recentBatches").isEmpty());
 
-        for (String token : List.of(formerTeacherToken, currentTeacherToken)) {
-            for (String url : List.of(assignmentUrl, batchUrl, batchUrl + "/review", batchUrl + "/review-summary",
-                    submissionUrl, submissionUrl + "/image")) {
-                mvc.perform(get(url).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                        .andExpect(status().isForbidden());
-            }
-            mvc.perform(post(submissionUrl + "/approve").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                    .andExpect(status().isForbidden());
-            mvc.perform(post(submissionUrl + "/override")
-                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(mapper.writeValueAsString(Map.of("score", 50, "reason", "Kiểm tra quyền chấm"))))
+        for (String url : List.of(assignmentUrl, batchUrl, batchUrl + "/review", batchUrl + "/review-summary",
+                submissionUrl, submissionUrl + "/image")) {
+            mvc.perform(get(url).header(HttpHeaders.AUTHORIZATION, "Bearer " + formerTeacherToken))
                     .andExpect(status().isForbidden());
         }
+        mvc.perform(post(submissionUrl + "/approve").header(HttpHeaders.AUTHORIZATION, "Bearer " + formerTeacherToken))
+                .andExpect(status().isForbidden());
+        mvc.perform(post(submissionUrl + "/override")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + formerTeacherToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(Map.of("score", 50, "reason", "Kiểm tra quyền chấm"))))
+                .andExpect(status().isForbidden());
         assertTrue(teacherDecisions.findBySubmission_SubmissionId(submission.getSubmissionId()).isEmpty());
+        for (String url : List.of(assignmentUrl, batchUrl, batchUrl + "/review", batchUrl + "/review-summary",
+                submissionUrl, submissionUrl + "/image")) {
+            mvc.perform(get(url).header(HttpHeaders.AUTHORIZATION, "Bearer " + currentTeacherToken))
+                    .andExpect(status().isOk());
+        }
+        mvc.perform(post(submissionUrl + "/override")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + currentTeacherToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(Map.of("score", 50, "reason", "Đã kiểm tra ảnh sau bàn giao",
+                                "imageLegible", true))))
+                .andExpect(status().isOk());
+        assertEquals("TEACHER_OVERRIDDEN", submissions.findById(submission.getSubmissionId()).orElseThrow().getStatus());
     }
 
     @Test
