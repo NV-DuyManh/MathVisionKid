@@ -250,8 +250,15 @@ async def _call_gemini(system_prompt: str, user_text: str, image_b64: ImageInput
                         logger.info("Math tutor Gemini HTTP 503; retrying once within request budget")
                         await asyncio.sleep(delay)
             retry_after = _retry_after_seconds(response)
-            if response.status_code in (401, 403):
+            if response.status_code in (401, 403) or (response.status_code == 400 and (
+                    'API_KEY_INVALID' in response.text or 'API_KEY_EXPIRED' in response.text
+                    or 'API key not valid' in response.text or 'API key expired' in response.text)):
                 raise GeminiError("AUTH_ERROR", "Authentication failed")
+            if response.status_code == 400:
+                # A rejected payload is not evidence that this credential is bad.
+                # Do not poison the shared key pool or retry it with another key.
+                logger.info('Math tutor Gemini rejected request status=400 category=configuration')
+                raise TutorUnavailable('configuration')
             if response.status_code == 429:
                 raise GeminiError("RATE_LIMIT_429", "Rate limited", retry_after=retry_after)
             if not response.is_success:
@@ -361,11 +368,11 @@ async def _generate(system_prompt: str, user_text: str, image_b64: ImageInput = 
                      if enabled and keys.strip() and (only_provider is None or name == only_provider)]
         if preferred_provider:providers.sort(key=lambda item:item[0] != preferred_provider)
         failures = []
-        for name,provider in providers:
+        for index,(name,provider) in enumerate(providers):
             try:
                 provider_options = {**options, "reasoning": True} if reasoning and name == 'groq' else options
                 budget = options.get('timeout_seconds',14.0)
-                if len(providers)>1:budget=min(budget,PROVIDER_TIMEOUT_SECONDS)
+                if index < len(providers)-1:budget=min(budget,PROVIDER_TIMEOUT_SECONDS)
                 result=await asyncio.wait_for(provider(system_prompt,user_text,image_b64,**provider_options),timeout=budget)
                 return ProviderResult(result,name)
             except (TutorUnavailable,TimeoutError) as exc:

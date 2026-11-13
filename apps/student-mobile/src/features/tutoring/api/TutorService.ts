@@ -25,12 +25,15 @@ export interface NotebookQuestion { label: string; problemText: string; uncertai
 export interface NotebookRead {
   kind: 'PROBLEM' | 'WORK' | 'MIXED' | 'MULTIPLE' | 'UNREADABLE';
   problemText: string; lines: NotebookLine[]; needsProblem: boolean; needsCrop?: boolean;
+  problemNeedsReview?: boolean;
   questions?: NotebookQuestion[];
 }
 export type WorkReviewRequest = { sourceId: string; problemText: string; workText: string; problemConfirmed: boolean; workConfirmed: boolean };
-export type WorkReviewRow = { lineIndex: number; sourceText: string; status: 'OK' | 'FIX' | 'UNSURE'; feedback: string; hints: string[] };
+export type WorkReviewRow = { lineIndex: number; sourceText: string; status: 'OK' | 'FIX' | 'UNSURE'; feedback: string; hints: string[];
+  errorKind?: 'NONE' | 'CALCULATION' | 'OPERAND' | 'DEPENDENT' | 'EXPLANATION' | 'UNIT';
+  rowKind?: 'HEADING' | 'EXPLANATION' | 'CALCULATION' | 'ANSWER' | 'UNVERIFIABLE' | null; arithmeticCorrect?: boolean | null };
 export type WorkReview = { sourceId: string; status: 'CORRECT' | 'NEEDS_REVISION' | 'NEEDS_REVIEW'; summary: string; praise: string;
-  rows: WorkReviewRow[]; nextAction: string; alternative: string };
+  rows: WorkReviewRow[]; nextAction: string; alternative: string; complete?: boolean | null; missingPart?: string; arithmeticVerified?: boolean | null };
 /** Same physical line separators as Python splitlines; blank rows do not get review indexes. */
 export function trimWorkReviewLine(text: string): string {
   return text.replace(/^[\u0009-\u000D\u001C-\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+|[\u0009-\u000D\u001C-\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+$/g, '');
@@ -190,8 +193,18 @@ export const TutorService = {
     if (!data || data.sourceId !== request.sourceId || !['CORRECT', 'NEEDS_REVISION', 'NEEDS_REVIEW'].includes(data.status)
       || !bounded(data.summary, 500) || !bounded(data.praise, 300, true) || !bounded(data.nextAction, 300)
       || !bounded(data.alternative, 600, true) || !Array.isArray(data.rows) || data.rows.length !== source.length
+      || (data.complete != null && typeof data.complete !== 'boolean')
+      || (data.arithmeticVerified != null && typeof data.arithmeticVerified !== 'boolean')
+      || (data.missingPart !== undefined && !bounded(data.missingPart, 500, true))
+      || (data.missingPart?.trim() && data.complete !== false)
+      || (data.status === 'CORRECT' && data.complete === false)
       || data.rows.some((row: any, index: number) => !row || row.lineIndex !== index || row.sourceText !== source[index]
         || !['OK', 'FIX', 'UNSURE'].includes(row.status) || !bounded(row.feedback, 400)
+        || (row.rowKind != null && !['HEADING', 'EXPLANATION', 'CALCULATION', 'ANSWER', 'UNVERIFIABLE'].includes(row.rowKind))
+        || (row.arithmeticCorrect != null && (typeof row.arithmeticCorrect !== 'boolean' || row.rowKind !== 'CALCULATION'
+          || (row.arithmeticCorrect === false && row.status !== 'FIX')))
+        || (row.errorKind !== undefined && (!['NONE', 'CALCULATION', 'OPERAND', 'DEPENDENT', 'EXPLANATION', 'UNIT'].includes(row.errorKind)
+          || (row.status !== 'FIX' && row.errorKind !== 'NONE')))
         || !Array.isArray(row.hints) || row.hints.length > 2 || row.hints.some((hint: unknown) => !bounded(hint, 300))
         || (row.status === 'OK' && row.hints.length))
       || (data.status === 'CORRECT' ? !data.praise.trim() || data.rows.some((row: WorkReviewRow) => row.status !== 'OK')
@@ -247,6 +260,7 @@ export const TutorService = {
     });
     if (!['PROBLEM', 'WORK', 'MIXED', 'MULTIPLE', 'UNREADABLE'].includes(data?.kind)
       || typeof data.problemText !== 'string' || data.problemText.length > 4000 || typeof data.needsProblem !== 'boolean'
+      || (data.problemNeedsReview !== undefined && typeof data.problemNeedsReview !== 'boolean')
       || (data.needsCrop !== undefined && typeof data.needsCrop !== 'boolean')
       || (data.questions !== undefined && (!Array.isArray(data.questions) || data.questions.length > 30
         || data.questions.some(q => !q || typeof q.label !== 'string' || !q.label.trim() || q.label.length > 100

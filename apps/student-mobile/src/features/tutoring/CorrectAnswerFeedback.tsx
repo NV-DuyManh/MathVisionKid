@@ -10,7 +10,7 @@ const PIECES = Array.from({ length: 18 }, (_, index) => ({
 }));
 
 /** One small celebration; never moves the next task or intercepts a touch. */
-export function CorrectAnswerFeedback({ message }: { message: string }) {
+export function CorrectAnswerFeedback({ message, detail = 'Em xem lại bước vừa làm, rồi bấm tiếp tục nhé.' }: { message: string; detail?: string }) {
   const [motion] = useState(() => new Animated.Value(0));
   const [celebrating, setCelebrating] = useState(false);
   useEffect(() => {
@@ -27,10 +27,10 @@ export function CorrectAnswerFeedback({ message }: { message: string }) {
     const app = AppState.addEventListener('change', value => { if (value !== 'active') stop(); });
     return () => { active = false; animation?.stop(); preference.remove(); app.remove(); };
   }, [motion]);
-  return <View style={styles.banner} testID="correct-answer-feedback">
+  return <View style={styles.banner} testID="correct-answer-feedback" accessibilityLiveRegion="polite">
     <View style={styles.badge}><Ionicons name="checkmark" size={23} color="#24794E" accessible={false} /></View>
     <View style={styles.words}><Text style={styles.title}>{message || 'Em làm đúng rồi!'}</Text>
-      <Text style={styles.caption}>Em xem lại bước vừa làm, rồi bấm tiếp tục nhé.</Text></View>
+      {detail ? <Text style={styles.caption}>{detail}</Text> : null}</View>
     {celebrating ? <View testID="correct-answer-celebration" style={styles.burst} pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
       {PIECES.map((piece, index) => <Animated.View key={index} style={[styles.piece, { backgroundColor: piece.color,
         opacity: motion.interpolate({ inputRange: [0, .65, 1], outputRange: [1, 1, 0] }),

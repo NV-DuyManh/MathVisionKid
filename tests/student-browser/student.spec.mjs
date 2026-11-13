@@ -2,6 +2,57 @@ import { test, expect, sites, login } from '../browser/fixtures.mjs';
 import { fileURLToPath } from 'node:url';
 import { studentPort } from '../browser/sites.mjs';
 
+test('Work Review edits all affected calculations with compact stacked fractions and celebrates a verified correction', async ({ page, app }, testInfo) => {
+  app.realStudent = true;
+  const problem = 'Có 30 kg táo, bán 15 kg. Sau đó bán một nửa số táo còn lại. Hỏi lần sau bán bao nhiêu kg táo?';
+  const work = 'Bài giải:\n30 - 15 = 14 (kg)\n14 × 1/2 = 7 (kg)';
+  const corrected = 'Bài giải:\n30 - 15 = 15 (kg)\n15 × 1/2 = 7,5 (kg)';
+  app.responses.set('POST /student/quizzes/prepare', ({ json }) => json({ status: 'READY' }));
+  app.responses.set('POST /student/quizzes/from-learning', ({ body, json }) => {
+    expect(body.sourceType).toBe('WORK_REVIEW');
+    return json({ offered: false, quiz: null });
+  });
+  app.responses.set('POST /student/tutor/work-review', ({ body, json }) => {
+    expect(body.problemText).toBe(problem);
+    expect(body.problemConfirmed && body.workConfirmed).toBe(true);
+    const correct = body.workText === corrected;
+    if (!correct) expect(body.workText).toBe(work);
+    return json({ sourceId: body.sourceId, status: correct ? 'CORRECT' : 'NEEDS_REVISION',
+      summary: 'Đã kiểm tra bài làm.', praise: correct ? 'Em đã tính đúng và giữ đúng đơn vị.' : '',
+      nextAction: 'Em xem lại phép tính nhé.', alternative: '', complete: true, missingPart: '', arithmeticVerified: correct,
+      rows: body.workText.split('\n').map((sourceText, lineIndex) => ({ sourceText, lineIndex,
+        rowKind: lineIndex === 0 ? 'HEADING' : 'CALCULATION', arithmeticCorrect: lineIndex === 0 ? null : correct || lineIndex === 2,
+        status: correct || lineIndex === 0 ? 'OK' : 'FIX',
+        errorKind: correct || lineIndex === 0 ? 'NONE' : lineIndex === 1 ? 'CALCULATION' : 'DEPENDENT',
+        feedback: 'Em tính lại sau khi sửa bước trước nhé.', hints: [] })) });
+  });
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem, workText: work })}`);
+  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await expect(page.getByText('Sai tính toán', { exact: false }).first()).toBeVisible();
+  await expect(page.getByText('Cần tính lại sau khi sửa bước trước', { exact: false }).first()).toBeVisible();
+  await expect(page.getByText('Cần đối chiếu', { exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Em nhập các dòng vừa sửa', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Chụp lại bài em đã sửa', exact: true })).toBeVisible();
+  await page.getByRole('textbox', { name: 'Dòng 2 em vừa sửa', exact: true }).fill('30 - 15 = 15 (kg)');
+  await page.getByRole('textbox', { name: 'Dòng 3 em vừa sửa, phần 1', exact: true }).fill('15 × ');
+  await page.getByRole('textbox', { name: 'Dòng 3 em vừa sửa, phần 2', exact: true }).fill(' = 7,5 (kg)');
+  const numerator = page.getByRole('textbox', { name: 'Dòng 3 em vừa sửa, tử số 1', exact: true });
+  const denominator = page.getByRole('textbox', { name: 'Dòng 3 em vừa sửa, mẫu số 1', exact: true });
+  const top = await numerator.boundingBox(), bottom = await denominator.boundingBox();
+  expect(top.y + top.height).toBeLessThanOrEqual(bottom.y);
+  const editor = page.getByTestId('work-line-expression');
+  expect((await editor.boundingBox()).height).toBeLessThan(90);
+  await testInfo.attach('Work Review synthetic correction', { body: await page.screenshot(), contentType: 'image/png' });
+  await page.getByRole('button', { name: 'Nhận xét lại bài', exact: true }).click();
+  await expect(page.getByText('Em làm đúng rồi!', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Chụp lại bài em đã sửa', exact: true })).toHaveCount(0);
+  const reviews = app.requests.filter(request => request.path === '/student/tutor/work-review');
+  expect(reviews).toHaveLength(2);
+  expect(reviews[1].body.sourceId).not.toBe(reviews[0].body.sourceId);
+});
+
 test('Student previews and crops a local worksheet without sending it', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
