@@ -2,6 +2,9 @@
 export function sourceClarification(source: string): { message: string; mixedPreview?: string } | null {
   const fold = (text: string) => text.toLowerCase().replace(/đ/g, 'd').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   const text = fold(source);
+  if (/\(\s*\?\s*\)\s*[/⁄]\s*(?:\d+|\(\s*(?:\d+|\?)\s*\))|(?:\d+|\(\s*\d+\s*\))\s*[/⁄]\s*\(\s*\?\s*\)/.test(text)) return {
+    message: 'Có phân số chưa đọc rõ. Em đối chiếu với ảnh rồi điền đủ tử số và mẫu số. Nếu ảnh bị cắt, em chọn lại vùng bài toán nhé.',
+  };
   if (/\d\(\s*\d+\s*(?:\/|\)\s*\/)/.test(text)) return {
     message: 'Phần nguyên đang dính vào phân số. Em nhìn lại ảnh: đây là các hỗn số hay phép nhân? Chỉ tách thành hỗn số khi đúng với ảnh.',
     mixedPreview: source.replace(/(\d)(?=\(\s*\d+\s*(?:\/|\)\s*\/))/g, '$1 '),

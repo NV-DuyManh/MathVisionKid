@@ -5,6 +5,21 @@ import { MediaTimeline } from '../features/tutoring/MediaTimeline';
 import { StyleSheet } from 'react-native';
 jest.mock('../features/tutoring/MediaSlider', () => 'Slider');
 
+it('allows an explicit browser Play before duration arrives while keeping seeking disabled', () => {
+  const play = jest.fn(); let view!: TestRenderer.ReactTestRenderer;
+  const props = { title: 'Nghe giảng', duration: 0, currentTime: 0, playing: false,
+    onSeek: jest.fn(), onScrubStart: jest.fn(), onToggle: play, allowPlayWithoutDuration: true };
+  act(() => { view = TestRenderer.create(<MediaTimeline {...props} />); });
+  const button = (label: string) => view.root.findAll(node => node.props.accessibilityLabel === label && node.props.onPress)[0];
+  expect(button('Phát lời giảng').props.disabled).toBe(false);
+  expect(button('Tiến 5 giây').props.disabled).toBe(true);
+  expect(view.root.findByType(Slider).props.disabled).toBe(true);
+  act(() => button('Phát lời giảng').props.onPress()); expect(play).toHaveBeenCalledTimes(1);
+  act(() => view.update(<MediaTimeline {...props} disabled />));
+  expect(button('Phát lời giảng').props.disabled).toBe(true);
+  act(() => view.unmount());
+});
+
 it('shows a dragged time and commits an arbitrary position only when the slider is released', () => {
   const seek = jest.fn(), start = jest.fn(); let view!: TestRenderer.ReactTestRenderer;
   act(() => { view = TestRenderer.create(<MediaTimeline title="Nghe giảng" duration={100} currentTime={7} playing={false} onSeek={seek} onScrubStart={start} onToggle={() => {}} />); });

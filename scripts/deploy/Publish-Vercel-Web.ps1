@@ -18,24 +18,42 @@ $health = Invoke-RestMethod "$ApiOrigin/actuator/health" -TimeoutSec 20
 if ($health.status -ne 'UP') { throw 'The public API is not healthy; no web deployment was started.' }
 if (-not (Get-Command vercel -ErrorAction SilentlyContinue)) { throw 'Install and authenticate the Vercel CLI first.' }
 $previous = @{}
-$keys = @('VITE_API_BASE_URL', 'VITE_PORTAL_URL', 'VITE_TEACHER_URL', 'VITE_ADMIN_URL', 'VITE_USE_MOCK', 'VITE_SHOW_DEV_TOOLS', 'EXPO_PUBLIC_API_BASE_URL', 'EXPO_PUBLIC_USE_MOCK', 'EXPO_PUBLIC_TEACHER_URL', 'EXPO_PUBLIC_ADMIN_URL', 'EXPO_NO_DOTENV', 'MATHVISION_WEB_EXPORT')
+$webKeys = @('VITE_API_BASE_URL', 'VITE_USE_MOCK', 'VITE_SHOW_DEV_TOOLS')
+$workspaceKeys = @('VITE_PORTAL_URL')
+$portalKeys = @('VITE_TEACHER_URL', 'VITE_ADMIN_URL', 'EXPO_PUBLIC_API_BASE_URL', 'EXPO_PUBLIC_USE_MOCK', 'EXPO_PUBLIC_TEACHER_URL', 'EXPO_PUBLIC_ADMIN_URL', 'EXPO_PUBLIC_PORTAL_URL')
+$socialKeys = @('VITE_GOOGLE_CLIENT_ID', 'VITE_FIREBASE_API_KEY', 'VITE_FIREBASE_AUTH_DOMAIN', 'VITE_FIREBASE_PROJECT_ID', 'VITE_FIREBASE_APP_ID', 'VITE_FACEBOOK_AUTH_ENABLED')
+$keys = $webKeys + $workspaceKeys + $portalKeys + $socialKeys + @('EXPO_NO_DOTENV', 'MATHVISION_WEB_EXPORT')
 foreach ($key in $keys) { $previous[$key] = [Environment]::GetEnvironmentVariable($key, 'Process') }
 try {
-    $env:VITE_PORTAL_URL = 'https://mathvisionkid-portal.vercel.app'
-    $env:VITE_TEACHER_URL = 'https://mathvisionkid-teacher.vercel.app'
-    $env:VITE_ADMIN_URL = 'https://mathvisionkid-admin.vercel.app'
-    $env:VITE_USE_MOCK = 'false'
-    $env:VITE_SHOW_DEV_TOOLS = 'false'
     $deployments = @()
     foreach ($app in $Apps) {
         $projectName = "mathvisionkid-$app"
         # Browsers keep a stable address; only Vercel's upstream changes after a PC restart.
         $webOrigin = "https://$projectName.vercel.app"
-        $env:VITE_API_BASE_URL = "$webOrigin/api/v1"
         $projectJson = & vercel api "/v9/projects/$projectName" --scope $Scope
         if ($LASTEXITCODE -ne 0) { throw "Cannot access $projectName in the selected team." }
         $project = $projectJson | ConvertFrom-Json
         if ($project.name -ne $projectName -or -not $project.accountId -or -not $project.id) { throw 'Unexpected project identity.' }
+        # Prebuilt deployments use the project settings in the local build that creates the upload.
+        $environmentJson = & vercel api "/v10/projects/$($project.id)/env?teamId=$($project.accountId)" --scope $Scope
+        if ($LASTEXITCODE -ne 0) { throw "Cannot read Production settings for $projectName." }
+        $required = $webKeys + $(if ($app -eq 'portal') { $portalKeys } else { $workspaceKeys })
+        $publicValues = @{}
+        foreach ($variable in ($environmentJson | ConvertFrom-Json).envs) {
+            if ('production' -in $variable.target -and $variable.key -in ($required + $socialKeys)) {
+                $valueJson = & vercel api "/v1/projects/$($project.id)/env/$($variable.id)?teamId=$($project.accountId)" --scope $Scope
+                if ($LASTEXITCODE -ne 0) { throw "Cannot read Production setting $($variable.key) for $projectName." }
+                $publicValues[$variable.key] = ($valueJson | ConvertFrom-Json).value
+            }
+        }
+        foreach ($key in $required) {
+            if ([string]::IsNullOrWhiteSpace($publicValues[$key])) { throw "$projectName Production setting $key is required." }
+            [Environment]::SetEnvironmentVariable($key, $publicValues[$key], 'Process')
+        }
+        foreach ($key in $socialKeys) {
+            $value = if ([string]::IsNullOrWhiteSpace($publicValues[$key])) { ' ' } else { $publicValues[$key] }
+            [Environment]::SetEnvironmentVariable($key, $value, 'Process')
+        }
         $source = Join-Path $repo "apps/$app-web"
         Push-Location $source
         try {
@@ -50,10 +68,6 @@ try {
         if ($app -eq 'portal') {
             node (Join-Path $repo 'scripts/deploy/test_student_web.mjs')
             if ($LASTEXITCODE -ne 0) { throw 'Student website configuration checks failed.' }
-            $env:EXPO_PUBLIC_API_BASE_URL = "$webOrigin/api/v1"
-            $env:EXPO_PUBLIC_USE_MOCK = 'false'
-            $env:EXPO_PUBLIC_TEACHER_URL = $env:VITE_TEACHER_URL
-            $env:EXPO_PUBLIC_ADMIN_URL = $env:VITE_ADMIN_URL
             $env:EXPO_NO_DOTENV = '1'
             $env:MATHVISION_WEB_EXPORT = 'true'
             $studentExport = Join-Path $state 'student-web-export'

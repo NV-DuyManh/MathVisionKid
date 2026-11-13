@@ -7,12 +7,14 @@ export async function getAvailableVoicesAsync(): Promise<Voice[]> {
   const inventory = () => synth.getVoices().map(voice => ({ identifier: voice.voiceURI,
     name: voice.name, language: voice.lang, quality: 'Default' as Voice['quality'] }));
   const voices = inventory();
-  if (voices.length || !synth.addEventListener) return voices;
+  const hasVietnamese = (items: Voice[]) => items.some(voice => /^vi(?:[-_]|$)/i.test(voice.language));
+  if (hasVietnamese(voices) || !synth.addEventListener) return voices;
   // Browsers often populate voices just after the first query. Do not report a missing voice prematurely.
   return new Promise(resolve => {
-    const finish = () => { clearTimeout(timer); synth.removeEventListener('voiceschanged', changed); resolve(inventory()); };
-    const changed = () => { if (inventory().length) finish(); };
-    const timer = setTimeout(finish, 1000);
+    const finish = () => { clearTimeout(timer); clearInterval(poll); synth.removeEventListener('voiceschanged', changed); resolve(inventory()); };
+    const changed = () => { if (hasVietnamese(inventory())) finish(); };
+    const timer = setTimeout(finish, 4000);
+    const poll = setInterval(changed, 250);
     synth.addEventListener('voiceschanged', changed); changed();
   });
 }

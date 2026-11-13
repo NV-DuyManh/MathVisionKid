@@ -18,11 +18,12 @@ export function AudioPlayback(props: Props) {
   return <Playback key={`${props.uri}:${attempt}`} {...props} onRetry={() => setAttempt(value => value + 1)} />;
 }
 function Playback({ uri, title, subtitle, durationHint = 0, question = false, compact = question, onFinished, onError, onReady, hideUntilReady = false, preparationSteps, onRetry, controlRef, initialPosition=0, onPosition }: Props & { onRetry: () => void }) {
+  const browserPlayback = Platform.OS === 'web';
   const player = useAudioPlayer(uri, { updateInterval: 200 });
   const status = useAudioPlayerStatus(player), navigation = useNavigation();
   const [notice, setNotice] = useState(''), [rate, setRate] = useState(1);
   const [loadExpired, setLoadExpired] = useState(false);
-  const [positionReady, setPositionReady] = useState(!Number.isFinite(initialPosition)||initialPosition<=0);
+  const [positionReady, setPositionReady] = useState(browserPlayback||!Number.isFinite(initialPosition)||initialPosition<=0);
   const restored = useRef(false);
   const [preparationVisible, setPreparationVisible] = useState(!status.isLoaded);
   const loadTimedOut = loadExpired && !status.isLoaded;
@@ -34,7 +35,8 @@ function Playback({ uri, title, subtitle, durationHint = 0, question = false, co
   const current = Math.max(0, Math.min(Number.isFinite(status.currentTime) ? status.currentTime : 0, duration));
   useEffect(() => { complete.current = onFinished; }, [onFinished]);
   useEffect(() => { if (status.error) onError?.(); }, [status.error, onError]);
-  useEffect(() => { if (status.isLoaded && !status.error && positionReady) onReady?.(); }, [status.isLoaded, status.error, onReady, positionReady]);
+  // Safari may defer loading media until Play. Controls must be reachable before that gesture.
+  useEffect(() => { if ((browserPlayback || status.isLoaded) && !status.error && positionReady) onReady?.(); }, [browserPlayback, status.isLoaded, status.error, onReady, positionReady]);
   useEffect(()=>{
     if (!status.isLoaded || duration<=0 || restored.current) return;
     restored.current=true;
@@ -45,10 +47,10 @@ function Playback({ uri, title, subtitle, durationHint = 0, question = false, co
     if (positionReady && status.isLoaded && !status.error) onPosition?.(Math.max(0,Math.min(player.currentTime,duration)),duration);
   },[current,duration,status.isLoaded,status.error,positionReady,onPosition,player]);
   useEffect(() => {
-    if (status.isLoaded || status.error) return;
+    if (browserPlayback || status.isLoaded || status.error) return;
     const timer = setTimeout(() => { setLoadExpired(true); onError?.(); }, 12000);
     return () => clearTimeout(timer);
-  }, [status.isLoaded, status.error, onError]);
+  }, [browserPlayback, status.isLoaded, status.error, onError]);
   useEffect(() => {
     active.current = true;
     const invalidate = () => { ++generation.current; clearWatchdog(); };
@@ -82,14 +84,18 @@ function Playback({ uri, title, subtitle, durationHint = 0, question = false, co
     const id = ++generation.current, resume = playAfter ?? scrubPlaying.current ?? player.playing;
     scrubPlaying.current = null;
     try {
-      setNotice(''); await player.seekTo(Math.max(0, Math.min(seconds, duration)));
-      if (active.current && generation.current === id && resume) await play(id);
+      setNotice('');
+      const pending = player.seekTo(Math.max(0, Math.min(seconds, duration)));
+      // On web, seekTo assigns currentTime synchronously. Keep Play inside the click handler.
+      const playback = browserPlayback && resume ? play(id) : undefined;
+      await Promise.all([pending, playback]);
+      if (!browserPlayback && active.current && generation.current === id && resume) await play(id);
     } catch { if (active.current && generation.current === id) setNotice('Chưa phát được âm thanh. Em thử lại nhé.'); }
   };
   const toggle = async () => {
     clearWatchdog();
     if (player.playing) { ++generation.current; player.pause(); }
-    else if (status.didJustFinish || current >= duration) void seek(0, true);
+    else if (status.didJustFinish || duration > 0 && current >= duration) void seek(0, true);
     else {
       const id = ++generation.current;
       setNotice('');
@@ -99,10 +105,10 @@ function Playback({ uri, title, subtitle, durationHint = 0, question = false, co
   useImperativeHandle(controlRef,()=>({seekTo: seconds=>{if(status.isLoaded&&positionReady)void seek(seconds,true);}}));
   if (status.error || loadTimedOut) return onError ? null : <RecoveryNotice title={question ? 'Chưa mở được bản ghi' : 'Chưa mở được âm thanh'}
     message="Em thử tải lại tệp nhé." actions={[{ label: 'Thử lại', accessibilityLabel: question ? 'Tải lại bản ghi' : 'Tải lại âm thanh', icon: 'refresh-outline', onPress: onRetry }]} />;
-  if (hideUntilReady && !status.isLoaded) return null;
+  if (hideUntilReady && !status.isLoaded && !browserPlayback) return null;
   return <View style={styles.stack}>
     {preparationSteps && preparationVisible && !status.error && !loadTimedOut ? <TaskProgress steps={preparationSteps} activeStep={preparationSteps.length - 1} percent={95} complete={status.isLoaded} onComplete={() => setPreparationVisible(false)} timeoutSeconds={12} detail={status.isLoaded ? undefined : 'Đã nhận âm thanh. Đang mở tệp để em có thể phát và tua.'} /> : null}
-    <MediaTimeline title={title} compact={compact} subtitle={loadTimedOut ? 'Chưa mở được âm thanh' : !status.isLoaded && !status.error ? 'Đang mở âm thanh…' : subtitle} currentTime={current} duration={duration} playing={status.playing} disabled={!status.isLoaded || Boolean(status.error) || loadTimedOut} loading={!status.isLoaded && !status.error && !loadTimedOut}
+    <MediaTimeline title={title} compact={compact} subtitle={browserPlayback && !duration ? 'Bấm phát để mở âm thanh.' : loadTimedOut ? 'Chưa mở được âm thanh' : !status.isLoaded && !status.error ? 'Đang mở âm thanh…' : subtitle} currentTime={current} duration={duration} playing={status.playing} disabled={!browserPlayback && !status.isLoaded || Boolean(status.error) || loadTimedOut} loading={!browserPlayback && !status.isLoaded && !status.error && !loadTimedOut} allowPlayWithoutDuration={browserPlayback}
       playLabel={question ? 'Nghe lại câu hỏi vừa nói' : status.didJustFinish ? 'Nghe lại lời giảng' : 'Phát lời giảng'} pauseLabel={question ? 'Tạm dừng bản ghi' : 'Tạm dừng lời giảng'}
       onToggle={toggle} onSeek={seconds => { void seek(seconds); }} onRestart={() => { void seek(0, true); }}
       onScrubStart={() => { scrubPlaying.current = player.playing; ++generation.current; clearWatchdog(); player.pause(); }}

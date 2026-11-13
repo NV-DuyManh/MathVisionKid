@@ -10,6 +10,7 @@ import { TRAINING_CATALOG } from '../../features/training-games/catalog';
 import { trainingAccess } from '../../features/training-games/identity';
 import { trainingTrace } from '../../features/training-games/diagnostics';
 import { trainingResults } from '../../features/training-games/resultStore';
+import { enterGameDisplay } from '../../features/training-games/GameDisplay';
 import type { TrainingSessionResult } from '@mathvisionkid/training-games';
 
 export default function GamesScreen() {
@@ -67,6 +68,7 @@ export default function GamesScreen() {
           <Pressable accessibilityRole="button" accessibilityLabel={`${access.kind === 'trial' ? 'Chơi thử' : 'Chơi'} ${game.title}`} accessibilityState={{ disabled: !playable }} disabled={!playable} testID={`training-play-${game.id}`} onPress={() => {
             if (!playable) return;
             trainingTrace('play-press', { gameId: game.id, mode: access.kind });
+            enterGameDisplay(game.id);
             router.push({ pathname: '/games/[gameId]', params: access.kind === 'trial' ? { gameId: game.id, playMode: 'trial' } : { gameId: game.id } });
           }} style={({ pressed }) => [styles.play, !playable && styles.disabled, pressed && styles.pressed]}><Text style={styles.playText}>{!game.ready ? 'Chưa sẵn sàng' : access.kind === 'blocked' ? 'Đăng nhập để chơi' : access.kind === 'trial' ? 'Chơi thử' : 'Chơi ngay'}</Text><Ionicons name="arrow-forward" size={20} color="#FFFFFF" accessible={false} /></Pressable>
         </View>

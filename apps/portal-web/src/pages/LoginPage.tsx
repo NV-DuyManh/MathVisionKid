@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Container,
   Paper,
   Box,
   Typography,
@@ -12,21 +11,22 @@ import {
   IconButton,
   InputAdornment,
   Chip,
+  Divider,
   Accordion,
   AccordionSummary,
   AccordionDetails,
 } from '@mui/material';
 import { Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom';
+import ArrowBack from '@mui/icons-material/ArrowBack';
 import LoginIcon from '@mui/icons-material/Login';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import GoogleIcon from '@mui/icons-material/Google';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import { authService } from '../services/authService';
 import { tokenStore } from '../services/apiClient';
-import { appConfig, googleClientId, facebookConfigured, showDevTools } from '../config/runtime';
+import { appConfig, googleConfigured, showDevTools } from '../config/runtime';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -46,7 +46,6 @@ export const LoginPage: React.FC = () => {
   const [resetCode, setResetCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [socialSetupCredential, setSocialSetupCredential] = useState('');
-  const [socialSetupProvider, setSocialSetupProvider] = useState<'google' | 'facebook'>('google');
   const [socialSetupGrade, setSocialSetupGrade] = useState('1');
   const sessionCheck = useRef<AbortController | null>(null);
   const submitLock = useRef(false);
@@ -56,11 +55,10 @@ export const LoginPage: React.FC = () => {
     sessionCheck.current?.abort();
     return true;
   };
-  const googleButton = useRef<HTMLDivElement | null>(null);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const googleRequestedRole = searchParams.get('role') === 'TEACHER' ? 'TEACHER' : undefined;
+  const socialRequestedRole = searchParams.get('role') === 'TEACHER' ? 'TEACHER' : undefined;
 
   // Display session expired notice if redirected after expiry
   useEffect(() => {
@@ -85,12 +83,12 @@ export const LoginPage: React.FC = () => {
         } else if (role === 'TEACHER') {
           const ticket = await authService.requestSsoTicket('TEACHER', controller.signal);
           if (!controller.signal.aborted) {
-            window.location.replace(`${appConfig.teacherOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
+            window.location.href = `${appConfig.teacherOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
           }
         } else if (role === 'ADMIN') {
           const ticket = await authService.requestSsoTicket('ADMIN', controller.signal);
           if (!controller.signal.aborted) {
-            window.location.replace(`${appConfig.adminOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
+            window.location.href = `${appConfig.adminOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
           }
         }
       }).catch(() => {
@@ -100,130 +98,49 @@ export const LoginPage: React.FC = () => {
     return () => controller.abort();
   }, [searchParams, navigate]);
 
-  useEffect(() => {
-    if (authView !== 'login' || !googleClientId || !googleButton.current) return undefined;
-
-    let cancelled = false;
-    const renderGoogleButton = () => {
-      if (cancelled || !googleButton.current || !window.google?.accounts.id) return;
-      window.google.accounts.id.initialize({
-        client_id: googleClientId,
-        callback: async ({ credential }) => {
-          if (cancelled) return;
-          if (!beginSubmission()) return;
-          setLoading(true);
-          setError(null);
-          try {
-            const user = await authService.loginWithGoogle(credential, googleRequestedRole);
-            const role = user.role.toUpperCase().replace('ROLE_', '');
-            if (role === 'STUDENT') {
-              window.location.replace('/study/');
-            } else if (role === 'TEACHER' || role === 'ADMIN') {
-              const target = role === 'TEACHER' ? 'TEACHER' : 'ADMIN';
-              const origin = role === 'TEACHER' ? appConfig.teacherOrigin : appConfig.adminOrigin;
-              const ticket = await authService.requestSsoTicket(target);
-              window.location.replace(`${origin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
-            } else {
-              tokenStore.clearTokens();
-              setError('Tài khoản không có quyền truy cập hệ thống.');
-            }
-          } catch (err: any) {
-            if (cancelled) return;
-            if (err.response?.data?.error?.code === 'GOOGLE_STUDENT_GRADE_REQUIRED') {
-              setSocialSetupCredential(credential);
-              setSocialSetupProvider('google');
-              setAuthView('social-student-setup');
-              setSuccess('Google đã được xác minh. Chọn lớp để hoàn tất tạo tài khoản học sinh.');
-            } else if (err.response?.status === 403) {
-              setError('Tài khoản Google này đang bị khóa hoặc không có quyền truy cập cổng đã chọn.');
-            } else if (err.response?.status === 401) {
-              setError('Không xác minh được tài khoản Google. Hãy thử lại.');
-            } else {
-              setError('Đăng nhập Google hiện chưa khả dụng. Hãy thử lại sau.');
-            }
-          } finally {
-            submitLock.current = false;
-            setLoading(false);
-          }
-        },
-      });
-      const buttonWidth = Math.min(400, Math.max(220, googleButton.current.clientWidth || 360));
-      window.google.accounts.id.renderButton(googleButton.current, {
-        type: 'standard', theme: 'outline', size: 'large', text: 'continue_with', shape: 'pill', width: buttonWidth, locale: 'vi',
-      });
-    };
-
-    const existingScript = document.querySelector<HTMLScriptElement>('script[src="https://accounts.google.com/gsi/client"]');
-    if (window.google?.accounts.id) {
-      renderGoogleButton();
-    } else if (existingScript) {
-      existingScript.addEventListener('load', renderGoogleButton);
-    } else {
-      const script = document.createElement('script');
-      script.src = 'https://accounts.google.com/gsi/client';
-      script.async = true;
-      script.defer = true;
-      script.addEventListener('load', renderGoogleButton);
-      document.head.appendChild(script);
-    }
-
-    return () => {
-      cancelled = true;
-      existingScript?.removeEventListener('load', renderGoogleButton);
-    };
-  }, [authView, googleClientId, googleRequestedRole, navigate]);
-
-  const handleFacebookLogin = async () => {
+  const handleGoogleLogin = async () => {
     if (!beginSubmission()) return;
+    const name = 'Google';
     setLoading(true);
     setError(null);
+    setSuccess(null);
     try {
-      const { getFacebookCredential } = await import('../services/facebookAuth');
-      const credential = await getFacebookCredential();
+      const { getGoogleCredential } = await import('../services/socialAuth');
+      const credential = await getGoogleCredential();
       try {
-        const user = await authService.loginWithFacebook(credential, googleRequestedRole);
-        const role = user.role.toUpperCase().replace('ROLE_', '');
-        if (role === 'STUDENT') window.location.replace('/study/');
-        else if (role === 'TEACHER' || role === 'ADMIN') {
-          const target = role === 'TEACHER' ? 'TEACHER' : 'ADMIN';
-          const origin = role === 'TEACHER' ? appConfig.teacherOrigin : appConfig.adminOrigin;
-          const ticket = await authService.requestSsoTicket(target);
-          window.location.replace(`${origin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
+        const user = await authService.loginWithGoogle(credential, socialRequestedRole);
+        if (user.role === 'STUDENT') window.location.replace('/study/');
+        else if (user.role === 'TEACHER' || user.role === 'ADMIN') {
+          const origin = user.role === 'TEACHER' ? appConfig.teacherOrigin : appConfig.adminOrigin;
+          const ticket = await authService.requestSsoTicket(user.role);
+          window.location.href = origin + '/login#sso=' + encodeURIComponent(ticket.code);
         } else {
           tokenStore.clearTokens();
           setError('Tài khoản không có quyền truy cập hệ thống.');
         }
       } catch (err: any) {
-        if (err.response?.data?.error?.code === 'FACEBOOK_STUDENT_GRADE_REQUIRED') {
+        const code = err.response?.data?.error?.code;
+        if (code === name.toUpperCase() + '_STUDENT_GRADE_REQUIRED') {
           setSocialSetupCredential(credential);
-          setSocialSetupProvider('facebook');
           setAuthView('social-student-setup');
-          setSuccess('Facebook đã được xác minh. Chọn lớp để hoàn tất tài khoản học sinh.');
-        } else if (err.response?.data?.error?.code === 'FACEBOOK_ACCOUNT_LINK_REQUIRED') {
+          setSuccess(name + ' đã được xác minh. Chọn lớp để hoàn tất tạo tài khoản học sinh.');
+        } else if (code === 'GOOGLE_ACCOUNT_CONFLICT') {
           setError('Email này đã có tài khoản. Hãy đăng nhập bằng phương thức đã đăng ký.');
-        } else if (err.response?.data?.error?.code === 'FACEBOOK_EMAIL_REQUIRED') {
-          setError('Tài khoản Facebook cần có email để đăng nhập.');
         } else if (err.response?.status === 403) {
-          setError('Tài khoản Facebook này đang bị khóa.');
+          setError('Tài khoản này đang bị khóa hoặc không có quyền truy cập.');
         } else {
-          setError('Chưa đăng nhập được bằng Facebook. Vui lòng thử lại.');
+          setError('Chưa đăng nhập được bằng ' + name + '. Vui lòng thử lại.');
         }
       }
     } catch (err: any) {
       if (err.code === 'auth/account-exists-with-different-credential') {
         setError('Email này đã liên kết với phương thức đăng nhập khác. Hãy dùng phương thức đó.');
       } else if (err.code === 'auth/popup-blocked') {
-        setError('Trình duyệt đã chặn cửa sổ Facebook. Hãy cho phép cửa sổ bật lên rồi thử lại.');
-      } else if (err.code === 'auth/unauthorized-domain') {
-        setError('Chưa đăng nhập được bằng Facebook tại đây. Hãy dùng email hoặc thử lại sau.');
-      } else if (err.code === 'auth/operation-not-allowed') {
-        setError('Đăng nhập Facebook hiện chưa sẵn sàng. Hãy dùng email.');
-      } else if (err.code === 'auth/invalid-api-key') {
-        setError('Đăng nhập Facebook hiện chưa sẵn sàng. Hãy dùng email.');
+        setError('Trình duyệt đã chặn cửa sổ ' + name + '. Hãy cho phép cửa sổ bật lên rồi thử lại.');
       } else if (err.code === 'auth/network-request-failed') {
         setError('Chưa kết nối được dịch vụ đăng nhập. Hãy kiểm tra mạng rồi thử lại.');
       } else if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
-        setError('Chưa mở được Facebook. Hãy dùng email hoặc thử lại sau.');
+        setError('Chưa mở được ' + name + '. Hãy dùng email hoặc thử lại sau.');
       }
     } finally {
       submitLock.current = false;
@@ -242,9 +159,7 @@ export const LoginPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const user = socialSetupProvider === 'google'
-        ? await authService.loginWithGoogle(socialSetupCredential, 'STUDENT', Number(socialSetupGrade))
-        : await authService.loginWithFacebook(socialSetupCredential, 'STUDENT', Number(socialSetupGrade));
+      const user = await authService.loginWithGoogle(socialSetupCredential, 'STUDENT', Number(socialSetupGrade));
       setSocialSetupCredential('');
       if (user.role.toUpperCase().replace('ROLE_', '') === 'STUDENT') window.location.replace('/study/');
       else {
@@ -281,12 +196,12 @@ export const LoginPage: React.FC = () => {
           break;
         case 'TEACHER': {
           const ticket = await authService.requestSsoTicket('TEACHER');
-          window.location.replace(`${appConfig.teacherOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
+          window.location.href = `${appConfig.teacherOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
           break;
         }
         case 'ADMIN': {
           const ticket = await authService.requestSsoTicket('ADMIN');
-          window.location.replace(`${appConfig.adminOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
+          window.location.href = `${appConfig.adminOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
           break;
         }
         default:
@@ -303,13 +218,13 @@ export const LoginPage: React.FC = () => {
       if (err.response?.status === 401 || err.response?.status === 400) {
         setError('Tài khoản hoặc mật khẩu chưa đúng.');
       } else if (err.response?.status === 403) {
-        setError('Tài khoản chưa được phép truy cập. Vui lòng liên hệ giáo viên.');
+        setError('Tài khoản chưa được phép truy cập. Vui lòng liên hệ người quản lý tài khoản.');
       } else if (err.response?.status === 429) {
-        setError('Em đã thử nhiều lần liên tiếp. Chờ một chút rồi đăng nhập lại nhé.');
+        setError('Bạn đã thử nhiều lần liên tiếp. Vui lòng chờ một chút rồi thử lại.');
       } else if (!err.response) {
-        setError('Chưa kết nối được máy chủ. Em thử đăng nhập lại sau một chút nhé.');
+        setError('Chưa kết nối được máy chủ. Vui lòng kiểm tra mạng rồi thử lại.');
       } else {
-        setError('Máy chủ đang gặp sự cố. Em thử lại sau một chút nhé.');
+        setError('Máy chủ đang gặp sự cố. Vui lòng thử lại sau.');
       }
     }
   };
@@ -430,67 +345,57 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <Box component="main" sx={{ minHeight: '100dvh', display: 'grid', placeItems: 'center',
-      py: { xs: 2, sm: 4 }, px: { xs: 1.5, sm: 2 }, bgcolor: '#F1F5FB' }}>
-      <Container maxWidth={false} disableGutters sx={{
-        maxWidth: 940, display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: '2fr 3fr' },
-        border: '1px solid #DEE6F1', borderRadius: { xs: '24px', md: '68px' },
-        bgcolor: '#FFF', overflow: 'hidden', boxShadow: '0 24px 48px -20px #172B5129',
-      }}>
-        <Box sx={{ bgcolor: '#E7EFFC', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-          p: { xs: 2, md: 4 }, gap: { xs: 1, md: 3 } }}>
-          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-            <Box component="img" src="/logo.svg" alt="" width={32} height={32} />
-            <Typography sx={{ fontWeight: 800, color: '#17254B' }}>MathVision Kids</Typography>
-          </Box>
-          <Box component="img" src="/ui/mathvision-star.webp" alt=""
-            sx={{ display: { xs: 'none', md: 'block' }, width: '100%', maxWidth: 224, alignSelf: 'center' }} />
-          <Button component={RouterLink} to="/" sx={{ alignSelf: 'flex-start' }}>← Trang chủ</Button>
-        </Box>
+    <Box component="main" sx={{ minHeight: '100dvh', bgcolor: '#F3F6FC', p: { xs: 1.5, sm: 3, md: 5 }, display: 'grid', placeItems: 'center' }}>
         <Paper
           elevation={0}
           sx={{
-            p: { xs: 2, sm: 4, md: 5 },
-            minWidth: 0,
+            width: '100%', maxWidth: 940, display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 2fr) minmax(0, 3fr)' },
+            borderRadius: { xs: 3, md: 5 }, border: '1px solid #E2E8F0', boxShadow: '0 20px 64px -32px #26427555',
+            overflow: 'hidden',
           }}
         >
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="h4" component="h1" sx={{ fontWeight: 900, color: '#0F172A', mb: 0.75, fontSize: { xs: '1.5rem', sm: '1.85rem' } }}>
-            {authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản học tập' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
+        <Box sx={{ bgcolor: '#E9F1FF', p: { xs: 2, sm: 3, md: 4 }, display: 'flex', flexDirection: { xs: 'row', md: 'column' }, alignItems: { xs: 'center', md: 'stretch' }, justifyContent: 'space-between', flexWrap: 'wrap', gap: { xs: 0.5, md: 3 } }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0 }}>
+            <Box component="img" src="/logo.svg" alt="" width={32} height={32} />
+            <Typography sx={{ fontWeight: 900, color: '#143368' }}>MathVision Kids</Typography>
+          </Box>
+          <Box component="img" src="/ui/mathvision-star.png" alt="" sx={{ display: { xs: 'none', md: 'block' }, width: '100%', maxWidth: 240, alignSelf: 'center' }} />
+          <Button component={RouterLink} to="/" startIcon={<ArrowBack />} sx={{ alignSelf: { md: 'flex-start' }, minHeight: 44, minWidth: 0, textTransform: 'none', px: 1 }}>
+            Trang chủ
+          </Button>
+        </Box>
+        <Box sx={{ minWidth: 0, p: { xs: 2.25, sm: 4, md: 5 } }}>
+        <Box sx={{ mb: 2.5 }}>
+          <Typography variant="h4" component="h1" sx={{ fontWeight: 900, mb: 0.75, fontSize: { xs: '1.65rem', sm: '2rem' }, lineHeight: 1.2 }}>
+            {authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
           </Typography>
-          <Typography variant="body2" sx={{ color: '#475569', fontSize: '0.95rem' }}>
-            {authView === 'register' ? 'Điền thông tin để tạo tài khoản học tập.' :
-              authView === 'social-student-setup' ? 'Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.' :
-                authView === 'request-reset' ? 'Nhập email của tài khoản để nhận mã khôi phục.' :
-                  authView === 'confirm-reset' ? 'Dùng mã khôi phục để đặt mật khẩu mới.' :
-                    'Dùng tài khoản Học sinh, Giáo viên hoặc Quản trị của bạn.'}
-          </Typography>
+          {authView === 'login' && <Typography color="text.secondary">Dùng tài khoản Học sinh, Giáo viên hoặc Quản trị của bạn.</Typography>}
+          {authView === 'social-student-setup' && <Typography color="text.secondary">Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.</Typography>}
         </Box>
 
         {error && (
-          <Alert severity="error" role="alert" sx={{ mb: 3, borderRadius: 2 }}>
+          <Alert id="auth-error" severity="error" role="alert" sx={{ mb: 2, borderRadius: 2 }}>
             {error}
           </Alert>
         )}
         {success && <Alert severity="success" role="status" sx={{ mb: 3, borderRadius: 2 }}>{success}</Alert>}
 
-        {authView === 'login' && <Box component="form" onSubmit={handleLogin} noValidate>
+        {authView === 'login' && <Box component="form" onSubmit={handleLogin} aria-busy={loading} aria-describedby={error ? 'auth-error' : undefined}>
           <TextField
-            margin="normal"
             required
             fullWidth
             id="email"
             label="Email"
             name="email"
-            autoComplete="email"
-            autoFocus
+            type="email"
+            autoComplete="username"
+            slotProps={{ htmlInput: { autoCapitalize: 'none', spellCheck: false } }}
             value={email}
             disabled={loading}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Nhập email của bạn"
           />
           <TextField
-            margin="normal"
+            sx={{ mt: 2 }}
             required
             fullWidth
             name="password"
@@ -507,9 +412,11 @@ export const LoginPage: React.FC = () => {
                   <InputAdornment position="end">
                     <IconButton
                       aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiển thị mật khẩu'}
+                      type="button"
+                      disabled={loading}
                       onClick={() => setShowPassword(!showPassword)}
                       edge="end"
-                      size="small"
+                      sx={{ width: 44, height: 44 }}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
@@ -519,6 +426,11 @@ export const LoginPage: React.FC = () => {
             }}
           />
 
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', my: 0.5 }}>
+            <Button data-cy="forgot-password" type="button" disabled={loading} onClick={() => { setAuthView('request-reset'); setError(null); setSuccess(null); }} sx={{ textTransform: 'none', minHeight: 44 }}>
+              Quên mật khẩu?
+            </Button>
+          </Box>
           <Button
             type="submit"
             fullWidth
@@ -528,28 +440,18 @@ export const LoginPage: React.FC = () => {
             disabled={loading}
             aria-busy={loading}
             startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
-            sx={{ mt: 3, mb: 1.5, py: 1.5, fontSize: '1.05rem', borderRadius: '999px', fontWeight: 700 }}
+            sx={{ minHeight: 48, fontSize: '1rem', borderRadius: 2.5, fontWeight: 800 }}
           >
             {loading ? 'Đang xác thực...' : 'Đăng nhập'}
           </Button>
-          <Button
-            data-cy="forgot-password"
-            type="button"
-            fullWidth
-            disabled={loading}
-            onClick={() => { setAuthView('request-reset'); setError(null); setSuccess(null); }}
-            sx={{ textTransform: 'none' }}
-          >
-            Quên mật khẩu?
-          </Button>
-          <Typography variant="body2" sx={{ mt: 1.5, textAlign: 'center', color: '#64748B' }}>
+          <Typography variant="body2" sx={{ mt: 0.75, textAlign: 'center', color: '#475569' }}>
             Chưa có tài khoản?{' '}
             <Button
               data-cy="open-register"
               type="button"
               disabled={loading}
               onClick={() => { setAuthView('register'); setError(null); setSuccess(null); }}
-              sx={{ textTransform: 'none', minWidth: 0, p: 0.5, fontWeight: 700 }}
+              sx={{ textTransform: 'none', minWidth: 44, minHeight: 44, fontWeight: 800 }}
             >
               Đăng ký
             </Button>
@@ -680,66 +582,16 @@ export const LoginPage: React.FC = () => {
           </Button>
         </Box>}
 
-        {authView === 'login' && (
-          <Paper
-            component="section"
-            aria-labelledby="social-login-title"
-            variant="outlined"
-            sx={{
-              mt: 3,
-              p: { xs: 2, sm: 2.5 },
-              borderRadius: 3.5,
-              borderColor: '#BFDBFE',
-              background: 'linear-gradient(145deg, #EFF6FF 0%, #FFFFFF 78%)',
-              boxShadow: '0 8px 24px rgba(37, 99, 235, 0.06)',
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 2 }}>
-              <Box sx={{ width: 42, height: 42, flexShrink: 0, display: 'grid', placeItems: 'center', borderRadius: 2.5, bgcolor: '#DBEAFE', color: '#2563EB' }}>
-                <AutoAwesomeIcon aria-hidden="true" sx={{ fontSize: 23 }} />
-              </Box>
-              <Box>
-                <Typography id="social-login-title" variant="subtitle1" sx={{ color: '#0F172A', fontWeight: 800, lineHeight: 1.25 }}>
-                  Vào học nhanh hơn
-                </Typography>
-                <Typography variant="body2" sx={{ color: '#64748B', mt: 0.35 }}>
-                  Chọn tài khoản Google hoặc Facebook của em
-                </Typography>
-              </Box>
-            </Box>
+        {authView === 'login' && googleConfigured && <Box sx={{ mt: 2 }}>
+          <Divider sx={{ mb: 2, color: 'text.secondary', fontSize: '0.875rem' }}>Hoặc</Divider>
+          <Box sx={{ display: 'grid', justifyItems: 'center', gap: 1.25, minWidth: 0 }}>
+            {googleConfigured && <Button type="button" variant="outlined" fullWidth disabled={loading} onClick={() => void handleGoogleLogin()}
+              startIcon={<GoogleIcon aria-hidden="true" />} sx={{ maxWidth: 400, minHeight: 44, textTransform: 'none' }}>
+              Tiếp tục với Google
+            </Button>}
 
-            <Box role="group" aria-label="Đăng nhập bằng tài khoản Google hoặc Facebook" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.25 }}>
-              {googleClientId ? (
-                <Box
-                  ref={googleButton}
-                  sx={{ width: '100%', maxWidth: 400, minHeight: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: loading ? 0.6 : 1, pointerEvents: loading ? 'none' : 'auto', '& iframe': { maxWidth: '100%' } }}
-                />
-              ) : (
-                <Button
-                  type="button" variant="outlined" disabled fullWidth
-                  aria-label="Đăng nhập với Google chưa khả dụng"
-                  sx={{ maxWidth: 400, minHeight: 48, borderRadius: 999, textTransform: 'none', fontWeight: 700 }}
-                >
-                  <Box component="span" aria-hidden="true" sx={{ mr: 1, fontWeight: 800, fontSize: 18, color: '#4285F4' }}>G</Box>
-                  Google đang được thiết lập
-                </Button>
-              )}
-              <Button
-                type="button" variant="outlined" fullWidth disabled={loading || !facebookConfigured}
-                onClick={handleFacebookLogin}
-                aria-label={facebookConfigured ? 'Đăng nhập bằng Facebook' : 'Đăng nhập bằng Facebook chưa khả dụng'}
-                startIcon={<FacebookIcon aria-hidden="true" sx={{ color: '#1877F2', fontSize: 23 }} />}
-                sx={{ maxWidth: 400, minHeight: 48, borderRadius: 999, borderColor: '#D7DCEC', bgcolor: '#FFFFFF', color: '#202744', fontSize: 15, fontWeight: 700, textTransform: 'none', '&:hover': { borderColor: '#1877F2', bgcolor: '#F3F8FF' }, '&.Mui-disabled': { borderColor: '#E2E8F0', bgcolor: '#F8FAFC', color: '#94A3B8' } }}
-              >
-                Tiếp tục với Facebook
-              </Button>
-            </Box>
-
-            <Typography variant="caption" sx={{ display: 'block', mt: 1.75, textAlign: 'center', color: '#76819A', lineHeight: 1.45 }}>
-              Tiến độ học tập sẽ được lưu trong tài khoản của em.
-            </Typography>
-          </Paper>
-        )}
+          </Box>
+        </Box>}
 
         {/* Developer Demo Tools — Rendered ONLY when VITE_SHOW_DEV_TOOLS=true */}
         {showDevTools && (
@@ -787,8 +639,8 @@ export const LoginPage: React.FC = () => {
             </Accordion>
           </Box>
         )}
+        </Box>
       </Paper>
-    </Container>
     </Box>
   );
 };

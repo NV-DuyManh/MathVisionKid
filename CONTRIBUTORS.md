@@ -24,4 +24,6 @@ Bổ sung trên nhánh **Kha**, 31/10/2026: sửa vòng đời Voice Quiz, chín
 
 Bản tích hợp **13/11/2026** giữ các commit gốc của **Lộc (Four-L)** cho luồng Teacher, đăng nhập chung và giao diện web từ [PR #59](https://github.com/NV-DuyManh/MathVisionKid/pull/59) (`312fe3e`), và của **Nam (tranhoainam298)** cho hồ sơ, thành tích, game tính sao và che ảnh Student từ [PR #60](https://github.com/NV-DuyManh/MathVisionKid/pull/60) (`997a282`). Phần tích hợp xử lý các màn hình chồng nhau và quyền bàn giao lớp; lịch sử Git giữ riêng tác giả của mỗi commit.
 
+Lượt ổn định production tiếp theo ngày **13/11/2026** tích hợp các sửa local do owner cung cấp trên nền `3f5d18b1e8db13997166c674ad7ab7d90e1dbc7a` từ chat VPS (Google login, phát giọng web/iOS và xác nhận OCR), cùng sửa runtime/kiểm thử riêng. Các sửa local chưa có commit nguồn độc lập; không thay tác giả các commit Four-L/Nam hoặc gán danh tính cho công cụ. Xem [quyết định và kiểm chứng](report/integration-release-20261113/REPORT.md).
+
 Các thư viện, font, công cụ và phần mã bên thứ ba giữ thông báo tác giả/giấy phép riêng. Bảng này không thay đổi giấy phép hoặc tự xác lập quyền sở hữu pháp lý.

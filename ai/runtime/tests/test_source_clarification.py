@@ -17,7 +17,9 @@ RICE = ('Câu 4. Gia đình Nam có một thửa ruộng dạng hình chữ nh�
         'b) Biết mỗi ki-lô-gam thóc được mua với giá là 16 500 đồng. Vậy nếu bán hết số thóc đó thì gia đình Nam thu được bao nhiêu tiền?')
 ROUND = ('Số thập phân lớn nhất nào được làm tròn đến 90?\nA. 89,9\nB. 89,99\nC. 90,1\nD. 91,4')
 GAPS = [(RICE, 'missing_yield_unit'), ('Tính: 4(3)/(5) - 2(1)/(4) = …', 'mixed_number'),
-        ('Tính: 2(2)/(3) : 1(2)/(5) = …', 'mixed_number'), (ROUND, 'rounding_place')]
+        ('Tính: 2(2)/(3) : 1(2)/(5) = …', 'mixed_number'), (ROUND, 'rounding_place'),
+        ('Bài 6. Có (5)/(?) số cây là cây xoài. Hỏi có tất cả bao nhiêu cây?', 'unread_fraction'),
+        ('Có (?)⁄(5) số cây là cây xoài.', 'unread_fraction')]
 
 
 @pytest.mark.asyncio

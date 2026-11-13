@@ -48,6 +48,9 @@ export default function WebCameraScreen() {
     setReady(false);
     setError(false);
     try {
+      // A granted preview can restart directly. A second permission probe would
+      // open another camera stream while Android is still releasing the first.
+      if (permission?.granted) return;
       const result = await requestPermission();
       if (active.current && !result.granted) setError(true);
     } catch { if (active.current) setError(true); }
@@ -95,7 +98,7 @@ export default function WebCameraScreen() {
     setTorch(value => !value);
   };
   const unavailable = error || permission?.status === 'denied';
-  const live = focused && permission?.granted && !error;
+  const live = focused && permission?.granted && !error && !askingPermission;
   const canCapture = Boolean(live && ready);
   useEffect(() => {
     if (!live || ready) return;
@@ -129,7 +132,7 @@ export default function WebCameraScreen() {
             {!compact ? <Ionicons name="camera-outline" size={36} color="white" /> : null}
             <Text style={[styles.noticeText, compact && styles.compactNoticeText]}>{unavailable ? 'Chưa mở được máy ảnh. Em thử lại hoặc chụp bằng máy ảnh của điện thoại nhé.' : live ? 'Đang mở máy ảnh…' : askingPermission ? 'Chọn cho phép máy ảnh trong thông báo đang mở. Em cũng có thể chọn ảnh từ thư viện.' : 'Cho phép mở máy ảnh để ngắm và chụp bài toán nhé.'}</Text>
             {live || busy || askingPermission ? <ActivityIndicator color="white" /> : <AppButton title={unavailable ? 'Thử mở lại máy ảnh' : 'Cho phép mở máy ảnh'} onPress={() => void openCamera()} />}
-            {unavailable ? <AppButton title="Chụp bằng máy ảnh điện thoại" disabled={busy} onPress={() => void acquire('CAMERA')} /> : null}
+            <AppButton title="Chụp bằng máy ảnh điện thoại" disabled={busy} onPress={() => void acquire('CAMERA')} />
           </View> : null}
         </View>
         {!compact ? <View style={styles.pill}><Ionicons name="information-circle-outline" size={16} color="white" /><Text style={styles.instruction}>Chỉ chụp một bài toán mỗi lần</Text></View> : null}

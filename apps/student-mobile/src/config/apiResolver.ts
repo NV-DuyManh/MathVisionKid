@@ -13,12 +13,10 @@ export function resolveApiBaseUrl(options?: ResolveOptions | string): string {
   // Device detection lives in expo-device; Constants no longer exposes it.
   const isPhysicalDevice = isDevice;
 
-  // Dynamic access helper prevents Babel/Metro transform from statically inlining empty strings in test/dev
-  const env = process.env || {};
-  const getEnv = (key: string): string => {
-    const val = env[key];
-    return typeof val === 'string' ? val.trim() : '';
-  };
+  // Expo inlines public variables only when accessed directly through process.env.
+  const explicitApiUrl = process.env.EXPO_PUBLIC_API_OVERRIDE?.trim()
+    || process.env.EXPO_PUBLIC_DEV_API_BASE_URL?.trim();
+  const configuredApiUrl = process.env.EXPO_PUBLIC_API_BASE_URL?.trim();
 
   const cleanUrl = (url: string) => {
     let u = url.trim();
@@ -45,9 +43,8 @@ export function resolveApiBaseUrl(options?: ResolveOptions | string): string {
   const customArgOverride = typeof options === 'string' ? options : options?.manualOverride;
   const explicitOverride = 
     (customArgOverride && customArgOverride.trim()) ||
-    getEnv('EXPO_PUBLIC_API_OVERRIDE') ||
-    getEnv('EXPO_PUBLIC_DEV_API_BASE_URL') ||
-    (getEnv('EXPO_PUBLIC_FORCE_API_URL') === 'true' ? getEnv('EXPO_PUBLIC_API_BASE_URL') : '') ||
+    explicitApiUrl ||
+    (process.env.EXPO_PUBLIC_FORCE_API_URL === 'true' ? configuredApiUrl : '') ||
     '';
 
   // If explicit manual override is configured by developer, it takes precedence
@@ -93,7 +90,7 @@ export function resolveApiBaseUrl(options?: ResolveOptions | string): string {
 
   // Priority 2: General Environment Override (fallback when Metro LAN host is not detected)
   if (!resolvedUrl) {
-    const generalEnvUrl = getEnv('EXPO_PUBLIC_API_BASE_URL');
+    const generalEnvUrl = configuredApiUrl;
     if (generalEnvUrl) {
       if (isPhysicalDevice && isLoopback(generalEnvUrl)) {
         // Reject loopback on physical device

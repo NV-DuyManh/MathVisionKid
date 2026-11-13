@@ -10,11 +10,11 @@ const skipSeconds = 5;
 type Props = { title: string; subtitle?: string; currentTime: number; duration: number; playing: boolean; disabled?: boolean; loading?: boolean; compact?: boolean;
   onToggle: () => void; onSeek: (seconds: number) => void; onScrubStart: () => void; onRestart?: () => void;
   playLabel?: string; pauseLabel?: string; restartLabel?: string; rate?: number; onRate?: (rate: number) => void;
-  estimatedTime?: boolean; statusLabel?: string };
+  estimatedTime?: boolean; statusLabel?: string; allowPlayWithoutDuration?: boolean };
 
 /** Shared time controls for narration and recorded questions. */
 export function MediaTimeline({ title, subtitle, currentTime, duration, playing, disabled = false, loading = false, compact = false, onToggle, onSeek, onScrubStart, onRestart,
-  playLabel = 'Phát lời giảng', pauseLabel = 'Tạm dừng lời giảng', restartLabel = 'Nghe lại từ đầu', rate = 1, onRate, estimatedTime = false, statusLabel }: Props) {
+  playLabel = 'Phát lời giảng', pauseLabel = 'Tạm dừng lời giảng', restartLabel = 'Nghe lại từ đầu', rate = 1, onRate, estimatedTime = false, statusLabel, allowPlayWithoutDuration = false }: Props) {
   const [dragging, setDragging] = useState<number | null>(null);
   const [focused, setFocused] = useState('');
   const { width, fontScale } = useWindowDimensions();
@@ -22,6 +22,7 @@ export function MediaTimeline({ title, subtitle, currentTime, duration, playing,
   const total = Number.isFinite(duration) && duration > 0 ? duration : 0;
   const position = Math.max(0, Math.min(dragging ?? currentTime, total));
   const blocked = disabled || loading || !total;
+  const playBlocked = disabled || loading || (!total && !allowPlayWithoutDuration);
   const focus = (control: string) => ({
     onFocus: (event: Parameters<NonNullable<React.ComponentProps<typeof Pressable>['onFocus']>>[0]) => {
       const target = event?.currentTarget as unknown as { matches?: (selector: string) => boolean };
@@ -49,8 +50,8 @@ export function MediaTimeline({ title, subtitle, currentTime, duration, playing,
     <View style={[styles.controls, compact && styles.compactControls]}>
       <Pressable {...focus('back')} accessibilityRole="button" accessibilityLabel={`Lùi ${skipSeconds} giây`} disabled={blocked} accessibilityState={{ disabled: blocked }} onPress={() => onSeek(Math.max(0, currentTime - skipSeconds))}
         style={({ pressed }) => [styles.skip, focused === 'back' && styles.focused, (blocked || pressed) && styles.dimmed]}><Ionicons name="play-back-outline" size={22} color="#625074" accessible={false} /><Text style={styles.skipText}>−{skipSeconds}s</Text></Pressable>
-      <Pressable {...focus('play')} accessibilityRole="button" accessibilityLabel={playing ? pauseLabel : playLabel} disabled={blocked} accessibilityState={{ disabled: blocked }} onPress={onToggle}
-        style={({ pressed }) => [styles.play, compact && styles.compactPlay, focused === 'play' && styles.focused, blocked && styles.dimmed, pressed && !blocked && styles.pressed]}><LinearGradient colors={[COLORS.primary, COLORS.primaryDark]} start={{x:0,y:0}} end={{x:1,y:1}} style={styles.playFill}>{loading ? <ActivityIndicator color="#FFFFFF" accessibilityLabel="Đang tải nội dung" /> : <Ionicons name={playing ? 'pause' : 'play'} size={compact ? 24 : 29} color="#FFFFFF" accessible={false} />}</LinearGradient></Pressable>
+      <Pressable {...focus('play')} accessibilityRole="button" accessibilityLabel={playing ? pauseLabel : playLabel} disabled={playBlocked} accessibilityState={{ disabled: playBlocked }} onPress={onToggle}
+        style={({ pressed }) => [styles.play, compact && styles.compactPlay, focused === 'play' && styles.focused, playBlocked && styles.dimmed, pressed && !playBlocked && styles.pressed]}><LinearGradient colors={[COLORS.primary, COLORS.primaryDark]} start={{x:0,y:0}} end={{x:1,y:1}} style={styles.playFill}>{loading ? <ActivityIndicator color="#FFFFFF" accessibilityLabel="Đang tải nội dung" /> : <Ionicons name={playing ? 'pause' : 'play'} size={compact ? 24 : 29} color="#FFFFFF" accessible={false} />}</LinearGradient></Pressable>
       <Pressable {...focus('forward')} accessibilityRole="button" accessibilityLabel={`Tiến ${skipSeconds} giây`} disabled={blocked} accessibilityState={{ disabled: blocked }} onPress={() => onSeek(Math.min(total, currentTime + skipSeconds))}
         style={({ pressed }) => [styles.skip, focused === 'forward' && styles.focused, (blocked || pressed) && styles.dimmed]}><Ionicons name="play-forward-outline" size={22} color="#625074" accessible={false} /><Text style={styles.skipText}>+{skipSeconds}s</Text></Pressable>
     </View>

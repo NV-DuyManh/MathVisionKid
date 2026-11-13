@@ -30,6 +30,31 @@ beforeEach(() => {
 });
 afterEach(() => { act(() => view?.unmount()); jest.restoreAllMocks(); jest.useRealTimers(); });
 
+it.each([true, false])('lets a browser unlock audio before metadata, loaded=%s, without autoplay or a rewind', async loaded => {
+  jest.replaceProperty(Platform, 'OS', 'web');
+  mockStatus.isLoaded = loaded; mockStatus.duration = 0; mockStatus.currentTime = 0; mockPlayer.currentTime = 0;
+  const ready = jest.fn();
+  await act(async () => { view = TestRenderer.create(<AudioPlayback uri="blob:owned-voice" title="Nghe giảng" hideUntilReady initialPosition={7} onReady={ready} />); });
+  expect(ready).toHaveBeenCalled();
+  expect(controls().disabled).toBe(false); expect(controls().loading).toBe(false);
+  expect(controls().allowPlayWithoutDuration).toBe(true);
+  expect(mockPlayer.play).not.toHaveBeenCalled();
+  act(() => { void controls().onToggle(); expect(mockPlayer.play).toHaveBeenCalledTimes(1); });
+  expect(mockPlayer.seekTo).not.toHaveBeenCalled();
+  mockStatus.duration = 60; mockStatus.isLoaded = true;
+  await act(async () => view.update(<AudioPlayback uri="blob:owned-voice" title="Nghe giảng" hideUntilReady initialPosition={7} onReady={ready} />));
+  expect(mockPlayer.seekTo).toHaveBeenCalledWith(7);
+});
+
+it('replays browser audio in the click handler before an asynchronous seek resolves', async () => {
+  jest.replaceProperty(Platform, 'OS', 'web');
+  let finish!: () => void;
+  mockPlayer.seekTo.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+  await render();
+  act(() => { controls().onRestart(); expect(mockPlayer.play).toHaveBeenCalledTimes(1); });
+  await act(async () => finish());
+});
+
 it('restores a bookmark without autoplay and plays only after an explicit paragraph selection',async()=>{
   const control=React.createRef<{seekTo:(seconds:number)=>void}>(),ready=jest.fn();
   await act(async()=>{view=TestRenderer.create(<AudioPlayback uri="file:///aligned.wav" title="Nghe giảng" initialPosition={17} controlRef={control} onReady={ready}/>);});
