@@ -811,6 +811,35 @@ class TeacherReviewWorkflowIntegrationTest {
         verifyNoInteractions(aiGateway);
     }
 
+    @Test
+    void interruptedInitialBatchDispatchWithoutAnAiJobBecomesRetryable() throws Exception {
+        Submission submission = saveSubmission("PROCESSING");
+        UUID id = submission.getSubmissionId();
+        var image = new SubmissionImage();
+        image.setSubmission(submission);
+        image.setContentType("image/jpeg");
+        image.setFileSize((long) realImageBytes.length);
+        image.setFilePath("original-batch-image-reference");
+        images.saveAndFlush(image);
+        var attempt = new AuditEvent();
+        attempt.setSubmission(submission);
+        attempt.setEventType("AI_PROCESSING_STARTED");
+        attempt.setCreatedAt(java.time.Instant.now().minusSeconds(300));
+        auditEvents.saveAndFlush(attempt);
+
+        submissionService.recoverInterruptedTeacherDispatches(java.time.Instant.now().minusSeconds(120));
+
+        assertTrue(aiJobs.findBySubmission_SubmissionId(id).isEmpty());
+        assertEquals("FAILED", submissions.findById(id).orElseThrow().getStatus());
+        String token = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
+        mvc.perform(get("/api/v1/teacher/submissions/" + id)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("FAILED"))
+                .andExpect(jsonPath("$.canRetryProcessing").value(true));
+        verifyNoInteractions(aiGateway);
+    }
+
     private Submission saveSubmission(String status) {
         return saveSubmission(status, java.time.Instant.now());
     }
