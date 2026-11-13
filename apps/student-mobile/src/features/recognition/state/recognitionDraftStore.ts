@@ -76,11 +76,12 @@ export function logImageFlow(context: {
     cropInputUri?: string;
     activeRecognitionUri?: string;
 }): void {
+    const safeUri = (uri?: string) => uri?.startsWith('data:') ? 'data:[local image]' : uri || 'undefined';
     console.log(`[IMAGE_FLOW]
-originalUri=${context.originalUri || 'undefined'}
-privacyUri=${context.privacyUri || 'undefined'}
-cropInputUri=${context.cropInputUri || 'undefined'}
-activeRecognitionUri=${context.activeRecognitionUri || 'undefined'}
+originalUri=${safeUri(context.originalUri)}
+privacyUri=${safeUri(context.privacyUri)}
+cropInputUri=${safeUri(context.cropInputUri)}
+activeRecognitionUri=${safeUri(context.activeRecognitionUri)}
 `);
 }
 function normalizeDraftFileUri(uri?: string): string {

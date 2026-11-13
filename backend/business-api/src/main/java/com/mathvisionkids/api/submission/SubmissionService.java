@@ -384,7 +384,7 @@ public class SubmissionService {
     private Teacher requireTeacherSubmissionAccess(String email, Submission submission) {
         Teacher teacher = teacherRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Teacher not found", HttpStatus.NOT_FOUND));
-        if (submission.getBatch() == null || !submission.getBatch().isOwnedByAssignedTeacher(teacher.getId())) {
+        if (submission.getBatch() == null || !submission.getBatch().isAssignedToTeacher(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized", HttpStatus.FORBIDDEN);
         }
         return teacher;

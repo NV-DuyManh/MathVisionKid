@@ -11,6 +11,17 @@ import static org.junit.jupiter.api.Assertions.*;
 @EnabledIfEnvironmentVariable(named = "MATHVISION_POSTGRES_UPGRADE", matches = "true")
 class PostgresUpgradeTest {
     @Test void upgradeFrom28PreservesUsersQuizAndImageReferencesAndValidatesChecksums() throws Exception {
+        verifyUpgrade("28");
+    }
+
+    @Test void upgradeFrom31PreservesDataWhenAssignmentAndBatchMigrationsArePresent() throws Exception {
+        // The companion PR contributes V30 and V31. Exercise its already-applied schema when available.
+        org.junit.jupiter.api.Assumptions.assumeTrue(getClass().getResource(
+                "/db/migration/V31__batch_creation_idempotency.sql") != null);
+        verifyUpgrade("31");
+    }
+
+    private void verifyUpgrade(String startingVersion) throws Exception {
         String database = System.getenv("PGDATABASE");
         assertNotNull(database); assertTrue(database.endsWith("_test"), "Disposable *_test database required");
         String host = System.getenv().getOrDefault("PGHOST", "127.0.0.1");
@@ -22,7 +33,7 @@ class PostgresUpgradeTest {
             sql.execute("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\" WITH SCHEMA public");
             try {
                 Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema)
-                        .target("28").load().migrate();
+                        .target(startingVersion).load().migrate();
                 sql.execute("SET search_path TO " + schema + ", public");
                 String id = UUID.randomUUID().toString(), source = UUID.randomUUID().toString(), quiz = UUID.randomUUID().toString();
                 sql.execute("INSERT INTO users(id,email,password_hash,role,display_name) VALUES ('"+id+"','synthetic@upgrade.test','unused','STUDENT','Synthetic pupil')");
@@ -33,8 +44,8 @@ class PostgresUpgradeTest {
                 sql.execute("INSERT INTO student_quizzes(id,student_id,source_type,source_id,source_fingerprint,topic_code,topic_name,skill_code,grade_level,question_text,unit,answer_spec,validated_solution,status,created_at,updated_at,generation_version) VALUES ('"+quiz+"','"+id+"','LESSON','source',repeat('a',64),'ADDITION','Addition','ADD',5,'2 + 2 = ?','','4','2 + 2 = 4','READY',now(),now(),'test')");
                 var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
-                assertEquals(3, upgrade.migrationsExecuted);
-                assertEquals("31", upgrade.targetSchemaVersion);
+                assertEquals(startingVersion.equals("28") ? 4 : 1, upgrade.migrationsExecuted);
+                assertEquals("32", upgrade.targetSchemaVersion);
                 assertTrue(latest.validateWithResult().validationSuccessful);
                 assertEquals(0, latest.migrate().migrationsExecuted);
                 var dump = java.nio.file.Files.createTempFile("mathvision-upgrade-test-", ".dump");
@@ -55,6 +66,9 @@ class PostgresUpgradeTest {
                 try (var rows = sql.executeQuery("SELECT u.token_version,q.answer_spec,i.file_path FROM users u JOIN student_quizzes q ON q.student_id=u.id JOIN submissions s ON s.student_id=u.id JOIN submission_images i ON i.submission_id=s.submission_id WHERE u.id='"+id+"'")) {
                     assertTrue(rows.next()); assertEquals(0, rows.getLong(1)); assertEquals("4", rows.getString(2));
                     assertEquals("synthetic/retained.png", rows.getString(3)); assertFalse(rows.next());
+                }
+                try (var rows = sql.executeQuery("SELECT id FROM student_reward_lock")) {
+                    assertTrue(rows.next()); assertEquals(1, rows.getInt(1)); assertFalse(rows.next());
                 }
             } finally {
                 // Only the generated test schema is disposable; no application data is removed.

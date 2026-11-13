@@ -29,6 +29,7 @@ class QuizIntegrationTest {
     @Autowired QuizPreparations preparations;
     @Autowired QuizPreparationRepository prepared;
     @Autowired QuizGenerator generator;
+    @Autowired org.springframework.jdbc.core.JdbcTemplate db;
     String owner, other;
     Preparation prepareAndWait(String principal, Prepare request) {
         var response=preparations.prepare(principal,request);
@@ -57,7 +58,7 @@ class QuizIntegrationTest {
             remote.expect(org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo("http://localhost:8000/internal/v1/tutor/quiz/variant"))
                     .andRespond(org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess(json.writeValueAsString(response),MediaType.APPLICATION_JSON));
             assertEquals("READY",prepareAndWait(owner,new Prepare(UUID.randomUUID(),1,source,true)).status());
-            sources.record(owner,"LESSON","sequence-source",source,false); sources.complete(owner,"sequence-source");
+            sources.record(owner,"LESSON","sequence-source",source,false); sources.complete(owner,"sequence-source", false);
             var quiz=service.fromLearning(owner,new FromLearning("LESSON","sequence-source")).quiz();
             assertEquals("CHOICE",quiz.answerFormat()); assertNull(quiz.correctAnswer()); assertNull(quiz.explanationText());
             quiz=service.start(owner,quiz.quizId());
@@ -87,7 +88,7 @@ class QuizIntegrationTest {
             sources.record(owner,"LESSON","adaptive-source",source,false);
             var request=new FromLearning("LESSON","adaptive-source");
             assertThrows(ApiException.class,() -> service.fromLearning(owner,request));
-            sources.complete(owner,"adaptive-source");
+            sources.complete(owner,"adaptive-source", false);
             var quiz=service.fromLearning(owner,request).quiz();
             assertEquals(QuizGenerator.ADAPTIVE,quiz.topicCode());
             assertEquals("TUTOR_VERIFIED",quiz.verificationStatus());
@@ -129,7 +130,7 @@ class QuizIntegrationTest {
         sources.record(owner, "LESSON", "reported-class-fraction", QuizMathTest.CLASS_EXAM, false);
         var request = new FromLearning("LESSON", "reported-class-fraction");
         assertThrows(ApiException.class, () -> service.fromLearning(owner, request));
-        sources.complete(owner, "reported-class-fraction");
+        sources.complete(owner, "reported-class-fraction", false);
         var invitation = service.fromLearning(owner, request);
         assertTrue(invitation.offered());
         assertEquals(QuizMath.CLASS_COMPLEMENT, invitation.quiz().topicCode());
@@ -160,7 +161,7 @@ class QuizIntegrationTest {
         sources.record(owner,"LESSON","purchase-exam",question,false);
         var request=new FromLearning("LESSON","purchase-exam");
         assertThrows(ApiException.class,() -> service.fromLearning(owner,request));
-        sources.complete(owner,"purchase-exam");
+        sources.complete(owner,"purchase-exam", false);
         var invitation=service.fromLearning(owner,request);
         var id=invitation.quiz().quizId();
         assertNotEquals(legacy.id,id);
@@ -202,7 +203,7 @@ class QuizIntegrationTest {
         assertEquals("READY",preparation.status());
         sources.record(owner,"LESSON","exam-question-six",question,false);
         assertThrows(ApiException.class,() -> service.fromLearning(owner,new FromLearning("LESSON","exam-question-six")));
-        sources.complete(owner,"exam-question-six");
+        sources.complete(owner,"exam-question-six", false);
         var offer=service.fromLearning(owner,new FromLearning("LESSON","exam-question-six"));
         assertTrue(offer.offered()); assertEquals("READY",offer.quiz().status());
         assertNotEquals("211/75",answer(offer.quiz().quizId()));
@@ -258,7 +259,7 @@ class QuizIntegrationTest {
         assertNotEquals(Rational.of(60),generated.answer());
         sources.record(owner,"LESSON","early",QuizMathTest.REPORTED_TREE,false);
         assertThrows(ApiException.class,() -> service.fromLearning(owner,new FromLearning("LESSON","early")));
-        sources.complete(owner,"early"); var invitation=service.fromLearning(owner,new FromLearning("LESSON","early"));
+        sources.complete(owner,"early", false); var invitation=service.fromLearning(owner,new FromLearning("LESSON","early"));
         var saved=quizzes.findById(invitation.quiz().quizId()).orElseThrow();
         assertEquals(generated.question(),saved.questionText); assertEquals(generated.answer().toString(),saved.answerSpec);
         assertNull(invitation.quiz().correctAnswer()); assertNull(invitation.quiz().explanationText());
@@ -339,7 +340,7 @@ class QuizIntegrationTest {
         assertThrows(ApiException.class,() -> service.fromLearning(owner,new FromLearning("LESSON","forged")));
         sources.record(owner,"LESSON","incomplete",QuizMathTest.TREE,false);
         assertThrows(ApiException.class,() -> service.fromLearning(owner,new FromLearning("LESSON","incomplete")));
-        sources.complete(owner,"incomplete"); assertTrue(service.fromLearning(owner,new FromLearning("LESSON","incomplete")).offered());
+        sources.complete(owner,"incomplete", false); assertTrue(service.fromLearning(owner,new FromLearning("LESSON","incomplete")).offered());
     }
     @Test void completedConfirmedLearningSuppliesDifficultyWithoutChangingTheStudentProfile() {
         var student=students.findByEmail(owner).orElseThrow(); student.setGradeLevel(3); students.saveAndFlush(student);
@@ -457,6 +458,10 @@ class QuizIntegrationTest {
             assertEquals(3,a.get(15,TimeUnit.SECONDS).quiz().stars()); assertEquals(3,b.get(15,TimeUnit.SECONDS).quiz().stars());
         }
         assertEquals(1,attempts.countByQuizId(q.quizId())); assertEquals(3,service.counts(owner).totalStars());
+        assertEquals(1L, db.queryForObject("""
+                SELECT SUM(a.stars) FROM student_verified_activities a JOIN users u ON u.id = a.student_id
+                WHERE u.email = ? AND a.source = 'QUIZ'
+                """, Long.class, owner));
         assertThrows(ApiException.class,() -> service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),request.answer())));
         assertThrows(ApiException.class,() -> service.submit(owner,q.quizId(),new Submission(request.requestId(),"changed")));
     }

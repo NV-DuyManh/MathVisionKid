@@ -70,7 +70,7 @@ public class BatchService {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Assignment not found", HttpStatus.NOT_FOUND));
 
-        if (!assignment.isOwnedByAssignedTeacher(teacher.getId())) {
+        if (!assignment.isAssignedToTeacher(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized for this assignment", HttpStatus.FORBIDDEN);
         }
 
@@ -99,7 +99,7 @@ public class BatchService {
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Teacher not found", HttpStatus.NOT_FOUND));
         Batch batch = batchRepository.findForUpdate(batchId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Batch not found", HttpStatus.NOT_FOUND));
-        if (!batch.isOwnedByAssignedTeacher(teacher.getId())) {
+        if (!batch.isAssignedToTeacher(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized for this batch", HttpStatus.FORBIDDEN);
         }
         if (!"CREATED".equals(batch.getStatus()) || !submissionRepository.findByBatch_BatchId(batchId).isEmpty()) {
@@ -213,7 +213,7 @@ public class BatchService {
     @Transactional(readOnly = true)
     public List<BatchResponse> getBatches(String teacherEmail) {
         Teacher teacher = teacherRepository.findByEmail(teacherEmail).orElseThrow();
-        return batchRepository.findOwnedByAssignedTeacherProgress(teacher.getId()).stream()
+        return batchRepository.findByAssignedTeacherProgress(teacher.getId()).stream()
                 .map(BatchResponse::from)
                 .toList();
     }
@@ -242,7 +242,7 @@ public class BatchService {
         Teacher teacher = teacherRepository.findByEmail(teacherEmail).orElseThrow();
         Batch batch = batchRepository.findById(batchId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Batch not found", HttpStatus.NOT_FOUND));
-        if (!batch.isOwnedByAssignedTeacher(teacher.getId())) {
+        if (!batch.isAssignedToTeacher(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Forbidden", HttpStatus.FORBIDDEN);
         }
         return batch;

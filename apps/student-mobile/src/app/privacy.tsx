@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/immutability, react-hooks/purity, react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Platform, useWindowDimensions } from 'react-native';
 import { ActivityRail } from '../components/ui/ActivityRail';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -22,6 +22,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { recognitionDraftStore, resolveFlowDomain, logFlowDomain } from '../features/recognition/state/recognitionDraftStore';
 import { ensureFileUri, logStageDiagnostic, inspectReadableImage } from '../features/recognition/image/imagePipeline';
 import { usePrivacyImage } from '../features/recognition/image/usePrivacyImage';
+import { rasterizePrivacyMasks } from '../features/recognition/image/rasterizePrivacyMasks';
 import {
   calculateMaskMove,
   calculateMaskResizeBR,
@@ -62,6 +63,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   const [showMaskEditor, setShowMaskEditor] = useState(false);
   const [movingMaskId, setMovingMaskId] = useState<number | null>(null);
   const [confirmedAttempt, setConfirmedAttempt] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState(false);
   const image = usePrivacyImage(activeUri);
   const { imageLoaded, imageLoadError, sourceSize } = image;
   const viewShotRef = useRef<any>(null);
@@ -183,6 +185,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   // (Zero React setState during per-frame movement)
   // =========================================================================
   const commitMaskUpdate = (targetId: number, rect: MaskRect) => {
+    setConfirmedAttempt(null);
     setMasks(prev =>
       prev.map(m => (m.id === targetId ? { ...m, ...rect } : m))
     );
@@ -190,6 +193,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   };
 
   const commitNewMask = (rect: MaskRect) => {
+    setConfirmedAttempt(null);
     const newId = Date.now();
     setMasks(prev => [...prev, { id: newId, ...rect }]);
     setSelectedMaskId(newId);
@@ -218,6 +222,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   // UI-Thread Worklet Gesture Pipeline via react-native-gesture-handler
   // =========================================================================
   const panGesture = Gesture.Pan()
+    .enabled(imageLoaded && !saving)
     .minDistance(0)
     .onStart((e) => {
       'worklet';
@@ -370,10 +375,10 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
           runOnJS(commitMaskUpdate)(targetId, finalRect);
         }
       } else if (act === 3) {
-        // DRAW: Only commit if rectangle is at least 24x24; otherwise discard as empty tap
+        // Keep horizontal strips wide enough to cover names written on one line.
         const finalW = draftW.value;
         const finalH = draftH.value;
-        if (finalW >= 24 && finalH >= 24) {
+        if (finalW >= 24 && finalH >= 8) {
           const finalRect: MaskRect = {
             x: draftX.value,
             y: draftY.value,
@@ -414,7 +419,6 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
       height: activeH.value,
       position: 'absolute',
       backgroundColor: '#000000',
-      borderRadius: 4,
       borderWidth: 2,
       borderColor: '#F59E0B',
       zIndex: 99,
@@ -430,7 +434,6 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
       height: draftH.value,
       position: 'absolute',
       backgroundColor: '#000000',
-      borderRadius: 4,
       borderWidth: 2,
       borderColor: '#F59E0B',
       zIndex: 100,
@@ -438,22 +441,25 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   });
 
   const undoLastMask = () => {
+    setConfirmedAttempt(null);
     setMasks(prev => prev.slice(0, -1));
     setSelectedMaskId(null);
     if (IS_STUDENT_WEB) setConfirmedAttempt(null);
   };
 
   const clearAllMasks = () => {
+    setConfirmedAttempt(null);
     setMasks([]);
     setSelectedMaskId(null);
     if (IS_STUDENT_WEB) setConfirmedAttempt(null);
   };
 
   const handleDone = async () => {
-    if (!confirmed || !image.isCurrent() || savingRef.current === image.imageKey ||
-      !containerSize.width || !containerSize.height) return;
+    if (!confirmed || !image.isCurrent() || savingRef.current === image.imageKey || movingMaskId !== null ||
+      typeof fittedStyle.width !== 'number' || typeof fittedStyle.height !== 'number') return;
     savingRef.current = image.imageKey;
     setSavingAttempt(image.imageKey);
+    setSaveError(false);
 
     setSelectedMaskId(null);
     activeOpacity.value = 0;
@@ -467,7 +473,8 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
 
       // If no masks were drawn, do NOT rasterize via ViewShot!
       if (masks.length === 0) {
-        recognitionDraftStore.updateDraft({ privacyImageUri: activeUri, privacyConfirmed: true, isMasked: false, mode: postPrivacyMode,
+        recognitionDraftStore.updateDraft({ privacyImageUri: activeUri, uri: activeUri, croppedImageUri: undefined,
+          masks: [], privacyConfirmed: true, isMasked: false, mode: postPrivacyMode,
           ...(sourceSize?.uri === activeUri ? { width: sourceSize.width, height: sourceSize.height } : {}),
         });
         logStageDiagnostic('PRIVACY_OUTPUT', {
@@ -485,35 +492,18 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
         return;
       }
 
-      await new Promise(r => setTimeout(r, 120));
-
-      if (!image.isCurrent()) return;
-      if (IS_STUDENT_WEB || viewShotRef.current?.capture) {
+      {
         let captured: string;
-        if (IS_STUDENT_WEB) {
-          const original = new globalThis.Image();
-          original.src = activeUri;
-          await original.decode();
-          if (!image.isCurrent()) return;
-          const canvas = document.createElement('canvas');
-          canvas.width = original.naturalWidth;
-          canvas.height = original.naturalHeight;
-          const context = canvas.getContext('2d');
-          if (!context || !fittedWidth || !fittedHeight) throw new Error('Cannot render private image');
-          context.drawImage(original, 0, 0);
-          context.fillStyle = '#000';
-          for (const mask of masks) {
-            const x = Math.floor(mask.x * canvas.width / fittedWidth);
-            const y = Math.floor(mask.y * canvas.height / fittedHeight);
-            const right = Math.ceil((mask.x + mask.width) * canvas.width / fittedWidth);
-            const bottom = Math.ceil((mask.y + mask.height) * canvas.height / fittedHeight);
-            context.fillRect(x, y, right - x, bottom - y);
-          }
-          captured = canvas.toDataURL('image/jpeg', 0.95);
+        if (Platform.OS === 'web') {
+          captured = await rasterizePrivacyMasks(activeUri, masks, { width: fittedStyle.width, height: fittedStyle.height });
         } else {
+          await new Promise(r => setTimeout(r, 120));
+          if (!image.isCurrent()) return;
+          if (!viewShotRef.current?.capture) throw new Error('MASK_EXPORT_UNAVAILABLE');
           captured = await viewShotRef.current.capture();
         }
         const finalMaskedUri = ensureFileUri(captured);
+        if (finalMaskedUri === activeUri) throw new Error('MASK_EXPORT_UNCHANGED');
 
         const output = await inspectReadableImage(finalMaskedUri);
         if (!image.isCurrent()) return;
@@ -523,6 +513,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
         recognitionDraftStore.updateDraft({
           privacyImageUri: finalMaskedUri,
           uri: finalMaskedUri,
+          croppedImageUri: undefined,
           width: outputWidth,
           height: outputHeight,
           masks,
@@ -548,9 +539,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
     } catch (e) {
       console.error('[PRIVACY] Rasterization error:', e);
       if (image.isCurrent()) {
-        image.onError();
-        setSavingAttempt(null);
-        Alert.alert('Lỗi', 'Không thể mở hoặc lưu ảnh đã che. Em hãy thử tải lại ảnh.');
+        setSaveError(true);
       }
     } finally {
       if (savingRef.current === image.imageKey) savingRef.current = null;
@@ -568,7 +557,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   }
 
   const maskControls = masks.length > 0 ? (
-    <View style={[styles.floatingControls, IS_STUDENT_WEB && styles.webMaskControls]}>
+    <View style={[styles.maskControls, IS_STUDENT_WEB && styles.webMaskControls]}>
       {selectedMaskId && (
         <TouchableOpacity
           style={styles.deleteButton}
@@ -581,11 +570,11 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
           accessibilityLabel="Xóa vùng che đang chọn"
         >
           <Ionicons name="trash-outline" size={18} color="#FFFFFF" />
-          <Text style={styles.floatingButtonText}>Xóa vùng này</Text>
+          <Text style={styles.maskButtonText}>Xóa vùng này</Text>
         </TouchableOpacity>
       )}
 
-      <View style={styles.rightControlsRow}>
+      <View style={styles.maskActions}>
         <TouchableOpacity
           style={styles.resetButton}
           onPress={clearAllMasks}
@@ -593,7 +582,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
           accessibilityLabel="Xóa tất cả vùng che"
         >
           <Ionicons name="refresh-outline" size={18} color="#FFFFFF" />
-          <Text style={styles.floatingButtonText}>Xóa tất cả</Text>
+          <Text style={styles.maskButtonText}>Xóa tất cả</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -603,7 +592,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
           accessibilityLabel="Hoàn tác vùng che vừa vẽ"
         >
           <Ionicons name="arrow-undo-outline" size={18} color="#FFFFFF" />
-          <Text style={styles.floatingButtonText}>Hoàn tác</Text>
+          <Text style={styles.maskButtonText}>Hoàn tác</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -612,7 +601,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
-        <AppHeader title="Bảo vệ thông tin riêng tư" showBack />
+        <AppHeader title="Che thông tin riêng tư" showBack />
 
         {/* Child-friendly explanation */}
         <View style={[styles.instructionCard, IS_STUDENT_WEB && styles.webInstructions]}>
@@ -650,8 +639,9 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
               options={{ format: 'jpg', quality: 0.95 }}
               style={fittedStyle}
             >
-              <GestureDetector gesture={panGesture}>
+              <GestureDetector gesture={panGesture} touchAction="none">
                 <View
+                  testID="privacy-mask-canvas"
                   style={styles.imageWrapper}
                   collapsable={false} >
                   {sourceSize && <Image
@@ -735,8 +725,8 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
               </GestureDetector>
             </ViewShot>
 
-            {!IS_STUDENT_WEB && maskControls}
           </View>
+          {!IS_STUDENT_WEB && maskControls}
         </View>
 
         {/* Footer Confirmation & Actions */}
@@ -800,10 +790,13 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
             </Text>
           </TouchableOpacity>
 
+          {saveError && <Text accessibilityRole="alert" style={styles.errorTitle}>Chưa lưu được ảnh đã che. Em hãy thử lại.</Text>}
           <AppButton
             title="Tiếp tục xem lại"
             onPress={handleDone}
-            disabled={!confirmed || !imageLoaded || imageLoadError || saving || !containerSize.width || !containerSize.height}
+            loading={saving}
+            loadingTitle="Đang lưu ảnh đã che…"
+            disabled={!confirmed || !imageLoaded || imageLoadError || movingMaskId !== null || !containerSize.width || !containerSize.height}
             variant="primary"
           />
           <View style={{ height: SIZES.small }} />
@@ -947,7 +940,6 @@ const styles = StyleSheet.create({
   maskBlock: {
     position: 'absolute',
     backgroundColor: '#000000',
-    borderRadius: 4,
   },
   resizeHandleBadge: {
     position: 'absolute',
@@ -973,28 +965,22 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: '#F59E0B',
   },
-  floatingControls: {
-    position: 'absolute',
-    bottom: SIZES.medium,
-    left: SIZES.medium,
-    right: SIZES.medium,
+  maskActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  maskControls: {
+    minHeight: 56,
+    padding: 6,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: 6,
+    justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 10,
-  },
-  rightControlsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 'auto',
-    gap: 8,
   },
   deleteButton: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(220, 38, 38, 0.92)',
     minHeight: 44,
-    paddingHorizontal: 14,
+    paddingHorizontal: 8,
     borderRadius: 22,
   },
   resetButton: {
@@ -1002,7 +988,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(71, 85, 105, 0.88)',
     minHeight: 44,
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
     borderRadius: 22,
   },
   undoButton: {
@@ -1013,7 +999,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderRadius: 22,
   },
-  floatingButtonText: {
+  maskButtonText: {
     color: '#FFFFFF',
     marginLeft: 6,
     fontSize: 13,

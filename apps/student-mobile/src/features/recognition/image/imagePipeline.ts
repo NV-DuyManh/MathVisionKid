@@ -52,9 +52,6 @@ export async function resolveSafeCropImage(
   if (Platform.OS === 'web' || !normalizedUri) {
     const exists = !!normalizedUri;
     const finalUri = normalizedUri;
-    console.log(
-      `[CROP_DEBUG]\noriginalUri=${originalUri}\nnormalizedUri=${normalizedUri}\nexists=${exists}\nfinalUri=${finalUri}`
-    );
     return { originalUri, normalizedUri, exists, finalUri };
   }
 
@@ -173,8 +170,8 @@ export function logStageDiagnostic(
     extra?: string;
   }
 ): void {
-  const scheme = meta.uri ? (meta.uri.match(/^(\w+):\/\//) || ['unknown:'])[0] : 'none';
-  const tail = meta.uri ? meta.uri.split('/').pop()?.split('?')[0] : 'none';
+  const scheme = meta.uri ? (meta.uri.match(/^[\w-]+:/) || ['unknown:'])[0] : 'none';
+  const tail = meta.uri && scheme !== 'data:' && scheme !== 'blob:' ? meta.uri.split('/').pop()?.split('?')[0] : 'none';
   console.log(
     `[DEV_STAGE][${stage}] scheme=${scheme} file=${tail} WxH=${meta.width ?? '?' }x${meta.height ?? '?'} mime=${meta.mimeType || 'n/a'} src=${meta.source || 'n/a'} ${meta.extra ? `(${meta.extra})` : ''}`
   );

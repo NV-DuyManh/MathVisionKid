@@ -14,8 +14,8 @@ public interface BatchRepository extends JpaRepository<Batch, UUID> {
     @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
     @org.springframework.data.jpa.repository.Query("select b from Batch b where b.batchId = :id")
     java.util.Optional<Batch> findForUpdate(@org.springframework.data.repository.query.Param("id") UUID id);
-    default List<BatchProgress> findOwnedByAssignedTeacherProgress(UUID teacherId) {
-        return summarizeOwnedByAssignedTeacher(teacherId, BatchResponse.TERMINAL, BatchResponse.REVIEW,
+    default List<BatchProgress> findByAssignedTeacherProgress(UUID teacherId) {
+        return summarizeByAssignedTeacher(teacherId, BatchResponse.TERMINAL, BatchResponse.REVIEW,
                 BatchResponse.PENDING_REVIEW, BatchResponse.FINALIZED);
     }
 
@@ -33,11 +33,11 @@ public interface BatchRepository extends JpaRepository<Batch, UUID> {
             join b.assignment a
             join a.classroom c
             left join Submission s on s.batch = b
-            where b.teacher.id = :teacherId and c.teacher.id = :teacherId
+            where c.teacher.id = :teacherId
             group by b.batchId, a.assignmentId, a.title, c.name, b.status, b.createdAt, b.startedAt, b.completedAt
             order by b.createdAt desc
             """)
-    List<BatchProgress> summarizeOwnedByAssignedTeacher(@Param("teacherId") UUID teacherId,
+    List<BatchProgress> summarizeByAssignedTeacher(@Param("teacherId") UUID teacherId,
             @Param("terminal") Set<String> terminal, @Param("review") Set<String> review,
             @Param("pending") Set<String> pending, @Param("finalized") Set<String> finalized);
 
@@ -76,7 +76,7 @@ public interface BatchRepository extends JpaRepository<Batch, UUID> {
             join b.assignment a
             join a.classroom c
             left join Submission s on s.batch = b
-            where b.teacher.id = :teacherId and c.teacher.id = :teacherId
+            where c.teacher.id = :teacherId
             group by b.batchId, a.title, b.status, b.createdAt
             order by b.createdAt desc, b.batchId desc
             """)

@@ -30,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -167,6 +168,19 @@ public class BatchControllerTest {
         assignment.getClassroom().setTeacher(teacher2); classroomRepository.saveAndFlush(assignment.getClassroom());
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/teacher/batches")
                 .contentType("application/json").content(body)).andExpect(status().isForbidden());
+        var inherited = submissions.findByBatch_BatchId(java.util.UUID.fromString(id)).getFirst();
+        inherited.setStatus("REVIEW_REQUIRED");
+        submissions.saveAndFlush(inherited);
+        String path = "/api/v1/teacher/submissions/" + inherited.getSubmissionId();
+        mockMvc.perform(get(path)).andExpect(status().isForbidden());
+        var successor = org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
+                .user(teacher2.getEmail()).roles("TEACHER");
+        mockMvc.perform(get(path).with(successor)).andExpect(status().isOk());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post(path + "/override")
+                .with(successor).contentType("application/json").content("""
+                        {"score":8,"reason":"Bài làm đã được đối chiếu sau khi bàn giao","imageLegible":true}
+                        """)).andExpect(status().isOk());
+        assertEquals("TEACHER_OVERRIDDEN", submissions.findById(inherited.getSubmissionId()).orElseThrow().getStatus());
     }
 
     @Test
@@ -270,7 +284,9 @@ public class BatchControllerTest {
             reassignedBatch.setStatus("CREATED");
             batchRepository.saveAndFlush(reassignedBatch);
             assertEquals(21, batchService.getBatches(teacher1.getEmail()).size(),
-                    "Batch access still requires ownership and current class assignment");
+                    "Former teacher cannot see a reassigned batch");
+            assertEquals(List.of(reassignedBatch.getBatchId()), batchService.getBatches(teacher2.getEmail()).stream()
+                    .map(BatchResponse::batchId).toList(), "Current teacher can see the prior batch");
         } finally {
             statistics.setStatisticsEnabled(wasEnabled);
         }

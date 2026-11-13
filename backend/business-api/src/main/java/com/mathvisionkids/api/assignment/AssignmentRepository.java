@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AssignmentRepository extends JpaRepository<Assignment, UUID> {
-    @Query("select a from Assignment a where a.teacher.id = :teacherId and a.classroom.teacher.id = :teacherId")
-    List<Assignment> findOwnedByAssignedTeacher(@Param("teacherId") UUID teacherId);
+    @Query("select a from Assignment a where a.classroom.teacher.id = :teacherId")
+    List<Assignment> findByAssignedTeacher(@Param("teacherId") UUID teacherId);
 
     List<Assignment> findByClassroom_ClassId(UUID classId);
 

@@ -70,6 +70,15 @@ export const test = base.extend({
       }
       if (state.expired || !role) return reject();
       if (path === '/me') return json(profile(role));
+      if (state.realStudent && path === '/student/profile') return json({
+        displayName: 'Kiểm thử STUDENT', gradeLevel: 5, joinedAt: null, classrooms: [],
+        avatar: 'star', leaderboardVisible: false, publicAlias: '', selectedTitle: null,
+        stars: 1, rank: { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 },
+        highestRank: 'Đồng III', position: null,
+        stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
+        titles: [], history: [{ source: 'LESSON', completedAt: '2026-11-13T06:00:00Z', stars: 1 }],
+      });
+      if (state.realStudent && path === '/student/leaderboard') return json({ entries: [], ownPosition: null });
       if (state.realStudent && path === '/student/quizzes/pending-count') return json({ pendingCount: 0, totalStars: 0 });
       if (state.realStudent && path === '/student/quizzes') return json({ items: [], page: 0, totalPages: 0, totalElements: 0 });
       if (path.startsWith('/teacher/') && role !== 'TEACHER') return reject(403);

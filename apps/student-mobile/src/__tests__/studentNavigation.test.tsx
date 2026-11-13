@@ -10,6 +10,7 @@ import { AuthContext } from '../context/AuthContext';
 import { recognitionDraftStore } from '../features/recognition/state/recognitionDraftStore';
 import { recognitionAnalyticsStore } from '../features/recognition/analytics/recognitionAnalyticsStore';
 import { getProblemsByGrade } from '../data/primaryMathCurriculum';
+import { profileApi, type StudentProfile } from '../features/student-profile/profileApi';
 
 jest.mock('expo-router', () => ({
   useRouter: jest.fn(),
@@ -23,6 +24,9 @@ jest.mock('react-native-safe-area-context', () => ({
 jest.mock('../context/AuthContext', () => ({ AuthContext: require('react').createContext(undefined) }));
 jest.mock('../features/recognition/analytics/recognitionAnalyticsStore', () => ({
   recognitionAnalyticsStore: { init: jest.fn(async () => {}), getSessions: jest.fn(() => []) },
+}));
+jest.mock('../features/student-profile/profileApi', () => ({
+  profileApi: { get: jest.fn(), leaderboard: jest.fn(async () => ({ entries: [], ownPosition: null })) },
 }));
 
 const text = (renderer: TestRenderer.ReactTestRenderer) => renderer.root.findAllByType('Text' as any)
@@ -73,22 +77,29 @@ describe('Student navigation and real saved activity', () => {
     act(() => renderer!.unmount());
   });
 
-  it('keeps recognition activity separate from saved lessons and excludes invalid records', async () => {
+  it('shows only verified backend activity, excluding local recognition records', async () => {
     (recognitionAnalyticsStore.getSessions as jest.Mock).mockReturnValue([
       { sessionId: 'saved-1', timestamp: Date.now() - 1000, confirmedLines: 3 },
       { sessionId: 'sample', timestamp: Date.now() - 1000, confirmedLines: 20, isSampleData: true },
       { sessionId: 'session_benchmark_1', timestamp: Date.now() - 1000, confirmedLines: 20 },
       { sessionId: 'future', timestamp: Date.now() + 86400000, confirmedLines: 20 },
     ]);
+    const profile: StudentProfile = {
+      displayName: 'Bạn nhỏ', gradeLevel: 3, joinedAt: null, classrooms: [], avatar: 'star',
+      leaderboardVisible: false, publicAlias: '', selectedTitle: null, stars: 1,
+      rank: { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 }, highestRank: 'Đồng III', position: null,
+      stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
+      titles: [], history: [{ source: 'LESSON', completedAt: '2026-11-13T06:00:00Z', stars: 1 }],
+    };
+    jest.mocked(profileApi.get).mockResolvedValue(profile);
+    const auth = { user: { id: 'student' }, isAuthenticated: true, isLoading: false, login: jest.fn(), logout: jest.fn() };
     let renderer: TestRenderer.ReactTestRenderer;
-    await act(async () => { renderer = TestRenderer.create(<AchievementsScreen />); });
-    expect(text(renderer!)).toContain('Ngày liên tiếp');
-    expect(text(renderer!)).toMatch(/0 Bài đã lưu/);
-    expect(text(renderer!)).toMatch(/0 Ngày liên tiếp/);
-    const values = renderer!.root.findAllByType('Text' as any).map(node => node.props.children).flat();
-    expect(values).not.toContain(1);
-    expect(values).toContain(3);
-    expect(values).not.toContain(20);
+    await act(async () => {
+      renderer = TestRenderer.create(<AuthContext.Provider value={auth}><AchievementsScreen /></AuthContext.Provider>);
+    });
+    expect(text(renderer!)).toContain('Học liên tiếp');
+    expect(text(renderer!)).toContain('Hoàn thành bài học');
+    expect(recognitionAnalyticsStore.getSessions).not.toHaveBeenCalled();
     act(() => renderer!.unmount());
   });
 

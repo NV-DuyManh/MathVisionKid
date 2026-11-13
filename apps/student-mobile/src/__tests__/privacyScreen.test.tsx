@@ -36,7 +36,7 @@ jest.mock('react-native-gesture-handler', () => ({
   GestureHandlerRootView: 'GestureHandlerRootView', GestureDetector: 'GestureDetector',
   Gesture: { Pan: () => {
     const pan: any = {};
-    for (const name of ['minDistance', 'onStart', 'onUpdate', 'onEnd', 'onFinalize']) pan[name] = (callback: any) => { mockPanHandlers[name] = callback; return pan; };
+    for (const name of ['enabled', 'minDistance', 'onStart', 'onUpdate', 'onEnd', 'onFinalize']) pan[name] = (callback: any) => { mockPanHandlers[name] = callback; return pan; };
     return pan;
   } },
 }));
@@ -206,4 +206,19 @@ it('does not commit privacy after navigating away during verification', async ()
   await act(async () => { finish({ exists: true, size: 1234 }); await done; });
   expect(mockRouter.push).not.toHaveBeenCalled();
   expect(recognitionDraftStore.getDraft()?.privacyConfirmed).not.toBe(true);
+});
+
+it('keeps a short name strip and requires confirmation again after the masks change', async () => {
+  await render(); loaded(); confirm();
+  act(() => {
+    mockPanHandlers.onStart({ x: 20, y: 30 });
+    mockPanHandlers.onUpdate({ translationX: 100, translationY: 12 });
+    mockPanHandlers.onEnd();
+  });
+  expect(button('Xóa tất cả vùng che')).toBeDefined();
+  expect(button('Tiếp tục xem lại').props.disabled).toBe(true);
+  confirm();
+  expect(button('Tiếp tục xem lại').props.disabled).toBe(false);
+  act(() => button('Hoàn tác vùng che vừa vẽ').props.onPress());
+  expect(button('Tiếp tục xem lại').props.disabled).toBe(true);
 });

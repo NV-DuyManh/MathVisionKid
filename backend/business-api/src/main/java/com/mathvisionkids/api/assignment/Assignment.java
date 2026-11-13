@@ -45,7 +45,7 @@ public class Assignment {
     @Column(updatable = false)
     private Instant createdAt = Instant.now();
 
-    public boolean isOwnedByAssignedTeacher(UUID teacherId) {
-        return teacherId.equals(teacher.getId()) && teacherId.equals(classroom.getTeacher().getId());
+    public boolean isAssignedToTeacher(UUID teacherId) {
+        return teacherId.equals(classroom.getTeacher().getId());
     }
 }

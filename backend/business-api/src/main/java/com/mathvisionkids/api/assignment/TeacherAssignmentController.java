@@ -45,7 +45,7 @@ public class TeacherAssignmentController {
     @GetMapping
     public ResponseEntity<List<AssignmentResponse>> getAssignments(Principal principal) {
         Teacher teacher = teacherRepository.findByEmail(principal.getName()).orElseThrow();
-        List<AssignmentResponse> responses = assignmentRepository.findOwnedByAssignedTeacher(teacher.getId())
+        List<AssignmentResponse> responses = assignmentRepository.findByAssignedTeacher(teacher.getId())
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
@@ -59,7 +59,7 @@ public class TeacherAssignmentController {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Assignment not found", HttpStatus.NOT_FOUND));
 
-        if (!assignment.isOwnedByAssignedTeacher(teacher.getId())) {
+        if (!assignment.isAssignedToTeacher(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized", HttpStatus.FORBIDDEN);
         }
 
