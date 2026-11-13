@@ -32,6 +32,9 @@ export const getMockStudentUser = (email: string) => {
     role: 'STUDENT', active: true, gradeLevel: info.gradeLevel, grade: info.gradeLevel };
 };
 export const authApi = {
+  async changePassword(currentPassword: string, newPassword: string, signal?: AbortSignal): Promise<LoginResponse> {
+    return (await apiClient.post('/student/profile/password', { currentPassword, newPassword }, { signal })).data;
+  },
   async register(payload: { email: string; displayName: string; password: string; gender: string; phoneNumber: string; gradeLevel: number; role: 'STUDENT' }) {
     return (await apiClient.post('/auth/register', payload)).data;
   },

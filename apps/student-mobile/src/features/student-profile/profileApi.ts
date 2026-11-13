@@ -1,4 +1,5 @@
 import apiClient from '../../services/api/apiClient';
+import { Platform } from 'react-native';
 
 export type Rank = { name: string; masterStars: number; progress: number; goal: number };
 export type StudentTitle = { id: string; name: string; rarity: string; description: string; progress: number; goal: number; unlocked: boolean };
@@ -8,6 +9,8 @@ export type StudentProfile = {
   joinedAt: string | null;
   classrooms: { id: string; name: string }[];
   avatar: string;
+  avatarPhoto?: string | null;
+  passwordLoginAvailable?: boolean;
   leaderboardVisible: boolean;
   publicAlias: string;
   selectedTitle: string | null;
@@ -19,7 +22,7 @@ export type StudentProfile = {
   titles: StudentTitle[];
   history: { source: 'LESSON' | 'QUIZ' | 'GAME'; completedAt: string; stars: number }[];
 };
-export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'leaderboardVisible' | 'selectedTitle'>;
+export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'leaderboardVisible' | 'selectedTitle'> & { removePhoto?: boolean };
 export type Leaderboard = {
   ownPosition: number | null;
   entries: { position: number; alias: string; avatar: string; stars: number; rank: Rank; self: boolean }[];
@@ -32,6 +35,16 @@ export const profileApi = {
   },
   async update(edit: ProfileEdit, signal: AbortSignal) {
     return (await apiClient.put<StudentProfile>(root + '/profile', edit, { signal })).data;
+  },
+  async uploadPhoto(uri: string, signal: AbortSignal) {
+    const form = new FormData();
+    if (Platform.OS === 'web') {
+      const response = await fetch(uri, { signal });
+      if (!response.ok) throw new Error('Chưa mở được ảnh đã chọn.');
+      form.append('file', await response.blob(), 'avatar.png');
+    } else form.append('file', { uri, name: 'avatar.png', type: 'image/png' } as any);
+    return (await apiClient.put<StudentProfile>(root + '/profile/photo', form,
+      { signal, transformRequest: [value => value], headers: { 'Content-Type': undefined } })).data;
   },
   async leaderboard(classroom: string | undefined, signal: AbortSignal) {
     return (await apiClient.get<Leaderboard>(root + '/leaderboard', { params: { classroom }, signal })).data;

@@ -14,6 +14,8 @@ import { COLORS, FONTS } from '../constants/theme';
 interface AuthContextType {
   user: any; isAuthenticated: boolean; isLoading: boolean;
   login: (credentials: any) => Promise<void>; logout: () => Promise<void>;
+  refreshUser?: () => Promise<void>;
+  changePassword?: (currentPassword: string, newPassword: string, signal?: AbortSignal) => Promise<void>;
 }
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 function studentProfile(profile: any) {
@@ -149,7 +151,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (portal) window.location.replace('/logout?source=student');
     else router.replace('/login');
   };
-  return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'STUDENT' && user.active === true, isLoading, login, logout }}>
+  const refreshUser = async () => {
+    const current = revision.current;
+    const { data } = await apiClient.get('/me');
+    if (current !== revision.current || data.role !== 'STUDENT' || data.active !== true) return;
+    const profile = studentProfile(data);
+    if (profile.id !== user?.id) return;
+    await tokenStorage.saveUser(profile);
+    if (current === revision.current) setUser(profile);
+  };
+  const changePassword = async (currentPassword: string, newPassword: string, signal?: AbortSignal) => {
+    const current = revision.current, session = await tokenStorage.getSessionId();
+    const { data } = await apiClient.post('/student/profile/password', { currentPassword, newPassword }, { signal });
+    if (current !== revision.current || signal?.aborted) throw new Error('Phiên đăng nhập đã thay đổi.');
+    if (!data.accessToken || !data.refreshToken) throw new Error('Chưa xác minh được phiên đăng nhập mới.');
+    await tokenStorage.saveTokens(data.accessToken, data.refreshToken, session);
+  };
+  return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'STUDENT' && user.active === true, isLoading, login, logout, refreshUser, changePassword }}>
     {(user && (!portal || pathname !== '/login')) || (!portal && !isLoading && pathname === '/login') ? children : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 24, backgroundColor: COLORS.background }}>
       {failure ? <><Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary }}>{failure}</Text>
         <Pressable accessibilityRole="button" onPress={() => window.location.replace('/login')}><Text>Đăng nhập lại</Text></Pressable></> :

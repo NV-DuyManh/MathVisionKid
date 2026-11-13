@@ -11,6 +11,8 @@ import { recognitionAnalyticsStore } from '../features/recognition/analytics/rec
 interface AuthContextType {
   user: any; isAuthenticated: boolean; isLoading: boolean; sessionError?: string | null;
   login: (credentials: any) => Promise<void>; logout: () => Promise<void>;
+  refreshUser?: () => Promise<void>;
+  changePassword?: (currentPassword: string, newPassword: string, signal?: AbortSignal) => Promise<void>;
 }
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -95,5 +97,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (current === revision.current) replace('/login');
     await pending;
   };
-  return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'STUDENT' && user.active === true, isLoading, sessionError, login, logout }}>{children}</AuthContext.Provider>;
+  const refreshUser = async () => {
+    const current = revision.current;
+    const profile = requireStudent(await authApi.getMe());
+    if (current !== revision.current || (profile.id ?? profile.userId) !== (user?.id ?? user?.userId)) return;
+    await tokenStorage.saveUser(profile);
+    if (current === revision.current) setUser(profile);
+  };
+  const changePassword = async (currentPassword: string, newPassword: string, signal?: AbortSignal) => {
+    const current = revision.current, session = await tokenStorage.getSessionId();
+    const tokens = await authApi.changePassword(currentPassword, newPassword, signal);
+    if (current !== revision.current || signal?.aborted) throw new Error('Phiên đăng nhập đã thay đổi.');
+    if (!tokens.accessToken || !tokens.refreshToken) throw new Error('Chưa xác minh được phiên đăng nhập mới.');
+    await tokenStorage.saveTokens(tokens.accessToken, tokens.refreshToken, session);
+  };
+  return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'STUDENT' && user.active === true, isLoading, sessionError, login, logout, refreshUser, changePassword }}>{children}</AuthContext.Provider>;
 };

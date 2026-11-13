@@ -60,7 +60,7 @@ export function HomeDashboard({ userName, userKey, onAcquire, onArithmetic, onPr
     <Text style={styles.historyNote}>Theo bài đã lưu trên thiết bị này.</Text>
   </View>;
   return <View onLayout={event => setAvailableWidth(event.nativeEvent.layout.width)} style={{ minHeight: Math.max(0, height - (wide ? 48 : 110)) }}>
-    <StudentPageHeader title={IS_STUDENT_WEB ? 'Trang học của em' : undefined} subtitle={IS_STUDENT_WEB ? undefined : 'Toán học thật dễ, thật vui!'} onHelp={onTips} onAvatar={() => router.push('/(tabs)/profile')} />
+    <StudentPageHeader title={IS_STUDENT_WEB ? 'Trang học của em' : undefined} subtitle={IS_STUDENT_WEB ? undefined : 'Toán học thật dễ, thật vui!'} onHelp={onTips} onAvatar={() => router.push('/account')} />
     <View style={[styles.overview, desktop && styles.overviewDesktop]}>
       {IS_STUDENT_WEB ? <View style={[styles.webHero, desktop && styles.heroDesktop, wide && styles.webHeroWide]} {...{ dataSet: { studentPaper: 'true' } }}>
         <View style={[styles.webHeroCopy, wide && styles.webHeroCopyWide]}>

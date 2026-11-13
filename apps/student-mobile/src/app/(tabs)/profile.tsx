@@ -10,7 +10,6 @@ import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS, SHADOWS, IS_STUDENT_WEB, WEB_DESIGN } from '../../constants/theme';
 import { loadLessons, SavedLesson } from '../../features/tutoring/learningHistory';
-import { ProfilePanel } from '../../features/student-profile/ProfilePanel';
 import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
 
@@ -18,10 +17,10 @@ type Tab = 'saved' | 'work' | 'notes';
 export default function ProfileScreen() {
   const auth = useContext(AuthContext);
   const owner = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
-  return <ProfileContent key={owner ?? 'signed-out'} owner={owner} logout={auth?.logout} />;
+  return <ProfileContent key={owner ?? 'signed-out'} owner={owner} />;
 }
 
-function ProfileContent({ owner, logout }: { owner?: string; logout?: () => Promise<void> }) {
+function ProfileContent({ owner }: { owner?: string }) {
   const router = useRouter();
   const [pageWidth, setPageWidth] = useState(0), [tab, setTab] = useState<Tab>('saved');
   const [lessons, setLessons] = useState<SavedLesson[]>([]), [error, setError] = useState(false);
@@ -42,7 +41,6 @@ function ProfileContent({ owner, logout }: { owner?: string; logout?: () => Prom
   return <SafeAreaView style={[styles.screen, IS_STUDENT_WEB && styles.webScreen]} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} edges={['top']}>
     <ScrollView contentContainerStyle={[styles.content, pageWidth >= 768 && styles.contentWide]} showsVerticalScrollIndicator={false}>
       <StudentPageHeader compact title="Của em" onBack={() => router.replace('/(tabs)')} />
-      {owner && logout && <ProfilePanel owner={owner} logout={logout} />}
       <Pressable accessibilityRole="button" accessibilityLabel="Trò chơi rèn luyện cho em"
         onPress={() => router.push('/games')}
         style={({ pressed }) => [styles.games, IS_STUDENT_WEB && styles.webGames, pressed && styles.pressed]}>

@@ -41,7 +41,7 @@ function Achievements({ owner }: { owner?: string }) {
   const value = profile.value;
   return <SafeAreaView style={s.screen} edges={['top']}>
     <ScrollView contentContainerStyle={s.content}>
-      <StudentPageHeader compact title="Thành tích" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/(tabs)/profile')} />
+      <StudentPageHeader compact title="Thành tích" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/account')} />
       {value ? <>
         <ProfileRankCard profile={value} />
         <ProfileStats profile={value} />
@@ -65,7 +65,7 @@ function Achievements({ owner }: { owner?: string }) {
               <Text style={s.body}>{title.description}</Text>
             </View>
           </View>)}
-          <AppButton title="Chọn danh hiệu trên hồ sơ" variant="secondary" onPress={() => router.push('/(tabs)/profile')} />
+          <AppButton title="Chọn danh hiệu trên hồ sơ" variant="secondary" onPress={() => router.push('/account')} />
         </View>
         <View style={s.card}>
           <Text accessibilityRole="header" style={s.heading}>Những lần em nhận sao</Text>

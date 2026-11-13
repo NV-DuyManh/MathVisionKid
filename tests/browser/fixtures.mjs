@@ -72,15 +72,29 @@ export const test = base.extend({
       }
       if (state.expired || !role) return reject();
       if (path === '/me') return json(state.realStudent && role === 'STUDENT'
-        ? { ...profile(role), userId: '550e8400-e29b-41d4-a716-446655440000' } : profile(role));
-      if (state.realStudent && path === '/student/profile') return json({
+        ? { ...profile(role), displayName: state.studentProfile?.displayName ?? profile(role).displayName, userId: '550e8400-e29b-41d4-a716-446655440000' } : profile(role));
+      if (state.realStudent && path.startsWith('/student/profile')) {
+        state.studentProfile ??= {
         displayName: 'Kiểm thử STUDENT', gradeLevel: 5, joinedAt: null, classrooms: [],
         avatar: 'star', leaderboardVisible: false, publicAlias: '', selectedTitle: null,
         stars: 1, rank: { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 },
         highestRank: 'Đồng III', position: null,
         stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
         titles: [], history: [{ source: 'LESSON', completedAt: '2026-11-13T06:00:00Z', stars: 1 }],
-      });
+        };
+        if (path === '/student/profile/password') return body.currentPassword === 'incorrect-password'
+          ? json({ error: { code: 'PASSWORD_CURRENT_INVALID' } }, 400) : json(tokens('STUDENT'));
+        if (path === '/student/profile/photo' && method === 'PUT') {
+          const bytes = request.postDataBuffer();
+          const start = bytes.indexOf('\r\n\r\n') + 4, end = bytes.lastIndexOf('\r\n--');
+          state.studentProfile.avatarPhoto = `data:image/png;base64,${bytes.subarray(start, end).toString('base64')}`;
+        }
+        if (path === '/student/profile' && method === 'PUT') {
+          Object.assign(state.studentProfile, body);
+          if (body.removePhoto) state.studentProfile.avatarPhoto = null;
+        }
+        return json(state.studentProfile);
+      }
       if (state.realStudent && path === '/student/leaderboard') return json({ entries: [], ownPosition: null });
       if (state.realStudent && path === '/student/quizzes/pending-count') return json({ pendingCount: 0, totalStars: 0 });
       if (state.realStudent && path === '/student/quizzes') return json({ items: [], page: 0, totalPages: 0, totalElements: 0 });
