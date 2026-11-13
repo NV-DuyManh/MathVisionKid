@@ -64,6 +64,8 @@ async function screen(run) {
     await act(async () => { await new Promise(resolve => setTimeout(resolve, 50)); });
   };
   const imports = {
+    '../config/runtime': { notebookPreview: false },
+    '../services/api/AuthTokenStore': { AuthTokenStore: { getSessionId: () => 'test-session' } },
     '@tanstack/react-query': queryRuntime,
     'react-router-dom': routerRuntime,
     '@mui/material': mui,
@@ -71,6 +73,7 @@ async function screen(run) {
     '../components/common/PageHeader': { PageHeader: block },
     '../components/common/EmptyState': { EmptyState: block },
     '../components/common/StatusChip': { StatusChip: block },
+    './SubmissionRetake': { SubmissionRetake: block },
   };
   try { await run({ dom, root, render, imports, controls, path: () => path }); }
   finally { await act(async () => root.unmount()); client.clear(); Object.assign(globalThis, previous); dom.window.close(); }
@@ -128,8 +131,10 @@ test('R3: ReviewQueuePage displays denominator matching assignment/submission sc
     const Component = load('pages/ReviewQueuePage', {
       ...imports,
       'react-router-dom': { ...routerRuntime, useParams: () => ({ id: 'batch-test' }) },
+      '../services/api/AuthTokenStore': { AuthTokenStore: { getSessionId: () => 'test-session' } },
       '../services/api/ServiceLocator': {
         AppTeacherService: {
+          getBatchStatus: async () => ({ status: 'COMPLETED', totalCount: 4, processedCount: 4, pendingReviewCount: 4, finalizedCount: 0, failedCount: 0 }),
           getReviewQueue: async () => [
             { submissionId: 's1', studentName: 'Pupil 100', maxScore: 100, suggestedScore: 80, status: 'PROPOSED_GRADE' },
             { submissionId: 's2', studentName: 'Pupil 10', maxScore: 10, suggestedScore: 8, status: 'PROPOSED_GRADE' },
@@ -155,8 +160,10 @@ test('SCRUM-111: ReviewQueuePage filters by status, searches by student name, an
     const Component = load('pages/ReviewQueuePage', {
       ...imports,
       'react-router-dom': { ...routerRuntime, useParams: () => ({ id: 'batch-filter-test' }) },
+      '../services/api/AuthTokenStore': { AuthTokenStore: { getSessionId: () => 'test-session' } },
       '../services/api/ServiceLocator': {
         AppTeacherService: {
+          getBatchStatus: async () => ({ status: 'COMPLETED', totalCount: 3, processedCount: 3, pendingReviewCount: 3, finalizedCount: 0, failedCount: 0 }),
           getReviewQueue: async () => [
             { submissionId: 'sub-b', studentName: 'Tran Thi Binh', maxScore: 10, suggestedScore: 7, status: 'PROPOSED_GRADE', recognitionConfidence: 95 },
             { submissionId: 'sub-a', studentName: 'Nguyen Van An', maxScore: 10, suggestedScore: 9, status: 'REVIEW_REQUIRED', recognitionConfidence: 60 },
@@ -231,6 +238,9 @@ test('R4: BatchCreatePage alerts when files exceed 30 limit, keeps selected file
     const Component = load('pages/BatchCreatePage', {
       ...imports,
       './PrivacyEditorModal': () => null,
+      '../services/api/newCreationRequestId': { newCreationRequestId: () => '173f718e-2c21-4a98-8c0e-f01337cabaf1' },
+      '../services/api/AuthTokenStore': { AuthTokenStore: { getSessionId: () => null } },
+      '../hooks/useUploadDraftGuard': { useUploadDraftGuard: () => ({ confirmation: null, allowNextNavigation() {} }) },
       '../services/api/ServiceLocator': {
         AppTeacherService: {
           getAssignments: async () => [{ assignmentId: 'a1', title: 'Test Bài tập' }],
@@ -269,6 +279,8 @@ test('R5: AssignmentCreatePage preserves decimal/exponent strings and validates 
     let createdAssignmentScore = null;
     const Component = load('pages/AssignmentCreatePage', {
       ...imports,
+      '../components/layout/AuthContext': { useAuth: () => ({ user: null }) },
+      '../services/api/newCreationRequestId': { newCreationRequestId: () => '173f718e-2c21-4a98-8c0e-f01337cabaf1' },
       '../services/api/ServiceLocator': {
         AppTeacherService: {
           getClasses: async () => [{ classId: 'c1', name: '4A', studentCount: 25 }],
@@ -363,6 +375,40 @@ test('SubmissionReviewPage blocks approve and override buttons when submission i
     const approveBtn = [...dom.window.document.querySelectorAll('button')].find(b => b.textContent?.includes('Duyệt điểm'));
     assert.equal(approveBtn, undefined, 'Approve button must not be active when image is not ready');
   });
+});
+
+test('SubmissionReviewPage shows actual evidence and omits ungrounded warnings for a valid result', async () => {
+  for (const detail of [
+    { decision: 'VALID' },
+    {
+      decision: 'INVALID', evidence: {
+        rule: 'Phép cộng hàng chục không khớp.', position: 'Hàng chục', items: [
+          { description: 'Phép cộng hàng chục không khớp.', placeValue: 'Hàng chục', observedText: '0' },
+          { description: 'Bố cục phép tính chưa hoàn chỉnh.' },
+        ],
+      },
+    },
+  ]) {
+    await screen(async ({ dom, render, imports }) => {
+      imports['react-router-dom'] = { ...routerRuntime, useParams: () => ({ id: 'sub-1' }) };
+      imports['../services/api/ServiceLocator'] = { AppTeacherService: {
+        getSubmissionDetail: async () => ({ ...detail, studentName: 'An kiểm thử', status: 'PROPOSED_GRADE' }),
+      } };
+      imports['../components/common/SubmissionImage'] = { SubmissionImage: () => null };
+      await render(load('pages/SubmissionReviewPage', imports), {}, '/submissions/sub-1');
+
+      const body = dom.window.document.body.textContent;
+      assert.doesNotMatch(body, /Quy tắc tính toán hoặc nét chữ/);
+      if (detail.decision === 'VALID') {
+        assert.match(body, /Hợp lệ theo quy tắc/);
+        assert.doesNotMatch(body, /Dấu hiệu cần xem xét|Phát hiện lỗi/);
+      } else {
+        const evidenceItems = [...dom.window.document.querySelectorAll('li')].map(item => item.textContent);
+        assert.match(evidenceItems[0], /Phép cộng hàng chục không khớp.*Hàng chục.*Ký tự nhận diện.*0/);
+        assert.equal(evidenceItems[1], 'Bố cục phép tính chưa hoàn chỉnh.');
+      }
+    });
+  }
 });
 
 // ---------------------------------------------------------

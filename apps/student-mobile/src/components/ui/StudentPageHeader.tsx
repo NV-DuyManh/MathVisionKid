@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppIllustration } from './AppIllustration';
-import { COLORS, FONTS } from '../../constants/theme';
+import { COLORS, FONTS, IS_STUDENT_WEB } from '../../constants/theme';
 
 export function StudentPageHeader({ title, subtitle, onHelp, onAvatar, compact = false, onBack }: {
   title?: string; subtitle?: string; onHelp?: () => void; onAvatar?: () => void; compact?: boolean; onBack?: () => void;
@@ -14,13 +14,13 @@ export function StudentPageHeader({ title, subtitle, onHelp, onAvatar, compact =
     <Text accessibilityRole="header" style={styles.compactTitle}>{title}</Text>
     <Pressable onPress={onAvatar} disabled={!onAvatar} accessibilityRole={onAvatar ? 'button' : undefined}
       accessibilityLabel={onAvatar ? 'Trang cá nhân của em' : undefined} style={styles.smallAvatar}>
-      <AppIllustration source={require('../../../assets/illustrations/student-avatar.png')} style={styles.smallAvatar} accessible={false} />
+      <AppIllustration source={IS_STUDENT_WEB ? require('../../../assets/illustrations/web/student-avatar.webp') : require('../../../assets/illustrations/student-avatar.png')} style={styles.smallAvatar} accessible={false} />
     </Pressable>
   </View>;
   return <View style={styles.header}>
     <Pressable onPress={onAvatar} disabled={!onAvatar} accessibilityRole={onAvatar ? 'button' : undefined}
       accessibilityLabel={onAvatar ? 'Trang cá nhân của em' : undefined} style={styles.avatar}>
-      <AppIllustration source={require('../../../assets/illustrations/student-avatar.png')} style={styles.avatarArt} accessible={false} />
+      <AppIllustration source={IS_STUDENT_WEB ? require('../../../assets/illustrations/web/student-avatar.webp') : require('../../../assets/illustrations/student-avatar.png')} style={styles.avatarArt} accessible={false} />
     </Pressable>
     <View style={styles.copy}>
       {title ? <Text accessibilityRole="header" style={styles.title}>{title}</Text>

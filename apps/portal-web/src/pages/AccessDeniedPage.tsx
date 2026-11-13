@@ -11,8 +11,8 @@ export const AccessDeniedPage: React.FC = () => {
   const current = searchParams.get('current') || 'hiện tại';
 
   return (
-    <Container maxWidth="sm">
-      <Paper sx={{ p: { xs: 3, sm: 5 }, textAlign: 'center', borderRadius: 4 }}>
+    <Container maxWidth="sm" sx={{ py: { xs: 4, md: 8 } }}>
+      <Paper variant="outlined" sx={{ p: { xs: 2.5, sm: 5 }, borderRadius: '20px' }}>
         <Box
           sx={{
             width: 64,
@@ -34,14 +34,14 @@ export const AccessDeniedPage: React.FC = () => {
         </Typography>
 
         <Alert severity="warning" sx={{ my: 3, textAlign: 'left', borderRadius: 2 }}>
-          Tài khoản của bạn (vai trò <strong>{current}</strong>) không có quyền truy cập vào <strong>{target}</strong>. Hệ thống phân quyền nghiêm ngặt của MathVision Kids bảo vệ dữ liệu giữa Học sinh, Giáo viên và Quản trị viên.
+          Tài khoản của bạn (vai trò <strong>{current}</strong>) không có quyền truy cập vào <strong>{target}</strong>.
         </Alert>
 
         <Typography variant="body2" sx={{ color: '#64748B', mb: 4 }}>
           Nếu bạn cần truy cập tài nguyên này, vui lòng đăng nhập bằng tài khoản có vai trò phù hợp.
         </Typography>
 
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
           <Button
             component={RouterLink}
             to="/"

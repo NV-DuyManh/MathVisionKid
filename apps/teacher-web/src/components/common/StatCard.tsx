@@ -22,7 +22,7 @@ export const StatCard: React.FC<StatCardProps> = ({
   description,
   icon,
   tone = '#ECFDF5',
-  color = '#059669',
+  color = '#047857',
   path,
   linkText = 'Xem chi tiết',
 }) => {
@@ -33,38 +33,33 @@ export const StatCard: React.FC<StatCardProps> = ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        borderRadius: 3.5,
-        border: '1px solid #E2E8F0',
-        bgcolor: '#FFFFFF',
-        transition: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
+        borderRadius: '12px',
+        bgcolor: 'background.paper',
         '&:hover': path
           ? {
-              transform: 'translateY(-2px)',
-              boxShadow: '0 8px 24px -4px rgba(15, 23, 42, 0.08)',
-              borderColor: '#CBD5E1',
+              borderColor: 'primary.main',
             }
           : undefined,
       }}
     >
-      <CardContent sx={{ p: 2.5, '&:last-child': { pb: path ? 1.75 : 2.5 } }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
+      <CardContent sx={{ p: { xs: 1.5, sm: 2 }, '&:last-child': { pb: 1.5 } }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column-reverse', sm: 'row' }, gap: 1,
+          justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, mb: 0.75 }}>
           <Typography
             variant="caption"
             sx={{
               fontWeight: 800,
-              color: '#64748B',
+              color: 'text.secondary',
               fontSize: '0.8rem',
-              letterSpacing: '0.02em',
-              textTransform: 'uppercase',
             }}
           >
             {title}
           </Typography>
           <Box
             sx={{
-              width: 38,
-              height: 38,
-              borderRadius: 2.5,
+              width: 32,
+              height: 32,
+              borderRadius: '8px',
               bgcolor: tone,
               color: color,
               display: 'flex',
@@ -79,9 +74,10 @@ export const StatCard: React.FC<StatCardProps> = ({
 
         <Typography
           variant="h3"
+          component="div"
           sx={{
             fontWeight: 900,
-            color: '#0F172A',
+            color: 'text.primary',
             fontSize: { xs: '1.85rem', sm: '2.1rem' },
             letterSpacing: '-0.03em',
             lineHeight: 1.15,
@@ -105,16 +101,17 @@ export const StatCard: React.FC<StatCardProps> = ({
         {path && (
           <Box
             sx={{
-              mt: 2,
-              pt: 1.5,
-              borderTop: '1px solid #F1F5F9',
+              mt: 1,
+              pt: 1,
+              borderTop: 1,
+              borderColor: 'divider',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               color: color,
             }}
           >
-            <Typography variant="caption" sx={{ fontWeight: 800, fontSize: '0.78rem' }}>
+            <Typography variant="caption" sx={{ fontWeight: 800, fontSize: '0.78rem', color: 'primary.dark' }}>
               {linkText}
             </Typography>
             <ArrowForward sx={{ fontSize: 16 }} />
@@ -133,6 +130,8 @@ export const StatCard: React.FC<StatCardProps> = ({
           textDecoration: 'none',
           display: 'block',
           height: '100%',
+          borderRadius: '12px',
+          '&:hover': { textDecoration: 'none' },
         }}
       >
         {content}

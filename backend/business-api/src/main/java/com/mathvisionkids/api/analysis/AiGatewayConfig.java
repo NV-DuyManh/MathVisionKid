@@ -16,8 +16,10 @@ public class AiGatewayConfig {
             SubmissionRepository submissionRepository, 
             AnalysisResultRepository analysisResultRepository, 
             AuditEventRepository auditEventRepository, 
-            AiJobRepository aiJobRepository) {
-        return new StubAiAnalysisGateway(submissionRepository, analysisResultRepository, auditEventRepository, aiJobRepository);
+            AiJobRepository aiJobRepository,
+            org.springframework.transaction.PlatformTransactionManager transactionManager) {
+        return new StubAiAnalysisGateway(submissionRepository, analysisResultRepository, auditEventRepository,
+                aiJobRepository, new org.springframework.transaction.support.TransactionTemplate(transactionManager));
     }
 
     @Bean

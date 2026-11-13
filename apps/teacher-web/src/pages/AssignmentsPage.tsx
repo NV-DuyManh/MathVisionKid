@@ -82,9 +82,12 @@ export default function AssignmentsPage() {
           />
         </Card>
       ) : (
-        <Card sx={{ borderRadius: 3.5, overflow: 'hidden', border: '1px solid #E2E8F0' }}>
-          <TableContainer>
-            <Table sx={{ minWidth: 700 }}>
+        <Card variant="outlined" sx={{ minWidth: 0 }}>
+          <Typography variant="body2" color="text.secondary" sx={{ display: { xs: 'block', md: 'none' }, px: 2, py: 1.5 }}>
+            Cuộn ngang bảng để xem thêm cột và thao tác.
+          </Typography>
+          <TableContainer role="region" aria-label="Bảng bài tập" tabIndex={0} sx={{ '&:focus-visible': { outlineOffset: '-3px' } }}>
+            <Table aria-label="Danh sách bài tập" sx={{ minWidth: 700, fontVariantNumeric: 'tabular-nums' }}>
               <TableHead>
                 <TableRow>
                   <TableCell>Tên bài tập</TableCell>
@@ -99,7 +102,7 @@ export default function AssignmentsPage() {
                   const mathTypeInfo = getMathTypeLabel(a.mathType);
                   return (
                     <TableRow key={a.id || a.assignmentId} hover>
-                      <TableCell>
+                      <TableCell component="th" scope="row">
                         <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#0F172A' }}>
                           {a.title}
                         </Typography>

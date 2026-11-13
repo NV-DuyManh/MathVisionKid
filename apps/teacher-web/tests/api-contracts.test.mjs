@@ -24,12 +24,13 @@ function service(responses) {
 test('dashboard maps the backend DTO counts and retains actual recent batches', async () => {
   const recentBatches = [{ batchId: 'b', assignmentTitle: 'Phép cộng', totalCount: 7, processedCount: 4, reviewRequiredCount: 2, status: 'PARTIAL' }];
   const { service: api, calls } = service({
-    '/teacher/dashboard': { todayTotal: 7, processedCount: 4, reviewRequiredCount: 2, recentBatches },
+    '/teacher/dashboard': { todayTotal: 7, processedCount: 4, reviewRequiredCount: 2, nextReviewBatchId: 'older', recentBatches },
   });
   const result = await api.getDashboard();
   assert.equal(result.totalToday, 7);
   assert.equal(result.completed, 4);
   assert.equal(result.reviewRequired, 2);
+  assert.equal(result.nextReviewBatchId, 'older');
   assert.equal(result.recentBatches, recentBatches);
   assert.equal(calls[0].url, '/teacher/dashboard');
 });
@@ -61,18 +62,18 @@ test('dashboard API failures remain errors for the page to display', async () =>
   await assert.rejects(api.getDashboard(), failure);
 });
 
-test('review IDs resolve to actual details, confidence percentages and backend grade scale', async () => {
-  const { service: api } = service({
-    '/teacher/batches/b/review': ['s'],
-    '/teacher/submissions/s': { submissionId: 's', maxScore: 10, gradeProposal: { suggestedScore: 75, maxScore: 100 },
-      confidenceBundle: { recognition: .92, diagnosis: 0 }, validation: { diagnosisState: 'VALID', isValid: true } },
+test('review summary preserves confidence, evidence and backend grade scale in a single request', async () => {
+  const { service: api, calls } = service({
+    '/teacher/batches/b/review-summary': [{ submissionId: 's', maxScore: 10, gradeProposal: { suggestedScore: 75, maxScore: 100 },
+      confidenceBundle: { recognition: .92, diagnosis: 0 }, evidence: { rule: 'Sai ở hàng đơn vị' } }],
   });
   const [detail] = await api.getReviewQueue('b');
   assert.equal(detail.submissionId, 's');
   assert.equal(detail.suggestedScore, 8);
   assert.equal(detail.recognitionConfidence, 92);
   assert.equal(detail.diagnosisConfidence, 0);
-  assert.equal(detail.decision, 'VALID');
+  assert.equal(detail.evidence.rule, 'Sai ở hàng đơn vị');
+  assert.deepEqual(calls.map(call => call.url), ['/teacher/batches/b/review-summary']);
 });
 
 test('missing and malformed analysis never produces a fabricated score or verdict', async () => {
@@ -85,16 +86,61 @@ test('missing and malformed analysis never produces a fabricated score or verdic
   }
 });
 
-test('zero score remains zero and approve/override refresh after an empty HTTP response', async () => {
+test('review evidence preserves reported error descriptions, positions and recognized text', async () => {
+  const { service: api } = service({ '/teacher/submissions/s': {
+    evidence: { items: [null, { columnIndex: 0 }, {
+      description: 'Phép cộng hàng chục không khớp.', placeValue: 'Hàng chục', observedText: '0', columnIndex: 1,
+    }, { description: 'Bố cục phép tính chưa hoàn chỉnh.', placeValue: null, observedText: ' ' }] },
+  } });
+  const { evidence } = await api.getSubmissionDetail('s');
+  assert.equal(evidence.rule, 'Phép cộng hàng chục không khớp.');
+  assert.equal(evidence.position, 'Hàng chục');
+  assert.deepEqual(JSON.parse(JSON.stringify(evidence.items)), [
+    { description: 'Phép cộng hàng chục không khớp.', placeValue: 'Hàng chục', observedText: '0' },
+    { description: 'Bố cục phép tính chưa hoàn chỉnh.' },
+  ]);
+});
+
+test('empty evidence stays absent and legacy review text remains available', async () => {
+  const { service: api } = service({
+    '/teacher/submissions/empty': { evidence: { items: [] } },
+    '/teacher/submissions/legacy': { evidence: { rule: 'Ảnh quá mờ', position: 'Toàn bộ ảnh' } },
+  });
+  assert.equal((await api.getSubmissionDetail('empty')).evidence, undefined);
+  const { evidence } = await api.getSubmissionDetail('legacy');
+  assert.equal(evidence.rule, 'Ảnh quá mờ');
+  assert.equal(evidence.position, 'Toàn bộ ảnh');
+});
+
+test('zero proposal remains zero', async () => {
+  const { service: api } = service({
+    '/teacher/submissions/s': { maxScore: 10, gradeProposal: { suggestedScore: 0, maxScore: 100 } },
+  });
+  assert.equal((await api.getSubmissionDetail('s')).suggestedScore, 0);
+});
+
+test('approve and override acknowledge the POST independently of a failed detail read', async () => {
   for (const action of ['approve', 'override']) {
+    const failure = new Error('Detail temporarily unavailable');
     const { service: api, calls } = service({
       [`/teacher/submissions/s/${action}`]: '',
-      '/teacher/submissions/s': { maxScore: 10, gradeProposal: { suggestedScore: 0, maxScore: 100 } },
+      '/teacher/submissions/s': failure,
     });
     const result = action === 'approve' ? await api.approveSubmission('s') : await api.overrideSubmission('s', 4, 'Reviewed');
-    assert.equal(result.suggestedScore, 0);
-    assert.deepEqual(calls.map(call => call.method), ['post', 'get']);
+    assert.equal(result, undefined);
+    assert.deepEqual(calls.map(({ method, url }) => [method, url]), [['post', `/teacher/submissions/s/${action}`]]);
+    await assert.rejects(api.getSubmissionDetail('s'), failure);
   }
+});
+
+test('manual grading submits only an affirmative image legibility attestation', async () => {
+  const { service: api, calls } = service({ '/teacher/submissions/s/override': '' });
+  await api.overrideSubmission('s', 0, 'Đã đối chiếu ảnh.', true);
+  await api.overrideSubmission('s', 8, 'Đã kiểm tra kết quả.');
+  await api.overrideSubmission('s', 8, 'Đã kiểm tra kết quả.', false);
+  assert.equal(calls[0].data.imageLegible, true);
+  assert.equal(Object.hasOwn(calls[1].data, 'imageLegible'), false);
+  assert.equal(Object.hasOwn(calls[2].data, 'imageLegible'), false);
 });
 
 test('roster belongs to the selected assignment, preserving real user IDs', async () => {

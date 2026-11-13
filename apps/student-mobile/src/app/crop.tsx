@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, Image, Alert, Pressable, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, Alert, Platform, Pressable, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,13 +11,33 @@ import { AppButton } from '../components/ui/AppButton';
 import { ActivityRail } from '../components/ui/ActivityRail';
 import { ImageDraft, recognitionDraftStore, resolveFlowDomain } from '../features/recognition/state/recognitionDraftStore';
 import { normalizeLocalFileUri, resolveSafeCropImage } from '../features/recognition/image/imagePipeline';
-import { Rect, CropHandle, calculateDrag, calculateResize, cropHandlePoint, closestCropHandle } from '../utils/cropGeometry';
+import { Rect, CropHandle, MIN_CROP_SIZE, calculateDrag, calculateResize, cropHandlePoint, closestCropHandle } from '../utils/cropGeometry';
 import { exportCropImage, normalizeRotation, rotatedFrame } from '../utils/cropRotation';
 
 const CORNERS = ['tl', 'tr', 'bl', 'br'] as const;
 const EDGES = ['top', 'right', 'bottom', 'left'] as const;
 const HANDLE_LABELS = { tl: 'góc trên trái', tr: 'góc trên phải', bl: 'góc dưới trái', br: 'góc dưới phải', top: 'cạnh trên', right: 'cạnh phải', bottom: 'cạnh dưới', left: 'cạnh trái' };
 const INSET = { x: 0.1, y: 0.1, w: 0.8, h: 0.8 };
+type Edge = typeof EDGES[number];
+
+function WebCropControls({ disabled, onAdjust }: { disabled: boolean; onAdjust: (edge: Edge, inward: boolean) => void }) {
+  const [edge, setEdge] = useState<Edge>('left');
+  return <View style={styles.cropControls} role="group" aria-label="Chỉnh vùng cắt">
+    <select aria-label="Cạnh cần chỉnh" value={edge} disabled={disabled}
+      onChange={event => setEdge(event.currentTarget.value as Edge)}
+      style={{ minHeight: 44, maxWidth: '100%', color: COLORS.textPrimary, font: 'inherit', borderRadius: 8, paddingInline: 8 }}>
+      {EDGES.map(item => <option key={item} value={item}>{HANDLE_LABELS[item]}</option>)}
+    </select>
+    <Pressable accessibilityRole="button" disabled={disabled} style={styles.cropStep}
+      accessibilityLabel={`Thu hẹp từ ${HANDLE_LABELS[edge]}`} onPress={() => onAdjust(edge, true)}>
+      <Text style={styles.secondaryText}>Thu hẹp</Text>
+    </Pressable>
+    <Pressable accessibilityRole="button" disabled={disabled} style={styles.cropStep}
+      accessibilityLabel={`Mở rộng từ ${HANDLE_LABELS[edge]}`} onPress={() => onAdjust(edge, false)}>
+      <Text style={styles.secondaryText}>Mở rộng</Text>
+    </Pressable>
+  </View>;
+}
 
 /** The ruler and image move on the UI thread; no image export during interaction. */
 function StraightenRuler({ angle, disabled }: { angle: SharedValue<number>; disabled: boolean }) {
@@ -33,7 +53,11 @@ function StraightenRuler({ angle, disabled }: { angle: SharedValue<number>; disa
   return <View style={styles.rulerBlock}>
     <View style={styles.rulerHeading}><Text style={styles.controlTitle}>Căn thẳng</Text>
       <Text style={styles.angleLabel}>{label > 0 ? '+' : ''}{label.toFixed(1).replace('.', ',')}°</Text></View>
-    <GestureDetector gesture={pan}><Animated.View style={styles.ruler} onLayout={e => { width.set(e.nativeEvent.layout.width); }}
+    {Platform.OS === 'web' ? <input type="range" min={-45} max={45} step={0.1} value={label}
+      aria-label="Góc căn thẳng ảnh" aria-valuetext={`${label.toFixed(1).replace('.', ',')} độ`} disabled={disabled}
+      onChange={event => angle.set(event.currentTarget.valueAsNumber)}
+      style={{ width: '100%', height: 44, margin: 0, accentColor: COLORS.primaryDark }} />
+    : <GestureDetector gesture={pan}><Animated.View style={styles.ruler} onLayout={e => { width.set(e.nativeEvent.layout.width); }}
       accessible accessibilityRole="adjustable" accessibilityLabel="Góc căn thẳng ảnh"
       accessibilityValue={{ min: -45, max: 45, now: label, text: `${label} độ` }}
       accessibilityState={{ disabled }} accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
@@ -41,7 +65,7 @@ function StraightenRuler({ angle, disabled }: { angle: SharedValue<number>; disa
       <View pointerEvents="none" style={styles.ticks}>{Array.from({ length: 31 }, (_, i) => <View key={i} style={[styles.tick, i % 5 === 0 && styles.majorTick]} />)}</View>
       <View pointerEvents="none" style={styles.degreeLabels}>{[-45, -30, -15, 0, 15, 30, 45].map(n => <Text key={n} style={styles.degreeText}>{n}°</Text>)}</View>
       <Animated.View pointerEvents="none" style={[styles.angleMarker, marker]}><View style={styles.markerDot} /></Animated.View>
-    </Animated.View></GestureDetector>
+    </Animated.View></GestureDetector>}
   </View>;
 }
 
@@ -58,7 +82,7 @@ export default function CropScreen() {
 function CropEditor({ draft, source, original, retrySubmissionId }: { draft: ImageDraft | null; source: string; original: string; retrySubmissionId?: string }) {
   const router = useRouter();
   const { width, height } = useWindowDimensions();
-  const landscape = width > height && height < 550;
+  const landscape = width > height && height < 550 && (Platform.OS !== 'web' || width >= 680);
   const [image, setImage] = useState<{ uri: string; width: number; height: number } | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -136,6 +160,17 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
     const f = frame.get(), s = full ? { x: 0, y: 0, w: 1, h: 1 } : INSET;
     crop.set({ x: f.x + f.w * s.x, y: f.y + f.h * s.y, w: f.w * s.w, h: f.h * s.h });
   };
+  const adjustEdge = (edge: Edge, inward: boolean) => {
+    if (disabled) return;
+    const f = frame.get(), box = crop.get();
+    if (!f.w || !f.h || !box.w || !box.h) return;
+    const horizontal = edge === 'left' || edge === 'right';
+    const step = (horizontal ? f.w : f.h) * 0.02;
+    const amount = inward ? Math.min(step, Math.max(0, (horizontal ? box.w : box.h) - MIN_CROP_SIZE)) : -step;
+    const delta = edge === 'left' || edge === 'top' ? amount : -amount;
+    crop.set(calculateResize(edge, horizontal ? delta : 0, horizontal ? 0 : delta, box,
+      { minX: f.x, minY: f.y, maxX: f.x + f.w, maxY: f.y + f.h }));
+  };
   const reset = () => { turns.set(0); fine.set(0); select(); };
   const done = async () => {
     if (disabled || lock.current || !image) return;
@@ -156,11 +191,8 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
     } finally { lock.current = false; if (mounted.current) setProcessing(false); }
   };
 
-  return <GestureHandlerRootView style={styles.screen}><SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
-    <AppHeader title="Cắt & căn thẳng" showBack />
-    <View style={styles.tip}><Ionicons name="crop-outline" size={18} color={COLORS.primaryDark} /><Text style={styles.tipText}>Kéo cạnh hoặc góc để cắt. Kéo thanh để căn thẳng.</Text></View>
-    <View style={[styles.body, landscape && styles.landscape]}>
-      <View style={styles.canvas} onLayout={e => { viewport.set({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }); }}>
+  const editor = <View style={[styles.body, landscape && styles.landscape]}>
+      <View style={[styles.canvas, Platform.OS === 'web' && styles.webCanvas]} onLayout={e => { viewport.set({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }); }}>
         {image ? <Animated.Image source={{ uri: image.uri }} style={imageStyle} resizeMode="stretch" onError={() => setLoadError(true)} accessibilityLabel="Ảnh bài tập đang căn chỉnh" /> : null}
         {image && !loadError ? <>
           {[topShade, bottomShade, leftShade, rightShade].map((shade, i) => <Animated.View key={i} pointerEvents="none" style={[styles.shade, shade]} />)}
@@ -189,13 +221,20 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
           </Pressable>
           <StraightenRuler angle={fine} disabled={disabled} />
         </View>
+        {Platform.OS === 'web' && <WebCropControls disabled={disabled} onAdjust={adjustEdge} />}
         <View style={styles.secondaryRow}>
           <Pressable accessibilityRole="button" accessibilityLabel="Đặt lại ảnh và khung cắt" disabled={disabled} style={styles.secondary} onPress={reset}><Ionicons name="refresh" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Đặt lại</Text></Pressable>
           <Pressable accessibilityRole="button" accessibilityLabel="Dùng toàn ảnh" disabled={disabled} style={styles.secondary} onPress={() => select(true)}><Ionicons name="expand" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Toàn ảnh</Text></Pressable>
         </View>
         <AppButton title="Dùng ảnh này" loadingTitle="Đang lưu ảnh…" accessibilityLabel="Xác nhận cắt ảnh" onPress={done} disabled={disabled} loading={processing} />
       </View>
-    </View>
+    </View>;
+  return <GestureHandlerRootView style={styles.screen}><SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
+    <AppHeader title="Cắt & căn thẳng" showBack />
+    <View style={styles.tip}><Ionicons name="crop-outline" size={18} color={COLORS.primaryDark} /><Text style={styles.tipText}>{Platform.OS === 'web'
+      ? 'Kéo khung hoặc chọn cạnh để chỉnh. Dùng thanh trượt để căn thẳng.'
+      : 'Kéo cạnh hoặc góc để cắt. Kéo thanh để căn thẳng.'}</Text></View>
+    {Platform.OS === 'web' ? <ScrollView contentContainerStyle={styles.webEditor}>{editor}</ScrollView> : editor}
   </SafeAreaView></GestureHandlerRootView>;
 }
 
@@ -204,6 +243,7 @@ const styles = StyleSheet.create({
   tip: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 18, paddingVertical: 10, backgroundColor: COLORS.surfaceSubdued },
   tipText: { flex: 1, color: COLORS.textPrimary, fontFamily: FONTS.semiBold, fontSize: 13, lineHeight: 18 },
   canvas: { flex: 1, overflow: 'hidden', backgroundColor: '#10121D' },
+  webEditor: { flexGrow: 1 }, webCanvas: { minHeight: 200 },
   shade: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.58)' },
   crop: { position: 'absolute', borderWidth: 1.5, borderColor: '#FFFFFF' },
   horizontal: { position: 'absolute', left: 0, right: 0, height: 1, backgroundColor: 'rgba(255,255,255,0.35)' },
@@ -232,6 +272,8 @@ const styles = StyleSheet.create({
   degreeLabels: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }, degreeText: { color: COLORS.textSecondary, fontFamily: FONTS.semiBold, fontSize: 10 },
   angleMarker: { position: 'absolute', top: 0, height: 31, width: 3, backgroundColor: COLORS.primary, transform: [{ translateX: -1.5 }] },
   markerDot: { width: 9, height: 9, borderRadius: 5, backgroundColor: COLORS.primary, marginLeft: -3, marginTop: -3 },
+  cropControls: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 8 },
+  cropStep: { minHeight: 44, justifyContent: 'center', paddingHorizontal: 10, borderRadius: 8, backgroundColor: COLORS.surfaceSubdued },
   secondaryRow: { flexDirection: 'row', justifyContent: 'space-between' }, secondary: { minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 14 },
   secondaryText: { fontFamily: FONTS.bold, fontSize: 13, color: COLORS.primaryDark },
 });

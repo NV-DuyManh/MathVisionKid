@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Chip, LinearProgress, Skeleton, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, LinearProgress, Skeleton, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import PeopleOutline from '@mui/icons-material/PeopleAltOutlined';
@@ -8,7 +8,6 @@ import LockOutlined from '@mui/icons-material/LockOutlined';
 import Refresh from '@mui/icons-material/Refresh';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import Add from '@mui/icons-material/Add';
-import HistoryOutlined from '@mui/icons-material/HistoryOutlined';
 import { useAuth } from '../context/AuthContext';
 import { adminService } from '../services/api/adminService';
 import { AdminTopbar } from '../components/layout/AdminTopbar';
@@ -65,12 +64,12 @@ export function DashboardPage() {
 
   return (
     <Box>
-      <AdminTopbar title="Tổng quan vận hành" subtitle="Tài khoản, lớp học và hoạt động quản trị" />
+      <AdminTopbar title="Tổng quan vận hành" />
       <PageContent>
-        {/* Header Action Bar with Unified PageHeader */}
+        <Box className="dashboard-hero">
         <PageHeader
           title={`Xin chào, ${user?.displayName || 'Quản trị viên'}`}
-          description="Kiểm soát trạng thái tài khoản, phân bổ lớp học và bảo mật hệ thống."
+          description="Xem tình trạng tài khoản, lớp học và nhật ký hoạt động."
           actions={
             <Button
               variant="outlined"
@@ -86,41 +85,7 @@ export function DashboardPage() {
             </Button>
           }
         />
-
-        {/* Operational Overview Hero */}
-        <Box component="section" aria-label="Tổng quan điều hành" className="dashboard-hero">
-          <Box sx={{ maxWidth: 640 }}>
-            <Chip
-              label="TRUNG TÂM QUẢN TRỊ HỆ THỐNG"
-              size="small"
-              sx={{
-                mb: 1.5,
-                bgcolor: '#F1F5F9',
-                color: '#0F172A',
-                fontWeight: 800,
-                fontSize: '0.68rem',
-                borderRadius: 1,
-                border: '1px solid #CBD5E1',
-              }}
-            />
-            <Typography component="h2" variant="h5" sx={{ fontWeight: 800, color: '#0F172A', mb: 1 }}>
-              Điều phối tài khoản & Giám sát dữ liệu tập trung
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#475569', mb: 2.5, lineHeight: 1.6 }}>
-              Quản trị viên có toàn quyền cấu hình danh sách học sinh, phân quyền giáo viên theo khối lớp và theo dõi nhật ký kiểm toán hệ thống theo thời gian thực.
-            </Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
-              <Button component={Link} to="/users" variant="contained" startIcon={<PeopleOutline />} sx={{ borderRadius: 2.5, fontWeight: 700 }}>
-                Quản lý người dùng
-              </Button>
-              <Button component={Link} to="/classes" variant="outlined" sx={{ borderRadius: 2.5, fontWeight: 700 }}>
-                Danh sách lớp học
-              </Button>
-              <Button component={Link} to="/audit" variant="outlined" startIcon={<HistoryOutlined />} sx={{ borderRadius: 2.5, fontWeight: 700 }}>
-                Nhật ký hệ thống
-              </Button>
-            </Box>
-          </Box>
+          <Box component="img" src="/ui/mathvision-star.png" alt="" width={86} height={86} className="hero-illustration" />
         </Box>
 
         <RequestError
@@ -130,8 +95,8 @@ export function DashboardPage() {
           }}
         />
 
-        {/* Top 4 Operational Metrics using Unified StatCard */}
-        <Box className="metric-grid" sx={{ mb: 3 }}>
+        <Typography component="h2" variant="h4" sx={{ mb: 1.5 }}>Tài khoản và lớp học</Typography>
+        <Box className="metric-grid" sx={{ mb: 3 }} aria-busy={dashboard.isFetching}>
           {metrics.map(({ label, value, description, icon: Icon, path, tone, color }) => (
             <StatCard
               key={label}
@@ -149,8 +114,7 @@ export function DashboardPage() {
 
         {/* Two-Column Structured Section */}
         <Box className="dashboard-columns">
-          {/* Recent Audit Events */}
-          <Card>
+          <Card component="section" aria-label="Nhật ký hoạt động gần đây" aria-busy={audit.isFetching}>
             <Box
               sx={{
                 p: 2.5,
@@ -167,7 +131,7 @@ export function DashboardPage() {
                   Nhật ký hoạt động gần đây
                 </Typography>
                 <Typography variant="caption" sx={{ color: '#64748B' }}>
-                  Các sự kiện bảo mật và đăng nhập mới nhất ghi nhận bởi hệ thống
+                  Các sự kiện bảo mật và đăng nhập mới nhất
                 </Typography>
               </Box>
               <Button component={Link} to="/audit" size="small" endIcon={<ArrowForward />} sx={{ fontWeight: 700, color: '#0F172A', '&:hover': { color: '#2563EB' } }}>
@@ -219,7 +183,7 @@ export function DashboardPage() {
                     <Typography variant="body2" sx={{ mt: 0.5, fontWeight: 600, color: '#334155', overflowWrap: 'anywhere' }}>
                       {event.actorEmail || 'Hệ thống'}
                     </Typography>
-                    <Typography variant="caption" sx={{ color: '#94A3B8' }}>
+                    <Typography variant="caption" color="text.secondary">
                       {new Date(event.createdAt).toLocaleString('vi-VN')}
                     </Typography>
                   </Box>
@@ -282,24 +246,15 @@ export function DashboardPage() {
                 ) : (
                   <Typography color="text.secondary">Chưa tải được trạng thái.</Typography>
                 )}
-                <Chip
-                  label="Dữ liệu đồng bộ trực tiếp từ cơ sở dữ liệu"
-                  size="small"
-                  variant="outlined"
-                  sx={{ mt: 2.5, borderColor: '#E2E8F0', color: '#64748B', fontSize: '0.72rem' }}
-                />
               </CardContent>
             </Card>
 
-            <Card sx={{ bgcolor: '#F8FAFC', border: '1px solid #E2E8F0' }}>
+            <Card component="section" aria-label="Tác vụ nhanh" sx={{ bgcolor: 'var(--admin-paper)', borderColor: 'var(--admin-paper-line)' }}>
               <CardContent sx={{ p: 2.5 }}>
                 <Typography component="h2" variant="h6" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '1rem', mb: 0.5 }}>
-                  Tác vụ khởi tạo nhanh
+                  Tác vụ nhanh
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#64748B', mb: 2 }}>
-                  Tạo tài khoản học sinh, cấp tài khoản giáo viên hoặc thiết lập lớp học mới.
-                </Typography>
-                <Box sx={{ display: 'grid', gap: 1 }}>
+                <Box sx={{ display: 'grid', gap: 1, mt: 2 }}>
                   <Button component={Link} to="/users?create=true" variant="contained" startIcon={<Add />}>
                     Tạo tài khoản người dùng
                   </Button>
@@ -313,8 +268,8 @@ export function DashboardPage() {
         </Box>
 
         {dashboard.dataUpdatedAt > 0 && (
-          <Typography variant="caption" sx={{ display: 'block', mt: 3, color: '#94A3B8' }}>
-            Dữ liệu được làm mới lúc {new Date(dashboard.dataUpdatedAt).toLocaleTimeString('vi-VN')} · Số liệu lấy từ hệ thống quản lý.
+          <Typography variant="caption" sx={{ display: 'block', mt: 3, color: 'text.secondary' }}>
+            Dữ liệu được làm mới lúc {new Date(dashboard.dataUpdatedAt).toLocaleTimeString('vi-VN')}
           </Typography>
         )}
       </PageContent>

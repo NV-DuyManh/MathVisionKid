@@ -24,6 +24,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -56,6 +59,12 @@ public class BatchControllerTest {
 
     @Autowired
     private BatchRepository batchRepository;
+
+    @Autowired
+    private BatchService batchService;
+
+    @Autowired
+    private jakarta.persistence.EntityManager entityManager;
 
     @MockBean
     private ObjectStorageService objectStorageService;
@@ -131,6 +140,140 @@ public class BatchControllerTest {
         testBatch = batchRepository.save(testBatch);
 
         when(objectStorageService.store(any(), anyString())).thenReturn("test/path.jpg");
+    }
+
+    @Test
+    @WithMockUser(username = "teacher1@test.com", roles = "TEACHER")
+    void creationKeyReplaysAfterUploadAndChecksCurrentOwnership() throws Exception {
+        var key = java.util.UUID.randomUUID();
+        var payload = java.util.Map.of("assignmentId", assignment.getAssignmentId().toString(), "creationRequestId", key.toString());
+        String body = objectMapper.writeValueAsString(payload);
+        var first = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/teacher/batches")
+                .contentType("application/json").content(body)).andExpect(status().isCreated()).andReturn();
+        String id = objectMapper.readTree(first.getResponse().getContentAsString()).get("batchId").asText();
+        BatchImageMapping mapping = new BatchImageMapping(); mapping.setFileIndex(0); mapping.setStudentId(studentInClass.getId());
+        mockMvc.perform(multipart("/api/v1/teacher/batches/" + id + "/submissions")
+                .file(new MockMultipartFile("images", "synthetic.png", "image/png", IMAGE))
+                .param("manifest", objectMapper.writeValueAsString(List.of(mapping)))).andExpect(status().isAccepted());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/teacher/batches")
+                .contentType("application/json").content(body)).andExpect(status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.batchId").value(id))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$.status").value("PROCESSING"));
+        Assignment other = new Assignment(); other.setTeacher(teacher1); other.setClassroom(assignment.getClassroom());
+        other.setTitle("Other"); other.setOperationType("ADDITION"); other.setMaxScore(10); other = assignmentRepository.save(other);
+        var conflict = java.util.Map.of("assignmentId", other.getAssignmentId().toString(), "creationRequestId", key.toString());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/teacher/batches")
+                .contentType("application/json").content(objectMapper.writeValueAsString(conflict))).andExpect(status().isConflict());
+        assignment.getClassroom().setTeacher(teacher2); classroomRepository.saveAndFlush(assignment.getClassroom());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/teacher/batches")
+                .contentType("application/json").content(body)).andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "teacher1@test.com", roles = "TEACHER")
+    void creationWithoutKeyRemainsSupportedAndInvalidKeyIsRejected() throws Exception {
+        String body = objectMapper.writeValueAsString(java.util.Map.of("assignmentId", assignment.getAssignmentId().toString()));
+        for (int i = 0; i < 2; i++) mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/teacher/batches")
+                .contentType("application/json").content(body)).andExpect(status().isCreated());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/v1/teacher/batches")
+                .contentType("application/json").content(objectMapper.writeValueAsString(java.util.Map.of(
+                        "assignmentId", assignment.getAssignmentId().toString(), "creationRequestId", "bad"))))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void batchListKeepsProgressAndMetadataWithConstantQueriesForOneAndTwentyOneBatches() {
+        List<Student> students = new ArrayList<>(List.of(studentInClass));
+        for (int i = 1; i < 4; i++) {
+            Student student = new Student();
+            student.setEmail("progress-student" + i + "@test.com");
+            student.setPasswordHash("pass");
+            student.setRole("STUDENT");
+            student.setGradeLevel(3);
+            student.setDisplayName("Progress Student " + i);
+            students.add(studentRepository.save(student));
+        }
+        assignment.getClassroom().getStudents().addAll(students);
+        classroomRepository.save(assignment.getClassroom());
+
+        int studentIndex = 0;
+        for (String state : List.of("PROPOSED_GRADE", "NEEDS_RETAKE", "TEACHER_APPROVED", "FAILED")) {
+            var submission = new com.mathvisionkids.api.submission.Submission();
+            submission.setBatch(testBatch);
+            submission.setAssignment(assignment);
+            submission.setStudent(students.get(studentIndex++));
+            submission.setStatus(state);
+            submissions.save(submission);
+        }
+        entityManager.flush();
+
+        var statistics = entityManager.getEntityManagerFactory().unwrap(org.hibernate.SessionFactory.class).getStatistics();
+        boolean wasEnabled = statistics.isStatisticsEnabled();
+        statistics.setStatisticsEnabled(true);
+        try {
+            entityManager.clear();
+            long before = statistics.getPrepareStatementCount();
+            var shortList = batchService.getBatches(teacher1.getEmail());
+            long shortHistory = statistics.getPrepareStatementCount() - before;
+
+            for (int i = 0; i < 20; i++) {
+                Batch batch = new Batch();
+                batch.setTeacher(teacher1);
+                batch.setAssignment(assignment);
+                batch.setStatus("CREATED");
+                batchRepository.save(batch);
+            }
+            entityManager.flush();
+            entityManager.clear();
+
+            before = statistics.getPrepareStatementCount();
+            var longList = batchService.getBatches(teacher1.getEmail());
+            long longHistory = statistics.getPrepareStatementCount() - before;
+
+            assertEquals(1, shortList.size());
+            var summarized = shortList.getFirst();
+            assertEquals(testBatch.getBatchId(), summarized.batchId());
+            assertEquals(assignment.getAssignmentId(), summarized.assignmentId());
+            assertEquals("Test Assignment", summarized.assignmentTitle());
+            assertEquals("Math 101", summarized.className());
+            assertEquals("PARTIAL", summarized.status());
+            assertEquals(4, summarized.totalCount());
+            assertEquals(4, summarized.processedCount());
+            assertEquals(1, summarized.reviewRequiredCount());
+            assertEquals(2, summarized.pendingReviewCount());
+            assertEquals(1, summarized.finalizedCount());
+            assertEquals(1, summarized.failedCount());
+            assertNull(summarized.submissions());
+            assertEquals(21, longList.size());
+            assertEquals(shortHistory, longHistory, "Queries for 1 versus 21 batches");
+            assertEquals(2, longHistory, "Teacher lookup and aggregate batch list");
+            for (int i = 1; i < longList.size(); i++) {
+                assertFalse(longList.get(i - 1).createdAt().isBefore(longList.get(i).createdAt()),
+                        "Batch list remains ordered newest first");
+            }
+
+            var reassignedClass = new Classroom();
+            reassignedClass.setName("Reassigned class");
+            reassignedClass.setGradeLevel(3);
+            reassignedClass.setTeacher(teacher2);
+            reassignedClass = classroomRepository.save(reassignedClass);
+            var reassignedAssignment = new Assignment();
+            reassignedAssignment.setTitle("Old teacher batch");
+            reassignedAssignment.setOperationType("ADDITION");
+            reassignedAssignment.setTeacher(teacher1);
+            reassignedAssignment.setClassroom(reassignedClass);
+            reassignedAssignment.setMaxScore(100);
+            reassignedAssignment = assignmentRepository.save(reassignedAssignment);
+            Batch reassignedBatch = new Batch();
+            reassignedBatch.setTeacher(teacher1);
+            reassignedBatch.setAssignment(reassignedAssignment);
+            reassignedBatch.setStatus("CREATED");
+            batchRepository.saveAndFlush(reassignedBatch);
+            assertEquals(21, batchService.getBatches(teacher1.getEmail()).size(),
+                    "Batch access still requires ownership and current class assignment");
+        } finally {
+            statistics.setStatisticsEnabled(wasEnabled);
+        }
     }
 
     @Test

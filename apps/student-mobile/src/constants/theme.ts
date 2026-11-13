@@ -1,3 +1,9 @@
+import { Platform } from 'react-native';
+import { WEB_DESIGN } from '../../../../packages/ui-brand/src/web-design';
+
+export { WEB_DESIGN };
+export const IS_STUDENT_WEB = Platform.OS === 'web';
+
 export const MATHVISION_COLORS = {
   primary: '#7055F6',
   primaryDark: '#5637C9',
@@ -46,7 +52,20 @@ export const MATHVISION_COLORS = {
   reasonLabel: '#0F172A',
 };
 
-export const COLORS = MATHVISION_COLORS;
+export const COLORS = IS_STUDENT_WEB ? {
+  ...MATHVISION_COLORS,
+  primary: WEB_DESIGN.roles.student.action,
+  primaryDark: WEB_DESIGN.roles.student.action,
+  primaryLight: WEB_DESIGN.roles.student.tint,
+  secondary: WEB_DESIGN.colors.star,
+  background: WEB_DESIGN.colors.paper,
+  surface: WEB_DESIGN.colors.white,
+  surfaceSubdued: WEB_DESIGN.colors.blueLight,
+  textPrimary: WEB_DESIGN.colors.ink,
+  textSecondary: WEB_DESIGN.colors.mutedInk,
+  border: WEB_DESIGN.colors.line,
+  borderFocus: WEB_DESIGN.focus.color,
+} : MATHVISION_COLORS;
 export function getThemeColors() { return COLORS; }
 
 export const FONTS = {

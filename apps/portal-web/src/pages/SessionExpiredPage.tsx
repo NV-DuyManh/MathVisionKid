@@ -6,8 +6,8 @@ import LoginIcon from '@mui/icons-material/Login';
 
 export const SessionExpiredPage: React.FC = () => {
   return (
-    <Container maxWidth="sm">
-      <Paper sx={{ p: { xs: 3, sm: 5 }, textAlign: 'center', borderRadius: 4 }}>
+    <Container maxWidth="sm" sx={{ py: { xs: 4, md: 8 } }}>
+      <Paper variant="outlined" sx={{ p: { xs: 2.5, sm: 5 }, borderRadius: '20px' }}>
         <Box
           sx={{
             width: 64,
@@ -29,7 +29,7 @@ export const SessionExpiredPage: React.FC = () => {
         </Typography>
 
         <Alert severity="info" sx={{ my: 3, textAlign: 'left', borderRadius: 2 }}>
-          Phiên làm việc bảo mật của bạn đã hết hiệu lực. Vui lòng đăng nhập lại để tiếp tục sử dụng hệ thống MathVision Kids.
+          Đăng nhập lại để tiếp tục sử dụng MathVision Kids.
         </Alert>
 
         <Button

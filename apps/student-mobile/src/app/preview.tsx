@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ScrollView, useWindowDimensions } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { FONTS, COLORS, SIZES, SHADOWS } from '../constants/theme';
+import { FONTS, COLORS, SIZES, SHADOWS, IS_STUDENT_WEB, WEB_DESIGN } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -108,23 +108,23 @@ export default function PreviewScreen() {
     <View style={styles.container}>
       <AppHeader title="Xem lại bài đã chụp" showBack />
 
-      <ScrollView contentContainerStyle={[styles.content, { minHeight: Math.max(0, height - 90) }, wide && styles.contentWide]}>
+      <ScrollView contentContainerStyle={[styles.content, { minHeight: Math.max(0, height - 90) }, wide && styles.contentWide, IS_STUDENT_WEB && styles.webContent]}>
         {/* Preview image box with quality badge overlay */}
-        <View style={[styles.imageContainer, SHADOWS.small, wide && styles.imageWide]}>
-          <Image source={{ uri: imageUri }} style={styles.image} resizeMode="contain" />
+        <View style={[styles.imageContainer, SHADOWS.small, wide && styles.imageWide, IS_STUDENT_WEB && styles.webImage]}>
+          <Image source={{ uri: imageUri }} style={styles.image} resizeMode="contain" accessibilityLabel="Ảnh bài toán em đã chọn" />
 
-          <View style={styles.qualityOverlay}>
+          {!IS_STUDENT_WEB && <View style={styles.qualityOverlay}>
             <Text style={styles.checkingText}>Em kiểm tra ảnh có rõ chữ, đủ bài và đúng chiều trước khi gửi nhé.</Text>
-          </View>
+          </View>}
         </View>
 
-        <View style={[styles.controlColumn, wide && styles.controlColumnWide]}>
-        <Text style={styles.reviewTitle}>Sẵn sàng xem bài?</Text>
-        <Text style={styles.reviewCopy}>Em nhìn lại chữ số và vùng bài đã chọn. Khi ảnh rõ, mình cùng kiểm tra nhé.</Text>
+        <View style={[styles.controlColumn, wide && styles.controlColumnWide, IS_STUDENT_WEB && styles.webControls]}>
+        <Text accessibilityRole="header" style={styles.reviewTitle}>{IS_STUDENT_WEB ? 'Ảnh đã rõ chưa?' : 'Sẵn sàng xem bài?'}</Text>
+        <Text style={styles.reviewCopy}>{IS_STUDENT_WEB ? 'Xem lại chữ số, vùng bài và chiều ảnh trước khi gửi.' : 'Em nhìn lại chữ số và vùng bài đã chọn. Khi ảnh rõ, mình cùng kiểm tra nhé.'}</Text>
         {/* Tools row: Xoay & Chỉnh vùng bài */}
         <View style={styles.toolsRow}>
           <TouchableOpacity
-            style={styles.toolButton}
+            style={[styles.toolButton, IS_STUDENT_WEB && styles.webTool]}
             onPress={handleRotate}
             accessibilityRole="button"
             accessibilityLabel="Xoay ảnh 90 độ"
@@ -134,7 +134,7 @@ export default function PreviewScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.toolButton}
+            style={[styles.toolButton, IS_STUDENT_WEB && styles.webTool]}
             onPress={handleCrop}
             accessibilityRole="button"
             accessibilityLabel="Chỉnh lại vùng bài toán"
@@ -177,6 +177,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   contentWide: { maxWidth: 1140, flexDirection: 'row', alignItems: 'center', gap: 32 },
+  webContent: { padding: 16 },
+  webImage: { borderRadius: WEB_DESIGN.radii.notebook, backgroundColor: WEB_DESIGN.colors.ink },
+  webControls: { backgroundColor: COLORS.surface, borderWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook, padding: 16 },
+  webTool: { borderRadius: WEB_DESIGN.radii.control, borderColor: COLORS.border, paddingHorizontal: 8 },
   controlColumn: { gap: 10 }, controlColumnWide: { width: 360 },
   reviewTitle: { fontFamily: FONTS.extraBold, color: COLORS.textPrimary, fontSize: 23, lineHeight: 31 },
   reviewCopy: { fontFamily: FONTS.regular, color: COLORS.textSecondary, fontSize: 14, lineHeight: 23, marginBottom: 12 },

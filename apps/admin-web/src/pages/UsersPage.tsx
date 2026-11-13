@@ -9,7 +9,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TablePagination,
   TableRow,
@@ -24,6 +23,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { adminService } from '../services/api/adminService';
 import { AdminTopbar } from '../components/layout/AdminTopbar';
 import { PageContent } from '../components/common/PageContent';
+import { LedgerTable } from '../components/common/LedgerTable';
 import { PageHeader } from '../components/common/PageHeader';
 import { RequestError } from '../components/common/RequestError';
 import { TableSkeleton } from '../components/common/LoadingSkeleton';
@@ -73,7 +73,7 @@ export function UsersPage() {
 
   return (
     <Box>
-      <AdminTopbar title="Quản lý người dùng" subtitle="Tài khoản học sinh, giáo viên và trạng thái truy cập" />
+      <AdminTopbar title="Quản lý người dùng" />
       <PageContent>
         <PageHeader
           title="Danh bạ người dùng"
@@ -110,7 +110,7 @@ export function UsersPage() {
           }}
         />
 
-        <Card sx={{ borderRadius: 3.5, border: '1px solid #E2E8F0', overflow: 'hidden' }}>
+        <Card aria-busy={users.isFetching}>
           <Box
             component="form"
             className="filter-bar"
@@ -119,21 +119,13 @@ export function UsersPage() {
               setSearch(query.trim());
               setPage(0);
             }}
-            sx={{
-              p: 2.5,
-              display: 'flex',
-              gap: 1.5,
-              flexWrap: 'wrap',
-              bgcolor: '#F8FAFC',
-              borderBottom: '1px solid #E2E8F0',
-            }}
           >
             <TextField
               size="small"
               label="Tìm theo tên hoặc email"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              sx={{ flex: 1, minWidth: 220 }}
+              sx={{ flex: '1 1 220px', minWidth: 0 }}
               slotProps={{
                 input: {
                   startAdornment: (
@@ -149,7 +141,7 @@ export function UsersPage() {
               select
               label="Vai trò"
               value={role}
-              sx={{ minWidth: 160 }}
+              sx={{ flex: '1 1 145px', minWidth: 0, maxWidth: { md: 205 } }}
               onChange={(e) => {
                 setFilter('role', e.target.value);
               }}
@@ -164,7 +156,7 @@ export function UsersPage() {
               select
               label="Trạng thái"
               value={active}
-              sx={{ minWidth: 170 }}
+              sx={{ flex: '1 1 155px', minWidth: 0, maxWidth: { md: 220 } }}
               onChange={(e) => {
                 setFilter('active', e.target.value);
               }}
@@ -177,7 +169,7 @@ export function UsersPage() {
               type="submit"
               variant="outlined"
               disabled={users.isFetching}
-              sx={{ borderRadius: 2, fontWeight: 700, px: 2.5 }}
+              sx={{ justifySelf: 'start', whiteSpace: 'nowrap' }}
             >
               Tìm kiếm
             </Button>
@@ -185,7 +177,7 @@ export function UsersPage() {
 
           {!users.error && (
             <>
-              <TableContainer>
+              <LedgerTable label="Vùng cuộn bảng tài khoản">
                 <Table aria-label="Danh sách người dùng" sx={{ minWidth: 760 }}>
                   <TableHead>
                     <TableRow>
@@ -209,16 +201,16 @@ export function UsersPage() {
                                 sx={{
                                   width: 36,
                                   height: 36,
-                                  bgcolor: '#EFF6FF',
-                                  color: '#2563EB',
+                                  bgcolor: 'var(--admin-tint)',
+                                  color: 'primary.main',
                                   fontSize: 14,
                                   fontWeight: 800,
                                 }}
                               >
                                 {user.displayName?.slice(0, 1)}
                               </Avatar>
-                              <Box>
-                                <Typography variant="body2" sx={{ fontWeight: 800, color: '#0F172A' }}>
+                              <Box sx={{ minWidth: 0, maxWidth: 300, overflowWrap: 'anywhere' }}>
+                                <Typography variant="body2" sx={{ fontWeight: 800, color: 'text.primary' }}>
                                   {user.displayName}
                                 </Typography>
                                 <Typography variant="caption" sx={{ color: '#64748B' }}>
@@ -246,13 +238,7 @@ export function UsersPage() {
                               variant="outlined"
                               size="small"
                               aria-label={`Xem chi tiết ${user.displayName}`}
-                              sx={{
-                                borderRadius: 2,
-                                fontWeight: 700,
-                                borderColor: '#CBD5E1',
-                                color: '#0F172A',
-                                '&:hover': { borderColor: '#94A3B8', bgcolor: '#F8FAFC' },
-                              }}
+                              sx={{ whiteSpace: 'nowrap' }}
                             >
                               Chi tiết
                             </Button>
@@ -271,7 +257,7 @@ export function UsersPage() {
                     )}
                   </TableBody>
                 </Table>
-              </TableContainer>
+              </LedgerTable>
               <TablePagination
                 component="div"
                 count={users.data?.totalElements || 0}
@@ -291,10 +277,7 @@ export function UsersPage() {
         {creating && (
           <UserFormDialog
             onSaved={() => setNotice('Đã tạo tài khoản thành công.')}
-            onClose={() => {
-              setCreating(false);
-
-            }}
+            onClose={() => setCreating(false)}
           />
         )}
       </PageContent>

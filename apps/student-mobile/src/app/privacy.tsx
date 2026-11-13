@@ -15,7 +15,7 @@ import Animated, {
   useAnimatedStyle,
   runOnJS,
 } from 'react-native-reanimated';
-import { FONTS, COLORS, SIZES, SHADOWS } from '../constants/theme';
+import { FONTS, COLORS, SIZES, SHADOWS, IS_STUDENT_WEB, WEB_DESIGN } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -55,8 +55,11 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   const router = useRouter();
   const window = useWindowDimensions();
   const landscape = window.width > window.height && window.height < 550;
+  const webColumns = IS_STUDENT_WEB && window.width >= 840;
+  const sidePanel = webColumns || (!IS_STUDENT_WEB && landscape);
   const [masks, setMasks] = useState<Mask[]>([]);
   const [selectedMaskId, setSelectedMaskId] = useState<number | null>(null);
+  const [showMaskEditor, setShowMaskEditor] = useState(false);
   const [movingMaskId, setMovingMaskId] = useState<number | null>(null);
   const [confirmedAttempt, setConfirmedAttempt] = useState<string | null>(null);
   const image = usePrivacyImage(activeUri);
@@ -183,12 +186,24 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
     setMasks(prev =>
       prev.map(m => (m.id === targetId ? { ...m, ...rect } : m))
     );
+    if (IS_STUDENT_WEB) setConfirmedAttempt(null);
   };
 
   const commitNewMask = (rect: MaskRect) => {
     const newId = Date.now();
     setMasks(prev => [...prev, { id: newId, ...rect }]);
     setSelectedMaskId(newId);
+    if (IS_STUDENT_WEB) setConfirmedAttempt(null);
+  };
+
+  const fittedWidth = typeof fittedStyle.width === 'number' ? fittedStyle.width : 0;
+  const fittedHeight = typeof fittedStyle.height === 'number' ? fittedStyle.height : 0;
+  const selectedMask = masks.find(mask => mask.id === selectedMaskId);
+  const canEditMask = imageLoaded && !imageLoadError && !saving && fittedWidth >= MIN_MASK_SIZE && fittedHeight >= MIN_MASK_SIZE;
+  const addWebMask = () => {
+    const width = Math.max(MIN_MASK_SIZE, Math.floor(fittedWidth / 3));
+    const height = Math.max(MIN_MASK_SIZE, Math.floor(fittedHeight / 4));
+    commitNewMask({ x: 0, y: 0, width, height });
   };
 
   const commitSelectMask = (id: number) => {
@@ -425,11 +440,13 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   const undoLastMask = () => {
     setMasks(prev => prev.slice(0, -1));
     setSelectedMaskId(null);
+    if (IS_STUDENT_WEB) setConfirmedAttempt(null);
   };
 
   const clearAllMasks = () => {
     setMasks([]);
     setSelectedMaskId(null);
+    if (IS_STUDENT_WEB) setConfirmedAttempt(null);
   };
 
   const handleDone = async () => {
@@ -471,8 +488,31 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
       await new Promise(r => setTimeout(r, 120));
 
       if (!image.isCurrent()) return;
-      if (viewShotRef.current && viewShotRef.current.capture) {
-        const captured = await viewShotRef.current.capture();
+      if (IS_STUDENT_WEB || viewShotRef.current?.capture) {
+        let captured: string;
+        if (IS_STUDENT_WEB) {
+          const original = new globalThis.Image();
+          original.src = activeUri;
+          await original.decode();
+          if (!image.isCurrent()) return;
+          const canvas = document.createElement('canvas');
+          canvas.width = original.naturalWidth;
+          canvas.height = original.naturalHeight;
+          const context = canvas.getContext('2d');
+          if (!context || !fittedWidth || !fittedHeight) throw new Error('Cannot render private image');
+          context.drawImage(original, 0, 0);
+          context.fillStyle = '#000';
+          for (const mask of masks) {
+            const x = Math.floor(mask.x * canvas.width / fittedWidth);
+            const y = Math.floor(mask.y * canvas.height / fittedHeight);
+            const right = Math.ceil((mask.x + mask.width) * canvas.width / fittedWidth);
+            const bottom = Math.ceil((mask.y + mask.height) * canvas.height / fittedHeight);
+            context.fillRect(x, y, right - x, bottom - y);
+          }
+          captured = canvas.toDataURL('image/jpeg', 0.95);
+        } else {
+          captured = await viewShotRef.current.capture();
+        }
         const finalMaskedUri = ensureFileUri(captured);
 
         const output = await inspectReadableImage(finalMaskedUri);
@@ -527,19 +567,63 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
     );
   }
 
+  const maskControls = masks.length > 0 ? (
+    <View style={[styles.floatingControls, IS_STUDENT_WEB && styles.webMaskControls]}>
+      {selectedMaskId && (
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={() => {
+            setMasks(prev => prev.filter(m => m.id !== selectedMaskId));
+            setSelectedMaskId(null);
+            if (IS_STUDENT_WEB) setConfirmedAttempt(null);
+          }}
+          accessibilityRole="button"
+          accessibilityLabel="Xóa vùng che đang chọn"
+        >
+          <Ionicons name="trash-outline" size={18} color="#FFFFFF" />
+          <Text style={styles.floatingButtonText}>Xóa vùng này</Text>
+        </TouchableOpacity>
+      )}
+
+      <View style={styles.rightControlsRow}>
+        <TouchableOpacity
+          style={styles.resetButton}
+          onPress={clearAllMasks}
+          accessibilityRole="button"
+          accessibilityLabel="Xóa tất cả vùng che"
+        >
+          <Ionicons name="refresh-outline" size={18} color="#FFFFFF" />
+          <Text style={styles.floatingButtonText}>Xóa tất cả</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.undoButton}
+          onPress={undoLastMask}
+          accessibilityRole="button"
+          accessibilityLabel="Hoàn tác vùng che vừa vẽ"
+        >
+          <Ionicons name="arrow-undo-outline" size={18} color="#FFFFFF" />
+          <Text style={styles.floatingButtonText}>Hoàn tác</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  ) : null;
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
         <AppHeader title="Bảo vệ thông tin riêng tư" showBack />
 
         {/* Child-friendly explanation */}
-        <View style={styles.instructionCard}>
+        <View style={[styles.instructionCard, IS_STUDENT_WEB && styles.webInstructions]}>
           <View style={styles.instructionHeader}>
             <Ionicons name="shield-checkmark" size={18} color={COLORS.primary} />
-            <Text style={styles.instructionTitle}>Giữ an toàn cho em</Text>
+            <Text accessibilityRole={IS_STUDENT_WEB ? 'header' : undefined} style={styles.instructionTitle}>Giữ an toàn cho em</Text>
           </View>
           <Text style={styles.instructionText}>
-            Dùng ngón tay vẽ hộp đen che tên của em, tên trường hoặc khuôn mặt nếu có trong ảnh trước khi gửi bài nhé.
+            {IS_STUDENT_WEB
+              ? 'Kéo trên ảnh để vẽ vùng che tên, trường hoặc khuôn mặt trước khi gửi.'
+              : 'Dùng ngón tay vẽ hộp đen che tên của em, tên trường hoặc khuôn mặt nếu có trong ảnh trước khi gửi bài nhé.'}
           </Text>
         </View>
 
@@ -552,9 +636,9 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
         </View>
 
         {/* Interactive Mask Canvas */}
-        <View style={[styles.editorBody, landscape && styles.editorLandscape]}>
+        <View style={[styles.editorBody, sidePanel && styles.editorLandscape, IS_STUDENT_WEB && styles.webEditor]}>
         <View
-          style={styles.imageContainer}
+          style={[styles.imageContainer, IS_STUDENT_WEB && styles.webCanvas]}
           onLayout={(e) => {
             const { width, height } = e.nativeEvent.layout;
             setContainerSize(previous => previous.width === width && previous.height === height ? previous : { width, height });
@@ -651,59 +735,59 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
               </GestureDetector>
             </ViewShot>
 
-            {/* Floating Mask Control Buttons */}
-            <View style={styles.floatingControls}>
-              {selectedMaskId && (
-                <TouchableOpacity
-                  style={styles.deleteButton}
-                  onPress={() => {
-                    setMasks(prev => prev.filter(m => m.id !== selectedMaskId));
-                    setSelectedMaskId(null);
-                  }}
-                  accessibilityRole="button"
-                  accessibilityLabel="Xóa vùng che đang chọn"
-                >
-                  <Ionicons name="trash-outline" size={18} color="#FFFFFF" />
-                  <Text style={styles.floatingButtonText}>Xóa vùng này</Text>
-                </TouchableOpacity>
-              )}
-
-              {masks.length > 0 && (
-                <View style={styles.rightControlsRow}>
-                  <TouchableOpacity
-                    style={styles.resetButton}
-                    onPress={clearAllMasks}
-                    accessibilityRole="button"
-                    accessibilityLabel="Xóa tất cả vùng che"
-                  >
-                    <Ionicons name="refresh-outline" size={18} color="#FFFFFF" />
-                    <Text style={styles.floatingButtonText}>Xóa tất cả</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={styles.undoButton}
-                    onPress={undoLastMask}
-                    accessibilityRole="button"
-                    accessibilityLabel="Hoàn tác vùng che vừa vẽ"
-                  >
-                    <Ionicons name="arrow-undo-outline" size={18} color="#FFFFFF" />
-                    <Text style={styles.floatingButtonText}>Hoàn tác</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            </View>
+            {!IS_STUDENT_WEB && maskControls}
           </View>
         </View>
 
         {/* Footer Confirmation & Actions */}
-        <View style={[styles.footer, SHADOWS.medium, landscape && styles.landscapeFooter]}>
+        <View style={[styles.footer, !IS_STUDENT_WEB && SHADOWS.medium, sidePanel && styles.landscapeFooter, IS_STUDENT_WEB && styles.webFooter]}>
+          {IS_STUDENT_WEB && <details onToggle={event => setShowMaskEditor(event.currentTarget.open)}>
+            <summary>Chỉnh vùng che bằng số</summary>
+            {showMaskEditor && <div style={{ paddingBlock: 8, maxHeight: 'min(32vh, 240px)', overflowY: 'auto' }}>
+              <button type="button" disabled={!canEditMask} onClick={addWebMask}>Thêm vùng che</button>
+              {masks.length > 0 && <fieldset disabled={!canEditMask} style={{ minWidth: 0, margin: '8px 0', padding: 8 }}>
+                <legend>Vị trí và kích thước vùng che (px)</legend>
+                <label>Vùng che{' '}
+                  <select value={selectedMaskId ?? ''} onChange={event => setSelectedMaskId(Number(event.currentTarget.value) || null)}>
+                    <option value="">Chọn vùng</option>
+                    {masks.map((mask, index) => <option key={mask.id} value={mask.id}>Vùng {index + 1}</option>)}
+                  </select>
+                </label>
+                {selectedMask && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 8, marginTop: 8 }}>
+                  {([
+                    ['x', 'Cách trái', 0, Math.max(0, Math.floor(fittedWidth - selectedMask.width))],
+                    ['y', 'Cách trên', 0, Math.max(0, Math.floor(fittedHeight - selectedMask.height))],
+                    ['width', 'Chiều rộng', Math.min(MIN_MASK_SIZE, Math.floor(fittedWidth - selectedMask.x)), Math.floor(fittedWidth - selectedMask.x)],
+                    ['height', 'Chiều cao', Math.min(MIN_MASK_SIZE, Math.floor(fittedHeight - selectedMask.y)), Math.floor(fittedHeight - selectedMask.y)],
+                  ] as const).map(([key, label, min, max]) => (
+                    <label key={key}>{label}
+                      <input type="number" min={min} max={max} step={1}
+                        key={`${selectedMask.id}:${key}:${selectedMask[key]}`}
+                        defaultValue={Math.round(selectedMask[key])}
+                        style={{ display: 'block', width: '100%', minHeight: 32 }}
+                        onKeyDown={event => { if (event.key === 'Enter') event.currentTarget.blur(); }}
+                        onBlur={event => {
+                          const next = event.currentTarget.valueAsNumber;
+                          const value = Number.isFinite(next) ? Math.max(min, Math.min(max, Math.round(next))) : Math.round(selectedMask[key]);
+                          event.currentTarget.value = String(value);
+                          if (value === Math.round(selectedMask[key])) return;
+                          commitMaskUpdate(selectedMask.id, { ...selectedMask, [key]: value });
+                        }} />
+                    </label>
+                  ))}
+                </div>}
+              </fieldset>}
+            </div>}
+          </details>}
+          {IS_STUDENT_WEB && maskControls}
           <TouchableOpacity
             style={styles.checkboxContainer}
             disabled={!imageLoaded || imageLoadError || saving}
             onPress={() => { if (image.isCurrent()) setConfirmedAttempt(confirmed ? null : image.imageKey); }}
             activeOpacity={0.8}
             accessibilityRole="checkbox"
-            accessibilityState={{ checked: confirmed }}
+            aria-checked={IS_STUDENT_WEB ? confirmed : undefined}
+            accessibilityState={{ checked: confirmed, disabled: !imageLoaded || imageLoadError || saving }}
             accessibilityLabel="Tôi đã kiểm tra và che thông tin riêng tư trong ảnh"
           >
             <Ionicons
@@ -800,6 +884,11 @@ const styles = StyleSheet.create({
   editorBody: { flex: 1 },
   editorLandscape: { flexDirection: 'row' },
   landscapeFooter: { width: 300, padding: 14, justifyContent: 'center' },
+  webInstructions: { backgroundColor: WEB_DESIGN.colors.blueLight, borderColor: WEB_DESIGN.colors.line, paddingVertical: 12 },
+  webEditor: { width: '100%', maxWidth: 1240, alignSelf: 'center', gap: 12, padding: 12 },
+  webCanvas: { minWidth: 0, minHeight: 120, borderRadius: WEB_DESIGN.radii.notebook, overflow: 'hidden' },
+  webFooter: { borderWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook, padding: 12 },
+  webMaskControls: { position: 'relative', bottom: 0, left: 0, right: 0, flexWrap: 'wrap', gap: 6, marginBottom: 12 },
   imageWrapper: {
     flex: 1,
     width: '100%',

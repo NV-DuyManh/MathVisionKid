@@ -59,6 +59,20 @@ class BatchUploadTransactionTest {
     BatchImageMapping mapping(int index) {
         var mapping = new BatchImageMapping(); mapping.setFileIndex(index); mapping.setStudentId(pupil); return mapping;
     }
+    @Test void concurrentCreationWithSameKeyReturnsOneBatch() throws Exception {
+        UUID assignmentId = transactions.execute(status -> batches.findById(batch).orElseThrow().getAssignment().getAssignmentId());
+        UUID key = UUID.randomUUID();
+        var start = new java.util.concurrent.CountDownLatch(1);
+        try (var workers = java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor()) {
+            var first = workers.submit(() -> { start.await(); return service.createBatch(email, assignmentId, key); });
+            var second = workers.submit(() -> { start.await(); return service.createBatch(email, assignmentId, key); });
+            start.countDown();
+            var a = first.get(10, java.util.concurrent.TimeUnit.SECONDS);
+            var b = second.get(10, java.util.concurrent.TimeUnit.SECONDS);
+            assertNotEquals(a.created(), b.created());
+            assertEquals(a.batch().getBatchId(), b.batch().getBatchId());
+        }
+    }
     @Test void failedSecondWriteRollsBackDatabaseAndFirstObjectAndAllowsRetry() throws Exception {
         when(storage.store(any(), anyString())).thenReturn("synthetic/first.png").thenThrow(new IOException("synthetic storage failure"));
         assertThrows(ApiException.class, () -> service.uploadImages(email, batch, List.of(image(), image()), List.of(mapping(0), mapping(1))));
@@ -88,7 +102,10 @@ class BatchUploadTransactionTest {
         BatchResponse result;
         do { result = service.getBatch(email, batch); if (result.processedCount() == 1) break; Thread.sleep(20); }
         while (System.nanoTime() < deadline);
-        assertEquals("COMPLETED", result.status()); assertEquals(1, result.reviewRequiredCount());
-        assertEquals(1, service.getBatchReviewQueue(email, batch).size());
+        assertEquals("FAILED", result.status());
+        assertEquals(1, result.processedCount());
+        assertEquals(1, result.failedCount());
+        assertEquals("FAILED", result.submissions().getFirst().status());
+        assertTrue(service.getBatchReviewQueue(email, batch).isEmpty());
     }
 }

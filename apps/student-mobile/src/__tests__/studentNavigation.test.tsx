@@ -73,7 +73,7 @@ describe('Student navigation and real saved activity', () => {
     act(() => renderer!.unmount());
   });
 
-  it('shows only real saved activity, excluding samples, benchmarks and future records', async () => {
+  it('keeps recognition activity separate from saved lessons and excludes invalid records', async () => {
     (recognitionAnalyticsStore.getSessions as jest.Mock).mockReturnValue([
       { sessionId: 'saved-1', timestamp: Date.now() - 1000, confirmedLines: 3 },
       { sessionId: 'sample', timestamp: Date.now() - 1000, confirmedLines: 20, isSampleData: true },
@@ -83,9 +83,10 @@ describe('Student navigation and real saved activity', () => {
     let renderer: TestRenderer.ReactTestRenderer;
     await act(async () => { renderer = TestRenderer.create(<AchievementsScreen />); });
     expect(text(renderer!)).toContain('Ngày liên tiếp');
-    expect(text(renderer!)).toContain('Em đã ghi lại 1 bài học.');
+    expect(text(renderer!)).toMatch(/0 Bài đã lưu/);
+    expect(text(renderer!)).toMatch(/0 Ngày liên tiếp/);
     const values = renderer!.root.findAllByType('Text' as any).map(node => node.props.children).flat();
-    expect(values).toContain(1);
+    expect(values).not.toContain(1);
     expect(values).toContain(3);
     expect(values).not.toContain(20);
     act(() => renderer!.unmount());

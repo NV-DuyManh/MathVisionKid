@@ -30,6 +30,9 @@ public class Batch {
     @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    private UUID creationRequestId;
+
     @Column(nullable = false)
     private String status;
 
@@ -43,4 +46,8 @@ public class Batch {
     
     private Instant startedAt;
     private Instant completedAt;
+
+    public boolean isOwnedByAssignedTeacher(UUID teacherId) {
+        return teacherId.equals(teacher.getId()) && teacherId.equals(assignment.getClassroom().getTeacher().getId());
+    }
 }

@@ -13,6 +13,9 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 public class SubmissionImage {
+    public static final long TEACHER_UPLOAD_MAX_BYTES = 8L * 1024 * 1024;
+    public static final String TEACHER_RETAKE_SOURCE = "TEACHER_RETAKE";
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID imageId;

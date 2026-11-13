@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppCard } from '../ui/AppCard';
-import { FONTS, COLORS, SIZES } from '../../constants/theme';
+import { FONTS, COLORS, SIZES, IS_STUDENT_WEB } from '../../constants/theme';
 
 interface StatusCardProps {
   title: string;
@@ -50,6 +50,13 @@ export const StatusCard: React.FC<StatusCardProps> = ({ title, subtitle, status 
 
   const config = getConfig();
 
+  if (IS_STUDENT_WEB) {
+    return <View accessibilityLiveRegion="polite" style={[styles.webStatus, { backgroundColor: config.bgColor, borderColor: config.borderColor }]}>
+      <Text accessibilityRole="header" aria-level={2} style={styles.webTitle}>{title}</Text>
+      {subtitle && <Text style={[styles.subtitle, styles.webSubtitle]}>{subtitle}</Text>}
+    </View>;
+  }
+
   return (
     <AppCard
       style={[
@@ -74,6 +81,9 @@ export const StatusCard: React.FC<StatusCardProps> = ({ title, subtitle, status 
 };
 
 const styles = StyleSheet.create({
+  webStatus: { padding: 16, borderWidth: 1, borderRadius: 16, marginBottom: 16 },
+  webTitle: { fontFamily: FONTS.extraBold, color: COLORS.textPrimary, fontSize: 22, lineHeight: 29 },
+  webSubtitle: { fontSize: 16, lineHeight: 24, marginTop: 6 },
   container: {
     marginBottom: SIZES.medium,
     padding: SIZES.large,

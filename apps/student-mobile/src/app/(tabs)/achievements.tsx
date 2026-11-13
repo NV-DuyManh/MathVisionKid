@@ -1,15 +1,17 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { COLORS, FONTS } from '../../constants/theme';
+import { COLORS, FONTS, IS_STUDENT_WEB, WEB_DESIGN } from '../../constants/theme';
 import { AuthContext } from '../../context/AuthContext';
 import { recognitionAnalyticsStore, type RecognitionSession } from '../../features/recognition/analytics/recognitionAnalyticsStore';
 import { buildLearningActivity } from '../../features/home/learningActivity';
 import { loadLessons, SavedLesson } from '../../features/tutoring/learningHistory';
 import { StudentPageHeader } from '../../components/ui/StudentPageHeader';
+import { AppButton } from '../../components/ui/AppButton';
+import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 
 export default function AchievementsScreen() {
   const insets = useSafeAreaInsets(), router = useRouter(), auth = useContext(AuthContext);
@@ -17,20 +19,70 @@ export default function AchievementsScreen() {
   const userKey = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
   const [sessions, setSessions] = useState<RecognitionSession[]>([]), [unavailable, setUnavailable] = useState(false);
   const [lessons, setLessons] = useState<SavedLesson[]>([]), [details, setDetails] = useState(false);
+  const [loading, setLoading] = useState(true), [attempt, setAttempt] = useState(0);
   useFocusEffect(useCallback(() => {
     let active = true;
-    setSessions([]); setLessons([]); setUnavailable(false);
+    setSessions([]); setLessons([]); setUnavailable(false); setLoading(true);
     Promise.all([recognitionAnalyticsStore.init(), loadLessons(userKey)]).then(([, saved]) => {
       if (active) setLessons(saved);
       if (active) setSessions(recognitionAnalyticsStore.getSessions().filter(session => !session.isSampleData
         && !session.sessionId.startsWith('session_benchmark_') && Number.isFinite(session.timestamp) && session.timestamp <= Date.now()));
-    }).catch(() => { if (active) setUnavailable(true); });
+    }).catch(() => { if (active) setUnavailable(true); })
+      .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
-  }, [userKey]));
-  const activity = buildLearningActivity([...sessions, ...lessons.map(item => ({ sessionId: item.id, timestamp: item.timestamp }))]);
-  const total = sessions.length + lessons.length;
+  }, [userKey, attempt]));
+  const activity = buildLearningActivity(lessons.map(item => ({ sessionId: item.id, timestamp: item.timestamp })));
+  const total = lessons.length;
   const checked = sessions.reduce((sum, session) => sum + session.confirmedLines, 0) + lessons.reduce((sum, lesson) => sum + lesson.reviewedSteps, 0);
   const wide = pageWidth >= 900;
+  if (IS_STUDENT_WEB) return (
+    <ScrollView style={styles.webScreen} onLayout={event => setPageWidth(event.nativeEvent.layout.width)}
+      contentContainerStyle={[styles.content, { paddingTop: insets.top + 12, paddingBottom: pageWidth >= 768 ? 32 : 108 }]}>
+      <StudentPageHeader compact title="Thành tích" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/(tabs)/profile')} />
+      {loading ? (
+        <View accessibilityRole="progressbar" accessibilityLabel="Đang tải thành tích" style={styles.webPanel}>
+          <ActivityIndicator color={COLORS.primary} />
+        </View>
+      ) : unavailable ? (
+        <RecoveryNotice title="Chưa mở được thành tích" message="Em thử tải lại lịch sử học tập nhé." actions={[
+          { label: 'Thử lại', accessibilityLabel: 'Tải lại thành tích', icon: 'refresh-outline', onPress: () => setAttempt(value => value + 1) },
+        ]} />
+      ) : (
+        <View style={[styles.columns, wide && styles.webColumnsWide]}>
+          <View style={[styles.webPanel, wide && styles.webWeekWide]}>
+            <Text accessibilityRole="header" style={styles.sectionTitle}>Tuần này của em</Text>
+            <Text style={styles.webBody}>Mỗi ngôi sao vàng là một ngày em đã lưu bài trên thiết bị này.</Text>
+            <View style={styles.webWeek}>
+              {activity.days.map(day => (
+                <View key={day.label} style={styles.day} accessible
+                  accessibilityLabel={`${day.label}, ${day.date}, ${day.completed ? 'đã lưu bài' : 'chưa lưu bài'}`}>
+                  <View style={[styles.circle, day.completed && styles.done]}>
+                    <Ionicons name={day.completed ? 'star' : 'star-outline'} size={18}
+                      color={day.completed ? '#8A5900' : COLORS.textSecondary} accessible={false} />
+                  </View>
+                  <Text style={styles.webDay}>{day.label}</Text>
+                </View>
+              ))}
+            </View>
+            <View style={styles.webMetrics}>
+              <Text style={styles.webBody}><Text style={styles.webValue}>{total}</Text> bài đã lưu</Text>
+              <Text style={styles.webBody}><Text style={styles.webValue}>{sessions.length}</Text> lượt nhận diện</Text>
+              <Text style={styles.webBody}><Text style={styles.webValue}>{activity.streak}</Text> ngày liên tiếp</Text>
+              <Text style={styles.webBody}><Text style={styles.webValue}>{checked}</Text> dòng và bước đã xem lại</Text>
+            </View>
+          </View>
+          <View style={[styles.webPanel, wide && styles.webNextWide]}>
+            <View style={styles.webNextHeading}>
+              <Image source={require('../../../assets/illustrations/web/mathvision-star.webp')} style={styles.webMascot} resizeMode="contain" accessible={false} />
+              <Text accessibilityRole="header" style={[styles.sectionTitle, styles.copy]}>{total ? 'Học tiếp cùng Sao Nhỏ' : 'Lưu bài đầu tiên của em'}</Text>
+            </View>
+            <AppButton title="Cùng luyện tập" onPress={() => router.push('/(tabs)/lessons')} />
+            <AppButton title="Xem các bài đã lưu" variant="secondary" onPress={() => router.push('/(tabs)/profile')} />
+          </View>
+        </View>
+      )}
+    </ScrollView>
+  );
   return <ScrollView style={styles.screen} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} showsVerticalScrollIndicator={false}
     contentContainerStyle={[styles.content, { paddingTop: insets.top + 12, paddingBottom: pageWidth >= 768 ? 32 : 108 }]}>
     <StudentPageHeader compact title="Thành tích" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/(tabs)/profile')} />
@@ -96,4 +148,17 @@ const styles = StyleSheet.create({
   nextCard: { backgroundColor: '#F3EEFC', borderRadius: 23, padding: 20, gap: 16 },
   outlineButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, minHeight: 48, borderRadius: 14, padding: 12, backgroundColor: '#FFF', borderWidth: 1, borderColor: '#E2D7F6' },
   outlineText: { flex: 1, fontFamily: FONTS.bold, fontSize: 14, color: COLORS.primaryDark }, pressed: { opacity: .7 },
+  webScreen: { flex: 1, backgroundColor: WEB_DESIGN.colors.paper },
+  webColumnsWide: { flexDirection: 'row', alignItems: 'flex-start' },
+  webPanel: { gap: 12, minWidth: 0, padding: 16, backgroundColor: COLORS.surface, borderWidth: 1,
+    borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook },
+  webWeekWide: { flex: 2 },
+  webNextWide: { flex: 1 },
+  webBody: { color: COLORS.textSecondary, fontFamily: FONTS.regular, fontSize: 16, lineHeight: 23 },
+  webWeek: { flexDirection: 'row', gap: 2, paddingVertical: 12, borderBottomWidth: 1, borderColor: COLORS.border },
+  webDay: { color: COLORS.textSecondary, fontFamily: FONTS.bold, fontSize: 12 },
+  webMetrics: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 20, rowGap: 8 },
+  webValue: { color: COLORS.textPrimary, fontFamily: FONTS.extraBold },
+  webNextHeading: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  webMascot: { width: 52, height: 52 },
 });

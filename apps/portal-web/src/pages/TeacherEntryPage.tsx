@@ -34,7 +34,7 @@ export const TeacherEntryPage: React.FC = () => {
         if (controller.signal.aborted) return;
 
         setStatus('Đang chuyển hướng đến không gian Giáo viên...');
-        window.location.href = `${appConfig.teacherOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+        window.location.replace(`${appConfig.teacherOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
       } catch {
         if (controller.signal.aborted) return;
         setError( 'Lỗi khi khởi tạo phiên làm việc Giáo viên.');

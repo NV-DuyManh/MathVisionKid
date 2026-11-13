@@ -1,17 +1,18 @@
 import { createTheme } from '@mui/material/styles';
+import { WEB_DESIGN } from '../../../packages/ui-brand/src/web-design';
 
-/**
- * MathVision Kids — Teacher Portal Theme
- * Professional educational workspace: clean, friendly, efficient, and task-oriented.
- * Distinct Emerald Green (#059669) pedagogical authority combined with MathVision Kids DNA.
- */
+const { colors, focus, motion, roles, typography, components } = WEB_DESIGN;
+const teacher = roles.teacher;
+const workspaceBackground = '#F6F8F6';
+const focusRing = `${focus.width}px solid ${focus.color}`;
+
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#059669', // Emerald Green (Authority, evaluation, pedagogical growth)
-      dark: '#047857',
-      light: '#ECFDF5',
-      contrastText: '#FFFFFF',
+      main: teacher.action,
+      dark: '#065F46',
+      light: teacher.tint,
+      contrastText: colors.white,
     },
     secondary: {
       main: '#0F172A', // Slate Navy
@@ -20,14 +21,14 @@ export const theme = createTheme({
       contrastText: '#FFFFFF',
     },
     background: {
-      default: '#F8FAFC',
-      paper: '#FFFFFF',
+      default: workspaceBackground,
+      paper: colors.white,
     },
     text: {
-      primary: '#0F172A',
-      secondary: '#475569',
+      primary: colors.ink,
+      secondary: colors.mutedInk,
     },
-    divider: '#E2E8F0',
+    divider: colors.line,
     error: {
       main: '#DC2626',
       dark: '#B91C1C',
@@ -35,15 +36,15 @@ export const theme = createTheme({
       contrastText: '#FFFFFF',
     },
     warning: {
-      main: '#D97706',
+      main: '#A64F08',
       dark: '#B45309',
       light: '#FFFBEB',
       contrastText: '#FFFFFF',
     },
     success: {
-      main: '#059669',
-      dark: '#047857',
-      light: '#ECFDF5',
+      main: teacher.action,
+      dark: '#065F46',
+      light: teacher.tint,
       contrastText: '#FFFFFF',
     },
     info: {
@@ -54,7 +55,7 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Plus Jakarta Sans", "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif',
+    fontFamily: typography.body,
     h1: { fontSize: '2.5rem', fontWeight: 800, lineHeight: 1.18, letterSpacing: '-0.035em' },
     h2: { fontSize: '1.875rem', fontWeight: 800, lineHeight: 1.24, letterSpacing: '-0.03em' },
     h3: { fontSize: '1.5rem', fontWeight: 800, lineHeight: 1.28, letterSpacing: '-0.025em' },
@@ -68,17 +69,24 @@ export const theme = createTheme({
     caption: { fontSize: '0.75rem', lineHeight: 1.5, color: '#64748B' },
     button: { textTransform: 'none', fontWeight: 700, letterSpacing: 0 },
   },
-  shape: { borderRadius: 12 },
+  shape: { borderRadius: components.workspacePanel.radius },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundColor: '#F8FAFC',
-          color: '#0F172A',
+          backgroundColor: workspaceBackground,
+          color: colors.ink,
+        },
+        ':root': {
+          '--teacher-divider': colors.line,
+          '--teacher-paper': colors.paper,
+          '--teacher-paper-line': colors.paperLine,
+          '--teacher-accent': teacher.action,
+          '--teacher-tint': teacher.tint,
         },
         '*, *::before, *::after': { boxSizing: 'border-box' },
         '::selection': { backgroundColor: '#ECFDF5', color: '#047857' },
-        ':focus-visible': { outline: '2.5px solid #059669', outlineOffset: 2 },
+        ':focus-visible, .MuiButtonBase-root.Mui-focusVisible': { outline: focusRing, outlineOffset: focus.offset },
         '@media (prefers-reduced-motion: reduce)': {
           '*, *::before, *::after': {
             animationDuration: '0.01ms !important',
@@ -92,45 +100,26 @@ export const theme = createTheme({
       defaultProps: { disableElevation: true },
       styleOverrides: {
         root: {
-          borderRadius: 10,
-          minHeight: 40,
+          borderRadius: components.action.radius,
+          minHeight: components.action.minHeight,
           padding: '8px 18px',
           fontWeight: 700,
           boxShadow: 'none',
-          transition: 'all 180ms cubic-bezier(0.16, 1, 0.3, 1)',
+          transition: `background-color ${motion.press}ms ease, color ${motion.press}ms ease, border-color ${motion.press}ms ease`,
         },
         contained: {
-          boxShadow: '0 1px 2px 0 rgba(5, 150, 105, 0.15)',
-          '&.MuiButton-colorPrimary': {
-            backgroundColor: '#059669',
-            color: '#FFFFFF',
-          },
-          '&:hover': {
-            boxShadow: '0 4px 12px 0 rgba(5, 150, 105, 0.25)',
-            transform: 'translateY(-1px)',
-          },
-          '&.MuiButton-colorPrimary:hover': { backgroundColor: '#047857' },
-          '&:active': {
-            transform: 'translateY(0)',
-          },
+          boxShadow: 'none',
         },
         outlined: {
-          boxShadow: '0 1px 2px 0 rgba(15, 23, 42, 0.03)',
           '&.MuiButton-colorPrimary': {
             borderColor: '#CBD5E1',
-            color: '#0F172A',
-            backgroundColor: '#FFFFFF',
-          },
-          '&:hover': {
-            transform: 'translateY(-1px)',
+            color: colors.ink,
+            backgroundColor: colors.white,
           },
           '&.MuiButton-colorPrimary:hover': {
-            borderColor: '#059669',
-            color: '#059669',
-            backgroundColor: '#ECFDF5',
-          },
-          '&:active': {
-            transform: 'translateY(0)',
+            borderColor: teacher.action,
+            color: teacher.action,
+            backgroundColor: teacher.tint,
           },
         },
         sizeSmall: {
@@ -154,7 +143,7 @@ export const theme = createTheme({
           minHeight: 40,
           borderRadius: 10,
           transition: 'all 160ms ease',
-          '&:focus-visible': { outline: '2.5px solid #059669', outlineOffset: 2 },
+          '&:focus-visible': { outline: focusRing, outlineOffset: focus.offset },
           '&:hover': { backgroundColor: '#F1F5F9' },
         },
       },
@@ -163,9 +152,8 @@ export const theme = createTheme({
       defaultProps: { elevation: 0 },
       styleOverrides: {
         root: {
-          borderRadius: 14,
-          border: '1px solid #E2E8F0',
-          boxShadow: '0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 4px 12px -2px rgba(15, 23, 42, 0.03)',
+          borderRadius: components.workspacePanel.radius,
+          border: `1px solid ${colors.line}`,
           backgroundImage: 'none',
           backgroundColor: '#FFFFFF',
           transition: 'box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms cubic-bezier(0.16, 1, 0.3, 1)',
@@ -185,8 +173,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: { backgroundImage: 'none' },
         outlined: {
-          borderColor: '#E2E8F0',
-          borderRadius: 14,
+          borderColor: colors.line,
+          borderRadius: components.workspacePanel.radius,
         },
       },
     },
@@ -205,16 +193,16 @@ export const theme = createTheme({
         root: {
           maxWidth: '100%',
           overflowX: 'auto',
-          borderRadius: 14,
-          border: '1px solid #E2E8F0',
-          boxShadow: '0 1px 3px 0 rgba(15, 23, 42, 0.03)',
+          borderRadius: components.workspacePanel.radius,
+          border: `1px solid ${colors.line}`,
+          '&:focus-visible': { outline: focusRing, outlineOffset: -focus.width },
         },
       },
     },
     MuiTableHead: {
       styleOverrides: {
         root: {
-          backgroundColor: '#F8FAFC',
+          backgroundColor: '#F2F6F3',
           '& .MuiTableCell-head': {
             color: '#475569',
             fontWeight: 700,
@@ -230,11 +218,11 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderColor: '#F1F5F9',
-          padding: '14px 18px',
+          padding: '12px 16px',
           fontSize: '0.875rem',
         },
         head: {
-          padding: '12px 18px',
+          padding: '10px 16px',
           whiteSpace: 'nowrap',
         },
       },
@@ -270,7 +258,7 @@ export const theme = createTheme({
             boxShadow: '0 0 0 3px rgba(5, 150, 105, 0.12)',
           },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#059669',
+            borderColor: teacher.action,
             borderWidth: 1.5,
           },
         },
@@ -310,7 +298,7 @@ export const theme = createTheme({
     MuiTabs: {
       styleOverrides: {
         root: { minHeight: 44 },
-        indicator: { height: 2.5, borderRadius: '2px 2px 0 0', backgroundColor: '#059669' },
+        indicator: { height: 2.5, borderRadius: '2px 2px 0 0', backgroundColor: teacher.action },
       },
     },
     MuiTab: {
@@ -322,7 +310,7 @@ export const theme = createTheme({
           fontSize: '0.875rem',
           color: '#64748B',
           transition: 'color 140ms ease',
-          '&.Mui-selected': { color: '#059669' },
+          '&.Mui-selected': { color: teacher.action },
         },
       },
     },
@@ -368,7 +356,7 @@ export const theme = createTheme({
           transition: 'all 140ms ease',
           '&.Mui-selected': {
             backgroundColor: 'rgba(5, 150, 105, 0.08)',
-            color: '#059669',
+            color: teacher.action,
             fontWeight: 800,
           },
           '&.Mui-selected:hover': {

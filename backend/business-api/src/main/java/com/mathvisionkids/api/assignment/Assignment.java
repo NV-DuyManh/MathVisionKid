@@ -19,6 +19,9 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID assignmentId;
 
+    @Column(name = "creation_request_id", updatable = false)
+    private UUID creationRequestId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id", nullable = false)
     private Classroom classroom;
@@ -41,4 +44,8 @@ public class Assignment {
 
     @Column(updatable = false)
     private Instant createdAt = Instant.now();
+
+    public boolean isOwnedByAssignedTeacher(UUID teacherId) {
+        return teacherId.equals(teacher.getId()) && teacherId.equals(classroom.getTeacher().getId());
+    }
 }

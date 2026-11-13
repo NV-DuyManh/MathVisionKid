@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { COLORS, FONTS } from '../../constants/theme';
+import { COLORS, FONTS, IS_STUDENT_WEB, WEB_DESIGN } from '../../constants/theme';
 import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
 import { recognitionDraftStore, logFlowDomain } from '../../features/recognition/state/recognitionDraftStore';
 import { StudentPageHeader } from '../../components/ui/StudentPageHeader';
@@ -17,32 +17,30 @@ export default function LessonsScreen() {
   const [grade, setGrade] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [opened, setOpened] = useState<string | null>(null), [hint, setHint] = useState(false);
   const problems = getProblemsByGrade(grade);
-  return <ScrollView style={styles.screen} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} showsVerticalScrollIndicator={false}
-    contentContainerStyle={[styles.content, { paddingTop: insets.top + 12, paddingBottom: pageWidth >= 768 ? 32 : 108 }]}>
-    <StudentPageHeader compact title="Bài học" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/(tabs)/profile')} />
-    <View style={styles.grades}>{([1, 2, 3, 4, 5] as const).map(item => <Pressable key={item} accessibilityRole="button"
+  const gradeControls = <View style={[styles.grades, IS_STUDENT_WEB && styles.webGrades]}>{([1, 2, 3, 4, 5] as const).map(item => <Pressable key={item} accessibilityRole="button"
       accessibilityLabel={'Chọn Lớp ' + item} accessibilityState={{ selected: grade === item }}
       onPress={() => { setGrade(item); setOpened(null); setHint(false); }}
-      style={({ pressed }) => [styles.grade, grade === item && styles.gradeSelected, pressed && styles.pressed]}>
-      <Text style={[styles.gradeText, grade === item && styles.white]}>Lớp {item}</Text>
-    </Pressable>)}</View>
-    <QuizShortcut />
-    <View style={styles.headingRow}><Text style={styles.heading}>Hôm nay em học gì?</Text><Text style={styles.count}>{problems.length} bài học</Text></View>
-    <View style={styles.list}>{problems.map((problem, index) => <View key={problem.id} style={[styles.topic, { backgroundColor: index % 2 ? '#FFF8E8' : '#F3EFFF' }]}>
+      style={({ pressed }) => [styles.grade, grade === item && (IS_STUDENT_WEB ? styles.webGradeSelected : styles.gradeSelected), pressed && styles.pressed]}>
+      <Text style={[styles.gradeText, IS_STUDENT_WEB && styles.webSecondary, grade === item && styles.white]}>Lớp {item}</Text>
+    </Pressable>)}</View>;
+
+  const lessonList = <>
+    <View style={styles.headingRow}><Text accessibilityRole={IS_STUDENT_WEB ? 'header' : undefined} style={styles.heading}>Hôm nay em học gì?</Text><Text style={[styles.count, IS_STUDENT_WEB && styles.webSecondary]}>{problems.length} bài học</Text></View>
+    <View style={styles.list}>{problems.map((problem, index) => <View key={problem.id} style={[styles.topic, IS_STUDENT_WEB ? styles.webTopic : { backgroundColor: index % 2 ? '#FFF8E8' : '#F3EFFF' }]}>
       <Pressable accessibilityRole="button" accessibilityLabel={'Mở bài: ' + problem.title} accessibilityState={{ expanded: opened === problem.id }}
         onPress={() => { setOpened(opened === problem.id ? null : problem.id); setHint(false); }} style={styles.topicRow}>
         <View style={[styles.topicIcon, { backgroundColor: index % 2 ? '#FFF0BD' : '#E9DDFF' }]}>
           <Image source={index % 2 ? require('../../../assets/illustrations/approved/calculator.webp') : require('../../../assets/illustrations/approved/practice.webp')} style={styles.iconArt} resizeMode="contain" accessible={false} />
         </View>
-        <View style={styles.copy}><Text style={styles.topicTitle}>{problem.topic}</Text><Text style={styles.description}>{problem.title}</Text></View>
-        <Ionicons name={opened === problem.id ? 'chevron-up' : 'chevron-forward'} size={20} color="#7750E8" accessible={false} />
+        <View style={styles.copy}><Text style={[styles.topicTitle, IS_STUDENT_WEB && styles.webInk]}>{problem.topic}</Text><Text style={[styles.description, IS_STUDENT_WEB && styles.webSecondary]}>{problem.title}</Text></View>
+        <Ionicons name={opened === problem.id ? 'chevron-up' : 'chevron-forward'} size={20} color={IS_STUDENT_WEB ? COLORS.primaryDark : '#7750E8'} accessible={false} />
       </Pressable>
       {opened === problem.id ? <View style={styles.detail}>
         <View style={styles.tags}><Text style={styles.tag}>{problem.bookSeries}</Text><Text style={styles.tag}>{problem.difficulty}</Text></View>
-        <Text style={styles.body}>{problem.problemText}</Text>
+        <Text style={[styles.body, IS_STUDENT_WEB && styles.webProblem]}>{problem.problemText}</Text>
         <Pressable accessibilityRole="button" accessibilityLabel={(hint ? 'Ẩn' : 'Xem') + ' gợi ý: ' + problem.title} accessibilityState={{ expanded: hint }}
           onPress={() => setHint(value => !value)} style={styles.hintButton}><Ionicons name="bulb-outline" size={19} color={COLORS.primaryDark} /><Text style={styles.link}>{hint ? 'Ẩn gợi ý' : 'Xem gợi ý cách giải'}</Text></Pressable>
-        {hint ? <Text style={styles.body}>{problem.guidance}</Text> : null}
+        {hint ? <Text style={[styles.body, IS_STUDENT_WEB && styles.webProblem]}>{problem.guidance}</Text> : null}
         <AppButton title="Cùng em tìm cách giải" accessibilityLabel={'Học từng bước: ' + problem.title} onPress={() => router.push({ pathname: '/learning/math-guide', params: { problemText: problem.problemText } })} />
         <AppButton title="Chụp bài làm của em" accessibilityLabel={'Chụp lời giải: ' + problem.title} variant="secondary" onPress={() => {
           recognitionDraftStore.clearDraft(); logFlowDomain('ACQUIRE', 'MATH_TUTOR');
@@ -50,10 +48,25 @@ export default function LessonsScreen() {
         }} />
       </View> : null}
     </View>)}</View>
-    <LinearGradient colors={['#EEE7FF', '#FAF7FF']} style={styles.encouragement}>
+  </>;
+  const encouragement = <LinearGradient colors={['#EEE7FF', '#FAF7FF']} style={styles.encouragement}>
       <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={styles.mascot} resizeMode="contain" accessible={false} />
       <View style={styles.copy}><Text style={styles.encouragementTitle}>Mỗi ngày, giỏi hơn một chút</Text><Text style={styles.body}>Chọn một bài, thử từng bước. Sao Nhỏ cùng em khám phá nhé!</Text></View>
-    </LinearGradient>
+    </LinearGradient>;
+  const webWide = IS_STUDENT_WEB && pageWidth >= 880;
+  return <ScrollView style={[styles.screen, IS_STUDENT_WEB && styles.webScreen]} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} showsVerticalScrollIndicator={false}
+    contentContainerStyle={[styles.content, { paddingTop: insets.top + 12, paddingBottom: pageWidth >= 768 ? 32 : 108 }]}>
+    <StudentPageHeader compact title="Bài học" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/(tabs)/profile')} />
+    {IS_STUDENT_WEB ? (
+      <View style={[styles.webLayout, webWide && styles.webLayoutWide]}>
+        <View style={[styles.webStudyTools, webWide && styles.webStudyToolsWide]}>
+          <Text accessibilityRole="header" style={styles.heading}>Chọn lớp</Text>
+          {gradeControls}
+          <QuizShortcut />
+        </View>
+        <View style={styles.webLessonList}>{lessonList}</View>
+      </View>
+    ) : <>{gradeControls}<QuizShortcut />{lessonList}{encouragement}</>}
   </ScrollView>;
 }
 const styles = StyleSheet.create({
@@ -77,4 +90,16 @@ const styles = StyleSheet.create({
   encouragement: { marginTop: 28, padding: 18, borderRadius: 23, flexDirection: 'row', alignItems: 'center', gap: 14, borderWidth: 1, borderColor: '#EDE3FB' },
   mascot: { width: 90, height: 110 }, encouragementTitle: { fontFamily: FONTS.extraBold, fontSize: 17, lineHeight: 23, color: '#49346D', marginBottom: 6 },
   pressed: { opacity: .7 },
+  webScreen: { backgroundColor: WEB_DESIGN.colors.paper },
+  webLayout: { gap: WEB_DESIGN.space.xl },
+  webLayoutWide: { flexDirection: 'row', alignItems: 'flex-start' },
+  webStudyTools: { gap: 10, minWidth: 0 },
+  webStudyToolsWide: { width: 266 },
+  webLessonList: { flex: 1, minWidth: 0 },
+  webGrades: { gap: 4, marginBottom: 0, backgroundColor: WEB_DESIGN.colors.blueLight, borderRadius: WEB_DESIGN.radii.control },
+  webGradeSelected: { backgroundColor: WEB_DESIGN.colors.blue },
+  webInk: { color: WEB_DESIGN.colors.ink },
+  webSecondary: { color: WEB_DESIGN.colors.mutedInk },
+  webTopic: { backgroundColor: WEB_DESIGN.colors.white, borderColor: WEB_DESIGN.colors.paperLine },
+  webProblem: { fontSize: WEB_DESIGN.typography.sizes.body, lineHeight: 25, color: WEB_DESIGN.colors.ink },
 });

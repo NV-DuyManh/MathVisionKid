@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 public interface AiJobRepository extends JpaRepository<AiJob, UUID> {
     List<AiJob> findBySubmission_SubmissionId(UUID submissionId);
     Optional<AiJob> findFirstBySubmission_SubmissionIdOrderBySubmittedAtDesc(UUID submissionId);
+    Optional<AiJob> findFirstBySubmission_SubmissionIdOrderBySubmittedAtDescJobIdDesc(UUID submissionId);
     @Query("select j.submission.submissionId from AiJob j where j.jobId = :id")
     Optional<UUID> findSubmissionIdByJobId(@Param("id") UUID jobId);
 }

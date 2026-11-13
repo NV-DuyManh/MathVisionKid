@@ -10,10 +10,6 @@ import {
   IconButton,
   Tooltip,
   Chip,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
   Divider,
 } from '@mui/material';
 import { Outlet, Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
@@ -27,7 +23,6 @@ import { showDevTools } from '../../config/runtime';
 
 export const PortalLayout: React.FC = () => {
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [portalsAnchor, setPortalsAnchor] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const location = typeof useLocation === 'function' ? useLocation() : null;
   const isLandingPage = location ? location.pathname === '/' : (typeof window !== 'undefined' ? window.location.pathname === '/' : true);
@@ -66,7 +61,7 @@ export const PortalLayout: React.FC = () => {
   const isAdmin = user && (user.role || '').toUpperCase().replace('ROLE_', '') === 'ADMIN';
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: '#F8FAFC' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
       <a href="#main-content" className="skip-link">
         Đến nội dung chính
       </a>
@@ -74,6 +69,7 @@ export const PortalLayout: React.FC = () => {
       {/* Top Banner / Announcement — Kid Safety & Pedagogical Standard */}
       <Box
         sx={{
+          display: { xs: 'none', md: isLandingPage ? 'block' : 'none' },
           bgcolor: '#0F172A',
           color: '#F8FAFC',
           py: 0.85,
@@ -129,15 +125,14 @@ export const PortalLayout: React.FC = () => {
         position="sticky"
         elevation={0}
         sx={{
-          bgcolor: 'rgba(255, 255, 255, 0.94)',
-          backdropFilter: 'blur(16px)',
-          borderBottom: '1px solid rgba(226, 232, 240, 0.9)',
+          bgcolor: 'background.paper',
+          borderBottom: '1px solid',
+          borderColor: 'divider',
           zIndex: 1100,
-          transition: 'all 200ms ease',
         }}
       >
         <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
-          <Toolbar disableGutters sx={{ justifyContent: 'space-between', height: 74 }}>
+          <Toolbar disableGutters sx={{ justifyContent: 'space-between', height: { xs: 64, sm: 74 }, gap: 1 }}>
             {/* Brand Logo & Name */}
             <Box
               component={RouterLink}
@@ -145,21 +140,22 @@ export const PortalLayout: React.FC = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 1.5,
+                gap: { xs: 0.75, sm: 1.5 },
+                minWidth: 0,
                 textDecoration: 'none',
                 transition: 'transform 160ms ease, opacity 160ms ease',
                 '&:hover': { transform: 'scale(1.02)' },
                 '&:active': { transform: 'scale(0.98)' },
+                '@media (prefers-reduced-motion: reduce)': { transition: 'none', '&:hover, &:active': { transform: 'none' } },
               }}
             >
               <Box
                 component="img"
-                src="/ui/mathvision-star.png"
+                src="/ui/mathvision-star.webp"
                 alt="Biểu trưng Ngôi sao MathVision Kids"
-                className="star-companion-float"
                 sx={{
-                  width: 42,
-                  height: 42,
+                  width: { xs: 32, sm: 42 },
+                  height: { xs: 32, sm: 42 },
                   objectFit: 'contain',
                 }}
                 onError={(e: any) => {
@@ -174,7 +170,7 @@ export const PortalLayout: React.FC = () => {
                       color: '#0F172A',
                       fontWeight: 900,
                       lineHeight: 1.15,
-                      fontSize: '1.3rem',
+                      fontSize: { xs: '1rem', sm: '1.3rem' },
                       letterSpacing: '-0.025em',
                     }}
                   >
@@ -184,6 +180,7 @@ export const PortalLayout: React.FC = () => {
                     label="Tiểu học"
                     size="small"
                     sx={{
+                      display: { xs: 'none', sm: 'inline-flex' },
                       height: 22,
                       fontSize: '0.72rem',
                       fontWeight: 800,
@@ -250,24 +247,6 @@ export const PortalLayout: React.FC = () => {
                 </Button>
                 <Button
                   component="a"
-                  href="#workspaces"
-                  size="small"
-                  sx={{
-                    color: '#475569',
-                    fontWeight: 700,
-                    fontSize: '0.88rem',
-                    borderRadius: 2,
-                    px: 1.75,
-                    minHeight: 38,
-                    whiteSpace: 'nowrap',
-                    transition: 'all 160ms ease',
-                    '&:hover': { color: '#2563EB', bgcolor: 'rgba(37, 99, 235, 0.06)' },
-                  }}
-                >
-                  Hệ sinh thái
-                </Button>
-                <Button
-                  component="a"
                   href="#principles"
                   size="small"
                   sx={{
@@ -289,107 +268,6 @@ export const PortalLayout: React.FC = () => {
 
             {/* Right Action & Auth Area */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              {/* Portals menu button for quick navigation */}
-              <Button
-                variant="outlined"
-                color="inherit"
-                size="small"
-                onClick={(e) => setPortalsAnchor(e.currentTarget)}
-                endIcon={<span style={{ fontSize: '0.72rem', marginLeft: 4 }}>▼</span>}
-                sx={{
-                  display: { xs: 'none', sm: 'inline-flex' },
-                  color: '#334155',
-                  borderColor: '#CBD5E1',
-                  fontWeight: 700,
-                  fontSize: '0.86rem',
-                  borderRadius: 2,
-                  px: 1.75,
-                  minHeight: 40,
-                  whiteSpace: 'nowrap',
-                  bgcolor: '#FFFFFF',
-                  '&:hover': { borderColor: '#2563EB', bgcolor: '#EFF6FF', color: '#2563EB' },
-                }}
-              >
-                Cổng làm việc
-              </Button>
-              <Menu
-                anchorEl={portalsAnchor}
-                open={Boolean(portalsAnchor)}
-                onClose={() => setPortalsAnchor(null)}
-                slotProps={{
-                  paper: {
-                    sx: {
-                      borderRadius: 3,
-                      p: 1,
-                      minWidth: 260,
-                      border: '1px solid #E2E8F0',
-                      boxShadow: '0 12px 32px -4px rgba(15, 23, 42, 0.12)',
-                    },
-                  },
-                }}
-              >
-                <MenuItem
-                  component={RouterLink}
-                  to="/student"
-                  onClick={() => setPortalsAnchor(null)}
-                  sx={{ borderRadius: 2, py: 1.25 }}
-                >
-                  <ListItemIcon sx={{ color: '#2563EB' }}>
-                    <SchoolIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Không gian Học sinh"
-                    secondary="Luyện tập & xem hướng dẫn từng bước"
-                    slotProps={{
-                      primary: { sx: { fontWeight: 800, fontSize: '0.9rem', color: '#0F172A' } },
-                      secondary: { sx: { fontSize: '0.75rem', color: '#64748B' } },
-                    }}
-                  />
-                </MenuItem>
-                <MenuItem
-                  component={RouterLink}
-                  to="/teacher-entry"
-                  onClick={() => setPortalsAnchor(null)}
-                  sx={{ borderRadius: 2, py: 1.25 }}
-                >
-                  <ListItemIcon sx={{ color: '#059669', minWidth: 32 }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-                    </svg>
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Cổng Giáo viên"
-                    secondary="Chấm bài theo đợt & quản lý lớp"
-                    slotProps={{
-                      primary: { sx: { fontWeight: 800, fontSize: '0.9rem', color: '#0F172A' } },
-                      secondary: { sx: { fontSize: '0.75rem', color: '#64748B' } },
-                    }}
-                  />
-                </MenuItem>
-                <MenuItem
-                  component={RouterLink}
-                  to="/admin-entry"
-                  onClick={() => setPortalsAnchor(null)}
-                  sx={{ borderRadius: 2, py: 1.25 }}
-                >
-                  <ListItemIcon sx={{ color: '#0F172A', minWidth: 32 }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="3" />
-                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                    </svg>
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Cổng Quản trị viên"
-                    secondary="Vận hành tài khoản & kiểm toán"
-                    slotProps={{
-                      primary: { sx: { fontWeight: 800, fontSize: '0.9rem', color: '#0F172A' } },
-                      secondary: { sx: { fontSize: '0.75rem', color: '#64748B' } },
-                    }}
-                  />
-                </MenuItem>
-              </Menu>
-
               {showDevTools && (
                 <Button
                   component={RouterLink}
@@ -504,12 +382,12 @@ export const PortalLayout: React.FC = () => {
                   to="/login"
                   variant="contained"
                   color="primary"
-                  endIcon={<span style={{ fontSize: '14px', marginLeft: 4 }}>→</span>}
                   sx={{
                     fontWeight: 800,
-                    px: 2.75,
-                    minHeight: 42,
+                    px: { xs: 1.5, sm: 2.75 },
+                    minHeight: 44,
                     borderRadius: 2.5,
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   Đăng nhập
@@ -521,7 +399,7 @@ export const PortalLayout: React.FC = () => {
       </AppBar>
 
       {/* Main Content Area */}
-      <Box component="main" id="main-content" sx={{ flexGrow: 1 }}>
+      <Box component="main" id="main-content" tabIndex={-1} sx={{ flexGrow: 1, scrollMarginTop: 76 }}>
         <Outlet />
       </Box>
 
@@ -541,7 +419,7 @@ export const PortalLayout: React.FC = () => {
           <Box
             sx={{
               display: 'grid',
-              gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '2.2fr 1fr 1fr 1.2fr' },
+              gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '2fr 1fr 1fr' },
               gap: { xs: 4, md: 5 },
               mb: 5,
             }}
@@ -551,7 +429,7 @@ export const PortalLayout: React.FC = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.2, mb: 1.5 }}>
                 <Box
                   component="img"
-                  src="/ui/mathvision-star.png"
+                  src="/ui/mathvision-star.webp"
                   alt="Biểu trưng Ngôi sao MathVision Kids"
                   sx={{ width: 36, height: 36 }}
                   onError={(e: any) => {
@@ -580,56 +458,7 @@ export const PortalLayout: React.FC = () => {
               />
             </Box>
 
-            {/* Col 2: Không gian hệ sinh thái */}
-            <Box>
-              <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#0F172A', mb: 2, letterSpacing: '0.04em' }}>
-                KHÔNG GIAN HỌC TẬP
-              </Typography>
-              <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'grid', gap: 1.25 }}>
-                <li>
-                  <Typography
-                    component={RouterLink}
-                    to="/student"
-                    variant="body2"
-                    sx={{ color: '#475569', textDecoration: 'none', fontWeight: 600, '&:hover': { color: '#2563EB' } }}
-                  >
-                    Không gian Học sinh
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    component={RouterLink}
-                    to="/teacher-entry"
-                    variant="body2"
-                    sx={{ color: '#475569', textDecoration: 'none', fontWeight: 600, '&:hover': { color: '#2563EB' } }}
-                  >
-                    Cổng Giáo viên (Chấm bài & Lớp)
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    component={RouterLink}
-                    to="/admin-entry"
-                    variant="body2"
-                    sx={{ color: '#475569', textDecoration: 'none', fontWeight: 600, '&:hover': { color: '#2563EB' } }}
-                  >
-                    Cổng Quản trị viên (Vận hành & Audit)
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    component={RouterLink}
-                    to="/login"
-                    variant="body2"
-                    sx={{ color: '#475569', textDecoration: 'none', fontWeight: 600, '&:hover': { color: '#2563EB' } }}
-                  >
-                    Trang đăng nhập tài khoản
-                  </Typography>
-                </li>
-              </Box>
-            </Box>
-
-            {/* Col 3: Năng lực sư phạm */}
+            {/* Năng lực sư phạm */}
             <Box>
               <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#0F172A', mb: 2, letterSpacing: '0.04em' }}>
                 NĂNG LỰC SƯ PHẠM
@@ -663,7 +492,7 @@ export const PortalLayout: React.FC = () => {
               </Box>
             </Box>
 
-            {/* Col 4: Cam kết đạo đức AI */}
+            {/* Cam kết đạo đức AI */}
             <Box>
               <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#0F172A', mb: 2, letterSpacing: '0.04em' }}>
                 CAM KẾT GIÁO DỤC

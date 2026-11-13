@@ -42,11 +42,19 @@ Hai lệnh sau dùng backend và dịch vụ đang chạy, có thể tạo bản
 
 Đặt `MATHVISION_LIVE_API` tới backend có hậu tố `/api/v1`, `MATHVISION_LIVE_PORTAL` và `MATHVISION_LIVE_TEACHER` tới hai web đang chạy. Dùng `MATHVISION_LIVE_IMAGE` cho đường dẫn ảnh JPEG đã loại thông tin cá nhân và `MATHVISION_LIVE_OUTPUT` cho thư mục bằng chứng trong `.local-artifacts/`.
 
+Khi nghiệm thu chế độ AI, đặt thêm `MATHVISION_LIVE_AI` tới FastAPI localhost và `MATHVISION_LIVE_EXPECT_AI_MODE` bằng `FIXTURE` hoặc `MODEL`. Kịch bản kiểm tra `/ready` trước khi tạo bản ghi và ghi chế độ FastAPI vào biên nhận. Để xác nhận chế độ của từng kết quả, đối chiếu `analysis_results.model_version` trong PostgreSQL cách ly. Readiness chỉ cho biết tiến trình có thể nhận việc.
+
 Teacher cần các biến `MATHVISION_LIVE_TEACHER_EMAIL`, `MATHVISION_LIVE_TEACHER_PASSWORD`, `MATHVISION_LIVE_ADMIN_EMAIL`, `MATHVISION_LIVE_ADMIN_PASSWORD`. Tài khoản Teacher phải có lớp và học sinh. Đặt `MATHVISION_LIVE_SCORE` trong khoảng 0–100 và `MATHVISION_LIVE_REASON` theo quyết định đã đối chiếu với ảnh. Lệnh đăng nhập qua Portal/SSO, tạo bài tập, xác nhận ảnh, upload bằng giao diện, so SHA-256 của JPEG thực gửi với ảnh backend trả, chờ callback AI, kiểm tra xoay ảnh, lưu điểm và thử tài khoản khác lớp. Ảnh chỉ có đề bài có thể nhận `OUT_OF_SCOPE` ở bộ chấm đặt tính dọc và được giáo viên quyết định điểm thủ công.
 
 ```sh
 node scripts/test/live_teacher_review.mjs
 ```
+
+Để kiểm tra đợt đầy đủ, đặt `MATHVISION_LIVE_BATCH_SIZE=30` và `MATHVISION_LIVE_BATCH_IMAGES` tới thư mục chứa 30 ảnh JPEG tổng hợp khác nhau, tên từ `worksheet-1.jpg` đến `worksheet-30.jpg`. Kịch bản bổ sung tài khoản tổng hợp qua Admin nếu danh sách lớp có dưới 30 học sinh, sau đó gán từng ảnh trên giao diện và đối chiếu SHA-256 theo học sinh. Chạy ở chế độ `FIXTURE` khi kiểm tra năng lực luồng xử lý cách ly. Số đo của chế độ này không dùng để nghiệm thu độ chính xác hoặc p95 OCR.
+
+Để kiểm tra thử xử lý lại sau lỗi điều phối, chạy FastAPI ở `127.0.0.1:18001` và worker ở chế độ `FIXTURE` trong stack cách ly. Đặt `MATHVISION_LIVE_DISPOSABLE=true` rồi chạy `node scripts/test/live_teacher_dispatch_fault.mjs`. Trỏ `AI_SERVICE_URL` của Spring tới `http://127.0.0.1:18002/internal/v1/jobs`. Adapter trả HTTP 503 cho lần điều phối đầu tiên và chuyển các lần sau tới FastAPI. Chạy lại adapter trước mỗi lượt, rồi chạy kịch bản Teacher với `MATHVISION_LIVE_BATCH_SIZE=1` và `MATHVISION_LIVE_RETRY_FIXTURE=true`. Kịch bản kiểm tra bài xuất hiện trong số bài lỗi, thử lại qua giao diện, giữ nguyên bài và phiên bản ảnh, nhận callback và lưu điểm qua tải lại.
+
+Để kiểm tra thay ảnh, khởi động lại adapter với `MATHVISION_LIVE_AI_FAULT=retake`. Chạy kịch bản Teacher với một ảnh, `MATHVISION_LIVE_RETAKE_FIXTURE=true` và bỏ biến `MATHVISION_LIVE_RETRY_FIXTURE`. Adapter chuyển tham chiếu của lần gửi đầu có tên `quality-fail-worksheet` thành ảnh rỗng của fixture. Ảnh thay thế đi qua worker bình thường. Kịch bản đối chiếu phiên bản ảnh, SHA-256, cùng ID bài nộp và điểm lưu sau tải lại.
 
 Student cần `MATHVISION_LIVE_STUDENT_EMAIL`, `MATHVISION_LIVE_STUDENT_PASSWORD` và `MATHVISION_LIVE_TRUTH` trỏ tới JSON do người kiểm tra đối chiếu với ảnh, gồm `problemText` và `answer`. Lệnh giữ nguyên các số và phân số khi so bản đọc, kiểm tra bắt buộc xác nhận đề, chuẩn bị bài, tải giọng nam/nữ/dự phòng qua API thật, giải các biểu thức bằng phép tính phân số độc lập và đối chiếu đáp số cuối. WAV được kiểm tra định dạng, thời lượng, âm lượng và hash riêng từng chế độ.
 
