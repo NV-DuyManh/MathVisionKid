@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [failure, setFailure] = useState<string | null>(null);
   const revision = useRef(0);
+  const renderedRevision = revision.current;
   const router = useRouter();
   const pathname = usePathname();
   const portal = typeof window !== 'undefined' && /^\/(?:study|learn)(?:\/|$)/.test(window.location.pathname);
@@ -161,11 +162,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (current === revision.current) setUser(profile);
   };
   const changePassword = async (currentPassword: string, newPassword: string, signal?: AbortSignal) => {
-    const current = revision.current, session = await tokenStorage.getSessionId();
-    const { data } = await apiClient.post('/student/profile/password', { currentPassword, newPassword }, { signal });
+    const current = renderedRevision;
+    if (current !== revision.current || signal?.aborted) throw new Error('Phiên đăng nhập đã thay đổi.');
+    const session = await tokenStorage.getSessionId();
+    if (current !== revision.current || signal?.aborted) throw new Error('Phiên đăng nhập đã thay đổi.');
+    const config = { signal, _identity: session };
+    const { data } = await apiClient.post('/student/profile/password', { currentPassword, newPassword }, config);
     if (current !== revision.current || signal?.aborted) throw new Error('Phiên đăng nhập đã thay đổi.');
     if (!data.accessToken || !data.refreshToken) throw new Error('Chưa xác minh được phiên đăng nhập mới.');
     await tokenStorage.saveTokens(data.accessToken, data.refreshToken, session);
+    if (current !== revision.current || signal?.aborted || await tokenStorage.getSessionId() !== session) throw new Error('Phiên đăng nhập đã thay đổi.');
   };
   return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'STUDENT' && user.active === true, isLoading, login, logout, refreshUser, changePassword }}>
     {(user && (!portal || pathname !== '/login')) || (!portal && !isLoading && pathname === '/login') ? children : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 24, backgroundColor: COLORS.background }}>

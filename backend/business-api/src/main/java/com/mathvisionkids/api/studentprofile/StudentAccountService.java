@@ -100,7 +100,7 @@ public class StudentAccountService {
                 (r, n) -> r.getInt(1), student.getId(), Timestamp.from(now.minus(15, ChronoUnit.MINUTES)));
         if (!attempts.isEmpty() && attempts.getFirst() >= 5)
             throw new ApiException("PASSWORD_TRY_LATER", "Em đã nhập sai nhiều lần. Em thử lại sau 15 phút nhé.", HttpStatus.TOO_MANY_REQUESTS);
-        if (!encoder.matches(request.currentPassword(), student.getPasswordHash())) {
+        if (request.currentPassword().getBytes(StandardCharsets.UTF_8).length > 72 || !encoder.matches(request.currentPassword(), student.getPasswordHash())) {
             if (attempts.isEmpty()) {
                 db.update("DELETE FROM student_password_attempts WHERE student_id = ?", student.getId());
                 db.update("INSERT INTO student_password_attempts(student_id, attempts, started_at) VALUES (?, 1, ?)", student.getId(), Timestamp.from(now));

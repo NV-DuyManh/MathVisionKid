@@ -249,6 +249,20 @@ test('Avatar account page saves name and photo, restores a preset, and validates
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
 });
 
+test('A photo picker opened in an old session cannot upload into a new session', async ({ page, app }) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Chọn ảnh từ thiết bị', exact: true }).click();
+  const selected = await chooser;
+  await page.evaluate(() => window.sessionStorage.setItem('portal_session_id', crypto.randomUUID()));
+  await selected.setFiles(fileURLToPath(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)));
+  await expect(page.getByRole('alert')).toHaveText('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.');
+  expect(app.requests.filter(request => request.path === '/student/profile/photo')).toHaveLength(0);
+});
+
 test('anonymous Student deep link returns to login and missing bundles return 404', async ({ page, app }) => {
   app.realStudent = true;
   await page.goto(`${sites.portal.origin}/study/login`);

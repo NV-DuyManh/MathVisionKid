@@ -31,6 +31,8 @@ POST `/api/v1/student/profile/password` nằm trong matcher STUDENT hiện có, 
 
 Backend integration còn kiểm: 401 khi chưa đăng nhập, 403 Teacher upload, Student khác không có ảnh của người tải; MIME giả/SVG, giới hạn bytes và PNG khai báo 100 triệu pixel bị từ chối trước decode; đúng mật khẩu, tài khoản liên kết, giới hạn UTF-8, số lần sai có lưu lại/khôi phục sau khoảng chờ; tài khoản khác giữ nguyên mật khẩu.
 
+Hồi quy đổi phiên khi hộp chọn ảnh đang mở kiểm tra cả desktop/mobile: request ảnh không được gửi sang phiên mới. Các lệnh ghi giữ session identity từ lúc thao tác bắt đầu, gồm trước khi mở picker; đổi mật khẩu cũng kiểm revision trước khi gửi và sau khi lưu token. Mật khẩu hiện tại quá 72 byte được tính là lần nhập sai, không đưa chuỗi quá dài vào BCrypt để tránh lỗi 500.
+
 Browser fixture không phải chứng minh backend RBAC/chuẩn hóa ảnh. Live dùng tài khoản/ảnh minh họa riêng, sau nghiệm thu tài khoản bị disable; không đổi mật khẩu tài khoản thật hoặc tạo thành tích giả cho học sinh.
 
 Lượt main 1.0.2 có một lần runner không bind được cổng browser 43170 (đã đạt khi chạy lại). Đổi cổng test mặc định xuống 23170 để tránh vùng cổng ephemeral Linux; vẫn strictPort và không dùng lại server ngoài test. Không thay cổng ứng dụng hoặc bỏ assertion.

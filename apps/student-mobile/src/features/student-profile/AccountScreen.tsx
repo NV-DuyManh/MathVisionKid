@@ -14,6 +14,7 @@ import { COLORS, FONTS } from '../../constants/theme';
 import { StudentAvatar, avatars } from './ProfileCards';
 import { useStudentProfile } from './useStudentProfile';
 import { profileApi, type ProfileEdit, type StudentProfile } from './profileApi';
+import { tokenStorage } from '../../services/auth/tokenStorage';
 
 export function AccountScreen({ owner }: { owner: string }) {
   const router = useRouter(), auth = useContext(AuthContext), profile = useStudentProfile(owner);
@@ -87,6 +88,8 @@ function AccountEditor({ profile, onSave }: { profile: StudentProfile; onSave: (
     if (lock.current) return;
     lock.current = true; setBusy(true); setError(''); setNotice('');
     try {
+      // Capture before the picker opens; retain its user gesture on web.
+      const session = tokenStorage.getSessionId();
       const result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], allowsEditing: true, aspect: [1, 1], quality: .85, exif: false });
       if (result.canceled || !result.assets?.[0] || signal.aborted) return;
       const asset = result.assets[0];
@@ -97,7 +100,7 @@ function AccountEditor({ profile, onSave }: { profile: StudentProfile; onSave: (
       const image = await context.renderAsync();
       const file = await image.saveAsync({ format: SaveFormat.PNG });
       if (signal.aborted) return;
-      const next = await profileApi.uploadPhoto(file.uri, signal);
+      const next = await profileApi.uploadPhoto(file.uri, signal, await session);
       if (!signal.aborted) { onSave(next); setPhotoSelected(true); setNotice('Đã cập nhật ảnh đại diện.'); }
     } catch { if (!signal.aborted) setError('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.'); }
     finally { lock.current = false; if (!signal.aborted) setBusy(false); }

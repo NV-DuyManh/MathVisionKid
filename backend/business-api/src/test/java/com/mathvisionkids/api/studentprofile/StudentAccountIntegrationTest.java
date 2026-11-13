@@ -111,7 +111,7 @@ class StudentAccountIntegrationTest {
         assertNull(profiles.get(pupil.getEmail()).avatarPhoto());
     }
     @Test void wrongPasswordAttemptsPersistAndAreBounded() throws Exception {
-        for (int index = 0; index < 5; index++) change("incorrect", "NewSecret-123").andExpect(status().isBadRequest());
+        for (int index = 0; index < 5; index++) change(index == 0 ? "ế".repeat(100) : "incorrect", "NewSecret-123").andExpect(status().isBadRequest());
         change(PASSWORD, "NewSecret-123").andExpect(status().isTooManyRequests());
         assertTrue(encoder.matches(PASSWORD, students.findById(pupil.getId()).orElseThrow().getPasswordHash()));
         db.update("UPDATE student_password_attempts SET started_at = ? WHERE student_id = ?", java.sql.Timestamp.from(java.time.Instant.now().minusSeconds(901)), pupil.getId());

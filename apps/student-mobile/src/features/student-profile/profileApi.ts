@@ -1,5 +1,6 @@
 import apiClient from '../../services/api/apiClient';
 import { Platform } from 'react-native';
+import { tokenStorage } from '../../services/auth/tokenStorage';
 
 export type Rank = { name: string; masterStars: number; progress: number; goal: number };
 export type StudentTitle = { id: string; name: string; rarity: string; description: string; progress: number; goal: number; unlocked: boolean };
@@ -34,17 +35,19 @@ export const profileApi = {
     return (await apiClient.get<StudentProfile>(root + '/profile', { signal })).data;
   },
   async update(edit: ProfileEdit, signal: AbortSignal) {
-    return (await apiClient.put<StudentProfile>(root + '/profile', edit, { signal })).data;
+    const config = { signal, _identity: await tokenStorage.getSessionId() };
+    return (await apiClient.put<StudentProfile>(root + '/profile', edit, config)).data;
   },
-  async uploadPhoto(uri: string, signal: AbortSignal) {
+  async uploadPhoto(uri: string, signal: AbortSignal, expectedSession?: string | null) {
+    const identity = expectedSession === undefined ? await tokenStorage.getSessionId() : expectedSession;
     const form = new FormData();
     if (Platform.OS === 'web') {
       const response = await fetch(uri, { signal });
       if (!response.ok) throw new Error('Chưa mở được ảnh đã chọn.');
       form.append('file', await response.blob(), 'avatar.png');
     } else form.append('file', { uri, name: 'avatar.png', type: 'image/png' } as any);
-    return (await apiClient.put<StudentProfile>(root + '/profile/photo', form,
-      { signal, transformRequest: [value => value], headers: { 'Content-Type': undefined } })).data;
+    const config = { signal, _identity: identity, transformRequest: [(value: unknown) => value], headers: { 'Content-Type': undefined } };
+    return (await apiClient.put<StudentProfile>(root + '/profile/photo', form, config)).data;
   },
   async leaderboard(classroom: string | undefined, signal: AbortSignal) {
     return (await apiClient.get<Leaderboard>(root + '/leaderboard', { params: { classroom }, signal })).data;
