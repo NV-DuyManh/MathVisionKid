@@ -89,7 +89,7 @@ public class StudentAccountService {
     @Transactional(noRollbackFor = ApiException.class)
     public AuthResponse password(String principal, PasswordChange request) {
         if (request.newPassword().getBytes(StandardCharsets.UTF_8).length > 72)
-            throw new ApiException("PASSWORD_INPUT_INVALID", "Mật khẩu mới tối đa 72 byte, em dùng ít ký tự hơn nhé.", HttpStatus.BAD_REQUEST);
+            throw new ApiException("PASSWORD_INPUT_INVALID", "Mật khẩu mới hơi dài. Em dùng ít ký tự hơn nhé.", HttpStatus.BAD_REQUEST);
         var student = profiles.student(principal);
         users.lockSessions(student.getId()).orElseThrow();
         em.refresh(student);

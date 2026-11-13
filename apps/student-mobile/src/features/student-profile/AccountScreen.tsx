@@ -165,7 +165,7 @@ function PasswordCard({ available }: { available: boolean }) {
       const code = failure.response?.data?.error?.code;
       if (!signal.aborted) setError(code === 'PASSWORD_CURRENT_INVALID' ? 'Mật khẩu hiện tại chưa đúng. Em kiểm tra lại nhé.'
         : code === 'PASSWORD_TRY_LATER' ? 'Em đã nhập sai nhiều lần. Em thử lại sau 15 phút nhé.'
-          : code === 'PASSWORD_INPUT_INVALID' ? 'Mật khẩu mới tối đa 72 byte. Em dùng ít ký tự hơn nhé.'
+          : code === 'PASSWORD_INPUT_INVALID' ? 'Mật khẩu mới hơi dài. Em dùng ít ký tự hơn nhé.'
             : code === 'PASSWORD_PROVIDER_MANAGED' ? 'Em đổi mật khẩu tại dịch vụ em dùng để đăng nhập nhé.'
               : 'Chưa nhận được kết quả đổi mật khẩu. Em kiểm tra kết nối rồi đăng nhập lại để xác nhận nhé.');
     } finally { lock.current = false; if (!signal.aborted) setBusy(false); }
