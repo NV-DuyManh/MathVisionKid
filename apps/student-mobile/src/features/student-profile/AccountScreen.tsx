@@ -30,7 +30,6 @@ export function AccountScreen({ owner }: { owner: string }) {
     <KeyboardAvoidingView style={s.screen} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={s.content}>
         <StudentPageHeader compact title="Hồ sơ của em" showAvatar={false} backLabel="Quay lại" onBack={() => router.canGoBack() ? router.back() : router.replace('/(tabs)')} />
-        <Text style={s.intro}>Một góc nhỏ dành riêng cho em.</Text>
         {profile.value ? <View style={[s.columns, width >= 900 && s.wide]}>
           <AccountEditor profile={profile.value} onSave={profile.accept} />
           <View style={[s.side, width >= 900 && { maxWidth: 320 }]}>
@@ -195,7 +194,6 @@ function PasswordCard({ available }: { available: boolean }) {
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: 20, paddingBottom: 36, width: '100%', maxWidth: 1040, alignSelf: 'center', gap: 12 },
-  intro: { fontFamily: FONTS.regular, fontSize: 15, color: COLORS.textSecondary, textAlign: 'center', marginBottom: 16 },
   columns: { gap: 18 }, wide: { flexDirection: 'row', alignItems: 'flex-start' }, side: { flex: 1, gap: 18, minWidth: 0 }, editor: { flex: 1.5, minWidth: 0 },
   card: { padding: 22, borderRadius: 24, backgroundColor: COLORS.surface, borderWidth: 1, borderColor: COLORS.border, gap: 14 },
   identity: { flexDirection: 'row', alignItems: 'center', gap: 18 }, avatarRing: { padding: 6, borderRadius: 54, backgroundColor: COLORS.primaryLight },
