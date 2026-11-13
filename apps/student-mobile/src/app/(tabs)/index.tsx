@@ -12,7 +12,7 @@ import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
 export default function HomeScreen() {
     const router = useRouter();
     const auth = useContext(AuthContext);
-    const userName = auth?.user?.name || 'em';
+    const userName = auth?.user?.displayName || auth?.user?.name || 'em';
     const [showTipsModal, setShowTipsModal] = useState(false);
     const [showPrivacyInfoModal, setShowPrivacyInfoModal] = useState(false);
     const [showCurriculumModal, setShowCurriculumModal] = useState(false);

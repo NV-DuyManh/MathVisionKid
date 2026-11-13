@@ -166,7 +166,7 @@ test('Portal login enters the real Student bundle, navigates and survives a deep
   expect(app.requests.some(request => request.path === '/student/quizzes')).toBe(true);
 });
 
-test('Student can cancel logout or confirm it from Của em', async ({ page, app }) => {
+test('Của em keeps saved work, while the avatar opens account settings and logout', async ({ page, app }) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
@@ -183,14 +183,17 @@ test('Student can cancel logout or confirm it from Của em', async ({ page, app
   await expect(page.getByText(/Hoàn thành bài học/)).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
   await page.getByRole('tab', { name: 'Của em', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Kiểm thử STUDENT' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Đăng xuất', exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'Ghi chú', exact: true }).click();
   await expect(page.getByText('Em nhớ cộng hàng đơn vị trước.').first()).toBeVisible();
+  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/account`);
+  await expect(page.getByRole('heading', { name: 'Hồ sơ của em', exact: true })).toBeVisible();
   const logout = page.getByRole('button', { name: 'Đăng xuất', exact: true });
   await logout.click();
   const cancel = page.getByRole('button', { name: 'Ở lại', exact: true });
   await cancel.click();
-  await expect(page).toHaveURL(`${sites.portal.origin}/study/profile`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/account`);
   expect(app.requests.filter(({ path }) => path === '/auth/logout')).toHaveLength(0);
   await logout.click();
   await page.getByRole('button', { name: 'Xác nhận đăng xuất', exact: true }).click();
@@ -201,6 +204,63 @@ test('Student can cancel logout or confirm it from Của em', async ({ page, app
   await expect(page).toHaveURL(`${sites.portal.origin}/`);
   await page.goto(`${sites.portal.origin}/study/profile`);
   await expect(page).toHaveURL(`${sites.portal.origin}/login`);
+});
+
+test('Avatar account page saves name and photo, restores a preset, and validates password change', async ({ page, app }, testInfo) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/account`);
+  await page.getByRole('textbox', { name: 'Tên hiển thị', exact: true }).fill('Sao Thông Minh');
+  await page.getByRole('button', { name: 'Chọn hình Hành tinh', exact: true }).click();
+  await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('textbox', { name: 'Tên hiển thị', exact: true })).toHaveValue('Sao Thông Minh');
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Chọn ảnh từ thiết bị', exact: true }).click();
+  await (await chooser).setFiles(fileURLToPath(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)));
+  await expect(page.getByText('Đã cập nhật ảnh đại diện.', { exact: true })).toBeVisible();
+  await expect.poll(() => page.locator('img[src^="data:image/"]').count()).toBeGreaterThan(0);
+  await page.reload();
+  await expect.poll(() => page.locator('img[src^="data:image/"]').count()).toBeGreaterThan(0);
+  await testInfo.attach('Account settings with selected photo', { body: await page.screenshot({ path: testInfo.outputPath('account-settings.png') }), contentType: 'image/png' });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize().width);
+  await page.getByRole('button', { name: 'Chọn hình Lá xanh', exact: true }).click();
+  await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(page.locator('img[src^="data:image/"]')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Đổi mật khẩu', exact: true }).click();
+  await page.getByLabel('Mật khẩu hiện tại', { exact: true }).fill('incorrect-password');
+  await page.getByLabel('Mật khẩu mới', { exact: true }).fill('NewPassword-123');
+  await page.getByLabel('Nhập lại mật khẩu mới', { exact: true }).fill('different-password');
+  await page.getByRole('button', { name: 'Cập nhật mật khẩu', exact: true }).click();
+  await expect(page.getByRole('alert')).toHaveText('Hai lần nhập mật khẩu mới chưa giống nhau.');
+  expect(app.requests.filter(request => request.path === '/student/profile/password')).toHaveLength(0);
+  await page.getByLabel('Nhập lại mật khẩu mới', { exact: true }).fill('NewPassword-123');
+  await page.getByRole('button', { name: 'Cập nhật mật khẩu', exact: true }).click();
+  await expect(page.getByRole('alert')).toHaveText('Mật khẩu hiện tại chưa đúng. Em kiểm tra lại nhé.');
+  await page.getByLabel('Mật khẩu hiện tại', { exact: true }).fill('CurrentPassword-123');
+  await page.getByRole('button', { name: 'Cập nhật mật khẩu', exact: true }).click();
+  await expect(page.getByText('Đã đổi mật khẩu. Các phiên đăng nhập khác đã kết thúc.', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Quay lại', exact: true }).click();
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+});
+
+test('A photo picker opened in an old session cannot upload into a new session', async ({ page, app }) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Chọn ảnh từ thiết bị', exact: true }).click();
+  const selected = await chooser;
+  await page.evaluate(() => window.sessionStorage.setItem('portal_session_id', crypto.randomUUID()));
+  await selected.setFiles(fileURLToPath(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)));
+  await expect(page.getByRole('alert')).toHaveText('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.');
+  expect(app.requests.filter(request => request.path === '/student/profile/photo')).toHaveLength(0);
 });
 
 test('anonymous Student deep link returns to login and missing bundles return 404', async ({ page, app }) => {
