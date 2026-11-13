@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { JSDOM, VirtualConsole } from 'jsdom';
+import { transpileModule, ModuleKind, ScriptTarget } from 'typescript';
 
 // Execute the actual built entry (including React, renderer and libraries) with HTTP fixtures only.
 export async function checkWebBundle(dist, app, { checkLogout = false, checkAdminDetail } = {}) {
@@ -83,7 +84,12 @@ export async function checkWebBundle(dist, app, { checkLogout = false, checkAdmi
   try {
     // jsdom evaluates scripts rather than ESM; preserve only the entry's module URL metadata.
     const metadata = `(${JSON.stringify({ url: new URL(entry, dom.window.location.href).href })})`;
-    dom.window.eval(script.replaceAll('import.meta', metadata));
+    const executable = transpileModule(script.replaceAll('import.meta', metadata), {
+      compilerOptions: { module: ModuleKind.CommonJS, target: ScriptTarget.ESNext, allowJs: true },
+      fileName: 'production-entry.js',
+    }).outputText;
+    // Entry exports can be shared with lazy features. Those features are checked in browser tests.
+    dom.window.eval(`(function(exports) { ${executable}\n})({});`);
     const expectedPath = app === 'portal' ? '/login' : '/dashboard';
     for (let attempt = 0; attempt < 100 && errors.length === 0; attempt++) {
       if (app === 'portal' ? navigation.some(address => new URL(address, url).pathname === '/study/')

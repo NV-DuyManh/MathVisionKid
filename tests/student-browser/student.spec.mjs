@@ -171,7 +171,7 @@ test('Student can cancel logout or confirm it from Của em', async ({ page, app
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.evaluate(() => {
-    const owner = Array.from('fixture-STUDENT', char => char.codePointAt(0).toString(16)).join('_');
+    const owner = Array.from('550e8400-e29b-41d4-a716-446655440000', char => char.codePointAt(0).toString(16)).join('_');
     localStorage.setItem(`mathvision_lessons_${owner}`, JSON.stringify([{
       id: 'fixture-saved-lesson', timestamp: Date.now() - 1000, problemText: '17 + 25',
       workText: '42', reflection: 'Em nhớ cộng hàng đơn vị trước.', reviewedSteps: 3,
@@ -281,6 +281,146 @@ test('Student quiz starts, shows feedback and completes with the existing API co
   await expect(reward).toHaveCSS('opacity', '1');
   expect(await page.evaluate(() => window.quizRewardWasDimmed)).toBe(false);
   await testInfo.attach('Student quiz fixture completed', { body: await page.screenshot(), contentType: 'image/png' });
+});
+
+test('the old Student web login uses the same Portal form', async ({ page, app }) => {
+  app.realStudent = true;
+  await page.goto(`${sites.portal.origin}/study/login`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
+  await expect(page.locator('input[autocomplete="current-password"]')).toHaveCount(1);
+});
+
+test('all five games load their bundled artwork and enter gameplay', async ({ page, app }, testInfo) => {
+  app.realStudent = true;
+  const failures = [];
+  page.on('pageerror', error => failures.push(error.message));
+  page.on('response', response => {
+    if (response.status() >= 400 && /\/study\/(?:assets|_expo)\//.test(response.url())) {
+      failures.push(`${response.status()} ${new URL(response.url()).pathname}`);
+    }
+  });
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  for (const [game, start] of [
+    ['race-to-finish', 'start-race-button'],
+    ['terrain-racing', null],
+    ['energy-defense', null],
+    ['planet-rescue', 'rescue-start'],
+    ['block-island', null],
+  ]) {
+    await page.goto(`${sites.portal.origin}/study/games/${game}`);
+    await expect(page.getByTestId(`training-player-${game}`)).toBeVisible();
+    if (start) {
+      await expect(page.getByTestId(start)).toBeEnabled();
+      await page.getByTestId(start).click();
+      await expect(page.getByTestId(start)).toHaveCount(0);
+    } else if (game === 'energy-defense') {
+      await page.getByRole('button', { name: 'BẮT ĐẦU', exact: true }).click();
+      await expect(page.getByTestId('energy-wave-count')).toBeVisible();
+    } else if (game === 'block-island') {
+      await page.getByRole('button', { name: 'Bắt đầu hành trình mới', exact: true }).click();
+      await page.getByRole('button', { name: 'Xác nhận bắt đầu', exact: true }).click();
+      await expect(page.getByTestId('island-material-items')).toBeVisible();
+    } else {
+      await expect(page.getByTestId('supercar-status')).toBeVisible();
+    }
+    await expect.poll(() => page.locator('img').evaluateAll(images =>
+      images.filter(image => image.currentSrc && (!image.complete || image.naturalWidth === 0)).length,
+    )).toBe(0);
+    expect(failures).toEqual([]);
+    await testInfo.attach(`${game} gameplay`, { body: await page.screenshot(), contentType: 'image/png' });
+  }
+});
+
+test('each game opens with its own mobile display policy', async ({ page, app, isMobile }) => {
+  test.skip(!isMobile, 'The web orientation request is for touch devices.');
+  app.realStudent = true;
+  await page.addInitScript(() => {
+    const calls = [];
+    window.gameDisplayCalls = calls;
+    let fullscreen = null;
+    Object.defineProperty(document, 'fullscreenElement', { get: () => fullscreen });
+    HTMLElement.prototype.requestFullscreen = async function () { fullscreen = this; calls.push('fullscreen'); };
+    document.exitFullscreen = async () => { fullscreen = null; calls.push('exit'); };
+    screen.orientation.lock = async direction => { calls.push(direction); };
+    screen.orientation.unlock = () => { calls.push('unlock'); };
+  });
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+
+  for (const [game, selector, direction] of [
+    ['race-to-finish', '[data-testid="race-setup-exit"]', 'landscape'],
+    ['terrain-racing', '[data-testid^="supercar-state-"]', 'portrait'],
+    ['energy-defense', '[data-testid="energy-mode-selection"]', 'portrait'],
+    ['planet-rescue', '[data-testid="rescue-mode-select"]', null],
+    ['block-island', '[data-testid="island-intro"]', null],
+  ]) {
+    await page.goto(`${sites.portal.origin}/study/games`);
+    await page.getByTestId(`training-play-${game}`).click();
+    await expect(page.locator(selector)).toBeVisible();
+    expect(await page.evaluate(() => window.gameDisplayCalls)).toEqual(direction ? ['fullscreen', direction] : []);
+    await expect(page.getByRole('button', { name: 'Mở trò chơi toàn màn hình và xoay ngang' })).toHaveCount(direction === 'landscape' ? 1 : 0);
+    if (game === 'race-to-finish') {
+      await page.locator(selector).click();
+      await expect(page.getByTestId(`training-play-${game}`)).toBeVisible();
+      expect(await page.evaluate(() => window.gameDisplayCalls.slice(-2))).toEqual(['exit', 'unlock']);
+    }
+  }
+});
+
+test('camera fallback opens the rear capture picker and sends the selected image to privacy review', async ({ page, app }) => {
+  app.realStudent = true;
+  await page.addInitScript(() => {
+    const query = navigator.permissions.query.bind(navigator.permissions);
+    navigator.permissions.query = options => options.name === 'camera' ? Promise.resolve({ state: 'denied' }) : query(options);
+    navigator.mediaDevices.getUserMedia = () => Promise.reject(new DOMException('Camera denied', 'NotAllowedError'));
+  });
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/camera`);
+  await expect(page.getByText(/Chưa mở được máy ảnh/)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Chụp ảnh bài toán' })).toBeDisabled();
+  const [picker] = await Promise.all([
+    page.waitForEvent('filechooser'),
+    page.getByRole('button', { name: 'Chụp bằng máy ảnh điện thoại' }).click(),
+  ]);
+  expect(await picker.element().getAttribute('capture')).toBe('environment');
+  const png = await page.evaluate(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 240;
+    canvas.height = 160;
+    return canvas.toDataURL().split(',')[1];
+  });
+  await picker.setFiles({ name: 'synthetic-math.png', mimeType: 'image/png', buffer: Buffer.from(png, 'base64') });
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/privacy`);
+  await expect(page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư')).toBeVisible();
+});
+
+test('camera permission, live preview and shutter work with a simulated video stream', async ({ page, app }) => {
+  app.realStudent = true;
+  await page.addInitScript(() => {
+    const query = navigator.permissions.query.bind(navigator.permissions);
+    navigator.permissions.query = options => options.name === 'camera' ? Promise.resolve({ state: 'prompt' }) : query(options);
+    navigator.mediaDevices.getUserMedia = async () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 320;
+      canvas.height = 240;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#c4ddff';
+      ctx.fillRect(0, 0, 320, 240);
+      return canvas.captureStream(15);
+    };
+  });
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/camera`);
+  await page.getByRole('button', { name: 'Cho phép mở máy ảnh' }).click();
+  const shutter = page.getByRole('button', { name: 'Chụp ảnh bài toán' });
+  await expect(shutter).toBeEnabled();
+  await expect(page.getByRole('button', { name: 'Chụp bằng máy ảnh điện thoại' })).toHaveCount(0);
+  await shutter.click();
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/privacy`);
+  await expect(page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư')).toBeVisible();
 });
 
 test('Student calculator keeps simple answers compact and supports mixed numbers and exact unit conversion', async ({ page, app }) => {

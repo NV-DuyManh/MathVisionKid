@@ -91,7 +91,7 @@ export default function BatchCreatePage() {
     <FormControl fullWidth sx={{ mb: 3 }} disabled={isLoading || hasDraft || !!resumeId}>
       <InputLabel id="batch-assignment-label">Bài tập cần chấm</InputLabel>
       <Select labelId="batch-assignment-label" label="Bài tập cần chấm" value={chosenId || ''}
-        onChange={e => setParams({ assignmentId: e.target.value })}>
+        onChange={e => setParams({ assignmentId: e.target.value }, { replace: true })}>
         {chosenId && !assignments.some(a => (a.assignmentId || a.id) === chosenId) &&
           <MenuItem value={chosenId}>Bài tập đã chọn</MenuItem>}
         {assignments.map(a => <MenuItem key={a.assignmentId || a.id} value={a.assignmentId || a.id}>{a.title}</MenuItem>)}

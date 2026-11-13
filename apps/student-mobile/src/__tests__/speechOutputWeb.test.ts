@@ -37,8 +37,21 @@ it('bounds an empty browser inventory wait even when no event arrives', async ()
   const browserSynth={...synth,addEventListener:jest.fn(),removeEventListener:jest.fn()};
   Object.defineProperty(window,'speechSynthesis',{configurable:true,value:browserSynth});
   synth.getVoices.mockReturnValue([]);const voices=getAvailableVoicesAsync();
-  jest.advanceTimersByTime(1000);await expect(voices).resolves.toEqual([]);
+  jest.advanceTimersByTime(4000);await expect(voices).resolves.toEqual([]);
   expect(browserSynth.removeEventListener).toHaveBeenCalled();expect(jest.getTimerCount()).toBe(0);
+});
+
+it('waits for Vietnamese even when other languages arrive first and polls without an event', async () => {
+  jest.useFakeTimers();
+  const browserSynth={...synth,addEventListener:jest.fn(),removeEventListener:jest.fn()};
+  Object.defineProperty(window,'speechSynthesis',{configurable:true,value:browserSynth});
+  synth.getVoices.mockReturnValue([english]);
+  const voices=getAvailableVoicesAsync();
+  jest.advanceTimersByTime(1500);
+  synth.getVoices.mockReturnValue([english,vi]);
+  jest.advanceTimersByTime(250);
+  await expect(voices).resolves.toEqual(expect.arrayContaining([expect.objectContaining({identifier:vi.voiceURI})]));
+  expect(jest.getTimerCount()).toBe(0);
 });
 
 it('speaks synchronously using the selected Vietnamese voice and forwards lifecycle events', () => {

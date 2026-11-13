@@ -141,7 +141,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
         <Text style={styles.link}>Quay lại giọng đã chọn</Text>
       </Pressable>
     </View> : null}
-    {disabled ? <Text style={styles.link}>Đang chờ bài học</Text> : deviceVoice ? <DeviceNarration paragraphs={paragraphs} compact={compact} controlRef={audioControl} onReady={deviceReady} onPosition={onPosition} onFinished={onFinished} onReturn={() => chooseVoice(onlineVoice.current)} /> : error ? <RecoveryNotice
+    {disabled ? <Text style={styles.link}>Đang chờ bài học</Text> : deviceVoice ? <DeviceNarration paragraphs={paragraphs} compact={compact} controlRef={audioControl} onReady={deviceReady} onPosition={onPosition} onFinished={onFinished} onReturn={() => chooseVoice(onlineVoice.current)} onFallback={Platform.OS === 'web' && !audioLoader ? () => { chooseVoice(onlineVoice.current); setServerFallback(true); } : undefined} /> : error ? <RecoveryNotice
       title="Chưa mở được giọng đọc" message={error} actions={[
         { label: 'Thử lại', accessibilityLabel: 'Tải lại lời giảng', icon: 'refresh-outline', onPress: retry },
         ...(!serverFallback && !audioLoader ? [{ label: 'Dùng giọng Việt dự phòng', onPress: () => changeFallback(true) }] : []),
@@ -155,7 +155,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
       </View> : null}
       {uri ? <View testID="narration-player" style={!audioReady && styles.hidden}
         aria-hidden={!audioReady} importantForAccessibility={!audioReady ? 'no-hide-descendants' : 'auto'}>
-        <AudioPlayback key={uri} uri={uri} compact={compact} controlRef={audioControl} initialPosition={initialPosition} onPosition={onPosition} title={compact ? 'Lời giải thích' : 'Nghe giảng'} subtitle="Kéo để chọn đoạn muốn nghe" onFinished={onFinished} onError={playbackFailed} onReady={playbackReady} hideUntilReady />
+        <AudioPlayback key={uri} uri={uri} compact={compact} controlRef={audioControl} initialPosition={initialPosition} onPosition={onPosition} durationHint={Platform.OS === 'web' ? cues.at(-1)?.end : undefined} title={compact ? 'Lời giải thích' : 'Nghe giảng'} subtitle="Kéo để chọn đoạn muốn nghe" onFinished={onFinished} onError={playbackFailed} onReady={playbackReady} hideUntilReady />
       </View> : null}
     </>}
     <Pressable accessibilityRole="button" accessibilityLabel="Đọc lời giảng chi tiết" accessibilityState={{ expanded }} aria-expanded={expanded} aria-controls={expanded ? transcriptId : undefined}

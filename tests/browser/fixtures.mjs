@@ -56,6 +56,8 @@ export const test = base.extend({
       }
       if (path === '/auth/refresh') return state.expired ? reject() : json(tokens(body.refreshToken.split('.')[1]));
       if (path === '/auth/logout') return json({});
+      const respond = state.responses.get(`${method} ${path}`);
+      if (path.startsWith('/auth/') && respond) return respond({ body, json, reject, route });
       if (path === '/auth/sso/ticket') {
         if (!role || role !== body.targetApp) return reject(403);
         const code = `ticket-${role}`;
@@ -69,7 +71,8 @@ export const test = base.extend({
         return json(tokens(ticketRole));
       }
       if (state.expired || !role) return reject();
-      if (path === '/me') return json(profile(role));
+      if (path === '/me') return json(state.realStudent && role === 'STUDENT'
+        ? { ...profile(role), userId: '550e8400-e29b-41d4-a716-446655440000' } : profile(role));
       if (state.realStudent && path === '/student/profile') return json({
         displayName: 'Kiểm thử STUDENT', gradeLevel: 5, joinedAt: null, classrooms: [],
         avatar: 'star', leaderboardVisible: false, publicAlias: '', selectedTitle: null,
@@ -83,7 +86,6 @@ export const test = base.extend({
       if (state.realStudent && path === '/student/quizzes') return json({ items: [], page: 0, totalPages: 0, totalElements: 0 });
       if (path.startsWith('/teacher/') && role !== 'TEACHER') return reject(403);
       if (path.startsWith('/admin/') && role !== 'ADMIN') return reject(403);
-      const respond = state.responses.get(`${method} ${path}`);
       if (respond) return respond({ body, json, reject, route });
       if (path === '/teacher/dashboard') return json({ todayTotal: 0, processedCount: 0, reviewRequiredCount: 0, recentBatches: [] });
       if (path === '/teacher/classes') return state.classesDown ? reject(503) : json([{ classId: 'class-5a', name: '5A', studentCount: 2 }]);

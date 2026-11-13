@@ -74,6 +74,12 @@ Every static build validates its URLs and fails if a required value is missing o
 
 Never put JWT secrets, internal callback keys, storage credentials, database passwords, or Groq/Gemini keys in Vercel's `VITE_*` settings. These belong only in the private backend/AI environment. Changing a build variable requires a new build and deployment before the browser uses the new value.
 
+The prebuilt publisher reads these public settings from the Vercel project’s Production environment before building. For Portal, also set `EXPO_PUBLIC_API_BASE_URL`, `EXPO_PUBLIC_USE_MOCK=false`, and the HTTPS origins `EXPO_PUBLIC_PORTAL_URL`, `EXPO_PUBLIC_TEACHER_URL`, and `EXPO_PUBLIC_ADMIN_URL`.
+
+For Google sign-in, enable Google in the MathVision Firebase project and authorize the Portal hostname. Set the Portal Firebase web settings and set the Firebase Google OAuth client ID as `VITE_GOOGLE_CLIENT_ID` in Vercel and `GOOGLE_CLIENT_ID` on the VPS. Set `GOOGLE_AUTH_ENABLED=true` on the VPS before deploying the Portal button.
+
+Facebook sign-in is not offered in the Portal. Verify Google sign-in against the deployed Portal after the backend settings and the new web build are live.
+
 ## Prepare the private container runtime
 
 The future server configuration is [infra/production/compose.yml](../infra/production/compose.yml). It contains PostgreSQL, Redis, MinIO, private AI API and worker services, the business API, and Caddy. Java and AI run as non-root users. Model artifacts are mounted read-only, rather than bundled into the images.

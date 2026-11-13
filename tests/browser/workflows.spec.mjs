@@ -98,15 +98,86 @@ test('portal invalid login remains usable and keyboard retry succeeds', async ({
   expect(app.requests.filter(r => r.path === '/auth/login')).toHaveLength(2);
 });
 
+test('the single login fits a narrow screen and keeps recovery and registration reachable', async ({ page, app }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto(`${sites.portal.origin}/login`);
+  await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
+  const submit = page.getByRole('button', { name: 'Đăng nhập', exact: true });
+  await expect(submit).toBeInViewport();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  const password = page.getByLabel(/^Mật khẩu/);
+  await password.fill('synthetic-password');
+  await page.getByRole('button', { name: 'Hiển thị mật khẩu', exact: true }).click();
+  await expect(password).toHaveAttribute('type', 'text');
+  await page.getByRole('button', { name: 'Ẩn mật khẩu', exact: true }).click();
+  await expect(password).toHaveAttribute('type', 'password');
+  await page.getByRole('button', { name: 'Quên mật khẩu?' }).click();
+  await expect(page.getByRole('heading', { name: 'Khôi phục mật khẩu' })).toBeVisible();
+  await page.getByRole('button', { name: /Quay lại đăng nhập/ }).click();
+  await page.getByRole('button', { name: 'Đăng ký', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Tạo tài khoản' })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  expect(app.requests).toEqual([]);
+});
+
+test('the shared login completes password recovery and registration using the existing contracts', async ({ page, app }) => {
+  app.responses.set('POST /auth/password-reset/request', ({ body, json }) => {
+    expect(body).toEqual({ email: 'student@example.test' });
+    return json({});
+  });
+  app.responses.set('POST /auth/password-reset/confirm', ({ body, json }) => {
+    expect(body).toEqual({ email: 'student@example.test', code: '123456', newPassword: 'new-password-example' });
+    return json({});
+  });
+  app.responses.set('POST /auth/register', ({ body, json }) => {
+    expect(body).toMatchObject({ email: 'student@example.test', displayName: 'Học sinh kiểm thử', role: 'STUDENT', gradeLevel: 1 });
+    return json({}, 201);
+  });
+  await page.goto(`${sites.portal.origin}/login`);
+  await page.getByRole('button', { name: 'Quên mật khẩu?' }).click();
+  await page.getByLabel(/^Email đã đăng ký/).fill('student@example.test');
+  await page.getByRole('button', { name: 'Gửi mã xác nhận' }).click();
+  await page.getByLabel(/^Mã xác nhận 6 chữ số/).fill('123456');
+  await page.getByLabel(/^Mật khẩu mới/).fill('new-password-example');
+  await page.getByRole('button', { name: 'Xác nhận và đổi mật khẩu' }).click();
+  await expect(page.getByText(/Đổi mật khẩu thành công/)).toBeVisible();
+  await page.getByRole('button', { name: 'Đăng ký', exact: true }).click();
+  await page.locator('#register-name').fill('Học sinh kiểm thử');
+  await page.locator('#register-password').fill('new-password-example');
+  await page.locator('#register-confirm-password').fill('new-password-example');
+  await page.locator('#register-phone').fill('0900000000');
+  await page.getByRole('button', { name: 'Tạo tài khoản', exact: true }).click();
+  await expect(page.getByText(/Đăng ký thành công/)).toBeVisible();
+});
+
 for (const role of ['TEACHER', 'ADMIN']) {
   const site = sites[role.toLowerCase()];
-  const signedOutUrl = `${sites.portal.origin}/`;
+  const signedOutUrl = `${sites.portal.origin}/login`;
   test(`${role} guest cannot open protected pages`, async ({ page, app }) => {
     await page.goto(`${site.origin}/login`);
     await expect(page).toHaveURL(signedOutUrl);
     await page.goto(`${site.origin}/dashboard`);
     await expect(page).toHaveURL(signedOutUrl);
+    await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
     expect(app.requests.filter(r => r.path.startsWith(`/${role.toLowerCase()}/`))).toEqual([]);
+  });
+
+  test(`${role} old login URL forwards to the single Portal form`, async ({ page, app }) => {
+    await page.goto(`${site.origin}/login?direct=true`);
+    await expect(page).toHaveURL(signedOutUrl);
+    await expect(page.locator('input[autocomplete="current-password"]')).toHaveCount(1);
+    expect(app.requests.filter(r => r.path.startsWith('/auth/'))).toEqual([]);
+  });
+
+  test(`${role} expired handoff returns to the shared form without asking for credentials twice`, async ({ page, app }) => {
+    await page.goto(`${site.origin}/login#sso=expired-test-ticket`);
+    await expect(page.getByRole('alert')).toContainText('Vui lòng đăng nhập lại');
+    await expect(page.locator('input[type="password"]')).toHaveCount(0);
+    expect(new URL(page.url()).hash).toBe('');
+    await page.getByRole('link', { name: 'Quay lại trang đăng nhập' }).click();
+    await expect(page).toHaveURL(`${signedOutUrl}?session=expired`);
+    await expect(page.getByRole('alert')).toContainText('Phiên đăng nhập đã hết hạn');
+    expect(app.requests.filter(r => r.path === '/auth/sso/exchange')).toHaveLength(1);
   });
 
   test(`${role} SSO, reload and logout preserve the correct session boundaries`, async ({ page, app }) => {
@@ -141,16 +212,12 @@ for (const role of ['TEACHER', 'ADMIN']) {
     app.expired = true;
     await page.reload();
     await expect(page).toHaveURL(signedOutUrl);
-    // Teacher returns to Portal, which has its own isolated expired session.
-    // Wait for that cleanup rather than counting requests during its startup.
-    if (role === 'TEACHER') {
-      await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
-      await expect(page.getByRole('banner').getByRole('link', { name: 'Đăng nhập', exact: true })).toBeVisible();
-    }
+    await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
+    await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
     const refreshes = app.requests.filter(r => r.path === '/auth/refresh');
     expect(refreshes.filter(r => r.origin === site.origin)).toHaveLength(1);
-    expect(refreshes.filter(r => r.origin === sites.portal.origin)).toHaveLength(role === 'TEACHER' ? 1 : 0);
-    expect(refreshes).toHaveLength(role === 'TEACHER' ? 2 : 1);
+    expect(refreshes.filter(r => r.origin === sites.portal.origin)).toHaveLength(1);
+    expect(refreshes).toHaveLength(2);
     await page.goto(`${site.origin}/dashboard`);
     await expect(page).toHaveURL(signedOutUrl);
     expect(app.requests.filter(r => r.path === '/auth/refresh')).toHaveLength(refreshes.length);

@@ -40,7 +40,7 @@ class MathTutorServiceTest {
         assertThrows(ApiException.class,()->service.prepareLesson(new LessonDraft("Có 7 hộp, mỗi hộp 9 bút.",""),"real-pupil"));
     }
 
-    @ParameterizedTest @ValueSource(strings = {"source_mixed_number", "source_missing_yield_unit", "source_rounding_place"})
+    @ParameterizedTest @ValueSource(strings = {"source_mixed_number", "source_unread_fraction", "source_missing_yield_unit", "source_rounding_place"})
     void knownSourceGapsReturnAnActionableSafeCode(String reason) {
         server.expect(requestTo(URL + "/internal/v1/tutor/lesson"))
                 .andRespond(withStatus(HttpStatus.UNPROCESSABLE_ENTITY).header("X-Tutor-Failure", reason)

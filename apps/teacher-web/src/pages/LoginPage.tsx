@@ -16,7 +16,7 @@ export default function LoginPage() {
   useEffect(() => {
     if (ssoStarted.current) return;
     if (!ssoCode) {
-      window.location.replace(appConfig.portalOrigin);
+      window.location.replace(`${appConfig.portalOrigin}/login`);
       return;
     }
 
@@ -53,7 +53,7 @@ export default function LoginPage() {
         <div>
           <Alert severity="error">{error}</Alert>
           <Button component="a" href={`${appConfig.portalOrigin}/login?session=expired`}>
-            Đăng nhập lại
+            Quay lại trang đăng nhập
           </Button>
         </div>
       ) : <p role="status">{ssoCode ? 'Đang mở không gian giáo viên…' : 'Đang chuyển đến trang đăng nhập…'}</p>}

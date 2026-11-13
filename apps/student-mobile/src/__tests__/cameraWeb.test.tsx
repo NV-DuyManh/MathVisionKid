@@ -51,6 +51,7 @@ it('opens the rear live preview by default and enables the shutter only when rea
   expect(ImagePicker.launchCameraAsync).not.toHaveBeenCalled();
   ready();
   expect(button('Chụp ảnh bài toán').props.disabled).toBe(false);
+  expect(button('Chụp bằng máy ảnh điện thoại')).toBeUndefined();
 });
 it('captures the live photo, retains lesson context and stops preview before privacy', async () => {
   const lessonContext = { purpose: 'ADD_PROBLEM' as const, workText: 'Pupil work retained' };
@@ -77,15 +78,23 @@ it('keeps the image on normalization failure and allows a fresh live attempt', a
   await act(async () => button('Chụp ảnh bài toán').props.onPress());
   expect(push).toHaveBeenCalledWith('/privacy'); notice.mockRestore();
 });
-it('offers the system camera only after a preview error and retains the rear capture preference', async () => {
+it('offers the rear system camera while the preview is starting or unavailable', async () => {
   (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue({ canceled: false, assets: [{ uri: 'blob:photo', width: 4000, height: 3000 }] });
   await render();
-  expect(button('Chụp bằng máy ảnh điện thoại')).toBeUndefined();
+  expect(button('Chụp bằng máy ảnh điện thoại')).toBeDefined();
   failCamera();
   expect(button('Chụp ảnh bài toán').props.disabled).toBe(true);
   await act(async () => button('Chụp bằng máy ảnh điện thoại').props.onPress());
   expect(ImagePicker.launchCameraAsync).toHaveBeenCalledWith(expect.objectContaining({ cameraType: 'back', allowsEditing: false }));
   expect(push).toHaveBeenCalledWith('/privacy');
+});
+
+it('restarts a granted preview without opening a competing permission stream', async () => {
+  await render();
+  failCamera();
+  await act(async () => button('Thử mở lại máy ảnh').props.onPress());
+  expect(requestPermission).not.toHaveBeenCalled();
+  expect(preview()).toBeDefined();
 });
 it('keeps gallery and the camera permission action available before permission is granted', async () => {
   (useCameraPermissions as jest.Mock).mockReturnValue([null, requestPermission]);

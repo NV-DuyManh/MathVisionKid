@@ -14,14 +14,14 @@ export function LoginPage() {
     const handoff = window as Window & { mathVisionSsoTicket?: string };
     const code = handoff.mathVisionSsoTicket ?? new URLSearchParams(window.location.hash.slice(1)).get('sso');
     delete handoff.mathVisionSsoTicket;
-    if (!code) { window.location.replace(appConfig.portalOrigin); return; }
+    if (!code) { window.location.replace(`${appConfig.portalOrigin}/login`); return; }
     window.history.replaceState(window.history.state, '', window.location.pathname);
     void loginWithSsoTicket(code).then(() => navigate('/dashboard', { replace: true })).catch(() => setFailed(true));
   }, [loginWithSsoTicket, navigate]);
 
   return <main className="admin-auth">
     {failed ? <div><p role="alert">Chưa mở được phiên quản trị. Vui lòng đăng nhập lại.</p>
-      <a href={`${appConfig.portalOrigin}/login?session=expired`}>Đăng nhập lại</a></div>
+      <a href={`${appConfig.portalOrigin}/login?session=expired`}>Quay lại trang đăng nhập</a></div>
       : <p role="status">Đang mở trang quản trị…</p>}
   </main>;
 }

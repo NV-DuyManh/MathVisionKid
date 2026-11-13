@@ -15,10 +15,10 @@ const { QueryClient, QueryClientProvider } = require('@tanstack/react-query');
 function load(path, imports) {
   const exports = {};
   const source = transpileModule(readFileSync(new URL(path, import.meta.url), 'utf8'), {
-    compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.React, esModuleInterop: true },
+    compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.ReactJSX, esModuleInterop: true },
   }).outputText;
   vm.runInNewContext(source, { exports, React, window: globalThis.window, document: globalThis.document,
-    sessionStorage: globalThis.window.sessionStorage, Event: globalThis.window.Event, URL,
+    sessionStorage: globalThis.window.sessionStorage, Event: globalThis.window.Event, URL, URLSearchParams,
     require: id => imports[id] ?? require(id) });
   return exports;
 }

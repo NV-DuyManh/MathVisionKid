@@ -9,7 +9,7 @@ import { MediaTimeline } from './MediaTimeline';
 import { devicePosition, deviceProgress, deviceTimeline, estimatedDeviceDuration, rememberDevicePace } from './deviceTimeline';
 import type { AudioCue } from './audioCues';
 
-type Props = { paragraphs: string[]; compact?: boolean; onFinished?: () => void; onReturn?: () => void;
+type Props = { paragraphs: string[]; compact?: boolean; onFinished?: () => void; onReturn?: () => void; onFallback?: () => void;
   controlRef?: React.Ref<{ seekTo: (seconds: number) => void }>;
   onReady?: (cues: AudioCue[]) => void; onPosition?: (seconds: number, duration: number) => void };
 type State = 'loading' | 'ready' | 'starting' | 'speaking' | 'paused' | 'ended' | 'failed' | 'unavailable';
@@ -18,7 +18,7 @@ type State = 'loading' | 'ready' | 'starting' | 'speaking' | 'paused' | 'ended' 
 export function DeviceNarration(props: Props) {
   return <DevicePlayback key={JSON.stringify(props.paragraphs)} {...props} />;
 }
-function DevicePlayback({ paragraphs, compact, onFinished, onReturn, controlRef, onReady, onPosition }: Props) {
+function DevicePlayback({ paragraphs, compact, onFinished, onReturn, onFallback, controlRef, onReady, onPosition }: Props) {
   const text = JSON.stringify(paragraphs);
   const timeline = useMemo(() => deviceTimeline(JSON.parse(text)), [text]);
   const characters = timeline.chunks.reduce((sum, chunk) => sum + chunk.text.length, 0);
@@ -152,6 +152,7 @@ function DevicePlayback({ paragraphs, compact, onFinished, onReturn, controlRef,
     title={state === 'unavailable' ? 'Chưa có giọng Việt trên thiết bị' : 'Giọng thiết bị chưa phát được'}
     message="Em vẫn có thể mở lời giảng để đọc."
     actions={[
+      ...(onFallback ? [{ label: 'Dùng giọng Việt dự phòng', onPress: onFallback }] : []),
       { label: 'Thử lại', accessibilityLabel: 'Thử lại giọng thiết bị', icon: 'refresh-outline', onPress: () => { if (voice) seek(spoken.current ?? current.current, true, rate, true); else { setState('loading'); setLookup(value => value + 1); } } },
       ...(onReturn ? [{ label: 'Giọng chính', accessibilityLabel: 'Quay lại giọng đã chọn', onPress: onReturn }] : []),
     ]} />;

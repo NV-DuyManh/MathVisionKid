@@ -818,6 +818,7 @@ it('keeps lesson tools responsive and shows checking feedback during a delayed c
 });
 
 it.each([
+  'Bài 6. Có (5)/(?) số cây là cây xoài. Hỏi có tất cả bao nhiêu cây?',
   'Tính: 4(3)/(5) - 2(1)/(4) = …',
   'Tính: 2(2)/(3) : 1(2)/(5) = …',
   'Cứ 1 m² thu hoạch được (6)/(5) thóc. Hỏi thu được bao nhiêu tạ thóc?',
@@ -830,6 +831,7 @@ it.each([
   expect(TutorService.prepareLesson).not.toHaveBeenCalled();
   act(() => button('Em đã kiểm tra đề bài và các số').props.onPress());
   expect(button('Bắt đầu từng bước').props.disabled).toBe(true);
+  expect(quizApi.prepare).not.toHaveBeenCalled();
   await act(async () => button('Bắt đầu từng bước').props.onPress());
   expect(TutorService.startLesson).not.toHaveBeenCalled();
   act(() => button('Chỉnh chỗ chưa rõ trong đề').props.onPress());

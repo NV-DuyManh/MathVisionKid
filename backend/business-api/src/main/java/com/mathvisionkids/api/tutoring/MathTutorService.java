@@ -506,6 +506,7 @@ public class MathTutorService {
                 if (path.equals("/internal/v1/tutor/lesson")) {
                     String sourceMessage = switch (sourceReason == null ? "" : sourceReason) {
                         case "source_mixed_number" -> "Em đối chiếu phần nguyên và phần phân số với ảnh trước nhé.";
+                        case "source_unread_fraction" -> "Có phân số chưa đọc rõ. Em đối chiếu với ảnh rồi điền đủ tử số và mẫu số.";
                         case "source_missing_yield_unit" -> "Đề chưa ghi đơn vị của lượng thóc thu hoạch trên mỗi mét vuông. Em bổ sung đơn vị trước nhé.";
                         case "source_rounding_place" -> "Đề chưa nói làm tròn đến hàng nào. Em bổ sung yêu cầu làm tròn trước nhé.";
                         default -> null;

@@ -84,11 +84,13 @@ test('browser back and forward protect prepared images', async ({ page, app }) =
   await page.goBack();
   await confirmation.getByRole('button', { name: 'Rời trang' }).click();
   await expect(page.getByLabel('Xóa ảnh này')).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Quản lý Đợt chấm bài', exact: true })).toBeVisible();
   await page.goForward();
   await page.locator('input[type=file][multiple]').first().setInputFiles({ name: 'work.png', mimeType: 'image/png', buffer: image });
   await page.getByRole('button', { name: 'Quay lại danh sách đợt chấm' }).click();
   await confirmation.getByRole('button', { name: 'Rời trang' }).click();
   await expect(page).toHaveURL(`${sites.teacher.origin}/batches`);
+  await expect(page.getByRole('heading', { name: 'Quản lý Đợt chấm bài', exact: true })).toBeVisible();
   await page.goBack();
   await page.locator('input[type=file][multiple]').first().setInputFiles({ name: 'work.png', mimeType: 'image/png', buffer: image });
   await page.goForward();
