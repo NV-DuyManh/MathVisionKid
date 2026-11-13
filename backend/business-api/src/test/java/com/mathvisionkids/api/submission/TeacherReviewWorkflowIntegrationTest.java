@@ -778,6 +778,39 @@ class TeacherReviewWorkflowIntegrationTest {
         verifyNoInteractions(aiGateway);
     }
 
+    @Test
+    void interruptedTeacherDispatchWithoutAnAiJobBecomesRetryable() throws Exception {
+        Submission submission = saveSubmission("PROCESSING");
+        UUID id = submission.getSubmissionId();
+        var image = new SubmissionImage();
+        image.setSubmission(submission);
+        image.setContentType("image/jpeg");
+        image.setFileSize((long) realImageBytes.length);
+        image.setFilePath("original-image-reference");
+        images.saveAndFlush(image);
+        var attempt = new AuditEvent();
+        attempt.setSubmission(submissions.findById(id).orElseThrow());
+        attempt.setEventType("TEACHER_RETAKE_UPLOADED");
+        attempt.setCreatedAt(java.time.Instant.now().minusSeconds(300));
+        auditEvents.saveAndFlush(attempt);
+
+        var cutoff = java.time.Instant.now().minusSeconds(120);
+        submissionService.recoverInterruptedTeacherDispatches(cutoff);
+        submissionService.recoverInterruptedTeacherDispatches(cutoff);
+
+        assertTrue(aiJobs.findBySubmission_SubmissionId(id).isEmpty());
+        assertEquals("FAILED", submissions.findById(id).orElseThrow().getStatus());
+        assertEquals(1L, auditEvents.findBySubmission_SubmissionIdOrderByCreatedAtDesc(id).stream()
+                .filter(event -> "TEACHER_DISPATCH_INTERRUPTED".equals(event.getEventType())).count());
+        String token = obtainJwtToken(authorizedTeacher.getEmail(), AUTH_TEACHER_PASSWORD);
+        mvc.perform(get("/api/v1/teacher/submissions/" + id)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("FAILED"))
+                .andExpect(jsonPath("$.canRetryProcessing").value(true));
+        verifyNoInteractions(aiGateway);
+    }
+
     private Submission saveSubmission(String status) {
         return saveSubmission(status, java.time.Instant.now());
     }
