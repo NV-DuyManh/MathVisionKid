@@ -13,10 +13,12 @@ import static com.mathvisionkids.api.studentprofile.ProfileDtos.*;
 public class StudentProfileController {
     private final StudentProfileService profiles;
     private final StudentGameService games;
+    private final StudentAccountService account;
 
-    public StudentProfileController(StudentProfileService profiles, StudentGameService games) {
+    public StudentProfileController(StudentProfileService profiles, StudentGameService games, StudentAccountService account) {
         this.profiles = profiles;
         this.games = games;
+        this.account = account;
     }
 
     @ModelAttribute
@@ -29,6 +31,16 @@ public class StudentProfileController {
 
     @PutMapping("/profile")
     public Profile update(Principal principal, @Valid @RequestBody Edit edit) { return profiles.update(principal.getName(), edit); }
+
+    @PutMapping(value = "/profile/photo", consumes = "multipart/form-data")
+    public Profile photo(Principal principal, @RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
+        return account.photo(principal.getName(), file);
+    }
+
+    @PostMapping("/profile/password")
+    public com.mathvisionkids.api.auth.AuthResponse password(Principal principal, @Valid @RequestBody PasswordChange request) {
+        return account.password(principal.getName(), request);
+    }
 
     @GetMapping("/leaderboard")
     public Leaderboard leaderboard(Principal principal, @RequestParam(required = false) UUID classroom) {

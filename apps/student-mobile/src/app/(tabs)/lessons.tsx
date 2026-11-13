@@ -56,7 +56,7 @@ export default function LessonsScreen() {
   const webWide = IS_STUDENT_WEB && pageWidth >= 880;
   return <ScrollView style={[styles.screen, IS_STUDENT_WEB && styles.webScreen]} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} showsVerticalScrollIndicator={false}
     contentContainerStyle={[styles.content, { paddingTop: insets.top + 12, paddingBottom: pageWidth >= 768 ? 32 : 108 }]}>
-    <StudentPageHeader compact title="Bài học" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/(tabs)/profile')} />
+    <StudentPageHeader compact title="Bài học" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/account')} />
     {IS_STUDENT_WEB ? (
       <View style={[styles.webLayout, webWide && styles.webLayoutWide]}>
         <View style={[styles.webStudyTools, webWide && styles.webStudyToolsWide]}>

@@ -73,6 +73,7 @@ public class StudentProfileService {
                 """, id, edit.avatar(), "Sao " + UUID.randomUUID().toString().replace("-", "").substring(0, 12),
                 edit.leaderboardVisible(), title);
         rewards.rememberChallengers();
+        if (Boolean.TRUE.equals(edit.removePhoto())) db.update("DELETE FROM student_profile_photos WHERE student_id = ?", id);
         return profile(student);
     }
 
@@ -145,9 +146,12 @@ public class StudentProfileService {
         long stars = days.stream().mapToLong(Day::stars).sum();
         Long position = position(id, StudentRewards.GLOBAL_RANKING);
         var rank = StudentRank.at(stars, position);
+        String photo = db.query("SELECT image_bytes FROM student_profile_photos WHERE student_id = ?",
+                (r, n) -> "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(r.getBytes(1)), id)
+                .stream().findFirst().orElse(null);
         return new Profile(student.getDisplayName(), student.getGradeLevel(), student.getCreatedAt(), classes, prefs.avatar(),
                 prefs.visible(), prefs.alias(), prefs.title(), stars, rank, prefs.reachedChallenger() ? "Thách Đấu" : rank.name(),
-                position, stats, titles(stats), history);
+                position, stats, titles(stats), history, photo, student.getGoogleSubject() == null && student.getFacebookSubject() == null);
     }
 
     private Long position(UUID student, String ranking, Object... filters) {

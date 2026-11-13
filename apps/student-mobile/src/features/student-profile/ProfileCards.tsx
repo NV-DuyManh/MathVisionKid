@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS } from '../../constants/theme';
 import type { StudentProfile } from './profileApi';
@@ -14,7 +14,8 @@ export const avatars = [
   { id: 'sun', icon: 'sunny', name: 'Mặt trời', color: '#9C461E', background: '#FFE8D8' },
 ] as const;
 
-export function StudentAvatar({ id, size = 54 }: { id: string; size?: number }) {
+export function StudentAvatar({ id, size = 54, photo }: { id: string; size?: number; photo?: string | null }) {
+  if (photo && /^data:image\/(?:jpeg|png);base64,/.test(photo)) return <Image source={{ uri: photo }} style={{ width: size, height: size, borderRadius: size / 2 }} accessible={false} />;
   const avatar = avatars.find(item => item.id === id) ?? avatars[0];
   return <View accessible={false} aria-hidden style={[styles.avatar, { width: size, height: size, backgroundColor: avatar.background }]}>
     <Ionicons name={avatar.icon} size={size * .53} color={avatar.color} />

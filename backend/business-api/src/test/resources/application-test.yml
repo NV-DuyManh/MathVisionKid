@@ -12,7 +12,9 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: classpath:db/migration/V32__student_profile_rewards.sql
+      schema-locations:
+        - classpath:db/migration/V32__student_profile_rewards.sql
+        - classpath:db/migration/V33__student_account_photos.sql
   flyway:
     enabled: false
 
