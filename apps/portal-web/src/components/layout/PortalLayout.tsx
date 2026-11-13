@@ -137,7 +137,7 @@ export const PortalLayout: React.FC = () => {
         }}
       >
         <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
-          <Toolbar disableGutters sx={{ justifyContent: 'space-between', height: 74 }}>
+          <Toolbar disableGutters sx={{ justifyContent: 'space-between', height: { xs: 64, sm: 74 }, gap: 1 }}>
             {/* Brand Logo & Name */}
             <Box
               component={RouterLink}
@@ -145,7 +145,8 @@ export const PortalLayout: React.FC = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 1.5,
+                gap: { xs: 0.75, sm: 1.5 },
+                minWidth: 0,
                 textDecoration: 'none',
                 transition: 'transform 160ms ease, opacity 160ms ease',
                 '&:hover': { transform: 'scale(1.02)' },
@@ -158,8 +159,9 @@ export const PortalLayout: React.FC = () => {
                 alt="Biểu trưng Ngôi sao MathVision Kids"
                 className="star-companion-float"
                 sx={{
-                  width: 42,
-                  height: 42,
+                  width: { xs: 34, sm: 42 },
+                  height: { xs: 34, sm: 42 },
+                  flexShrink: 0,
                   objectFit: 'contain',
                 }}
                 onError={(e: any) => {
@@ -174,8 +176,9 @@ export const PortalLayout: React.FC = () => {
                       color: '#0F172A',
                       fontWeight: 900,
                       lineHeight: 1.15,
-                      fontSize: '1.3rem',
+                      fontSize: { xs: 'clamp(0.95rem, 4.4vw, 1.2rem)', sm: '1.3rem' },
                       letterSpacing: '-0.025em',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     MathVision<span style={{ color: '#2563EB' }}>Kids</span>
@@ -184,6 +187,7 @@ export const PortalLayout: React.FC = () => {
                     label="Tiểu học"
                     size="small"
                     sx={{
+                      display: { xs: 'none', lg: 'inline-flex' },
                       height: 22,
                       fontSize: '0.72rem',
                       fontWeight: 800,
@@ -288,7 +292,7 @@ export const PortalLayout: React.FC = () => {
             )}
 
             {/* Right Action & Auth Area */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexShrink: 0 }}>
               {/* Portals menu button for quick navigation */}
               <Button
                 variant="outlined"
@@ -507,8 +511,11 @@ export const PortalLayout: React.FC = () => {
                   endIcon={<span style={{ fontSize: '14px', marginLeft: 4 }}>→</span>}
                   sx={{
                     fontWeight: 800,
-                    px: 2.75,
-                    minHeight: 42,
+                    px: { xs: 1.5, sm: 2.75 },
+                    minHeight: 44,
+                    fontSize: { xs: '0.85rem', sm: '0.95rem' },
+                    whiteSpace: 'nowrap',
+                    '& .MuiButton-endIcon': { display: { xs: 'none', sm: 'inline-flex' } },
                     borderRadius: 2.5,
                   }}
                 >

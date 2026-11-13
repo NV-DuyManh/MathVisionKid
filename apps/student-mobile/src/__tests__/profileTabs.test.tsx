@@ -8,6 +8,7 @@ import { loadLessons } from '../features/tutoring/learningHistory';
 jest.mock('expo-router', () => ({ useRouter: jest.fn(), useFocusEffect: (fn: () => void) => require('react').useEffect(fn, [fn]) }));
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: require('react-native').View }));
 jest.mock('../context/AuthContext', () => ({ AuthContext: require('react').createContext(undefined) }));
+jest.mock('../features/student-profile/profileApi', () => ({ profileApi: { get: jest.fn().mockRejectedValue(new Error('offline')) } }));
 jest.mock('../features/tutoring/learningHistory', () => ({ loadLessons: jest.fn() }));
 const saved = [
   { id: 'first', timestamp: Date.now() - 1000, problemText: 'Bài cộng số bút', workText: '36 + 27 = 63', reflection: '', reviewedSteps: 2 },

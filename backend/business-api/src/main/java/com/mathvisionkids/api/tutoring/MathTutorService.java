@@ -183,7 +183,8 @@ public class MathTutorService {
         var result = lessonResponse(call("/internal/v1/tutor/lesson/answer", java.util.Map.of("owner", owner,
                 "sessionId", request.sessionId(), "revision", request.revision(), "answer", request.answer(), "hint", request.hint()), MediaType.APPLICATION_JSON));
         if (quizSources != null && result.status().equals("COMPLETE")) {
-            try { quizSources.complete(owner, result.sessionId()); }
+            try { quizSources.complete(owner, result.sessionId(), !request.hint() && result.completed().stream()
+                    .anyMatch(step -> "MATH".equals(step.kind()) && !step.answer().isBlank())); }
             catch (RuntimeException ex) { quizSources.warnUnavailable(); }
         }
         return result;

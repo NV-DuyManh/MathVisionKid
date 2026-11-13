@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { ActivityIndicator, Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,14 +10,20 @@ import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { loadLessons, SavedLesson } from '../../features/tutoring/learningHistory';
+import { ProfilePanel } from '../../features/student-profile/ProfilePanel';
 import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
 
 type Tab = 'saved' | 'work' | 'notes';
 export default function ProfileScreen() {
-  const router = useRouter(), auth = useContext(AuthContext);
-  const [pageWidth, setPageWidth] = useState(0), [tab, setTab] = useState<Tab>('saved');
+  const auth = useContext(AuthContext);
   const owner = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
+  return <ProfileContent key={owner ?? 'signed-out'} owner={owner} logout={auth?.logout} />;
+}
+
+function ProfileContent({ owner, logout }: { owner?: string; logout?: () => Promise<void> }) {
+  const router = useRouter();
+  const [pageWidth, setPageWidth] = useState(0), [tab, setTab] = useState<Tab>('saved');
   const [lessons, setLessons] = useState<SavedLesson[]>([]), [error, setError] = useState(false);
   const [attempt, setAttempt] = useState(0), [loading, setLoading] = useState(true);
   const [menu, setMenu] = useState<SavedLesson | null>(null);
@@ -36,6 +42,7 @@ export default function ProfileScreen() {
   return <SafeAreaView style={styles.screen} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} edges={['top']}>
     <ScrollView contentContainerStyle={[styles.content, pageWidth >= 768 && styles.contentWide]} showsVerticalScrollIndicator={false}>
       <StudentPageHeader compact title="Của em" onBack={() => router.replace('/(tabs)')} />
+      {owner && logout && <ProfilePanel owner={owner} logout={logout} />}
       <Pressable accessibilityRole="button" accessibilityLabel="Trò chơi rèn luyện cho em"
         onPress={() => router.push('/games')}
         style={({ pressed }) => [styles.games, pressed && styles.pressed]}>
@@ -72,10 +79,7 @@ export default function ProfileScreen() {
           <Text style={styles.emptyText}>{tab === 'notes' ? 'Khi lưu bài, em viết một điều vừa hiểu. Ghi chú sẽ xuất hiện ở đây.' : 'Chụp bài toán, cùng học từng bước rồi lưu lại để lần sau học tiếp.'}</Text>
           <AppButton title="Chụp bài toán" onPress={capture} />
         </View>}
-      <View style={styles.footer}><Ionicons name="lock-closed-outline" size={15} color="#9B8CB5" /><Text style={styles.caption}>Góc học tập của {auth?.user?.name || 'em'}</Text></View>
-      <AppButton title="Đăng xuất" variant="ghost" onPress={() => Alert.alert('Đăng xuất', 'Em muốn đăng xuất khỏi tài khoản này?', [
-        { text: 'Ở lại', style: 'cancel' }, { text: 'Đăng xuất', onPress: () => auth?.logout() },
-      ])} />
+
     </ScrollView>
     {menu ? <LessonSheet title="Bài học của em" onClose={() => setMenu(null)}>
       <MathText style={styles.emptyText}>{menu.problemText || menu.workText}</MathText>
@@ -102,7 +106,7 @@ const styles = StyleSheet.create({
   note: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 19, color: '#6D6085', marginTop: 6 }, more: { width: 44, height: 52, alignItems: 'center', justifyContent: 'center' },
   empty: { alignItems: 'center', padding: 24, borderRadius: 24, backgroundColor: '#F3EEFD', gap: 17 }, art: { width: 136, height: 132 },
   emptyTitle: { fontFamily: FONTS.extraBold, fontSize: 20, color: '#4F3973', textAlign: 'center' }, emptyText: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 23, color: '#7A6B92' },
-  caption: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 19, color: '#8B7DA1' }, footer: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 7, marginTop: 9 },
+  caption: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 19, color: '#8B7DA1' },
   games: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 64, padding: 20, borderRadius: 25, backgroundColor: COLORS.surface, ...SHADOWS.small },
   gamesTitle: { flex: 1, minWidth: 0, fontFamily: FONTS.bold, fontSize: 17, lineHeight: 26, color: COLORS.textPrimary },
   error: { fontFamily: FONTS.regular, fontSize: 14, color: COLORS.errorText }, pressed: { opacity: .7 },

@@ -1,6 +1,7 @@
 package com.mathvisionkids.api.quiz;
 
 import com.mathvisionkids.api.common.ApiException;
+import com.mathvisionkids.api.studentprofile.StudentRewards;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,15 @@ public class QuizService {
     private final Clock clock;
     private final QuizPreparations preparations;
     private final QuizGenerator generator;
+    private final StudentRewards rewards;
     @org.springframework.beans.factory.annotation.Autowired
-    public QuizService(QuizRepository quizzes, QuizSourceRepository sources, QuizAttemptRepository attempts, QuizSources identities, QuizPreparations preparations, QuizGenerator generator) {
-        this(quizzes,sources,attempts,identities,preparations,generator,Clock.systemUTC());
+    public QuizService(QuizRepository quizzes, QuizSourceRepository sources, QuizAttemptRepository attempts, QuizSources identities, QuizPreparations preparations, QuizGenerator generator, StudentRewards rewards) {
+        this(quizzes,sources,attempts,identities,preparations,generator,rewards,Clock.systemUTC());
     }
-    QuizService(QuizRepository quizzes, QuizSourceRepository sources, QuizAttemptRepository attempts, QuizSources identities, QuizPreparations preparations, QuizGenerator generator, Clock clock) {
+    QuizService(QuizRepository quizzes, QuizSourceRepository sources, QuizAttemptRepository attempts, QuizSources identities, QuizPreparations preparations, QuizGenerator generator, StudentRewards rewards, Clock clock) {
         this.quizzes=quizzes; this.sources=sources; this.attempts=attempts; this.identities=identities; this.preparations=preparations; this.clock=clock;
         this.generator=generator;
+        this.rewards = rewards;
     }
     private Instant now() { return clock.instant().truncatedTo(java.time.temporal.ChronoUnit.MICROS); }
     @Transactional
@@ -198,7 +201,9 @@ public class QuizService {
     }
     @Transactional
     public Graded submit(String principal, UUID id, Submission request) {
-        var q=locked(principal,id);
+        UUID student = identities.student(principal);
+        identities.lockStudent(student);
+        var q = locked(student, id);
         var previous=attempts.findByQuizIdAndRequestId(id,request.requestId());
         if (previous.isPresent()) {
             if (!previous.get().answer.equals(request.answer().strip())) throw error("QUIZ_REQUEST_REUSED","Em gửi lại câu trả lời với lượt gửi mới nhé.",HttpStatus.CONFLICT);
@@ -215,6 +220,7 @@ public class QuizService {
         entry.attemptNumber=Math.toIntExact(attempts.countByQuizId(q.id))+1; entry.correct=answer.equals(Rational.parse(q.answerSpec));
         entry.submittedAt=now; entry.elapsedMillis=q.elapsedMillis(now); entry.replayMode=q.replayMode;
         entry.questionText=q.questionText; entry.answerSpec=q.answerSpec; entry.solutionViewed=q.solutionViewed; entry.runStartedAt=q.startedAt;
+        boolean verifiedCompletion = entry.correct && q.firstCompletedAt == null && !q.solutionViewed && !q.replaying;
         if (entry.correct) {
             int earnedStars = "PRACTICE".equals(q.replayMode) ? 0 : stars(entry.elapsedMillis, q.solutionViewed);
             entry.stars = earnedStars;
@@ -230,6 +236,7 @@ public class QuizService {
             q.wrongAttempts++;
         }
         attempts.saveAndFlush(entry); q.lastSubmittedAt=now; q.updatedAt=now;
+        if (verifiedCompletion) rewards.record(q.studentId, StudentRewards.Source.QUIZ, q.id.toString(), q.sourceFingerprint);
         return new Graded(view(q,true),attempt(entry));
     }
     static int stars(long elapsedMillis, boolean viewed) { return viewed ? 1 : elapsedMillis<=30000 ? 3 : elapsedMillis<=60000 ? 2 : 1; }
@@ -260,7 +267,8 @@ public class QuizService {
         if (!q.solutionViewed && !q.status.equals("COMPLETED")) throw error("QUIZ_SOLUTION_LOCKED","Em mở Cách giải trước khi nghe nhé.",HttpStatus.CONFLICT);
         return q.validatedSolution;
     }
-    private Quiz locked(String principal, UUID id) { return quizzes.ownedForUpdate(id,identities.student(principal)).filter(q -> !"INVALIDATED".equals(q.status)).orElseThrow(QuizService::missing); }
+    private Quiz locked(String principal, UUID id) { return locked(identities.student(principal), id); }
+    private Quiz locked(UUID student, UUID id) { return quizzes.ownedForUpdate(id, student).filter(q -> !"INVALIDATED".equals(q.status)).orElseThrow(QuizService::missing); }
     private View view(Quiz q, boolean detail) {
         boolean published = q.solutionViewed || (q.status.equals("COMPLETED") && !q.replaying);
         String prompt = q.questionText;
