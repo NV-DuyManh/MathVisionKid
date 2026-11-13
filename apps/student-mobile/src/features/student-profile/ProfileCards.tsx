@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS } from '../../constants/theme';
 import type { StudentProfile } from './profileApi';
+import { RankEmblem } from './RankEmblem';
 
 export const avatars = [
   { id: 'star', icon: 'star', name: 'Sao nhỏ', color: '#7A4B00', background: '#FFF0BC' },
@@ -26,13 +27,13 @@ export function ProfileRankCard({ profile }: { profile: StudentProfile }) {
   const title = profile.titles.find(t => t.id === profile.selectedTitle);
   return <View style={styles.rankCard}>
     <View style={styles.heroRow}>
-      <View style={styles.medal} accessible={false} aria-hidden><Ionicons name="ribbon" size={40} color="#FFE39D" /></View>
+      <RankEmblem name={rank.name} />
       <View style={styles.grow}>
         <Text style={styles.rankCaption}>HẠNG CỦA EM</Text>
         <Text accessibilityRole="header" style={styles.rank}>{rank.name}</Text>
         {title && <Text style={styles.light}>{title.name}</Text>}
+        <Text style={styles.stars}>{stars} sao</Text>
       </View>
-      <Text style={styles.stars}>{stars} sao</Text>
     </View>
     {rank.goal > 0 && <>
       <View accessibilityRole="progressbar" accessibilityLabel="Tiến độ lên hạng" accessibilityValue={{ min: 0, max: rank.goal, now: rank.progress }}
@@ -40,7 +41,8 @@ export function ProfileRankCard({ profile }: { profile: StudentProfile }) {
         style={styles.track}><View style={[styles.bar, { width: `${100 * rank.progress / rank.goal}%` }]} /></View>
       <Text style={styles.light}>Còn {next} sao để lên bậc tiếp theo</Text>
     </>}
-    <Text style={styles.light}>Hạng cao nhất · {highestRank}{position ? `    Vị trí toàn hệ thống · #${position}` : ''}</Text>
+    <Text style={styles.light}>Hạng cao nhất · {highestRank}</Text>
+    {position !== null && <Text style={styles.light}>Vị trí toàn hệ thống · #{position}</Text>}
   </View>;
 }
 
@@ -69,6 +71,7 @@ export const profileStyles = StyleSheet.create({
   error: { color: '#8C243D', fontFamily: FONTS.bold, fontSize: 14 },
   logoutButton: { backgroundColor: '#FFF5F5', borderColor: '#F3BDBD', borderWidth: 1 },
   logoutLabel: { color: COLORS.errorText, fontFamily: FONTS.extraBold },
+  profileAction: { flexGrow: 1, flexBasis: 122, paddingHorizontal: 12 },
 });
 
 const styles = StyleSheet.create({
@@ -76,8 +79,7 @@ const styles = StyleSheet.create({
   avatar: { alignItems: 'center', justifyContent: 'center', borderRadius: 50 },
   rankCard: { gap: 10, borderRadius: 24, padding: 20, backgroundColor: '#412874' },
   heroRow: { flexDirection: 'row', alignItems: 'center', gap: 12, flexWrap: 'wrap' },
-  medal: { width: 60, height: 60, borderRadius: 21, backgroundColor: '#604398', alignItems: 'center', justifyContent: 'center' },
-  grow: { flex: 1, minWidth: 120 },
+  grow: { flex: 1, minWidth: 135, gap: 2 },
   rankCaption: { color: '#E1D4FC', fontFamily: FONTS.extraBold, fontSize: 11, letterSpacing: 1 },
   rank: { color: '#FFF', fontFamily: FONTS.black, fontSize: 25, lineHeight: 33 },
   stars: { color: '#FFE39D', fontFamily: FONTS.black, fontSize: 21 },

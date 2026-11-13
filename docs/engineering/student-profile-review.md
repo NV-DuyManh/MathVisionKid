@@ -25,6 +25,7 @@ Các ảnh dưới đây được chụp bằng Chromium ở 390 px và 1440 px 
 | Màn hình | Ảnh bấm để xem đầy đủ |
 | --- | --- |
 | Hồ sơ và tiến độ lên hạng | [Đồng III, 1/3 sao](../media/screenshots/pr60-profile-rank-mobile.png) |
+| Hồ sơ trên màn nhỏ | [Chỉnh sửa](../media/screenshots/pr60-profile-edit-mobile.png) · [Quyền riêng tư](../media/screenshots/pr60-profile-privacy-mobile.png) · [Xác nhận đăng xuất](../media/screenshots/pr60-profile-logout-mobile.png) |
 | Rank cao và thống kê | [Thách Đấu trên màn nhỏ](../media/screenshots/pr60-challenger-mobile.png) · [Thách Đấu trên desktop](../media/screenshots/pr60-rank-desktop.png) |
 | Nhiệm vụ, danh hiệu và lịch sử | [Nhiệm vụ và đường dẫn vào hoạt động](../media/screenshots/pr60-missions-mobile.png) · [Danh hiệu](../media/screenshots/pr60-titles-mobile.png) · [Lịch sử nhận sao](../media/screenshots/pr60-star-history.png) |
 | Xếp hạng theo bí danh | [Toàn hệ thống](../media/screenshots/pr60-leaderboard-global.png) · [Lớp 3A](../media/screenshots/pr60-leaderboard-class.png) |
@@ -34,6 +35,7 @@ Các ảnh dưới đây được chụp bằng Chromium ở 390 px và 1440 px 
 
 - Mũi tên bên cạnh Đăng nhập là trang trí. Playwright dùng tên truy cập `Đăng nhập` trên cả desktop và mobile. Các kiểm tra phiên, đăng xuất, điều hướng lại và hết hạn vẫn được giữ.
 - Thanh tiến độ rank công bố giá trị hiện tại và tối đa cho trình đọc màn hình trên web.
+- Huy hiệu thay đổi theo bậc ở hồ sơ, thành tích và bảng xếp hạng. Nút Quyền riêng tư mở hộp thoại về quyền xuất hiện trên bảng, có đường dẫn tới cài đặt.
 - Student Profile chuyển migration chưa phát hành sang V32. Flyway trên PostgreSQL 16 đã kiểm tra hai đường nâng cấp từ V28 và từ V31 của PR #59, bao gồm bảo toàn dữ liệu, kiểm tra checksum và backup/restore. Tích hợp #59 trước rồi đồng bộ #60 theo [thứ tự migration](student-profile-rewards.md#integration).
 
 Skills applied: mathvision-workflow, mathvision-quality, mathvision-review, mathvision-backend, fixing-accessibility.

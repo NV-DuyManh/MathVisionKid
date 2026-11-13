@@ -10,6 +10,7 @@ import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { ProfileRankCard, ProfileStats, profileStyles as s, StudentAvatar } from '../../features/student-profile/ProfileCards';
 import { profileApi, type Leaderboard } from '../../features/student-profile/profileApi';
 import { useStudentProfile } from '../../features/student-profile/useStudentProfile';
+import { RankEmblem } from '../../features/student-profile/RankEmblem';
 
 export default function AchievementsScreen() {
   const auth = useContext(AuthContext);
@@ -89,7 +90,10 @@ function Achievements({ owner }: { owner?: string }) {
             {current.data.entries.length === 0 && <Text style={s.body}>Chưa có bạn nào được xếp hạng.</Text>}
             {current.data.entries.map(item => <View key={item.alias} style={[s.row, s.chip]}>
               <Text style={s.heading}>#{item.position}</Text><StudentAvatar id={item.avatar} size={32} />
-              <View style={{ flex: 1, minWidth: 105 }}><Text style={s.body}>{item.alias}{item.self ? ' (em)' : ''}</Text><Text style={s.body}>{item.rank.name}</Text></View>
+              <View style={{ flex: 1, minWidth: 105 }}>
+                <Text style={s.body}>{item.alias}{item.self ? ' (em)' : ''}</Text>
+                <View style={[s.row, { gap: 5 }]}><RankEmblem name={item.rank.name} size={25} /><Text style={s.body}>{item.rank.name}</Text></View>
+              </View>
               <Text style={s.body}>{item.stars} sao</Text>
             </View>)}
           </> : <ActivityIndicator accessibilityLabel="Đang tải bảng xếp hạng" />}

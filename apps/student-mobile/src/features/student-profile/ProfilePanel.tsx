@@ -13,7 +13,7 @@ import { useStudentProfile } from './useStudentProfile';
 export function ProfilePanel({ owner, logout }: { owner: string; logout: () => Promise<void> }) {
   const router = useRouter();
   const profile = useStudentProfile(owner);
-  const [sheet, setSheet] = useState<'edit' | 'logout' | null>(null);
+  const [sheet, setSheet] = useState<'edit' | 'privacy' | 'logout' | null>(null);
   const [leaving, setLeaving] = useState(false);
   const [logoutError, setLogoutError] = useState(false);
   const logoutLock = useRef(false);
@@ -28,15 +28,17 @@ export function ProfilePanel({ owner, logout }: { owner: string; logout: () => P
     <View style={s.card}>
       <View style={s.row}>
         <StudentAvatar id={value?.avatar ?? 'star'} size={64} />
-        <View style={{ flex: 1, minWidth: 150 }}>
+        <View style={{ flex: 1, minWidth: 130, gap: 3 }}>
           <Text accessibilityRole="header" style={s.heading}>{value?.displayName ?? 'Hồ sơ của em'}</Text>
           {value?.gradeLevel != null && <Text style={s.body}>Khối {value.gradeLevel}</Text>}
           {value?.classrooms.map(room => <Text key={room.id} style={s.body}>{room.name}</Text>)}
-          {value?.joinedAt && <Text style={s.body}>Tham gia {new Date(value.joinedAt).toLocaleDateString('vi-VN')}</Text>}
+          {value?.joinedAt && <Text style={s.body}>Tham gia {new Date(value.joinedAt).toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}</Text>}
         </View>
       </View>
-      {value && <AppButton title="Sửa hồ sơ" variant="secondary" onPress={() => setSheet('edit')} />}
-      <AppButton title="Quyền riêng tư" variant="ghost" onPress={() => router.push('/privacy')} />
+      <View style={s.row}>
+        {value && <AppButton title="Sửa hồ sơ" variant="secondary" style={s.profileAction} onPress={() => setSheet('edit')} />}
+        <AppButton title="Quyền riêng tư" variant="ghost" style={s.profileAction} onPress={() => setSheet('privacy')} />
+      </View>
       <AppButton title="Đăng xuất" variant="outlined" style={s.logoutButton} textStyle={s.logoutLabel}
         icon={<Ionicons name="log-out-outline" size={23} color={COLORS.errorText} accessible={false} aria-hidden />}
         onPress={() => { setLogoutError(false); setSheet('logout'); }} />
@@ -50,6 +52,13 @@ export function ProfilePanel({ owner, logout }: { owner: string; logout: () => P
       : <ActivityIndicator accessibilityLabel="Đang tải hồ sơ" />}
     {sheet === 'edit' && value && <ProfileEditor profile={value} onClose={() => setSheet(null)}
       onSave={updated => { profile.accept(updated); setSheet(null); }} />}
+    {sheet === 'privacy' && <LessonSheet title="Quyền riêng tư" compact onClose={() => setSheet(null)}>
+      <Text style={s.body}>{!value ? 'Em có thể kiểm tra tùy chọn hiển thị sau khi tải được hồ sơ.' : value.leaderboardVisible
+        ? `Em đang xuất hiện trên bảng xếp hạng với bí danh ${value.publicAlias}.`
+        : 'Hồ sơ của em đang ẩn khỏi bảng xếp hạng.'}</Text>
+      <Text style={s.body}>Khi tham gia, bảng xếp hạng chỉ hiển thị bí danh, hình đại diện, hạng và sao của em.</Text>
+      {value && <AppButton title="Đổi tùy chọn hiển thị" variant="secondary" onPress={() => setSheet('edit')} />}
+    </LessonSheet>}
     {sheet === 'logout' && <LessonSheet title="Đăng xuất" compact onClose={() => { if (!leaving) setSheet(null); }}>
       <Text style={s.body}>Em có muốn đăng xuất khỏi tài khoản này?</Text>
       {logoutError && <Text accessibilityRole="alert" style={s.error}>Chưa đăng xuất được. Em thử lại nhé.</Text>}

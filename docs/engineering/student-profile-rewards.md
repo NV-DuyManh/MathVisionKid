@@ -22,6 +22,8 @@ Starting at Đồng III, the six pre-master tiers consume 9, 12, 16, 25, 25 and 
 
 Rank names and master subdivisions were cross-checked against the official Garena update. Top 200 and the specified promotion thresholds are MathVision Kids product rules. [Garena update](https://lienquan.garena.vn/chi-tiet-ban-cap-nhat-phien-ban-ngay-hoi-lien-quan/)
 
+The current ladder starts at Đồng III. The five emblems from Đồng through Kim Cương are cropped and resized from Sinestesia's **Ranks Coins and More**, released under CC0. Tinh Anh through Thách Đấu use original vector emblems. The profile and both leaderboards share the same artwork for each tier. [OpenGameArt asset and license](https://opengameart.org/content/ranks-coins-and-more)
+
 ## UX evidence
 
 The installed last30days engine ran for 14 October–13 November 2026. Reddit retrieval was unreachable and Hacker News produced one low-signal result, with no ranked evidence surviving. The design uses the existing app's palette and typography, a visible progress bar, and direct activity links. Private-by-default rankings and static, readable reward feedback follow the reviewed primary references. [Duolingo October 2026 update](https://blog.duolingo.com/october-2026-update/) · [Minecraft Education challenge](https://education.minecraft.net/en-us/challenges/minecraft-micro-models) · [ICO default settings design guidance](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/childrens-information/childrens-code-guidance-and-resources/age-appropriate-design-a-code-of-practice-for-online-services/7-default-settings/)
