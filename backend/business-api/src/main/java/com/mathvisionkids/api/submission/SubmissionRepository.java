@@ -12,6 +12,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface SubmissionRepository extends JpaRepository<Submission, UUID> {
+    @Query("""
+            select distinct s.submissionId from Submission s join AuditEvent a on a.submission = s
+            where s.status = 'PROCESSING' and a.eventType in :events and a.createdAt < :cutoff
+            and not exists (select 1 from AuditEvent newer where newer.submission = s
+                and newer.eventType in :events and newer.createdAt > a.createdAt)
+            and not exists (select 1 from AiJob j where j.submission = s
+                and j.submittedAt >= a.createdAt
+                and j.status not in ('SUPERSEDED', 'FAILED')
+                and (j.status <> 'PENDING' or j.submittedAt >= :cutoff))
+            """)
+    List<UUID> findInterruptedTeacherDispatches(@Param("events") Set<String> events,
+            @Param("cutoff") java.time.Instant cutoff, org.springframework.data.domain.Pageable page);
+
     @org.springframework.data.jpa.repository.Modifying
     @Query("update Submission s set s.status = 'FAILED' where s.submissionId = :id and s.status = 'PROCESSING'")
     int markDispatchFailure(@Param("id") UUID submissionId);

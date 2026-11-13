@@ -157,9 +157,9 @@ export default function DashboardPage() {
 
         <Grid size={{ xs: 6, lg: 3 }}>
           <StatCard
-            title="Đã có đề xuất điểm"
+            title="Đã chốt điểm"
             value={stats ? completedCount : null}
-            description={stats ? 'AI đã xử lý xong và có đề xuất' : 'Chưa tải được dữ liệu'}
+            description={stats ? 'Giáo viên đã xác nhận điểm' : 'Chưa tải được dữ liệu'}
             icon={<FactCheck fontSize="small" />}
             tone="#ECFDF5"
             color="#059669"

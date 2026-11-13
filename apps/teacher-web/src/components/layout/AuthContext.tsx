@@ -93,9 +93,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loggingOut.current = true;
     AuthTokenStore.clearTokens();
     setUser(null);
-    // Revoke only the captured session; network availability must not delay leaving.
-    if (accessToken) void axios.post(`${appConfig.apiBaseUrl}/auth/logout`, {}, {
-      headers: { Authorization: `Bearer ${accessToken}` }, timeout: 5000,
+    // Give the captured session a bounded chance to be revoked before navigation.
+    if (accessToken) await axios.post(`${appConfig.apiBaseUrl}/auth/logout`, {}, {
+      headers: { Authorization: `Bearer ${accessToken}` }, timeout: 2000,
     }).catch(() => {});
     window.location.replace(`${appConfig.portalOrigin}/logout?source=teacher`);
   };

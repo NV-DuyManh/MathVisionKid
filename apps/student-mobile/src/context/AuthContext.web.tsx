@@ -142,9 +142,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (current !== revision.current) return;
     await tokenStorage.clearTokens();
     delete apiClient.defaults.headers.common.Authorization;
-    if (accessToken) void axios.post(`${ENV.API_BASE_URL}/auth/logout`, {}, {
-      headers: { Authorization: `Bearer ${accessToken}` }, timeout: 5000,
+    if (accessToken) await axios.post(`${ENV.API_BASE_URL}/auth/logout`, {}, {
+      headers: { Authorization: `Bearer ${accessToken}` }, timeout: 2000,
     }).catch(() => {});
+    if (current !== revision.current) return;
     if (portal) window.location.replace('/logout?source=student');
     else router.replace('/login');
   };

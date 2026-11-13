@@ -753,6 +753,31 @@ class TeacherReviewWorkflowIntegrationTest {
                 .andExpect(jsonPath("$.imageVersion").value(imageId.toString()));
     }
 
+    @Test
+    void interruptedTeacherDispatchBecomesRetryableWithoutDispatchingAgain() {
+        UUID id = saveSubmission("PROCESSING").getSubmissionId();
+        var attempt = new AuditEvent();
+        attempt.setSubmission(submissions.findById(id).orElseThrow());
+        attempt.setEventType("TEACHER_PROCESSING_RETRY_REQUESTED");
+        attempt.setCreatedAt(java.time.Instant.now().minusSeconds(300));
+        auditEvents.save(attempt);
+        var pending = new com.mathvisionkids.api.analysis.AiJob();
+        pending.setSubmission(attempt.getSubmission());
+        pending.setStatus("PENDING");
+        pending.setSubmittedAt(java.time.Instant.now().minusSeconds(290));
+        UUID jobId = aiJobs.saveAndFlush(pending).getJobId();
+
+        var cutoff = java.time.Instant.now().minusSeconds(120);
+        submissionService.recoverInterruptedTeacherDispatches(cutoff);
+        submissionService.recoverInterruptedTeacherDispatches(cutoff);
+
+        assertEquals("FAILED", submissions.findById(id).orElseThrow().getStatus());
+        assertEquals("SUPERSEDED", aiJobs.findById(jobId).orElseThrow().getStatus());
+        assertEquals(1L, auditEvents.findBySubmission_SubmissionIdOrderByCreatedAtDesc(id).stream()
+                .filter(event -> "TEACHER_DISPATCH_INTERRUPTED".equals(event.getEventType())).count());
+        verifyNoInteractions(aiGateway);
+    }
+
     private Submission saveSubmission(String status) {
         return saveSubmission(status, java.time.Instant.now());
     }

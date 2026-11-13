@@ -31,8 +31,8 @@ export default function AchievementsScreen() {
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, [userKey, attempt]));
-  const activity = buildLearningActivity([...sessions, ...lessons.map(item => ({ sessionId: item.id, timestamp: item.timestamp }))]);
-  const total = sessions.length + lessons.length;
+  const activity = buildLearningActivity(lessons.map(item => ({ sessionId: item.id, timestamp: item.timestamp })));
+  const total = lessons.length;
   const checked = sessions.reduce((sum, session) => sum + session.confirmedLines, 0) + lessons.reduce((sum, lesson) => sum + lesson.reviewedSteps, 0);
   const wide = pageWidth >= 900;
   if (IS_STUDENT_WEB) return (
@@ -66,6 +66,7 @@ export default function AchievementsScreen() {
             </View>
             <View style={styles.webMetrics}>
               <Text style={styles.webBody}><Text style={styles.webValue}>{total}</Text> bài đã lưu</Text>
+              <Text style={styles.webBody}><Text style={styles.webValue}>{sessions.length}</Text> lượt nhận diện</Text>
               <Text style={styles.webBody}><Text style={styles.webValue}>{activity.streak}</Text> ngày liên tiếp</Text>
               <Text style={styles.webBody}><Text style={styles.webValue}>{checked}</Text> dòng và bước đã xem lại</Text>
             </View>

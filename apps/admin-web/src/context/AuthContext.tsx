@@ -91,7 +91,7 @@ export const AuthProvider: React.FC<{ children: ReactNode; onSessionChange?: () 
     setUser(null);
     clearCache.current?.();
     setLoading(true);
-    void authService.logout();
+    await authService.logout();
     if (current === revision.current) window.location.replace(`${appConfig.portalOrigin}/logout?source=admin`);
   };
   return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'ADMIN' && user.active === true, loading, sessionError, accessDenied, login, loginWithSsoTicket, logout }}>{children}</AuthContext.Provider>;

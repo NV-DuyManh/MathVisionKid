@@ -122,6 +122,7 @@ function BatchUpload({ assignmentId, resumeBatchId, checkingResume, onDraftChang
   const mounted = useRef(false);
   const creationRequestId = useRef<string | undefined>(undefined);
   const [createdBatchId, setCreatedBatchId] = useState('');
+  const [canRetryUpload, setCanRetryUpload] = useState(false);
   const { confirmation, allowNextNavigation } = useUploadDraftGuard(files.length > 0 || uploading, () => {
     mounted.current = false;
   });
@@ -219,7 +220,11 @@ function BatchUpload({ assignmentId, resumeBatchId, checkingResume, onDraftChang
   const nextFile = editingFile && files.slice(files.findIndex(file => file.id === editingFile.id) + 1)
     .find(file => !file.error && !file.sanitizedBlob);
   const handleSaveSanitized = (blob: Blob, advance = false) => {
-    if (blob.size > 10 * 1024 * 1024) { setError('Ảnh sau khi che lớn hơn 10 MB. Hãy chọn ảnh nhỏ hơn.'); setEditingFile(null); return; }
+    if (blob.size > 8 * 1024 * 1024) {
+      setError(`Ảnh ${editingFile?.originalFile.name ?? ''} sau khi che vượt quá 8 MiB. Hãy thay bằng ảnh nhỏ hơn.`);
+      setEditingFile(null);
+      return;
+    }
     if (editingFile) {
       URL.revokeObjectURL(editingFile.previewUrl);
       const previewUrl = URL.createObjectURL(blob);
@@ -256,7 +261,7 @@ function BatchUpload({ assignmentId, resumeBatchId, checkingResume, onDraftChang
   const isPrivacyValid = sanitizedCount === totalFiles && totalFiles > 0;
   const hasFileErrors = files.some((f) => Boolean(f.error));
   const isReadyToSubmit = isCountValid && isMappingValid && isPrivacyValid && !hasFileErrors
-    && !rosterLoading && !rosterError && roster.length > 0 && !createdBatchId && !checkingResume;
+    && !rosterLoading && !rosterError && roster.length > 0 && (!createdBatchId || canRetryUpload) && !checkingResume;
 
   const handleStartProcessing = async () => {
     if (submitLock.current || !isReadyToSubmit) return;
@@ -283,7 +288,8 @@ function BatchUpload({ assignmentId, resumeBatchId, checkingResume, onDraftChang
     }
     submitLock.current = true;
     let storageKey: string | undefined;
-    let batchId = resumeBatchId;
+    let batchId = resumeBatchId || (canRetryUpload ? createdBatchId : '');
+    setCanRetryUpload(false);
     const finishCreation = () => {
       creationRequestId.current = undefined;
       if (storageKey) {
@@ -331,9 +337,11 @@ function BatchUpload({ assignmentId, resumeBatchId, checkingResume, onDraftChang
       navigate(`/batches/${batchId}`);
     } catch (err: any) {
       if (mounted.current) {
-        setError(batchId
+        const validationError = [400, 413, 415, 422].includes(err.response?.status);
+        if (batchId && validationError) setCanRetryUpload(true);
+        setError(batchId && !validationError
           ? 'Chưa xác nhận được kết quả tải ảnh. Hãy kiểm tra đợt chấm trước khi gửi lại.'
-          : err.response?.data?.error?.message || 'Chưa xác nhận được đợt chấm. Bạn có thể thử gửi lại.');
+          : err.response?.data?.error?.message || (validationError ? 'Máy chủ từ chối dữ liệu ảnh. Hãy kiểm tra ảnh và thử lại.' : 'Chưa xác nhận được đợt chấm. Bạn có thể thử gửi lại.'));
       }
     } finally {
       submitLock.current = false;

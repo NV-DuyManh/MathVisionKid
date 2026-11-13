@@ -34,6 +34,8 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 public class SubmissionService {
+    private static final java.util.Set<String> TEACHER_DISPATCH_EVENTS =
+            java.util.Set.of("TEACHER_PROCESSING_RETRY_REQUESTED", "TEACHER_RETAKE_UPLOADED");
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SubmissionService.class);
     private final SubmissionRepository submissionRepository;
     private final SubmissionImageRepository submissionImageRepository;
@@ -562,6 +564,37 @@ public class SubmissionService {
                     supersedeIncompleteJobs(submissionId);
                     submission.setStatus("FAILED");
                 }
+            });
+        }
+    }
+
+    @org.springframework.scheduling.annotation.Scheduled(fixedDelayString = "${mathvision.teacher-dispatch-recovery-ms:30000}")
+    public void recoverInterruptedTeacherDispatches() {
+        recoverInterruptedTeacherDispatches(java.time.Instant.now().minusSeconds(120));
+    }
+
+    void recoverInterruptedTeacherDispatches(java.time.Instant cutoff) {
+        for (UUID id : submissionRepository.findInterruptedTeacherDispatches(
+                TEACHER_DISPATCH_EVENTS, cutoff, org.springframework.data.domain.PageRequest.of(0, 50))) {
+            transactions.executeWithoutResult(transaction -> {
+                Submission submission = submissionRepository.findForUpdate(id).orElse(null);
+                if (submission == null || !"PROCESSING".equals(submission.getStatus())) return;
+                var attempt = auditEventRepository.findBySubmission_SubmissionIdOrderByCreatedAtDesc(id).stream()
+                        .filter(event -> TEACHER_DISPATCH_EVENTS.contains(event.getEventType())).findFirst();
+                if (attempt.isEmpty() || !attempt.get().getCreatedAt().isBefore(cutoff)) return;
+                var latest = aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDescJobIdDesc(id);
+                if (latest.isPresent() && !latest.get().getSubmittedAt().isBefore(attempt.get().getCreatedAt())) {
+                    var job = latest.get();
+                    if (!java.util.Set.of("SUPERSEDED", "FAILED", "PENDING").contains(job.getStatus())
+                            || ("PENDING".equals(job.getStatus()) && !job.getSubmittedAt().isBefore(cutoff))) return;
+                }
+                // Delivery of a PENDING job is uncertain. Retire it before offering an explicit retry.
+                supersedeIncompleteJobs(id);
+                submission.setStatus("FAILED");
+                AuditEvent recovered = new AuditEvent();
+                recovered.setSubmission(submission);
+                recovered.setEventType("TEACHER_DISPATCH_INTERRUPTED");
+                auditEventRepository.save(recovered);
             });
         }
     }

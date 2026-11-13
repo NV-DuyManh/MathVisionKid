@@ -164,7 +164,7 @@ test('student web session validates the backend, rejects cached authority, and s
       assert.equal(logoutCalls, 1);
       assert.equal(logoutRequests[0].url, 'https://api.mathvision.example/api/v1/auth/logout');
       assert.equal(JSON.stringify(logoutRequests[0].body), '{}');
-      assert.equal(logoutRequests[0].config.timeout, 5000);
+      assert.equal(logoutRequests[0].config.timeout, 2000);
       assert.equal(logoutRequests[0].config.headers.Authorization, 'Bearer valid-other-access');
       assert.equal(sharedPostCalls, 0);
       assert.equal(clearDraftCalls, 1);
@@ -182,7 +182,7 @@ test('student web session validates the backend, rejects cached authority, and s
       await mount();
       await act(async () => currentContext.logout());
       assert.equal(logoutCalls, 2);
-      assert.equal(logoutRequests[1].config.timeout, 5000);
+      assert.equal(logoutRequests[1].config.timeout, 2000);
       assert.equal(sharedPostCalls, 0);
       assert.equal(clearDraftCalls, 2);
       assert.equal(await tokenStorage.getAccessToken(), null);
