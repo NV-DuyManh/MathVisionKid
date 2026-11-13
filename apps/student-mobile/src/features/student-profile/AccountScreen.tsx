@@ -36,13 +36,13 @@ export function AccountScreen({ owner }: { owner: string }) {
           <View style={[s.side, width >= 900 && { maxWidth: 320 }]}>
             <PasswordCard available={profile.value.passwordLoginAvailable !== false} />
             <View style={s.card}>
-              <View style={s.sectionTitle}><Ionicons name="school-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={s.heading}>Góc học tập</Text></View>
+              <View style={s.sectionTitle}><Ionicons accessible={false} aria-hidden name="school-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={s.heading}>Góc học tập</Text></View>
               <Text style={s.body}>{profile.value.gradeLevel ? `Khối ${profile.value.gradeLevel}` : 'Chưa có thông tin khối lớp'}</Text>
               {profile.value.classrooms.map(item => <Text style={s.body} key={item.id}>{item.name}</Text>)}
               <Text style={s.hint}>Giáo viên quản lý lớp học và khối lớp của em.</Text>
               <AppButton title="Xem thành tích" variant="secondary" onPress={() => router.push('/(tabs)/achievements')} />
             </View>
-            <AppButton title="Đăng xuất" variant="ghost" icon={<Ionicons name="log-out-outline" color={COLORS.textSecondary} size={20} />} onPress={() => setConfirmLogout(true)} />
+            <AppButton title="Đăng xuất" variant="ghost" icon={<Ionicons accessible={false} aria-hidden name="log-out-outline" color={COLORS.textSecondary} size={20} />} onPress={() => setConfirmLogout(true)} />
           </View>
         </View> : profile.failed ? <RecoveryNotice title="Chưa tải được hồ sơ" message="Em kiểm tra kết nối rồi thử lại nhé."
           actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại hồ sơ', icon: 'refresh-outline', onPress: profile.retry }]} /> : <ActivityIndicator accessibilityLabel="Đang tải hồ sơ" />}
@@ -108,7 +108,7 @@ function AccountEditor({ profile, onSave }: { profile: StudentProfile; onSave: (
       <View style={s.avatarRing}><StudentAvatar id={edit.avatar} photo={photoSelected ? profile.avatarPhoto : null} size={88} /></View>
       <View style={{ flex: 1, gap: 5 }}><Text accessibilityRole="header" style={s.name}>{profile.displayName}</Text><Text style={s.hint}>Ảnh và tên hiển thị của em</Text></View>
     </View>
-    <AppButton title="Chọn ảnh từ thiết bị" variant="secondary" disabled={busy} icon={<Ionicons name="image-outline" size={20} color={COLORS.primaryDark} />} onPress={() => { void choosePhoto(); }} />
+    <AppButton title="Chọn ảnh từ thiết bị" variant="secondary" disabled={busy} icon={<Ionicons accessible={false} aria-hidden name="image-outline" size={20} color={COLORS.primaryDark} />} onPress={() => { void choosePhoto(); }} />
     <Text style={s.hint}>Hoặc chọn một người bạn nhỏ:</Text>
     <View style={[s.avatars, width < 600 && s.phoneAvatars]}>{avatars.map(avatar => <Pressable key={avatar.id} accessibilityRole="button" accessibilityLabel={`Chọn hình ${avatar.name}`}
       accessibilityState={{ selected: !photoSelected && edit.avatar === avatar.id, disabled: busy }} disabled={busy}
@@ -127,7 +127,7 @@ function AccountEditor({ profile, onSave }: { profile: StudentProfile; onSave: (
         onPress={() => setEdit(value => ({ ...value, selectedTitle: title.id }))} style={[s.titleChoice, edit.selectedTitle === title.id && s.chosen]}><Text style={s.body}>{title.name}</Text></Pressable>)}</View>
     </>}
     <View style={s.divider} />
-    <View style={s.privacy}><Ionicons name="shield-checkmark-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={[s.label, { flex: 1 }]}>Quyền riêng tư</Text></View>
+    <View style={s.privacy}><Ionicons accessible={false} aria-hidden name="shield-checkmark-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={[s.label, { flex: 1 }]}>Quyền riêng tư</Text></View>
     <View style={s.privacy}><Text style={[s.body, { flex: 1 }]}>Tham gia bảng xếp hạng bằng bí danh</Text><Switch accessibilityLabel="Tham gia bảng xếp hạng bằng bí danh" disabled={busy}
       value={edit.leaderboardVisible} onValueChange={leaderboardVisible => setEdit(value => ({ ...value, leaderboardVisible }))} /></View>
     <Text style={s.hint}>Ảnh tải lên chỉ hiện trong tài khoản của em. Bảng xếp hạng dùng bí danh và hình có sẵn, không hiển thị tên hay ảnh cá nhân.</Text>
@@ -171,11 +171,11 @@ function PasswordCard({ available }: { available: boolean }) {
     } finally { lock.current = false; if (!signal.aborted) setBusy(false); }
   };
   return <View style={s.card}>
-    <View style={s.sectionTitle}><Ionicons name="lock-closed-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={s.heading}>An toàn tài khoản</Text></View>
+    <View style={s.sectionTitle}><Ionicons accessible={false} aria-hidden name="lock-closed-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={s.heading}>An toàn tài khoản</Text></View>
     {!available ? <Text style={s.body}>Em đang dùng tài khoản liên kết. Em đổi mật khẩu tại dịch vụ em dùng để đăng nhập nhé.</Text> : <>
       <Text style={s.hint}>Giữ mật khẩu cho riêng mình. Em có thể nhờ bố mẹ hỗ trợ.</Text>
       <Pressable accessibilityRole="button" accessibilityLabel="Đổi mật khẩu" accessibilityState={{ expanded, disabled: busy }} aria-expanded={expanded} aria-controls="account-password-fields"
-        disabled={busy} style={s.passwordToggle} onPress={() => { setExpanded(value => !value); setError(''); setNotice(''); }}><Text style={s.link}>Đổi mật khẩu</Text><Ionicons name={expanded ? 'chevron-up' : 'chevron-forward'} size={18} color={COLORS.primaryDark} /></Pressable>
+        disabled={busy} style={s.passwordToggle} onPress={() => { setExpanded(value => !value); setError(''); setNotice(''); }}><Text style={s.link}>Đổi mật khẩu</Text><Ionicons accessible={false} aria-hidden name={expanded ? 'chevron-up' : 'chevron-forward'} size={18} color={COLORS.primaryDark} /></Pressable>
       {expanded && <View nativeID="account-password-fields" style={{ gap: 10 }}>
         {[['Mật khẩu hiện tại', current, setCurrent], ['Mật khẩu mới', next, setNext], ['Nhập lại mật khẩu mới', confirmation, setConfirmation]].map(([label, value, setter], index) => <View key={String(label)} style={{ gap: 6 }}>
           <Text style={s.label}>{String(label)}</Text><TextInput accessibilityLabel={String(label)} aria-describedby="account-password-help account-password-error" style={s.input} value={value as string} editable={!busy} secureTextEntry={!show}

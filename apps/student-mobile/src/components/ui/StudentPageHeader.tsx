@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   compactHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 52, marginBottom: 16 },
   compactTitle: { flex: 1, textAlign: 'center', fontFamily: FONTS.extraBold, fontSize: 19, color: COLORS.textPrimary },
   back: { width: 44, height: 44, justifyContent: 'center', alignItems: 'center' },
-  smallAvatar: { width: 42, height: 42, borderRadius: 21, backgroundColor: '#F0E9FF' },
+  smallAvatar: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F0E9FF' },
   header: { flexDirection: 'row', alignItems: 'center', gap: 9, marginBottom: 16, minHeight: 50 },
   avatar: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#EEE7FF', overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   avatarArt: { width: 44, height: 44 }, copy: { flex: 1, minWidth: 0 },
