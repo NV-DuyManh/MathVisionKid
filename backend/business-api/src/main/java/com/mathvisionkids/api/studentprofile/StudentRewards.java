@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.UUID;
+import com.mathvisionkids.api.studentprofile.ProfileDtos.GameRewardStatus;
 
 @Service
 public class StudentRewards {
@@ -38,16 +39,22 @@ public class StudentRewards {
     }
 
     int recordLocked(UUID student, Source source, String eventId, String contentId, Instant now) {
+        return recordAward(student, source, eventId, contentId, now).stars();
+    }
+
+    record Award(int stars, GameRewardStatus status) {}
+
+    Award recordAward(UUID student, Source source, String eventId, String contentId, Instant now) {
         String kind = source.name();
         var existing = db.queryForList("""
                 SELECT stars FROM student_verified_activities WHERE student_id = ? AND source = ? AND event_id = ?
                 """, Integer.class, student, kind, eventId);
-        if (!existing.isEmpty()) return existing.getFirst();
+        if (!existing.isEmpty()) return new Award(existing.getFirst(), null);
         boolean eligible = Boolean.TRUE.equals(db.queryForObject("""
                 SELECT active AND role = 'STUDENT' AND LOWER(email) NOT LIKE '%@mathvision.local'
                 FROM users WHERE id = ?
                 """, Boolean.class, student));
-        if (!eligible) return 0;
+        if (!eligible) return new Award(0, GameRewardStatus.UNAVAILABLE);
         LocalDate day = now.atZone(ZONE).toLocalDate();
         long daily = db.queryForObject("""
                 SELECT COALESCE(SUM(stars), 0) FROM student_verified_activities WHERE student_id = ? AND activity_day = ?
@@ -62,8 +69,11 @@ public class StudentRewards {
         long previous = source == Source.GAME
                 ? db.queryForObject(query + " AND activity_day = ?", Long.class, student, kind, contentId, day)
                 : db.queryForObject(query, Long.class, student, kind, contentId);
-        if (source != Source.GAME && previous != 0) return 0;
-        int stars = daily < dailyLimit && sourceTotal < sourceLimit && previous == 0 ? 1 : 0;
+        if (source != Source.GAME && previous != 0) return new Award(0, GameRewardStatus.REPEAT);
+        GameRewardStatus status = previous != 0 ? GameRewardStatus.REPEAT
+                : daily >= dailyLimit ? GameRewardStatus.DAILY_LIMIT
+                : sourceTotal >= sourceLimit ? GameRewardStatus.GAME_LIMIT : GameRewardStatus.AWARDED;
+        int stars = status == GameRewardStatus.AWARDED ? 1 : 0;
         db.update("""
                 INSERT INTO student_verified_activities(student_id, source, event_id, content_id, completed_at, activity_day, stars)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -71,7 +81,7 @@ public class StudentRewards {
         if (stars == 1 && db.queryForObject("""
                 SELECT COALESCE(SUM(stars), 0) FROM student_verified_activities WHERE student_id = ?
                 """, Long.class, student) >= StudentRank.CHALLENGER_MIN_STARS) rememberChallengers();
-        return stars;
+        return new Award(stars, status);
     }
 
     static final String GLOBAL_RANKING = """
