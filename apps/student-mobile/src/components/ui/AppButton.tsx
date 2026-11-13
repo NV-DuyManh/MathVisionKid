@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle, View } from 'react-native';
-import { FONTS, COLORS, SIZES, SHADOWS } from '../../constants/theme';
+import { FONTS, COLORS, SIZES, SHADOWS, IS_STUDENT_WEB, WEB_DESIGN } from '../../constants/theme';
 
 interface AppButtonProps {
   title: string;
@@ -58,10 +58,11 @@ export const AppButton: React.FC<AppButtonProps> = ({
       style={[
         styles.container,
         { backgroundColor: getBackgroundColor() },
-        variant === 'primary' && isInteractive && SHADOWS.small,
+        variant === 'primary' && isInteractive && (IS_STUDENT_WEB ? styles.webRaised : SHADOWS.small),
         variant === 'secondary' && styles.secondaryBorder,
         variant === 'outlined' && styles.outlined,
         style,
+        IS_STUDENT_WEB && styles.webShape,
       ]}
       onPress={onPress}
       disabled={!isInteractive}
@@ -70,6 +71,7 @@ export const AppButton: React.FC<AppButtonProps> = ({
       accessibilityLabel={accessibilityLabel || title}
       accessibilityState={{ disabled: !isInteractive, busy: loading }}
       aria-busy={loading}
+      {...(IS_STUDENT_WEB && variant === 'primary' ? { dataSet: { studentPrimary: 'true' } } : {})}
     >
       {loading ? (
         <View style={styles.loadingContent}>
@@ -89,6 +91,8 @@ export const AppButton: React.FC<AppButtonProps> = ({
 };
 
 const styles = StyleSheet.create({
+  webShape: { borderRadius: WEB_DESIGN.components.action.radius },
+  webRaised: { borderBottomWidth: 3, borderBottomColor: '#173FAE' },
   container: {
     minHeight: 52,
     borderRadius: SIZES.buttonRadius,
@@ -118,7 +122,7 @@ const styles = StyleSheet.create({
   },
   secondaryBorder: {
     borderWidth: 1,
-    borderColor: '#E1D7F7',
+    borderColor: IS_STUDENT_WEB ? WEB_DESIGN.colors.line : '#E1D7F7',
   },
   loadingContent: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 },
 });

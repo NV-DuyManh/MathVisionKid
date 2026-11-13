@@ -9,7 +9,6 @@ import {
   Tooltip,
   Typography,
   Avatar,
-  Chip,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
@@ -46,7 +45,7 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
   const { pathname } = useLocation();
   const desktop = useMediaQuery(useTheme().breakpoints.up('md'));
   const compact = desktop && collapsed;
-  const width = compact ? 80 : 260;
+  const width = compact ? 72 : 226;
 
   const displayName = user?.firstName
     ? `${user.lastName || ''} ${user.firstName}`.trim()
@@ -65,9 +64,10 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
         flexShrink: 0,
         '& .MuiDrawer-paper': {
           width,
-          bgcolor: '#FFFFFF',
-          color: '#0F172A',
-          borderRight: '1px solid #E2E8F0',
+          bgcolor: '#FCFDFB',
+          color: 'text.primary',
+          borderRight: 1,
+          borderColor: 'divider',
           boxSizing: 'border-box',
           overflowX: 'hidden',
           scrollbarWidth: 'none',
@@ -78,36 +78,22 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
       }}
     >
       {/* Brand Header */}
-      <Box sx={{ px: compact ? 2 : 2.5, pt: 2.5, pb: 2, display: 'flex', alignItems: 'center', gap: 1.25 }}>
+      <Box sx={{ mx: 1.5, px: compact ? 0 : 1, height: 76, borderBottom: 1, borderColor: 'divider',
+        display: 'flex', alignItems: 'center', justifyContent: compact ? 'center' : 'flex-start', gap: 1 }}>
         <Box
           component="img"
           src="/ui/mathvision-star.png"
-          alt="MathVision Kids"
-          sx={{ width: 28, height: 28, objectFit: 'contain', flexShrink: 0 }}
-          onError={(e: any) => {
-            e.currentTarget.style.display = 'none';
-          }}
+          alt={compact ? 'MathVision Kids' : ''}
+          width={36}
+          height={36}
+          sx={{ objectFit: 'contain', flexShrink: 0 }}
         />
         {!compact && (
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography sx={{ fontWeight: 900, fontSize: 20, letterSpacing: '-0.025em', color: '#0F172A' }}>
-              MathVision<span style={{ color: '#2563EB' }}>Kids</span>
+            <Typography sx={{ fontWeight: 800, fontSize: 15, lineHeight: 1.3, color: 'text.primary' }}>
+              MathVision Kids
             </Typography>
-            <Chip
-              label="CỔNG GIÁO VIÊN"
-              size="small"
-              sx={{
-                mt: 0.75,
-                height: 20,
-                bgcolor: '#ECFDF5',
-                color: '#059669',
-                fontSize: '0.68rem',
-                fontWeight: 800,
-                letterSpacing: '0.04em',
-                borderRadius: 1,
-                border: '1px solid #A7F3D0',
-              }}
-            />
+            <Typography variant="caption" sx={{ color: 'primary.dark' }}>Cổng giáo viên</Typography>
           </Box>
         )}
         {!desktop && (
@@ -121,10 +107,11 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
       <Box component="nav" aria-label="Điều hướng giáo viên" sx={{ px: compact ? 1 : 1.5, flex: 1 }}>
         <List disablePadding>
           {items.map((item) => {
-            const active = pathname === item.path || (item.path !== '/dashboard' && pathname.startsWith(item.path));
+            const active = pathname === item.path || pathname.startsWith(`${item.path}/`)
+              || (item.path === '/batches' && pathname.startsWith('/submissions/'));
             const Icon = item.icon;
             return (
-              <Box key={item.path}>
+              <Box component="li" key={item.path} sx={{ listStyle: 'none' }}>
                 {item.group && (
                   <Typography
                     sx={{
@@ -154,23 +141,24 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
                     aria-label={item.label}
                     aria-current={active ? 'page' : undefined}
                     sx={{
-                      minHeight: 40,
+                      minHeight: 44,
                       px: 1.5,
+                      gap: compact ? 0 : 0.5,
                       justifyContent: compact ? 'center' : 'flex-start',
                       mb: 0.5,
-                      borderRadius: 2,
-                      bgcolor: active ? 'rgba(5, 150, 105, 0.08) !important' : 'transparent',
-                      color: active ? '#059669' : '#475569',
-                      transition: 'all 140ms ease',
+                      borderRadius: '8px',
+                      borderInlineStart: '3px solid',
+                      borderInlineStartColor: active ? 'primary.main' : 'transparent',
+                      '&.Mui-selected': { bgcolor: 'primary.light', color: 'primary.dark' },
                       '&:hover': {
-                        bgcolor: active ? 'rgba(5, 150, 105, 0.12)' : '#F1F5F9',
+                        bgcolor: active ? 'primary.light' : '#F1F5F9',
                       },
                     }}
                   >
                     <ListItemIcon
                       sx={{
                         minWidth: compact ? 0 : 32,
-                        color: active ? '#059669' : '#64748B',
+                        color: active ? 'primary.dark' : 'text.secondary',
                         justifyContent: 'center',
                       }}
                     >
@@ -184,7 +172,7 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
                             sx: {
                               fontWeight: active ? 800 : 600,
                               fontSize: '0.875rem',
-                              color: active ? '#059669' : '#334155',
+                              color: active ? 'primary.dark' : 'text.primary',
                             },
                           },
                         }}
@@ -217,7 +205,7 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
               sx={{
                 width: 34,
                 height: 34,
-                bgcolor: '#059669',
+                bgcolor: 'primary.main',
                 color: '#FFFFFF',
                 fontSize: '0.85rem',
                 fontWeight: 800,
@@ -260,7 +248,7 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
             <ListItemText
               primary="Về MathVision Kids"
               slotProps={{
-                primary: { sx: { fontSize: '0.8125rem', fontWeight: 700, color: '#059669' } },
+                primary: { sx: { fontSize: '0.8125rem', fontWeight: 700, color: 'primary.dark' } },
               }}
             />
           </ListItemButton>

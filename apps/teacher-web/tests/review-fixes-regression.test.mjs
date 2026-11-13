@@ -64,6 +64,7 @@ async function screen(run) {
     await act(async () => { await new Promise(resolve => setTimeout(resolve, 50)); });
   };
   const imports = {
+    '../config/runtime': { notebookPreview: false },
     '../services/api/AuthTokenStore': { AuthTokenStore: { getSessionId: () => 'test-session' } },
     '@tanstack/react-query': queryRuntime,
     'react-router-dom': routerRuntime,

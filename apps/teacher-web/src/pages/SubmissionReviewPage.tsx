@@ -285,9 +285,10 @@ function SubmissionReview({ id }: { id?: string }) {
   };
 
   return (
-    <Box>
+    <Box sx={{ fontVariantNumeric: 'tabular-nums', color: 'text.primary' }}>
       {/* Top Header & Breadcrumb */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3, flexWrap: 'wrap', gap: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3, flexWrap: 'wrap', gap: 2,
+        bgcolor: '#FFFBF0', border: '1px solid #E2D8BA', borderRadius: '12px', px: { xs: 2, md: 3 }, py: 1.5 }}>
         <Box>
           <Button
             variant="text"
@@ -336,13 +337,13 @@ function SubmissionReview({ id }: { id?: string }) {
         </Alert>
       )}
 
-      <Grid container spacing={3.5}>
+      <Grid container spacing={{ xs: 2, md: 3 }}>
         {/* Left Column: Image & Visual Evidence */}
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, lg: 7 }} sx={{ minWidth: 0 }}>
           <Card
             sx={{
               height: '100%',
-              bgcolor: '#211844',
+              bgcolor: '#172554',
               display: 'flex',
               flexDirection: 'column',
               borderRadius: 2.5,
@@ -393,7 +394,7 @@ function SubmissionReview({ id }: { id?: string }) {
         </Grid>
 
         {/* Right Column: AI Analysis & Decision Section */}
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, lg: 5 }} sx={{ minWidth: 0 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
             {/* Card 1: AI Evidence Findings */}
             <Card variant="outlined" sx={{ borderRadius: 2.5, borderColor: '#E2E8F0', boxShadow: '0 1px 3px rgba(15,23,42,0.05)' }}>

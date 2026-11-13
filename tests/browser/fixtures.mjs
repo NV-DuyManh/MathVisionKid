@@ -1,5 +1,5 @@
 import { test as base, expect } from '@playwright/test';
-import { sites, apiOrigin } from './sites.mjs';
+import { sites, apiOrigin, studentPort } from './sites.mjs';
 
 export { expect, sites };
 export const profile = role => ({
@@ -26,7 +26,7 @@ export const test = base.extend({
       const url = new URL(request.url());
       const site = Object.values(sites).find(site => site.origin === url.origin);
       if (site && !url.pathname.startsWith('/api/v1/')) {
-        const port = state.realStudent && url.pathname.startsWith('/study/') ? 43173 : site.port;
+        const port = state.realStudent && url.pathname.startsWith('/study/') ? studentPort : site.port;
         const response = await route.fetch({ url: `http://127.0.0.1:${port}${url.pathname}${url.search}` });
         return route.fulfill({ response });
       }

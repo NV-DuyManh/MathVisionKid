@@ -3,6 +3,7 @@ import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { dirname, extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { studentPort } from '../browser/sites.mjs';
 
 // Real Expo export, with no developer .env, backend, secrets or external model calls.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -31,4 +32,4 @@ createServer(async (request, response) => {
     response.writeHead(200, { 'Content-Type': types[extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
     response.end(await readFile(file));
   } catch { response.writeHead(500).end(); }
-}).listen(43173, '127.0.0.1', () => process.stdout.write('Real Student export ready\n'));
+}).listen(studentPort, '127.0.0.1', () => process.stdout.write('Real Student export ready\n'));

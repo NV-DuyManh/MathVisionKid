@@ -5,6 +5,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MathVision Kids — Không gian Giáo viên</title>
+    <script>
+      if (location.pathname === '/auth/continue' || location.pathname === '/login') {
+        const code = new URLSearchParams(location.hash.slice(1)).get('sso');
+        if (code) {
+          window.mathVisionSsoTicket = code;
+          history.replaceState(history.state, '', '/auth/continue');
+        }
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,7 +22,7 @@
     />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><main style="padding:32px;text-align:center;font-family:system-ui;color:#17254b" role="status">Đang mở MathVision Kids…</main></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

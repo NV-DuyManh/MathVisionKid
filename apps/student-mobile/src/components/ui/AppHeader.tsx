@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, type AccessibilityState } from 'react-native';
-import { FONTS, COLORS, SIZES } from '../../constants/theme';
+import { FONTS, COLORS, SIZES, IS_STUDENT_WEB } from '../../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
@@ -24,7 +24,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, IS_STUDENT_WEB && styles.webHeader]}>
       {showBack ? (
         <TouchableOpacity
           style={styles.iconButton}
@@ -41,7 +41,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
       <Text
         style={styles.title}
-        numberOfLines={1}
+        numberOfLines={IS_STUDENT_WEB ? undefined : 1}
         accessibilityRole="header"
       >
         {title}
@@ -66,6 +66,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 };
 
 const styles = StyleSheet.create({
+  webHeader: { width: '100%', maxWidth: 1140, alignSelf: 'center', paddingVertical: 8 },
   container: {
     minHeight: 64,
     flexDirection: 'row',

@@ -2,26 +2,21 @@ import { useEffect, useMemo, useRef } from 'react';
 import {
   Box,
   Typography,
-  Grid,
-  Card,
-  CardContent,
   Button,
   CircularProgress,
   Paper,
-  Divider,
   TextField,
   MenuItem,
   Select,
   FormControl,
   InputLabel,
-  Chip,
   Alert,
 } from '@mui/material';
 import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { AuthTokenStore } from '../services/api/AuthTokenStore';
 import { AppTeacherService } from '../services/api/ServiceLocator';
-import { ArrowBack, ArrowForward, AutoAwesome, FilterList, Search } from '@mui/icons-material';
+import { ArrowBack, ArrowForward, AutoAwesome, Search } from '@mui/icons-material';
 import { StatusChip } from '../components/common/StatusChip';
 import { PageHeader } from '../components/common/PageHeader';
 
@@ -100,12 +95,11 @@ export default function ReviewQueuePage() {
   const isFetching = queueQuery.isFetching || batchQuery.isFetching;
   const isPaused = queueQuery.isPaused || batchQuery.isPaused;
   const isChecking = isFetching || isPaused;
-  const heading = <>
-    <Button component={Link} to={batchPath} state={{ batchListFilter }} startIcon={<ArrowBack />} sx={{ mb: 2 }}>
-      Quay lại chi tiết đợt chấm
-    </Button>
-    <PageHeader
-      title="Hàng đợi Thẩm định & Duyệt bài"
+  const heading = <PageHeader
+      back={<Button component={Link} to={batchPath} state={{ batchListFilter }} startIcon={<ArrowBack />} sx={{ px: 0 }}>
+        Quay lại chi tiết đợt chấm
+      </Button>}
+      title="Hàng đợi duyệt bài"
       subtitle={queue?.length && !queueQuery.isError && !batchQuery.isError
         ? `Có ${queue.length} bài làm cần giáo viên thẩm định và quyết định điểm số chính thức.`
         : undefined}
@@ -113,8 +107,7 @@ export default function ReviewQueuePage() {
         void batchQuery.refetch();
         void reloadQueue();
       }}>Làm mới</Button>}
-    />
-  </>;
+    />;
 
   if (queueQuery.isLoading || batchQuery.isLoading) {
     return (
@@ -194,11 +187,11 @@ export default function ReviewQueuePage() {
       {heading}
       {notices}
 
-      {/* Filter and Sorting Toolbar (SCRUM-111) */}
+      <Box component="section" aria-label="Lọc hàng đợi" className="teacher-review-queue">
       <Paper
         variant="outlined"
         sx={{
-          p: 2.5,
+          p: { xs: 1.5, sm: 2 },
           mb: 3,
           borderRadius: 2.5,
           bgcolor: '#FFFFFF',
@@ -217,10 +210,10 @@ export default function ReviewQueuePage() {
                 startAdornment: <Search sx={{ fontSize: 18, color: '#94A3B8', mr: 1 }} />,
               },
             }}
-            sx={{ minWidth: 220, flex: { xs: '1 1 100%', sm: '1 1 auto' } }}
+            sx={{ minWidth: 0, flex: '1 1 220px' }}
           />
 
-          <FormControl size="small" sx={{ minWidth: 170 }}>
+          <FormControl size="small" sx={{ minWidth: 0, flex: { xs: '1 1 100%', sm: '1 1 160px' } }}>
             <InputLabel id="filter-status-label">Trạng thái</InputLabel>
             <Select
               labelId="filter-status-label"
@@ -237,7 +230,7 @@ export default function ReviewQueuePage() {
             </Select>
           </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 190 }}>
+          <FormControl size="small" sx={{ minWidth: 0, flex: { xs: '1 1 100%', sm: '1 1 190px' } }}>
             <InputLabel id="sort-by-label">Sắp xếp theo</InputLabel>
             <Select
               labelId="sort-by-label"
@@ -263,25 +256,19 @@ export default function ReviewQueuePage() {
             </Button>
           )}
 
-          <Box sx={{ ml: 'auto' }}>
-            <Chip
-              icon={<FilterList sx={{ fontSize: 16 }} />}
-              label={`Hiển thị ${filteredQueue.length} / ${queue.length} bài`}
-              size="small"
-              color={filteredQueue.length > 0 ? 'primary' : 'default'}
-              variant="outlined"
-              sx={{ fontWeight: 600 }}
-            />
-          </Box>
         </Box>
+        <Typography variant="body2" component="p" role="status" sx={{ mt: 1.25, color: 'text.secondary' }}>
+          Hiển thị {filteredQueue.length} / {queue.length} bài
+        </Typography>
       </Paper>
+      </Box>
 
       {filteredQueue.length === 0 ? (
         <Alert severity="info" sx={{ borderRadius: 2, my: 4 }}>
           Không tìm thấy bài làm nào phù hợp với bộ lọc hiện tại. Vui lòng thử đổi từ khóa tìm kiếm hoặc trạng thái.
         </Alert>
       ) : (
-        <Grid container spacing={3}>
+        <Paper component="ol" aria-label="Bài làm cần duyệt" variant="outlined" className="teacher-queue-register">
           {filteredQueue.map((sub, idx) => {
             const subId = sub.id || sub.submissionId || '';
             const recConf = sub.recognitionConfidence !== undefined ? `${Math.round(sub.recognitionConfidence)}%` : 'Chưa có';
@@ -292,114 +279,54 @@ export default function ReviewQueuePage() {
               : 10;
 
             return (
-              <Grid size={{ xs: 12, md: 6, lg: 4 }} key={subId}>
-                <Card
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100%',
-                    borderRadius: 2.5,
-                    border: '1.5px solid #FCA5A5',
-                    boxShadow: '0 1px 3px rgba(15,23,42,0.05)',
-                    transition: 'box-shadow 150ms ease, transform 150ms ease',
-                    '&:hover': {
-                      boxShadow: '0 6px 16px rgba(220, 38, 38, 0.1)',
+              <Box component="li" className="teacher-queue-row" key={subId}>
+                <Box sx={{ minWidth: 0 }}>
+                  <Typography component="h2" variant="subtitle1" id={`review-student-${idx}`} sx={{ overflowWrap: 'anywhere' }}>
+                    {sub.studentName || `Học sinh #${idx + 1}`}
+                  </Typography>
+                  <Typography variant="caption" component="p" sx={{ mb: 0.75 }}>
+                    Bài {idx + 1} / {filteredQueue.length}
+                  </Typography>
+                  <StatusChip status={sub.status} />
+                </Box>
+
+                <Box sx={{ minWidth: 0 }}>
+                  <Typography variant="caption" component="p">Lý do cần xem lại</Typography>
+                  <Typography variant="body2" sx={{ overflowWrap: 'anywhere', mt: 0.25 }}>
+                    {sub.evidence?.rule || 'Cần xác nhận nét chữ hoặc bước đặt tính'}
+                  </Typography>
+                </Box>
+
+                <Box className="teacher-queue-score">
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <AutoAwesome fontSize="inherit" color="info" />
+                    <Typography variant="caption">AI đề xuất · Chưa chính thức</Typography>
+                  </Box>
+                  <Typography variant="subtitle1" color="info.dark">
+                    {suggested !== undefined ? `${suggested} / ${scale} điểm` : 'Chưa chấm'}
+                  </Typography>
+                  <Typography variant="caption" component="p">Độ tin cậy nhận diện {recConf}</Typography>
+                  <Typography variant="caption" component="p">Độ tin cậy chẩn đoán {diagConf}</Typography>
+                </Box>
+
+                <Button
+                  variant="outlined"
+                  endIcon={<ArrowForward />}
+                  aria-describedby={`review-student-${idx}`}
+                  onClick={() => navigate(`/submissions/${encodeURIComponent(subId)}?from=review`, {
+                    state: {
+                      ...reviewState(filters),
+                      nextReviewIds: filteredQueue.slice(idx + 1).map(item => item.id || item.submissionId).filter(Boolean),
                     },
-                  }}
+                  })}
+                  sx={{ justifySelf: { xs: 'stretch', lg: 'end' }, whiteSpace: 'nowrap' }}
                 >
-                  <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: 2.5 }}>
-                    {/* Top Bar: Student Name + StatusChip */}
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                      <Box>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#0F172A' }}>
-                          {sub.studentName || `Học sinh #${idx + 1}`}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          Thứ tự trong hàng đợi: #{idx + 1}/{filteredQueue.length}
-                        </Typography>
-                      </Box>
-                      <StatusChip status={sub.status} />
-                    </Box>
-
-                    {/* Review reason callout */}
-                    <Box
-                      sx={{
-                        bgcolor: '#FEF2F2',
-                        p: 1.75,
-                        borderRadius: 2,
-                        mb: 2,
-                        border: '1px solid #FECACA',
-                      }}
-                    >
-                      <Typography variant="caption" sx={{ fontWeight: 700, color: '#991B1B', display: 'block' }}>
-                        Lý do cần giáo viên xem xét:
-                      </Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 600, color: '#7F1D1D', mt: 0.25 }}>
-                        {sub.evidence?.rule || 'Cần xác nhận nét chữ hoặc bước đặt tính'}
-                      </Typography>
-                    </Box>
-
-                    {/* Advisory Score and Confidence Metrics */}
-                    <Box sx={{ bgcolor: '#F8FAFC', p: 1.75, borderRadius: 2, border: '1px solid #E2E8F0', mb: 2.5, flexGrow: 1 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          <AutoAwesome sx={{ fontSize: 16, color: '#2563EB' }} />
-                          <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
-                            AI đề xuất (chưa chính thức):
-                          </Typography>
-                        </Box>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#2563EB' }}>
-                          {suggested !== undefined ? `${suggested} / ${scale} điểm` : 'Chưa chấm'}
-                        </Typography>
-                      </Box>
-
-                      <Divider sx={{ my: 1 }} />
-
-                      <Grid container spacing={1}>
-                        <Grid size={{ xs: 6 }}>
-                          <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
-                            Độ tin cậy nhận diện:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>
-                            {recConf}
-                          </Typography>
-                        </Grid>
-                        <Grid size={{ xs: 6 }}>
-                          <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
-                            Độ tin cậy chẩn đoán:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>
-                            {diagConf}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Box>
-
-                    {/* Primary Action */}
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      size="medium"
-                      endIcon={<ArrowForward />}
-                      onClick={() => navigate(`/submissions/${encodeURIComponent(subId)}?from=review`, {
-                        state: {
-                          ...reviewState(filters),
-                          nextReviewIds: filteredQueue.slice(idx + 1).map(item => item.id || item.submissionId).filter(Boolean),
-                        },
-                      })}
-                      sx={{
-                        py: 1.1,
-                        fontWeight: 700,
-                      }}
-                    >
-                      Duyệt bài này
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
+                  Duyệt bài này
+                </Button>
+              </Box>
             );
           })}
-        </Grid>
+        </Paper>
       )}
     </Box>
   );

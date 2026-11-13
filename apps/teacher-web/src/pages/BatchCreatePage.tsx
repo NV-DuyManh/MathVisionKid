@@ -13,9 +13,7 @@ import {
   FormControl,
   InputLabel,
   Alert,
-  Chip,
   Paper,
-  Divider,
   CircularProgress,
   LinearProgress,
 } from '@mui/material';
@@ -27,7 +25,6 @@ import {
   Refresh,
   ArrowBack,
   WarningAmber,
-  Lock,
   FactCheck,
 } from '@mui/icons-material';
 import { PageHeader } from '../components/common/PageHeader';
@@ -121,6 +118,7 @@ function BatchUpload({ assignmentId, resumeBatchId, checkingResume, onDraftChang
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const submitLock = useRef(false);
+  const filePicker = useRef<HTMLInputElement>(null);
   const mounted = useRef(false);
   const creationRequestId = useRef<string | undefined>(undefined);
   const [createdBatchId, setCreatedBatchId] = useState('');
@@ -346,6 +344,7 @@ function BatchUpload({ assignmentId, resumeBatchId, checkingResume, onDraftChang
   return (
     <Box>
       {confirmation}
+      <input ref={filePicker} type="file" hidden multiple accept="image/jpeg,image/png,image/webp" onChange={handleFileSelect} />
       <Button
         variant="text"
         startIcon={<ArrowBack />}
@@ -386,113 +385,73 @@ function BatchUpload({ assignmentId, resumeBatchId, checkingResume, onDraftChang
 
       {/* Upload Zone when empty */}
       {files.length === 0 ? (
-        <Card
-          sx={{
-            borderStyle: 'dashed',
-            borderWidth: 2,
-            borderColor: '#CBD5E1',
-            bgcolor: '#F8FAFC',
-            borderRadius: 3,
-            mb: 4,
-          }}
-        >
-          <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 8 }}>
-            <CloudUpload sx={{ fontSize: 64, color: '#2563EB', mb: 2 }} />
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: '#0F172A' }}>
-              Tải lên từ 1 đến 30 ảnh bài làm học sinh
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 3, textAlign: 'center', maxWidth: 480 }}>
-              Hỗ trợ JPG, PNG, WebP, mỗi ảnh tối đa 10 MB (tối đa 30 bài/đợt; đợt chấm hàng loạt thường gồm 10–30 bài). Ảnh chụp vuông góc, rõ nét để AI nhận diện tối ưu.
-            </Typography>
-            <Button disabled={rosterLoading || rosterError || !roster.length} variant="contained" component="label" size="large" sx={{ px: 4, py: 1.25, fontWeight: 700 }}>
-              Chọn ảnh từ máy tính
-              <input type="file" hidden multiple accept="image/jpeg,image/png,image/webp" onChange={handleFileSelect} />
-            </Button>
+        <Card component="section" variant="outlined" aria-labelledby="batch-add-images" sx={{ mb: 4 }}>
+          <CardContent sx={{ display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 3fr) minmax(0, 2fr)' },
+            alignItems: 'start', gap: 2.5, p: { xs: 2, md: 3 } }}>
+            <Box>
+              <Typography id="batch-add-images" component="h2" variant="h6" sx={{ mb: 0.75 }}>Chọn ảnh bài làm</Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                Mỗi đợt nhận từ 1 đến 30 ảnh. Chọn tệp JPG, PNG hoặc WebP, tối đa 10 MB mỗi ảnh.
+              </Typography>
+              <Button disabled={rosterLoading || rosterError || !roster.length} variant="contained" size="large"
+                startIcon={<CloudUpload />} onClick={() => filePicker.current?.click()}>
+                Chọn ảnh từ máy tính
+              </Button>
+            </Box>
+            <Box sx={{ bgcolor: 'primary.light', borderRadius: '12px', p: 2 }}>
+              <Typography component="h3" variant="subtitle2">Sau khi chọn ảnh</Typography>
+              <Box component="ol" sx={{ mt: 1, mb: 0, pl: 2.5, color: 'text.secondary', '& li + li': { mt: 0.75 } }}>
+                <li>Gán mỗi ảnh cho học sinh tương ứng.</li>
+                <li>Kiểm tra và che thông tin riêng tư.</li>
+                <li>Gửi các ảnh đã chuẩn bị để chấm bài.</li>
+              </Box>
+            </Box>
           </CardContent>
         </Card>
       ) : (
         <Box sx={{ mb: 4 }}>
-          {/* READINESS SUMMARY PANEL */}
-          <Paper
-            variant="outlined"
-            sx={{
-              p: 2.5,
-              mb: 3.5,
-              borderRadius: 2.5,
-              bgcolor: isReadyToSubmit ? '#F0FDF4' : '#FFFBEB',
-              borderColor: isReadyToSubmit ? '#86EFAC' : '#FCD34D',
-            }}
-          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
-              <Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#211844', mb: 0.5 }}>
-                  Bảng kiểm tra sẵn sàng nộp bài (Readiness Checklist)
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
-                  <Chip
-                    label={`Ảnh: ${totalFiles}/30 (Quy chuẩn: 1–30 ảnh)`}
-                    size="small"
-                    color={isCountValid ? 'success' : 'error'}
-                    variant={isCountValid ? 'filled' : 'outlined'}
-                    sx={{ fontWeight: 700 }}
-                  />
-                  <Chip
-                    label={`Đã gán học sinh: ${mappedCount}/${totalFiles}`}
-                    size="small"
-                    color={isMappingValid ? 'success' : 'warning'}
-                    variant={isMappingValid ? 'filled' : 'outlined'}
-                    sx={{ fontWeight: 700 }}
-                  />
-                  <Chip
-                    label={`Đã che thông tin: ${sanitizedCount}/${totalFiles}`}
-                    size="small"
-                    color={isPrivacyValid ? 'success' : 'warning'}
-                    variant={isPrivacyValid ? 'filled' : 'outlined'}
-                    sx={{ fontWeight: 700 }}
-                  />
-                  {hasDuplicateStudent && (
-                    <Chip
-                      label="Lưu ý: Có học sinh nộp nhiều bài/ảnh"
-                      size="small"
-                      color="info"
-                      variant="outlined"
-                      sx={{ fontWeight: 700 }}
-                    />
-                  )}
+          <Paper component="section" variant="outlined" aria-labelledby="batch-readiness" sx={{ p: { xs: 2, md: 2.5 }, mb: 2.5 }}>
+            <Typography id="batch-readiness" component="h2" variant="h6">Kiểm tra trước khi gửi</Typography>
+            <Typography role="status" color="text.secondary" variant="body2" sx={{ mt: 0.5, mb: 1.5 }}>
+              {isReadyToSubmit ? 'Đợt ảnh đã sẵn sàng.' : 'Hoàn tất các mục còn thiếu để gửi ảnh.'}
+            </Typography>
+            <Box component="ul" sx={{
+              display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', sm: 'repeat(3, minmax(0, 1fr))' },
+              listStyle: 'none', p: 0, m: 0, borderBlock: '1px solid', borderColor: 'divider',
+            }}>
+              {[
+                { label: 'Ảnh đã chọn', count: `${totalFiles}/30`, ready: isCountValid },
+                { label: 'Đã gán học sinh', count: `${mappedCount}/${totalFiles}`, ready: isMappingValid },
+                { label: 'Đã che thông tin', count: `${sanitizedCount}/${totalFiles}`, ready: isPrivacyValid },
+              ].map(({ label, count, ready }) => (
+                <Box component="li" key={label} sx={{
+                  display: 'flex', alignItems: 'center', gap: 1, py: 1.25, px: { xs: 0, sm: 1 },
+                  '& + &': { borderTop: { xs: '1px solid', sm: 0 }, borderInlineStart: { sm: '1px solid' }, borderColor: 'divider' },
+                }}>
+                  {ready ? <CheckCircle color="success" fontSize="small" aria-hidden="true" />
+                    : <WarningAmber color="warning" fontSize="small" aria-hidden="true" />}
+                  <Typography variant="body2" sx={{ flex: 1 }}>{label}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{count}</Typography>
                 </Box>
-              </Box>
-
-              <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
-                <Button variant="outlined" component="label" disabled={totalFiles >= 30 || uploading}>
-                  Thêm ảnh
-                  <input type="file" hidden multiple accept="image/jpeg,image/png,image/webp" onChange={handleFileSelect} />
-                </Button>
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={handleStartProcessing}
-                  disabled={!isReadyToSubmit || uploading}
-                  startIcon={uploading ? <CircularProgress size={20} color="inherit" /> : <FactCheck />}
-                  sx={{
-                    px: 3,
-                    py: 1.25,
-                    fontWeight: 700,
-                    bgcolor: isReadyToSubmit ? 'primary.main' : '#94A3B8',
-                    '&:hover': { bgcolor: isReadyToSubmit ? 'primary.dark' : '#94A3B8' },
-                  }}
-                >
-                  {uploading ? 'Đang tải lên & bắt đầu chấm...' : 'Bắt đầu chấm bài bằng AI'}
-                </Button>
-              </Box>
+              ))}
             </Box>
-
-            <Divider sx={{ my: 2 }} />
-
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Lock sx={{ fontSize: 16, color: '#64748B' }} />
-              <Typography variant="caption" color="text.secondary">
-                <strong>Cam kết quyền riêng tư:</strong> Toàn bộ họ tên và thông tin trường học được che thủ công trước khi gửi tới máy chủ xử lý OCR.
-              </Typography>
+            {hasDuplicateStudent && (
+              <Typography color="text.secondary" variant="body2" sx={{ mt: 1 }}>Có học sinh được gán nhiều ảnh.</Typography>
+            )}
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'flex-end', gap: 1, mt: 2 }}>
+              <Button variant="outlined" onClick={() => filePicker.current?.click()} disabled={totalFiles >= 30 || uploading}>
+                Thêm ảnh
+              </Button>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={handleStartProcessing}
+                disabled={!isReadyToSubmit || uploading}
+                aria-busy={uploading}
+                startIcon={uploading ? <CircularProgress size={20} color="inherit" /> : <FactCheck />}
+              >
+                {uploading ? 'Đang tải lên & bắt đầu chấm...' : 'Bắt đầu chấm bài bằng AI'}
+              </Button>
             </Box>
           </Paper>
 

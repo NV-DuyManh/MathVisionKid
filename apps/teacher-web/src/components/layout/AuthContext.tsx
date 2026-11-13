@@ -19,10 +19,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+  const isHandoff = ['/login', '/auth/continue'].includes(location.pathname);
   const queryClient = useQueryClient();
   const sessionVersion = useRef(0);
   const loggingOut = useRef(false);
 
+  useEffect(() => {
+    const revalidate = (event: PageTransitionEvent) => {
+      if (event.persisted) window.location.reload();
+    };
+    window.addEventListener('pageshow', revalidate);
+    return () => window.removeEventListener('pageshow', revalidate);
+  }, []);
   useEffect(() => {
     const clearSession = () => {
       sessionVersion.current += 1;
@@ -53,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         const data = await AppTeacherService.getMe();
         if (!active || version !== sessionVersion.current) return;
-        if (data.role !== 'TEACHER') {
+        if (data.role !== 'TEACHER' || data.active === false) {
           throw new Error('Unauthorized role');
         }
         setUser(data);
@@ -61,7 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (!active || version !== sessionVersion.current) return;
         AuthTokenStore.clearTokens();
         setUser(null);
-        if (location.pathname !== '/login') {
+        if (!isHandoff) {
           navigate('/login');
         }
       } finally {
@@ -69,14 +77,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     };
     
-    if (location.pathname !== '/login') {
+    if (!isHandoff) {
       fetchMe();
     } else {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setLoading(false);
     }
     return () => { active = false; };
-  }, [navigate, location.pathname]);
+  }, [navigate, isHandoff]);
 
   const logout = async () => {
     const accessToken = AuthTokenStore.getAccessToken();
@@ -94,7 +102,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={{ user, loading, logout }}>
-      {location.pathname === '/login' || user ? children : <div role="status">Đang kiểm tra phiên đăng nhập...</div>}
+      {isHandoff || user ? children : (
+        <main className="auth-page teacher-session-screen"><p role="status">Đang mở không gian giáo viên…</p></main>
+      )}
     </AuthContext.Provider>
   );
 }

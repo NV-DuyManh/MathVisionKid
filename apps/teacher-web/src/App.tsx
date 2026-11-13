@@ -17,6 +17,7 @@ import { AuthProvider } from './components/layout/AuthContext';
 const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<AuthProvider><Outlet /></AuthProvider>}>
           <Route path="/login" element={<LoginPage />} />
+    <Route path="/auth/continue" element={<LoginPage />} />
           
           <Route path="/" element={<Layout />}>
             <Route index element={<Navigate to="/dashboard" replace />} />

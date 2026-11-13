@@ -4,12 +4,23 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppHeader } from './AppHeader';
 import { AppIllustration } from './AppIllustration';
-import { COLORS, FONTS } from '../../constants/theme';
+import { COLORS, FONTS, IS_STUDENT_WEB } from '../../constants/theme';
 
 /** Presentation only. Each result route keeps its own server checks and actions. */
 export function StudentResultShell({ title, success = false, children }: { title: string; success?: boolean; children: React.ReactNode }) {
   const { width, height, fontScale } = useWindowDimensions();
   const wide = width >= 1000 && fontScale <= 1.3;
+  if (IS_STUDENT_WEB) {
+    return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
+      <View style={styles.header}><AppHeader title={title} showBack /></View>
+      <ScrollView contentContainerStyle={[styles.webContent, wide && styles.webWide]}>
+        <View style={[styles.result, styles.webResult]}>{children}</View>
+        {success && wide && <AppIllustration
+          source={require('../../../assets/illustrations/web/mathvision-star.webp')}
+          style={styles.webArt} accessible={false} />}
+      </ScrollView>
+    </SafeAreaView>;
+  }
   return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
     <View style={styles.header}><AppHeader title={title} showBack /></View>
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { minHeight: Math.max(0, height - 90) }, wide && styles.wide]}>
@@ -30,4 +41,8 @@ const styles = StyleSheet.create({
   eyebrow: { fontFamily: FONTS.extraBold, fontSize: 10, letterSpacing: 1.2, color: '#8A70AB', marginBottom: 9 },
   title: { fontFamily: FONTS.extraBold, fontSize: 23, lineHeight: 30, color: COLORS.textPrimary, marginBottom: 9 }, copy: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: '#756487' },
   result: { padding: 21, backgroundColor: '#FFF', borderRadius: 27, borderWidth: 1, borderColor: '#EBE4F6', width: '100%', gap: 7 }, resultWide: { flex: 1, width: undefined, minWidth: 0, maxWidth: 660 },
+  webContent: { width: '100%', maxWidth: 960, alignSelf: 'center', padding: 16, paddingBottom: 32 },
+  webWide: { flexDirection: 'row', gap: 32, alignItems: 'center', justifyContent: 'center', paddingTop: 24 },
+  webResult: { padding: 16, borderRadius: 20, maxWidth: 620, flexShrink: 1, alignSelf: 'center' },
+  webArt: { width: 180, height: 180 },
 });

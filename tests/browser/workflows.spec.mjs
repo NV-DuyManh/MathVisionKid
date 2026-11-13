@@ -1,4 +1,80 @@
-import { test, expect, sites, login, openNavigation } from './fixtures.mjs';
+import { test, expect, sites, login, openNavigation, profile } from './fixtures.mjs';
+
+test('Portal offers one shared sign-in route before the visitor chooses an account', async ({ page, app }) => {
+  await page.goto(`${sites.portal.origin}/`);
+  await expect(page.locator('a[href="/student"], a[href="/teacher-entry"], a[href="/admin-entry"]')).toHaveCount(0);
+  await expect(page.getByText('Cổng làm việc', { exact: true })).toHaveCount(0);
+  await page.getByRole('banner').getByRole('link', { name: 'Đăng nhập', exact: true }).click();
+  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
+  await expect(page.getByRole('heading', { name: 'Đăng nhập cùng MathVision' })).toBeVisible();
+  expect(app.requests.filter(request => request.path === '/auth/me')).toEqual([]);
+});
+
+test('admin account confirmation can cancel, recover from a failure and lock the fixture account', async ({ page, app }, testInfo) => {
+  let user = profile('TEACHER');
+  let writes = 0;
+  const path = `/admin/users/${user.userId}`;
+  app.responses.set(`GET ${path}`, ({ json }) => json(user));
+  app.responses.set(`POST ${path}/disable`, ({ json, reject }) => {
+    if (++writes === 1) return reject(503);
+    user = { ...user, active: false };
+    return json({});
+  });
+  await login(page, 'ADMIN');
+  await page.goto(`${sites.admin.origin}/users`);
+  const userRow = page.getByRole('row').filter({ hasText: user.displayName });
+  await expect(userRow).toBeVisible();
+  await testInfo.attach('Admin fixture account list', { body: await page.screenshot(), contentType: 'image/png' });
+  await userRow.getByRole('link', { name: `Xem chi tiết ${user.displayName}` }).click();
+  await expect(page).toHaveURL(`${sites.admin.origin}/users/${user.userId}`);
+  const lock = page.getByRole('button', { name: 'Khóa tài khoản' });
+  const dialog = page.getByRole('dialog', { name: 'Khóa tài khoản' });
+  await lock.click();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(lock).toBeFocused();
+  expect(writes).toBe(0);
+  await lock.click();
+  await dialog.getByRole('button', { name: 'Xác nhận' }).click();
+  await expect(dialog.getByRole('alert')).toBeVisible();
+  await testInfo.attach('Admin fixture confirmation failure', { body: await page.screenshot(), contentType: 'image/png' });
+  await dialog.getByRole('button', { name: 'Xác nhận' }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Mở tài khoản' })).toBeVisible();
+  expect(writes).toBe(2);
+});
+
+test('admin opens a class roster and reviews an audit event from the ledger', async ({ page, app }) => {
+  const classroom = {
+    classId: 'class-5a', name: 'Lớp kiểm thử 5A', gradeLevel: 5, academicYear: '2026–2027',
+    studentCount: 1, createdAt: '2026-11-12T10:00:00Z',
+    teacher: profile('TEACHER'), students: [profile('STUDENT')],
+  };
+  const event = {
+    auditEventId: 'class-created-fixture', actorEmail: 'admin@example.test',
+    eventType: 'ADMIN_CLASS_CREATED', createdAt: classroom.createdAt,
+  };
+  const pageOf = item => ({ content: [item], number: 0, size: 10, totalElements: 1, totalPages: 1 });
+  app.responses.set('GET /admin/classes', ({ json }) => json(pageOf(classroom)));
+  app.responses.set('GET /admin/classes/class-5a', ({ json }) => json(classroom));
+  app.responses.set('GET /admin/audit', ({ json }) => json(pageOf(event)));
+  await login(page, 'ADMIN');
+  await page.goto(`${sites.admin.origin}/classes`);
+  await page.getByRole('link', { name: `Xem chi tiết ${classroom.name}` }).click();
+  await expect(page.getByRole('table', { name: 'Danh sách học sinh trong lớp' })).toContainText('Kiểm thử STUDENT');
+
+  await page.goto(`${sites.admin.origin}/audit`);
+  const detail = page.getByRole('button', { name: 'Xem sự kiện class-created-fixture' });
+  await detail.click();
+  const dialog = page.getByRole('dialog', { name: 'Chi tiết sự kiện' });
+  await expect(dialog).toContainText(event.actorEmail);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(detail).toBeFocused();
+
+  await page.goto(`${sites.admin.origin}/recognition/analytics`);
+  await expect(page.getByRole('heading', { name: 'Chưa có nguồn thống kê tổng hợp' })).toBeVisible();
+});
 
 test('student login hands off to /study/ (downstream Student UI is outside this suite)', async ({ page, app }) => {
   // Observe the entry request only; do not substitute a fake Student app.
@@ -24,14 +100,17 @@ test('portal invalid login remains usable and keyboard retry succeeds', async ({
 
 for (const role of ['TEACHER', 'ADMIN']) {
   const site = sites[role.toLowerCase()];
-  const signedOutUrl = role === 'TEACHER' ? `${sites.portal.origin}/` : `${site.origin}/login`;
+  const signedOutUrl = `${sites.portal.origin}/`;
   test(`${role} guest cannot open protected pages`, async ({ page, app }) => {
+    await page.goto(`${site.origin}/login`);
+    await expect(page).toHaveURL(signedOutUrl);
     await page.goto(`${site.origin}/dashboard`);
     await expect(page).toHaveURL(signedOutUrl);
     expect(app.requests.filter(r => r.path.startsWith(`/${role.toLowerCase()}/`))).toEqual([]);
   });
 
   test(`${role} SSO, reload and logout preserve the correct session boundaries`, async ({ page, app }) => {
+    await page.goto(sites.portal.origin);
     await login(page, role);
     await expect(page.getByRole('heading', { name: `Xin chào, Kiểm thử ${role}`, exact: true })).toBeVisible();
     expect(new URL(page.url()).hash).toBe('');
@@ -42,7 +121,9 @@ for (const role of ['TEACHER', 'ADMIN']) {
     await page.getByRole('button', { name: 'Đăng xuất', exact: true }).click();
     await expect(page).toHaveURL(`${sites.portal.origin}/`);
     await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
-    await expect(page.getByRole('link', { name: 'Đăng nhập →', exact: true })).toBeVisible();
+    await expect(page.getByRole('banner').getByRole('link', { name: 'Đăng nhập', exact: true })).toBeVisible();
+    await page.goBack();
+    await expect(page).toHaveURL(signedOutUrl);
     await page.goto(`${site.origin}/dashboard`);
     await expect(page).toHaveURL(signedOutUrl);
   });
@@ -64,7 +145,7 @@ for (const role of ['TEACHER', 'ADMIN']) {
     // Wait for that cleanup rather than counting requests during its startup.
     if (role === 'TEACHER') {
       await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
-      await expect(page.getByRole('link', { name: 'Đăng nhập →', exact: true })).toBeVisible();
+      await expect(page.getByRole('banner').getByRole('link', { name: 'Đăng nhập', exact: true })).toBeVisible();
     }
     const refreshes = app.requests.filter(r => r.path === '/auth/refresh');
     expect(refreshes.filter(r => r.origin === site.origin)).toHaveLength(1);
@@ -109,7 +190,7 @@ test('teacher creates a selected-class subtraction assignment with a custom grad
   const maxScore = page.getByRole('spinbutton', { name: 'Thang điểm tối đa' });
   await expect(maxScore).toHaveValue('10');
   await maxScore.fill('100');
-  await page.getByRole('combobox', { name: 'Dạng phép tính (Phạm vi hỗ trợ MVP)' }).click();
+  await page.getByRole('combobox', { name: 'Dạng phép tính' }).click();
   await page.getByRole('option', { name: /Phép trừ đặt tính dọc/ }).click();
   await submit.click();
   await expect(page).toHaveURL(`${sites.teacher.origin}/batches/create?assignmentId=assignment-1`);

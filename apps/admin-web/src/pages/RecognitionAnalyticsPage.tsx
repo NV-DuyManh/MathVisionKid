@@ -1,29 +1,31 @@
-import { Box, Card } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 import InsightsOutlined from '@mui/icons-material/InsightsOutlined';
 import { AdminTopbar } from '../components/layout/AdminTopbar';
 import { PageContent } from '../components/common/PageContent';
 import { PageHeader } from '../components/common/PageHeader';
-import { EmptyState } from '../components/common/EmptyState';
 
 export function RecognitionAnalyticsPage() {
   return (
     <Box>
-      <AdminTopbar title="Theo dõi nhận diện" subtitle="Thống kê tổng hợp về quá trình nhận diện bài làm" />
+      <AdminTopbar title="Theo dõi nhận diện" />
       <PageContent>
         <PageHeader
           title="Theo dõi nhận diện AI"
-          description="Báo cáo chuyên sâu về hiệu năng và phân tích mô hình bóc tách nét chữ ô ly."
+          description="Số liệu tổng hợp về nhận diện nét chữ trên bài làm."
         />
-        <Card sx={{ borderRadius: 3.5, border: '1px solid #E2E8F0', bgcolor: '#FFFFFF' }}>
-          <EmptyState
-            title="Chưa có nguồn thống kê tổng hợp"
-            description="Hệ thống hiện chưa cung cấp dữ liệu nhận diện tổng hợp cho quản trị viên. Các chỉ số sẽ xuất hiện khi có nguồn dữ liệu được xác minh. Độ tin cậy của mô hình và độ chính xác là hai chỉ số khác nhau, cần kết quả đối chiếu với nhãn đã kiểm chứng."
-            icon={<InsightsOutlined sx={{ fontSize: 42, color: '#2563EB' }} />}
-          />
+        <Card component="section" aria-labelledby="recognition-data-heading">
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, px: { xs: 2, sm: 3 }, py: 1.5, bgcolor: 'var(--admin-paper)', borderBottom: 1, borderColor: 'var(--admin-paper-line)' }}>
+            <InsightsOutlined color="primary" />
+            <Typography component="h2" id="recognition-data-heading" variant="h4">Dữ liệu nhận diện</Typography>
+          </Box>
+          <CardContent sx={{ p: { xs: 2, sm: 3 }, '&:last-child': { pb: { xs: 2, sm: 3 } } }}>
+            <Typography component="h3" variant="h5" sx={{ mb: 0.75 }}>Chưa có nguồn thống kê tổng hợp</Typography>
+            <Typography color="text.secondary" sx={{ maxWidth: '65ch' }}>
+              Các chỉ số sẽ xuất hiện khi hệ thống có nguồn dữ liệu được xác minh. Độ tin cậy là mức chắc chắn do mô hình báo. Độ chính xác được đo bằng cách đối chiếu kết quả với nhãn đã kiểm chứng.
+            </Typography>
+          </CardContent>
         </Card>
       </PageContent>
     </Box>
   );
 }
-
-export default RecognitionAnalyticsPage;

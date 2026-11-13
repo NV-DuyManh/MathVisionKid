@@ -12,11 +12,7 @@ import {
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import SchoolIcon from '@mui/icons-material/School';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import SecurityIcon from '@mui/icons-material/Security';
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
@@ -29,6 +25,7 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { authService, type UserProfile } from '../services/authService';
 import { tokenStore } from '../services/apiClient';
+import { WEB_DESIGN } from '../../../../packages/ui-brand/src/web-design';
 
 export const LandingPage: React.FC = () => {
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -37,7 +34,6 @@ export const LandingPage: React.FC = () => {
   const [activeColumn, setActiveColumn] = useState<'all' | 'units' | 'tens' | 'hundreds'>('all');
   const [socraticStep, setSocraticStep] = useState<number>(0);
   const [activeWorkflowStep, setActiveWorkflowStep] = useState<number>(0);
-  const [activeRoleTab, setActiveRoleTab] = useState<number>(0);
 
   useEffect(() => {
     if (tokenStore.hasTokens()) {
@@ -55,14 +51,21 @@ export const LandingPage: React.FC = () => {
 
   const isStudent = user && (user.role || '').toUpperCase().replace('ROLE_', '') === 'STUDENT';
 
+  const columnOptions = [
+    { column: 'all', label: 'Cả phép tính', fill: WEB_DESIGN.colors.blue, text: WEB_DESIGN.colors.white },
+    { column: 'units', label: gradeBand === 'upper' ? 'Đơn vị (5+8)' : 'Đơn vị (3+5)', fill: WEB_DESIGN.colors.green, text: WEB_DESIGN.colors.white },
+    { column: 'tens', label: gradeBand === 'upper' ? 'Hàng chục (4+7)' : 'Hàng chục (2+1)', fill: WEB_DESIGN.colors.star, text: WEB_DESIGN.colors.ink },
+    { column: 'hundreds', label: 'Hàng trăm (2+1)', fill: WEB_DESIGN.colors.blue, text: WEB_DESIGN.colors.white },
+  ] as const;
+
   const WORKFLOW_STEPS = [
     {
       step: '01',
       title: 'Chụp trang vở ô ly',
       subtitle: 'Bé đặt điện thoại ngay ngắn, chụp trang vở bài làm mà không cần phụ huynh thao tác phức tạp.',
-      tag: 'Tự động che danh tính',
+      tag: 'Che thông tin riêng tư',
       icon: <CameraAltIcon sx={{ fontSize: 26, color: '#2563EB' }} />,
-      detail: 'Hệ thống tự động phát hiện góc trang, nắn thẳng phép tính và che mờ vùng tên trường/lớp để bảo vệ quyền riêng tư của bé.',
+      detail: 'Trước khi gửi, em có thể đánh dấu vùng tên, trường hoặc lớp cần che, rồi xác nhận lại ảnh.',
       badgeColor: '#EFF6FF',
     },
     {
@@ -100,41 +103,38 @@ export const LandingPage: React.FC = () => {
       {/* 1. HERO SECTION (INTERACTIVE STAGE WITH DIGITAL O LY NOTEBOOK) */}
       {/* ========================================================================= */}
       <Box
-        className="hero-mesh"
         sx={{
-          pt: { xs: 4, sm: 6, md: 8 },
-          pb: { xs: 7, sm: 9, md: 11 },
-          borderBottom: '1px solid #E2E8F0',
-          position: 'relative',
+          py: { xs: 4, sm: 6, md: 8 },
+          borderBottom: `1px solid ${WEB_DESIGN.colors.paperLine}`,
+          bgcolor: WEB_DESIGN.colors.paper,
         }}
       >
         <Container maxWidth="xl" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
-          <Grid container spacing={{ xs: 4, md: 6 }} sx={{ alignItems: 'center' }}>
+          <Grid container spacing={{ xs: 4, lg: 7 }} sx={{ alignItems: 'start' }}>
             {/* Left Column: Narrative & Action Launchpad */}
             <Grid size={{ xs: 12, lg: 6 }}>
               <Box sx={{ maxWidth: 620 }}>
                 {/* Companion Mascot Speech Bubble */}
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                   <Box
                     component="img"
-                    src="/ui/mathvision-star.png"
+                    src="/ui/mathvision-star.webp"
                     alt="Ngôi sao MathVision"
-                    className="star-companion-float"
-                    sx={{ width: 68, height: 68, flexShrink: 0, objectFit: 'contain' }}
+                    sx={{ width: { xs: 58, md: 82 }, height: { xs: 58, md: 82 }, flexShrink: 0, objectFit: 'contain' }}
                   />
-                  <Box className="speech-bubble">
+                  <Box sx={{ maxWidth: 280 }}>
                     <Typography
                       variant="body2"
                       sx={{
                         fontWeight: 800,
-                        color: '#0F172A',
-                        fontSize: { xs: '0.85rem', sm: '0.92rem' },
+                        color: WEB_DESIGN.colors.mutedInk,
+                        fontSize: { xs: '0.875rem', sm: '1rem' },
                         lineHeight: 1.4,
                       }}
                     >
                       {user && isStudent
-                        ? `Chào ${user.displayName}! Hôm nay em muốn giải toán gì cùng MathVision? ⭐`
-                        : 'Xin chào các bạn nhỏ! Cùng khám phá góc học toán vui vẻ nhé! ⭐'}
+                        ? `Chào ${user.displayName}! Hôm nay em muốn giải toán gì cùng MathVision?`
+                        : 'Cùng Ngôi sao MathVision mở trang vở hôm nay nhé!'}
                     </Typography>
                   </Box>
                 </Box>
@@ -144,25 +144,21 @@ export const LandingPage: React.FC = () => {
                   variant="h1"
                   component="h1"
                   sx={{
-                    fontSize: { xs: '2.2rem', sm: '2.8rem', md: '3.4rem' },
+                    fontSize: { xs: '2.125rem', sm: '2.85rem', lg: '3.25rem' },
                     fontWeight: 900,
                     lineHeight: 1.15,
                     letterSpacing: '-0.03em',
-                    color: '#0F172A',
+                    color: WEB_DESIGN.colors.ink,
+                    textWrap: 'balance',
                     mb: 2.5,
                   }}
                 >
-                  Cùng bé học toán vui trên từng trang{' '}
+                  Mở vở ô ly,{' '}
                   <Box
                     component="span"
-                    sx={{
-                      background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      display: 'inline',
-                    }}
+                    sx={{ color: WEB_DESIGN.colors.blue }}
                   >
-                    vở ô ly
+                    học toán từng bước
                   </Box>
                 </Typography>
 
@@ -172,10 +168,10 @@ export const LandingPage: React.FC = () => {
                     color: '#475569',
                     fontSize: { xs: '1.05rem', md: '1.18rem' },
                     lineHeight: 1.68,
-                    mb: 4,
+                    mb: 3,
                   }}
                 >
-                  Trợ lý AI nhận diện nét chữ số viết tay của bé, đồng hành gợi mở từng bước tính theo chương trình Tiểu học Việt Nam — <strong>tuyệt đối không giải hộ</strong>.
+                  Chụp bài toán viết tay và cùng Ngôi sao tìm ra lời giải qua từng câu hỏi gợi mở. Dành cho học sinh lớp 1 đến lớp 5.
                 </Typography>
 
                 {/* Dynamic Auth Hub */}
@@ -332,13 +328,14 @@ export const LandingPage: React.FC = () => {
                           endIcon={<ArrowForwardIcon />}
                           sx={{ px: 3, py: 1.2, fontWeight: 800, borderRadius: 2.5 }}
                         >
-                          Vào không gian làm việc
+                          Tiếp tục
                         </Button>
                       </Box>
                     )}
                   </Box>
                 ) : (
-                  <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 4.5 }}>
+                  <Box>
+                    <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mb: 3 }}>
                     <Button
                       component={RouterLink}
                       to="/login"
@@ -355,28 +352,9 @@ export const LandingPage: React.FC = () => {
                         boxShadow: '0 8px 24px -4px rgba(37, 99, 235, 0.4)',
                       }}
                     >
-                      Bắt đầu học ngay 🚀
+                      Đăng nhập
                     </Button>
-                    <Button
-                      component="a"
-                      href="#showcase"
-                      variant="outlined"
-                      size="large"
-                      startIcon={<AutoFixHighIcon />}
-                      sx={{
-                        px: 3.5,
-                        py: 1.6,
-                        fontSize: '1rem',
-                        fontWeight: 800,
-                        borderRadius: 3,
-                        borderColor: '#CBD5E1',
-                        color: '#334155',
-                        bgcolor: '#FFFFFF',
-                        '&:hover': { borderColor: '#2563EB', bgcolor: '#EFF6FF', color: '#2563EB' },
-                      }}
-                    >
-                      Khám phá thực nghiệm ✨
-                    </Button>
+                    </Box>
                   </Box>
                 )}
 
@@ -419,24 +397,22 @@ export const LandingPage: React.FC = () => {
             </Grid>
 
             {/* Right Column: Interactive Digital Notebook Preview Stage */}
-            <Grid size={{ xs: 12, lg: 6 }} id="showcase">
+            <Grid size={{ xs: 12, lg: 6 }} id="showcase" sx={{ minWidth: 0, scrollMarginTop: 96 }}>
               <Box
-                className="hover-elevate"
                 sx={{
                   bgcolor: '#FFFFFF',
-                  borderRadius: 4,
-                  border: '1.5px solid #CBD5E1',
-                  boxShadow: '0 16px 40px -8px rgba(37, 99, 235, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.04)',
+                  borderRadius: `${WEB_DESIGN.components.notebook.radius}px`,
+                  border: `1px solid ${WEB_DESIGN.components.notebook.borderColor}`,
                   overflow: 'hidden',
                 }}
               >
                 {/* Stage Header Toolbar */}
                 <Box
                   sx={{
-                    px: 3,
+                    px: { xs: 2, sm: 3 },
                     py: 2,
-                    bgcolor: '#F8FAFC',
-                    borderBottom: '1px solid #E2E8F0',
+                    bgcolor: WEB_DESIGN.colors.blueLight,
+                    borderBottom: `1px solid ${WEB_DESIGN.colors.line}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
@@ -659,56 +635,27 @@ export const LandingPage: React.FC = () => {
                     {/* Column Inspection Selector */}
                     <Box sx={{ mt: 2.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1.5 }}>
                       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                        <Chip
-                          label="Cả phép tính"
-                          size="small"
-                          onClick={() => setActiveColumn('all')}
-                          sx={{
-                            fontWeight: 800,
-                            cursor: 'pointer',
-                            bgcolor: activeColumn === 'all' ? '#2563EB' : '#F1F5F9',
-                            color: activeColumn === 'all' ? '#FFFFFF' : '#475569',
-                            borderRadius: 1.5,
-                          }}
-                        />
-                        <Chip
-                          label={gradeBand === 'upper' ? 'Đơn vị (5+8)' : 'Đơn vị (3+5)'}
-                          size="small"
-                          onClick={() => setActiveColumn('units')}
-                          sx={{
-                            fontWeight: 800,
-                            cursor: 'pointer',
-                            bgcolor: activeColumn === 'units' ? '#10B981' : '#F1F5F9',
-                            color: activeColumn === 'units' ? '#FFFFFF' : '#475569',
-                            borderRadius: 1.5,
-                          }}
-                        />
-                        <Chip
-                          label={gradeBand === 'upper' ? 'Hàng chục (4+7)' : 'Hàng chục (2+1)'}
-                          size="small"
-                          onClick={() => setActiveColumn('tens')}
-                          sx={{
-                            fontWeight: 800,
-                            cursor: 'pointer',
-                            bgcolor: activeColumn === 'tens' ? '#F59E0B' : '#F1F5F9',
-                            color: activeColumn === 'tens' ? '#FFFFFF' : '#475569',
-                            borderRadius: 1.5,
-                          }}
-                        />
-                        {gradeBand === 'upper' && (
-                          <Chip
-                            label="Hàng trăm (2+1)"
-                            size="small"
-                            onClick={() => setActiveColumn('hundreds')}
-                            sx={{
-                              fontWeight: 800,
-                              cursor: 'pointer',
-                              bgcolor: activeColumn === 'hundreds' ? '#0284C7' : '#F1F5F9',
-                              color: activeColumn === 'hundreds' ? '#FFFFFF' : '#475569',
-                              borderRadius: 1.5,
-                            }}
-                          />
-                        )}
+                        {columnOptions.map(({ column, label, fill, text }) => {
+                          if (column === 'hundreds' && gradeBand !== 'upper') return null;
+                          const selected = activeColumn === column;
+                          return (
+                            <Chip
+                              key={column}
+                              label={label}
+                              size="small"
+                              onClick={() => setActiveColumn(column)}
+                              aria-pressed={selected}
+                              sx={{
+                                fontWeight: 800, borderRadius: 1.5, transition: 'none',
+                                bgcolor: selected ? fill : '#F1F5F9',
+                                color: selected ? text : WEB_DESIGN.colors.mutedInk,
+                                '&.MuiChip-clickable:hover, &.Mui-focusVisible': {
+                                  bgcolor: selected ? fill : WEB_DESIGN.colors.blueLight,
+                                },
+                              }}
+                            />
+                          );
+                        })}
                       </Box>
                       <Chip
                         icon={<SparklesIcon sx={{ fontSize: '13px !important', color: '#059669 !important' }} />}
@@ -875,7 +822,7 @@ export const LandingPage: React.FC = () => {
 
                     {/* Mascot Note */}
                     <Box sx={{ mt: 2.5, p: 2, borderRadius: 2.5, bgcolor: '#FFFBEB', border: '1px solid #FDE68A', display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                      <Box component="img" src="/ui/mathvision-star.png" alt="Star" sx={{ width: 28, height: 28 }} />
+                      <Box component="img" src="/ui/mathvision-star.webp" alt="Star" sx={{ width: 28, height: 28 }} />
                       <Typography variant="caption" sx={{ color: '#92400E', fontWeight: 800 }}>
                         💡 Ngôi sao MathVision nhắc: "Bé hãy tự nhẩm từng bước trước khi điền số nhé, em làm rất tốt đấy!"
                       </Typography>
@@ -1035,7 +982,7 @@ export const LandingPage: React.FC = () => {
                     }}
                   >
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                      <Box component="img" src="/ui/mathvision-star.png" alt="Star mascot" sx={{ width: 32, height: 32 }} />
+                      <Box component="img" src="/ui/mathvision-star.webp" alt="Star mascot" sx={{ width: 32, height: 32 }} />
                       <Typography variant="subtitle2" sx={{ fontWeight: 900, color: '#0F172A' }}>
                         Lời khuyên của Ngôi sao MathVision
                       </Typography>
@@ -1175,251 +1122,6 @@ export const LandingPage: React.FC = () => {
               </Grid>
             </Grid>
           </Box>
-        </Container>
-      </Box>
-
-      {/* ========================================================================= */}
-      {/* 3. THREE WORKSPACES — UNIFIED ECOSYSTEM IN ACTION */}
-      {/* ========================================================================= */}
-      <Box id="workspaces" sx={{ py: { xs: 8, md: 11 }, bgcolor: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
-        <Container maxWidth="xl" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
-          <Box sx={{ mb: 5, maxWidth: 680 }}>
-            <Chip
-              label="HỆ SINH THÁI ĐỒNG BỘ"
-              size="small"
-              sx={{
-                bgcolor: '#EFF6FF',
-                color: '#2563EB',
-                fontWeight: 900,
-                fontSize: '0.74rem',
-                letterSpacing: '0.04em',
-                borderRadius: 1.5,
-                mb: 1.5,
-              }}
-            />
-            <Typography variant="h2" sx={{ mb: 1.5, fontSize: { xs: '2rem', md: '2.5rem' }, fontWeight: 900, letterSpacing: '-0.02em' }}>
-              Ba không gian làm việc chuyên biệt
-            </Typography>
-            <Typography variant="body1" sx={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.65 }}>
-              Một hệ thống duy nhất nhưng thiết kế đúng tâm lý và nhiệm vụ: Vui vẻ cho học sinh, Chuẩn mực cho giáo viên, Vững chắc cho quản trị.
-            </Typography>
-          </Box>
-
-          {/* Interactive Role Tabs */}
-          <Box sx={{ mb: 4, borderBottom: '1px solid #E2E8F0' }}>
-            <Tabs
-              value={activeRoleTab}
-              onChange={(_, v) => setActiveRoleTab(v)}
-              aria-label="Lựa chọn không gian làm việc"
-              sx={{
-                '& .MuiTab-root': {
-                  fontSize: '0.95rem',
-                  fontWeight: 800,
-                  textTransform: 'none',
-                  py: 1.5,
-                  px: 3,
-                  color: '#64748B',
-                  '&.Mui-selected': { color: activeRoleTab === 0 ? '#2563EB' : activeRoleTab === 1 ? '#059669' : '#0F172A' },
-                },
-                '& .MuiTabs-indicator': {
-                  height: 3,
-                  borderRadius: '3px 3px 0 0',
-                  bgcolor: activeRoleTab === 0 ? '#2563EB' : activeRoleTab === 1 ? '#059669' : '#0F172A',
-                },
-              }}
-            >
-              <Tab icon={<SchoolIcon fontSize="small" />} iconPosition="start" label="Không gian Học sinh" />
-              <Tab icon={<MenuBookIcon fontSize="small" />} iconPosition="start" label="Cổng Giáo viên" />
-              <Tab icon={<AdminPanelSettingsIcon fontSize="small" />} iconPosition="start" label="Cổng Quản trị viên" />
-            </Tabs>
-          </Box>
-
-          {/* Role 0: Student */}
-          {activeRoleTab === 0 && (
-            <Card
-              sx={{
-                p: { xs: 3.5, sm: 5 },
-                borderRadius: 4,
-                border: '1.5px solid #BFDBFE',
-                background: 'linear-gradient(180deg, #FFFFFF 0%, #EFF6FF 100%)',
-                boxShadow: '0 8px 28px -4px rgba(37, 99, 235, 0.08)',
-              }}
-            >
-              <Grid container spacing={4} sx={{ alignItems: 'center' }}>
-                <Grid size={{ xs: 12, md: 7 }}>
-                  <Chip label="Dành cho bé Lớp 1 đến 5" size="small" sx={{ mb: 2, bgcolor: '#EFF6FF', color: '#2563EB', fontWeight: 900, borderRadius: 1.5 }} />
-                  <Typography variant="h4" sx={{ fontWeight: 900, mb: 2, color: '#0F172A', fontSize: { xs: '1.5rem', sm: '1.9rem' } }}>
-                    Vui học đặt tính & Luyện tập cùng Ngôi sao MathVision
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: '#475569', lineHeight: 1.7, mb: 3.5 }}>
-                    Mô phỏng trang vở ô ly thân thuộc, phản hồi khuyến khích thân thiện và lời giải thích từng bước giúp các em từ lớp 1 đến lớp 5 không còn sợ môn Toán. Trẻ tự tin học tập độc lập mỗi ngày.
-                  </Typography>
-                  <Button
-                    component={RouterLink}
-                    to="/student"
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    endIcon={<ArrowForwardIcon />}
-                    sx={{ px: 4, py: 1.4, fontWeight: 900, borderRadius: 2.5 }}
-                  >
-                    Vào không gian học sinh
-                  </Button>
-                </Grid>
-                <Grid size={{ xs: 12, md: 5 }}>
-                  <Box
-                    sx={{
-                      p: 3,
-                      borderRadius: 3.5,
-                      bgcolor: '#FFFFFF',
-                      border: '1px solid #BFDBFE',
-                      boxShadow: '0 8px 24px -4px rgba(37, 99, 235, 0.12)',
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                      <Typography variant="caption" sx={{ fontWeight: 900, color: '#2563EB', letterSpacing: '0.02em' }}>
-                        ★ BÀI TẬP ĐANG LÀM · LỚP 3
-                      </Typography>
-                      <Chip label="Đang kiểm tra cột nhớ" size="small" sx={{ height: 22, fontSize: '0.72rem', bgcolor: '#FEF3C7', color: '#B45309', fontWeight: 800, borderRadius: 1 }} />
-                    </Box>
-                    <Typography variant="body1" sx={{ color: '#0F172A', fontWeight: 900, mb: 1 }}>
-                      Phép tính: 356 + 289 = ?
-                    </Typography>
-                    <Box sx={{ p: 1.5, bgcolor: '#ECFDF5', borderRadius: 2, border: '1px solid #A7F3D0' }}>
-                      <Typography variant="caption" sx={{ color: '#047857', fontWeight: 800, display: 'block' }}>
-                        💡 Gợi ý của Ngôi sao:
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: '#065F46', fontWeight: 700, mt: 0.25 }}>
-                        "6 cộng 9 bằng 15, em viết 5 và nhớ 1 sang hàng chục nhé!"
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Card>
-          )}
-
-          {/* Role 1: Teacher */}
-          {activeRoleTab === 1 && (
-            <Card
-              sx={{
-                p: { xs: 3.5, sm: 5 },
-                borderRadius: 4,
-                border: '1.5px solid #A7F3D0',
-                background: 'linear-gradient(180deg, #FFFFFF 0%, #ECFDF5 100%)',
-                boxShadow: '0 8px 28px -4px rgba(5, 150, 105, 0.08)',
-              }}
-            >
-              <Grid container spacing={4} sx={{ alignItems: 'center' }}>
-                <Grid size={{ xs: 12, md: 7 }}>
-                  <Chip label="Dành cho Giáo viên Toán Tiểu học" size="small" sx={{ mb: 2, bgcolor: '#ECFDF5', color: '#059669', fontWeight: 900, borderRadius: 1.5 }} />
-                  <Typography variant="h4" sx={{ fontWeight: 900, mb: 2, color: '#0F172A', fontSize: { xs: '1.5rem', sm: '1.9rem' } }}>
-                    Chấm bài theo đợt & Hàng đợi rà soát sư phạm
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: '#475569', lineHeight: 1.7, mb: 3.5 }}>
-                    Tải lên toàn bộ bài làm của lớp trong một lần. Hệ thống tự động phân loại các bài có nét mờ hoặc bất thường vào hàng đợi rà soát để thầy cô thẩm định và phê duyệt điểm số cuối cùng.
-                  </Typography>
-                  <Button
-                    component={RouterLink}
-                    to="/teacher-entry"
-                    variant="contained"
-                    size="large"
-                    endIcon={<ArrowForwardIcon />}
-                    sx={{ px: 4, py: 1.4, fontWeight: 900, borderRadius: 2.5, bgcolor: '#059669', '&:hover': { bgcolor: '#047857' } }}
-                  >
-                    Vào cổng giáo viên
-                  </Button>
-                </Grid>
-                <Grid size={{ xs: 12, md: 5 }}>
-                  <Box
-                    sx={{
-                      p: 3,
-                      borderRadius: 3.5,
-                      bgcolor: '#FFFFFF',
-                      border: '1px solid #A7F3D0',
-                      boxShadow: '0 8px 24px -4px rgba(5, 150, 105, 0.1)',
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                      <Typography variant="caption" sx={{ fontWeight: 800, color: '#065F46' }}>
-                        Đợt chấm bài gần nhất: Lớp 3A
-                      </Typography>
-                      <Chip label="28/30 hoàn tất" size="small" sx={{ height: 22, fontSize: '0.72rem', bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, borderRadius: 1 }} />
-                    </Box>
-                    <Box sx={{ width: '100%', height: 8, bgcolor: '#D1FAE5', borderRadius: 1, mb: 2, overflow: 'hidden' }}>
-                      <Box sx={{ width: '93%', height: '100%', bgcolor: '#059669', borderRadius: 1 }} />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#334155', fontWeight: 700 }}>
-                      ⚡ 2 bài làm có nét chữ mờ đang chờ giáo viên xác nhận.
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Card>
-          )}
-
-          {/* Role 2: Admin */}
-          {activeRoleTab === 2 && (
-            <Card
-              sx={{
-                p: { xs: 3.5, sm: 5 },
-                borderRadius: 4,
-                border: '1.5px solid #CBD5E1',
-                background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%)',
-                boxShadow: '0 8px 28px -4px rgba(15, 23, 42, 0.08)',
-              }}
-            >
-              <Grid container spacing={4} sx={{ alignItems: 'center' }}>
-                <Grid size={{ xs: 12, md: 7 }}>
-                  <Chip label="Dành cho Quản trị viên Nhà trường" size="small" sx={{ mb: 2, bgcolor: '#F1F5F9', color: '#0F172A', fontWeight: 900, borderRadius: 1.5 }} />
-                  <Typography variant="h4" sx={{ fontWeight: 900, mb: 2, color: '#0F172A', fontSize: { xs: '1.5rem', sm: '1.9rem' } }}>
-                    Quản lý tài khoản toàn trường & Giám sát an toàn tập trung
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: '#475569', lineHeight: 1.7, mb: 3.5 }}>
-                    Phân quyền nghiêm ngặt giữa học sinh, giáo viên và cán bộ quản lý. Theo dõi nhật ký kiểm toán hệ thống theo thời gian thực và đảm bảo tuyệt đối an toàn dữ liệu thông tin trường học.
-                  </Typography>
-                  <Button
-                    component={RouterLink}
-                    to="/admin-entry"
-                    variant="contained"
-                    size="large"
-                    endIcon={<ArrowForwardIcon />}
-                    sx={{ px: 4, py: 1.4, fontWeight: 900, borderRadius: 2.5, bgcolor: '#0F172A', '&:hover': { bgcolor: '#1E293B' } }}
-                  >
-                    Vào cổng quản trị
-                  </Button>
-                </Grid>
-                <Grid size={{ xs: 12, md: 5 }}>
-                  <Box
-                    sx={{
-                      p: 3,
-                      borderRadius: 3.5,
-                      bgcolor: '#FFFFFF',
-                      border: '1px solid #CBD5E1',
-                      boxShadow: '0 8px 24px -4px rgba(15, 23, 42, 0.08)',
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#10B981', boxShadow: '0 0 0 3px rgba(16, 185, 129, 0.2)' }} />
-                        <Typography variant="caption" sx={{ fontWeight: 800, color: '#0F172A' }}>
-                          Trạng thái vận hành hệ thống
-                        </Typography>
-                      </Box>
-                      <Chip label="100% Ổn định" size="small" sx={{ height: 22, fontSize: '0.72rem', bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, borderRadius: 1 }} />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#475569', lineHeight: 1.6, mb: 2 }}>
-                      Phiên SSO xác thực an toàn, nhật ký kiểm toán ghi nhận tức thời mọi thao tác điều chỉnh điểm và phân quyền lớp học.
-                    </Typography>
-                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                      <Chip label="Kiểm toán tức thời" size="small" variant="outlined" sx={{ borderColor: '#CBD5E1', color: '#475569', fontSize: '0.72rem', fontWeight: 700 }} />
-                      <Chip label="Mã hóa dữ liệu" size="small" variant="outlined" sx={{ borderColor: '#CBD5E1', color: '#475569', fontSize: '0.72rem', fontWeight: 700 }} />
-                    </Box>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Card>
-          )}
         </Container>
       </Box>
 
@@ -1578,7 +1280,7 @@ export const LandingPage: React.FC = () => {
                 </Box>
                 <Box sx={{ pt: 2, borderTop: '1px solid #F1F5F9' }}>
                   <Chip
-                    label="Bảo mật tuyệt đối thiết bị"
+                    label="Xem lại vùng che trước khi gửi"
                     size="small"
                     sx={{ height: 22, fontSize: '0.72rem', fontWeight: 800, bgcolor: '#FFFBEB', color: '#B45309', border: '1px solid #FDE68A', borderRadius: 1 }}
                   />
@@ -1602,25 +1304,11 @@ export const LandingPage: React.FC = () => {
         }}
       >
         <Container maxWidth="md" sx={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <Chip
-            label="BẮT ĐẦU CÙNG MATHVISION KIDS"
-            size="small"
-            sx={{
-              bgcolor: 'rgba(255, 255, 255, 0.12)',
-              color: '#EFF6FF',
-              fontWeight: 800,
-              fontSize: '0.74rem',
-              letterSpacing: '0.04em',
-              borderRadius: 1.5,
-              mb: 3,
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-            }}
-          />
           <Typography variant="h2" sx={{ fontWeight: 900, color: '#FFFFFF', mb: 2.5, fontSize: { xs: '2rem', sm: '2.75rem' }, lineHeight: 1.18, letterSpacing: '-0.02em' }}>
             Sẵn sàng đồng hành cùng bé chinh phục môn Toán?
           </Typography>
           <Typography variant="body1" sx={{ color: '#CBD5E1', mb: 5, maxWidth: 620, mx: 'auto', fontSize: '1.1rem', lineHeight: 1.68 }}>
-            Đăng nhập để vào không gian học sinh, cổng giáo viên hoặc bảng quản trị nhà trường.
+            Đăng nhập bằng tài khoản MathVision của bạn.
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}>
             {user ? (
@@ -1646,7 +1334,7 @@ export const LandingPage: React.FC = () => {
                     },
                   }}
                 >
-                  {isStudent ? 'Tiếp tục học tập 🚀' : user.role?.includes('TEACHER') ? 'Vào không gian giảng dạy ➔' : 'Vào cổng quản trị ➔'}
+                  Tiếp tục
                 </Button>
                 <Button
                   component={RouterLink}
@@ -1693,45 +1381,7 @@ export const LandingPage: React.FC = () => {
                     '&:hover': { bgcolor: '#1D4ED8' },
                   }}
                 >
-                  Bắt đầu học ngay 🚀
-                </Button>
-                <Button
-                  component={RouterLink}
-                  to="/teacher-entry"
-                  variant="outlined"
-                  size="large"
-                  sx={{
-                    borderColor: 'rgba(255, 255, 255, 0.35) !important',
-                    color: '#FFFFFF !important',
-                    bgcolor: 'rgba(255, 255, 255, 0.08) !important',
-                    px: 4,
-                    py: 1.6,
-                    fontSize: '1.02rem',
-                    fontWeight: 800,
-                    borderRadius: 3,
-                    backdropFilter: 'blur(8px)',
-                    '&:hover': {
-                      borderColor: '#FFFFFF !important',
-                      bgcolor: 'rgba(255, 255, 255, 0.18) !important',
-                      color: '#FFFFFF !important',
-                    },
-                  }}
-                >
-                  Dành cho giáo viên
-                </Button>
-                <Button
-                  component={RouterLink}
-                  to="/admin-entry"
-                  variant="text"
-                  sx={{
-                    color: 'rgba(255, 255, 255, 0.75)',
-                    fontWeight: 800,
-                    fontSize: '0.92rem',
-                    px: 2,
-                    '&:hover': { color: '#FFFFFF', bgcolor: 'rgba(255, 255, 255, 0.06)' },
-                  }}
-                >
-                  Cổng quản trị ➔
+                  Đăng nhập
                 </Button>
               </>
             )}

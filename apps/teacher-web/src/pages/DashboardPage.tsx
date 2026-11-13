@@ -4,7 +4,6 @@ import {
   Typography,
   Grid,
   Card,
-  CardContent,
   Button,
   List,
   ListItem,
@@ -27,7 +26,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { useAuth } from '../components/layout/AuthContext';
 import { StatusChip } from '../components/common/StatusChip';
-import { PageHeader } from '../components/common/PageHeader';
 import { StatCard } from '../components/common/StatCard';
 import { EmptyState } from '../components/common/EmptyState';
 
@@ -48,12 +46,12 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <Box>
-        <Skeleton variant="text" width={280} height={36} sx={{ mb: 1 }} />
-        <Skeleton variant="text" width={380} height={20} sx={{ mb: 3.5 }} />
+      <Box role="status" aria-label="Đang tải tổng quan" aria-busy="true">
+        <Skeleton variant="text" width={280} height={36} sx={{ mb: 1, maxWidth: '100%' }} />
+        <Skeleton variant="text" width={380} height={20} sx={{ mb: 3.5, maxWidth: '100%' }} />
         <Grid container spacing={2} sx={{ mb: 3.5 }}>
           {[1, 2, 3, 4].map((i) => (
-            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
+            <Grid size={{ xs: 6, lg: 3 }} key={i}>
               <Skeleton variant="rectangular" height={130} sx={{ borderRadius: 3.5 }} />
             </Grid>
           ))}
@@ -71,111 +69,65 @@ export default function DashboardPage() {
 
   return (
     <Box>
-      {/* Header section with Unified PageHeader */}
-      <PageHeader
-        title={`Xin chào, ${displayName}`}
-        description="Theo dõi lớp học, quản lý bài tập ô ly và phê duyệt kết quả chấm bài của học sinh."
-        actions={
-          <>
+      <Box component="header" className="teacher-dashboard-welcome">
+        <Box component="img" src="/ui/mathvision-star.png" alt="" width={72} height={72} className="teacher-dashboard-star" />
+        <Box sx={{ minWidth: 0 }}>
+          <Typography variant="h2" component="h1" sx={{ fontSize: { xs: '1.5rem', sm: '2rem' }, overflowWrap: 'anywhere' }}>
+            Xin chào, {displayName}
+          </Typography>
+          <Typography variant="body2" sx={{ mt: 0.75 }}>
+            Theo dõi lớp học, giao bài tập ô ly và duyệt kết quả chấm bài.
+          </Typography>
+          <Box className="teacher-page-actions" sx={{ mt: 2 }}>
             <Button
-              variant="outlined"
+              component={Link}
+              to="/batches/create"
+              variant={reviewCount > 0 ? 'outlined' : 'contained'}
               startIcon={<AddCircleOutlined />}
-              onClick={() => navigate('/assignments/create')}
-              sx={{ borderRadius: 2.5, fontWeight: 700 }}
-            >
-              Tạo bài tập
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<AddCircleOutlined />}
-              onClick={() => navigate('/batches/create')}
-              sx={{ borderRadius: 2.5, fontWeight: 700 }}
             >
               Tạo đợt chấm mới
             </Button>
-          </>
-        }
-      />
+            <Button component={Link} to="/assignments/create" variant="text">
+              Tạo bài tập
+            </Button>
+          </Box>
+        </Box>
+      </Box>
 
       {!stats && (
-        <Paper
-          role="alert"
-          variant="outlined"
-          sx={{ mb: 3, p: 2, bgcolor: '#FFFBEB', borderColor: '#FDE68A', color: '#92400E', borderRadius: 2.5 }}
-        >
+        <Alert severity="warning" sx={{ mb: 3 }}
+          action={<Button size="small" onClick={() => void refetch()}>Thử lại</Button>}>
           Chưa tải được thống kê tổng quan. Bạn vẫn có thể mở Lớp học, Bài tập và Đợt chấm từ thanh điều hướng.
-          <Button onClick={() => void refetch()}>Thử lại</Button>
-        </Paper>
+        </Alert>
       )}
 
-      {/* Actionable Urgent Attention Banner */}
       {reviewCount > 0 && (
-        <Card
-          sx={{
-            mb: 3,
-            bgcolor: '#FEF2F2',
-            border: '1px solid #FECACA',
-            borderRadius: 3,
-          }}
-        >
-          <CardContent sx={{ py: 2, px: 2.5, '&:last-child': { pb: 2 } }}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: 2,
-              }}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Box
-                  sx={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 2,
-                    bgcolor: '#FEE2E2',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#DC2626',
-                    flexShrink: 0,
-                  }}
-                >
-                  <PendingActions sx={{ fontSize: 24 }} />
-                </Box>
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#991B1B' }}>
-                    Có {reviewCount} bài làm chờ giáo viên duyệt
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: '#B91C1C', fontSize: '0.8125rem' }}>
-                    Xem bài làm và chốt điểm khi đã kiểm tra.
-                  </Typography>
-                </Box>
-              </Box>
-              <Button
-                component={Link}
-                to={reviewBatchId ? `/batches/${encodeURIComponent(reviewBatchId)}/review` : '/batches'}
-                variant="contained"
-                endIcon={<ArrowForward />}
-                sx={{
-                  bgcolor: '#DC2626',
-                  '&:hover': { bgcolor: '#B91C1C' },
-                  px: 2,
-                  borderRadius: 2.5,
-                  fontWeight: 700,
-                }}
-              >
-                {reviewBatchId ? 'Xử lý ngay' : 'Xem các đợt chấm'}
-              </Button>
+        <Paper component="section" aria-labelledby="dashboard-review-title" variant="outlined" className="teacher-dashboard-review">
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, minWidth: 0 }}>
+            <Box sx={{ p: 1, borderRadius: '8px', bgcolor: 'warning.light', color: 'warning.dark', display: 'flex' }}>
+              <PendingActions fontSize="small" />
             </Box>
-          </CardContent>
-        </Card>
+            <Box>
+              <Typography component="h2" id="dashboard-review-title" variant="subtitle1">
+                Có {reviewCount} bài làm chờ giáo viên duyệt
+              </Typography>
+              <Typography variant="body2">Xem bài làm và chốt điểm khi đã kiểm tra.</Typography>
+            </Box>
+          </Box>
+          <Button
+            component={Link}
+            to={reviewBatchId ? `/batches/${encodeURIComponent(reviewBatchId)}/review` : '/batches'}
+            variant="contained"
+            endIcon={<ArrowForward />}
+          >
+            {reviewBatchId ? 'Xử lý ngay' : 'Xem các đợt chấm'}
+          </Button>
+        </Paper>
       )}
 
       {/* Top 4 Operational Metrics using Unified StatCard */}
       <Grid container spacing={2} className="dashboard-metrics" sx={{ mb: 3.5 }}>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 6, lg: 3 }}>
           <StatCard
             title="Lớp học phụ trách"
             value={!classesError ? classes.length : null}
@@ -191,7 +143,7 @@ export default function DashboardPage() {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 6, lg: 3 }}>
           <StatCard
             title="Tổng bài hôm nay"
             value={stats ? totalCount : null}
@@ -203,7 +155,7 @@ export default function DashboardPage() {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 6, lg: 3 }}>
           <StatCard
             title="Đã có đề xuất điểm"
             value={stats ? completedCount : null}
@@ -215,7 +167,7 @@ export default function DashboardPage() {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 6, lg: 3 }}>
           <StatCard
             title="Cần giáo viên xem"
             value={stats ? reviewCount : null}
@@ -238,8 +190,8 @@ export default function DashboardPage() {
       <Box className="dashboard-columns">
         {/* Left Column: Recent Batches List */}
         <Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, gap: 1, flexWrap: 'wrap' }}>
+            <Typography component="h2" variant="h5" sx={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
               Đợt chấm bài gần đây
             </Typography>
             <Button
@@ -325,8 +277,8 @@ export default function DashboardPage() {
 
         {/* Right Column: Assigned Classes Overview */}
         <Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, gap: 1, flexWrap: 'wrap' }}>
+            <Typography component="h2" variant="h5" sx={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
               Lớp học phụ trách
             </Typography>
             <Button
@@ -362,7 +314,7 @@ export default function DashboardPage() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      transition: 'all 160ms ease',
+                      flexWrap: 'wrap', gap: 1,
                       '&:hover': { bgcolor: '#F1F5F9', borderColor: '#CBD5E1' },
                     }}
                   >

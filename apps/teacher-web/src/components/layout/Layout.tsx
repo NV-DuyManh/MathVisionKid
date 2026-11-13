@@ -44,7 +44,7 @@ export default function Layout() {
   };
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
+    <Box className="teacher-workspace" sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
       <a href="#workspace-main" className="skip-link" onClick={event => {
         event.preventDefault();
         document.getElementById('workspace-main')?.focus();
@@ -65,7 +65,7 @@ export default function Layout() {
           id="workspace-main"
           tabIndex={-1}
           className="workspace-content"
-          sx={{ flexGrow: 1, p: { xs: 2, sm: 3, lg: 4 }, outline: 'none' }}
+          sx={{ flexGrow: 1, p: { xs: 1.5, sm: 3, lg: 4 }, minWidth: 0, outline: 'none' }}
         >
           <Outlet context={{ setUploadDraftActive }} />
         </Box>

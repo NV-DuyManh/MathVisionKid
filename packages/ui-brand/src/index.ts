@@ -16,6 +16,7 @@ export interface RoleConfig {
 }
 
 export const BRAND_NAME = 'MathVision Kids';
+export { WEB_DESIGN } from './web-design';
 export const BRAND_TAGLINE_EN = 'Kid-First AI-Assisted Handwritten Arithmetic Grading & Tutoring Platform';
 export const BRAND_TAGLINE_VI = 'Nền tảng học toán số học ô ly và gia sư thông minh dành cho học sinh Tiểu học';
 

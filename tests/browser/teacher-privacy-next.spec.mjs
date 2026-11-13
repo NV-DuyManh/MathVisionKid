@@ -7,7 +7,12 @@ test('each image requires its own privacy confirmation when advancing', async ({
   app.assignments.push({ assignmentId: 'assignment-1', classId: 'class-5a', title: 'Bài kiểm thử', operationType: 'ADDITION' });
   await login(page, 'TEACHER');
   await page.goto(`${sites.teacher.origin}/batches/create?assignmentId=assignment-1`);
-  await page.locator('input[type=file][multiple]').first().setInputFiles([1, 2, 3].map(index => ({
+  const picker = page.getByRole('button', { name: 'Chọn ảnh từ máy tính' });
+  await expect(picker).toBeEnabled();
+  await picker.focus();
+  const chooser = page.waitForEvent('filechooser');
+  await page.keyboard.press('Enter');
+  await (await chooser).setFiles([1, 2, 3].map(index => ({
     name: `work-${index}.png`, mimeType: 'image/png', buffer: image,
   })));
   await page.getByRole('button', { name: 'Che thông tin cá nhân', exact: true }).first().click();
@@ -30,5 +35,6 @@ test('each image requires its own privacy confirmation when advancing', async ({
   await noInfo.check();
   await editor.getByRole('button', { name: 'Lưu ảnh đã che' }).click();
   await expect(editor).toBeHidden();
-  await expect(page.getByText('Đã che thông tin: 3/3')).toBeVisible();
+  const readiness = page.getByRole('region', { name: 'Kiểm tra trước khi gửi' });
+  await expect(readiness.getByRole('listitem').filter({ hasText: 'Đã che thông tin' })).toContainText('3/3');
 });

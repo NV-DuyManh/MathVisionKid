@@ -100,7 +100,7 @@ export default function BatchesPage() {
           {visibleBatches.length === 0 ? (
             <Typography sx={{ px: 2, pb: 2 }}>Không có đợt chấm phù hợp với bộ lọc.</Typography>
           ) : (
-          <TableContainer>
+          <TableContainer role="region" aria-label="Bảng đợt chấm" tabIndex={0} sx={{ '&:focus-visible': { outlineOffset: '-3px' } }}>
             <Table aria-label="Danh sách đợt chấm">
               <TableHead>
                 <TableRow>

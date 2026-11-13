@@ -81,16 +81,16 @@ export const LoginPage: React.FC = () => {
         if (controller.signal.aborted) return;
         const role = user.role ? user.role.toUpperCase().replace('ROLE_', '') : '';
         if (role === 'STUDENT') {
-          navigate('/student', { replace: true });
+          window.location.replace('/study/');
         } else if (role === 'TEACHER') {
           const ticket = await authService.requestSsoTicket('TEACHER', controller.signal);
           if (!controller.signal.aborted) {
-            window.location.href = `${appConfig.teacherOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+            window.location.replace(`${appConfig.teacherOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
           }
         } else if (role === 'ADMIN') {
           const ticket = await authService.requestSsoTicket('ADMIN', controller.signal);
           if (!controller.signal.aborted) {
-            window.location.href = `${appConfig.adminOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+            window.location.replace(`${appConfig.adminOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
           }
         }
       }).catch(() => {
@@ -117,12 +117,12 @@ export const LoginPage: React.FC = () => {
             const user = await authService.loginWithGoogle(credential, googleRequestedRole);
             const role = user.role.toUpperCase().replace('ROLE_', '');
             if (role === 'STUDENT') {
-              navigate('/student');
+              window.location.replace('/study/');
             } else if (role === 'TEACHER' || role === 'ADMIN') {
               const target = role === 'TEACHER' ? 'TEACHER' : 'ADMIN';
               const origin = role === 'TEACHER' ? appConfig.teacherOrigin : appConfig.adminOrigin;
               const ticket = await authService.requestSsoTicket(target);
-              window.location.href = `${origin}/login#sso=${encodeURIComponent(ticket.code)}`;
+              window.location.replace(`${origin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
             } else {
               tokenStore.clearTokens();
               setError('Tài khoản không có quyền truy cập hệ thống.');
@@ -183,12 +183,12 @@ export const LoginPage: React.FC = () => {
       try {
         const user = await authService.loginWithFacebook(credential, googleRequestedRole);
         const role = user.role.toUpperCase().replace('ROLE_', '');
-        if (role === 'STUDENT') navigate('/student');
+        if (role === 'STUDENT') window.location.replace('/study/');
         else if (role === 'TEACHER' || role === 'ADMIN') {
           const target = role === 'TEACHER' ? 'TEACHER' : 'ADMIN';
           const origin = role === 'TEACHER' ? appConfig.teacherOrigin : appConfig.adminOrigin;
           const ticket = await authService.requestSsoTicket(target);
-          window.location.href = `${origin}/login#sso=${encodeURIComponent(ticket.code)}`;
+          window.location.replace(`${origin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
         } else {
           tokenStore.clearTokens();
           setError('Tài khoản không có quyền truy cập hệ thống.');
@@ -246,7 +246,7 @@ export const LoginPage: React.FC = () => {
         ? await authService.loginWithGoogle(socialSetupCredential, 'STUDENT', Number(socialSetupGrade))
         : await authService.loginWithFacebook(socialSetupCredential, 'STUDENT', Number(socialSetupGrade));
       setSocialSetupCredential('');
-      if (user.role.toUpperCase().replace('ROLE_', '') === 'STUDENT') navigate('/student');
+      if (user.role.toUpperCase().replace('ROLE_', '') === 'STUDENT') window.location.replace('/study/');
       else {
         tokenStore.clearTokens();
         setError('Tài khoản này không thuộc cổng học sinh.');
@@ -277,16 +277,16 @@ export const LoginPage: React.FC = () => {
 
       switch (role) {
         case 'STUDENT':
-          navigate('/student');
+          window.location.replace('/study/');
           break;
         case 'TEACHER': {
           const ticket = await authService.requestSsoTicket('TEACHER');
-          window.location.href = `${appConfig.teacherOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+          window.location.replace(`${appConfig.teacherOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
           break;
         }
         case 'ADMIN': {
           const ticket = await authService.requestSsoTicket('ADMIN');
-          window.location.href = `${appConfig.adminOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+          window.location.replace(`${appConfig.adminOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
           break;
         }
         default:
@@ -430,34 +430,38 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ py: { xs: 5, md: 8 }, px: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 120px)' }}>
-      <Container maxWidth="sm" disableGutters>
+    <Box sx={{ py: { xs: 3, md: 7 }, px: 2, bgcolor: 'background.default' }}>
+      <Container maxWidth="sm" disableGutters sx={{
+        border: '1px solid',
+        borderColor: 'divider',
+        borderRadius: '20px',
+        bgcolor: 'background.paper',
+        overflow: 'hidden',
+      }}>
         <Paper
           elevation={0}
           sx={{
-            p: { xs: 3.5, sm: 5 },
-            borderRadius: 4,
-            border: '1px solid #E2E8F0',
-            boxShadow: '0 20px 48px -12px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04)',
-            bgcolor: '#FFFFFF',
-            position: 'relative',
-            overflow: 'hidden',
+            p: { xs: 2, sm: 4, md: 5 },
+            minWidth: 0,
           }}
         >
-        <Box sx={{ textAlign: 'center', mb: 3.5 }}>
+        <Box sx={{ mb: 3 }}>
           <Box
             component="img"
-            src="/ui/mathvision-star.png"
+            src="/ui/mathvision-star.webp"
             alt="Ngôi sao MathVision Kids"
-            className="star-companion-float"
-            sx={{ width: 72, height: 72, mb: 1.5, objectFit: 'contain' }}
+            sx={{ display: { xs: 'block', md: 'none' }, width: 56, height: 56, mb: 1.5, objectFit: 'contain' }}
             onError={(e: any) => { e.currentTarget.src = '/logo.svg'; }}
           />
           <Typography variant="h4" component="h1" sx={{ fontWeight: 900, color: '#0F172A', mb: 0.75, fontSize: { xs: '1.5rem', sm: '1.85rem' } }}>
             {authView === 'login' ? 'Đăng nhập cùng MathVision' : authView === 'register' ? 'Tạo tài khoản học tập' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
           </Typography>
           <Typography variant="body2" sx={{ color: '#475569', fontSize: '0.95rem' }}>
-            {authView === 'register' ? 'Điền thông tin để cùng Ngôi sao MathVision học toán' : authView === 'social-student-setup' ? 'Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.' : 'Chào mừng em! Đăng nhập để cùng khám phá môn Toán nhé!'}
+            {authView === 'register' ? 'Điền thông tin để tạo tài khoản học tập.' :
+              authView === 'social-student-setup' ? 'Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.' :
+                authView === 'request-reset' ? 'Nhập email của tài khoản để nhận mã khôi phục.' :
+                  authView === 'confirm-reset' ? 'Dùng mã khôi phục để đặt mật khẩu mới.' :
+                    'Dùng tài khoản MathVision để vào không gian của bạn.'}
           </Typography>
         </Box>
 

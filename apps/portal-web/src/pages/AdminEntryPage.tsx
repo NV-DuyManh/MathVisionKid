@@ -34,7 +34,7 @@ export const AdminEntryPage: React.FC = () => {
         if (controller.signal.aborted) return;
 
         setStatus('Đang chuyển hướng đến không gian Quản trị viên...');
-        window.location.href = `${appConfig.adminOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+        window.location.replace(`${appConfig.adminOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
       } catch (err: any) {
         if (controller.signal.aborted) return;
         setError(err.response?.data?.message || err.message || 'Lỗi khi khởi tạo phiên làm việc Quản trị.');

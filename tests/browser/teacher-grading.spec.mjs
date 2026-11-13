@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { test, expect, login, sites } from './fixtures.mjs';
 
 const image = await readFile(new URL('../../apps/teacher-web/public/ui/mathvision-star.png', import.meta.url));
+const worksheet = await readFile(new URL('../../backend/business-api/src/test/resources/fixtures/worksheet-addition.jpg', import.meta.url));
 const path = '/teacher/submissions/grading-fixture';
 const submissionUrl = `${sites.teacher.origin}/submissions/grading-fixture?from=review`;
 const proposed = {
@@ -9,10 +10,10 @@ const proposed = {
   maxScore: 10, status: 'PROPOSED_GRADE', gradeProposal: { suggestedScore: 8, maxScore: 10 },
 };
 
-async function openSubmission(page, app, detail = proposed) {
+async function openSubmission(page, app, detail = proposed, bytes = image, contentType = 'image/png') {
   app.responses.set(`GET ${path}`, ({ json }) => json(detail));
   app.responses.set(`GET ${path}/image`, ({ route }) => route.fulfill({
-    body: image, contentType: 'image/png', headers: { 'access-control-allow-origin': '*' },
+    body: bytes, contentType, headers: { 'access-control-allow-origin': '*' },
   }));
   await login(page, 'TEACHER');
   await page.goto(submissionUrl);
@@ -70,8 +71,9 @@ test('teacher retries a technical failure on the same image and checks a lost re
   expect(writes[0].body).toBeNull();
 });
 
-test('approval remains confirmed when the follow-up detail read fails', async ({ page, app }) => {
-  await openSubmission(page, app);
+test('approval remains confirmed when the follow-up detail read fails', async ({ page, app }, testInfo) => {
+  await openSubmission(page, app, proposed, worksheet, 'image/jpeg');
+  await testInfo.attach('Teacher fixture review before approval', { body: await page.screenshot(), contentType: 'image/png' });
   app.responses.set(`POST ${path}/approve`, ({ route }) => {
     app.responses.set(`GET ${path}`, ({ reject }) => reject(503));
     return route.fulfill({ status: 204, headers: { 'access-control-allow-origin': '*' } });

@@ -88,6 +88,7 @@ test('browser back and forward protect prepared images', async ({ page, app }) =
   await page.locator('input[type=file][multiple]').first().setInputFiles({ name: 'work.png', mimeType: 'image/png', buffer: image });
   await page.getByRole('button', { name: 'Quay lại danh sách đợt chấm' }).click();
   await confirmation.getByRole('button', { name: 'Rời trang' }).click();
+  await expect(page).toHaveURL(`${sites.teacher.origin}/batches`);
   await page.goBack();
   await page.locator('input[type=file][multiple]').first().setInputFiles({ name: 'work.png', mimeType: 'image/png', buffer: image });
   await page.goForward();
@@ -177,7 +178,9 @@ test('an existing batch keeps prepared images while its status is checked after 
     release();
   }
   await expect(submit).toBeEnabled();
-  await expect(page.getByText('Đã che thông tin: 1/1')).toBeVisible();
+  const privacyCount = page.getByRole('region', { name: 'Kiểm tra trước khi gửi' })
+    .getByRole('listitem').filter({ hasText: 'Đã che thông tin' });
+  await expect(privacyCount).toContainText('1/1');
 
   app.responses.set(`GET ${batchPath}`, ({ json }) => json({ ...detail, status: 'PROCESSING', totalCount: 1 }));
   await page.evaluate(() => {
@@ -185,7 +188,7 @@ test('an existing batch keeps prepared images while its status is checked after 
     window.dispatchEvent(new Event('online'));
   });
   await expect(page.getByText('Đợt này đã nhận ảnh hoặc không còn mở để tải ảnh.')).toBeVisible();
-  await expect(page.getByText('Đã che thông tin: 1/1')).toBeVisible();
+  await expect(privacyCount).toContainText('1/1');
   await expect(submit).toBeDisabled();
   await page.getByRole('link', { name: 'Xem đợt chấm' }).click();
   await page.getByRole('dialog', { name: 'Rời trang tải ảnh?' }).getByRole('button', { name: 'Ở lại' }).click();

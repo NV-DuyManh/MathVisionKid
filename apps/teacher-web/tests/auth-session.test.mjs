@@ -186,6 +186,8 @@ test('teacher SSO exchanges a scrubbed ticket once in StrictMode and starts a cl
     assert.equal(calls.length, 1);
     assert.equal(calls[0].url, '/auth/sso/exchange');
     assert.equal(calls[0].payload.code, 'teacher-ticket');
+    assert.match(dom.window.document.body.textContent, /Đang mở không gian giáo viên/);
+    assert.doesNotMatch(dom.window.document.body.textContent, /Đăng nhập qua MathVision Kids/);
     assert.equal(errors.length, 0);
     assert.equal(routes.length, 0);
     await act(async () => {

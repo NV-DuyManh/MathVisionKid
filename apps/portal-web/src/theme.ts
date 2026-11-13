@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import { WEB_DESIGN } from '../../../packages/ui-brand/src/web-design';
 
 /**
  * MathVision Kids — Kid-First Premium Design System Theme
@@ -8,19 +9,19 @@ import { createTheme } from '@mui/material/styles';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#2563EB', // Learning Blue (vibrant, accessible, confident)
-      light: '#EFF6FF',
-      dark: '#1D4ED8',
+      main: WEB_DESIGN.roles.student.action,
+      light: WEB_DESIGN.roles.student.tint,
+      dark: '#1E3A8A',
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#F59E0B', // Sunshine Amber (Mascot star glow, joy)
+      main: WEB_DESIGN.colors.star,
       light: '#FFFBEB',
       dark: '#D97706',
-      contrastText: '#0F172A',
+      contrastText: WEB_DESIGN.colors.ink,
     },
     success: {
-      main: '#10B981', // Emerald Mint (Growth, correct feedback)
+      main: WEB_DESIGN.colors.green,
       light: '#ECFDF5',
       dark: '#059669',
       contrastText: '#FFFFFF',
@@ -38,17 +39,17 @@ export const theme = createTheme({
       contrastText: '#FFFFFF',
     },
     background: {
-      default: '#F8FAFC', // Slate 50 with soft warm notebook tone
-      paper: '#FFFFFF',
+      default: WEB_DESIGN.colors.paper,
+      paper: WEB_DESIGN.colors.white,
     },
     text: {
-      primary: '#0F172A', // Slate 900 (High contrast, crisp legibility)
-      secondary: '#475569', // Slate 600
+      primary: WEB_DESIGN.colors.ink,
+      secondary: WEB_DESIGN.colors.mutedInk,
     },
-    divider: '#E2E8F0', // Slate 200
+    divider: WEB_DESIGN.colors.line,
   },
   typography: {
-    fontFamily: '"Nunito", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    fontFamily: WEB_DESIGN.typography.display,
     h1: {
       fontSize: '2.75rem',
       fontWeight: 900,

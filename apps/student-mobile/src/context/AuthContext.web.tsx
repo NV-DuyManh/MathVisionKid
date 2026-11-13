@@ -36,6 +36,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(profile);
   }, []);
   useEffect(() => {
+    const revalidate = (event: PageTransitionEvent) => {
+      if (!event.persisted) return;
+      void Promise.all([tokenStorage.getAccessToken(), tokenStorage.getRefreshToken()]).then(([access, refresh]) => {
+        if (portal && !access && !refresh) window.location.replace('/');
+        else window.location.reload();
+      });
+    };
+    window.addEventListener('pageshow', revalidate);
+    return () => window.removeEventListener('pageshow', revalidate);
+  }, [portal]);
+  useEffect(() => {
     let active = true;
     const current = revision.current;
     const controller = new AbortController();
@@ -44,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const [access, refresh] = await Promise.all([tokenStorage.getAccessToken(), tokenStorage.getRefreshToken()]);
         if (!active || current !== revision.current) return;
-        if (!access && !refresh) { if (portal) window.location.replace('/login'); return; }
+        if (!access && !refresh) { if (portal) window.location.replace(window.performance?.getEntriesByType?.('navigation').some(entry => (entry as PerformanceNavigationTiming).type === 'back_forward') ? '/' : '/login'); return; }
         const { data } = await apiClient.get('/me', { signal: controller.signal, timeout: 15000 });
         if (!active || current !== revision.current) return;
         if (data.role !== 'STUDENT' || data.active !== true) {
@@ -77,6 +88,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!portal && !isLoading && !user && pathname !== '/login') router.replace('/login');
   }, [portal, isLoading, user, pathname, router]);
+  useEffect(() => {
+    if (portal && pathname === '/login' && user) router.replace('/(tabs)');
+  }, [portal, pathname, user, router]);
   const login = async (credentials: any) => {
     const current = ++revision.current;
     setFailure(null);
@@ -105,7 +119,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             !/^mvk_sso_[a-f0-9]{64}$/.test(ticket.code) || !(ticket.expiresIn > 0)) {
           throw Object.assign(new Error('Chưa chuyển được tới không gian làm việc. Vui lòng đăng nhập lại.'), { code: 'VALIDATION_ERROR' });
         }
-        window.location.replace(`${origin}/login#sso=${encodeURIComponent(ticket.code)}`);
+        window.location.replace(`${origin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
         return;
       }
       await tokenStorage.saveTokens(data.accessToken, data.refreshToken);
@@ -128,20 +142,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (current !== revision.current) return;
     await tokenStorage.clearTokens();
     delete apiClient.defaults.headers.common.Authorization;
-    try {
-      if (accessToken) await axios.post(`${ENV.API_BASE_URL}/auth/logout`, {}, {
-        headers: { Authorization: `Bearer ${accessToken}` }, timeout: 5000,
-      });
-    } catch { /* Local logout completes offline. */ }
-    finally {
-      if (current === revision.current) {
-        if (portal) window.location.replace('/logout?source=student');
-        else router.replace('/login');
-      }
-    }
+    if (accessToken) void axios.post(`${ENV.API_BASE_URL}/auth/logout`, {}, {
+      headers: { Authorization: `Bearer ${accessToken}` }, timeout: 5000,
+    }).catch(() => {});
+    if (portal) window.location.replace('/logout?source=student');
+    else router.replace('/login');
   };
   return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'STUDENT' && user.active === true, isLoading, login, logout }}>
-    {user || (!portal && !isLoading && pathname === '/login') ? children : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 24, backgroundColor: COLORS.background }}>
+    {(user && (!portal || pathname !== '/login')) || (!portal && !isLoading && pathname === '/login') ? children : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 24, backgroundColor: COLORS.background }}>
       {failure ? <><Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary }}>{failure}</Text>
         <Pressable accessibilityRole="button" onPress={() => window.location.replace('/login')}><Text>Đăng nhập lại</Text></Pressable></> :
         <><ActivityIndicator color={COLORS.primary} /><Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary }}>Đang xác minh tài khoản…</Text></>}
