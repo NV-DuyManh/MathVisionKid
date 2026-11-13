@@ -508,7 +508,7 @@ export const PortalLayout: React.FC = () => {
                   to="/login"
                   variant="contained"
                   color="primary"
-                  endIcon={<span style={{ fontSize: '14px', marginLeft: 4 }}>→</span>}
+                  endIcon={<span aria-hidden="true" style={{ fontSize: '14px', marginLeft: 4 }}>→</span>}
                   sx={{
                     fontWeight: 800,
                     px: { xs: 1.5, sm: 2.75 },

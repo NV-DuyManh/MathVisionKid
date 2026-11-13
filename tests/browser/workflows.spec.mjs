@@ -42,7 +42,7 @@ for (const role of ['TEACHER', 'ADMIN']) {
     await page.getByRole('button', { name: 'Đăng xuất', exact: true }).click();
     await expect(page).toHaveURL(`${sites.portal.origin}/`);
     await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
-    await expect(page.getByRole('link', { name: 'Đăng nhập →', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Đăng nhập', exact: true })).toBeVisible();
     await page.goto(`${site.origin}/dashboard`);
     await expect(page).toHaveURL(signedOutUrl);
   });
@@ -64,7 +64,7 @@ for (const role of ['TEACHER', 'ADMIN']) {
     // Wait for that cleanup rather than counting requests during its startup.
     if (role === 'TEACHER') {
       await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
-      await expect(page.getByRole('link', { name: 'Đăng nhập →', exact: true })).toBeVisible();
+      await expect(page.getByRole('link', { name: 'Đăng nhập', exact: true })).toBeVisible();
     }
     const refreshes = app.requests.filter(r => r.path === '/auth/refresh');
     expect(refreshes.filter(r => r.origin === site.origin)).toHaveLength(1);

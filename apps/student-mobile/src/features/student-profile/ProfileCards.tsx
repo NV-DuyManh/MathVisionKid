@@ -36,6 +36,7 @@ export function ProfileRankCard({ profile }: { profile: StudentProfile }) {
     </View>
     {rank.goal > 0 && <>
       <View accessibilityRole="progressbar" accessibilityLabel="Tiến độ lên hạng" accessibilityValue={{ min: 0, max: rank.goal, now: rank.progress }}
+        aria-valuemin={0} aria-valuemax={rank.goal} aria-valuenow={rank.progress}
         style={styles.track}><View style={[styles.bar, { width: `${100 * rank.progress / rank.goal}%` }]} /></View>
       <Text style={styles.light}>Còn {next} sao để lên bậc tiếp theo</Text>
     </>}
