@@ -15,6 +15,7 @@ PR [#51](https://github.com/NV-DuyManh/MathVisionKid/pull/51) được đóng th
 - Phân số OCR thiếu tử/mẫu bị đoán tiếp: chặn chuẩn bị Quiz/tutor, yêu cầu xác nhận ảnh, backend ánh xạ đúng lỗi 422. Refresh hash chính sách catalog; 81 đáp án đã được kiểm tra độc lập, không đổi đáp án để né validator.
 - Safari có thể chưa tải metadata trước thao tác Play: cho phép mở điều khiển khi duration=0, giữ play trong user gesture, có phục hồi/lựa chọn giọng dự phòng.
 - Teacher đổi lớp trong form tạo đợt chấm từng ghi thêm history entry, khiến Back về form trung gian. Thay bằng replace query và kiểm tra Back/Forward trên browser.
+- Nâng bản vá `node-forge` 1.4.2 → 1.4.3 trong override/lockfile để sửa các cảnh báo TLS mới, không nâng Expo major. Cảnh báo Pillow/torch còn lại trỏ vào manifest handoff lịch sử, không phải requirements runtime; giữ nguyên biên nhận nghiên cứu. `deepmerge` là dependency Jest phát triển chưa có bản vá; không đưa vào bundle production.
 - Web dùng một form đăng nhập chung, Google/Firebase dùng phiên trong bộ nhớ; camera điện thoại có đường chọn ảnh/chụp bằng file picker khi stream không khả dụng. Android giữ nội dung trả lời trên bàn phím; chưa xác minh lại trên thiết bị vật lý trong lượt này.
 
 ## Kiểm tra local trên cây nguồn dùng cho PR
