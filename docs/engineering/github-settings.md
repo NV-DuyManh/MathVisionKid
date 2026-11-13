@@ -1,28 +1,30 @@
 # GitHub settings và kiểm chứng
 
-Repo: `NV-DuyManh/MathVisionKid`; nhánh mặc định `main`. Thiết lập server phải được đọc lại qua API, không coi file trong Git là đã bật bảo vệ.
+Repo: `NV-DuyManh/MathVisionKid`; nhánh mặc định `develop`, nhánh phát hành `main`. Áp dụng [Git Flow](git-flow.md). Thiết lập server phải được đọc lại qua API, không coi file trong Git là đã bật bảo vệ.
 
 ## Chính sách đích
 
-1. **Owner merge:** một ruleset riêng hạn chế update `main`; chỉ tài khoản owner đã xác minh `NV-DuyManh` có bypass ở chế độ **pull_request**, không bypass push trực tiếp.
-2. **PR và lịch sử:** ruleset không bypass yêu cầu PR, required Quality gate, giải quyết discussion, chặn force-push/xóa main. Số approval bắt buộc là 0 theo yêu cầu owner, giống CODEGYM; quyền merge cuối cùng chỉ thuộc owner qua ruleset riêng.
+1. **Review:** ruleset `git-flow-review-required` yêu cầu 1 approval trên main/develop/release/hotfix. Chỉ owner đã xác minh `NV-DuyManh` (user ID 154242112) có bypass **pull_request** cho riêng ruleset review, không phải cho CI/history. Thay thế chính sách owner-only-merge cũ theo yêu cầu owner ngày 2026-11-12: người khác có quyền write chỉ merge khi có approval của người khác.
+2. **PR và lịch sử:** ruleset riêng không có bypass yêu cầu PR, required Quality gate, giải quyết discussion, chặn force-push. Main/develop không được xóa. Main/release/hotfix chỉ merge commit; develop nhận merge hoặc squash. Không có bypass kiểm tra cho admin/owner/bot.
 3. **Required check:** `Quality gate` của GitHub Actions (app ID 15368), branch up-to-date. Chỉ đăng ký tên sau khi check thực tế xuất hiện và chạy đạt; không dùng workflow Catalog có paths filter làm required check chung.
-4. **Dọn nhánh:** `delete_branch_on_merge=true`; không bật auto-merge. PR head `Manh` cũng có thể bị GitHub xóa sau merge; bản local và lịch sử vẫn còn.
-5. **Reviewers:** CODEOWNERS trỏ `@NV-DuyManh`. Thành viên/bot có thể góp ý nhưng approval của họ không cấp quyền merge. Owner xem và quyết định merge từng PR sau checks/discussions; với PR do owner tạo, quyết định merge của owner là bước duyệt cuối vì GitHub không cho tự approve PR. Agent không được suy diễn quyền merge từ việc checks xanh.
+4. **Dọn nhánh:** `delete_branch_on_merge=false`; không bật auto-merge. Giữ release/hotfix cho tới khi backmerge; chỉ xóa sau kiểm tra ancestry và PR còn mở.
+5. **Reviewers:** CODEOWNERS trỏ `@NV-DuyManh`. PR có assignee/reviewer thực tế; author không tự tính approval. Owner được miễn approval theo quyền riêng đã yêu cầu. Agent vẫn cần owner cho phép hành động merge, không suy diễn quyền đó từ checks xanh.
 
 ## CI và bot
 
-`.github/workflows/ci.yml` chạy trên PR vào main, push main và workflow_dispatch. Governance xác minh registry, tên PR mới, action SHA và đường dẫn private/artifact mới; sau đó chọn các module bị ảnh hưởng. Config/workspace chung chạy tất cả; docs/report-only chỉ chạy governance. Merge vào main chạy lại đầy đủ. Check tổng hợp thất bại nếu module bắt buộc lỗi, bị hủy hoặc bị skip bất ngờ.
+`.github/workflows/ci.yml` chạy trên PR/push main, develop, release/**, hotfix/** và workflow_dispatch. Governance xác minh Git Flow, ancestry task, release notes, registry, tên PR mới, action SHA và đường dẫn private/artifact mới; sau đó chọn các module bị ảnh hưởng. Config/workspace chung chạy tất cả; docs/report-only chỉ chạy governance. Push nhánh chung chạy lại đầy đủ. Check tổng hợp thất bại nếu module bắt buộc lỗi, bị hủy hoặc bị skip bất ngờ. Sau push main đạt gate, job riêng với contents:write tạo source release/tag đúng revision; PR jobs chỉ có contents:read.
 
 **MathVision Review Bot** là tên phần tóm tắt phạm vi/checks trong GitHub Actions Job Summary, không phải AI review ngữ nghĩa. Không cần API key, không gửi code/hình học sinh sang nhà cung cấp thứ ba, không tự comment/approve/merge. Bộ `mathvision-review` hỗ trợ review; không thay quyết định của owner. Catalog Bot vẫn làm kiểm tra catalog độc lập.
 
 CI PR không dùng secrets/production DB, không chạy `pull_request_target`, action được pin commit SHA và checkout không giữ credential. Dependency bot chỉ đề xuất PR; không tự duyệt hoặc merge.
 
+Student chạy `expo install --check` với `EXPO_OFFLINE=1` để so với bảng tương thích đi kèm đúng SDK trong lockfile, tránh metadata online thay đổi làm cùng revision có kết quả khác. Không đặt `EXPO_NO_DEPENDENCY_VALIDATION`; typecheck, Jest và browser export vẫn chạy. Cập nhật SDK/dependency mới qua Dependabot và PR riêng. [Expo CLI environment variables](https://docs.expo.dev/more/expo-cli/#environment-variables).
+
 Dependency được kiểm hàng tuần, thứ Hai 08:00 giờ Việt Nam. PR phiên bản thường được gom theo nhóm, tối đa 5 PR mở (npm 2, Gradle/Python/Actions mỗi nhóm 1); chỉ đề xuất minor/patch. Expo/React và model có nhóm riêng, vẫn cần kiểm thử tương thích và owner duyệt. Major thường được nâng trong đợt riêng. Cooldown 7 ngày chỉ áp dụng cập nhật phiên bản, không trì hoãn bản vá bảo mật. Security có nhóm riêng và giới hạn riêng của GitHub; tổng PR không bị khóa cứng ở 5. Không ignore toàn bộ thư viện ML hoặc tắt cảnh báo để làm gọn số đếm.
 
 Python dùng một updater `uv` cho `/ai/runtime` và `/scripts`, gồm requirements và uv.lock, tránh pip/uv cùng sửa một pin. Khi gom PR cũ vào PR thay thế, ghi rõ số PR/commit nguồn, giữ tác giả với `cherry-pick -x`, chỉ đóng nguồn sau khi phần thay thế được chấp nhận. PR nâng không tương thích được từ chối kèm lý do kiểm chứng. Không đóng bản vá chưa có giải pháp chỉ để giảm số PR.
 
-Auto-delete chỉ dọn head của PR đã merge. Nhánh cũ chỉ xóa sau khi xác minh toàn bộ head đã nằm trên main và không còn PR mở dùng làm head/base; lưu ref trước xóa và dùng expected SHA để tránh xóa commit mới được đồng đội đẩy lên. Nhánh còn commit riêng phải được giữ. Không viết lại lịch sử đóng góp.
+Nhánh cũ chỉ xóa sau khi xác minh toàn bộ head đã nằm trên nhánh đích (release/hotfix phải có cả main và develop) và không còn PR mở dùng làm head/base; lưu ref trước xóa và dùng expected SHA để tránh xóa commit mới được đồng đội đẩy lên. Nhánh còn commit riêng phải được giữ. Không viết lại lịch sử đóng góp.
 
 Nguồn cấu hình: [Dependabot options](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference). Alert trong manifest nghiên cứu/handoff cũ phải được phân loại riêng; không sửa số phiên bản của biên nhận lịch sử để giả vờ đã vá môi trường đó.
 
