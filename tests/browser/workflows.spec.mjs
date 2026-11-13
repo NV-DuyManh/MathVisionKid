@@ -6,7 +6,7 @@ test('Portal offers one shared sign-in route before the visitor chooses an accou
   await expect(page.getByText('Cổng làm việc', { exact: true })).toHaveCount(0);
   await page.getByRole('banner').getByRole('link', { name: 'Đăng nhập', exact: true }).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/login`);
-  await expect(page.getByRole('heading', { name: 'Đăng nhập cùng MathVision' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
   expect(app.requests.filter(request => request.path === '/auth/me')).toEqual([]);
 });
 

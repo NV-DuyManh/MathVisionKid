@@ -17,9 +17,9 @@ const DevRuntimePage = import.meta.env.DEV && import.meta.env.VITE_SHOW_DEV_TOOL
 export const App: React.FC = () => {
   return (
     <Routes>
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<PortalLayout />}>
         <Route index element={<LandingPage />} />
-        <Route path="login" element={<LoginPage />} />
         <Route path="student" element={<StudentLandingPage />} />
         <Route path="teacher" element={<TeacherEntryPage />} />
         <Route path="teacher-entry" element={<TeacherEntryPage />} />

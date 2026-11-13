@@ -16,7 +16,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from '@mui/material';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
@@ -430,14 +430,23 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ py: { xs: 3, md: 7 }, px: 2, bgcolor: 'background.default' }}>
-      <Container maxWidth="sm" disableGutters sx={{
-        border: '1px solid',
-        borderColor: 'divider',
-        borderRadius: '20px',
-        bgcolor: 'background.paper',
-        overflow: 'hidden',
+    <Box component="main" sx={{ minHeight: '100dvh', display: 'grid', placeItems: 'center',
+      py: { xs: 2, sm: 4 }, px: { xs: 1.5, sm: 2 }, bgcolor: '#F1F5FB' }}>
+      <Container maxWidth={false} disableGutters sx={{
+        maxWidth: 940, display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: '2fr 3fr' },
+        border: '1px solid #DEE6F1', borderRadius: { xs: '24px', md: '68px' },
+        bgcolor: '#FFF', overflow: 'hidden', boxShadow: '0 24px 48px -20px #172B5129',
       }}>
+        <Box sx={{ bgcolor: '#E7EFFC', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+          p: { xs: 2, md: 4 }, gap: { xs: 1, md: 3 } }}>
+          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <Box component="img" src="/logo.svg" alt="" width={32} height={32} />
+            <Typography sx={{ fontWeight: 800, color: '#17254B' }}>MathVision Kids</Typography>
+          </Box>
+          <Box component="img" src="/ui/mathvision-star.webp" alt=""
+            sx={{ display: { xs: 'none', md: 'block' }, width: '100%', maxWidth: 224, alignSelf: 'center' }} />
+          <Button component={RouterLink} to="/" sx={{ alignSelf: 'flex-start' }}>← Trang chủ</Button>
+        </Box>
         <Paper
           elevation={0}
           sx={{
@@ -446,22 +455,15 @@ export const LoginPage: React.FC = () => {
           }}
         >
         <Box sx={{ mb: 3 }}>
-          <Box
-            component="img"
-            src="/ui/mathvision-star.webp"
-            alt="Ngôi sao MathVision Kids"
-            sx={{ display: { xs: 'block', md: 'none' }, width: 56, height: 56, mb: 1.5, objectFit: 'contain' }}
-            onError={(e: any) => { e.currentTarget.src = '/logo.svg'; }}
-          />
           <Typography variant="h4" component="h1" sx={{ fontWeight: 900, color: '#0F172A', mb: 0.75, fontSize: { xs: '1.5rem', sm: '1.85rem' } }}>
-            {authView === 'login' ? 'Đăng nhập cùng MathVision' : authView === 'register' ? 'Tạo tài khoản học tập' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
+            {authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản học tập' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
           </Typography>
           <Typography variant="body2" sx={{ color: '#475569', fontSize: '0.95rem' }}>
             {authView === 'register' ? 'Điền thông tin để tạo tài khoản học tập.' :
               authView === 'social-student-setup' ? 'Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.' :
                 authView === 'request-reset' ? 'Nhập email của tài khoản để nhận mã khôi phục.' :
                   authView === 'confirm-reset' ? 'Dùng mã khôi phục để đặt mật khẩu mới.' :
-                    'Dùng tài khoản MathVision để vào không gian của bạn.'}
+                    'Dùng tài khoản Học sinh, Giáo viên hoặc Quản trị của bạn.'}
           </Typography>
         </Box>
 
@@ -526,7 +528,7 @@ export const LoginPage: React.FC = () => {
             disabled={loading}
             aria-busy={loading}
             startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
-            sx={{ mt: 3, mb: 1.5, py: 1.5, fontSize: '1.05rem', borderRadius: 2.5, fontWeight: 700 }}
+            sx={{ mt: 3, mb: 1.5, py: 1.5, fontSize: '1.05rem', borderRadius: '999px', fontWeight: 700 }}
           >
             {loading ? 'Đang xác thực...' : 'Đăng nhập'}
           </Button>
