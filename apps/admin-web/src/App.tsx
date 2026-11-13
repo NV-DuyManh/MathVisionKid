@@ -13,6 +13,7 @@ import { ProtectedRoute } from './components/common/ProtectedRoute';
 export function App() {
   return <Routes>
     <Route path="/login" element={<LoginPage />} />
+    <Route path="/auth/continue" element={<LoginPage />} />
     <Route path="/403" element={<StatusPage code="403" />} />
     <Route path="/session-expired" element={<StatusPage code="expired" />} />
     <Route path="/" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>

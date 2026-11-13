@@ -19,6 +19,9 @@ test('student web session validates the backend, rejects cached authority, and s
   const browser = {
     sessionStorage: dom.window.sessionStorage,
     location: { get pathname() { return dom.window.location.pathname; }, replace: path => redirects.push(path) },
+    addEventListener: (...args) => dom.window.addEventListener(...args),
+    removeEventListener: (...args) => dom.window.removeEventListener(...args),
+    performance: dom.window.performance,
     dispatchEvent: event => dom.window.dispatchEvent(event),
   };
   const load = (path, imports = {}, browserWindow = browser, development = false) => {
@@ -161,7 +164,7 @@ test('student web session validates the backend, rejects cached authority, and s
       assert.equal(logoutCalls, 1);
       assert.equal(logoutRequests[0].url, 'https://api.mathvision.example/api/v1/auth/logout');
       assert.equal(JSON.stringify(logoutRequests[0].body), '{}');
-      assert.equal(logoutRequests[0].config.timeout, 5000);
+      assert.equal(logoutRequests[0].config.timeout, 2000);
       assert.equal(logoutRequests[0].config.headers.Authorization, 'Bearer valid-other-access');
       assert.equal(sharedPostCalls, 0);
       assert.equal(clearDraftCalls, 1);
@@ -179,7 +182,7 @@ test('student web session validates the backend, rejects cached authority, and s
       await mount();
       await act(async () => currentContext.logout());
       assert.equal(logoutCalls, 2);
-      assert.equal(logoutRequests[1].config.timeout, 5000);
+      assert.equal(logoutRequests[1].config.timeout, 2000);
       assert.equal(sharedPostCalls, 0);
       assert.equal(clearDraftCalls, 2);
       assert.equal(await tokenStorage.getAccessToken(), null);
@@ -218,7 +221,7 @@ test('student web session validates the backend, rejects cached authority, and s
         assert.equal(await tokenStorage.getAccessToken(), null);
         assert.equal(await tokenStorage.getRefreshToken(), null);
         assert.equal(await tokenStorage.getUser(), null);
-        assert.equal(redirects.at(-1), `https://${role.toLowerCase()}.mathvision.example/login#sso=${ssoCode}`);
+        assert.equal(redirects.at(-1), `https://${role.toLowerCase()}.mathvision.example/auth/continue#sso=${ssoCode}`);
         assert.equal(ssoRequests.at(-1).body.targetApp, role);
         assert.equal(ssoRequests.at(-1).config.headers.Authorization, 'Bearer login-access');
         assert.equal(redirects.at(-1).includes('login-access'), false);

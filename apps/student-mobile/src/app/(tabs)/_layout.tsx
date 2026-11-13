@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator, View, StyleSheet, Pressable, Text, ScrollView, Platform, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS, FONTS } from '../../constants/theme';
+import { COLORS, FONTS, IS_STUDENT_WEB, WEB_DESIGN } from '../../constants/theme';
 import { StudentNavIcon } from '../../components/ui/StudentNavIcon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppIllustration } from '../../components/ui/AppIllustration';
@@ -59,17 +59,21 @@ export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, ex
         }} onLongPress={() => emitter.emit({ type: 'tabLongPress', target: route.key })}
         style={({ pressed }) => [styles.item, wide && styles.sideItem,
           wide && !expanded && styles.compactItem, selected && styles.selected, wide && selected && styles.sideSelected,
-          hovered === route.key && (wide ? styles.sideHovered : styles.hovered), focused === route.key && styles.focused, pressed && styles.pressed]}>
+          hovered === route.key && (wide ? styles.sideHovered : styles.hovered),
+          IS_STUDENT_WEB && selected && (wide ? styles.webSideSelected : styles.webSelected),
+          IS_STUDENT_WEB && hovered === route.key && (wide ? styles.webSideHovered : styles.webHovered),
+          focused === route.key && styles.focused, IS_STUDENT_WEB && wide && focused === route.key && styles.webSideFocused, pressed && styles.pressed]}>
         {wide ? <Ionicons name={({ index: 'home-outline', lessons: 'book-outline', achievements: 'medal-outline', profile: 'person-outline' } as const)[name]} size={24} color="#FFFFFF" accessible={false} /> : <StudentNavIcon name={name} size={30} />}
         {(!wide || expanded) && <Text style={[styles.label, selected && styles.selectedLabel, wide && styles.sideLabel]}>{title}</Text>}
       </Pressable>;
     })}
   </View>;
 
-  if (!wide) return <View style={[styles.bar, { paddingBottom: Math.max(insets.bottom, 10) }]}>{destinations}</View>;
-  return <LinearGradient colors={['#352A7D', '#2B1D6C', '#352479']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.sidebar, { width: expanded ? 248 : 80, paddingTop: Math.max(insets.top, 25), paddingBottom: Math.max(insets.bottom, 20) }]}>
+  if (!wide) return <View style={[styles.bar, IS_STUDENT_WEB && styles.webBar, { paddingBottom: Math.max(insets.bottom, 10) }]}>{destinations}</View>;
+  const sidebarColors = IS_STUDENT_WEB ? [WEB_DESIGN.colors.ink, WEB_DESIGN.colors.ink] as const : ['#352A7D', '#2B1D6C', '#352479'] as const;
+  return <LinearGradient colors={sidebarColors} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.sidebar, IS_STUDENT_WEB && styles.webSidebar, { width: expanded ? (IS_STUDENT_WEB ? 218 : 248) : 80, paddingTop: Math.max(insets.top, 25), paddingBottom: Math.max(insets.bottom, 20) }]}>
     <View style={[styles.brand, !expanded && styles.compactBrand]}>
-      <AppIllustration source={require('../../../assets/images/mathvision-icon-v2.png')} style={{ width: 31, height: 31, borderRadius: 16 }} accessible={false} />
+      <AppIllustration source={IS_STUDENT_WEB ? require('../../../assets/illustrations/web/mathvision-icon-v2.webp') : require('../../../assets/images/mathvision-icon-v2.png')} style={{ width: 31, height: 31, borderRadius: 16 }} accessible={false} />
       {expanded && <Text style={styles.brandText}>MathVision<Text style={styles.brandAccent}>Kid</Text></Text>}
     </View>
     <Pressable accessibilityRole="button" accessibilityLabel={expanded ? 'Thu gọn menu' : 'Mở rộng menu'}
@@ -77,12 +81,12 @@ export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, ex
       onFocus={() => setFocused('toggle')} onBlur={() => setFocused(null)}
       onHoverIn={() => setHovered('toggle')} onHoverOut={() => setHovered(null)}
       onPress={onToggle || (() => setPreference(!expanded))}
-      style={({ pressed }) => [styles.toggle, hovered === 'toggle' && styles.hovered, focused === 'toggle' && styles.focused, pressed && styles.pressed]}>
+      style={({ pressed }) => [styles.toggle, hovered === 'toggle' && (IS_STUDENT_WEB ? styles.webSideHovered : styles.hovered), focused === 'toggle' && (IS_STUDENT_WEB ? styles.webSideFocused : styles.focused), pressed && styles.pressed]}>
       <Ionicons name={expanded ? 'chevron-back' : 'chevron-forward'} size={19} color="#DCD0FF" accessible={false} />
       {expanded && <Text style={styles.toggleText}>Thu gọn</Text>}
     </Pressable>
     <ScrollView nativeID="student-destinations" showsVerticalScrollIndicator={false} contentContainerStyle={styles.sidebarScroll}>{destinations}</ScrollView>
-    {expanded && <View style={styles.sidebarNote}><AppIllustration source={require('../../../assets/illustrations/mathvision-star.png')} style={styles.sidebarMascot} accessible={false} /><Text style={styles.noteTitle}>Một chút mỗi ngày</Text><Text style={styles.noteText}>Cùng em hiểu bài, tự tin hơn.</Text></View>}
+    {expanded && !IS_STUDENT_WEB && <View style={styles.sidebarNote}><AppIllustration source={require('../../../assets/illustrations/mathvision-star.png')} style={styles.sidebarMascot} accessible={false} /><Text style={styles.noteTitle}>Một chút mỗi ngày</Text><Text style={styles.noteText}>Cùng em hiểu bài, tự tin hơn.</Text></View>}
   </LinearGradient>;
 }
 
@@ -103,6 +107,13 @@ export default function TabLayout() {
 }
 
 const styles = StyleSheet.create({
+  webBar: { borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTopWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, paddingHorizontal: 8 },
+  webSelected: { backgroundColor: WEB_DESIGN.colors.blueLight },
+  webHovered: { backgroundColor: WEB_DESIGN.colors.blueLight },
+  webSidebar: { borderRightColor: WEB_DESIGN.colors.ink },
+  webSideSelected: { backgroundColor: WEB_DESIGN.colors.blue, borderColor: '#7596F8', borderRadius: WEB_DESIGN.radii.control, shadowOpacity: 0 },
+  webSideHovered: { backgroundColor: '#2C4178' },
+  webSideFocused: { outlineColor: WEB_DESIGN.colors.star, outlineWidth: 2, outlineOffset: 2 },
   bar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingTop: 8, paddingHorizontal: 12,
     backgroundColor: '#FFFFFF', borderTopLeftRadius: 26, borderTopRightRadius: 26,
     shadowColor: '#7770B1', shadowOffset: { width: 0, height: -3 }, shadowOpacity: .07, shadowRadius: 16, elevation: 8 },

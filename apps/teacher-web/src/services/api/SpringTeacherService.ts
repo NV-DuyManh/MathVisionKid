@@ -1,7 +1,56 @@
 import type { TeacherService } from './TeacherService';
 import apiClient from './apiClient';
 import { AuthTokenStore } from './AuthTokenStore';
-import type { Assignment, Batch, Class, ClassDetail, DashboardStats, MathType, Submission } from '../../types';
+import type { Assignment, Batch, Class, ClassDetail, DashboardStats, Evidence, EvidenceItem, MathType, ReviewQueueItem, Submission } from '../../types';
+
+type RawReviewMetrics = Pick<Submission, 'maxScore' | 'confidenceBundle' | 'validation'> & {
+  gradeProposal?: { suggestedScore?: number; maxScore?: number };
+  evidence?: unknown;
+};
+
+function evidenceText(value: unknown): string | undefined {
+  return typeof value === 'string' ? value.trim() || undefined : undefined;
+}
+
+function normalizeEvidence(value: unknown): Evidence | undefined {
+  if (!value || typeof value !== 'object') return undefined;
+  const evidence = value as Record<string, unknown>;
+  const items = Array.isArray(evidence.items) ? evidence.items.flatMap((entry: unknown): EvidenceItem[] => {
+    if (!entry || typeof entry !== 'object') return [];
+    const item = entry as Record<string, unknown>;
+    const description = evidenceText(item.description);
+    const placeValue = evidenceText(item.placeValue);
+    const observedText = evidenceText(item.observedText);
+    return description || placeValue || observedText ? [{ description, placeValue, observedText }] : [];
+  }) : [];
+  const [first] = items;
+  if (first) return { items, rule: first.description, position: first.placeValue };
+
+  const rule = evidenceText(evidence.rule);
+  const position = evidenceText(evidence.position);
+  return rule || position ? { rule, position } : undefined;
+}
+
+function normalizeReviewMetrics(detail: RawReviewMetrics) {
+  const score = detail.gradeProposal?.suggestedScore;
+  const scale = detail.gradeProposal?.maxScore;
+  const maxScore = detail.maxScore;
+  // Use the same assignment scale and rounding as backend approval.
+  const suggestedScore = typeof score === 'number' && typeof scale === 'number' && Number.isFinite(scale) && scale > 0
+    && score >= 0 && score <= scale && typeof maxScore === 'number' && Number.isFinite(maxScore) && maxScore > 0
+    ? Math.round(score / scale * maxScore) : undefined;
+  const percent = (value: unknown) => typeof value === 'number' && value >= 0 && value <= 1 ? value * 100 : undefined;
+  const validation = detail.validation;
+  return {
+    evidence: normalizeEvidence(detail.evidence),
+    suggestedScore,
+    recognitionConfidence: percent(detail.confidenceBundle?.recognition),
+    diagnosisConfidence: percent(detail.confidenceBundle?.diagnosis),
+    decision: validation?.diagnosisState === 'VALID' && validation?.isValid === true ? 'VALID'
+      : validation?.diagnosisState === 'INVALID' && validation?.isValid === false ? 'INVALID'
+      : 'UNCERTAIN',
+  };
+}
 
 class SpringTeacherServiceImpl implements TeacherService {
   async login(email: string, password?: string): Promise<{ token: string }> {
@@ -15,7 +64,7 @@ class SpringTeacherServiceImpl implements TeacherService {
 
   async getDashboard(): Promise<DashboardStats> {
     const res = await apiClient.get('/teacher/dashboard');
-    const { todayTotal, processedCount, reviewRequiredCount, recentBatches } = res.data ?? {};
+    const { todayTotal, processedCount, reviewRequiredCount, nextReviewBatchId, recentBatches } = res.data ?? {};
     if (![todayTotal, processedCount, reviewRequiredCount].every(value => Number.isSafeInteger(value) && value >= 0)
       || !Array.isArray(recentBatches)) {
       throw new Error('Dữ liệu tổng quan chưa hợp lệ. Vui lòng thử lại.');
@@ -24,6 +73,7 @@ class SpringTeacherServiceImpl implements TeacherService {
       totalToday: todayTotal,
       completed: processedCount,
       reviewRequired: reviewRequiredCount,
+      nextReviewBatchId: typeof nextReviewBatchId === 'string' ? nextReviewBatchId : undefined,
       recentBatches,
     };
   }
@@ -58,12 +108,13 @@ class SpringTeacherServiceImpl implements TeacherService {
     return classroom.students;
   }
 
-  async createAssignment(classId: string, title: string, mathType: MathType, maxScore: number = 10): Promise<Assignment> {
+  async createAssignment(classId: string, title: string, mathType: MathType, maxScore = 10, creationRequestId?: string): Promise<Assignment> {
     const res = await apiClient.post('/teacher/assignments', {
       classId,
       title,
       operationType: mathType,
       maxScore,
+      creationRequestId,
     });
     return res.data;
   }
@@ -73,8 +124,8 @@ class SpringTeacherServiceImpl implements TeacherService {
     return res.data;
   }
 
-  async createBatch(assignmentId: string, imagesCount: number): Promise<Batch> {
-    const res = await apiClient.post('/teacher/batches', { assignmentId, totalCount: imagesCount });
+  async createBatch(assignmentId: string, imagesCount: number, creationRequestId?: string): Promise<Batch> {
+    const res = await apiClient.post('/teacher/batches', { assignmentId, totalCount: imagesCount, creationRequestId });
     return res.data;
   }
 
@@ -110,47 +161,36 @@ class SpringTeacherServiceImpl implements TeacherService {
     return res.data;
   }
 
-  async getReviewQueue(batchId: string): Promise<Submission[]> {
-    const res = await apiClient.get(`/teacher/batches/${batchId}/review`);
-    // The backend returns owned submission IDs, not fabricated review cards.
-    return Promise.all((res.data as string[]).map(id => this.getSubmissionDetail(id)));
+  async getReviewQueue(batchId: string): Promise<ReviewQueueItem[]> {
+    const res = await apiClient.get<(ReviewQueueItem & RawReviewMetrics)[]>(`/teacher/batches/${encodeURIComponent(batchId)}/review-summary`);
+    return res.data.map(detail => ({ ...detail, ...normalizeReviewMetrics(detail) }));
   }
 
   async getSubmissionDetail(submissionId: string): Promise<Submission> {
     const res = await apiClient.get(`/teacher/submissions/${submissionId}`);
-    const detail = res.data;
-    const proposal = detail.gradeProposal;
-    const score = proposal?.suggestedScore;
-    const scale = proposal?.maxScore;
-    // Use the same assignment scale and rounding as backend approval.
-    const suggestedScore = Number.isFinite(score) && Number.isFinite(scale) && scale > 0
-      && score >= 0 && score <= scale && Number.isFinite(detail.maxScore) && detail.maxScore > 0
-      ? Math.round(score / scale * detail.maxScore) : undefined;
-    const percent = (value: unknown) => typeof value === 'number' && value >= 0 && value <= 1
-      ? value * 100 : undefined;
-    const validation = detail.validation;
-    return {
-      ...detail,
-      suggestedScore,
-      recognitionConfidence: percent(detail.confidenceBundle?.recognition),
-      diagnosisConfidence: percent(detail.confidenceBundle?.diagnosis),
-      decision: validation?.diagnosisState === 'VALID' && validation?.isValid === true ? 'VALID'
-        : validation?.diagnosisState === 'INVALID' && validation?.isValid === false ? 'INVALID'
-        : 'UNCERTAIN',
-    };
+    return { ...res.data, ...normalizeReviewMetrics(res.data) };
   }
 
-  async approveSubmission(submissionId: string): Promise<Submission> {
+  async retakeSubmission(submissionId: string, image: Blob): Promise<void> {
+    const body = new FormData();
+    body.append('image', image, 'anh-chup-lai.jpg');
+    await apiClient.post(`/teacher/submissions/${encodeURIComponent(submissionId)}/retake`, body);
+  }
+
+  async retrySubmissionProcessing(submissionId: string): Promise<void> {
+    await apiClient.post(`/teacher/submissions/${encodeURIComponent(submissionId)}/retry-processing`);
+  }
+
+  async approveSubmission(submissionId: string): Promise<void> {
     await apiClient.post(`/teacher/submissions/${submissionId}/approve`, { acceptProposal: true });
-    return this.getSubmissionDetail(submissionId);
   }
 
-  async overrideSubmission(submissionId: string, newScore: number, reason: string): Promise<Submission> {
+  async overrideSubmission(submissionId: string, newScore: number, reason: string, imageLegible?: boolean): Promise<void> {
     await apiClient.post(`/teacher/submissions/${submissionId}/override`, {
       score: newScore,
       reason,
+      ...(imageLegible === true ? { imageLegible: true } : {}),
     });
-    return this.getSubmissionDetail(submissionId);
   }
 
   async getMe(): Promise<any> {

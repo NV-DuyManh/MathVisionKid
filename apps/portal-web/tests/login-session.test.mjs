@@ -46,7 +46,10 @@ for (const oldResult of ['expired', 'old-teacher']) {
     const source = transpileModule(readFileSync(new URL('../src/pages/LoginPage.tsx', import.meta.url), 'utf8'), {
       compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.React, esModuleInterop: true },
     }).outputText;
-    vm.runInNewContext(source, { exports, window: dom.window, AbortController,
+    const browser = Object.create(dom.window, {
+      location: { value: { replace: navigate } },
+    });
+    vm.runInNewContext(source, { exports, window: browser, AbortController,
       require: id => imports[id] ?? (id.startsWith('@mui/icons-material/') ? placeholder : require(id)) });
     const root = (await import('react-dom/client')).createRoot(dom.window.document.getElementById('root'));
     try {
@@ -56,14 +59,14 @@ for (const oldResult of ['expired', 'old-teacher']) {
         fields.password.onChange({ target: { value: '123' } });
       });
       await act(async () => submit({ preventDefault() {} }));
-      assert.deepEqual(navigations, ['/student']);
+      assert.deepEqual(navigations, ['/study/']);
       await act(async () => {
         if (oldResult === 'expired') rejectOld(new Error('Expired old session'));
         else resolveOld({ role: 'TEACHER' });
       });
       assert.equal(cleared, 0, 'The old request erased the new login tokens.');
       assert.equal(ssoRequests, 0, 'The old profile opened an unrelated role after the new login.');
-      assert.deepEqual(navigations, ['/student']);
+      assert.deepEqual(navigations, ['/study/']);
     } finally {
       await act(async () => root.unmount());
       Object.assign(globalThis, previous);

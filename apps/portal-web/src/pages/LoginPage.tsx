@@ -16,7 +16,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from '@mui/material';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
@@ -81,16 +81,16 @@ export const LoginPage: React.FC = () => {
         if (controller.signal.aborted) return;
         const role = user.role ? user.role.toUpperCase().replace('ROLE_', '') : '';
         if (role === 'STUDENT') {
-          navigate('/student', { replace: true });
+          window.location.replace('/study/');
         } else if (role === 'TEACHER') {
           const ticket = await authService.requestSsoTicket('TEACHER', controller.signal);
           if (!controller.signal.aborted) {
-            window.location.href = `${appConfig.teacherOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+            window.location.replace(`${appConfig.teacherOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
           }
         } else if (role === 'ADMIN') {
           const ticket = await authService.requestSsoTicket('ADMIN', controller.signal);
           if (!controller.signal.aborted) {
-            window.location.href = `${appConfig.adminOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+            window.location.replace(`${appConfig.adminOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
           }
         }
       }).catch(() => {
@@ -117,12 +117,12 @@ export const LoginPage: React.FC = () => {
             const user = await authService.loginWithGoogle(credential, googleRequestedRole);
             const role = user.role.toUpperCase().replace('ROLE_', '');
             if (role === 'STUDENT') {
-              navigate('/student');
+              window.location.replace('/study/');
             } else if (role === 'TEACHER' || role === 'ADMIN') {
               const target = role === 'TEACHER' ? 'TEACHER' : 'ADMIN';
               const origin = role === 'TEACHER' ? appConfig.teacherOrigin : appConfig.adminOrigin;
               const ticket = await authService.requestSsoTicket(target);
-              window.location.href = `${origin}/login#sso=${encodeURIComponent(ticket.code)}`;
+              window.location.replace(`${origin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
             } else {
               tokenStore.clearTokens();
               setError('Tài khoản không có quyền truy cập hệ thống.');
@@ -183,12 +183,12 @@ export const LoginPage: React.FC = () => {
       try {
         const user = await authService.loginWithFacebook(credential, googleRequestedRole);
         const role = user.role.toUpperCase().replace('ROLE_', '');
-        if (role === 'STUDENT') navigate('/student');
+        if (role === 'STUDENT') window.location.replace('/study/');
         else if (role === 'TEACHER' || role === 'ADMIN') {
           const target = role === 'TEACHER' ? 'TEACHER' : 'ADMIN';
           const origin = role === 'TEACHER' ? appConfig.teacherOrigin : appConfig.adminOrigin;
           const ticket = await authService.requestSsoTicket(target);
-          window.location.href = `${origin}/login#sso=${encodeURIComponent(ticket.code)}`;
+          window.location.replace(`${origin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
         } else {
           tokenStore.clearTokens();
           setError('Tài khoản không có quyền truy cập hệ thống.');
@@ -246,7 +246,7 @@ export const LoginPage: React.FC = () => {
         ? await authService.loginWithGoogle(socialSetupCredential, 'STUDENT', Number(socialSetupGrade))
         : await authService.loginWithFacebook(socialSetupCredential, 'STUDENT', Number(socialSetupGrade));
       setSocialSetupCredential('');
-      if (user.role.toUpperCase().replace('ROLE_', '') === 'STUDENT') navigate('/student');
+      if (user.role.toUpperCase().replace('ROLE_', '') === 'STUDENT') window.location.replace('/study/');
       else {
         tokenStore.clearTokens();
         setError('Tài khoản này không thuộc cổng học sinh.');
@@ -277,16 +277,16 @@ export const LoginPage: React.FC = () => {
 
       switch (role) {
         case 'STUDENT':
-          navigate('/student');
+          window.location.replace('/study/');
           break;
         case 'TEACHER': {
           const ticket = await authService.requestSsoTicket('TEACHER');
-          window.location.href = `${appConfig.teacherOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+          window.location.replace(`${appConfig.teacherOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
           break;
         }
         case 'ADMIN': {
           const ticket = await authService.requestSsoTicket('ADMIN');
-          window.location.href = `${appConfig.adminOrigin}/login#sso=${encodeURIComponent(ticket.code)}`;
+          window.location.replace(`${appConfig.adminOrigin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
           break;
         }
         default:
@@ -430,34 +430,40 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ py: { xs: 5, md: 8 }, px: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 120px)' }}>
-      <Container maxWidth="sm" disableGutters>
+    <Box component="main" sx={{ minHeight: '100dvh', display: 'grid', placeItems: 'center',
+      py: { xs: 2, sm: 4 }, px: { xs: 1.5, sm: 2 }, bgcolor: '#F1F5FB' }}>
+      <Container maxWidth={false} disableGutters sx={{
+        maxWidth: 940, display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: '2fr 3fr' },
+        border: '1px solid #DEE6F1', borderRadius: { xs: '24px', md: '68px' },
+        bgcolor: '#FFF', overflow: 'hidden', boxShadow: '0 24px 48px -20px #172B5129',
+      }}>
+        <Box sx={{ bgcolor: '#E7EFFC', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+          p: { xs: 2, md: 4 }, gap: { xs: 1, md: 3 } }}>
+          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <Box component="img" src="/logo.svg" alt="" width={32} height={32} />
+            <Typography sx={{ fontWeight: 800, color: '#17254B' }}>MathVision Kids</Typography>
+          </Box>
+          <Box component="img" src="/ui/mathvision-star.webp" alt=""
+            sx={{ display: { xs: 'none', md: 'block' }, width: '100%', maxWidth: 224, alignSelf: 'center' }} />
+          <Button component={RouterLink} to="/" sx={{ alignSelf: 'flex-start' }}>← Trang chủ</Button>
+        </Box>
         <Paper
           elevation={0}
           sx={{
-            p: { xs: 3.5, sm: 5 },
-            borderRadius: 4,
-            border: '1px solid #E2E8F0',
-            boxShadow: '0 20px 48px -12px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04)',
-            bgcolor: '#FFFFFF',
-            position: 'relative',
-            overflow: 'hidden',
+            p: { xs: 2, sm: 4, md: 5 },
+            minWidth: 0,
           }}
         >
-        <Box sx={{ textAlign: 'center', mb: 3.5 }}>
-          <Box
-            component="img"
-            src="/ui/mathvision-star.png"
-            alt="Ngôi sao MathVision Kids"
-            className="star-companion-float"
-            sx={{ width: 72, height: 72, mb: 1.5, objectFit: 'contain' }}
-            onError={(e: any) => { e.currentTarget.src = '/logo.svg'; }}
-          />
+        <Box sx={{ mb: 3 }}>
           <Typography variant="h4" component="h1" sx={{ fontWeight: 900, color: '#0F172A', mb: 0.75, fontSize: { xs: '1.5rem', sm: '1.85rem' } }}>
-            {authView === 'login' ? 'Đăng nhập cùng MathVision' : authView === 'register' ? 'Tạo tài khoản học tập' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
+            {authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản học tập' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
           </Typography>
           <Typography variant="body2" sx={{ color: '#475569', fontSize: '0.95rem' }}>
-            {authView === 'register' ? 'Điền thông tin để cùng Ngôi sao MathVision học toán' : authView === 'social-student-setup' ? 'Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.' : 'Chào mừng em! Đăng nhập để cùng khám phá môn Toán nhé!'}
+            {authView === 'register' ? 'Điền thông tin để tạo tài khoản học tập.' :
+              authView === 'social-student-setup' ? 'Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.' :
+                authView === 'request-reset' ? 'Nhập email của tài khoản để nhận mã khôi phục.' :
+                  authView === 'confirm-reset' ? 'Dùng mã khôi phục để đặt mật khẩu mới.' :
+                    'Dùng tài khoản Học sinh, Giáo viên hoặc Quản trị của bạn.'}
           </Typography>
         </Box>
 
@@ -522,7 +528,7 @@ export const LoginPage: React.FC = () => {
             disabled={loading}
             aria-busy={loading}
             startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
-            sx={{ mt: 3, mb: 1.5, py: 1.5, fontSize: '1.05rem', borderRadius: 2.5, fontWeight: 700 }}
+            sx={{ mt: 3, mb: 1.5, py: 1.5, fontSize: '1.05rem', borderRadius: '999px', fontWeight: 700 }}
           >
             {loading ? 'Đang xác thực...' : 'Đăng nhập'}
           </Button>

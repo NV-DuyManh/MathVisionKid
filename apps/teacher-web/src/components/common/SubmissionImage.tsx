@@ -11,6 +11,7 @@ export interface ImageStatus {
 
 export interface SubmissionImageProps {
   id: string;
+  version?: string;
   mockUrl?: string;
   studentName?: string;
   onStatusChange?: (status: ImageStatus) => void;
@@ -81,7 +82,7 @@ function RefreshIcon() {
   );
 }
 
-export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: SubmissionImageProps) {
+export function SubmissionImage({ id, version, mockUrl, studentName, onStatusChange }: SubmissionImageProps) {
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [rotation, setRotation] = useState<number>(0);
   const [fullscreenOpen, setFullscreenOpen] = useState<boolean>(false);
@@ -96,7 +97,7 @@ export function SubmissionImage({ id, mockUrl, studentName, onStatusChange }: Su
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const image = useQuery({
-    queryKey: ['submissionImage', id],
+    queryKey: version ? ['submissionImage', id, version] : ['submissionImage', id],
     enabled: !!id && !useMocks,
     queryFn: async ({ signal }) => {
       const response = await apiClient.get<Blob>(`/teacher/submissions/${encodeURIComponent(id)}/image`, {

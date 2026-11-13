@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { isAxiosError } from 'axios';
 import {
   Box,
   Typography,
@@ -11,10 +12,13 @@ import {
   Divider,
   Alert,
   Chip,
+  Checkbox,
+  FormControlLabel,
 } from '@mui/material';
-import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AppTeacherService } from '../services/api/ServiceLocator';
+import { AuthTokenStore } from '../services/api/AuthTokenStore';
 import {
   CheckCircle,
   Edit,
@@ -27,6 +31,10 @@ import {
 } from '@mui/icons-material';
 import { StatusChip } from '../components/common/StatusChip';
 import { SubmissionImage, type ImageStatus } from '../components/common/SubmissionImage';
+import { SubmissionRetake } from './SubmissionRetake';
+import type { EvidenceItem } from '../types';
+
+type GradeDecision = { kind: 'approve' } | { kind: 'override'; score: number; reason: string; imageLegible?: true };
 
 export default function SubmissionReviewPage() {
   const { id } = useParams<{ id: string }>();
@@ -34,55 +42,198 @@ export default function SubmissionReviewPage() {
 }
 
 function SubmissionReview({ id }: { id?: string }) {
-  const navigate = useNavigate();
   const [params] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editScore, setEditScore] = useState<number | string>('');
+  const [editScore, setEditScore] = useState('');
   const [editReason, setEditReason] = useState('');
+  const [isImageLegible, setIsImageLegible] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
-  const [imageStatus, setImageStatus] = useState<ImageStatus>({
-    ready: false,
-    reason: 'Đang tải ảnh bài làm...',
-  });
+  const [needsOutcomeCheck, setNeedsOutcomeCheck] = useState(false);
+  const [needsRetryCheck, setNeedsRetryCheck] = useState(false);
+  const [findingNext, setFindingNext] = useState(false);
+  const [nextError, setNextError] = useState(false);
+  const writeInFlight = useRef(false);
+  const reviewMounted = useRef(false);
+  useEffect(() => {
+    reviewMounted.current = true;
+    return () => { reviewMounted.current = false; };
+  }, []);
+  const decisionNoticeRef = useRef<HTMLDivElement>(null);
+  const [imageReadiness, setImageReadiness] = useState<{ version?: string; status: ImageStatus } | null>(null);
 
-  const { data: sub, isLoading, isError, refetch } = useQuery({
+  const { data: sub, isLoading, isError, fetchStatus, refetch } = useQuery({
     queryKey: ['submission', id],
     queryFn: () => AppTeacherService.getSubmissionDetail(id!),
     enabled: !!id,
+    refetchInterval: ({ state }) => state.status === 'success' && state.data?.status === 'PROCESSING' ? 3000 : false,
   });
-  const fromReview = params.get('from') === 'review';
-  const returnPath = sub?.batchId ? '/batches/' + encodeURIComponent(sub.batchId) + (fromReview ? '/review' : '') : '/batches';
+  const imageVersion = sub?.imageVersion;
+  const handleImageStatus = useCallback((status: ImageStatus) => setImageReadiness({ version: imageVersion, status }), [imageVersion]);
+  const imageStatus = imageReadiness && imageReadiness.version === imageVersion
+    ? imageReadiness.status : { ready: false, reason: 'Đang tải ảnh bài làm...' };
+  const isRefreshing = fetchStatus !== 'idle';
+  const origin = params.get('from');
+  const fromReview = origin === 'review';
+  const returnSuffix = fromReview ? '/review' : origin === 'failed' ? '?status=failed' : '';
+  const returnPath = sub?.batchId ? '/batches/' + encodeURIComponent(sub.batchId) + returnSuffix : '/batches';
+  const returnState = sub?.batchId ? location.state : undefined;
+  const queueState = returnState?.reviewQueue;
+  const sessionId = AuthTokenStore.getSessionId();
+  const nextIds: string[] = fromReview && sessionId && queueState?.sessionId === sessionId
+    && queueState?.batchId === sub?.batchId && Array.isArray(returnState?.nextReviewIds)
+    ? returnState.nextReviewIds : [];
 
-  const approveMutation = useMutation({
-    mutationFn: (subId: string) => AppTeacherService.approveSubmission(subId),
+  const openNextReview = async () => {
+    const batchId = sub?.batchId;
+    if (!batchId || findingNext) return;
+    setFindingNext(true);
+    setNextError(false);
+    try {
+      const queue = await queryClient.fetchQuery({
+        queryKey: ['reviewQueue', batchId],
+        queryFn: () => AppTeacherService.getReviewQueue(batchId),
+        staleTime: 0,
+      });
+      if (!reviewMounted.current || AuthTokenStore.getSessionId() !== sessionId) return;
+      const { statusFilter, searchQuery } = queueState.filters;
+      const search = searchQuery.trim().toLocaleLowerCase('vi');
+      const nextIndex = nextIds.findIndex(candidate => queue.some(item =>
+        (item.id || item.submissionId) === candidate
+        && (statusFilter === 'ALL' || item.status === statusFilter)
+        && (!search || item.studentName?.toLocaleLowerCase('vi').includes(search))));
+      if (nextIndex < 0) {
+        navigate(returnPath, { state: returnState, replace: true });
+      } else {
+        navigate(`/submissions/${encodeURIComponent(nextIds[nextIndex])}?from=review`, {
+          state: { ...returnState, nextReviewIds: nextIds.slice(nextIndex + 1) },
+          replace: true,
+        });
+      }
+    } catch {
+      setNextError(true);
+    } finally {
+      setFindingNext(false);
+    }
+  };
+
+  const refreshGradeCounts = () => {
+    if (sub?.batchId) {
+      void queryClient.invalidateQueries({ queryKey: ['reviewQueue', sub.batchId] });
+      void queryClient.invalidateQueries({ queryKey: ['batch', sub.batchId] });
+    }
+    void queryClient.invalidateQueries({ queryKey: ['teacher-batches'] });
+    void queryClient.invalidateQueries({ queryKey: ['teacher-dashboard'] });
+  };
+
+  const reloadPermissions = () => {
+    setImageReadiness(null);
+    queryClient.removeQueries({ queryKey: ['submissionImage', id] });
+    return queryClient.resetQueries({ queryKey: ['submission', id], exact: true });
+  };
+
+  const decisionMutation = useMutation({
+    mutationFn: (decision: GradeDecision) => decision.kind === 'approve'
+      ? AppTeacherService.approveSubmission(id!)
+      : AppTeacherService.overrideSubmission(id!, decision.score, decision.reason, decision.imageLegible),
+    networkMode: 'always',
+    retry: false,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['submission', id] });
-      queryClient.invalidateQueries({ queryKey: ['reviewQueue'] });
-      queryClient.invalidateQueries({ queryKey: ['batch'] });
-      queryClient.invalidateQueries({ queryKey: ['teacher-batches'] });
-      navigate(returnPath);
+      void queryClient.invalidateQueries({ queryKey: ['submission', id] });
+      refreshGradeCounts();
     },
-    onError: (err: any) => {
-      setActionError(err.response?.data?.error?.message || 'Có lỗi khi duyệt điểm. Vui lòng thử lại.');
+    onError: (error) => {
+      const response = isAxiosError<{ error?: { code?: string } }>(error) ? error.response : undefined;
+      const status = response?.status;
+      if (!status || status >= 500 || status === 408 || status === 409 || response?.data?.error?.code === 'INVALID_STATE') {
+        setNeedsOutcomeCheck(true);
+      } else if (status === 401 || status === 403 || status === 404) {
+        void reloadPermissions().finally(() => {
+          writeInFlight.current = false;
+        });
+      } else {
+        writeInFlight.current = false;
+        setActionError('Chưa lưu được điểm. Hãy kiểm tra thông tin và thử lại.');
+      }
     },
   });
 
-  const overrideMutation = useMutation({
-    mutationFn: ({ subId, score, reason }: { subId: string; score: number; reason: string }) =>
-      AppTeacherService.overrideSubmission(subId, score, reason),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['submission', id] });
-      queryClient.invalidateQueries({ queryKey: ['reviewQueue'] });
-      queryClient.invalidateQueries({ queryKey: ['batch'] });
-      queryClient.invalidateQueries({ queryKey: ['teacher-batches'] });
-      navigate(returnPath);
+  const retryProcessing = useMutation({
+    mutationFn: () => AppTeacherService.retrySubmissionProcessing(id!),
+    networkMode: 'always',
+    retry: false,
+    onSuccess: async () => {
+      refreshGradeCounts();
+      await refetch();
     },
-    onError: (err: any) => {
-      setActionError(err.response?.data?.error?.message || 'Có lỗi khi điều chỉnh điểm. Vui lòng thử lại.');
+    onError: async (error) => {
+      const status = isAxiosError(error) ? error.response?.status : undefined;
+      if (status === 401 || status === 403 || status === 404) {
+        await reloadPermissions();
+      } else if (!status || status >= 500 || status === 408 || status === 409) {
+        setNeedsRetryCheck(true);
+      } else {
+        setActionError('Chưa gửi được yêu cầu xử lý lại. Hãy thử lại.');
+      }
     },
+    onSettled: () => { writeInFlight.current = false; },
   });
+
+  const checkProcessing = async () => {
+    if ((await refetch()).isSuccess) {
+      setNeedsRetryCheck(false);
+      refreshGradeCounts();
+    }
+  };
+
+  const isFinalized = sub?.status === 'TEACHER_APPROVED' || sub?.status === 'TEACHER_OVERRIDDEN';
+  const shouldFocusNotice = decisionMutation.isSuccess || needsOutcomeCheck || (decisionMutation.isError && isFinalized);
+  useEffect(() => {
+    if (shouldFocusNotice) decisionNoticeRef.current?.focus();
+  }, [shouldFocusNotice, isFinalized, isError]);
+
+  const checkSavedDecision = async () => {
+    const result = await refetch({ cancelRefetch: false });
+    if (!result.isSuccess) return;
+    setNeedsOutcomeCheck(false);
+    if (result.data?.status === 'TEACHER_APPROVED' || result.data?.status === 'TEACHER_OVERRIDDEN') {
+      refreshGradeCounts();
+    } else {
+      writeInFlight.current = false;
+    }
+  };
+
+  const nextAction = nextIds.length > 0 && <>
+    <Button onClick={() => void openNextReview()} disabled={findingNext}>
+      {findingNext ? 'Đang tìm bài tiếp theo…' : 'Duyệt bài tiếp theo'}
+    </Button>
+    {nextError && <Typography>Chưa tải được hàng đợi. Hãy thử lại hoặc quay lại hàng đợi duyệt.</Typography>}
+  </>;
+  const decisionNotice = isFinalized && !isError ? (
+    <Alert ref={decisionNoticeRef} tabIndex={-1} severity="success" role="status" sx={{ mb: 3 }}>
+      <Typography variant="h6">
+        {typeof sub?.teacherScore === 'number'
+          ? `Điểm chính thức ${sub.teacherScore} / ${sub.maxScore ?? 10}`
+          : 'Đã chốt điểm'}
+      </Typography>
+      {sub?.teacherReason && <Typography sx={{ overflowWrap: 'anywhere' }}>{sub.teacherReason}</Typography>}
+      {nextAction}
+    </Alert>
+  ) : decisionMutation.isSuccess ? (
+    <Alert ref={decisionNoticeRef} tabIndex={-1} severity="success" role="status" sx={{ mb: 3 }}>
+      Đã lưu quyết định chấm điểm.
+      {nextAction}
+    </Alert>
+  ) : needsOutcomeCheck ? (
+    <Alert ref={decisionNoticeRef} tabIndex={-1} severity="warning" sx={{ mb: 3 }}>
+      <Typography>Chưa xác nhận được kết quả lưu điểm.</Typography>
+      <Typography variant="body2">Kiểm tra kết quả trước khi gửi lại.</Typography>
+      <Button disabled={isRefreshing} onClick={() => void checkSavedDecision()}>Kiểm tra kết quả lưu</Button>
+    </Alert>
+  ) : null;
 
   if (isLoading) {
     return (
@@ -98,59 +249,53 @@ function SubmissionReview({ id }: { id?: string }) {
   if (isError || !sub) {
     return (
       <Box sx={{ maxWidth: 640, mx: 'auto', textAlign: 'center', mt: 6, p: 4 }}>
+        {decisionNotice}
         <Typography color="error" variant="h6" component="h1" sx={{ mb: 2 }}>
           Đã xảy ra lỗi khi tải chi tiết bài làm.
         </Typography>
-        <Button onClick={() => void refetch()}>Thử lại</Button>
-        <Button variant="outlined" component={Link} to="/batches">
-          Quay lại danh sách
+        {!needsOutcomeCheck && <Button disabled={isRefreshing} onClick={() => void (needsRetryCheck ? checkProcessing() : refetch())}>
+          Thử tải lại chi tiết
+        </Button>}
+        <Button variant="outlined" component={Link} to={returnPath} state={returnState}>
+          {fromReview && sub?.batchId ? 'Quay lại hàng đợi duyệt' : 'Quay lại danh sách đợt chấm'}
         </Button>
       </Box>
     );
   }
 
-  const handleApprove = () => {
-    if (!imageStatus.ready) {
-      setActionError(`Chưa thể duyệt điểm: ${imageStatus.reason || 'Ảnh bài làm chưa tải và giải mã thành công.'}`);
-      return;
-    }
-    if (id) {
-      setActionError(null);
-      approveMutation.mutate(id);
-    }
-  };
-
-  const handleOverride = () => {
-    if (!imageStatus.ready) {
-      setActionError(`Chưa thể điều chỉnh điểm: ${imageStatus.reason || 'Ảnh bài làm chưa tải và giải mã thành công.'}`);
-      return;
-    }
-    if (id && editScore !== '') {
-      const score = Number(editScore);
-      if (!Number.isInteger(score) || score < 0 || score > (sub.maxScore ?? 10) || !editReason.trim()) {
-        setActionError(`Nhập điểm nguyên từ 0 đến ${sub.maxScore ?? 10} và lý do điều chỉnh.`);
-        return;
-      }
-      setActionError(null);
-      overrideMutation.mutate({ subId: id, score: Number(editScore), reason: editReason.trim() });
-    }
-  };
-
   const suggestedScore = sub.suggestedScore;
-  const isFinalized = sub.status === 'TEACHER_APPROVED' || sub.status === 'TEACHER_OVERRIDDEN';
-  const canDecide = sub.status === 'PROPOSED_GRADE' || sub.status === 'REVIEW_REQUIRED' || sub.status === 'FEEDBACK_READY';
-  const isPending = approveMutation.isPending || overrideMutation.isPending;
+  const maxScore = sub.maxScore ?? 10;
+  const evidenceItems: EvidenceItem[] = sub.evidence?.items ?? (sub.evidence?.rule ? [{ description: sub.evidence.rule }] : []);
+  const allowsProposal = sub.status === 'PROPOSED_GRADE' || sub.status === 'REVIEW_REQUIRED' || sub.status === 'FEEDBACK_READY';
+  const canApprove = allowsProposal && suggestedScore !== undefined;
+  const canAdjust = allowsProposal || sub.status === 'NEEDS_CONFIRMATION';
+  const isManualGrade = !canApprove;
+  const score = Number(editScore);
+  const validScore = editScore.trim() !== '' && Number.isInteger(score) && score >= 0 && score <= maxScore;
+  const isPending = decisionMutation.isPending;
+  const actionsDisabled = isPending || isRefreshing || retryProcessing.isPending || needsRetryCheck;
+  const canSaveOverride = canAdjust && validScore && !!editReason.trim() && (!isManualGrade || isImageLegible);
+
+  const saveDecision = (decision: GradeDecision) => {
+    if (!id || !imageStatus.ready || writeInFlight.current || actionsDisabled || needsOutcomeCheck || decisionMutation.isSuccess) return;
+    if (decision.kind === 'approve' ? !canApprove : !canSaveOverride) return;
+    writeInFlight.current = true;
+    setActionError(null);
+    decisionMutation.mutate(decision);
+  };
 
   return (
-    <Box>
+    <Box sx={{ fontVariantNumeric: 'tabular-nums', color: 'text.primary' }}>
       {/* Top Header & Breadcrumb */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3, flexWrap: 'wrap', gap: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3, flexWrap: 'wrap', gap: 2,
+        bgcolor: '#FFFBF0', border: '1px solid #E2D8BA', borderRadius: '12px', px: { xs: 2, md: 3 }, py: 1.5 }}>
         <Box>
           <Button
             variant="text"
             startIcon={<ArrowBack />}
             component={Link}
             to={returnPath}
+            state={returnState}
             sx={{ mb: 1, px: 0 }}
           >
             {fromReview ? 'Quay lại hàng đợi duyệt' : 'Quay lại đợt chấm'}
@@ -159,7 +304,7 @@ function SubmissionReview({ id }: { id?: string }) {
             <Typography variant="h5" component="h1" sx={{ fontWeight: 800 }}>
               Thẩm định bài làm: {sub.studentName || 'Học sinh'}
             </Typography>
-            <StatusChip status={sub.status} />
+            {(isFinalized || !decisionMutation.isSuccess) && <StatusChip status={sub.status} />}
           </Box>
           <Typography variant="body2" color="text.secondary">
             AI đưa ra đánh giá tham vấn. Giáo viên là người có thẩm quyền quyết định điểm số chính thức.
@@ -167,16 +312,24 @@ function SubmissionReview({ id }: { id?: string }) {
         </Box>
       </Box>
 
-      {isFinalized && (
-        <Alert severity="success" sx={{ mb: 3 }}>
-          <Typography variant="h6">
-            {typeof sub.teacherScore === 'number'
-              ? `Điểm chính thức ${sub.teacherScore} / ${sub.maxScore ?? 10}`
-              : 'Đã chốt điểm'}
-          </Typography>
-          {sub.teacherReason && <Typography sx={{ overflowWrap: 'anywhere' }}>{sub.teacherReason}</Typography>}
+      {decisionNotice}
+
+      {!isFinalized && !decisionMutation.isSuccess && !needsOutcomeCheck && (needsRetryCheck ? (
+        <Alert severity="warning" sx={{ mb: 3 }} action={<Button disabled={isRefreshing} onClick={() => void checkProcessing()}>
+          Kiểm tra lại
+        </Button>}>
+          Chưa xác nhận được yêu cầu xử lý lại. Hãy kiểm tra trạng thái trước khi gửi lại.
         </Alert>
-      )}
+      ) : sub.canRetryProcessing && (
+        <Alert severity="warning" sx={{ mb: 3 }} action={<Button disabled={actionsDisabled} onClick={() => {
+          if (!id || actionsDisabled || writeInFlight.current) return;
+          writeInFlight.current = true;
+          setActionError(null);
+          retryProcessing.mutate();
+        }}>{retryProcessing.isPending ? 'Đang gửi…' : 'Thử xử lý lại'}</Button>}>
+          Dịch vụ chấm bài gặp lỗi. Có thể thử xử lý lại trên ảnh đã gửi.
+        </Alert>
+      ))}
 
       {actionError && (
         <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }} role="alert">
@@ -184,13 +337,13 @@ function SubmissionReview({ id }: { id?: string }) {
         </Alert>
       )}
 
-      <Grid container spacing={3.5}>
+      <Grid container spacing={{ xs: 2, md: 3 }}>
         {/* Left Column: Image & Visual Evidence */}
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, lg: 7 }} sx={{ minWidth: 0 }}>
           <Card
             sx={{
               height: '100%',
-              bgcolor: '#211844',
+              bgcolor: '#172554',
               display: 'flex',
               flexDirection: 'column',
               borderRadius: 2.5,
@@ -209,15 +362,17 @@ function SubmissionReview({ id }: { id?: string }) {
               }}
             >
               <SubmissionImage
+                key={imageVersion}
                 id={id!}
+                version={imageVersion}
                 mockUrl={sub.imageUrl}
                 studentName={sub.studentName}
-                onStatusChange={setImageStatus}
+                onStatusChange={handleImageStatus}
               />
             </Box>
 
             {/* Evidence Overlay / Position Indicator */}
-            {sub.evidence?.position && (
+            {!sub.evidence?.items?.length && sub.evidence?.position && (
               <Box
                 sx={{
                   p: 1.5,
@@ -239,7 +394,7 @@ function SubmissionReview({ id }: { id?: string }) {
         </Grid>
 
         {/* Right Column: AI Analysis & Decision Section */}
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, lg: 5 }} sx={{ minWidth: 0 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
             {/* Card 1: AI Evidence Findings */}
             <Card variant="outlined" sx={{ borderRadius: 2.5, borderColor: '#E2E8F0', boxShadow: '0 1px 3px rgba(15,23,42,0.05)' }}>
@@ -252,18 +407,22 @@ function SubmissionReview({ id }: { id?: string }) {
                 </Box>
 
                 <Grid container spacing={2}>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  {evidenceItems.length > 0 && <Grid size={{ xs: 12, sm: 6 }}>
                     <Box sx={{ p: 1.75, bgcolor: '#F8FAFC', borderRadius: 2, border: '1px solid #E2E8F0' }}>
                       <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
-                        Dấu hiệu cần xem xét
+                        Bằng chứng cần xem xét
                       </Typography>
-                      <Typography variant="body2" sx={{ mt: 0.5, fontWeight: 700, color: '#B91C1C' }}>
-                        {sub.evidence?.rule || 'Quy tắc tính toán hoặc nét chữ'}
-                      </Typography>
+                      <Box component="ul" sx={{ my: 0.5, pl: 2.25, display: 'grid', gap: 1 }}>
+                        {evidenceItems.map((item, index) => <li key={index}>
+                          {item.description && <Typography variant="body2" sx={{ fontWeight: 700 }}>{item.description}</Typography>}
+                          {item.placeValue && <Typography variant="body2">{item.placeValue}</Typography>}
+                          {item.observedText && <Typography variant="body2">Ký tự nhận diện {item.observedText}</Typography>}
+                        </li>)}
+                      </Box>
                     </Box>
-                  </Grid>
+                  </Grid>}
 
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  <Grid size={{ xs: 12, sm: evidenceItems.length > 0 ? 6 : 12 }}>
                     <Box sx={{ p: 1.75, bgcolor: '#F8FAFC', borderRadius: 2, border: '1px solid #E2E8F0' }}>
                       <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
                         Thuật toán đối soát
@@ -273,7 +432,7 @@ function SubmissionReview({ id }: { id?: string }) {
                         sx={{
                           mt: 0.5,
                           fontWeight: 700,
-                          color: sub.decision === 'VALID' ? '#15803D' : '#B91C1C',
+                          color: sub.decision === 'VALID' ? '#15803D' : sub.decision === 'INVALID' ? '#B91C1C' : '#475569',
                         }}
                       >
                         {sub.decision === 'VALID' ? 'Hợp lệ theo quy tắc'
@@ -358,7 +517,7 @@ function SubmissionReview({ id }: { id?: string }) {
             </Card>
 
             {/* Card 3: Teacher Authority & Final Decision */}
-            {!isFinalized && <Card
+            {!isFinalized && !decisionMutation.isSuccess && !needsOutcomeCheck && <Card
               sx={{
                 borderRadius: 2.5,
                 border: '2px solid #059669',
@@ -373,7 +532,14 @@ function SubmissionReview({ id }: { id?: string }) {
                   </Typography>
                 </Box>
 
-                {!canDecide ? (
+                {sub.status === 'NEEDS_RETAKE' && !sub.canRetryProcessing ? (
+                  <SubmissionRetake key={imageVersion} id={id!} refresh={async () => {
+                    refreshGradeCounts();
+                    return (await refetch()).isSuccess;
+                  }} />
+                ) : sub.status === 'PROCESSING' ? (
+                  <Alert severity="info" role="status">Đang xử lý ảnh bài làm.</Alert>
+                ) : !canAdjust ? (
                   <Alert severity="info">Chưa thể chốt điểm cho bài làm ở trạng thái này.</Alert>
                 ) : !imageStatus.ready ? (
                   <Box>
@@ -387,42 +553,59 @@ function SubmissionReview({ id }: { id?: string }) {
                 ) : !isEditing ? (
                   <Box>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                      Nếu đồng ý với đánh giá của hệ thống, chọn <strong>Duyệt điểm</strong>. Nếu cần chỉnh sửa theo quy chế nhà trường, chọn <strong>Điều chỉnh điểm</strong>.
+                      {isManualGrade
+                        ? 'Nếu đọc rõ bài làm trong ảnh, giáo viên có thể chấm thủ công. Nếu ảnh chưa đủ rõ, hãy chụp lại và để bài ở trạng thái chờ xử lý.'
+                        : 'Đối chiếu ảnh bài làm rồi duyệt hoặc điều chỉnh điểm đề xuất.'}
                     </Typography>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                      <Button
+                      {canApprove && <Button
                         variant="contained"
                         size="large"
                         startIcon={isPending ? <CircularProgress size={18} color="inherit" /> : <CheckCircle />}
-                        onClick={handleApprove}
-                        disabled={!imageStatus.ready || isPending || suggestedScore === undefined}
+                        onClick={() => saveDecision({ kind: 'approve' })}
+                        disabled={actionsDisabled}
                         sx={{ flex: 2, py: 1.25, fontWeight: 700 }}
                       >
-                        {isPending ? 'Đang lưu...' : `Duyệt điểm ${suggestedScore !== undefined ? suggestedScore : ''}`}
-                      </Button>
+                        {isPending ? 'Đang lưu...' : `Duyệt điểm ${suggestedScore}`}
+                      </Button>}
                       <Button
                         variant="outlined"
                         size="large"
                         startIcon={<Edit />}
-                        onClick={() => { setEditScore(suggestedScore ?? ''); setEditReason(''); setIsEditing(true); }}
-                        disabled={!imageStatus.ready || isPending}
+                        onClick={() => {
+                          setEditScore(canApprove ? String(suggestedScore) : '');
+                          setEditReason('');
+                          setIsImageLegible(false);
+                          setActionError(null);
+                          setIsEditing(true);
+                        }}
+                        disabled={actionsDisabled}
                         sx={{ flex: 1, py: 1.25, fontWeight: 700 }}
                       >
-                        Điều chỉnh
+                        {isManualGrade ? 'Chấm thủ công' : 'Điều chỉnh'}
                       </Button>
                     </Box>
                   </Box>
                 ) : (
-                  <Box>
+                  <Box component="form" onSubmit={(event) => {
+                    event.preventDefault();
+                    saveDecision({
+                      kind: 'override', score, reason: editReason.trim(),
+                      imageLegible: sub.status === 'NEEDS_CONFIRMATION' && isImageLegible ? true : undefined,
+                    });
+                  }}>
                     <Grid container spacing={2} sx={{ mb: 2 }}>
                       <Grid size={{ xs: 12, sm: 4 }}>
                         <TextField
                           fullWidth
                           label="Điểm chính thức"
                           type="number"
+                          required
                           value={editScore}
                           onChange={(e) => setEditScore(e.target.value)}
-                          slotProps={{ htmlInput: { min: 0, max: sub.maxScore ?? 10, step: 1 } }}
+                          error={editScore !== '' && !validScore}
+                          helperText={`Nhập điểm nguyên từ 0 đến ${maxScore}.`}
+                          slotProps={{ htmlInput: { min: 0, max: maxScore, step: 1 } }}
                           disabled={isPending}
                           autoFocus
                         />
@@ -430,7 +613,8 @@ function SubmissionReview({ id }: { id?: string }) {
                       <Grid size={{ xs: 12, sm: 8 }}>
                         <TextField
                           fullWidth
-                          label="Lý do điều chỉnh (Bắt buộc)"
+                          label="Lý do điều chỉnh"
+                          required
                           value={editReason}
                           onChange={(e) => setEditReason(e.target.value)}
                           placeholder="VD: Học sinh cộng nhầm hàng chục nhưng đặt tính đúng"
@@ -438,6 +622,12 @@ function SubmissionReview({ id }: { id?: string }) {
                         />
                       </Grid>
                     </Grid>
+
+                    {isManualGrade && <FormControlLabel
+                      sx={{ mb: 2 }}
+                      label="Tôi đã xem ảnh và đọc rõ bài làm."
+                      control={<Checkbox checked={isImageLegible} disabled={isPending} onChange={(event) => setIsImageLegible(event.target.checked)} />}
+                    />}
 
                     <Box
                       sx={{
@@ -453,22 +643,25 @@ function SubmissionReview({ id }: { id?: string }) {
                     >
                       <Warning sx={{ fontSize: 18, color: '#B45309' }} />
                       <Typography variant="caption" sx={{ color: '#92400E', fontWeight: 600 }}>
-                        Quyết định này sẽ ghi đè đề xuất của AI và lưu vào sổ điểm chính thức với danh nghĩa giáo viên.
+                        {isManualGrade
+                          ? 'Điểm và lý do chấm thủ công sẽ được lưu làm quyết định chính thức của giáo viên.'
+                          : 'Điểm đã điều chỉnh và lý do sẽ được lưu làm quyết định chính thức của giáo viên.'}
                       </Typography>
                     </Box>
 
                     <Box sx={{ display: 'flex', gap: 1.5 }}>
                       <Button
                         variant="contained"
-                        onClick={handleOverride}
-                        disabled={!imageStatus.ready || editScore === '' || !editReason.trim() || isPending}
+                        type="submit"
+                        disabled={!canSaveOverride || actionsDisabled}
                         startIcon={isPending ? <CircularProgress size={18} color="inherit" /> : null}
                         sx={{ flex: 1, py: 1, fontWeight: 700 }}
                       >
-                        {isPending ? 'Đang lưu...' : 'Xác nhận ghi đè điểm'}
+                        {isPending ? 'Đang lưu...' : isManualGrade ? 'Lưu điểm thủ công' : 'Xác nhận ghi đè điểm'}
                       </Button>
                       <Button
                         variant="outlined"
+                        type="button"
                         color="inherit"
                         onClick={() => setIsEditing(false)}
                         disabled={isPending}

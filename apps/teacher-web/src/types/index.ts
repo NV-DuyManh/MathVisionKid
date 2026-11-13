@@ -102,14 +102,21 @@ export interface Batch {
   createdAt?: string;
 }
 
+export interface EvidenceItem {
+  description?: string;
+  placeValue?: string;
+  observedText?: string;
+}
+
 export interface Evidence {
-  position: string;
-  rule: string;
-  highlightCoordinates?: number[];
-  issueType?: string;
+  position?: string;
+  rule?: string;
+  items?: EvidenceItem[];
 }
 
 export interface Submission {
+  imageVersion?: string;
+  canRetryProcessing?: boolean;
   id?: string;
   submissionId?: string;
   batchId: string;
@@ -127,13 +134,17 @@ export interface Submission {
   decision?: string; // VALID, INVALID
   confidenceBundle?: { recognition?: number; structure?: number; diagnosis?: number };
   validation?: { isValid?: boolean; diagnosisState?: string };
-  evidence?: Evidence | any;
+  evidence?: Evidence;
   recognizedText?: string;
 }
+
+export type ReviewQueueItem = Pick<Submission, 'id' | 'submissionId' | 'studentName' | 'status' | 'maxScore'
+  | 'suggestedScore' | 'recognitionConfidence' | 'diagnosisConfidence' | 'evidence'>;
 
 export interface DashboardStats {
   totalToday: number;
   completed: number;
   reviewRequired: number;
+  nextReviewBatchId?: string;
   recentBatches: Batch[];
 }

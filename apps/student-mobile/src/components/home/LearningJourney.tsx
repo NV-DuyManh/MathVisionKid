@@ -4,7 +4,7 @@ import Svg, { Path } from 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { AppIllustration } from '../ui/AppIllustration';
-import { COLORS, FONTS } from '../../constants/theme';
+import { COLORS, FONTS, IS_STUDENT_WEB } from '../../constants/theme';
 
 export function LearningJourney({ desktop, onPractice, onAcquire }: { desktop: boolean; onPractice: () => void; onAcquire: () => void }) {
   return <View style={styles.section} testID="learning-journey">
@@ -16,8 +16,8 @@ export function LearningJourney({ desktop, onPractice, onAcquire }: { desktop: b
           <Path d="M15 153C-4 55 99 27 187 67S344 116 439 74 572 53 667 91 819 101 914 69 980 102 987 151" fill="none" stroke="#D6C9F7" strokeWidth={10} />
           <Path d="M15 153C-4 55 99 27 187 67S344 116 439 74 572 53 667 91 819 101 914 69 980 102 987 151" fill="none" stroke="#F8F4FF" strokeWidth={1.5} strokeDasharray="6 12" />
         </Svg>
-        <AppIllustration source={require('../../../assets/illustrations/cactus-island.png')} style={[styles.island, { left: '20%' }]} accessible={false} />
-        <AppIllustration source={require('../../../assets/illustrations/cactus-island.png')} style={[styles.island, { left: '65%' }]} accessible={false} />
+        <AppIllustration source={IS_STUDENT_WEB ? require('../../../assets/illustrations/web/cactus-island.webp') : require('../../../assets/illustrations/cactus-island.png')} style={[styles.island, { left: '20%' }]} accessible={false} />
+        <AppIllustration source={IS_STUDENT_WEB ? require('../../../assets/illustrations/web/cactus-island.webp') : require('../../../assets/illustrations/cactus-island.png')} style={[styles.island, { left: '65%' }]} accessible={false} />
       </> : <View style={styles.straightRoad} accessible={false}>{[1, 2, 3].map(i => <View key={i} style={styles.diamond} />)}</View>}
       <View style={styles.stops}>
         {[

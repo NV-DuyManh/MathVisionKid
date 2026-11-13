@@ -38,8 +38,9 @@ test('teacher assignment shows activity at submit and creates only one assignmen
     await login(page, 'TEACHER');
     await page.goto(`${sites.teacher.origin}/classes`);
     await page.getByRole('button', { name: 'Tạo bài tập cho lớp', exact: true }).click();
-    await page.getByLabel('Tên bài tập', { exact: true }).fill('Bài tập đang chờ');
-    await page.getByRole('button', { name: 'Tạo bài tập & Thu thập ảnh', exact: true }).click();
+    const title = page.getByLabel('Tên bài tập', { exact: true });
+    await title.fill('Bài tập đang chờ');
+    await title.press('Enter');
     const pending = page.getByRole('button', { name: /Đang tạo bài tập/ });
     await expect(pending).toBeVisible();
     await expect(pending).toBeDisabled();

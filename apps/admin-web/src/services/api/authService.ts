@@ -46,7 +46,7 @@ export const authService = {
     this.cancelPending();
     try {
       if (accessToken) await axios.post(`${appConfig.apiBaseUrl}/auth/logout`, {}, {
-        headers: { Authorization: `Bearer ${accessToken}` }, timeout: 5000,
+        headers: { Authorization: `Bearer ${accessToken}` }, timeout: 2000,
       });
     } catch { /* Local logout completes even when the backend is unavailable. */ }
   },

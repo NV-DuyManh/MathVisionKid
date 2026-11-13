@@ -4,11 +4,10 @@ import {
   Typography,
   Grid,
   Card,
-  CardContent,
   Button,
   List,
   ListItem,
-  ListItemText,
+  ListItemButton,
   Paper,
   Skeleton,
   Chip,
@@ -23,11 +22,10 @@ import {
   School,
   ArrowForward,
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { useAuth } from '../components/layout/AuthContext';
 import { StatusChip } from '../components/common/StatusChip';
-import { PageHeader } from '../components/common/PageHeader';
 import { StatCard } from '../components/common/StatCard';
 import { EmptyState } from '../components/common/EmptyState';
 
@@ -48,12 +46,12 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <Box>
-        <Skeleton variant="text" width={280} height={36} sx={{ mb: 1 }} />
-        <Skeleton variant="text" width={380} height={20} sx={{ mb: 3.5 }} />
+      <Box role="status" aria-label="Đang tải tổng quan" aria-busy="true">
+        <Skeleton variant="text" width={280} height={36} sx={{ mb: 1, maxWidth: '100%' }} />
+        <Skeleton variant="text" width={380} height={20} sx={{ mb: 3.5, maxWidth: '100%' }} />
         <Grid container spacing={2} sx={{ mb: 3.5 }}>
           {[1, 2, 3, 4].map((i) => (
-            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={i}>
+            <Grid size={{ xs: 6, lg: 3 }} key={i}>
               <Skeleton variant="rectangular" height={130} sx={{ borderRadius: 3.5 }} />
             </Grid>
           ))}
@@ -64,122 +62,72 @@ export default function DashboardPage() {
   }
 
   const reviewCount = stats?.reviewRequired || 0;
+  const recentReviewBatch = stats?.recentBatches.find(batch => (batch.pendingReviewCount ?? batch.reviewRequiredCount) > 0);
+  const reviewBatchId = stats?.nextReviewBatchId || recentReviewBatch?.batchId || recentReviewBatch?.id;
   const totalCount = stats?.totalToday || 0;
   const completedCount = stats?.completed || 0;
 
   return (
     <Box>
-      {/* Header section with Unified PageHeader */}
-      <PageHeader
-        title={`Xin chào, ${displayName}`}
-        description="Theo dõi lớp học, quản lý bài tập ô ly và phê duyệt kết quả chấm bài của học sinh."
-        actions={
-          <>
+      <Box component="header" className="teacher-dashboard-welcome">
+        <Box component="img" src="/ui/mathvision-star.png" alt="" width={72} height={72} className="teacher-dashboard-star" />
+        <Box sx={{ minWidth: 0 }}>
+          <Typography variant="h2" component="h1" sx={{ fontSize: { xs: '1.5rem', sm: '2rem' }, overflowWrap: 'anywhere' }}>
+            Xin chào, {displayName}
+          </Typography>
+          <Typography variant="body2" sx={{ mt: 0.75 }}>
+            Theo dõi lớp học, giao bài tập ô ly và duyệt kết quả chấm bài.
+          </Typography>
+          <Box className="teacher-page-actions" sx={{ mt: 2 }}>
             <Button
-              variant="outlined"
+              component={Link}
+              to="/batches/create"
+              variant={reviewCount > 0 ? 'outlined' : 'contained'}
               startIcon={<AddCircleOutlined />}
-              onClick={() => navigate('/assignments/create')}
-              sx={{ borderRadius: 2.5, fontWeight: 700 }}
-            >
-              Tạo bài tập
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<AddCircleOutlined />}
-              onClick={() => navigate('/batches/create')}
-              sx={{ borderRadius: 2.5, fontWeight: 700 }}
             >
               Tạo đợt chấm mới
             </Button>
-          </>
-        }
-      />
+            <Button component={Link} to="/assignments/create" variant="text">
+              Tạo bài tập
+            </Button>
+          </Box>
+        </Box>
+      </Box>
 
       {!stats && (
-        <Paper
-          role="alert"
-          variant="outlined"
-          sx={{ mb: 3, p: 2, bgcolor: '#FFFBEB', borderColor: '#FDE68A', color: '#92400E', borderRadius: 2.5 }}
-        >
+        <Alert severity="warning" sx={{ mb: 3 }}
+          action={<Button size="small" onClick={() => void refetch()}>Thử lại</Button>}>
           Chưa tải được thống kê tổng quan. Bạn vẫn có thể mở Lớp học, Bài tập và Đợt chấm từ thanh điều hướng.
-          <Button onClick={() => void refetch()}>Thử lại</Button>
-        </Paper>
+        </Alert>
       )}
 
-      {/* Actionable Urgent Attention Banner */}
       {reviewCount > 0 && (
-        <Card
-          sx={{
-            mb: 3,
-            bgcolor: '#FEF2F2',
-            border: '1px solid #FECACA',
-            borderRadius: 3,
-          }}
-        >
-          <CardContent sx={{ py: 2, px: 2.5, '&:last-child': { pb: 2 } }}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: 2,
-              }}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Box
-                  sx={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 2,
-                    bgcolor: '#FEE2E2',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#DC2626',
-                    flexShrink: 0,
-                  }}
-                >
-                  <PendingActions sx={{ fontSize: 24 }} />
-                </Box>
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#991B1B' }}>
-                    Có {reviewCount} bài làm cần giáo viên xem xét lại
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: '#B91C1C', fontSize: '0.8125rem' }}>
-                    AI nhận diện có điểm chưa chắc chắn hoặc bất thường về quy tắc tính toán.
-                  </Typography>
-                </Box>
-              </Box>
-              <Button
-                variant="contained"
-                endIcon={<ArrowForward />}
-                onClick={() => {
-                  const targetBatch = stats?.recentBatches?.find((b) => (b.pendingReviewCount ?? b.reviewRequiredCount) > 0);
-                  if (targetBatch) {
-                    navigate(`/batches/${targetBatch.id || targetBatch.batchId}/review`);
-                  } else {
-                    navigate('/batches');
-                  }
-                }}
-                sx={{
-                  bgcolor: '#DC2626',
-                  '&:hover': { bgcolor: '#B91C1C' },
-                  px: 2,
-                  borderRadius: 2.5,
-                  fontWeight: 700,
-                }}
-              >
-                Xử lý ngay
-              </Button>
+        <Paper component="section" aria-labelledby="dashboard-review-title" variant="outlined" className="teacher-dashboard-review">
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, minWidth: 0 }}>
+            <Box sx={{ p: 1, borderRadius: '8px', bgcolor: 'warning.light', color: 'warning.dark', display: 'flex' }}>
+              <PendingActions fontSize="small" />
             </Box>
-          </CardContent>
-        </Card>
+            <Box>
+              <Typography component="h2" id="dashboard-review-title" variant="subtitle1">
+                Có {reviewCount} bài làm chờ giáo viên duyệt
+              </Typography>
+              <Typography variant="body2">Xem bài làm và chốt điểm khi đã kiểm tra.</Typography>
+            </Box>
+          </Box>
+          <Button
+            component={Link}
+            to={reviewBatchId ? `/batches/${encodeURIComponent(reviewBatchId)}/review` : '/batches'}
+            variant="contained"
+            endIcon={<ArrowForward />}
+          >
+            {reviewBatchId ? 'Xử lý ngay' : 'Xem các đợt chấm'}
+          </Button>
+        </Paper>
       )}
 
       {/* Top 4 Operational Metrics using Unified StatCard */}
       <Grid container spacing={2} className="dashboard-metrics" sx={{ mb: 3.5 }}>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 6, lg: 3 }}>
           <StatCard
             title="Lớp học phụ trách"
             value={!classesError ? classes.length : null}
@@ -195,7 +143,7 @@ export default function DashboardPage() {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 6, lg: 3 }}>
           <StatCard
             title="Tổng bài hôm nay"
             value={stats ? totalCount : null}
@@ -207,11 +155,11 @@ export default function DashboardPage() {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 6, lg: 3 }}>
           <StatCard
-            title="Đã có đề xuất điểm"
+            title="Đã chốt điểm"
             value={stats ? completedCount : null}
-            description={stats ? 'AI đã xử lý xong và có đề xuất' : 'Chưa tải được dữ liệu'}
+            description={stats ? 'Giáo viên đã xác nhận điểm' : 'Chưa tải được dữ liệu'}
             icon={<FactCheck fontSize="small" />}
             tone="#ECFDF5"
             color="#059669"
@@ -219,7 +167,7 @@ export default function DashboardPage() {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 6, lg: 3 }}>
           <StatCard
             title="Cần giáo viên xem"
             value={stats ? reviewCount : null}
@@ -242,8 +190,8 @@ export default function DashboardPage() {
       <Box className="dashboard-columns">
         {/* Left Column: Recent Batches List */}
         <Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, gap: 1, flexWrap: 'wrap' }}>
+            <Typography component="h2" variant="h5" sx={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
               Đợt chấm bài gần đây
             </Typography>
             <Button
@@ -276,51 +224,50 @@ export default function DashboardPage() {
                   <ListItem
                     key={batch.id || batch.batchId || index}
                     divider={index !== stats.recentBatches.length - 1}
-                    sx={{
-                      py: 1.75,
-                      px: 2.5,
-                      '&:hover': { bgcolor: '#F8FAFC' },
-                      cursor: 'pointer',
-                      transition: 'background-color 140ms',
-                    }}
-                    onClick={() => navigate(`/batches/${batch.id || batch.batchId}`)}
+                    disablePadding
                   >
-                    <ListItemText
-                      primary={
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 0.25 }}>
-                          <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '0.9375rem' }}>
+                    <ListItemButton
+                      component={Link}
+                      to={`/batches/${encodeURIComponent(batch.id || batch.batchId || '')}`}
+                      sx={{ py: 1.75, px: 2.5, gap: 1, flexWrap: 'wrap', minWidth: 0,
+                        '&:hover': { bgcolor: '#F8FAFC' },
+                        '&.Mui-focusVisible': { outline: '2px solid #047857', outlineOffset: -2 } }}
+                    >
+                      <Box sx={{ flex: '1 1 180px', minWidth: 0 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1.25, mb: 0.25 }}>
+                          <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '0.9375rem', overflowWrap: 'anywhere' }}>
                             {batch.className ? `Lớp ${batch.className}` : 'Lớp học'} — {batch.assignmentTitle || 'Bài tập Toán'}
                           </Typography>
                           <StatusChip status={batch.status} />
                         </Box>
-                      }
-                      secondary={
                         <Typography variant="caption" sx={{ color: '#64748B' }}>
-                          {batch.createdAt ? new Date(batch.createdAt).toLocaleDateString('vi-VN') : 'Hôm nay'}
+                          {batch.createdAt
+                            ? new Date(batch.createdAt).toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })
+                            : 'Hôm nay'}
                         </Typography>
-                      }
-                    />
-                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                      <Chip
-                        label={`${batch.totalImages || batch.totalCount || 0} bài`}
-                        size="small"
-                        variant="outlined"
-                        sx={{ borderColor: '#CBD5E1', color: '#475569', fontWeight: 700 }}
-                      />
-                      <Chip
-                        label={`${batch.processedCount || 0} đã xử lý`}
-                        size="small"
-                        sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, border: '1px solid #A7F3D0' }}
-                      />
-                      {(batch.pendingReviewCount ?? batch.reviewRequiredCount) > 0 && (
+                      </Box>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, alignItems: 'center', minWidth: 0 }}>
                         <Chip
-                          label={`${batch.pendingReviewCount ?? batch.reviewRequiredCount} cần xem`}
+                          label={`${batch.totalImages ?? batch.totalCount ?? 0} bài`}
                           size="small"
-                          sx={{ bgcolor: '#FEF2F2', color: '#DC2626', fontWeight: 800, border: '1px solid #FECACA' }}
+                          variant="outlined"
+                          sx={{ borderColor: '#CBD5E1', color: '#475569', fontWeight: 700 }}
                         />
-                      )}
-                      <ChevronRight sx={{ color: '#94A3B8', ml: 0.5 }} />
-                    </Box>
+                        <Chip
+                          label={`${batch.processedCount ?? 0} đã xử lý`}
+                          size="small"
+                          sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, border: '1px solid #A7F3D0' }}
+                        />
+                        {(batch.pendingReviewCount ?? batch.reviewRequiredCount) > 0 && (
+                          <Chip
+                            label={`${batch.pendingReviewCount ?? batch.reviewRequiredCount} cần xem`}
+                            size="small"
+                            sx={{ bgcolor: '#FEF2F2', color: '#DC2626', fontWeight: 800, border: '1px solid #FECACA' }}
+                          />
+                        )}
+                        <ChevronRight sx={{ color: '#94A3B8', ml: 0.5 }} />
+                      </Box>
+                    </ListItemButton>
                   </ListItem>
                 ))}
               </List>
@@ -330,8 +277,8 @@ export default function DashboardPage() {
 
         {/* Right Column: Assigned Classes Overview */}
         <Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, gap: 1, flexWrap: 'wrap' }}>
+            <Typography component="h2" variant="h5" sx={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
               Lớp học phụ trách
             </Typography>
             <Button
@@ -367,7 +314,7 @@ export default function DashboardPage() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      transition: 'all 160ms ease',
+                      flexWrap: 'wrap', gap: 1,
                       '&:hover': { bgcolor: '#F1F5F9', borderColor: '#CBD5E1' },
                     }}
                   >

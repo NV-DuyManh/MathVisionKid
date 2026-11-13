@@ -7,6 +7,15 @@ test('teacher opens the assigned class roster and filters assignments to that cl
   );
   await login(page, 'TEACHER');
   await page.goto(sites.teacher.origin + '/classes');
+  const list = page.getByRole('list', { name: 'Lớp được phân công' });
+  await expect(list).toBeVisible();
+  const originalViewport = page.viewportSize();
+  for (const width of [768, 320]) {
+    await page.setViewportSize({ width, height: 844 });
+    await expect(list.getByRole('link', { name: 'Giao bài tập' })).toBeInViewport();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+  }
+  await page.setViewportSize(originalViewport);
   await page.getByRole('link', { name: 'Xem học sinh' }).click();
   await expect(page.getByRole('heading', { name: 'Danh sách học sinh' })).toBeVisible();
   const search = page.getByRole('textbox', { name: 'Tìm theo tên học sinh' });
@@ -18,4 +27,7 @@ test('teacher opens the assigned class roster and filters assignments to that cl
   await expect(page.getByText('Bài của lớp 5A')).toBeVisible();
   await expect(page.getByText('Bài của lớp 5B')).toHaveCount(0);
   await expect(page.getByText('Thang điểm 100')).toBeVisible();
+  await page.goto(sites.teacher.origin + '/settings');
+  await expect(page.getByRole('region', { name: 'Hồ sơ giáo viên' })).toContainText('Kiểm thử TEACHER');
+  await expect(page.getByRole('region', { name: 'Bảo vệ bài làm' })).toBeVisible();
 });

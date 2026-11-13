@@ -17,10 +17,15 @@ import { useQuizActivity } from '../../features/quiz/useQuizActivity';
 import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { NarrationPreparation } from '../../features/tutoring/NarrationPreparation';
 import { quizStyles as s } from '../../features/quiz/quizStyles';
+import { COLORS, IS_STUDENT_WEB } from '../../constants/theme';
+
+const QUIZ_ICON_COLOR = IS_STUDENT_WEB ? COLORS.primaryDark : '#6940C9';
+const QUIZ_LINK_COLOR = IS_STUDENT_WEB ? COLORS.primaryDark : '#7953D8';
 
 function Reward({ stars }: { stars: number }) {
   const [opacity] = useState(() => new Animated.Value(1));
   useEffect(() => {
+    if (IS_STUDENT_WEB && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
     let active = true;
     void AccessibilityInfo.isReduceMotionEnabled().then(reduced => {
       if (active && !reduced && stars > 0) { opacity.setValue(.3); Animated.timing(opacity, { toValue: 1, duration: 500, useNativeDriver: true }).start(); }
@@ -108,12 +113,12 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
         {loading ? <View style={s.card}><TaskProgress steps={['Mở câu đố của em', 'Khôi phục tiến trình']} activeStep={1} /></View> : null}
         {error ? <View style={s.note}><Text nativeID="quiz-answer-error" accessibilityRole="alert" style={s.error}>{error}</Text><AppButton title={quiz ? 'Kiểm tra lại trạng thái' : 'Thử tải lại'} variant="secondary" disabled={busy || loading} onPress={() => setRetry(value => value + 1)} /></View> : null}
         {quiz && !loading ? <>
-          <View style={[s.card,s.workCard]}>
+          <View style={[s.card,s.workCard, IS_STUDENT_WEB && s.webWorkCard]}>
             <View style={s.workTopline}>
-              <View style={s.workBadge}><Ionicons name={done?'checkmark-circle-outline':'sparkles-outline'} size={16} color="#5637C9" accessible={false}/><Text style={s.workBadgeText}>{done?'ĐÃ HOÀN THÀNH':'CÙNG SAO THỬ SỨC'}</Text></View>
-              <View style={s.clock}><Ionicons name="time-outline" size={16} color="#5637C9" accessible={false}/><Text style={s.clockText} accessibilityLabel={`Thời gian làm bài ${quizTime(done ? quiz.elapsedMillis : elapsed)}`}>{quizTime(done ? quiz.elapsedMillis : elapsed)}</Text></View>
+              {done || !IS_STUDENT_WEB ? <View style={s.workBadge}><Ionicons name={done?'checkmark-circle-outline':'sparkles-outline'} size={16} color={IS_STUDENT_WEB ? QUIZ_ICON_COLOR : '#5637C9'} accessible={false}/><Text style={s.workBadgeText}>{done?'ĐÃ HOÀN THÀNH':'CÙNG SAO THỬ SỨC'}</Text></View> : <Text style={s.title}>Bài toán</Text>}
+              <View style={s.clock}><Ionicons name="time-outline" size={16} color={IS_STUDENT_WEB ? QUIZ_ICON_COLOR : '#5637C9'} accessible={false}/><Text style={s.clockText} accessibilityLabel={`Thời gian làm bài ${quizTime(done ? quiz.elapsedMillis : elapsed)}`}>{quizTime(done ? quiz.elapsedMillis : elapsed)}</Text></View>
             </View>
-            <View style={s.questionPanel}>
+            <View style={[s.questionPanel, IS_STUDENT_WEB && s.webQuestionPanel]}>
               <Text style={s.workTopic}>Lớp {quiz.gradeLevel} · {quiz.topicName}</Text>
               <MathText style={s.quizQuestion}>{question}</MathText>
               {!running ? choices.map(choice => <Text key={choice} style={s.body}>{choice}</Text>) : null}
@@ -121,12 +126,12 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
             {done ? <View style={s.result}>
               <View style={s.resultPanel}>
               {quiz.replayMode !== 'PRACTICE' ? <Reward stars={earnedStars}/> : null}
-              <Text style={[s.heading,{textAlign:'center'}]}>{quiz.completedWithSolution ? 'Cùng Sao hiểu thêm một bài!' : 'Em đã hoàn thành rồi!'}</Text>
+              <Text accessibilityLiveRegion={IS_STUDENT_WEB ? 'polite' : undefined} style={[s.heading,{textAlign:'center'}]}>{quiz.completedWithSolution ? 'Cùng Sao hiểu thêm một bài!' : 'Em đã hoàn thành rồi!'}</Text>
               <Text style={[s.body,{textAlign:'center'}]}>{quiz.replayMode === 'PRACTICE' ? 'Em đã ôn lại bài cũ. Thành tích của em được giữ nguyên.' : `Lượt này: ${earnedStars} sao · Kỷ lục: ${quiz.stars} sao`}</Text>
               </View>
               <AppButton title="Thử thách nâng sao" loadingTitle="Đang chuẩn bị câu mới…" style={s.workButton} disabled={busy} loading={task === 'challenge'} onPress={() => replayQuiz('CHALLENGE')}/>
               {task === 'challenge' || task === 'practice' ? <PendingTask key={task} title={task === 'challenge' ? 'Sao đang tạo câu mới cùng dạng' : 'Sao đang mở lại bài cũ'} detail="Em có thể xem lại cách giải hoặc về trang chủ trong lúc chờ. Bài đã làm vẫn được giữ."/> : null}
-              <AppButton title="Về trang chủ" style={s.workButton} variant="secondary" icon={<Ionicons name="home-outline" size={19} color="#7953D8"/>} onPress={() => router.replace('/(tabs)')}/>
+              <AppButton title="Về trang chủ" style={s.workButton} variant="secondary" icon={<Ionicons name="home-outline" size={19} color={QUIZ_LINK_COLOR}/>} onPress={() => router.replace('/(tabs)')}/>
               <AppButton title="Chọn câu đố khác" variant="ghost" onPress={() => router.replace('/quiz' as never)}/>
             </View> : running ? <>
               {quiz.replayMode === 'CHALLENGE' ? <Text style={s.small}>Thử thách nâng sao · Câu hỏi mới cho em</Text> : quiz.replayMode === 'PRACTICE' ? <Text style={s.small}>Ôn lại bài cũ · Giữ nguyên thành tích</Text> : null}
@@ -144,24 +149,25 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
                 })}
               </View> : <>
                 <TextInput accessibilityLabel={`Đáp án của em${quiz.unit ? `, ${quiz.unit}` : ''}`} aria-describedby={invalidAnswer ? 'quiz-answer-help quiz-answer-error' : 'quiz-answer-help'} aria-invalid={invalidAnswer}
-                  value={answer} onChangeText={value => { setAnswer(value); setError(''); setInvalidAnswer(false); }} style={[s.input,s.workInput,invalidAnswer&&s.workInputError]} editable={!busy} maxLength={100}
+                  value={answer} onChangeText={value => { setAnswer(value); setError(''); setInvalidAnswer(false); }} style={[s.input,s.workInput,IS_STUDENT_WEB&&s.webWorkInput,invalidAnswer&&s.workInputError]} editable={!busy} maxLength={100}
                   placeholder={quiz.answerFormat === 'FRACTION' ? 'Ví dụ: 3/4' : 'Em tính được…'} keyboardType={quiz.answerFormat === 'FRACTION' ? 'default' : 'decimal-pad'} returnKeyType="done" onSubmitEditing={submit}/>
                 <Text nativeID="quiz-answer-help" style={s.small}>{quiz.answerFormat === 'FRACTION' ? 'Nhập phân số a/b hoặc số thập phân chính xác.' : 'Chỉ cần nhập kết quả cuối cùng.'}</Text>
               </>}
-              {feedback ? <Text accessibilityLiveRegion="polite" style={s.error}>{feedback}</Text> : null}
+              {!IS_STUDENT_WEB && feedback ? <Text accessibilityLiveRegion="polite" style={s.error}>{feedback}</Text> : null}
               <AppButton title="Hoàn thành" loadingTitle="Đang kiểm tra đáp án…" style={s.workButton} disabled={busy || !answer.trim()} loading={task === 'submit'} onPress={submit}/>
+              {IS_STUDENT_WEB ? <Text accessibilityLiveRegion="polite" style={feedback ? [s.error, s.webFeedback] : s.emptyFeedback}>{feedback}</Text> : null}
               {quiz.solutionViewed ? <Text style={s.small}>{quiz.replayMode === 'PRACTICE' ? 'Em cứ luyện theo nhịp của mình nhé.' : 'Em đang luyện cùng hướng dẫn. Hoàn thành lượt này em nhận 1 sao.'}</Text> : null}
             </> : <>
               <Text style={s.body}>Sẵn sàng thử sức chưa em?</Text>
               <Text style={s.small}>Đúng trong 30 giây: 3 sao · đến 60 giây: 2 sao · sau đó: 1 sao. Đồng hồ chỉ tính khi em đang làm trong Quiz; rời màn hình sẽ tạm dừng.</Text>
               <AppButton title="Bắt đầu tính giờ" loadingTitle="Đang mở câu đố…" style={s.workButton} disabled={busy} loading={task === 'start'} onPress={() => void perform('start', signal => quizApi.start(id, signal))}/>
             </>}
-            {quiz.startedAt ? <View style={[s.tools,s.workTools]}>
+            {quiz.startedAt ? <View style={[s.tools,s.workTools,IS_STUDENT_WEB&&s.webWorkTools]}>
               {([['audio','volume-high-outline','Nghe giảng'],['ask','mic-outline','Hỏi bài'],['menu','ellipsis-horizontal','Xem thêm']] as const).map(([value,icon,label])=><Pressable key={value} accessibilityRole="button" accessibilityLabel={label} style={({pressed})=>[s.tool,s.workTool,pressed&&s.selected]} onPress={()=>setTool(value)}>
-                <Ionicons name={icon} size={22} color="#6940C9" accessible={false}/><Text style={s.toolLabel}>{label}</Text>
+                <Ionicons name={icon} size={22} color={QUIZ_ICON_COLOR} accessible={false}/><Text style={s.toolLabel}>{label}</Text>
               </Pressable>)}
             </View> : null}
-            {quiz.explanationText ? <Pressable accessibilityRole="button" accessibilityLabel="Xem cách giải" style={s.detailLink} onPress={()=>setTool('solution')}><Ionicons name="reader-outline" size={19} color="#7953D8"/><Text style={s.topic}>Xem cách giải</Text><Ionicons name="chevron-forward" size={17} color="#7953D8"/></Pressable> : null}
+            {quiz.explanationText ? <Pressable accessibilityRole="button" accessibilityLabel="Xem cách giải" style={s.detailLink} onPress={()=>setTool('solution')}><Ionicons name="reader-outline" size={19} color={QUIZ_LINK_COLOR}/><Text style={s.topic}>Xem cách giải</Text><Ionicons name="chevron-forward" size={17} color={QUIZ_LINK_COLOR}/></Pressable> : null}
           </View>
           {!done ? <AppButton title="Lưu để làm sau" loadingTitle="Đang lưu bài…" variant="ghost" disabled={busy} loading={task === 'save'} onPress={saveForLater}/> : null}
         </> : null}

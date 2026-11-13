@@ -94,6 +94,9 @@ public class HttpAiAnalysisGateway implements AiAnalysisGateway {
                     ? submissionRepository.findForUpdate(submissionId)
                     : submissionRepository.findById(submissionId)).orElseThrow();
             if (!"PROCESSING".equals(submission.getStatus())) return null;
+            if (aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDescJobIdDesc(submissionId)
+                    .filter(job -> java.util.Set.of("PENDING", "QUEUED", "PROCESSING").contains(job.getStatus()))
+                    .isPresent()) return null;
 
             // ── 1. Spring creates AiJob first → Spring owns the jobId ──────────
             AiJob job = new AiJob();
@@ -205,7 +208,7 @@ public class HttpAiAnalysisGateway implements AiAnalysisGateway {
         AiJob latest = aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDesc(submission.getSubmissionId())
                 .orElse(failedJob);
         if (latest.getJobId().equals(failedJob.getJobId()) && "PROCESSING".equals(submission.getStatus())) {
-            submission.setStatus("REVIEW_REQUIRED");
+            submission.setStatus(submission.getBatch() != null ? "FAILED" : "REVIEW_REQUIRED");
             submissionRepository.save(submission);
         }
     }

@@ -186,11 +186,12 @@ public class HttpAiAnalysisGatewayTest {
     }
 
     @Test
-    public void testFastApiUnavailableSetsJobFailed() {
+    public void testFastApiUnavailableMarksTeacherSubmissionAndJobFailed() {
         UUID submissionId = UUID.randomUUID();
         Submission submission = new Submission();
         submission.setSubmissionId(submissionId);
         submission.setStatus("PROCESSING");
+        submission.setBatch(new Batch());
         when(submissionRepository.findById(submissionId)).thenReturn(Optional.of(submission));
         when(submissionImageRepository.findBySubmission_SubmissionId(submissionId)).thenReturn(Optional.empty());
 
@@ -203,7 +204,7 @@ public class HttpAiAnalysisGatewayTest {
         verify(aiJobRepository, times(2)).save(jobCaptor.capture());
         AiJob finalSavedJob = jobCaptor.getAllValues().get(1);
         assertEquals("FAILED", finalSavedJob.getStatus(), "FastAPI 503 must set AiJob status to FAILED");
-        assertEquals("REVIEW_REQUIRED", submission.getStatus());
+        assertEquals("FAILED", submission.getStatus());
     }
 
     @Test
@@ -236,7 +237,8 @@ public class HttpAiAnalysisGatewayTest {
         AiGatewayConfig config = new AiGatewayConfig();
         AiAnalysisGateway stubGateway = config.stubAiAnalysisGateway(
                 submissionRepository, mock(AnalysisResultRepository.class),
-                mock(com.mathvisionkids.api.audit.AuditEventRepository.class), aiJobRepository
+                mock(com.mathvisionkids.api.audit.AuditEventRepository.class), aiJobRepository,
+                mock(org.springframework.transaction.PlatformTransactionManager.class)
         );
         assertNotNull(stubGateway);
         assertTrue(stubGateway instanceof StubAiAnalysisGateway);

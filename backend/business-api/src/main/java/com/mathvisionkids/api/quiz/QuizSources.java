@@ -1,6 +1,7 @@
 package com.mathvisionkids.api.quiz;
 
 import com.mathvisionkids.api.common.ApiException;
+import com.mathvisionkids.api.studentprofile.StudentRewards;
 import com.mathvisionkids.api.user.Student;
 import com.mathvisionkids.api.user.StudentRepository;
 import jakarta.persistence.*;
@@ -18,7 +19,10 @@ public class QuizSources {
     private final StudentRepository students;
     private final EntityManager em;
     private final QuizPreparationRepository preparations;
-    public QuizSources(QuizSourceRepository sources, StudentRepository students, EntityManager em, QuizPreparationRepository preparations) {
+    private final StudentRewards rewards;
+
+    public QuizSources(QuizSourceRepository sources, StudentRepository students, EntityManager em, QuizPreparationRepository preparations, StudentRewards rewards) {
+        this.rewards = rewards;
         this.sources=sources; this.students=students; this.em=em; this.preparations=preparations;
     }
     UUID student(String principal) {
@@ -49,9 +53,12 @@ public class QuizSources {
         value.problemText=problem; value.fingerprint=fingerprint(problem); value.completed=completed; sources.save(value);
     }
     @Transactional
-    public void complete(String principal, String sessionId) {
+    public void complete(String principal, String sessionId, boolean verifiedInteraction) {
         UUID student = student(principal); lockStudent(student);
-        sources.findByStudentIdAndSourceTypeAndSourceId(student,"LESSON",sessionId).ifPresent(source -> source.completed=true);
+        sources.findByStudentIdAndSourceTypeAndSourceId(student, "LESSON", sessionId).ifPresent(source -> {
+            source.completed = true;
+            if (verifiedInteraction) rewards.record(student, StudentRewards.Source.LESSON, sessionId, source.fingerprint);
+        });
     }
     /** Quiz storage outages must not discard a successful Tutor response. Failure leaves Quiz unavailable, never forged. */
     public void warnUnavailable() { LoggerFactory.getLogger(QuizSources.class).warn("Quiz source persistence unavailable; Tutor response preserved"); }

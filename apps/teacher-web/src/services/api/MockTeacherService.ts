@@ -177,17 +177,25 @@ class MockTeacherServiceImpl implements TeacherService {
     throw new Error("Not found");
   }
 
-  async approveSubmission(submissionId: string): Promise<Submission> {
-    await delay(500);
-    return this.updateSubmissionStatus(submissionId, SubmissionStatus.TEACHER_APPROVED);
+  async retakeSubmission(): Promise<void> {
+    throw new Error('Cần kết nối dịch vụ chấm bài để gửi ảnh chụp lại.');
   }
 
-  async overrideSubmission(submissionId: string, newScore: number, reason: string): Promise<Submission> {
-    await delay(500);
-    return this.updateSubmissionStatus(submissionId, SubmissionStatus.TEACHER_OVERRIDDEN, newScore, reason);
+  async retrySubmissionProcessing(): Promise<void> {
+    throw new Error('Cần kết nối dịch vụ chấm bài để thử xử lý lại.');
   }
 
-  private async updateSubmissionStatus(id: string, newStatus: SubmissionStatus, score?: number, reason?: string): Promise<Submission> {
+  async approveSubmission(submissionId: string): Promise<void> {
+    await delay(500);
+    this.updateSubmissionStatus(submissionId, SubmissionStatus.TEACHER_APPROVED);
+  }
+
+  async overrideSubmission(submissionId: string, newScore: number, reason: string): Promise<void> {
+    await delay(500);
+    this.updateSubmissionStatus(submissionId, SubmissionStatus.TEACHER_OVERRIDDEN, newScore, reason);
+  }
+
+  private updateSubmissionStatus(id: string, newStatus: SubmissionStatus, score?: number, reason?: string): void {
     for (const [batchId, submissions] of Object.entries(MOCK_SUBMISSIONS)) {
       const submission = submissions.find(item => item.id === id);
       if (!submission) continue;
@@ -196,7 +204,7 @@ class MockTeacherServiceImpl implements TeacherService {
       submission.teacherReason = reason;
       const batch = MOCK_BATCHES.find(item => item.id === batchId);
       if (batch) batch.pendingReviewCount = submissions.filter(item => pendingReview.has(item.status)).length;
-      return { ...submission };
+      return;
     }
     throw new Error("Not found");
   }

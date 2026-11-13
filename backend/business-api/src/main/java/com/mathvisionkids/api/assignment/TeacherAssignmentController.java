@@ -8,6 +8,7 @@ import com.mathvisionkids.api.classroom.ClassroomRepository;
 import com.mathvisionkids.api.common.ApiException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -44,7 +45,7 @@ public class TeacherAssignmentController {
     @GetMapping
     public ResponseEntity<List<AssignmentResponse>> getAssignments(Principal principal) {
         Teacher teacher = teacherRepository.findByEmail(principal.getName()).orElseThrow();
-        List<AssignmentResponse> responses = assignmentRepository.findByTeacher_Id(teacher.getId())
+        List<AssignmentResponse> responses = assignmentRepository.findByAssignedTeacher(teacher.getId())
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
@@ -52,12 +53,13 @@ public class TeacherAssignmentController {
     }
 
     @GetMapping("/{assignmentId}")
+    @Transactional(readOnly = true)
     public ResponseEntity<AssignmentResponse> getAssignment(@PathVariable UUID assignmentId, Principal principal) {
         Teacher teacher = teacherRepository.findByEmail(principal.getName()).orElseThrow();
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Assignment not found", HttpStatus.NOT_FOUND));
 
-        if (!assignment.getTeacher().getId().equals(teacher.getId())) {
+        if (!assignment.isAssignedToTeacher(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized", HttpStatus.FORBIDDEN);
         }
 
@@ -65,8 +67,13 @@ public class TeacherAssignmentController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<AssignmentResponse> createAssignment(@Valid @RequestBody AssignmentRequest request, Principal principal) {
         Teacher teacher = teacherRepository.findByEmail(principal.getName()).orElseThrow();
+        UUID requestId = request.getCreationRequestId();
+        if (requestId != null) {
+            teacherRepository.lockForAssignmentCreation(teacher.getId()).orElseThrow();
+        }
         Classroom classroom = classroomRepository.findById(request.getClassId())
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Classroom not found", HttpStatus.NOT_FOUND));
 
@@ -74,7 +81,22 @@ public class TeacherAssignmentController {
             throw new ApiException("FORBIDDEN", "Not authorized for this classroom", HttpStatus.FORBIDDEN);
         }
 
+        if (requestId != null) {
+            var previous = assignmentRepository.findByTeacher_IdAndCreationRequestId(teacher.getId(), requestId);
+            if (previous.isPresent()) {
+                Assignment saved = previous.get();
+                if (!request.getClassId().equals(saved.getClassroom().getClassId())
+                        || !request.getTitle().equals(saved.getTitle())
+                        || !request.getOperationType().equals(saved.getOperationType())
+                        || !request.getMaxScore().equals(saved.getMaxScore())) {
+                    throw new ApiException("ASSIGNMENT_REQUEST_CONFLICT", "Yêu cầu này đã được dùng để tạo bài tập khác.", HttpStatus.CONFLICT);
+                }
+                return ResponseEntity.ok(toResponse(saved));
+            }
+        }
+
         Assignment assignment = new Assignment();
+        assignment.setCreationRequestId(requestId);
         assignment.setTeacher(teacher);
         assignment.setClassroom(classroom);
         assignment.setTitle(request.getTitle());

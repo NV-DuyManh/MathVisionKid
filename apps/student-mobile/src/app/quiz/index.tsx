@@ -7,7 +7,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
 import { MathText } from '../../components/domain/MathText';
-import { COLORS, FONTS } from '../../constants/theme';
+import { COLORS, FONTS, IS_STUDENT_WEB, WEB_DESIGN } from '../../constants/theme';
 import { quizApi, Quiz, QuizGroup, QuizLibrary, quizError } from '../../features/quiz/quizApi';
 import { quizStyles as s } from '../../features/quiz/quizStyles';
 
@@ -75,12 +75,12 @@ function Library() {
       {showHelp ? <View style={l.help}><Text accessibilityRole="header" style={l.topic}>Luyện thêm từ bài em đã học</Text>
         <Text style={l.body}>Hoàn tất bài học hoặc phần nhận xét, rồi chọn làm ngay hay để sau. Câu đố có dữ kiện mới để em thử lại cách làm.</Text>
         <Text style={l.body}>Chỉ những dạng bài được hỗ trợ mới có câu đố. Bài đang dở và kết quả sẽ được lưu trong tài khoản của em.</Text></View> : null}
-      <View style={l.intro}>
+      <View style={[l.intro, IS_STUDENT_WEB && l.webIntro]}>
         <View style={l.introCopy}><Text accessibilityRole="header" style={l.heading}>Cùng Sao thử sức</Text><Text style={l.body}>Ôn lại từ những bài em đã học.</Text>
           {totalStars !== null && totalStars > 0 ? <View style={l.starPill}><Ionicons name="star" size={13} color="#936315" accessible={false} /><Text style={l.starText}>{totalStars} sao đã nhận</Text></View> : null}</View>
         <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={l.introMascot} accessible={false} />
       </View>
-      <View style={l.groups}>{GROUPS.map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.title}
+      <View style={[l.groups, IS_STUDENT_WEB && l.webGroups]}>{GROUPS.map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.title}
         accessibilityState={{ selected: group === item.id }} onPress={() => selectGroup(item.id)}
         style={({ pressed }) => [l.group, group === item.id && l.selected, pressed && l.pressed]}><Text style={[l.groupText, group === item.id && l.selectedText]}>{item.title}</Text></Pressable>)}</View>
       {busy && !result ? <View style={l.loading} accessibilityRole="progressbar" accessibilityLabel="Đang tải câu đố" accessibilityState={{ busy: true }}>
@@ -93,7 +93,7 @@ function Library() {
       </View> : null}
       {result?.items.map(quiz => <Pressable key={quiz.quizId} accessibilityRole="button"
         accessibilityLabel={`${quiz.topicName}. ${quiz.questionText}. ${statusLabel(quiz)}. ${quiz.status === 'COMPLETED' ? 'Xem lại' : quiz.status === 'IN_PROGRESS' ? 'Tiếp tục' : 'Bắt đầu'}`}
-        onPress={() => router.push(`/quiz/${quiz.quizId}` as never)} style={({ pressed }) => [l.card, pressed && l.pressed]}>
+        onPress={() => router.push(`/quiz/${quiz.quizId}` as never)} style={({ pressed }) => [l.card, IS_STUDENT_WEB && l.webCard, pressed && l.pressed]}>
         <View style={l.cardHeading}><View style={l.topicIcon}><Ionicons name={quiz.status === 'COMPLETED' ? 'checkmark' : 'sparkles-outline'} size={18} color={COLORS.primaryDark} accessible={false} /></View>
           <Text style={l.topic}>{quiz.topicName}</Text></View>
         <MathText style={l.question}>{quiz.questionText}</MathText>
@@ -108,6 +108,9 @@ function Library() {
 const l = StyleSheet.create({
   content: { flexGrow: 1, width: '100%', maxWidth: 840, alignSelf: 'center', paddingHorizontal: 20, paddingTop: 6, paddingBottom: 24, gap: 16 },
   intro: { flexDirection: 'row', alignItems: 'center', gap: 16, paddingVertical: 8 },
+  webIntro: { padding: 16, borderWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook, backgroundColor: COLORS.surface },
+  webGroups: { backgroundColor: WEB_DESIGN.colors.blueLight, borderRadius: WEB_DESIGN.radii.control },
+  webCard: { borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook },
   introCopy: { flex: 1, minWidth: 0, gap: 5 }, introMascot: { width: 72, height: 78, resizeMode: 'contain' },
   heading: { fontFamily: FONTS.extraBold, fontSize: 21, lineHeight: 29, color: COLORS.textPrimary },
   body: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: COLORS.textSecondary },

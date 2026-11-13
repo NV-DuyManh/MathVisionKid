@@ -11,7 +11,7 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 1. **Owner explicit instruction** (user's current message)
 2. **MathVision Kids project rules** (this section)
 3. **Task-specific acceptance criteria**
-4. **Matching Agent Skills** (`.agents/skills/`)
+4. **Matching Agent Skills** from the project, personal catalog, and active plugins
 5. **Generic agent preferences**
 
 ---
@@ -28,6 +28,8 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 - Preserve Student Mobile when task scope is web-only
 - Backend remains authority for RBAC/auth
 - Do not fabricate physical-device evidence
+- For recoverable tooling and runtime failures, diagnose the cause, apply an authorized fix, and retry. This includes failed skill or MCP calls and web services that need restarting. Use an available fallback when the preferred tool remains unavailable. Report the exact failure and verification still missing if recovery fails.
+- For web UI or workflow changes, run the application and exercise the actual routes and controls in a browser as each affected role. Use browser MCP tools such as Playwright or Chrome DevTools when available, alongside relevant skills. Check responsive behavior and important error or recovery paths. Record which flows ran against the real backend and which used test fixtures. Source inspection alone does not verify rendered UX.
 - Student-facing UI must NOT show: Expo, Metro, LAN, localhost, ports, Spring Boot, FastAPI, MinIO, Redis, PostgreSQL, API URLs, developer instructions, terminal instructions, demo/test account emails, architecture/debug information
 
 ---
@@ -38,9 +40,9 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 
 1. Read the user's task description.
 2. Identify task domains (e.g., "React UI", "accessibility", "animation").
-3. Inspect the workspace skill registry at `.agents/skills/`.
+3. Inspect the workspace skill registry at `.agents/skills/` and the available personal and active plugin skill catalogs. Discover relevant MCP tools from the active session, including deferred tools.
 4. Match each implementation phase to the **most specific relevant skill(s)**. There is no fixed skill-count limit: load the skills needed for the phase before editing, then route again when entering a different domain.
-5. **Read the matching `.agents/skills/<skill>/SKILL.md` BEFORE editing any code.**
+5. **Read the selected skill instructions before editing code.** Use the canonical workspace path for project skills and the advertised path or provider for personal and plugin skills.
 6. Follow skill instructions during implementation.
 7. If multiple independent domains exist, use multiple relevant skills.
 8. Do NOT load unrelated skills.
@@ -55,7 +57,7 @@ Every substantial implementation task must begin with:
 SKILL ROUTING
 Task domains: <identified domains>
 Skills matched:
-- <exact frontmatter identifier> (.agents/skills/<folder>/SKILL.md)
+- <exact skill identifier> (<project, personal, or plugin source>)
 Skills loaded: YES / NO
 ```
 
@@ -69,7 +71,7 @@ Every phase report under `report/` must include:
 ## Skills Applied
 
 - `<exact frontmatter identifier>`
-  - SKILL.md: `.agents/skills/<folder>/SKILL.md`
+  - SKILL.md: <canonical path or provider resource>
   - Why selected: <reason>
   - Applied to: <specific areas>
 ```
@@ -80,7 +82,7 @@ If no skills apply: `Skills Applied: None — no installed skill matched the tas
 
 ## SKILL ROUTING MATRIX
 
-Use the **actual installed skills** at `.agents/skills/` to route tasks.
+Use this matrix for project skills and extend it with relevant personal and plugin skills available in the active session.
 
 | Task Domain | Primary Skill | Secondary Skill(s) |
 |---|---|---|

@@ -59,4 +59,10 @@ public class AnalysisResult {
 
     @Column(updatable = false)
     private Instant createdAt = Instant.now();
+
+    public static boolean isVisibleForTeacher(UUID latestJobId, String latestJobStatus, Map<String, Object> reviewReasons) {
+        Object analysisJobId = reviewReasons == null ? null : reviewReasons.get("jobId");
+        return !"FAILED".equals(latestJobStatus)
+                && (latestJobId == null || analysisJobId == null || latestJobId.toString().equals(analysisJobId));
+    }
 }

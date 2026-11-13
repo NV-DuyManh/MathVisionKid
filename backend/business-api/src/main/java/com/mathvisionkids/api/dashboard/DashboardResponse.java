@@ -9,6 +9,7 @@ public class DashboardResponse {
     private int todayTotal;
     private int processedCount;
     private int reviewRequiredCount;
+    private UUID nextReviewBatchId;
     private List<RecentBatchSummary> recentBatches;
 
     @Data

@@ -2,15 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import {
   Box,
   Typography,
-  Grid,
   Card,
-  CardContent,
   Button,
   Skeleton,
   Alert,
-  Chip,
 } from '@mui/material';
-import { School, Groups, AddCircleOutlined, Assignment, ArrowForward } from '@mui/icons-material';
+import { School, AddCircleOutlined, ArrowForward } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { PageHeader } from '../components/common/PageHeader';
@@ -45,13 +42,9 @@ export default function ClassesPage() {
           Chưa tải được danh sách. Vui lòng thử lại.
         </Alert>
       ) : loading ? (
-        <Grid container spacing={3}>
-          {[1, 2, 3].map((i) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
-              <Skeleton variant="rectangular" height={190} sx={{ borderRadius: 3.5 }} />
-            </Grid>
-          ))}
-        </Grid>
+        <Card variant="outlined" aria-busy="true" sx={{ p: 2 }}>
+          {[1, 2, 3].map((row) => <Skeleton key={row} height={64} />)}
+        </Card>
       ) : classes.length === 0 ? (
         <Card sx={{ borderRadius: 3.5, border: '1px solid #E2E8F0' }}>
           <EmptyState
@@ -61,116 +54,42 @@ export default function ClassesPage() {
           />
         </Card>
       ) : (
-        <Grid container spacing={3}>
-          {classes.map((c) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={c.id || c.classId}>
-              <Card
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  borderRadius: 3.5,
-                  border: '1px solid #E2E8F0',
-                  transition: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
-                  '&:hover': {
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 8px 24px -4px rgba(15, 23, 42, 0.08)',
-                    borderColor: '#CBD5E1',
-                  },
-                }}
-              >
-                <CardContent sx={{ p: 2.5 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                      <Box
-                        sx={{
-                          width: 44,
-                          height: 44,
-                          borderRadius: 2.5,
-                          bgcolor: '#ECFDF5',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#059669',
-                        }}
-                      >
-                        <School sx={{ fontSize: 24 }} />
-                      </Box>
-                      <Box>
-                        <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A', fontSize: '1.05rem' }}>
-                          {c.name.startsWith('Lớp ') ? c.name : `Lớp ${c.name}`}
-                        </Typography>
-                        <Typography variant="caption" sx={{ color: '#64748B' }}>
-                          Lớp được phân công giảng dạy
-                        </Typography>
-                      </Box>
+        <Card variant="outlined">
+          <Box component="ul" aria-label="Lớp được phân công" sx={{ listStyle: 'none', m: 0, p: 0 }}>
+            {classes.map((classroom) => {
+              const id = encodeURIComponent(classroom.id || classroom.classId || '');
+              const name = classroom.name.startsWith('Lớp ') ? classroom.name : `Lớp ${classroom.name}`;
+              return (
+                <Box component="li" key={id} sx={{
+                  display: 'grid',
+                  gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'minmax(0, 1fr) auto' },
+                  gap: 1.5, alignItems: 'center', p: { xs: 2, md: 2.5 },
+                  '& + &': { borderTop: '1px solid', borderColor: 'divider' },
+                }}>
+                  <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center', minWidth: 0 }}>
+                    <Box sx={{ display: 'grid', placeItems: 'center', width: 44, height: 44, flexShrink: 0,
+                      borderRadius: '12px', bgcolor: 'primary.light', color: 'primary.main' }}>
+                      <School aria-hidden="true" />
                     </Box>
-                    <Chip
-                      label="Được phân công"
-                      size="small"
-                      sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, fontSize: '0.72rem', border: '1px solid #A7F3D0' }}
-                    />
-                  </Box>
-
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1.5,
-                      p: 1.5,
-                      bgcolor: '#F8FAFC',
-                      borderRadius: 2.5,
-                      border: '1px solid #E2E8F0',
-                      mb: 1,
-                    }}
-                  >
-                    <Groups sx={{ color: '#64748B', fontSize: 22 }} />
-                    <Box>
-                      <Typography variant="body2" sx={{ fontWeight: 800, color: '#0F172A' }}>
-                        {c.studentCount} học sinh
-                      </Typography>
-                      <Typography variant="caption" sx={{ color: '#64748B' }}>
-                        Danh sách chính thức trong sổ điểm
+                    <Box sx={{ minWidth: 0 }}>
+                      <Typography component="h2" variant="h6" sx={{ overflowWrap: 'anywhere' }}>{name}</Typography>
+                      <Typography color="text.secondary" variant="body2" sx={{ fontVariantNumeric: 'tabular-nums' }}>
+                        {classroom.studentCount} học sinh
                       </Typography>
                     </Box>
                   </Box>
-                </CardContent>
-
-                <Box sx={{ px: 2.5, pb: 2.5, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  <Button
-                    component={Link}
-                    to={`/classes/${encodeURIComponent(c.id || c.classId || '')}`}
-                    variant="contained"
-                    size="small"
-                    fullWidth
-                    endIcon={<ArrowForward />}
-                  >
-                    Xem học sinh
-                  </Button>
-                  <Button
-                    component={Link}
-                    to={`/assignments/create?classId=${encodeURIComponent(c.id || c.classId || '')}`}
-                    variant="outlined"
-                    size="small"
-                    startIcon={<Assignment />}
-                    sx={{ flex: 1 }}
-                  >
-                    Giao bài tập
-                  </Button>
-                  <Button
-                    component={Link}
-                    to={`/assignments?classId=${encodeURIComponent(c.id || c.classId || '')}`}
-                    size="small"
-                    sx={{ flex: 1 }}
-                  >
-                    Bài tập của lớp
-                  </Button>
+                  <Box role="group" aria-label={name} sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
+                    <Button component={Link} to={`/classes/${id}`} variant="outlined" size="small" endIcon={<ArrowForward />}>
+                      Xem học sinh
+                    </Button>
+                    <Button component={Link} to={`/assignments/create?classId=${id}`} size="small">Giao bài tập</Button>
+                    <Button component={Link} to={`/assignments?classId=${id}`} size="small">Bài tập của lớp</Button>
+                  </Box>
                 </Box>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+              );
+            })}
+          </Box>
+        </Card>
       )}
     </Box>
   );
