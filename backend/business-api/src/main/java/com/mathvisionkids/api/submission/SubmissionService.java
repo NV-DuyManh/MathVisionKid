@@ -35,7 +35,8 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class SubmissionService {
     private static final java.util.Set<String> TEACHER_DISPATCH_EVENTS =
-            java.util.Set.of("TEACHER_PROCESSING_RETRY_REQUESTED", "TEACHER_RETAKE_UPLOADED");
+            java.util.Set.of("AI_PROCESSING_STARTED",
+                    "TEACHER_PROCESSING_RETRY_REQUESTED", "TEACHER_RETAKE_UPLOADED");
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(SubmissionService.class);
     private final SubmissionRepository submissionRepository;
     private final SubmissionImageRepository submissionImageRepository;
