@@ -16,10 +16,12 @@ export async function checkWebBundle(dist, app, { checkLogout = false, checkAdmi
   virtualConsole.on('error', (...args) => errors.push(args.join(' ')));
   const role = app === 'admin' ? 'ADMIN' : app === 'teacher' ? 'TEACHER' : 'STUDENT';
   const profile = { userId: 'production-user', role, displayName: 'Production User', active: true };
-  const url = `https://${app}.mathvision.example/login${app === 'portal' ? '' : '#sso=production-ticket'}`;
+  const url = `https://${app}.mathvision.example${app === 'portal' ? '/login' : '/auth/continue#sso=production-ticket'}`;
   const dom = new JSDOM('<div id="root"></div>', {
     url, runScripts: 'outside-only', pretendToBeVisual: true, virtualConsole,
   });
+  dom.window.Request = globalThis.Request;
+  dom.window.AbortController = globalThis.AbortController;
   const calls = [];
   const navigation = [];
   const pendingDetails = [];
@@ -82,7 +84,7 @@ export async function checkWebBundle(dist, app, { checkLogout = false, checkAdmi
     // jsdom evaluates scripts rather than ESM; preserve only the entry's module URL metadata.
     const metadata = `(${JSON.stringify({ url: new URL(entry, dom.window.location.href).href })})`;
     dom.window.eval(script.replaceAll('import.meta', metadata));
-    const expectedPath = app === 'portal' ? '/student' : '/dashboard';
+    const expectedPath = app === 'portal' ? '/login' : '/dashboard';
     for (let attempt = 0; attempt < 100 && errors.length === 0; attempt++) {
       if (app === 'portal' ? navigation.some(address => new URL(address, url).pathname === '/study/')
         : dom.window.location.pathname === expectedPath && dom.window.document.body.textContent.includes(profile.displayName)) break;

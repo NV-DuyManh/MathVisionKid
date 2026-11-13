@@ -37,7 +37,8 @@ class CatalogStore:
             try:
                 db=sqlite3.connect(self.path,timeout=.15)
                 db.execute('PRAGMA journal_size_limit=1048576')
-                db.execute('PRAGMA journal_mode=WAL')
+                if db.execute('PRAGMA journal_mode').fetchone()[0] != 'wal':
+                    db.execute('PRAGMA journal_mode=WAL')
                 db.execute('''CREATE TABLE IF NOT EXISTS entries (
                     kind TEXT NOT NULL, scope TEXT NOT NULL, key TEXT NOT NULL, policy TEXT NOT NULL,
                     payload BLOB NOT NULL, digest TEXT NOT NULL, created REAL NOT NULL, used REAL NOT NULL,
