@@ -13,9 +13,7 @@ import {
   FormControl,
   InputLabel,
   Alert,
-  Chip,
   Paper,
-  Divider,
   CircularProgress,
   LinearProgress,
 } from '@mui/material';
@@ -27,12 +25,14 @@ import {
   Refresh,
   ArrowBack,
   WarningAmber,
-  Lock,
   FactCheck,
 } from '@mui/icons-material';
 import { PageHeader } from '../components/common/PageHeader';
-import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useOutletContext, useSearchParams } from 'react-router-dom';
 import { AppTeacherService } from '../services/api/ServiceLocator';
+import { newCreationRequestId } from '../services/api/newCreationRequestId';
+import { AuthTokenStore } from '../services/api/AuthTokenStore';
+import { useUploadDraftGuard } from '../hooks/useUploadDraftGuard';
 import { useQuery } from '@tanstack/react-query';
 import PrivacyEditorModal from './PrivacyEditorModal';
 
@@ -67,12 +67,19 @@ export default function BatchCreatePage() {
   const canResume = resume.data?.status === 'CREATED' && (resume.data.totalCount ?? resume.data.totalImages ?? 0) === 0;
   const chosenId = resumeId ? resume.data?.assignmentId : params.get('assignmentId') || assignmentId;
   const [hasDraft, setHasDraft] = useState(false);
+  const outlet = useOutletContext<{ setUploadDraftActive: (active: boolean) => void } | undefined>();
+  const setUploadDraftActive = outlet?.setUploadDraftActive;
+  useEffect(() => {
+    setUploadDraftActive?.(hasDraft);
+    return () => setUploadDraftActive?.(false);
+  }, [hasDraft, setUploadDraftActive]);
   const { data: assignments = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['teacher-assignments'], queryFn: () => AppTeacherService.getAssignments(),
   });
   return <Box>
     <PageHeader title={resumeId ? 'Tiếp tục tải ảnh' : 'Tạo đợt chấm bài'} subtitle="Chọn bài tập rồi tải ảnh bài làm của học sinh." />
-    {resumeId && (resume.isPending || resume.isFetching) && <Typography role="status" sx={{ mb: 2 }}>Đang kiểm tra đợt chấm…</Typography>}
+    {resumeId && (resume.isPending || resume.isFetching || resume.isPaused) &&
+      <Typography role="status" sx={{ mb: 2 }}>Đang kiểm tra đợt chấm…</Typography>}
     {resumeId && resume.isError && <Alert severity="error" action={<Button onClick={() => void resume.refetch()}>Thử lại</Button>}>
       Chưa kiểm tra được đợt chấm. Vui lòng thử lại.
     </Alert>}
@@ -84,7 +91,7 @@ export default function BatchCreatePage() {
     <FormControl fullWidth sx={{ mb: 3 }} disabled={isLoading || hasDraft || !!resumeId}>
       <InputLabel id="batch-assignment-label">Bài tập cần chấm</InputLabel>
       <Select labelId="batch-assignment-label" label="Bài tập cần chấm" value={chosenId || ''}
-        onChange={e => setParams({ assignmentId: e.target.value })}>
+        onChange={e => setParams({ assignmentId: e.target.value }, { replace: true })}>
         {chosenId && !assignments.some(a => (a.assignmentId || a.id) === chosenId) &&
           <MenuItem value={chosenId}>Bài tập đã chọn</MenuItem>}
         {assignments.map(a => <MenuItem key={a.assignmentId || a.id} value={a.assignmentId || a.id}>{a.title}</MenuItem>)}
@@ -93,23 +100,37 @@ export default function BatchCreatePage() {
     {hasDraft && <Typography variant="body2" sx={{ mb: 2 }}>Xóa các ảnh đã chọn nếu muốn đổi bài tập.</Typography>}
     {!isLoading && !isError && assignments.length === 0 && !chosenId &&
       <Alert severity="info" action={<Button onClick={() => navigate('/assignments/create')}>Tạo bài tập</Button>}>Chưa có bài tập để chấm.</Alert>}
-    {chosenId && (!resumeId || (canResume && !resume.isFetching && !resume.isError)) &&
-      <BatchUpload key={resumeId || chosenId} assignmentId={chosenId} resumeBatchId={resumeId} onDraftChange={setHasDraft} />}
+    {chosenId && (!resumeId || canResume || hasDraft) &&
+      <BatchUpload key={JSON.stringify([location.search, assignmentId, chosenId])} assignmentId={chosenId} resumeBatchId={resumeId}
+        checkingResume={Boolean(resumeId && (!canResume || !resume.isSuccess || resume.isFetching || resume.isPaused))}
+        onDraftChange={setHasDraft} />}
   </Box>;
 }
 
-function BatchUpload({ assignmentId, resumeBatchId, onDraftChange }: {
-  assignmentId: string; resumeBatchId: string; onDraftChange: (value: boolean) => void;
+function BatchUpload({ assignmentId, resumeBatchId, checkingResume, onDraftChange }: {
+  assignmentId: string; resumeBatchId: string; checkingResume: boolean; onDraftChange: (value: boolean) => void;
 }) {
   const navigate = useNavigate();
+  const { key: historyEntry } = useLocation();
   const [files, setFiles] = useState<FileState[]>([]);
   const [editingFile, setEditingFile] = useState<FileState | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const submitLock = useRef(false);
+  const filePicker = useRef<HTMLInputElement>(null);
+  const mounted = useRef(false);
+  const creationRequestId = useRef<string | undefined>(undefined);
   const [createdBatchId, setCreatedBatchId] = useState('');
+  const [canRetryUpload, setCanRetryUpload] = useState(false);
+  const { confirmation, allowNextNavigation } = useUploadDraftGuard(files.length > 0 || uploading, () => {
+    mounted.current = false;
+  });
   useEffect(() => { onDraftChange(files.length > 0 || uploading); }, [files.length, uploading, onDraftChange]);
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
   const { data: roster = [], isLoading: rosterLoading, isError: rosterError, refetch } = useQuery({
     queryKey: ['assignment-roster', assignmentId],
     queryFn: () => AppTeacherService.getAssignmentRoster(assignmentId),
@@ -196,8 +217,14 @@ function BatchUpload({ assignmentId, resumeBatchId, onDraftChange }: {
     setFiles((prev) => prev.map((f) => (f.id === id ? { ...f, studentId } : f)));
   };
 
-  const handleSaveSanitized = (blob: Blob) => {
-    if (blob.size > 10 * 1024 * 1024) { setError('Ảnh sau khi che lớn hơn 10 MB. Hãy chọn ảnh nhỏ hơn.'); setEditingFile(null); return; }
+  const nextFile = editingFile && files.slice(files.findIndex(file => file.id === editingFile.id) + 1)
+    .find(file => !file.error && !file.sanitizedBlob);
+  const handleSaveSanitized = (blob: Blob, advance = false) => {
+    if (blob.size > 8 * 1024 * 1024) {
+      setError(`Ảnh ${editingFile?.originalFile.name ?? ''} sau khi che vượt quá 8 MiB. Hãy thay bằng ảnh nhỏ hơn.`);
+      setEditingFile(null);
+      return;
+    }
     if (editingFile) {
       URL.revokeObjectURL(editingFile.previewUrl);
       const previewUrl = URL.createObjectURL(blob);
@@ -213,7 +240,7 @@ function BatchUpload({ assignmentId, resumeBatchId, onDraftChange }: {
         )
       );
     }
-    setEditingFile(null);
+    setEditingFile(advance ? nextFile || null : null);
   };
 
   // Duplicate mapping detection
@@ -233,7 +260,8 @@ function BatchUpload({ assignmentId, resumeBatchId, onDraftChange }: {
   const isMappingValid = mappedCount === totalFiles && totalFiles > 0;
   const isPrivacyValid = sanitizedCount === totalFiles && totalFiles > 0;
   const hasFileErrors = files.some((f) => Boolean(f.error));
-  const isReadyToSubmit = isCountValid && isMappingValid && isPrivacyValid && !hasFileErrors && !rosterLoading && !rosterError && roster.length > 0 && !createdBatchId;
+  const isReadyToSubmit = isCountValid && isMappingValid && isPrivacyValid && !hasFileErrors
+    && !rosterLoading && !rosterError && roster.length > 0 && (!createdBatchId || canRetryUpload) && !checkingResume;
 
   const handleStartProcessing = async () => {
     if (submitLock.current || !isReadyToSubmit) return;
@@ -259,13 +287,39 @@ function BatchUpload({ assignmentId, resumeBatchId, onDraftChange }: {
       setError('Tổng ảnh quá lớn. Hãy chia thành đợt nhỏ hơn 95 MB.'); return;
     }
     submitLock.current = true;
+    let storageKey: string | undefined;
+    let batchId = resumeBatchId || (canRetryUpload ? createdBatchId : '');
+    setCanRetryUpload(false);
+    const finishCreation = () => {
+      creationRequestId.current = undefined;
+      if (storageKey) {
+        try { sessionStorage.removeItem(storageKey); } catch { /* storage unavailable */ }
+      }
+    };
     try {
       setUploadProgress(null);
       setUploading(true);
-      let batchId = resumeBatchId;
       if (!batchId) {
-        const batch = await AppTeacherService.createBatch(assignmentId, files.length);
+        try {
+          const sessionId = AuthTokenStore.getSessionId();
+          if (sessionId) {
+            storageKey = `teacher:batch-create:${sessionId}:${historyEntry}:${assignmentId}`;
+            creationRequestId.current ??= sessionStorage.getItem(storageKey) ?? undefined;
+          }
+        } catch { /* in-memory retry */ }
+        creationRequestId.current ??= newCreationRequestId();
+        if (storageKey) {
+          try { sessionStorage.setItem(storageKey, creationRequestId.current); } catch { /* in-memory retry */ }
+        }
+        const batch = await AppTeacherService.createBatch(assignmentId, files.length, creationRequestId.current);
+        if (!mounted.current) return;
         batchId = batch.batchId || batch.id || '';
+        if (batchId && (batch.status !== 'CREATED' || (batch.totalCount ?? batch.totalImages ?? 0) > 0)) {
+          finishCreation();
+          setCreatedBatchId(batchId);
+          setError('Đợt chấm đã nhận ảnh hoặc đã đóng. Hãy kiểm tra đợt trước khi tạo đợt mới.');
+          return;
+        }
       }
       if (!batchId) throw new Error('Missing batch identifier');
       setCreatedBatchId(batchId);
@@ -275,19 +329,30 @@ function BatchUpload({ assignmentId, resumeBatchId, onDraftChange }: {
       const mappings = files.map((f, i) => ({ fileIndex: i, studentId: f.studentId }));
 
       await AppTeacherService.uploadImages(batchId, uploadFiles, mappings, (percent) => {
-        setUploadProgress(percent);
+        if (mounted.current) setUploadProgress(percent);
       });
+      if (!mounted.current) return;
+      finishCreation();
+      allowNextNavigation();
       navigate(`/batches/${batchId}`);
     } catch (err: any) {
-      setError(err.response?.data?.error?.message || 'Có lỗi xảy ra khi tạo lượt chấm.');
+      if (mounted.current) {
+        const validationError = [400, 413, 415, 422].includes(err.response?.status);
+        if (batchId && validationError) setCanRetryUpload(true);
+        setError(batchId && !validationError
+          ? 'Chưa xác nhận được kết quả tải ảnh. Hãy kiểm tra đợt chấm trước khi gửi lại.'
+          : err.response?.data?.error?.message || (validationError ? 'Máy chủ từ chối dữ liệu ảnh. Hãy kiểm tra ảnh và thử lại.' : 'Chưa xác nhận được đợt chấm. Bạn có thể thử gửi lại.'));
+      }
     } finally {
       submitLock.current = false;
-      setUploading(false);
+      if (mounted.current) setUploading(false);
     }
   };
 
   return (
     <Box>
+      {confirmation}
+      <input ref={filePicker} type="file" hidden multiple accept="image/jpeg,image/png,image/webp" onChange={handleFileSelect} />
       <Button
         variant="text"
         startIcon={<ArrowBack />}
@@ -321,120 +386,80 @@ function BatchUpload({ assignmentId, resumeBatchId, onDraftChange }: {
 
       {error && (
         <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }} role="alert">
-          {createdBatchId ? 'Đợt chấm đã được tạo nhưng chưa xác nhận được kết quả tải ảnh. Hãy kiểm tra đợt chấm trước khi gửi lại để tránh trùng bài.' : error}
+          {error}
           {createdBatchId && <Button onClick={() => navigate(`/batches/${createdBatchId}`)}>Kiểm tra đợt chấm</Button>}
         </Alert>
       )}
 
       {/* Upload Zone when empty */}
       {files.length === 0 ? (
-        <Card
-          sx={{
-            borderStyle: 'dashed',
-            borderWidth: 2,
-            borderColor: '#CBD5E1',
-            bgcolor: '#F8FAFC',
-            borderRadius: 3,
-            mb: 4,
-          }}
-        >
-          <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 8 }}>
-            <CloudUpload sx={{ fontSize: 64, color: '#2563EB', mb: 2 }} />
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: '#0F172A' }}>
-              Tải lên từ 1 đến 30 ảnh bài làm học sinh
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 3, textAlign: 'center', maxWidth: 480 }}>
-              Hỗ trợ JPG, PNG, WebP, mỗi ảnh tối đa 10 MB (tối đa 30 bài/đợt; đợt chấm hàng loạt thường gồm 10–30 bài). Ảnh chụp vuông góc, rõ nét để AI nhận diện tối ưu.
-            </Typography>
-            <Button disabled={rosterLoading || rosterError || !roster.length} variant="contained" component="label" size="large" sx={{ px: 4, py: 1.25, fontWeight: 700 }}>
-              Chọn ảnh từ máy tính
-              <input type="file" hidden multiple accept="image/jpeg,image/png,image/webp" onChange={handleFileSelect} />
-            </Button>
+        <Card component="section" variant="outlined" aria-labelledby="batch-add-images" sx={{ mb: 4 }}>
+          <CardContent sx={{ display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 3fr) minmax(0, 2fr)' },
+            alignItems: 'start', gap: 2.5, p: { xs: 2, md: 3 } }}>
+            <Box>
+              <Typography id="batch-add-images" component="h2" variant="h6" sx={{ mb: 0.75 }}>Chọn ảnh bài làm</Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                Mỗi đợt nhận từ 1 đến 30 ảnh. Chọn tệp JPG, PNG hoặc WebP, tối đa 10 MB mỗi ảnh.
+              </Typography>
+              <Button disabled={rosterLoading || rosterError || !roster.length} variant="contained" size="large"
+                startIcon={<CloudUpload />} onClick={() => filePicker.current?.click()}>
+                Chọn ảnh từ máy tính
+              </Button>
+            </Box>
+            <Box sx={{ bgcolor: 'primary.light', borderRadius: '12px', p: 2 }}>
+              <Typography component="h3" variant="subtitle2">Sau khi chọn ảnh</Typography>
+              <Box component="ol" sx={{ mt: 1, mb: 0, pl: 2.5, color: 'text.secondary', '& li + li': { mt: 0.75 } }}>
+                <li>Gán mỗi ảnh cho học sinh tương ứng.</li>
+                <li>Kiểm tra và che thông tin riêng tư.</li>
+                <li>Gửi các ảnh đã chuẩn bị để chấm bài.</li>
+              </Box>
+            </Box>
           </CardContent>
         </Card>
       ) : (
         <Box sx={{ mb: 4 }}>
-          {/* READINESS SUMMARY PANEL */}
-          <Paper
-            variant="outlined"
-            sx={{
-              p: 2.5,
-              mb: 3.5,
-              borderRadius: 2.5,
-              bgcolor: isReadyToSubmit ? '#F0FDF4' : '#FFFBEB',
-              borderColor: isReadyToSubmit ? '#86EFAC' : '#FCD34D',
-            }}
-          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
-              <Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#211844', mb: 0.5 }}>
-                  Bảng kiểm tra sẵn sàng nộp bài (Readiness Checklist)
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
-                  <Chip
-                    label={`Ảnh: ${totalFiles}/30 (Quy chuẩn: 1–30 ảnh)`}
-                    size="small"
-                    color={isCountValid ? 'success' : 'error'}
-                    variant={isCountValid ? 'filled' : 'outlined'}
-                    sx={{ fontWeight: 700 }}
-                  />
-                  <Chip
-                    label={`Đã gán học sinh: ${mappedCount}/${totalFiles}`}
-                    size="small"
-                    color={isMappingValid ? 'success' : 'warning'}
-                    variant={isMappingValid ? 'filled' : 'outlined'}
-                    sx={{ fontWeight: 700 }}
-                  />
-                  <Chip
-                    label={`Đã che thông tin: ${sanitizedCount}/${totalFiles}`}
-                    size="small"
-                    color={isPrivacyValid ? 'success' : 'warning'}
-                    variant={isPrivacyValid ? 'filled' : 'outlined'}
-                    sx={{ fontWeight: 700 }}
-                  />
-                  {hasDuplicateStudent && (
-                    <Chip
-                      label="Lưu ý: Có học sinh nộp nhiều bài/ảnh"
-                      size="small"
-                      color="info"
-                      variant="outlined"
-                      sx={{ fontWeight: 700 }}
-                    />
-                  )}
+          <Paper component="section" variant="outlined" aria-labelledby="batch-readiness" sx={{ p: { xs: 2, md: 2.5 }, mb: 2.5 }}>
+            <Typography id="batch-readiness" component="h2" variant="h6">Kiểm tra trước khi gửi</Typography>
+            <Typography role="status" color="text.secondary" variant="body2" sx={{ mt: 0.5, mb: 1.5 }}>
+              {isReadyToSubmit ? 'Đợt ảnh đã sẵn sàng.' : 'Hoàn tất các mục còn thiếu để gửi ảnh.'}
+            </Typography>
+            <Box component="ul" sx={{
+              display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', sm: 'repeat(3, minmax(0, 1fr))' },
+              listStyle: 'none', p: 0, m: 0, borderBlock: '1px solid', borderColor: 'divider',
+            }}>
+              {[
+                { label: 'Ảnh đã chọn', count: `${totalFiles}/30`, ready: isCountValid },
+                { label: 'Đã gán học sinh', count: `${mappedCount}/${totalFiles}`, ready: isMappingValid },
+                { label: 'Đã che thông tin', count: `${sanitizedCount}/${totalFiles}`, ready: isPrivacyValid },
+              ].map(({ label, count, ready }) => (
+                <Box component="li" key={label} sx={{
+                  display: 'flex', alignItems: 'center', gap: 1, py: 1.25, px: { xs: 0, sm: 1 },
+                  '& + &': { borderTop: { xs: '1px solid', sm: 0 }, borderInlineStart: { sm: '1px solid' }, borderColor: 'divider' },
+                }}>
+                  {ready ? <CheckCircle color="success" fontSize="small" aria-hidden="true" />
+                    : <WarningAmber color="warning" fontSize="small" aria-hidden="true" />}
+                  <Typography variant="body2" sx={{ flex: 1 }}>{label}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{count}</Typography>
                 </Box>
-              </Box>
-
-              <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
-                <Button variant="outlined" component="label" disabled={totalFiles >= 30 || uploading}>
-                  Thêm ảnh
-                  <input type="file" hidden multiple accept="image/jpeg,image/png,image/webp" onChange={handleFileSelect} />
-                </Button>
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={handleStartProcessing}
-                  disabled={!isReadyToSubmit || uploading}
-                  startIcon={uploading ? <CircularProgress size={20} color="inherit" /> : <FactCheck />}
-                  sx={{
-                    px: 3,
-                    py: 1.25,
-                    fontWeight: 700,
-                    bgcolor: isReadyToSubmit ? 'primary.main' : '#94A3B8',
-                    '&:hover': { bgcolor: isReadyToSubmit ? 'primary.dark' : '#94A3B8' },
-                  }}
-                >
-                  {uploading ? 'Đang tải lên & bắt đầu chấm...' : 'Bắt đầu chấm bài bằng AI'}
-                </Button>
-              </Box>
+              ))}
             </Box>
-
-            <Divider sx={{ my: 2 }} />
-
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Lock sx={{ fontSize: 16, color: '#64748B' }} />
-              <Typography variant="caption" color="text.secondary">
-                <strong>Cam kết quyền riêng tư:</strong> Toàn bộ họ tên và thông tin trường học được che thủ công trước khi gửi tới máy chủ xử lý OCR.
-              </Typography>
+            {hasDuplicateStudent && (
+              <Typography color="text.secondary" variant="body2" sx={{ mt: 1 }}>Có học sinh được gán nhiều ảnh.</Typography>
+            )}
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'flex-end', gap: 1, mt: 2 }}>
+              <Button variant="outlined" onClick={() => filePicker.current?.click()} disabled={totalFiles >= 30 || uploading}>
+                Thêm ảnh
+              </Button>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={handleStartProcessing}
+                disabled={!isReadyToSubmit || uploading}
+                aria-busy={uploading}
+                startIcon={uploading ? <CircularProgress size={20} color="inherit" /> : <FactCheck />}
+              >
+                {uploading ? 'Đang tải lên & bắt đầu chấm...' : 'Bắt đầu chấm bài bằng AI'}
+              </Button>
             </Box>
           </Paper>
 
@@ -628,10 +653,13 @@ function BatchUpload({ assignmentId, resumeBatchId, onDraftChange }: {
 
       {editingFile && (
         <PrivacyEditorModal
+          key={editingFile.id}
           open={Boolean(editingFile)}
           onClose={() => setEditingFile(null)}
           file={editingFile.sanitizedBlob || editingFile.originalFile}
-          onSave={handleSaveSanitized}
+          imageLabel={`Ảnh ${files.findIndex(file => file.id === editingFile.id) + 1}/${files.length}: ${editingFile.originalFile.name}`}
+          onSave={blob => handleSaveSanitized(blob)}
+          onSaveAndNext={nextFile ? blob => handleSaveSanitized(blob, true) : undefined}
         />
       )}
     </Box>

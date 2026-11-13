@@ -203,8 +203,7 @@ public class StateTransitionTest {
 
     @Test
     public void testIllegalRetryFromTeacherApproved() {
-        testSubmission.setStatus("TEACHER_APPROVED");
-        submissionRepository.save(testSubmission);
+        prepareIndependentSubmission("TEACHER_APPROVED");
 
         ApiException ex = assertThrows(ApiException.class, () -> {
             submissionService.retrySubmission(student.getEmail(), testSubmission.getSubmissionId(), new MockMultipartFile("image", "test.jpg", "image/jpeg", "content".getBytes()), "CAMERA");
@@ -215,8 +214,7 @@ public class StateTransitionTest {
 
     @Test
     public void testIllegalRetryFromProcessing() {
-        testSubmission.setStatus("PROCESSING");
-        submissionRepository.save(testSubmission);
+        prepareIndependentSubmission("PROCESSING");
 
         ApiException ex = assertThrows(ApiException.class, () -> {
             submissionService.retrySubmission(student.getEmail(), testSubmission.getSubmissionId(), new MockMultipartFile("image", "test.jpg", "image/jpeg", "content".getBytes()), "CAMERA");
@@ -227,8 +225,7 @@ public class StateTransitionTest {
 
     @Test
     public void testRetryFromNeedsRetake() {
-        testSubmission.setStatus("NEEDS_RETAKE");
-        submissionRepository.save(testSubmission);
+        prepareIndependentSubmission("NEEDS_RETAKE");
 
         // Should not throw — retry from NEEDS_RETAKE is a valid transition
         submissionService.retrySubmission(student.getEmail(), testSubmission.getSubmissionId(), new MockMultipartFile("image", "test.jpg", "image/jpeg", "content".getBytes()), "CAMERA");
@@ -247,8 +244,7 @@ public class StateTransitionTest {
 
     @Test
     public void testRetryFromCropRequired() {
-        testSubmission.setStatus("CROP_REQUIRED");
-        submissionRepository.save(testSubmission);
+        prepareIndependentSubmission("CROP_REQUIRED");
 
         submissionService.retrySubmission(student.getEmail(), testSubmission.getSubmissionId(), new MockMultipartFile("image", "test.jpg", "image/jpeg", "content".getBytes()), "CAMERA");
 
@@ -259,8 +255,7 @@ public class StateTransitionTest {
 
     @Test
     public void testRetryWrongOwner() {
-        testSubmission.setStatus("NEEDS_RETAKE");
-        submissionRepository.save(testSubmission);
+        prepareIndependentSubmission("NEEDS_RETAKE");
 
         Student otherStudent = new Student();
         otherStudent.setEmail("other@test.com");
@@ -278,8 +273,7 @@ public class StateTransitionTest {
 
     @Test
     public void testRetryStorageFailure() throws Exception {
-        testSubmission.setStatus("NEEDS_RETAKE");
-        submissionRepository.save(testSubmission);
+        prepareIndependentSubmission("NEEDS_RETAKE");
 
         Mockito.when(objectStorageService.store(any(), any())).thenThrow(new IOException("Storage full"));
 
@@ -308,8 +302,7 @@ public class StateTransitionTest {
 
     @Test
     public void testRetryWithMissingImage() {
-        testSubmission.setStatus("NEEDS_RETAKE");
-        submissionRepository.save(testSubmission);
+        prepareIndependentSubmission("NEEDS_RETAKE");
 
         ApiException ex = assertThrows(ApiException.class, () -> {
             submissionService.retrySubmission(student.getEmail(), testSubmission.getSubmissionId(), null, "CAMERA");
@@ -320,13 +313,19 @@ public class StateTransitionTest {
 
     @Test
     public void testRetryWithUnsupportedImageType() {
-        testSubmission.setStatus("NEEDS_RETAKE");
-        submissionRepository.save(testSubmission);
+        prepareIndependentSubmission("NEEDS_RETAKE");
 
         ApiException ex = assertThrows(ApiException.class, () -> {
             submissionService.retrySubmission(student.getEmail(), testSubmission.getSubmissionId(), new MockMultipartFile("image", "test.txt", "text/plain", "content".getBytes()), "CAMERA");
         });
 
         assertEquals("UNSUPPORTED_MEDIA_TYPE", ex.getCode());
+    }
+
+    private void prepareIndependentSubmission(String status) {
+        testSubmission.setBatch(null);
+        testSubmission.setAssignment(null);
+        testSubmission.setStatus(status);
+        submissionRepository.saveAndFlush(testSubmission);
     }
 }

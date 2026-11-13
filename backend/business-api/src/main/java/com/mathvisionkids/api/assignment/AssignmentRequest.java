@@ -16,6 +16,8 @@ import java.util.UUID;
 
 @Data
 public class AssignmentRequest {
+    private UUID creationRequestId;
+
     @NotNull
     private UUID classId;
 

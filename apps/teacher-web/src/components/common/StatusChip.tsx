@@ -62,7 +62,7 @@ const STATUS_MAP: Record<string, StatusConfig> = {
     color: 'error',
     icon: <Warning sx={{ fontSize: '14px !important' }} />,
     bgColor: '#FEF2F2',
-    textColor: '#DC2626',
+    textColor: '#B91C1C',
     borderColor: '#FECACA',
   },
   NEEDS_CONFIRMATION: {
@@ -70,7 +70,7 @@ const STATUS_MAP: Record<string, StatusConfig> = {
     color: 'warning',
     icon: <HelpOutlined sx={{ fontSize: '14px !important' }} />,
     bgColor: '#FFFBEB',
-    textColor: '#D97706',
+    textColor: '#92400E',
     borderColor: '#FDE68A',
   },
   NEEDS_RETAKE: {
@@ -78,7 +78,7 @@ const STATUS_MAP: Record<string, StatusConfig> = {
     color: 'warning',
     icon: <ImageNotSupported sx={{ fontSize: '14px !important' }} />,
     bgColor: '#FFFBEB',
-    textColor: '#D97706',
+    textColor: '#92400E',
     borderColor: '#FDE68A',
   },
   CROP_REQUIRED: {
@@ -86,7 +86,7 @@ const STATUS_MAP: Record<string, StatusConfig> = {
     color: 'warning',
     icon: <Crop sx={{ fontSize: '14px !important' }} />,
     bgColor: '#FFFBEB',
-    textColor: '#D97706',
+    textColor: '#92400E',
     borderColor: '#FDE68A',
   },
   FEEDBACK_READY: {
@@ -110,7 +110,7 @@ const STATUS_MAP: Record<string, StatusConfig> = {
     color: 'success',
     icon: <CheckCircle sx={{ fontSize: '14px !important' }} />,
     bgColor: '#ECFDF5',
-    textColor: '#059669',
+    textColor: '#047857',
     borderColor: '#A7F3D0',
   },
   TEACHER_OVERRIDDEN: {
@@ -126,7 +126,7 @@ const STATUS_MAP: Record<string, StatusConfig> = {
     color: 'error',
     icon: <ErrorOutlined sx={{ fontSize: '14px !important' }} />,
     bgColor: '#FEF2F2',
-    textColor: '#DC2626',
+    textColor: '#B91C1C',
     borderColor: '#FECACA',
   },
 
@@ -152,7 +152,7 @@ const STATUS_MAP: Record<string, StatusConfig> = {
     color: 'success',
     icon: <CheckCircle sx={{ fontSize: '14px !important' }} />,
     bgColor: '#ECFDF5',
-    textColor: '#059669',
+    textColor: '#047857',
     borderColor: '#A7F3D0',
   },
   PARTIAL: {
@@ -160,7 +160,7 @@ const STATUS_MAP: Record<string, StatusConfig> = {
     color: 'warning',
     icon: <Warning sx={{ fontSize: '14px !important' }} />,
     bgColor: '#FFFBEB',
-    textColor: '#D97706',
+    textColor: '#92400E',
     borderColor: '#FDE68A',
   },
 
@@ -170,7 +170,7 @@ const STATUS_MAP: Record<string, StatusConfig> = {
     color: 'success',
     icon: <CheckCircle sx={{ fontSize: '14px !important' }} />,
     bgColor: '#ECFDF5',
-    textColor: '#059669',
+    textColor: '#047857',
     borderColor: '#A7F3D0',
   },
   ARCHIVED: {

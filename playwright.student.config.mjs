@@ -1,5 +1,6 @@
 import { defineConfig } from '@playwright/test';
 import web from './playwright.config.mjs';
+import { studentPort } from './tests/browser/sites.mjs';
 
 export default defineConfig({
   ...web,
@@ -8,6 +9,6 @@ export default defineConfig({
   reporter: [['list'], ['html', { outputFolder: '.local-artifacts/student-browser/report', open: 'never' }]],
   webServer: [...web.webServer, {
     command: 'node tests/student-browser/server.mjs',
-    url: 'http://127.0.0.1:43173/study/', reuseExistingServer: false, timeout: 180000,
+    url: `http://127.0.0.1:${studentPort}/study/`, reuseExistingServer: false, timeout: 180000,
   }],
 });

@@ -9,6 +9,47 @@ import { transpileModule, ModuleKind, JsxEmit } from 'typescript';
 
 const require = createRequire(import.meta.url);
 
+test('Google popup returns the OAuth token and clears the Firebase session even when credentials are missing', async () => {
+  const app = { name: 'mathvision-social' };
+  const auth = {};
+  const persistence = {};
+  let initialized = false;
+  let signOuts = 0;
+  let hasGoogleToken = true;
+  class GoogleProvider {
+    static credentialFromResult() { return { idToken: hasGoogleToken ? 'google-id-token' : null }; }
+  }
+  const imports = {
+    '@firebase/app': { getApps: () => initialized ? [app] : [], initializeApp: () => app },
+    '@firebase/auth': {
+      GoogleAuthProvider: GoogleProvider,
+      inMemoryPersistence: persistence, browserPopupRedirectResolver: {}, getAuth: () => auth,
+      initializeAuth: (value, options) => {
+        assert.equal(value, app);
+        assert.equal(options.persistence, persistence);
+        initialized = true;
+        return auth;
+      },
+      signInWithPopup: async (value, provider) => {
+        assert.equal(value, auth);
+        assert.ok(provider instanceof GoogleProvider);
+        return {};
+      },
+      signOut: async () => { signOuts++; },
+    },
+    '../config/runtime': { firebaseConfig: {} },
+  };
+  const exports = {};
+  const source = transpileModule(readFileSync(new URL('../src/services/socialAuth.ts', import.meta.url), 'utf8'), {
+    compilerOptions: { module: ModuleKind.CommonJS },
+  }).outputText;
+  vm.runInNewContext(source, { exports, require: id => imports[id] });
+  assert.equal(await exports.getGoogleCredential(), 'google-id-token');
+  hasGoogleToken = false;
+  await assert.rejects(exports.getGoogleCredential(), /Missing Google ID token/);
+  assert.equal(signOuts, 2);
+});
+
 for (const oldResult of ['expired', 'old-teacher']) {
   test(`a late ${oldResult} session check cannot undo a new student login`, async () => {
     const dom = new JSDOM('<div id="root"></div>', { url: 'https://portal.mathvision.example/login' });
@@ -46,7 +87,10 @@ for (const oldResult of ['expired', 'old-teacher']) {
     const source = transpileModule(readFileSync(new URL('../src/pages/LoginPage.tsx', import.meta.url), 'utf8'), {
       compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.React, esModuleInterop: true },
     }).outputText;
-    vm.runInNewContext(source, { exports, window: dom.window, AbortController,
+    const browser = Object.create(dom.window, {
+      location: { value: { replace: navigate } },
+    });
+    vm.runInNewContext(source, { exports, window: browser, AbortController,
       require: id => imports[id] ?? (id.startsWith('@mui/icons-material/') ? placeholder : require(id)) });
     const root = (await import('react-dom/client')).createRoot(dom.window.document.getElementById('root'));
     try {
@@ -56,14 +100,14 @@ for (const oldResult of ['expired', 'old-teacher']) {
         fields.password.onChange({ target: { value: '123' } });
       });
       await act(async () => submit({ preventDefault() {} }));
-      assert.deepEqual(navigations, ['/student']);
+      assert.deepEqual(navigations, ['/study/']);
       await act(async () => {
         if (oldResult === 'expired') rejectOld(new Error('Expired old session'));
         else resolveOld({ role: 'TEACHER' });
       });
       assert.equal(cleared, 0, 'The old request erased the new login tokens.');
       assert.equal(ssoRequests, 0, 'The old profile opened an unrelated role after the new login.');
-      assert.deepEqual(navigations, ['/student']);
+      assert.deepEqual(navigations, ['/study/']);
     } finally {
       await act(async () => root.unmount());
       Object.assign(globalThis, previous);

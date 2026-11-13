@@ -8,6 +8,7 @@ export interface PageHeaderProps {
   badge?: string;
   actions?: React.ReactNode;
   action?: React.ReactNode;
+  back?: React.ReactNode;
 }
 
 export const PageHeader: React.FC<PageHeaderProps> = ({
@@ -17,22 +18,18 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   badge,
   actions,
   action,
+  back,
 }) => {
   const desc = description || subtitle;
   const acts = actions || action;
 
   return (
     <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: { xs: 'flex-start', sm: 'center' },
-        flexDirection: { xs: 'column', sm: 'row' },
-        gap: 2,
-        mb: 3.5,
-      }}
+      component="header"
+      className="teacher-page-header"
     >
-      <Box>
+      <Box sx={{ minWidth: 0 }}>
+        {back && <Box sx={{ mb: 1 }}>{back}</Box>}
         {badge && (
           <Chip
             label={badge}
@@ -42,19 +39,20 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
               height: 22,
               fontSize: '0.72rem',
               fontWeight: 800,
-              bgcolor: '#ECFDF5',
-              color: '#059669',
-              border: '1px solid #A7F3D0',
-              borderRadius: 1,
+              bgcolor: 'primary.light',
+              color: 'primary.dark',
+              borderRadius: '6px',
             }}
           />
         )}
         <Typography
           component="h1"
-          variant="h5"
+          variant="h3"
           sx={{
             fontWeight: 800,
-            color: '#0F172A',
+            color: 'text.primary',
+            fontSize: { xs: '1.55rem', md: '2rem' },
+            overflowWrap: 'anywhere',
             letterSpacing: '-0.02em',
             lineHeight: 1.25,
           }}
@@ -65,8 +63,8 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
           <Typography
             variant="body2"
             sx={{
-              color: '#475569',
-              mt: 0.5,
+              color: 'text.secondary',
+              mt: 0.75,
               maxWidth: 680,
               lineHeight: 1.55,
             }}
@@ -76,7 +74,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         )}
       </Box>
       {acts && (
-        <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', alignItems: 'center' }}>
+        <Box className="teacher-page-actions">
           {acts}
         </Box>
       )}

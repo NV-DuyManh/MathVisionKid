@@ -12,8 +12,12 @@ import com.mathvisionkids.api.user.Student;
 import com.mathvisionkids.api.user.StudentRepository;
 import com.mathvisionkids.api.user.Teacher;
 import com.mathvisionkids.api.user.TeacherRepository;
+import jakarta.persistence.EntityManager;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,8 +26,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -52,8 +59,16 @@ public class TeacherDashboardControllerTest {
     @Autowired
     private SubmissionRepository submissionRepository;
 
+    @Autowired
+    private DashboardService dashboardService;
+
+    @Autowired
+    private EntityManager entityManager;
+
     private Teacher teacherA;
     private Teacher teacherB;
+    private Assignment assignment;
+    private Submission approvedSubmission;
 
     @BeforeEach
     public void setup() {
@@ -86,7 +101,7 @@ public class TeacherDashboardControllerTest {
         classroom.getStudents().add(student);
         classroom = classroomRepository.save(classroom);
 
-        Assignment assignment = new Assignment();
+        assignment = new Assignment();
         assignment.setTitle("Dashboard Assignment");
         assignment.setOperationType("ADDITION");
         assignment.setTeacher(teacherA);
@@ -106,6 +121,7 @@ public class TeacherDashboardControllerTest {
         sub1.setAssignment(assignment);
         sub1.setStudent(student);
         sub1.setStatus("PROPOSED_GRADE");
+        sub1.setCreatedAt(Instant.parse("2026-11-01T00:00:00Z"));
         submissionRepository.save(sub1);
 
         Submission sub2 = new Submission();
@@ -113,7 +129,63 @@ public class TeacherDashboardControllerTest {
         sub2.setAssignment(assignment);
         sub2.setStudent(student);
         sub2.setStatus("TEACHER_APPROVED");
-        submissionRepository.save(sub2);
+        approvedSubmission = submissionRepository.save(sub2);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "2026-11-10T16:59:59.999999Z, 0",
+            "2026-11-10T17:00:00Z, 1",
+            "2026-11-10T23:15:00Z, 1",
+            "2026-11-11T16:59:59.999999Z, 1",
+            "2026-11-11T17:00:00Z, 0"
+    })
+    void countsSubmissionsWithinTheVietnameseCalendarDay(String submittedAt, int expected) {
+        entityManager.flush();
+        entityManager.createQuery("update Submission s set s.createdAt = :createdAt where s.submissionId = :id")
+                .setParameter("createdAt", Instant.parse(submittedAt))
+                .setParameter("id", approvedSubmission.getSubmissionId())
+                .executeUpdate();
+        var dashboard = dashboardService.getDashboard(teacherA.getEmail(), Instant.parse("2026-11-11T16:59:59.999999Z"));
+        assertEquals(expected, dashboard.getTodayTotal());
+        assertEquals(1, dashboard.getProcessedCount());
+    }
+
+    @Test
+    void dashboardKeepsQueryCountFixedAndIncludesOlderWorkInTotals() {
+        entityManager.flush();
+        var statistics = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class).getStatistics();
+        boolean wasEnabled = statistics.isStatisticsEnabled();
+        statistics.setStatisticsEnabled(true);
+        try {
+            entityManager.clear();
+            long before = statistics.getPrepareStatementCount();
+            dashboardService.getDashboard(teacherA.getEmail());
+            long shortHistory = statistics.getPrepareStatementCount() - before;
+
+            for (int i = 0; i < 20; i++) {
+                Batch batch = new Batch();
+                batch.setTeacher(teacherA);
+                batch.setAssignment(assignment);
+                batch.setStatus("CREATED");
+                batchRepository.save(batch);
+            }
+            entityManager.flush();
+            entityManager.clear();
+
+            before = statistics.getPrepareStatementCount();
+            var dashboard = dashboardService.getDashboard(teacherA.getEmail());
+            long longHistory = statistics.getPrepareStatementCount() - before;
+            assertEquals(1, dashboard.getProcessedCount());
+            assertEquals(1, dashboard.getReviewRequiredCount());
+            assertEquals(10, dashboard.getRecentBatches().size());
+            assertEquals(approvedSubmission.getBatch().getBatchId(), dashboard.getNextReviewBatchId());
+            assertEquals("CREATED", dashboard.getRecentBatches().getFirst().getStatus());
+            assertEquals(shortHistory, longHistory, "Queries for 1 versus 21 batches");
+            assertEquals(2, longHistory, "Teacher lookup and dashboard aggregate");
+        } finally {
+            statistics.setStatisticsEnabled(wasEnabled);
+        }
     }
 
     @Test
@@ -136,6 +208,7 @@ public class TeacherDashboardControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.processedCount").value(0))
                 .andExpect(jsonPath("$.reviewRequiredCount").value(0))
+                .andExpect(jsonPath("$.nextReviewBatchId").doesNotExist())
                 .andExpect(jsonPath("$.recentBatches").isEmpty());
     }
 

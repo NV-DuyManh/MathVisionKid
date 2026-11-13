@@ -1,4 +1,80 @@
-import { test, expect, sites, login, openNavigation } from './fixtures.mjs';
+import { test, expect, sites, login, openNavigation, profile } from './fixtures.mjs';
+
+test('Portal offers one shared sign-in route before the visitor chooses an account', async ({ page, app }) => {
+  await page.goto(`${sites.portal.origin}/`);
+  await expect(page.locator('a[href="/student"], a[href="/teacher-entry"], a[href="/admin-entry"]')).toHaveCount(0);
+  await expect(page.getByText('Cổng làm việc', { exact: true })).toHaveCount(0);
+  await page.getByRole('banner').getByRole('link', { name: 'Đăng nhập', exact: true }).click();
+  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
+  await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
+  expect(app.requests.filter(request => request.path === '/auth/me')).toEqual([]);
+});
+
+test('admin account confirmation can cancel, recover from a failure and lock the fixture account', async ({ page, app }, testInfo) => {
+  let user = profile('TEACHER');
+  let writes = 0;
+  const path = `/admin/users/${user.userId}`;
+  app.responses.set(`GET ${path}`, ({ json }) => json(user));
+  app.responses.set(`POST ${path}/disable`, ({ json, reject }) => {
+    if (++writes === 1) return reject(503);
+    user = { ...user, active: false };
+    return json({});
+  });
+  await login(page, 'ADMIN');
+  await page.goto(`${sites.admin.origin}/users`);
+  const userRow = page.getByRole('row').filter({ hasText: user.displayName });
+  await expect(userRow).toBeVisible();
+  await testInfo.attach('Admin fixture account list', { body: await page.screenshot(), contentType: 'image/png' });
+  await userRow.getByRole('link', { name: `Xem chi tiết ${user.displayName}` }).click();
+  await expect(page).toHaveURL(`${sites.admin.origin}/users/${user.userId}`);
+  const lock = page.getByRole('button', { name: 'Khóa tài khoản' });
+  const dialog = page.getByRole('dialog', { name: 'Khóa tài khoản' });
+  await lock.click();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(lock).toBeFocused();
+  expect(writes).toBe(0);
+  await lock.click();
+  await dialog.getByRole('button', { name: 'Xác nhận' }).click();
+  await expect(dialog.getByRole('alert')).toBeVisible();
+  await testInfo.attach('Admin fixture confirmation failure', { body: await page.screenshot(), contentType: 'image/png' });
+  await dialog.getByRole('button', { name: 'Xác nhận' }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Mở tài khoản' })).toBeVisible();
+  expect(writes).toBe(2);
+});
+
+test('admin opens a class roster and reviews an audit event from the ledger', async ({ page, app }) => {
+  const classroom = {
+    classId: 'class-5a', name: 'Lớp kiểm thử 5A', gradeLevel: 5, academicYear: '2026–2027',
+    studentCount: 1, createdAt: '2026-11-12T10:00:00Z',
+    teacher: profile('TEACHER'), students: [profile('STUDENT')],
+  };
+  const event = {
+    auditEventId: 'class-created-fixture', actorEmail: 'admin@example.test',
+    eventType: 'ADMIN_CLASS_CREATED', createdAt: classroom.createdAt,
+  };
+  const pageOf = item => ({ content: [item], number: 0, size: 10, totalElements: 1, totalPages: 1 });
+  app.responses.set('GET /admin/classes', ({ json }) => json(pageOf(classroom)));
+  app.responses.set('GET /admin/classes/class-5a', ({ json }) => json(classroom));
+  app.responses.set('GET /admin/audit', ({ json }) => json(pageOf(event)));
+  await login(page, 'ADMIN');
+  await page.goto(`${sites.admin.origin}/classes`);
+  await page.getByRole('link', { name: `Xem chi tiết ${classroom.name}` }).click();
+  await expect(page.getByRole('table', { name: 'Danh sách học sinh trong lớp' })).toContainText('Kiểm thử STUDENT');
+
+  await page.goto(`${sites.admin.origin}/audit`);
+  const detail = page.getByRole('button', { name: 'Xem sự kiện class-created-fixture' });
+  await detail.click();
+  const dialog = page.getByRole('dialog', { name: 'Chi tiết sự kiện' });
+  await expect(dialog).toContainText(event.actorEmail);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(detail).toBeFocused();
+
+  await page.goto(`${sites.admin.origin}/recognition/analytics`);
+  await expect(page.getByRole('heading', { name: 'Chưa có nguồn thống kê tổng hợp' })).toBeVisible();
+});
 
 test('student login hands off to /study/ (downstream Student UI is outside this suite)', async ({ page, app }) => {
   // Observe the entry request only; do not substitute a fake Student app.
@@ -22,16 +98,90 @@ test('portal invalid login remains usable and keyboard retry succeeds', async ({
   expect(app.requests.filter(r => r.path === '/auth/login')).toHaveLength(2);
 });
 
+test('the single login fits a narrow screen and keeps recovery and registration reachable', async ({ page, app }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto(`${sites.portal.origin}/login`);
+  await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
+  const submit = page.getByRole('button', { name: 'Đăng nhập', exact: true });
+  await expect(submit).toBeInViewport();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  const password = page.getByLabel(/^Mật khẩu/);
+  await password.fill('synthetic-password');
+  await page.getByRole('button', { name: 'Hiển thị mật khẩu', exact: true }).click();
+  await expect(password).toHaveAttribute('type', 'text');
+  await page.getByRole('button', { name: 'Ẩn mật khẩu', exact: true }).click();
+  await expect(password).toHaveAttribute('type', 'password');
+  await page.getByRole('button', { name: 'Quên mật khẩu?' }).click();
+  await expect(page.getByRole('heading', { name: 'Khôi phục mật khẩu' })).toBeVisible();
+  await page.getByRole('button', { name: /Quay lại đăng nhập/ }).click();
+  await page.getByRole('button', { name: 'Đăng ký', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Tạo tài khoản' })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  expect(app.requests).toEqual([]);
+});
+
+test('the shared login completes password recovery and registration using the existing contracts', async ({ page, app }) => {
+  app.responses.set('POST /auth/password-reset/request', ({ body, json }) => {
+    expect(body).toEqual({ email: 'student@example.test' });
+    return json({});
+  });
+  app.responses.set('POST /auth/password-reset/confirm', ({ body, json }) => {
+    expect(body).toEqual({ email: 'student@example.test', code: '123456', newPassword: 'new-password-example' });
+    return json({});
+  });
+  app.responses.set('POST /auth/register', ({ body, json }) => {
+    expect(body).toMatchObject({ email: 'student@example.test', displayName: 'Học sinh kiểm thử', role: 'STUDENT', gradeLevel: 1 });
+    return json({}, 201);
+  });
+  await page.goto(`${sites.portal.origin}/login`);
+  await page.getByRole('button', { name: 'Quên mật khẩu?' }).click();
+  await page.getByLabel(/^Email đã đăng ký/).fill('student@example.test');
+  await page.getByRole('button', { name: 'Gửi mã xác nhận' }).click();
+  await page.getByLabel(/^Mã xác nhận 6 chữ số/).fill('123456');
+  await page.getByLabel(/^Mật khẩu mới/).fill('new-password-example');
+  await page.getByRole('button', { name: 'Xác nhận và đổi mật khẩu' }).click();
+  await expect(page.getByText(/Đổi mật khẩu thành công/)).toBeVisible();
+  await page.getByRole('button', { name: 'Đăng ký', exact: true }).click();
+  await page.locator('#register-name').fill('Học sinh kiểm thử');
+  await page.locator('#register-password').fill('new-password-example');
+  await page.locator('#register-confirm-password').fill('new-password-example');
+  await page.locator('#register-phone').fill('0900000000');
+  await page.getByRole('button', { name: 'Tạo tài khoản', exact: true }).click();
+  await expect(page.getByText(/Đăng ký thành công/)).toBeVisible();
+});
+
 for (const role of ['TEACHER', 'ADMIN']) {
   const site = sites[role.toLowerCase()];
-  const signedOutUrl = role === 'TEACHER' ? `${sites.portal.origin}/` : `${site.origin}/login`;
+  const signedOutUrl = `${sites.portal.origin}/login`;
   test(`${role} guest cannot open protected pages`, async ({ page, app }) => {
+    await page.goto(`${site.origin}/login`);
+    await expect(page).toHaveURL(signedOutUrl);
     await page.goto(`${site.origin}/dashboard`);
     await expect(page).toHaveURL(signedOutUrl);
+    await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
     expect(app.requests.filter(r => r.path.startsWith(`/${role.toLowerCase()}/`))).toEqual([]);
   });
 
+  test(`${role} old login URL forwards to the single Portal form`, async ({ page, app }) => {
+    await page.goto(`${site.origin}/login?direct=true`);
+    await expect(page).toHaveURL(signedOutUrl);
+    await expect(page.locator('input[autocomplete="current-password"]')).toHaveCount(1);
+    expect(app.requests.filter(r => r.path.startsWith('/auth/'))).toEqual([]);
+  });
+
+  test(`${role} expired handoff returns to the shared form without asking for credentials twice`, async ({ page, app }) => {
+    await page.goto(`${site.origin}/login#sso=expired-test-ticket`);
+    await expect(page.getByRole('alert')).toContainText('Vui lòng đăng nhập lại');
+    await expect(page.locator('input[type="password"]')).toHaveCount(0);
+    expect(new URL(page.url()).hash).toBe('');
+    await page.getByRole('link', { name: 'Quay lại trang đăng nhập' }).click();
+    await expect(page).toHaveURL(`${signedOutUrl}?session=expired`);
+    await expect(page.getByRole('alert')).toContainText('Phiên đăng nhập đã hết hạn');
+    expect(app.requests.filter(r => r.path === '/auth/sso/exchange')).toHaveLength(1);
+  });
+
   test(`${role} SSO, reload and logout preserve the correct session boundaries`, async ({ page, app }) => {
+    await page.goto(sites.portal.origin);
     await login(page, role);
     await expect(page.getByRole('heading', { name: `Xin chào, Kiểm thử ${role}`, exact: true })).toBeVisible();
     expect(new URL(page.url()).hash).toBe('');
@@ -42,7 +192,9 @@ for (const role of ['TEACHER', 'ADMIN']) {
     await page.getByRole('button', { name: 'Đăng xuất', exact: true }).click();
     await expect(page).toHaveURL(`${sites.portal.origin}/`);
     await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
-    await expect(page.getByRole('link', { name: 'Đăng nhập →', exact: true })).toBeVisible();
+    await expect(page.getByRole('banner').getByRole('link', { name: 'Đăng nhập', exact: true })).toBeVisible();
+    await page.goBack();
+    await expect(page).toHaveURL(signedOutUrl);
     await page.goto(`${site.origin}/dashboard`);
     await expect(page).toHaveURL(signedOutUrl);
   });
@@ -60,16 +212,12 @@ for (const role of ['TEACHER', 'ADMIN']) {
     app.expired = true;
     await page.reload();
     await expect(page).toHaveURL(signedOutUrl);
-    // Teacher returns to Portal, which has its own isolated expired session.
-    // Wait for that cleanup rather than counting requests during its startup.
-    if (role === 'TEACHER') {
-      await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
-      await expect(page.getByRole('link', { name: 'Đăng nhập →', exact: true })).toBeVisible();
-    }
+    await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
+    await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
     const refreshes = app.requests.filter(r => r.path === '/auth/refresh');
     expect(refreshes.filter(r => r.origin === site.origin)).toHaveLength(1);
-    expect(refreshes.filter(r => r.origin === sites.portal.origin)).toHaveLength(role === 'TEACHER' ? 1 : 0);
-    expect(refreshes).toHaveLength(role === 'TEACHER' ? 2 : 1);
+    expect(refreshes.filter(r => r.origin === sites.portal.origin)).toHaveLength(1);
+    expect(refreshes).toHaveLength(2);
     await page.goto(`${site.origin}/dashboard`);
     await expect(page).toHaveURL(signedOutUrl);
     expect(app.requests.filter(r => r.path === '/auth/refresh')).toHaveLength(refreshes.length);
@@ -109,14 +257,53 @@ test('teacher creates a selected-class subtraction assignment with a custom grad
   const maxScore = page.getByRole('spinbutton', { name: 'Thang điểm tối đa' });
   await expect(maxScore).toHaveValue('10');
   await maxScore.fill('100');
-  await page.getByRole('combobox', { name: 'Dạng phép tính (Phạm vi hỗ trợ MVP)' }).click();
+  await page.getByRole('combobox', { name: 'Dạng phép tính' }).click();
   await page.getByRole('option', { name: /Phép trừ đặt tính dọc/ }).click();
   await submit.click();
   await expect(page).toHaveURL(`${sites.teacher.origin}/batches/create?assignmentId=assignment-1`);
   await expect(page.getByRole('heading', { name: 'Tạo đợt chấm bài', exact: true })).toBeVisible();
   await expect.poll(() => app.requests.some(r => r.path === '/teacher/classes/class-5a')).toBe(true);
   expect(app.requests.filter(r => r.path === '/teacher/assignments' && r.method === 'POST').map(r => r.body))
-    .toEqual([{ classId: 'class-5a', title: 'Phép trừ kiểm thử', operationType: 'VERTICAL_SUBTRACTION', maxScore: 100 }]);
+    .toEqual([{ classId: 'class-5a', title: 'Phép trừ kiểm thử', operationType: 'VERTICAL_SUBTRACTION', maxScore: 100,
+      creationRequestId: expect.stringMatching(/^[0-9a-f-]{36}$/) }]);
+});
+
+test('retries assignment creation with the original key after a lost response and reload', async ({ page, app }) => {
+  app.responses.set('POST /teacher/assignments', ({ body, json, route }) => {
+    if (!app.assignments.length) {
+      app.assignments.push({ ...body, assignmentId: 'assignment-1' });
+      return route.abort('connectionreset');
+    }
+    expect(body.creationRequestId).toBe(app.assignments[0].creationRequestId);
+    return json(app.assignments[0], 200);
+  });
+  await login(page, 'TEACHER');
+  await page.goto(`${sites.teacher.origin}/assignments/create?classId=class-5a`);
+  const title = page.getByLabel('Tên bài tập', { exact: true });
+  const submit = page.getByRole('button', { name: 'Tạo bài tập & Thu thập ảnh', exact: true });
+  await title.fill('Luyện phép cộng');
+  await submit.click();
+  await expect(page.getByText('Không thể tạo bài tập. Vui lòng thử lại.')).toBeVisible();
+  await page.reload();
+  await title.fill('Luyện phép cộng');
+  await submit.click();
+  await expect(page).toHaveURL(/\/batches\/create\?assignmentId=assignment-1$/);
+});
+
+test('a stale class link requires a deliberate new class selection', async ({ page, app }) => {
+  await login(page, 'TEACHER');
+  await page.goto(`${sites.teacher.origin}/assignments/create?classId=former-class`);
+  await page.getByLabel('Tên bài tập', { exact: true }).fill('Bài tập kiểm thử');
+  await expect(page.getByText('Lớp trong liên kết không còn khả dụng. Hãy chọn lớp phụ trách.')).toBeVisible();
+  const submit = page.getByRole('button', { name: 'Tạo bài tập & Thu thập ảnh', exact: true });
+  await expect(submit).toBeDisabled();
+  const writes = () => app.requests.filter(r => r.path === '/teacher/assignments' && r.method === 'POST');
+  expect(writes()).toHaveLength(0);
+  await page.getByRole('combobox', { name: 'Lớp học áp dụng' }).click();
+  await page.getByRole('option', { name: /Lớp 5A/ }).click();
+  await submit.click();
+  await expect(page).toHaveURL(`${sites.teacher.origin}/batches/create?assignmentId=assignment-1`);
+  expect(writes().map(r => r.body.classId)).toEqual(['class-5a']);
 });
 
 test('teacher can retry a failed class list without reloading the page', async ({ page, app }) => {

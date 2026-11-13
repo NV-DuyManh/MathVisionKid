@@ -38,16 +38,17 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   const titleId = React.useId();
   const descriptionId = React.useId();
   return (
-    <Dialog open={open} onClose={loading ? undefined : onCancel} maxWidth="xs" fullWidth aria-labelledby={titleId} aria-describedby={descriptionId}>
-      <DialogTitle id={titleId} sx={{ fontWeight: 600, color: '#211844' }}>{title}</DialogTitle>
+    <Dialog open={open} onClose={loading ? undefined : onCancel} maxWidth="xs" fullWidth aria-labelledby={titleId} aria-describedby={descriptionId}
+      slotProps={{ paper: { sx: { bgcolor: 'background.paper', backgroundImage: 'none' } } }}>
+      <DialogTitle id={titleId}>{title}</DialogTitle>
       <DialogContent>
         <RequestError error={error} />
-        <DialogContentText id={descriptionId} sx={{ color: '#5E566D', fontSize: '0.95rem' }}>
+        <DialogContentText id={descriptionId} sx={{ color: 'text.secondary', fontSize: '0.95rem', overflowWrap: 'anywhere' }}>
           {message}
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ px: 3, pb: 2.5 }}>
-        <Button onClick={onCancel} disabled={loading} sx={{ color: '#655D76' }}>
+      <DialogActions sx={{ px: { xs: 2, sm: 3 }, pb: 2.5, flexWrap: 'wrap', gap: 1 }}>
+        <Button autoFocus onClick={onCancel} disabled={loading}>
           {cancelText}
         </Button>
         <Button

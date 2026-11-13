@@ -1,9 +1,10 @@
 /** Trusted workspace destinations; never accept a redirect address from the login form. */
-export function workspaceOrigin(role: 'TEACHER' | 'ADMIN'): string {
-  const configured = role === 'TEACHER' ? process.env.EXPO_PUBLIC_TEACHER_URL : process.env.EXPO_PUBLIC_ADMIN_URL;
+export function workspaceOrigin(role: 'TEACHER' | 'ADMIN' | 'PORTAL'): string {
+  const configured = role === 'TEACHER' ? process.env.EXPO_PUBLIC_TEACHER_URL
+    : role === 'ADMIN' ? process.env.EXPO_PUBLIC_ADMIN_URL : process.env.EXPO_PUBLIC_PORTAL_URL;
   const development = typeof __DEV__ !== 'undefined' && __DEV__;
   const local = development && typeof window !== 'undefined'
-    ? `http://${window.location.hostname}:${role === 'TEACHER' ? 5173 : 5174}` : '';
+    ? `http://${window.location.hostname}:${role === 'TEACHER' ? 5173 : role === 'ADMIN' ? 5174 : 5172}` : '';
   try {
     const url = new URL(configured?.trim() || local);
     if ((url.protocol !== 'https:' && !(development && url.protocol === 'http:')) ||

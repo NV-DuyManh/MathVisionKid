@@ -26,13 +26,13 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: { xs: 'flex-start', sm: 'center' },
+        alignItems: { xs: 'flex-start', sm: 'flex-end' },
         flexDirection: { xs: 'column', sm: 'row' },
         gap: 2,
-        mb: 3.5,
+        mb: 3,
       }}
     >
-      <Box>
+      <Box sx={{ minWidth: 0 }}>
         {badge && (
           <Chip
             label={badge}
@@ -51,12 +51,13 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         )}
         <Typography
           component="h1"
-          variant="h5"
+          variant="h2"
           sx={{
             fontWeight: 800,
-            color: '#0F172A',
+            color: 'text.primary',
             letterSpacing: '-0.02em',
             lineHeight: 1.25,
+            overflowWrap: 'anywhere',
           }}
         >
           {title}

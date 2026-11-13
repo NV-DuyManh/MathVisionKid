@@ -1,6 +1,7 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
 import { DeviceNarration } from '../features/tutoring/DeviceNarration';
+import { RecoveryNotice } from '../components/ui/RecoveryNotice';
 import { AppState } from 'react-native';
 import { MediaTimeline } from '../features/tutoring/MediaTimeline';
 import { devicePosition, deviceProgress, deviceTimeline, estimatedDeviceDuration, rememberDevicePace } from '../features/tutoring/deviceTimeline';
@@ -68,6 +69,16 @@ it('offers a return to the selected online voice when the device has no Vietname
   await act(async()=>{ view=TestRenderer.create(<DeviceNarration paragraphs={['Em đọc lại đề nhé.']} onReturn={onReturn} />); });
   act(()=>view.root.findAll(node=>node.props.accessibilityLabel==='Quay lại giọng đã chọn'&&node.props.onPress)[0].props.onPress());
   expect(onReturn).toHaveBeenCalledTimes(1);expect(speak).not.toHaveBeenCalled();
+});
+
+it('offers an explicit Vietnamese audio fallback when the device voice is unavailable', async () => {
+  (getAvailableVoicesAsync as jest.Mock).mockResolvedValue([]);
+  const onFallback=jest.fn();
+  await act(async()=>{ view=TestRenderer.create(<DeviceNarration paragraphs={['Em đọc lại đề nhé.']} onFallback={onFallback} />); });
+  expect(onFallback).not.toHaveBeenCalled();
+  const recovery=view.root.findByType(RecoveryNotice);
+  act(()=>recovery.props.actions.find((action: {label: string})=>action.label==='Dùng giọng Việt dự phòng').onPress());
+  expect(onFallback).toHaveBeenCalledTimes(1);
 });
 
 it('keeps the same timeline UI and seeks to any whole word without speaking while paused', async () => {

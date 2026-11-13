@@ -7,6 +7,10 @@ import { tokenStore } from '../services/apiClient';
 export const StudentLandingPage: React.FC = () => {
   const navigate = useNavigate();
   useEffect(() => {
+    if (!tokenStore.hasTokens()) {
+      navigate('/login', { replace: true });
+      return;
+    }
     let active = true;
     const session = tokenStore.getSessionId();
     const controller = new AbortController();
@@ -22,7 +26,7 @@ export const StudentLandingPage: React.FC = () => {
     });
     return () => { active = false; controller.abort(); };
   }, [navigate]);
-  return <Box sx={{ textAlign: 'center', py: 8 }}>
-    <CircularProgress /><Typography sx={{ mt: 2 }}>Đang mở bài học của em…</Typography>
+  return <Box role="status" sx={{ textAlign: 'center', py: 8, px: 2 }}>
+    <CircularProgress aria-hidden="true" /><Typography sx={{ mt: 2 }}>Đang mở bài học của em…</Typography>
   </Box>;
 };

@@ -10,7 +10,10 @@ it('asks for a missing yield unit and rounding place instead of choosing them', 
   expect(sourceClarification('Cứ 1 m² thu hoạch được (6)/(5) thóc. Hỏi bao nhiêu tạ thóc?')?.message).toContain('chưa ghi đơn vị');
   expect(sourceClarification('Số thập phân lớn nhất nào được làm tròn đến 90? A. 89,9 B. 89,99 C. 90,1 D. 91,4')?.message).toContain('đến hàng nào');
 });
-it.each(['Tính: 4 × (3)/(5)', 'Tính: 4 (3)/(5)', 'Làm tròn đến hàng phần mười số 3,14.',
+it.each(['(5)/(?)', '(?)⁄(5)', '(?)/(?)'])('asks to verify an unread fraction: %s', source => {
+  expect(sourceClarification(`Có ${source} số cây là cây xoài.`)?.message).toContain('điền đủ tử số và mẫu số');
+});
+it.each(['Tính: 4 × (3)/(5)', 'Tính: 4 (3)/(5)', 'Tính: 2 + 1 = ?', 'Làm tròn đến hàng phần mười số 3,14.',
   'Số 35,6 làm tròn đến số tự nhiên gần nhất là:', 'Cứ 1 m² thu hoạch được 6/5 kg thóc. Hỏi bao nhiêu tạ thóc?'])('keeps a clear source usable: %s', source => {
   expect(sourceClarification(source)).toBeNull();
 });

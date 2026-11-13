@@ -1,5 +1,5 @@
 import { test as base, expect } from '@playwright/test';
-import { sites, apiOrigin } from './sites.mjs';
+import { sites, apiOrigin, studentPort } from './sites.mjs';
 
 export { expect, sites };
 export const profile = role => ({
@@ -19,12 +19,14 @@ export const test = base.extend({
     const watch = page => page.on('pageerror', error => state.errors.push(error.message));
     context.pages().forEach(watch);
     context.on('page', watch);
-    await context.route('**/*', async route => {
+    let draining = false;
+    const activeRoutes = new Set();
+    const handleRoute = async route => {
       const request = route.request();
       const url = new URL(request.url());
       const site = Object.values(sites).find(site => site.origin === url.origin);
       if (site && !url.pathname.startsWith('/api/v1/')) {
-        const port = state.realStudent && url.pathname.startsWith('/study/') ? 43173 : site.port;
+        const port = state.realStudent && url.pathname.startsWith('/study/') ? studentPort : site.port;
         const response = await route.fetch({ url: `http://127.0.0.1:${port}${url.pathname}${url.search}` });
         return route.fulfill({ response });
       }
@@ -54,6 +56,8 @@ export const test = base.extend({
       }
       if (path === '/auth/refresh') return state.expired ? reject() : json(tokens(body.refreshToken.split('.')[1]));
       if (path === '/auth/logout') return json({});
+      const respond = state.responses.get(`${method} ${path}`);
+      if (path.startsWith('/auth/') && respond) return respond({ body, json, reject, route });
       if (path === '/auth/sso/ticket') {
         if (!role || role !== body.targetApp) return reject(403);
         const code = `ticket-${role}`;
@@ -67,12 +71,21 @@ export const test = base.extend({
         return json(tokens(ticketRole));
       }
       if (state.expired || !role) return reject();
-      if (path === '/me') return json(profile(role));
+      if (path === '/me') return json(state.realStudent && role === 'STUDENT'
+        ? { ...profile(role), userId: '550e8400-e29b-41d4-a716-446655440000' } : profile(role));
+      if (state.realStudent && path === '/student/profile') return json({
+        displayName: 'Kiểm thử STUDENT', gradeLevel: 5, joinedAt: null, classrooms: [],
+        avatar: 'star', leaderboardVisible: false, publicAlias: '', selectedTitle: null,
+        stars: 1, rank: { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 },
+        highestRank: 'Đồng III', position: null,
+        stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
+        titles: [], history: [{ source: 'LESSON', completedAt: '2026-11-13T06:00:00Z', stars: 1 }],
+      });
+      if (state.realStudent && path === '/student/leaderboard') return json({ entries: [], ownPosition: null });
       if (state.realStudent && path === '/student/quizzes/pending-count') return json({ pendingCount: 0, totalStars: 0 });
       if (state.realStudent && path === '/student/quizzes') return json({ items: [], page: 0, totalPages: 0, totalElements: 0 });
       if (path.startsWith('/teacher/') && role !== 'TEACHER') return reject(403);
       if (path.startsWith('/admin/') && role !== 'ADMIN') return reject(403);
-      const respond = state.responses.get(`${method} ${path}`);
       if (respond) return respond({ body, json, reject, route });
       if (path === '/teacher/dashboard') return json({ todayTotal: 0, processedCount: 0, reviewRequiredCount: 0, recentBatches: [] });
       if (path === '/teacher/classes') return state.classesDown ? reject(503) : json([{ classId: 'class-5a', name: '5A', studentCount: 2 }]);
@@ -97,8 +110,18 @@ export const test = base.extend({
       }
       state.unexpected.push(`${method} ${path}`);
       return reject(404);
+    };
+    await context.route('**/*', async route => {
+      if (draining) return route.abort('aborted');
+      const work = handleRoute(route);
+      activeRoutes.add(work);
+      try { await work; } finally { activeRoutes.delete(work); }
     });
     await use(state);
+    // Unregistering first can cause Playwright to continue an intercepted
+    // request while its proxy fetch is still running. Drain it before unroute.
+    draining = true;
+    await Promise.all(activeRoutes);
     await context.unrouteAll({ behavior: 'wait' });
     expect(state.unexpected, 'No unhandled fixture API or external network calls').toEqual([]);
     expect(state.errors, 'No uncaught browser errors').toEqual([]);

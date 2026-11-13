@@ -1,6 +1,6 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
-import { AppState, StyleSheet } from 'react-native';
+import { AppState, Platform, StyleSheet } from 'react-native';
 import { LessonNarration } from '../features/tutoring/LessonNarration';
 import { AudioPlayback } from '../features/tutoring/AudioPlayback';
 import { downloadNarration, readNarrationProgress } from '../features/tutoring/narrationApi';
@@ -42,6 +42,22 @@ it('opens the persisted device voice directly without cloud requests or autoplay
     expect(view.root.findByType(DeviceNarration).props.paragraphs).toEqual(paragraphs);
     expect(view.root.findAllByType(AudioPlayback)).toHaveLength(0);
   } finally { await saveNarrationVoice('vi-VN-NamMinhNeural'); }
+});
+
+it('uses the Vietnamese server fallback only after the web learner requests it', async () => {
+  const previous = Platform.OS;
+  Platform.OS = 'web';
+  await saveNarrationVoice('device');
+  try {
+    await render();
+    expect(downloadNarration).not.toHaveBeenCalled();
+    await act(async () => view.root.findByType(DeviceNarration).props.onFallback());
+    expect(downloadNarration).toHaveBeenCalledWith({ ...source, useFallback: true }, paragraphs, expect.any(AbortSignal), 'vi-VN-NamMinhNeural', expect.any(Function));
+    expect(view.root.findByType(AudioPlayback).props.uri).toBe('file:///private-speech.wav');
+  } finally {
+    Platform.OS = previous;
+    await saveNarrationVoice('vi-VN-NamMinhNeural');
+  }
 });
 
 it('highlights and seeks only using validated cue points from the actual file and retains position',async()=>{

@@ -5,6 +5,7 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import com.mathvisionkids.api.common.ApiException;
 import com.mathvisionkids.api.storage.ObjectStorageService;
 
@@ -46,6 +47,19 @@ public class TeacherSubmissionController {
     public ResponseEntity<Void> approveSubmission(@PathVariable UUID submissionId, Principal principal) {
         submissionService.approveSubmission(principal.getName(), submissionId);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "/{submissionId}/retake", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> retakeSubmission(@PathVariable UUID submissionId,
+                                                 @RequestParam("image") MultipartFile image, Principal principal) {
+        submissionService.retakeTeacherSubmission(principal.getName(), submissionId, image);
+        return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/{submissionId}/retry-processing")
+    public ResponseEntity<Void> retryProcessing(@PathVariable UUID submissionId, Principal principal) {
+        submissionService.retryTeacherProcessing(principal.getName(), submissionId);
+        return ResponseEntity.accepted().build();
     }
 
     @PostMapping("/{submissionId}/override")

@@ -18,9 +18,16 @@ export const AuthProvider: React.FC<{ children: ReactNode; onSessionChange?: () 
   const clearCache = useRef(onSessionChange);
   clearCache.current = onSessionChange;
   useEffect(() => {
+    const revalidate = (event: PageTransitionEvent) => {
+      if (event.persisted) window.location.reload();
+    };
+    window.addEventListener('pageshow', revalidate);
+    return () => window.removeEventListener('pageshow', revalidate);
+  }, []);
+  useEffect(() => {
     let active = true;
     const current = revision.current;
-    const hasTicket = new URLSearchParams(window.location.hash.slice(1)).has('sso');
+    const hasTicket = ['/login', '/auth/continue'].includes(window.location.pathname);
     if (!hasTicket && tokenStore.hasTokens()) {
       void authService.getMe().then(profile => {
         if (active && current === revision.current) setUser(profile);
@@ -84,8 +91,8 @@ export const AuthProvider: React.FC<{ children: ReactNode; onSessionChange?: () 
     setUser(null);
     clearCache.current?.();
     setLoading(true);
-    try { await authService.logout(); }
-    finally { if (current === revision.current) window.location.replace(`${appConfig.portalOrigin}/logout?source=admin`); }
+    await authService.logout();
+    if (current === revision.current) window.location.replace(`${appConfig.portalOrigin}/logout?source=admin`);
   };
   return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'ADMIN' && user.active === true, loading, sessionError, accessDenied, login, loginWithSsoTicket, logout }}>{children}</AuthContext.Provider>;
 };

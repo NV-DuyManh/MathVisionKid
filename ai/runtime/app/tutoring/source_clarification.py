@@ -12,6 +12,9 @@ class SourceNeedsReview(ValueError):
 
 def source_issue(source):
     text = _fold(source)
+    if re.search(r'\(\s*\?\s*\)\s*[/⁄]\s*(?:\d+|\(\s*(?:\d+|\?)\s*\))'
+                 r'|(?:\d+|\(\s*\d+\s*\))\s*[/⁄]\s*\(\s*\?\s*\)', text):
+        return 'unread_fraction'
     if re.search(r'\d\(\s*\d+\s*(?:/|\)\s*/)', text):
         return 'mixed_number'
     if (re.search(r'\bm(?:²|\^2|2)(?!\w)', text)

@@ -4,8 +4,7 @@ import com.mathvisionkids.api.audit.AuditEvent;
 import com.mathvisionkids.api.audit.AuditEventRepository;
 import com.mathvisionkids.api.submission.Submission;
 import com.mathvisionkids.api.submission.SubmissionRepository;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -17,41 +16,47 @@ public class StubAiAnalysisGateway implements AiAnalysisGateway {
     private final AnalysisResultRepository analysisResultRepository;
     private final AuditEventRepository auditEventRepository;
     private final AiJobRepository aiJobRepository;
+    private final TransactionTemplate transactions;
 
-    public StubAiAnalysisGateway(SubmissionRepository submissionRepository, AnalysisResultRepository analysisResultRepository, AuditEventRepository auditEventRepository, AiJobRepository aiJobRepository) {
+    public StubAiAnalysisGateway(SubmissionRepository submissionRepository, AnalysisResultRepository analysisResultRepository,
+                                 AuditEventRepository auditEventRepository, AiJobRepository aiJobRepository,
+                                 TransactionTemplate transactions) {
         this.submissionRepository = submissionRepository;
         this.analysisResultRepository = analysisResultRepository;
         this.auditEventRepository = auditEventRepository;
         this.aiJobRepository = aiJobRepository;
+        this.transactions = transactions;
     }
 
     @Override
     public void analyze(UUID submissionId) {
-        // Create AI Job
-        Submission submission = submissionRepository.findById(submissionId).orElseThrow();
-        AiJob job = new AiJob();
-        job.setSubmission(submission);
-        job.setStatus("PENDING");
-        aiJobRepository.save(job);
-        
-        processAnalysis(submissionId);
-    }
-
-    @Async
-    @Transactional
-    public void processAnalysis(UUID submissionId) {
+        UUID jobId = transactions.execute(status -> {
+            Submission submission = submissionRepository.findForUpdate(submissionId).orElseThrow();
+            if (!"PROCESSING".equals(submission.getStatus())) return null;
+            AiJob job = new AiJob();
+            job.setSubmission(submission);
+            job.setStatus("PENDING");
+            return aiJobRepository.save(job).getJobId();
+        });
+        if (jobId == null) return;
         try {
-            // Simulate AI processing delay
             Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Stub analysis interrupted", e);
+        }
 
-            Submission submission = submissionRepository.findById(submissionId).orElseThrow();
-            
-            if (!"PROCESSING".equals(submission.getStatus())) {
+        transactions.executeWithoutResult(status -> {
+            Submission submission = submissionRepository.findForUpdate(submissionId).orElseThrow();
+            AiJob latest = aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDesc(submissionId).orElseThrow();
+            if (!"PROCESSING".equals(submission.getStatus()) || !jobId.equals(latest.getJobId())
+                    || "SUPERSEDED".equals(latest.getStatus())) {
                 return;
             }
 
             // Create fake analysis result
-            AnalysisResult result = new AnalysisResult();
+            AnalysisResult result = analysisResultRepository.findBySubmission_SubmissionId(submissionId)
+                    .orElseGet(AnalysisResult::new);
             result.setSubmission(submission);
             result.setStatus("SUCCESS");
             
@@ -65,10 +70,8 @@ public class StubAiAnalysisGateway implements AiAnalysisGateway {
             
             analysisResultRepository.save(result);
             
-            aiJobRepository.findBySubmission_SubmissionId(submissionId).stream().findFirst().ifPresent(j -> {
-                j.setStatus("COMPLETED");
-                aiJobRepository.save(j);
-            });
+            latest.setStatus("COMPLETED");
+            aiJobRepository.save(latest);
 
             submission.setStatus("PROPOSED_GRADE"); // Teacher batch grading: PROPOSED_GRADE. Student tutoring: FEEDBACK_READY.
             submissionRepository.save(submission);
@@ -78,8 +81,6 @@ public class StubAiAnalysisGateway implements AiAnalysisGateway {
             auditEvent.setEventType("AI_RESULT_CREATED");
             auditEventRepository.save(auditEvent);
 
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        });
     }
 }

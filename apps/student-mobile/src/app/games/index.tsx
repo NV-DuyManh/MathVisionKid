@@ -3,12 +3,14 @@ import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } fr
 import { Redirect, useFocusEffect, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { AppButton } from '../../components/ui/AppButton';
 import { AuthContext } from '../../context/AuthContext';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { TRAINING_CATALOG } from '../../features/training-games/catalog';
 import { trainingAccess } from '../../features/training-games/identity';
 import { trainingTrace } from '../../features/training-games/diagnostics';
 import { trainingResults } from '../../features/training-games/resultStore';
+import { enterGameDisplay } from '../../features/training-games/GameDisplay';
 import type { TrainingSessionResult } from '@mathvisionkid/training-games';
 
 export default function GamesScreen() {
@@ -54,6 +56,7 @@ export default function GamesScreen() {
     {access.kind === 'trial' && <Text accessibilityRole="alert" style={styles.notice}>Chơi thử không lưu thành tích. Tài khoản dùng thử chưa có hồ sơ học sinh thật; dữ liệu lượt thử chỉ giữ tạm và được bỏ khi thoát trò chơi.</Text>}
     {saveError && <View accessibilityRole="alert" style={styles.noticeBox}><Text style={styles.notice}>{saveError}</Text><Pressable accessibilityRole="button" accessibilityLabel="Thử lưu kết quả" onPress={() => { if (studentId) void trainingResults.retry(studentId).catch(() => {}); }} style={styles.retry}><Text style={styles.playText}>Thử lưu lại</Text></Pressable></View>}
     {recent.owner === studentId && recent.failed && <Text accessibilityRole="alert" style={styles.notice}>Chưa đọc được kết quả gần đây. Dữ liệu cũ vẫn được giữ nguyên.</Text>}
+    {access.kind === 'student' && <AppButton title="Đường đua sao" onPress={() => router.push('/games/arithmetic-quest')} />}
     <View style={styles.grid}>{TRAINING_CATALOG.map(game => {
       const result = recent.owner === studentId ? recent.rows[game.id] : undefined;
       const playable = game.ready && access.kind !== 'blocked';
@@ -65,6 +68,7 @@ export default function GamesScreen() {
           <Pressable accessibilityRole="button" accessibilityLabel={`${access.kind === 'trial' ? 'Chơi thử' : 'Chơi'} ${game.title}`} accessibilityState={{ disabled: !playable }} disabled={!playable} testID={`training-play-${game.id}`} onPress={() => {
             if (!playable) return;
             trainingTrace('play-press', { gameId: game.id, mode: access.kind });
+            enterGameDisplay(game.id);
             router.push({ pathname: '/games/[gameId]', params: access.kind === 'trial' ? { gameId: game.id, playMode: 'trial' } : { gameId: game.id } });
           }} style={({ pressed }) => [styles.play, !playable && styles.disabled, pressed && styles.pressed]}><Text style={styles.playText}>{!game.ready ? 'Chưa sẵn sàng' : access.kind === 'blocked' ? 'Đăng nhập để chơi' : access.kind === 'trial' ? 'Chơi thử' : 'Chơi ngay'}</Text><Ionicons name="arrow-forward" size={20} color="#FFFFFF" accessible={false} /></Pressable>
         </View>

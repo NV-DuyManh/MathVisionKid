@@ -183,7 +183,8 @@ public class MathTutorService {
         var result = lessonResponse(call("/internal/v1/tutor/lesson/answer", java.util.Map.of("owner", owner,
                 "sessionId", request.sessionId(), "revision", request.revision(), "answer", request.answer(), "hint", request.hint()), MediaType.APPLICATION_JSON));
         if (quizSources != null && result.status().equals("COMPLETE")) {
-            try { quizSources.complete(owner, result.sessionId()); }
+            try { quizSources.complete(owner, result.sessionId(), !request.hint() && result.completed().stream()
+                    .anyMatch(step -> "MATH".equals(step.kind()) && !step.answer().isBlank())); }
             catch (RuntimeException ex) { quizSources.warnUnavailable(); }
         }
         return result;
@@ -505,6 +506,7 @@ public class MathTutorService {
                 if (path.equals("/internal/v1/tutor/lesson")) {
                     String sourceMessage = switch (sourceReason == null ? "" : sourceReason) {
                         case "source_mixed_number" -> "Em đối chiếu phần nguyên và phần phân số với ảnh trước nhé.";
+                        case "source_unread_fraction" -> "Có phân số chưa đọc rõ. Em đối chiếu với ảnh rồi điền đủ tử số và mẫu số.";
                         case "source_missing_yield_unit" -> "Đề chưa ghi đơn vị của lượng thóc thu hoạch trên mỗi mét vuông. Em bổ sung đơn vị trước nhé.";
                         case "source_rounding_place" -> "Đề chưa nói làm tròn đến hàng nào. Em bổ sung yêu cầu làm tròn trước nhé.";
                         default -> null;

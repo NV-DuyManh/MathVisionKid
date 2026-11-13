@@ -12,7 +12,7 @@ const require = createRequire(import.meta.url);
 function load(path, imports) {
   const exports = {};
   const source = transpileModule(readFileSync(new URL(path, import.meta.url), 'utf8'), {
-    compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.React, esModuleInterop: true },
+    compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.ReactJSX, esModuleInterop: true },
   }).outputText;
   vm.runInNewContext(source, {
     exports, window: globalThis.window, document: globalThis.document,

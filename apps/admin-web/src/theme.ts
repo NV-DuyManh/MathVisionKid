@@ -1,51 +1,55 @@
 import { createTheme } from '@mui/material/styles';
+import { WEB_DESIGN } from '../../../packages/ui-brand/src/web-design';
+
+const { colors, components, focus, motion, radii, roles, typography } = WEB_DESIGN;
+const admin = roles.admin;
 
 export const adminTheme = createTheme({
   palette: {
     primary: {
-      main: '#0F172A', // Slate Navy (Operational authority, high contrast)
-      dark: '#020617',
-      light: '#F8FAFC',
-      contrastText: '#FFFFFF',
+      main: admin.action,
+      dark: '#3730A3',
+      light: admin.tint,
+      contrastText: colors.white,
     },
     secondary: {
-      main: '#2563EB', // Learning Blue (System accent)
+      main: colors.blue,
       dark: '#1D4ED8',
-      light: '#EFF6FF',
-      contrastText: '#FFFFFF',
+      light: colors.blueLight,
+      contrastText: colors.white,
     },
     background: {
-      default: '#F8FAFC',
-      paper: '#FFFFFF',
+      default: '#F6F7FC',
+      paper: colors.white,
     },
     text: {
-      primary: '#0F172A',
-      secondary: '#475569',
+      primary: colors.ink,
+      secondary: colors.mutedInk,
     },
-    divider: '#E2E8F0',
+    divider: colors.line,
     success: {
-      main: '#059669',
+      main: colors.green,
       dark: '#047857',
       light: '#ECFDF5',
-      contrastText: '#FFFFFF',
+      contrastText: colors.white,
     },
     error: {
       main: '#DC2626',
       dark: '#B91C1C',
       light: '#FEF2F2',
-      contrastText: '#FFFFFF',
+      contrastText: colors.white,
     },
     warning: {
-      main: '#D97706',
+      main: '#B45309',
       dark: '#B45309',
       light: '#FFFBEB',
-      contrastText: '#FFFFFF',
+      contrastText: colors.white,
     },
   },
   typography: {
-    fontFamily: '"Plus Jakarta Sans", "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif',
+    fontFamily: typography.body,
     h1: { fontSize: '2.5rem', fontWeight: 800, lineHeight: 1.18, letterSpacing: '-0.035em' },
-    h2: { fontSize: '1.875rem', fontWeight: 800, lineHeight: 1.24, letterSpacing: '-0.03em' },
+    h2: { fontSize: '1.75rem', fontWeight: 800, lineHeight: 1.24, letterSpacing: '-0.03em' },
     h3: { fontSize: '1.5rem', fontWeight: 800, lineHeight: 1.28, letterSpacing: '-0.025em' },
     h4: { fontSize: '1.25rem', fontWeight: 800, lineHeight: 1.34, letterSpacing: '-0.02em' },
     h5: { fontSize: '1.1rem', fontWeight: 800, lineHeight: 1.38, letterSpacing: '-0.015em' },
@@ -53,21 +57,30 @@ export const adminTheme = createTheme({
     subtitle1: { fontSize: '0.9375rem', fontWeight: 700, lineHeight: 1.5 },
     subtitle2: { fontSize: '0.8125rem', fontWeight: 700, lineHeight: 1.5 },
     body1: { fontSize: '0.9375rem', lineHeight: 1.62, color: '#334155' },
-    body2: { fontSize: '0.84375rem', lineHeight: 1.55, color: '#475569' },
+    body2: { fontSize: '0.84375rem', lineHeight: 1.55, color: colors.mutedInk },
     caption: { fontSize: '0.75rem', lineHeight: 1.5, color: '#64748B' },
     button: { textTransform: 'none', fontWeight: 700, letterSpacing: 0 },
   },
-  shape: { borderRadius: 12 },
+  shape: { borderRadius: radii.panel },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundColor: '#F8FAFC',
-          color: '#0F172A',
+          backgroundColor: '#F6F7FC',
+          color: colors.ink,
+        },
+        ':root': {
+          '--admin-ink': colors.ink,
+          '--admin-action': admin.action,
+          '--admin-tint': admin.tint,
+          '--admin-line': colors.line,
+          '--admin-paper': colors.paper,
+          '--admin-paper-line': colors.paperLine,
+          '--admin-panel-radius': `${radii.panel}px`,
         },
         '*, *::before, *::after': { boxSizing: 'border-box' },
-        '::selection': { backgroundColor: '#E2E8F0', color: '#0F172A' },
-        ':focus-visible': { outline: '2.5px solid #2563EB', outlineOffset: 2 },
+        '::selection': { backgroundColor: admin.tint, color: colors.ink },
+        ':focus-visible': { outline: `${focus.width}px solid ${focus.color}`, outlineOffset: focus.offset },
         '@media (prefers-reduced-motion: reduce)': {
           '*, *::before, *::after': {
             animationDuration: '0.01ms !important',
@@ -81,49 +94,19 @@ export const adminTheme = createTheme({
       defaultProps: { disableElevation: true },
       styleOverrides: {
         root: {
-          minHeight: 40,
-          borderRadius: 10,
+          minHeight: components.action.minHeight,
+          borderRadius: radii.control,
           padding: '8px 18px',
           fontWeight: 700,
-          boxShadow: 'none',
-          transition: 'all 180ms cubic-bezier(0.16, 1, 0.3, 1)',
-        },
-        contained: {
-          boxShadow: '0 1px 2px 0 rgba(15, 23, 42, 0.15)',
-          '&.MuiButton-colorPrimary': {
-            backgroundColor: '#0F172A',
-            color: '#FFFFFF',
-          },
-          '&:hover': {
-            boxShadow: '0 4px 12px 0 rgba(15, 23, 42, 0.25)',
-            transform: 'translateY(-1px)',
-          },
-          '&.MuiButton-colorPrimary:hover': { backgroundColor: '#1E293B' },
-          '&:active': {
-            transform: 'translateY(0)',
-          },
+          transition: `background-color ${motion.press}ms ease, border-color ${motion.press}ms ease, color ${motion.press}ms ease`,
+          '&.Mui-focusVisible': { outline: `${focus.width}px solid ${focus.color}`, outlineOffset: focus.offset },
         },
         outlined: {
-          boxShadow: '0 1px 2px 0 rgba(15, 23, 42, 0.03)',
-          '&.MuiButton-colorPrimary': {
-            borderColor: '#CBD5E1',
-            color: '#0F172A',
-            backgroundColor: '#FFFFFF',
-          },
-          '&:hover': {
-            transform: 'translateY(-1px)',
-          },
-          '&.MuiButton-colorPrimary:hover': {
-            borderColor: '#0F172A',
-            color: '#0F172A',
-            backgroundColor: '#F8FAFC',
-          },
-          '&:active': {
-            transform: 'translateY(0)',
-          },
+          '&.MuiButton-colorPrimary': { borderColor: '#BFC2DF', backgroundColor: colors.white },
+          '&.MuiButton-colorPrimary:hover': { borderColor: admin.action, backgroundColor: admin.tint },
         },
         sizeSmall: {
-          minHeight: 34,
+          minHeight: 36,
           padding: '5px 12px',
           fontSize: '0.8125rem',
           borderRadius: 8,
@@ -142,8 +125,8 @@ export const adminTheme = createTheme({
           minHeight: 40,
           minWidth: 40,
           borderRadius: 10,
-          transition: 'all 160ms ease',
-          '&:focus-visible': { outline: '2.5px solid #2563EB', outlineOffset: 2 },
+          transition: `background-color ${motion.press}ms ease, color ${motion.press}ms ease`,
+          '&.Mui-focusVisible': { outline: `${focus.width}px solid ${focus.color}`, outlineOffset: focus.offset },
           '&:hover': { backgroundColor: '#F1F5F9' },
         },
       },
@@ -152,11 +135,10 @@ export const adminTheme = createTheme({
       defaultProps: { elevation: 0 },
       styleOverrides: {
         root: {
-          borderRadius: 14,
+          borderRadius: radii.panel,
           border: '1px solid #E2E8F0',
-          boxShadow: '0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 4px 12px -2px rgba(15, 23, 42, 0.03)',
           backgroundImage: 'none',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: colors.white,
           minWidth: 0,
           transition: 'box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms cubic-bezier(0.16, 1, 0.3, 1)',
         },
@@ -175,8 +157,8 @@ export const adminTheme = createTheme({
       styleOverrides: {
         root: { backgroundImage: 'none' },
         outlined: {
-          borderColor: '#E2E8F0',
-          borderRadius: 14,
+          borderColor: colors.line,
+          borderRadius: radii.panel,
         },
       },
     },
@@ -195,7 +177,7 @@ export const adminTheme = createTheme({
         root: {
           maxWidth: '100%',
           overflowX: 'auto',
-          borderRadius: 14,
+          borderRadius: radii.panel,
           border: '1px solid #E2E8F0',
           boxShadow: '0 1px 3px 0 rgba(15, 23, 42, 0.03)',
         },
@@ -207,14 +189,15 @@ export const adminTheme = createTheme({
           padding: '14px 18px',
           borderColor: '#F1F5F9',
           fontSize: '0.875rem',
+          fontVariantNumeric: 'tabular-nums',
         },
         head: {
           padding: '12px 18px',
-          color: '#475569',
+          color: colors.mutedInk,
           fontWeight: 700,
           fontSize: '0.8125rem',
           letterSpacing: '0.02em',
-          backgroundColor: '#F8FAFC',
+          backgroundColor: '#F6EDCE',
           whiteSpace: 'nowrap',
           borderBottom: '1px solid #E2E8F0',
         },
@@ -224,7 +207,7 @@ export const adminTheme = createTheme({
       styleOverrides: {
         root: {
           '&:last-child .MuiTableCell-root': { borderBottom: 0 },
-          '&.MuiTableRow-hover:hover': { backgroundColor: '#F8FAFC' },
+          '&.MuiTableRow-hover:hover, &.MuiTableRow-hover:focus-within': { backgroundColor: admin.tint },
         },
       },
     },
@@ -239,7 +222,7 @@ export const adminTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 10,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: colors.white,
           transition: 'border-color 160ms ease, box-shadow 160ms ease',
           '& .MuiOutlinedInput-notchedOutline': {
             borderColor: '#CBD5E1',
@@ -248,10 +231,10 @@ export const adminTheme = createTheme({
             borderColor: '#94A3B8',
           },
           '&.Mui-focused': {
-            boxShadow: '0 0 0 3px rgba(37, 99, 235, 0.12)',
+            boxShadow: '0 0 0 3px rgba(67, 56, 202, 0.12)',
           },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#2563EB',
+            borderColor: admin.action,
             borderWidth: 1.5,
           },
         },
@@ -270,7 +253,7 @@ export const adminTheme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 800,
-          color: '#0F172A',
+          color: colors.ink,
           padding: '22px 26px 14px',
         },
       },
@@ -284,14 +267,14 @@ export const adminTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 10,
-          transition: 'all 140ms ease',
+          transition: `background-color ${motion.press}ms ease, color ${motion.press}ms ease`,
           '&.Mui-selected': {
-            backgroundColor: 'rgba(15, 23, 42, 0.08)',
-            color: '#0F172A',
+            backgroundColor: admin.tint,
+            color: admin.action,
             fontWeight: 800,
           },
           '&.Mui-selected:hover': {
-            backgroundColor: 'rgba(15, 23, 42, 0.12)',
+            backgroundColor: '#E2E0FF',
           },
         },
       },
@@ -301,8 +284,8 @@ export const adminTheme = createTheme({
         tooltip: {
           fontSize: '0.75rem',
           borderRadius: 8,
-          backgroundColor: '#0F172A',
-          color: '#FFFFFF',
+          backgroundColor: colors.ink,
+          color: colors.white,
           padding: '6px 12px',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
         },

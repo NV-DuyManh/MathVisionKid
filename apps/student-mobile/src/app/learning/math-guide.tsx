@@ -100,7 +100,9 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [problemConfirmed, setProblemConfirmed] = useState(context?.problemConfirmed === true);
   const [sourceNeedsReview, setSourceNeedsReview] = useState(false);
   const [quizPreparationKey] = useState(() => context?.quizPreparationKey || submissionId());
-  useQuizPreparation(quizPreparationKey, problem, problemConfirmed);
+  const sourceIssue = sourceClarification(problem);
+  const needsSourceClarification = sourceIssue !== null;
+  useQuizPreparation(quizPreparationKey, problem, problemConfirmed && !needsSourceClarification);
   const [workConfirmed, setWorkConfirmed] = useState(context?.workConfirmed === true);
   const [lesson, setLesson] = useState<LessonResponse | null>(null);
   const [preparationPaused, setPreparationPaused] = useState(false);
@@ -182,15 +184,14 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const lessonPosition = useRef(0);
   const invalidPhoto = reading && ['MULTIPLE', 'UNREADABLE'].includes(reading.kind);
   const preparationWork = workConfirmed && !work.includes('[?]') ? work : '';
-  const sourceIssue = sourceClarification(problem);
   useEffect(() => {
-    if (!owner || restoring || lesson || editing || busy || invalidPhoto || work || sourceClarification(problem) || (sourceNeedsReview && !problemConfirmed) || problem.trim().length < 3 || problem.includes('[?]')) return;
+    if (!owner || restoring || lesson || editing || busy || invalidPhoto || work || needsSourceClarification || (sourceNeedsReview && !problemConfirmed) || problem.trim().length < 3 || problem.includes('[?]')) return;
     const abort = new AbortController();
     // Private preparation starts while the pupil reviews the transcription.
     // It returns no lesson; the normal Start action still requires confirmation.
     void TutorService.prepareLesson(problem.trim(), preparationWork, abort.signal).catch(() => {});
     return () => abort.abort();
-  }, [owner, restoring, problem, preparationWork, work, editing, invalidPhoto, lesson, busy, sourceNeedsReview, problemConfirmed]);
+  }, [owner, restoring, problem, preparationWork, work, editing, invalidPhoto, lesson, busy, needsSourceClarification, sourceNeedsReview, problemConfirmed]);
   const divisionLines = workLines.filter(line => line.division);
   const divisionLine = !invalidPhoto && divisionLines.length === 1 ? divisionLines[0] : null;
   const division = divisionLine?.division;
@@ -348,7 +349,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     router.push({ pathname: '/camera' as any, params: { mode: 'MATH_TUTOR' } });
   };
   const start = () => {
-    if (restoring || sourceClarification(problem) || problem.trim().length < 3 || problem.includes('[?]') || !problemConfirmed) return;
+    if (restoring || needsSourceClarification || problem.trim().length < 3 || problem.includes('[?]') || !problemConfirmed) return;
     setTool(null);
     Keyboard.dismiss();
     const confirmedWork = workConfirmed && !work.includes('[?]') ? work : '';
@@ -442,7 +443,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
       </View>)}
       <AppIllustration source={MASCOT} style={styles.sidebarMascot} accessible={false} /><Text style={styles.sidebarCaption}>Cứ thử từng ý nhỏ. Sao nhỏ luôn ở đây cùng em.</Text>
     </ScrollView> : null}
-    <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       {lesson && !editing && problem ? <View style={[styles.reference, spacious && styles.referenceWide]}>
         <LessonProblem key={lesson.sessionId} problem={problem} imageUri={problemImage} onEdit={() => { setTool(null); edit('problem'); }} />
       </View> : null}
@@ -661,7 +662,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
                 : <Ionicons name={attempt === choice ? lesson.status === 'TRY_AGAIN' && !answerEdited ? 'close-circle' : 'radio-button-on' : 'chevron-forward'} size={18} color={attempt === choice && lesson.status === 'TRY_AGAIN' && !answerEdited ? '#AC4936' : COLORS.primaryDark} accessible={false} />}
             </Pressable>) : <><View style={styles.answerRow}>
               {fractionInput ? <View style={styles.fractionAnswer}>
-                <TextInput ref={answerInput} style={styles.fractionNumber} accessibilityLabel="Tử số câu trả lời" value={attempt.split('/')[0]} keyboardType="numbers-and-punctuation" maxLength={13}
+                <TextInput ref={answerInput} style={styles.fractionNumber} accessibilityLabel="Tử số câu trả lời" value={attempt.split('/')[0]} keyboardType="numeric" maxLength={13}
                   placeholder="Tử số" editable={!busy && !expired} onChangeText={value => { setAttempt(`${value}/${attempt.split('/')[1] || ''}`); setAnswerEdited(true); }} />
                 <View style={styles.fractionBar} />
                 <TextInput style={styles.fractionNumber} accessibilityLabel="Mẫu số câu trả lời" value={attempt.split('/')[1] || ''} keyboardType="number-pad" maxLength={12}

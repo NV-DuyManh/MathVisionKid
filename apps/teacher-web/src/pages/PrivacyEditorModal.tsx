@@ -9,6 +9,8 @@ interface PrivacyEditorModalProps {
   onClose: () => void;
   file: Blob | null;
   onSave: (sanitizedBlob: Blob) => void;
+  onSaveAndNext?: (sanitizedBlob: Blob) => void;
+  imageLabel?: string;
 }
 
 interface Mask {
@@ -19,7 +21,7 @@ interface Mask {
   height: number;
 }
 
-export default function PrivacyEditorModal({ open, onClose, file, onSave }: PrivacyEditorModalProps) {
+export default function PrivacyEditorModal({ open, onClose, file, onSave, onSaveAndNext, imageLabel }: PrivacyEditorModalProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [masks, setMasks] = useState<Mask[]>([]);
@@ -301,8 +303,11 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
     setSelectedMask(null);
   };
 
-  const handleSave = () => {
-    if (!imageObj || !file || saving || isDrawing || isMoving || isResizing || (!masks.length && !noPersonalInfo)) return;
+  const canSave = Boolean(imageObj && file && !saving && !isDrawing && !isMoving && !isResizing
+    && (masks.length > 0 || noPersonalInfo));
+
+  const handleSave = (save: (blob: Blob) => void) => {
+    if (!canSave || !imageObj) return;
 
     const offscreen = document.createElement('canvas');
     offscreen.width = imageObj.width;
@@ -319,18 +324,19 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
     setSaving(true);
     offscreen.toBlob((blob) => {
       setSaving(false);
-      if (blob) onSave(blob);
+      if (blob) save(blob);
       else setImageError('Chưa lưu được ảnh. Hãy thử lại.');
     }, 'image/jpeg', 0.95);
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth aria-labelledby="privacy-editor-title">
+    <Dialog open={open} onClose={() => { if (!saving) onClose(); }} maxWidth="lg" fullWidth aria-labelledby="privacy-editor-title">
       <DialogTitle id="privacy-editor-title" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography component="span" variant="h6">Che thông tin cá nhân</Typography>
-        <IconButton aria-label="Đóng trình che thông tin" onClick={onClose}><Close /></IconButton>
+        <IconButton aria-label="Đóng trình che thông tin" onClick={onClose} disabled={saving}><Close /></IconButton>
       </DialogTitle>
       <DialogContent dividers>
+        {imageLabel && <Typography role="status" sx={{ mb: 1 }}>{imageLabel}</Typography>}
         <Box sx={{ mb: 2, display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
           <Typography variant="body2" color="text.secondary">
             <Brush fontSize="small" sx={{ verticalAlign: 'middle', mr: 1 }} />
@@ -380,8 +386,11 @@ export default function PrivacyEditorModal({ open, onClose, file, onSave }: Priv
         />}
       </DialogContent>
       <DialogActions sx={{ p: 2 }}>
-        <Button onClick={onClose} color="inherit">Hủy</Button>
-        <Button disabled={!imageObj || saving || isDrawing || Boolean(isMoving) || Boolean(isResizing) || (!masks.length && !noPersonalInfo)} onClick={handleSave} variant="contained" startIcon={<Save />}>
+        <Button onClick={onClose} color="inherit" disabled={saving}>Hủy</Button>
+        {onSaveAndNext && <Button disabled={!canSave} onClick={() => handleSave(onSaveAndNext)}>
+          Lưu và mở ảnh tiếp theo
+        </Button>}
+        <Button disabled={!canSave} onClick={() => handleSave(onSave)} variant="contained" startIcon={<Save />}>
           {saving ? 'Đang lưu…' : 'Lưu ảnh đã che'}
         </Button>
       </DialogActions>
