@@ -166,6 +166,7 @@ ai/runtime/.container-smoke-models/
 coverage/
 .nyc_output/
 playwright-report/
+.playwright-mcp/
 test-results/
 .cache/
 .mypy_cache/
