@@ -174,6 +174,40 @@ def test_catalog_setup_wait_is_bounded_and_recovers_after_contention(tmp_path,mo
     assert store.get('audio','owner','male','policy')==b'complete'
 
 
+def test_second_voice_waits_for_first_schema_setup(tmp_path, monkeypatch):
+    from concurrent.futures import ThreadPoolExecutor, TimeoutError
+    from threading import Event
+    from app.tutoring import catalog_store
+
+    connect = sqlite3.connect
+    initializing = Event()
+    release = Event()
+
+    def slow_first_connect(path, **options):
+        if catalog_store._schema_lock.locked() and not initializing.is_set():
+            initializing.set()
+            assert release.wait(2)
+        return connect(path, **options)
+
+    monkeypatch.setattr(sqlite3, 'connect', slow_first_connect)
+    store = CatalogStore(tmp_path / 'new.sqlite3')
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        first = pool.submit(store.put, 'audio', 'owner', 'male', 'policy', b'male')
+        try:
+            assert initializing.wait(2)
+            second = pool.submit(store.put, 'audio', 'owner', 'female', 'policy', b'female')
+            # The old 150 ms lock budget returns a failure while a healthy
+            # cold initialization is still in progress.
+            with pytest.raises(TimeoutError):
+                second.result(timeout=.25)
+        finally:
+            release.set()
+        first.result()
+        second.result()
+    assert store.get('audio', 'owner', 'male', 'policy') == b'male'
+    assert store.get('audio', 'owner', 'female', 'policy') == b'female'
+
+
 def test_initialized_catalog_does_not_wait_for_another_database_setup(tmp_path,monkeypatch):
     import threading
     from app.tutoring import catalog_store
