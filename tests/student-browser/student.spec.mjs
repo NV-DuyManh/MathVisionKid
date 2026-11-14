@@ -350,8 +350,124 @@ test('the old Student web login uses the same Portal form', async ({ page, app }
   await expect(page.locator('input[autocomplete="current-password"]')).toHaveCount(1);
 });
 
+test('student can find rank, switch leaderboards and open all six games on a narrow screen', async ({ page, app }, testInfo) => {
+  app.realStudent = true;
+  const rank = { name: 'Chiến Thần', masterStars: 102, progress: 0, goal: 0 };
+  let profile = {
+    displayName: 'Bạn nhỏ yêu toán', gradeLevel: 5, joinedAt: null, classrooms: [{ id: 'class-5a', name: 'Lớp 5A' }],
+    avatar: 'star', leaderboardVisible: false, publicAlias: 'Sao Toán', selectedTitle: null,
+    stars: 214, rank, highestRank: rank.name, position: null,
+    stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
+    titles: [], history: [],
+  };
+  const entries = Array.from({ length: 12 }, (_, index) => ({
+    position: index + 1, alias: `Bạn Sao ${index + 1}`, avatar: 'star', stars: 200 - index, rank, self: false,
+  }));
+  await page.route('**/api/v1/student/profile', async route => {
+    if (route.request().method() === 'PUT') profile = { ...profile, ...route.request().postDataJSON() };
+    await route.fulfill({ json: profile });
+  });
+  await page.route('**/api/v1/student/leaderboard*', async route => {
+    const classroom = new URL(route.request().url()).searchParams.get('classroom');
+    await route.fulfill({ json: { entries: classroom ? entries.slice(0, 2) : entries, ownPosition: null } });
+  });
+  app.responses.set('GET /student/rank-milestones', ({ json }) => json([
+    { name: 'Đồng', stars: 0, top: null },
+    { name: 'Thách Đấu', stars: 162, top: 200 },
+  ]));
+  await page.setViewportSize({ width: 320, height: 660 });
+  await login(page, 'STUDENT');
+  await page.goto(`${sites.portal.origin}/study/account`);
+  await page.getByRole('textbox', { name: 'Tên hiển thị' }).fill('Bạn nhỏ thích tính nhẩm');
+  await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Bạn nhỏ thích tính nhẩm' })).toBeVisible();
+  await testInfo.attach('Profile and rank at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
+  await page.getByRole('button', { name: 'Xem thành tích', exact: true }).click();
+  await expect(page.getByText('Đạt Top 200 toàn hệ thống để lên Thách Đấu.')).toBeVisible();
+  await page.getByRole('button', { name: 'Xem các bậc xếp hạng' }).click();
+  await expect(page.getByText('Từ 162 sao và thuộc Top 200 toàn hệ thống')).toBeVisible();
+  await testInfo.attach('Rank milestones at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
+  await page.getByRole('button', { name: 'Đóng Các bậc xếp hạng' }).click();
+  const board = page.getByRole('heading', { name: 'Bảng xếp hạng', exact: true });
+  await board.scrollIntoViewIfNeeded();
+  await expect(page.getByText('Bạn Sao 10', { exact: true })).toHaveCount(1);
+  await expect(page.getByText('Bạn Sao 11', { exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Xem thêm xếp hạng' }).click();
+  await expect(page.getByText('Bạn Sao 11', { exact: true })).toHaveCount(1);
+  await page.getByRole('button', { name: 'Lớp 5A', exact: true }).click();
+  await expect(page.getByText('Bạn Sao 2', { exact: true })).toBeVisible();
+  await expect(page.getByText('Bạn Sao 3', { exact: true })).toHaveCount(0);
+  await testInfo.attach('Class leaderboard at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
+  await page.getByRole('button', { name: 'Toàn hệ thống', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Xem thêm xếp hạng' })).toBeVisible();
+  await page.getByRole('tab', { name: 'Của em', exact: true }).click();
+  await page.getByRole('button', { name: 'Trò chơi rèn luyện cho em' }).click();
+  await expect(page.getByTestId('game-star-quest')).toBeVisible();
+  const cards = page.getByTestId(/^training-card-/);
+  await expect(cards).toHaveCount(5);
+  await expect(page.getByRole('button', { name: /^Mở thử thách tính sao ·/ })).toHaveCount(5);
+  for (const card of await cards.all()) {
+    const box = await card.boundingBox();
+    expect(box.x).toBeGreaterThanOrEqual(0);
+    expect(box.x + box.width).toBeLessThanOrEqual(320);
+  }
+  await testInfo.attach('Game icons at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
+  await page.getByTestId('game-star-quest').click();
+  await expect(page.getByRole('heading', { name: 'Vượt 5 chặng tính nhẩm' })).toBeVisible();
+  await page.getByRole('button', { name: 'Quay lại danh sách trò chơi' }).click();
+  await expect(page.getByTestId('game-star-quest')).toBeVisible();
+});
+
+test('race challenge recovers a lost answer response and explains the reward limit', async ({ page, app }, testInfo) => {
+  app.realStudent = true;
+  const id = 'race-fixture';
+  let answered = 0;
+  let retried = false;
+  const payload = () => ({ id, question: answered, prompt: answered < 5 ? '3 × 4' : null,
+    correct: answered, length: 5, completed: answered === 5, stars: 0, rewardStatus: answered === 5 ? 'GAME_LIMIT' : null });
+  await page.route('**/api/v1/student/game-runs?mode=RACE_TO_FINISH', async route => {
+    expect(route.request().method()).toBe('POST');
+    await route.fulfill({ json: payload() });
+  });
+  await page.route('**/api/v1/student/game-runs/race-fixture/answers', async route => {
+    const { question, answer } = route.request().postDataJSON();
+    expect(answer).toBe(12);
+    if (question === 0 && answered === 1) retried = true;
+    else {
+      expect(question).toBe(answered);
+      answered++;
+      if (answered === 1) return route.abort('connectionreset');
+    }
+    await route.fulfill({ json: payload() });
+  });
+  await login(page, 'STUDENT');
+  await page.goto(`${sites.portal.origin}/study/games`);
+  await page.getByRole('button', { name: 'Mở thử thách tính sao · Đua Về Đích' }).click();
+  await page.getByRole('button', { name: 'Bắt đầu hoặc học tiếp' }).click();
+  const input = page.getByRole('textbox', { name: 'Đáp án' });
+  const submit = page.getByRole('button', { name: 'Gửi đáp án', exact: true });
+  await input.fill('12');
+  await submit.click();
+  await expect(input).not.toBeEditable();
+  await page.getByRole('button', { name: 'Gửi lại đáp án', exact: true }).click();
+  await expect(page.getByText('Chặng 2/5 · 1 câu đúng', { exact: true })).toBeVisible();
+  expect(retried).toBe(true);
+  for (let i = 1; i < 5; i++) {
+    await input.fill('12');
+    await submit.click();
+    if (i < 4) await expect(page.getByText(`Chặng ${i + 2}/5 · ${i + 1} câu đúng`, { exact: true })).toBeVisible();
+  }
+  await expect(page.getByText('Hôm nay em đã nhận đủ sao từ các trò chơi. Ngày mai em có thể nhận thêm.')).toBeVisible();
+  await testInfo.attach('Race challenge reward limit', { body: await page.screenshot(), contentType: 'image/png' });
+});
+
 test('all five games load their bundled artwork and enter gameplay', async ({ page, app }, testInfo) => {
   app.realStudent = true;
+  // This test changes the viewport itself. The orientation test covers the
+  // fullscreen request, which can prevent Chromium from resizing the window.
+  await page.addInitScript(() => {
+    HTMLElement.prototype.requestFullscreen = async () => { throw new Error('Resize-controlled viewport'); };
+  });
   const failures = [];
   page.on('pageerror', error => failures.push(error.message));
   page.on('response', response => {
@@ -361,6 +477,7 @@ test('all five games load their bundled artwork and enter gameplay', async ({ pa
   });
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  const viewport = page.viewportSize();
   for (const [game, start] of [
     ['race-to-finish', 'start-race-button'],
     ['terrain-racing', null],
@@ -368,6 +485,10 @@ test('all five games load their bundled artwork and enter gameplay', async ({ pa
     ['planet-rescue', 'rescue-start'],
     ['block-island', null],
   ]) {
+    if (viewport.height > viewport.width) {
+      await page.setViewportSize(game === 'race-to-finish'
+        ? { width: viewport.height, height: viewport.width } : viewport);
+    }
     await page.goto(`${sites.portal.origin}/study/games/${game}`);
     await expect(page.getByTestId(`training-player-${game}`)).toBeVisible();
     if (start) {
@@ -417,13 +538,23 @@ test('each game opens with its own mobile display policy', async ({ page, app, i
   ]) {
     await page.goto(`${sites.portal.origin}/study/games`);
     await page.getByTestId(`training-play-${game}`).click();
-    await expect(page.locator(selector)).toBeVisible();
-    expect(await page.evaluate(() => window.gameDisplayCalls)).toEqual(direction ? ['fullscreen', direction] : []);
+    await expect.poll(() => page.evaluate(() => window.gameDisplayCalls)).toEqual(direction ? ['fullscreen', direction] : []);
     await expect(page.getByRole('button', { name: 'Mở trò chơi toàn màn hình và xoay ngang' })).toHaveCount(direction === 'landscape' ? 1 : 0);
     if (game === 'race-to-finish') {
+      const viewport = page.viewportSize();
+      await expect(page.locator(selector)).toHaveCount(0);
+      await expect(page.getByRole('button', { name: 'Về danh sách trò chơi' })).toBeVisible();
+      await page.setViewportSize({ width: viewport.height, height: viewport.width });
+      await expect(page.locator(selector)).toBeVisible();
+      await page.setViewportSize(viewport);
+      await expect(page.locator(selector)).toBeHidden();
+      await page.setViewportSize({ width: viewport.height, height: viewport.width });
       await page.locator(selector).click();
       await expect(page.getByTestId(`training-play-${game}`)).toBeVisible();
       expect(await page.evaluate(() => window.gameDisplayCalls.slice(-2))).toEqual(['exit', 'unlock']);
+      await page.setViewportSize(viewport);
+    } else {
+      await expect(page.locator(selector)).toBeVisible();
     }
   }
 });

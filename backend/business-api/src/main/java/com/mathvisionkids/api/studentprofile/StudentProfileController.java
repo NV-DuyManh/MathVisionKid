@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 import static com.mathvisionkids.api.studentprofile.ProfileDtos.*;
 
@@ -47,8 +48,16 @@ public class StudentProfileController {
         return profiles.leaderboard(principal.getName(), classroom);
     }
 
+    @GetMapping("/rank-milestones")
+    public List<StudentRank.Milestone> rankMilestones() { return StudentRank.milestones(); }
+
     @PostMapping("/game-runs")
-    public Game start(Principal principal) { return games.start(principal.getName()); }
+    public Game start(Principal principal, @RequestParam(defaultValue = "ARITHMETIC_QUEST") GameMode mode) {
+        return games.start(principal.getName(), mode);
+    }
+
+    @GetMapping("/game-runs/{id}")
+    public Game game(Principal principal, @PathVariable UUID id) { return games.get(principal.getName(), id); }
 
     @PostMapping("/game-runs/{id}/answers")
     public Game answer(Principal principal, @PathVariable UUID id, @Valid @RequestBody GameAnswer answer) {

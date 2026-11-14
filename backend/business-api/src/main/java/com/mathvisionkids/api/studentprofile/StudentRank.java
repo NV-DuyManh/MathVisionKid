@@ -1,6 +1,7 @@
 package com.mathvisionkids.api.studentprofile;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public final class StudentRank {
     private record Tier(String name, int divisions, int stars) {}
@@ -12,6 +13,22 @@ public final class StudentRank {
     public static final long CHALLENGER_MIN_STARS = MASTER + 50;
 
     public record Rank(String name, long masterStars, long progress, long goal) {}
+    public record Milestone(String name, long stars, Integer top) {}
+
+    public static List<Milestone> milestones() {
+        List<Milestone> result = new ArrayList<>();
+        long stars = 0;
+        for (Tier tier : TIERS) {
+            result.add(new Milestone(tier.name(), stars, null));
+            stars += (long) tier.divisions() * tier.stars();
+        }
+        result.add(new Milestone(at(stars, null).name(), stars, null));
+        result.add(new Milestone("Đại Cao Thủ", MASTER + 10, null));
+        result.add(new Milestone(at(MASTER + 50, null).name(), MASTER + 50, null));
+        result.add(new Milestone(at(MASTER + 100, null).name(), MASTER + 100, null));
+        result.add(new Milestone(at(CHALLENGER_MIN_STARS, (long) CHALLENGER_SIZE).name(), CHALLENGER_MIN_STARS, CHALLENGER_SIZE));
+        return List.copyOf(result);
+    }
 
     private StudentRank() {}
 
