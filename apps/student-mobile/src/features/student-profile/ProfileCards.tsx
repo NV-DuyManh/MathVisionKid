@@ -36,12 +36,14 @@ export function ProfileRankCard({ profile }: { profile: StudentProfile }) {
         <Text style={styles.stars}>{stars} sao</Text>
       </View>
     </View>
-    {rank.goal > 0 && <>
+    {rank.goal > 0 ? <>
       <View accessibilityRole="progressbar" accessibilityLabel="Tiến độ lên hạng" accessibilityValue={{ min: 0, max: rank.goal, now: rank.progress }}
         aria-valuemin={0} aria-valuemax={rank.goal} aria-valuenow={rank.progress}
         style={styles.track}><View style={[styles.bar, { width: `${100 * rank.progress / rank.goal}%` }]} /></View>
       <Text style={styles.light}>Còn {next} sao để lên bậc tiếp theo</Text>
-    </>}
+    </> : <Text style={styles.light}>{rank.name === 'Thách Đấu'
+      ? 'Em đang ở bậc Thách Đấu.'
+      : 'Đạt Top 200 toàn hệ thống để lên Thách Đấu.'}</Text>}
     <Text style={styles.light}>Hạng cao nhất · {highestRank}</Text>
     {position !== null && <Text style={styles.light}>Vị trí toàn hệ thống · #{position}</Text>}
   </View>;
@@ -67,8 +69,9 @@ export const profileStyles = StyleSheet.create({
   heading: { color: COLORS.textPrimary, fontFamily: FONTS.extraBold, fontSize: 19 },
   body: { color: COLORS.textSecondary, fontFamily: FONTS.semiBold, fontSize: 14, lineHeight: 21 },
   input: { minHeight: 48, padding: 12, color: COLORS.textPrimary, backgroundColor: COLORS.background, borderWidth: 1, borderColor: '#BBAED7', borderRadius: 12, fontFamily: FONTS.bold, fontSize: 16 },
-  chip: { minHeight: 48, minWidth: 48, borderRadius: 14, padding: 10, justifyContent: 'center', backgroundColor: '#F2EAFB' },
-  selected: { backgroundColor: '#E8D9FC', borderWidth: 2, borderColor: COLORS.primaryDark },
+  chip: { minHeight: 48, minWidth: 48, maxWidth: '100%', borderWidth: 2, borderColor: 'transparent',
+    borderRadius: 14, padding: 10, justifyContent: 'center', backgroundColor: '#F2EAFB' },
+  selected: { backgroundColor: '#E8D9FC', borderColor: COLORS.primaryDark },
   error: { color: '#8C243D', fontFamily: FONTS.bold, fontSize: 14 },
   logoutButton: { backgroundColor: '#FFF5F5', borderColor: '#F3BDBD', borderWidth: 1 },
   logoutLabel: { color: COLORS.errorText, fontFamily: FONTS.extraBold },

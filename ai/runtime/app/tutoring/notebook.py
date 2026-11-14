@@ -99,6 +99,7 @@ class NotebookQuestion(TutorModel):
 class NotebookRead(TutorModel):
     kind: Literal["PROBLEM", "WORK", "MIXED", "MULTIPLE", "UNREADABLE"]
     problemText: str = Field(default="", max_length=4000)
+    problemNeedsReview: StrictBool = False
     lines: list[NotebookLine] = Field(default_factory=list, max_length=35)
     needsProblem: StrictBool = False
     needsCrop: StrictBool = False
@@ -691,11 +692,7 @@ All other fields and line schemas remain the same. Never solve or correct."""
                         and _question_signature(result.problemText) != _question_signature(second.problemText))
                     if result.problemText and (disputed_question
                             or (second.kind == "WORK" and not second.problemText.strip())):
-                        # Keep the actual first reading visible for correction.
-                        # [?] blocks lesson creation until the pupil edits it;
-                        # neither the verifier nor arithmetic supplies replacement data.
-                        if "[?]" not in result.problemText:
-                            result.problemText = "[?] " + result.problemText[:3996]
+                        result.problemNeedsReview = True
                     if (not structured and physical and len(result.lines) != len(physical)
                             and len(alternatives) == len(physical)
                             and all(line.layout == "ROW" for line in alternatives)

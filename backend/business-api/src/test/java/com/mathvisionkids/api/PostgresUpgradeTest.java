@@ -10,6 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 /** Opt-in, real Flyway upgrade with existing data. Never touches the public app schema. */
 @EnabledIfEnvironmentVariable(named = "MATHVISION_POSTGRES_UPGRADE", matches = "true")
 class PostgresUpgradeTest {
+    @Test void upgradeFrom33PreservesExistingArithmeticRun() throws Exception {
+        verifyUpgrade("33");
+    }
+
     @Test void upgradeFrom32AddsPrivateAccountTablesAndPreservesExistingData() throws Exception {
         verifyUpgrade("32");
     }
@@ -39,16 +43,21 @@ class PostgresUpgradeTest {
                         .target(startingVersion).load().migrate();
                 sql.execute("SET search_path TO " + schema + ", public");
                 String id = UUID.randomUUID().toString(), source = UUID.randomUUID().toString(), quiz = UUID.randomUUID().toString();
+                String game = UUID.randomUUID().toString();
                 sql.execute("INSERT INTO users(id,email,password_hash,role,display_name) VALUES ('"+id+"','synthetic@upgrade.test','unused','STUDENT','Synthetic pupil')");
                 sql.execute("INSERT INTO students(student_id,grade_level) VALUES ('"+id+"',5)");
+                if (Integer.parseInt(startingVersion) >= 32) {
+                    sql.execute("INSERT INTO student_game_runs(id,student_id,level,started_at,activity_day,seed,answered,correct,last_answer)"
+                            + " VALUES ('"+game+"','"+id+"',5,now(),CURRENT_DATE,12,2,1,10)");
+                }
                 sql.execute("INSERT INTO submissions(submission_id,student_id,status) VALUES ('"+source+"','"+id+"','REVIEW_REQUIRED')");
                 sql.execute("INSERT INTO submission_images(submission_id,file_path,content_type,file_size) VALUES ('"+source+"','synthetic/retained.png','image/png',68)");
                 sql.execute("INSERT INTO quiz_learning_sources(id,student_id,source_type,source_id,problem_text,fingerprint,completed,created_at) VALUES ('"+UUID.randomUUID()+"','"+id+"','LESSON','source','1 + 1 = ?',repeat('a',64),true,now())");
                 sql.execute("INSERT INTO student_quizzes(id,student_id,source_type,source_id,source_fingerprint,topic_code,topic_name,skill_code,grade_level,question_text,unit,answer_spec,validated_solution,status,created_at,updated_at,generation_version) VALUES ('"+quiz+"','"+id+"','LESSON','source',repeat('a',64),'ADDITION','Addition','ADD',5,'2 + 2 = ?','','4','2 + 2 = 4','READY',now(),now(),'test')");
                 var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
-                assertEquals(33 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
-                assertEquals("33", upgrade.targetSchemaVersion);
+                assertEquals(34 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
+                assertEquals("34", upgrade.targetSchemaVersion);
                 assertTrue(latest.validateWithResult().validationSuccessful);
                 assertEquals(0, latest.migrate().migrationsExecuted);
                 sql.execute("INSERT INTO student_profile_photos(student_id,image_bytes,updated_at) VALUES ('"+id+"',decode('ffd8ffe0','hex'),now())");
@@ -73,6 +82,13 @@ class PostgresUpgradeTest {
                 }
                 try (var rows = sql.executeQuery("SELECT id FROM student_reward_lock")) {
                     assertTrue(rows.next()); assertEquals(1, rows.getInt(1)); assertFalse(rows.next());
+                }
+                if (Integer.parseInt(startingVersion) >= 32) {
+                    try (var rows = sql.executeQuery("SELECT mode,answered,correct,last_answer,reward_status FROM student_game_runs WHERE id='"+game+"'")) {
+                        assertTrue(rows.next()); assertEquals("ARITHMETIC_QUEST", rows.getString(1));
+                        assertEquals(2, rows.getInt(2)); assertEquals(1, rows.getInt(3));
+                        assertEquals(10, rows.getInt(4)); assertNull(rows.getString(5)); assertFalse(rows.next());
+                    }
                 }
                 try (var rows = sql.executeQuery("SELECT encode(image_bytes,'hex') FROM student_profile_photos WHERE student_id='"+id+"'")) {
                     assertTrue(rows.next()); assertEquals("ffd8ffe0", rows.getString(1)); assertFalse(rows.next());

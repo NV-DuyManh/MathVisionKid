@@ -74,6 +74,14 @@ const editProblem = () => {
 let view: TestRenderer.ReactTestRenderer;
 // RN's Promise-based native image loader is not implemented by jest-expo's callback stub.
 const imageSize = jest.spyOn(Image, 'getSize').mockImplementation(((_uri: string, success?: (width: number, height: number) => void) => { success?.(600, 900); }) as any);
+// RN lazily loads these on the first render/ref attachment. Initialize the real
+// implementations during suite setup so cold Babel transforms do not consume a
+// behavior test's deadline. Keep the normal timeout and all render assertions.
+for (const component of ['ScrollView', 'View', 'Text', 'TextInput', 'Pressable',
+  'ActivityIndicator', 'KeyboardAvoidingView', 'TouchableOpacity', 'Modal']) {
+  void require('react-native')[component];
+}
+require('react-native/Libraries/ReactNative/ReactFabricPublicInstance/ReactFabricPublicInstance');
 afterAll(() => imageSize.mockRestore());
 
 it('keeps the entire source visible after confirmation without an extra expand action', async () => {
@@ -549,6 +557,50 @@ it('shows photo reading by itself, keeps the photo on cancel, and ignores the ca
   expect(readText()).toContain('Cần thêm đề bài');
 });
 
+it('opens review from one full-page photo and never navigates to capture another solution', async () => {
+  photo();
+  (TutorService.inspect as jest.Mock).mockResolvedValue({ ...WORK, kind: 'MIXED', problemText: PROBLEM });
+  await render();
+  expect(readText()).toContain(WORK.lines[1].text);
+  expect(TutorService.reviewWork).not.toHaveBeenCalled();
+  expect(button('Bài đã có lời giải').props.disabled).toBe(false);
+  await act(async () => button('Bài đã có lời giải').props.onPress());
+  expect(TutorService.inspect).toHaveBeenCalledTimes(1);
+  expect(TutorService.reviewWork).toHaveBeenCalledTimes(1);
+  expect(view.root.findByType(StudentWorkReview).props.imageUri).toBe('file:///masked-crop.jpg');
+  expect((useRouter as jest.Mock).mock.results.at(-1)!.value.push).not.toHaveBeenCalled();
+});
+
+it('shows the photographed question unchanged and waits for confirmation when the readings disagree', async () => {
+  photo();
+  (TutorService.inspect as jest.Mock).mockResolvedValue({
+    ...WORK, kind: 'MIXED', problemText: PROBLEM, problemNeedsReview: true,
+  });
+  await render();
+  expect(readText()).toContain(PROBLEM);
+  expect(readText()).toContain('Em kiểm tra lại đề với ảnh');
+  expect(readText()).not.toContain('[?]');
+  expect(TutorService.reviewWork).not.toHaveBeenCalled();
+  await act(async () => button('Bài đã có lời giải').props.onPress());
+  expect((TutorService.reviewWork as jest.Mock).mock.calls[0][0]).toEqual(expect.objectContaining({
+    problemText: PROBLEM, problemConfirmed: true, workConfirmed: true,
+  }));
+});
+
+it('keeps an unread photo after service failure and offers text entry without blaming the picture', async () => {
+  photo();
+  (TutorService.inspect as jest.Mock).mockRejectedValue({ response: { status: 503, data: { error: { code: 'TUTOR_CONFIGURATION' } } } });
+  await render(false);
+  expect(readText()).toContain('Chưa đọc được ảnh lúc này');
+  expect(readText()).not.toContain('chưa chuẩn bị được hướng dẫn');
+  expect(button('Nhập đề bằng chữ')).toBeDefined();
+  expect(recognitionDraftStore.getDraft()?.croppedImageUri).toBe('file:///masked-crop.jpg');
+  act(() => button('Nhập đề bằng chữ').props.onPress());
+  expect(input('Nội dung đề bài')).toBeDefined();
+  expect(TutorService.startLesson).not.toHaveBeenCalled();
+  expect(TutorService.reviewWork).not.toHaveBeenCalled();
+});
+
 it('keeps source-bound work lines through adding the original problem photo', async () => {
   photo();
   const lines = WORK.lines.map((line, index) => ({ ...line, box: [50, 50 + index * 200, 950, 150 + index * 200] }));
@@ -564,7 +616,7 @@ it('keeps source-bound work lines through adding the original problem photo', as
   await render();
   expect(view.root.findAllByType(StudentWorkReview)).toHaveLength(0);
   expect(TutorService.prepareLesson).not.toHaveBeenCalled();
-  await act(async () => button('Nội dung đã đúng · Xem nhận xét').props.onPress());
+  await act(async () => button('Bài đã có lời giải').props.onPress());
   const review = view.root.findByType(StudentWorkReview);
   expect(review.props.lines).toEqual(lines);
   expect(review.props.imageUri).toBe('file:///masked-crop.jpg');
@@ -574,23 +626,22 @@ it('keeps source-bound work lines through adding the original problem photo', as
   expect(button('Xem lại đề và bài làm')).toBeDefined();
   expect(button('Em đã kiểm tra đề bài và các số')).toBeUndefined();
   act(() => button('Xem lại đề và bài làm').props.onPress());
-  expect(button('Nội dung đã đúng · Xem nhận xét')).toBeDefined();
-  await act(async () => button('Nội dung đã đúng · Xem nhận xét').props.onPress());
+  expect(button('Bài đã có lời giải')).toBeDefined();
+  await act(async () => button('Bài đã có lời giải').props.onPress());
   expect(TutorService.reviewWork).toHaveBeenCalledTimes(1);
 });
 
-it('invalidates image regions and confirmation when a learner revises a written line', async () => {
+it('submits typed revisions immediately and invalidates image regions while keeping the review open', async () => {
   photo();
   const lines = WORK.lines.map((line, index) => ({ ...line, box: [50, 50 + index * 200, 950, 150 + index * 200] }));
   (TutorService.inspect as jest.Mock).mockResolvedValue({ ...WORK, kind: 'MIXED', problemText: PROBLEM, lines });
   await render();
-  await act(async () => button('Nội dung đã đúng · Xem nhận xét').props.onPress());
+  await act(async () => button('Bài đã có lời giải').props.onPress());
   const revised = '90 × 2 : 15 = 13 (cm)';
-  act(() => view.root.findByType(StudentWorkReview).props.onReviseWork(revised));
-  expect(view.root.findAllByType(StudentWorkReview)).toHaveLength(0);
-  expect(readText()).toContain(revised);
-  expect(TutorService.reviewWork).toHaveBeenCalledTimes(1);
-  await act(async () => button('Nội dung đã đúng · Xem nhận xét').props.onPress());
+  await act(async () => view.root.findByType(StudentWorkReview).props.onReviseWork(revised));
+  expect(TutorService.reviewWork).toHaveBeenCalledTimes(2);
+  expect((TutorService.reviewWork as jest.Mock).mock.calls[1][0]).toMatchObject({ workText: revised, workConfirmed: true });
+  expect(button('Bài đã có lời giải')).toBeUndefined();
   const review = view.root.findByType(StudentWorkReview);
   expect(review.props.workText).toBe(revised); expect(review.props.photoCurrent).toBe(false);
   expect(review.props.lines).toEqual([{ text: revised, box: null, uncertain: false }]);
@@ -606,6 +657,28 @@ it('allows a pupil to photograph work during a lesson while keeping its confirme
   expect(context.purpose).toBe('ADD_WORK');
   expect(context.problemText).toBe(PROBLEM);
   expect(context.problemConfirmed).toBe(true);
+});
+
+it('shows the existing success celebration after reviewing the corrected photo against the retained problem', async () => {
+  photo();
+  recognitionDraftStore.updateDraft({ lessonContext: { purpose: 'ADD_WORK', problemText: PROBLEM,
+    problemConfirmed: true, workConfirmed: true, workText: '90 × 2 : 15 = 13 (cm)',
+    lessonId: 'recaptured-work-lesson', uncertainWork: false } });
+  const corrected = WORK.lines.map(line => line.text).join('\n');
+  (TutorService.inspect as jest.Mock).mockResolvedValue({ ...WORK, kind: 'MIXED', problemText: '[?] Đề đọc lại khác đề gốc' });
+  (TutorService.reviewWork as jest.Mock).mockImplementation(async ({ sourceId }) => ({ sourceId,
+    status: 'CORRECT', complete: true, praise: 'Em đã tính đúng.', summary: 'Bài đã hoàn thành.',
+    nextAction: 'Em xem lại kết quả nhé.', alternative: '', rows: WORK.lines.map(({ text }, lineIndex) => ({
+      sourceText: text, lineIndex, status: 'OK', feedback: 'Dòng này đã đúng.', hints: [],
+    })) }));
+  await render();
+  expect(TutorService.reviewWork).not.toHaveBeenCalled();
+  await act(async () => button('Bài đã có lời giải').props.onPress());
+  expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({
+    problemText: PROBLEM, workText: corrected, problemConfirmed: true, workConfirmed: true,
+  }), expect.any(AbortSignal));
+  expect(view.root.findAllByProps({ testID: 'correct-answer-feedback' }).length).toBeGreaterThan(0);
+  expect(button('Chụp lại bài em đã sửa')).toBeUndefined();
 });
 
 const division = { dividend: '17843', divisor: '3', quotient: '59947', rows: ['028', '014', '023', '02'] };
@@ -1120,7 +1193,7 @@ it('combines the second privacy-approved problem photo with the first work', asy
   await render();
   act(() => button('Đối chiếu đề bài').props.onPress());
   expect(readText()).toContain(PROBLEM);
-  await act(async () => button('Nội dung đã đúng · Xem nhận xét').props.onPress());
+  await act(async () => button('Bài đã có lời giải').props.onPress());
   expect(TutorService.startLesson).not.toHaveBeenCalled();
   expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({ problemText: PROBLEM, workText: '90 × 2 : 15 = 12 (cm)', problemConfirmed: true, workConfirmed: true }), expect.any(AbortSignal));
   act(() => button('Xem lại đề và bài làm').props.onPress());
@@ -1142,7 +1215,7 @@ it('allows a manually supplied original question without losing work', async () 
   act(() => button('Nhập đề bài').props.onPress());
   act(() => input('Nội dung đề bài').props.onChangeText(PROBLEM));
   act(() => button('Dùng nội dung này').props.onPress());
-  await act(async () => button('Nội dung đã đúng · Xem nhận xét').props.onPress());
+  await act(async () => button('Bài đã có lời giải').props.onPress());
   expect(TutorService.startLesson).not.toHaveBeenCalled();
   expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({ problemText: PROBLEM, workText: WORK.lines.map(row => row.text).join('\n'), problemConfirmed: true, workConfirmed: true }), expect.any(AbortSignal));
 });
@@ -1158,7 +1231,7 @@ it('offers recropping for several exercises', async () => {
 it('shows a retry without exposing service errors', async () => {
   (TutorService.inspect as jest.Mock).mockRejectedValue({ response: { status: 503, data: { message: 'provider secret' } } });
   photo(); await render();
-  expect(readText()).toContain('Bài của em vẫn ở đây');
+  expect(readText()).toContain('Ảnh của em vẫn được giữ');
   expect(readText()).not.toContain('provider secret');
   expect(button('Đọc lại ảnh')).toBeDefined();
 });
@@ -1170,7 +1243,7 @@ it('does not use uncertain work as a basis for comparing a method', async () => 
   await render();
   expect(TutorService.reviewWork).not.toHaveBeenCalled();
   expect(TutorService.startLesson).not.toHaveBeenCalled();
-  await act(async () => button('Nội dung đã đúng · Xem nhận xét').props.onPress());
+  await act(async () => button('Bài đã có lời giải').props.onPress());
   expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({ problemConfirmed: true, workConfirmed: true }), expect.any(AbortSignal));
 });
 
@@ -1178,17 +1251,17 @@ it('blocks even confident photo text until the pupil confirms and invalidates co
   photo();
   (TutorService.inspect as jest.Mock).mockResolvedValue({ ...WORK, kind: 'MIXED', problemText: PROBLEM });
   await render(false);
-  expect(button('Nội dung đã đúng · Xem nhận xét')).toBeDefined();
+  expect(button('Bài đã có lời giải')).toBeDefined();
   expect(TutorService.startLesson).not.toHaveBeenCalled();
   expect(TutorService.reviewWork).not.toHaveBeenCalled();
-  await act(async () => button('Nội dung đã đúng · Xem nhận xét').props.onPress());
+  await act(async () => button('Bài đã có lời giải').props.onPress());
   expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({ problemConfirmed: true, workConfirmed: true }), expect.any(AbortSignal));
   act(() => button('Xem lại đề và bài làm').props.onPress());
   act(() => button('Đối chiếu đề bài').props.onPress());
   editProblem();
   act(() => input('Nội dung đề bài').props.onChangeText(PROBLEM.replace('90', '[?]')));
   act(() => button('Dùng nội dung này').props.onPress());
-  expect(button('Nội dung đã đúng · Xem nhận xét').props.disabled).toBe(true);
+  expect(button('Bài đã có lời giải').props.disabled).toBe(true);
   expect(button('Cùng hiểu và đối chiếu bài')).toBeUndefined();
 });
 
@@ -1217,7 +1290,7 @@ it('preserves a wrong written value and uses work only after explicit source rev
   act(() => button('Chỉnh chỗ chưa đọc đúng').props.onPress());
   act(() => input('Nội dung bài làm').props.onChangeText('4(2x - 5) + 15 = 11'));
   act(() => button('Dùng nội dung này').props.onPress());
-  await act(async () => button('Nội dung đã đúng · Xem nhận xét').props.onPress());
+  await act(async () => button('Bài đã có lời giải').props.onPress());
   expect(TutorService.startLesson).not.toHaveBeenCalled();
   expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({ problemText: PROBLEM, workText: '4(2x - 5) + 15 = 11',
     problemConfirmed: true, workConfirmed: true }), expect.any(AbortSignal));

@@ -133,9 +133,20 @@ it('paints a translucent yellow band directly over only the confirmed correction
   expect(correction.borderColor).toBe('#8C5900');
   expect(correction.opacity).toBeUndefined();
   expect(StyleSheet.flatten(region(2).props.style).backgroundColor).toBe('transparent');
-  expect(text()).toContain('Vùng bôi vàng');
+    expect(text()).toContain('Vùng bôi màu');
   expect(image().props.source).toEqual({ uri: URI });
   expect(choose).not.toHaveBeenCalled();
+});
+
+it.each([['CALCULATION', 'Sai tính toán'], ['OPERAND', 'Viết sai số từ đề'], ['DEPENDENT', 'Cần tính lại sau khi sửa bước trước']] as const)(
+  'paints a verified %s error red while keeping uncertain source ungraded', (errorKind, label) => {
+  render({ rows: rows.map((row, index) => index === 0 ? { ...row, errorKind } : row) }); load();
+  expect(StyleSheet.flatten(region(0).props.style)).toMatchObject({
+    borderColor: '#DC2626', backgroundColor: 'rgba(220, 38, 38, 0.22)',
+  });
+  expect(controls()[0].props.accessibilityLabel).toContain(label);
+  expect(StyleSheet.flatten(region(2).props.style).backgroundColor).toBe('transparent');
+  expect(controls()[2].props.accessibilityLabel).toContain('Cần đối chiếu');
 });
 
 it('accepts only one exact index and trimmed-source match, without guessing across duplicate text', () => {

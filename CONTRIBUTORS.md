@@ -26,4 +26,8 @@ Bản tích hợp **13/11/2026** giữ các commit gốc của **Lộc (Four-L)*
 
 Lượt ổn định production tiếp theo ngày **13/11/2026** tích hợp các sửa local do owner cung cấp trên nền `3f5d18b1e8db13997166c674ad7ab7d90e1dbc7a` từ chat VPS (Google login, phát giọng web/iOS và xác nhận OCR), cùng sửa runtime/kiểm thử riêng. Các sửa local chưa có commit nguồn độc lập; không thay tác giả các commit Four-L/Nam hoặc gán danh tính cho công cụ. Xem [quyết định và kiểm chứng](report/integration-release-20261113/REPORT.md).
 
+**Kha (deptraivodich)** kiểm tra trên Expo Go và tích hợp bản sửa Student Work Review P1 với Codex. Bản sửa được chuyển từ thay đổi local trên nền Hieu 66e84882576b1d1fc194c7915e9d549e38becab9, giữ nguyên lịch sử của các đóng góp đã tích hợp.
+
 Các thư viện, font, công cụ và phần mã bên thứ ba giữ thông báo tác giả/giấy phép riêng. Bảng này không thay đổi giấy phép hoặc tự xác lập quyền sở hữu pháp lý.
+
+Lượt tích hợp **14/11/2026** giữ nguyên các commit của **Nam (tranhoainam298)** từ [PR #71](https://github.com/NV-DuyManh/MathVisionKid/pull/71) (nguồn `8e91629089a38c27d9b39164067951953daac8cb`) và **Kha (deptraivodich)** từ [PR #72](https://github.com/NV-DuyManh/MathVisionKid/pull/72) (nguồn `0052fef41e09634108c03f25c4d68dcbb7cd966a`). Bản ghép bổ sung độ khó theo khối lớp, kiểm thử điều hướng và ràng buộc bảo toàn VPS theo yêu cầu owner; không đổi tác giả hoặc viết lại lịch sử nguồn.
