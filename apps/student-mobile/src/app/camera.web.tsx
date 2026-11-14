@@ -14,7 +14,11 @@ import type { ViewInstance } from 'react-native';
 export default function WebCameraScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ mode?: string; problemText?: string; retrySubmissionId?: string }>();
-  const [permission, requestPermission] = useCameraPermissions();
+  const [permission, requestPermission, getPermission] = useCameraPermissions({ get: false });
+  useEffect(() => {
+    // WebKit may reject a passive camera permission query. Keep both pickers available.
+    void getPermission().catch(() => {});
+  }, [getPermission]);
   const compact = useWindowDimensions().height < 500;
   const camera = useRef<CameraView>(null);
   const preview = useRef<ViewInstance>(null);
