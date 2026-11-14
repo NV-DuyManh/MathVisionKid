@@ -32,7 +32,22 @@ class PostgresUpgradeTest {
         verifyUpgrade("34");
     }
 
+    @Test void upgradeFrom35PreservesAssignmentRowsAndCreatesEmptyPublicationTables() throws Exception {
+        verifyUpgrade("35");
+    }
+
     private void verifyUpgrade(String startingVersion) throws Exception {
+        verifyUpgrade(startingVersion, "classpath:db/migration", 36);
+    }
+
+    @Test
+    @EnabledIfEnvironmentVariable(named = "MATHVISION_COMPAT_MIGRATIONS", matches = ".+")
+    void proposedCombinedHistoryUpgradesFrom33WithLegacyData() throws Exception {
+        // Caller supplies a disposable copy of both branches' SQL with unique versions.
+        verifyUpgrade("33", "filesystem:" + System.getenv("MATHVISION_COMPAT_MIGRATIONS"), 37);
+    }
+
+    private void verifyUpgrade(String startingVersion, String migrationLocation, int targetVersion) throws Exception {
         String database = System.getenv("PGDATABASE");
         assertNotNull(database); assertTrue(database.endsWith("_test"), "Disposable *_test database required");
         String host = System.getenv().getOrDefault("PGHOST", "127.0.0.1");
@@ -43,7 +58,7 @@ class PostgresUpgradeTest {
         try (var connection = DriverManager.getConnection(url, user, password); var sql = connection.createStatement()) {
             sql.execute("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\" WITH SCHEMA public");
             try {
-                Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema)
+                Flyway.configure().locations(migrationLocation).dataSource(url, user, password).schemas(schema).defaultSchema(schema)
                         .target(startingVersion).load().migrate();
                 sql.execute("SET search_path TO " + schema + ", public");
                 String id = UUID.randomUUID().toString(), source = UUID.randomUUID().toString(), quiz = UUID.randomUUID().toString();
@@ -58,10 +73,29 @@ class PostgresUpgradeTest {
                 sql.execute("INSERT INTO teachers(teacher_id) VALUES ('"+teacherId+"')");
                 sql.execute("INSERT INTO classrooms(class_id,name,grade_level,teacher_id) VALUES ('"+classId+"','Legacy class',5,'"+teacherId+"')");
                 sql.execute("INSERT INTO classroom_students(class_id,student_id) VALUES ('"+classId+"','"+id+"')");
-                var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
+                UUID gameRunId = UUID.randomUUID();
+                if (Integer.parseInt(startingVersion) >= 32) {
+                    sql.execute("INSERT INTO student_game_runs(id,student_id,level,started_at,activity_day,seed,answered,correct) VALUES ('"+gameRunId+"','"+id+"',3,now(),CURRENT_DATE,42,2,1)");
+                }
+                UUID assignmentId = UUID.randomUUID(), batchId = UUID.randomUUID();
+                sql.execute("INSERT INTO assignments(assignment_id,class_id,teacher_id,title,operation_type,max_score,status) VALUES ('"+assignmentId+"','"+classId+"','"+teacherId+"','Legacy arithmetic','VERTICAL_ADDITION',10,'ACTIVE')");
+                sql.execute("INSERT INTO batches(batch_id,assignment_id,teacher_id,status,total_count,processed_count) VALUES ('"+batchId+"','"+assignmentId+"','"+teacherId+"','COMPLETED',1,1)");
+                sql.execute("UPDATE submissions SET assignment_id='"+assignmentId+"',batch_id='"+batchId+"' WHERE submission_id='"+source+"'");
+                var latest = Flyway.configure().locations(migrationLocation).dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
-                assertEquals(35 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
-                assertEquals("35", upgrade.targetSchemaVersion);
+                assertEquals(targetVersion - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
+                assertEquals(Integer.toString(targetVersion), upgrade.targetSchemaVersion);
+                if (targetVersion == 37) {
+                    try (var rows = sql.executeQuery("SELECT mode,reward_status,seed,answered,correct FROM student_game_runs WHERE id='"+gameRunId+"'")) {
+                        assertTrue(rows.next());
+                        assertEquals("ARITHMETIC_QUEST", rows.getString(1));
+                        assertNull(rows.getString(2));
+                        assertEquals(42, rows.getLong(3));
+                        assertEquals(2, rows.getInt(4));
+                        assertEquals(1, rows.getInt(5));
+                        assertFalse(rows.next());
+                    }
+                }
                 assertTrue(latest.validateWithResult().validationSuccessful);
                 assertEquals(0, latest.migrate().migrationsExecuted);
                 sql.execute("INSERT INTO student_profile_photos(student_id,image_bytes,updated_at) VALUES ('"+id+"',decode('ffd8ffe0','hex'),now())");
@@ -87,6 +121,23 @@ class PostgresUpgradeTest {
                 try (var rows = sql.executeQuery("SELECT c.join_mode, m.student_id FROM classrooms c JOIN classroom_students m USING (class_id) WHERE c.class_id='"+classId+"'")) {
                     assertTrue(rows.next()); assertEquals("APPROVAL_REQUIRED", rows.getString(1));
                     assertEquals(UUID.fromString(id), rows.getObject(2, UUID.class)); assertFalse(rows.next());
+                }
+                try (var rows = sql.executeQuery("SELECT a.status,a.title,a.operation_type,a.max_score,a.prompt,a.instructions,b.status,b.total_count,b.processed_count,s.submission_id FROM assignments a JOIN batches b USING (assignment_id) JOIN submissions s ON s.batch_id=b.batch_id AND s.assignment_id=a.assignment_id WHERE a.assignment_id='"+assignmentId+"'")) {
+                    assertTrue(rows.next());
+                    assertEquals("ACTIVE", rows.getString(1));
+                    assertEquals("Legacy arithmetic", rows.getString(2));
+                    assertEquals("VERTICAL_ADDITION", rows.getString(3));
+                    assertEquals(10, rows.getInt(4));
+                    assertNull(rows.getString(5)); assertNull(rows.getString(6));
+                    assertEquals("COMPLETED", rows.getString(7));
+                    assertEquals(1, rows.getInt(8)); assertEquals(1, rows.getInt(9));
+                    assertEquals(UUID.fromString(source), rows.getObject(10, UUID.class));
+                    assertFalse(rows.next());
+                }
+                for (String table : java.util.List.of("assignment_publications", "assignment_recipients")) {
+                    try (var rows = sql.executeQuery("SELECT count(*) FROM " + table)) {
+                        assertTrue(rows.next()); assertEquals(0, rows.getInt(1));
+                    }
                 }
                 try (var rows = sql.executeQuery("SELECT count(*) FROM classroom_code_limit")) {
                     assertTrue(rows.next()); assertEquals(0, rows.getInt(1));

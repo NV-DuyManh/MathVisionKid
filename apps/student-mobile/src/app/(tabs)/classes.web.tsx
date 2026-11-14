@@ -11,7 +11,11 @@ const labels = { JOINED: 'Đã vào lớp', PENDING: 'Đang chờ cô/thầy duy
 export default function StudentClasses() {
   const auth = useContext(AuthContext);
   const [code, setCode] = useState('');
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    const value = new URLSearchParams(window.location.hash.slice(1)).get('classroom');
+    return value && /^[a-f0-9]{64}$/.test(value) ? value : '';
+  });
   const [preview, setPreview] = useState<Preview>();
   const [entries, setEntries] = useState<Entry[]>([]);
   const [busy, setBusy] = useState(false);
@@ -27,10 +31,6 @@ export default function StudentClasses() {
   };
   useEffect(() => {
     const controller = new AbortController();
-    const value = new URLSearchParams(window.location.hash.slice(1)).get('classroom');
-    if (value && /^[a-f0-9]{64}$/.test(value)) {
-      setToken(value);
-    }
     void load(controller.signal).catch(() => {
       if (!controller.signal.aborted) setError('Chưa xem được lớp. Em thử tải lại nhé.');
     });

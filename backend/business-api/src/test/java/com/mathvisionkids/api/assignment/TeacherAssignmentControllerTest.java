@@ -6,11 +6,14 @@ import com.mathvisionkids.api.classroom.Classroom;
 import com.mathvisionkids.api.classroom.ClassroomRepository;
 import com.mathvisionkids.api.user.Teacher;
 import com.mathvisionkids.api.user.TeacherRepository;
+import com.mathvisionkids.api.user.Student;
+import com.mathvisionkids.api.user.StudentRepository;
 import com.mathvisionkids.api.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -51,6 +54,11 @@ public class TeacherAssignmentControllerTest {
     @Autowired
     private AssignmentRepository assignmentRepository;
 
+    @Autowired private AssignmentPublicationRepository publicationRepository;
+    @Autowired private AssignmentRecipientRepository recipientRepository;
+    @Autowired private StudentRepository studentRepository;
+    @Autowired private JdbcTemplate jdbcTemplate;
+
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -59,6 +67,8 @@ public class TeacherAssignmentControllerTest {
     private Classroom classroom1;
     private String teacher1Token;
     private String teacher2Token;
+    private Student student;
+    private String studentToken;
 
     @BeforeEach
     public void setup() {
@@ -84,16 +94,127 @@ public class TeacherAssignmentControllerTest {
         classroom1.setTeacher(teacher1);
         classroom1 = classroomRepository.save(classroom1);
 
+        student = new Student();
+        student.setEmail("phase2.student@test.com");
+        student.setPasswordHash("hash");
+        student.setDisplayName("Student A");
+        student.setRole("STUDENT");
+        student.setGradeLevel(3);
+        student = studentRepository.save(student);
+
         teacher1Token = jwtUtil.generateToken(teacher1.getEmail(), "TEACHER");
         teacher2Token = jwtUtil.generateToken(teacher2.getEmail(), "TEACHER");
+        studentToken = jwtUtil.generateToken(student.getEmail(), "STUDENT");
     }
 
     @AfterEach
     public void tearDown() {
+        recipientRepository.deleteAll();
+        publicationRepository.deleteAll();
         assignmentRepository.deleteAll();
+        jdbcTemplate.update("DELETE FROM classroom_join_requests");
+        if (classroom1 != null && student != null) {
+            classroom1.getStudents().clear();
+            classroomRepository.save(classroom1);
+        }
         classroomRepository.deleteAll();
+        studentRepository.deleteAll();
         teacherRepository.deleteAll();
         userRepository.deleteAll();
+    }
+
+    @Test
+    void draftIsPrivateAndPublishSnapshotsOnlyCurrentRosterUntilMembershipEnds() throws Exception {
+        classroom1.getStudents().add(student);
+        classroomRepository.saveAndFlush(classroom1);
+        String request = objectMapper.writeValueAsString(new AssignmentWorkflowService.DraftRequest(
+                classroom1.getClassId(), "Phép cộng", "2 + 3 = ?", "Làm vào vở", "VERTICAL_ADDITION", 10, UUID.randomUUID()));
+        var created = mockMvc.perform(post("/api/v1/teacher/assignments/drafts")
+                        .header("Authorization", "Bearer " + teacher1Token)
+                        .contentType(MediaType.APPLICATION_JSON).content(request))
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.status", is("DRAFT")))
+                .andReturn();
+        String id = objectMapper.readTree(created.getResponse().getContentAsString()).get("assignmentId").asText();
+        mockMvc.perform(get("/api/v1/student/assignments").header("Authorization", "Bearer " + studentToken))
+                .andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(0)));
+        mockMvc.perform(post("/api/v1/teacher/assignments/" + id + "/publish")
+                        .header("Authorization", "Bearer " + teacher1Token))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.status", is("PUBLISHED")))
+                .andExpect(jsonPath("$.recipientCount", is(1)));
+        mockMvc.perform(get("/api/v1/student/assignments/" + id).header("Authorization", "Bearer " + studentToken))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.prompt", is("2 + 3 = ?")))
+                .andExpect(jsonPath("$.instructions", is("Làm vào vở")));
+        mockMvc.perform(put("/api/v1/teacher/assignments/" + id + "/draft")
+                        .header("Authorization", "Bearer " + teacher1Token)
+                        .contentType(MediaType.APPLICATION_JSON).content(request))
+                .andExpect(status().isConflict());
+        mockMvc.perform(get("/api/v1/teacher/assignments/" + id + "/recipients")
+                        .header("Authorization", "Bearer " + teacher1Token))
+                .andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(1)));
+        mockMvc.perform(delete("/api/v1/teacher/classes/" + classroom1.getClassId() + "/students/" + student.getId())
+                        .header("Authorization", "Bearer " + teacher1Token))
+                .andExpect(status().isNoContent());
+        mockMvc.perform(get("/api/v1/student/assignments/" + id).header("Authorization", "Bearer " + studentToken))
+                .andExpect(status().isNotFound());
+        assertEquals(1, recipientRepository.count());
+    }
+
+    @Test
+    void draftReplayReturnsExistingPublicationAndCorrectCreationStatus() throws Exception {
+        classroom1.getStudents().add(student);
+        classroomRepository.saveAndFlush(classroom1);
+        var requestId = UUID.randomUUID();
+        var request = new AssignmentWorkflowService.DraftRequest(classroom1.getClassId(), "Phép cộng", "2 + 3 = ?",
+                null, "VERTICAL_ADDITION", 10, requestId);
+        String body = objectMapper.writeValueAsString(request);
+
+        var created = mockMvc.perform(post("/api/v1/teacher/assignments/drafts")
+                        .header("Authorization", "Bearer " + teacher1Token)
+                        .contentType(MediaType.APPLICATION_JSON).content(body))
+                .andExpect(status().isCreated()).andReturn();
+        String id = objectMapper.readTree(created.getResponse().getContentAsString()).get("assignmentId").asText();
+        mockMvc.perform(post("/api/v1/teacher/assignments/drafts")
+                        .header("Authorization", "Bearer " + teacher1Token)
+                        .contentType(MediaType.APPLICATION_JSON).content(body))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.status", is("DRAFT")));
+        mockMvc.perform(post("/api/v1/teacher/assignments/" + id + "/publish")
+                        .header("Authorization", "Bearer " + teacher1Token))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/v1/teacher/assignments/drafts")
+                        .header("Authorization", "Bearer " + teacher1Token)
+                        .contentType(MediaType.APPLICATION_JSON).content(body))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.status", is("PUBLISHED")))
+                .andExpect(jsonPath("$.recipientCount", is(1))).andExpect(jsonPath("$.publishedAt", notNullValue()));
+    }
+
+    @Test
+    void studentAssignmentShowsTotalPublishedRecipientSnapshot() throws Exception {
+        Student secondStudent = new Student();
+        secondStudent.setEmail("phase2.student2@test.com");
+        secondStudent.setPasswordHash("hash");
+        secondStudent.setDisplayName("Student B");
+        secondStudent.setRole("STUDENT");
+        secondStudent.setGradeLevel(3);
+        secondStudent = studentRepository.save(secondStudent);
+        classroom1.getStudents().add(student);
+        classroom1.getStudents().add(secondStudent);
+        classroomRepository.saveAndFlush(classroom1);
+
+        var request = new AssignmentWorkflowService.DraftRequest(classroom1.getClassId(), "Phép cộng", "2 + 3 = ?",
+                null, "VERTICAL_ADDITION", 10, UUID.randomUUID());
+        var created = mockMvc.perform(post("/api/v1/teacher/assignments/drafts")
+                        .header("Authorization", "Bearer " + teacher1Token)
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated()).andReturn();
+        String id = objectMapper.readTree(created.getResponse().getContentAsString()).get("assignmentId").asText();
+        mockMvc.perform(post("/api/v1/teacher/assignments/" + id + "/publish")
+                        .header("Authorization", "Bearer " + teacher1Token))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.recipientCount", is(2)));
+
+        mockMvc.perform(get("/api/v1/student/assignments")
+                        .header("Authorization", "Bearer " + studentToken))
+                .andExpect(status().isOk()).andExpect(jsonPath("$[0].recipientCount", is(2)));
     }
 
     @Test

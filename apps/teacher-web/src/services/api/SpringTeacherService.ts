@@ -2,6 +2,7 @@ import type { TeacherService } from './TeacherService';
 import apiClient from './apiClient';
 import { AuthTokenStore } from './AuthTokenStore';
 import type { Assignment, Batch, Class, ClassDetail, DashboardStats, Evidence, EvidenceItem, MathType, ReviewQueueItem, Submission } from '../../types';
+import type { AssignmentWorkflow } from './TeacherService';
 
 type RawReviewMetrics = Pick<Submission, 'maxScore' | 'confidenceBundle' | 'validation'> & {
   gradeProposal?: { suggestedScore?: number; maxScore?: number };
@@ -117,6 +118,25 @@ class SpringTeacherServiceImpl implements TeacherService {
       creationRequestId,
     });
     return res.data;
+  }
+
+  async listClassAssignments(classId: string): Promise<AssignmentWorkflow[]> {
+    const { data } = await apiClient.get(`/teacher/classes/${encodeURIComponent(classId)}/assignments`);
+    return data.map((item: AssignmentWorkflow & { operationType: string }) => ({ ...item, mathType: item.operationType as MathType }));
+  }
+
+  async saveAssignmentDraft(input: { assignmentId?: string; classId: string; title: string; prompt: string; instructions: string; mathType: MathType; maxScore: number; creationRequestId: string }): Promise<AssignmentWorkflow> {
+    const body = { classId: input.classId, title: input.title, prompt: input.prompt, instructions: input.instructions || null,
+      operationType: input.mathType, maxScore: input.maxScore, creationRequestId: input.creationRequestId };
+    const { data } = input.assignmentId
+      ? await apiClient.put(`/teacher/assignments/${encodeURIComponent(input.assignmentId)}/draft`, body)
+      : await apiClient.post('/teacher/assignments/drafts', body);
+    return { ...data, operationType: data.operationType, mathType: data.operationType as MathType };
+  }
+
+  async publishAssignment(assignmentId: string): Promise<AssignmentWorkflow> {
+    const { data } = await apiClient.post(`/teacher/assignments/${encodeURIComponent(assignmentId)}/publish`);
+    return { ...data, operationType: data.operationType, mathType: data.operationType as MathType };
   }
 
   async getBatches(): Promise<Batch[]> {

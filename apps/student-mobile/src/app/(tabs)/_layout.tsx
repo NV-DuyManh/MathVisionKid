@@ -11,7 +11,7 @@ import { AppIllustration } from '../../components/ui/AppIllustration';
 import type { KeyDownEvent, ViewInstance } from 'react-native';
 
 type StudentTabBarProps = Parameters<NonNullable<React.ComponentProps<typeof Tabs>['tabBar']>>[0];
-const MENU = { index: 'Trang chủ', lessons: 'Bài học', achievements: 'Thành tích', profile: 'Của em', classes: 'Lớp của em' } as const;
+const MENU = { index: 'Trang chủ', lessons: 'Bài học', assignments: 'Bài tập', achievements: 'Thành tích', profile: 'Của em', classes: 'Lớp của em' } as const;
 
 export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, expanded: controlled, onToggle }: StudentTabBarProps & {
   viewportWidth?: number; expanded?: boolean; onToggle?: () => void;
@@ -31,7 +31,7 @@ export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, ex
     {state.routes.map((route, index) => {
       const name = route.name as keyof typeof MENU;
       const title = MENU[name];
-      if (!title || (name === 'classes' && Platform.OS !== 'web')) return null;
+      if (!title || ((name === 'classes' || name === 'assignments') && Platform.OS !== 'web')) return null;
       const selected = state.index === index;
       return <Pressable key={route.key} accessibilityRole="tab" accessibilityLabel={title}
         accessibilityState={{ selected }} aria-selected={selected}
@@ -40,7 +40,7 @@ export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, ex
         onHoverIn={() => setHovered(route.key)} onHoverOut={() => setHovered(null)}
         {...(Platform.OS === 'web' ? { tabIndex: selected ? 0 : -1, title: wide && !expanded ? title : undefined, onKeyDown: (event: React.KeyboardEvent | KeyDownEvent) => {
           const key = 'key' in event ? event.key : event.nativeEvent.key;
-          const routes = state.routes.filter(item => item.name in MENU && (item.name !== 'classes' || Platform.OS === 'web'));
+          const routes = state.routes.filter(item => item.name in MENU && ((item.name !== 'classes' && item.name !== 'assignments') || Platform.OS === 'web'));
           const current = routes.findIndex(item => item.key === route.key);
           const next = wide ? 'ArrowDown' : 'ArrowRight';
           const previous = wide ? 'ArrowUp' : 'ArrowLeft';
@@ -63,7 +63,7 @@ export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, ex
           IS_STUDENT_WEB && selected && (wide ? styles.webSideSelected : styles.webSelected),
           IS_STUDENT_WEB && hovered === route.key && (wide ? styles.webSideHovered : styles.webHovered),
           focused === route.key && styles.focused, IS_STUDENT_WEB && wide && focused === route.key && styles.webSideFocused, pressed && styles.pressed]}>
-        {name === 'classes' ? <Ionicons name="school-outline" size={24} color={wide ? '#FFFFFF' : COLORS.primaryDark} accessible={false} /> : wide ? <Ionicons name={({ index: 'home-outline', lessons: 'book-outline', achievements: 'medal-outline', profile: 'person-outline' } as const)[name]} size={24} color="#FFFFFF" accessible={false} /> : <StudentNavIcon name={name} size={30} />}
+        {name === 'classes' || name === 'assignments' ? <Ionicons name={name === 'classes' ? 'school-outline' : 'clipboard-outline'} size={24} color={wide ? '#FFFFFF' : COLORS.primaryDark} accessible={false} /> : wide ? <Ionicons name={({ index: 'home-outline', lessons: 'book-outline', achievements: 'medal-outline', profile: 'person-outline' } as const)[name]} size={24} color="#FFFFFF" accessible={false} /> : <StudentNavIcon name={name} size={30} />}
         {(!wide || expanded) && <Text style={[styles.label, selected && styles.selectedLabel, wide && styles.sideLabel]}>{title}</Text>}
       </Pressable>;
     })}
@@ -103,6 +103,8 @@ export default function TabLayout() {
     <Tabs.Screen name="lessons" options={{ title: 'Bài học' }} />
     <Tabs.Screen name="achievements" options={{ title: 'Thành tích' }} />
     <Tabs.Screen name="classes" options={{ title: "Lớp của em", href: Platform.OS === "web" ? undefined : null }} />
+    <Tabs.Screen name="assignments" options={{ title: 'Bài của em', href: Platform.OS === 'web' ? undefined : null }} />
+    <Tabs.Screen name="assignment/[id]" options={{ href: null }} />
     <Tabs.Screen name="profile" options={{ title: 'Của em' }} />
   </Tabs>;
 }

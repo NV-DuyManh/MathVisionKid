@@ -1,4 +1,5 @@
 import type { Assignment, Batch, Class, DashboardStats, Submission } from '../../types';
+import type { AssignmentWorkflow } from './TeacherService';
 import { SubmissionStatus, BatchStatus, MathType } from '../../types';
 import type { TeacherService } from './TeacherService';
 
@@ -30,6 +31,7 @@ const MOCK_ASSIGNMENTS: Assignment[] = [
   { id: 'a1', assignmentId: 'a1', classId: 'c1', title: 'Phép cộng có nhớ trong phạm vi 1000', mathType: MathType.VERTICAL_ADDITION, createdAt: new Date().toISOString(), status: 'ACTIVE' },
   { id: 'a2', assignmentId: 'a2', classId: 'c2', title: 'Phép trừ có mượn chữ số hàng chục', mathType: MathType.VERTICAL_SUBTRACTION, createdAt: new Date().toISOString(), status: 'ACTIVE' },
 ];
+const MOCK_WORKFLOW_ASSIGNMENTS: AssignmentWorkflow[] = [];
 
 class MockTeacherServiceImpl implements TeacherService {
   async login(_email: string, _password?: string): Promise<{ token: string }> {
@@ -85,6 +87,32 @@ class MockTeacherServiceImpl implements TeacherService {
     };
     MOCK_ASSIGNMENTS.unshift(newAssignment);
     return newAssignment;
+  }
+
+  async listClassAssignments(classId: string): Promise<AssignmentWorkflow[]> {
+    await delay(250);
+    return MOCK_WORKFLOW_ASSIGNMENTS.filter(item => item.classId === classId);
+  }
+
+  async saveAssignmentDraft(input: { assignmentId?: string; classId: string; title: string; prompt: string; instructions: string; mathType: MathType; maxScore: number; creationRequestId: string }): Promise<AssignmentWorkflow> {
+    await delay(300);
+    const item: AssignmentWorkflow = { assignmentId: input.assignmentId ?? `a_${Date.now()}`, id: input.assignmentId,
+      classId: input.classId, title: input.title, prompt: input.prompt, instructions: input.instructions,
+      mathType: input.mathType, maxScore: input.maxScore, createdAt: new Date().toISOString(), status: 'DRAFT', recipientCount: 0 };
+    if (input.assignmentId) {
+      const index = MOCK_WORKFLOW_ASSIGNMENTS.findIndex(existing => existing.assignmentId === input.assignmentId);
+      if (index >= 0) MOCK_WORKFLOW_ASSIGNMENTS[index] = item;
+      else MOCK_WORKFLOW_ASSIGNMENTS.unshift(item);
+    } else MOCK_WORKFLOW_ASSIGNMENTS.unshift(item);
+    return item;
+  }
+
+  async publishAssignment(assignmentId: string): Promise<AssignmentWorkflow> {
+    const item = MOCK_WORKFLOW_ASSIGNMENTS.find(assignment => assignment.assignmentId === assignmentId);
+    if (!item) throw new Error('Không tìm thấy bài tập');
+    const result: AssignmentWorkflow = { ...item, status: 'PUBLISHED', recipientCount: 0, publishedAt: new Date().toISOString() };
+    MOCK_WORKFLOW_ASSIGNMENTS[MOCK_WORKFLOW_ASSIGNMENTS.indexOf(item)] = result;
+    return result;
   }
 
   async getBatches(): Promise<Batch[]> {

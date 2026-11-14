@@ -33,6 +33,12 @@ public class Assignment {
     @Column(nullable = false)
     private String title;
 
+    @Column(columnDefinition = "TEXT")
+    private String prompt;
+
+    @Column(columnDefinition = "TEXT")
+    private String instructions;
+
     @Column(nullable = false)
     private String operationType;
 
