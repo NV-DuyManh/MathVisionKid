@@ -30,7 +30,18 @@ Không commit `.env`, khóa, ảnh học sinh, database, trọng số hoặc d�
 
 Dependency dùng lockfile; không `audit fix --force`, không nâng Expo/React/ML major hàng loạt. Dependabot chỉ mở PR, không tự duyệt/merge. Secret scanning/push protection là lớp bổ sung, không thay review staged diff và xử lý thu hồi khóa nếu đã lộ.
 
-## Bằng chứng và dọn dẹp
+## Bảo toàn VPS dùng chung
+
+Owner cho phép cập nhật MathVisionKid, đồng thời yêu cầu giữ nguyên các phần khác đã có trên server. Quy tắc này áp dụng cả khi có quyền quản trị hoặc owner đã giao triển khai tự động:
+
+- Chỉ thay đổi tài nguyên MathVisionKid thuộc phạm vi được giao. Xác minh đường dẫn thực và nhãn Compose trước mỗi thao tác ghi; tên giống dự án không tự chứng minh quyền sở hữu. Với VPS hiện tại, thư mục ứng dụng là `/home/dtu/mathvisionkid`, Compose project là `mathvisionkid`. Không chạm các dịch vụ khác cùng máy.
+- Chụp inventory ID/image/mount của container, hash cấu hình cần bảo toàn và kiểm tra dung lượng trước triển khai. Sao lưu DB/cấu hình trong thư mục backup mới của ứng dụng, xác minh backup đọc được. Không ghi đè bản backup cũ.
+- Dựng bản phát hành trong thư mục mới theo revision đã kiểm thử. Chỉ thay container ứng dụng đã được phép và dùng `--no-deps` khi cập nhật một service; không recreate DB, Redis, MinIO, gateway hoặc service khác nếu không có yêu cầu riêng. Migration chỉ thêm tương thích và phải có kiểm chứng PostgreSQL/backup trước khi chạy.
+- Không xóa/ghi đè dữ liệu đang có, volume, model/dataset, secret hoặc cấu hình ngoài phạm vi. Không dùng `docker system prune`, dọn/xóa hàng loạt container/image/volume, `compose down -v`, reboot, hoặc đổi SSH, firewall, tài khoản hay package hệ thống để tiện deploy. Phiên đăng nhập không tự cho phép cài khóa SSH hoặc lưu mật khẩu.
+- Sau triển khai, so lại ID/mount của mọi container ngoài phạm vi và hash cấu hình bảo vệ với inventory trước đó. Nếu lệch, dừng bước ghi tiếp theo và kiểm tra nguyên nhân. Rollback chỉ tác động phần ứng dụng vừa thay; không restore đè DB đang nhận dữ liệu mới hoặc thay phần khác để làm smoke xanh.
+- Báo rõ source revision, phần đã thay, phần đã xác minh giữ nguyên, kết quả smoke và giới hạn. Không coi health xanh là bằng chứng dữ liệu/dịch vụ khác còn nguyên.
+
+## Bằng chứng kiểm thử và dọn dẹp
 
 Ghi passed / failed / not run và lý do, exact command/revision. Không coi health xanh là tutor/TTS hoạt động; kiểm tra endpoint có xác thực. Không cam kết mọi bài/thiết bị không bao giờ lỗi hoặc 1–3 giây nếu chưa đo đủ.
 

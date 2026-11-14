@@ -322,6 +322,21 @@ def test_lesson_budget_is_forwarded_to_both_providers_with_hard_caps(monkeypatch
     assert fallback.await_args.kwargs == {"max_output_tokens": 7000, "timeout_seconds": 24}
 
 
+def test_last_fallback_uses_requested_latency_budget_inside_the_shared_deadline(monkeypatch):
+    monkeypatch.setattr(service, '_call_groq', AsyncMock(side_effect=service.TutorUnavailable('rate_limit')))
+    monkeypatch.setattr(service, '_call_gemini', AsyncMock(return_value=safe_response()))
+    original_wait = asyncio.wait_for
+    deadlines = []
+
+    async def wait(awaitable, timeout):
+        deadlines.append(timeout)
+        return await original_wait(awaitable, timeout)
+
+    monkeypatch.setattr(service.asyncio, 'wait_for', wait)
+    assert run(service._generate('review', 'source', timeout_seconds=24)) == safe_response()
+    assert service.PROVIDER_TIMEOUT_SECONDS in deadlines and 24 in deadlines and 30 in deadlines
+
+
 def test_lesson_transport_can_emit_detailed_teaching_without_changing_short_hint_budget(monkeypatch):
     pool = GroqKeyPool("mock-key")
     monkeypatch.setattr(service, "get_pool", lambda: pool)
@@ -449,6 +464,39 @@ def test_gemini_invalid_key_is_disabled_and_untried_valid_key_succeeds(monkeypat
     assert calls == ["mock-invalid", "mock-valid"]
     assert pool.entries[0].state.value == "DISABLED_AUTH"
     assert pool.entries[1].success_count == 1
+
+
+@pytest.mark.parametrize('message', ['API key not valid. Please pass a valid API key.', 'API key expired. Please renew the API key.'])
+def test_google_http_400_auth_rejection_disables_only_invalid_key_and_recovers(monkeypatch, message):
+    pool = GeminiKeyPool('invalid-key,valid-key')
+    monkeypatch.setattr(service, 'get_gemini_pool', lambda: pool)
+    original_client = httpx.AsyncClient
+    calls = []
+
+    def handler(req):
+        calls.append(req.headers['x-goog-api-key'])
+        if len(calls) == 1:
+            return httpx.Response(400, json={'error': {'status': 'INVALID_ARGUMENT', 'message': message}})
+        return httpx.Response(200, json={'candidates': [{'content': {'parts': [{'text': json.dumps(safe_response())}]}}]})
+
+    monkeypatch.setattr(service.httpx, 'AsyncClient', lambda **kwargs: original_client(transport=httpx.MockTransport(handler), **kwargs))
+    assert run(service._call_gemini('policy', 'source', None)) == safe_response()
+    assert calls == ['invalid-key', 'valid-key']
+    assert pool.entries[0].state.value == 'DISABLED_AUTH'
+    assert pool.entries[1].success_count == 1
+
+
+def test_gemini_payload_400_does_not_cool_down_valid_keys_or_sweep_credentials(monkeypatch):
+    pool = GeminiKeyPool('valid-one,valid-two')
+    monkeypatch.setattr(service, 'get_gemini_pool', lambda: pool)
+    original_client = httpx.AsyncClient
+    transport = httpx.MockTransport(lambda req: httpx.Response(400, json={'error': {'message': 'Invalid generationConfig'}}))
+    monkeypatch.setattr(service.httpx, 'AsyncClient', lambda **kwargs: original_client(transport=transport, **kwargs))
+    with pytest.raises(service.TutorUnavailable) as caught:
+        run(service._call_gemini('policy', 'source', None))
+    assert caught.value.reason == 'configuration'
+    assert pool.entries[0].failure_count == pool.entries[1].failure_count == 0
+    assert pool.entries[1].total_calls == 0
 
 
 def test_gemini_auth_retry_count_is_bounded_and_returns_student_safe_503(monkeypatch):

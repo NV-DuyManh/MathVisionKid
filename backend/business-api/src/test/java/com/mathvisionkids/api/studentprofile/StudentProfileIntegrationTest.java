@@ -112,13 +112,137 @@ class StudentProfileIntegrationTest {
         Game next = games.start(owner);
         while (!next.completed()) next = games.answer(owner, next.id(), new GameAnswer(next.question(), answer(next.prompt())));
         assertEquals(0, next.stars());
+        assertEquals(GameRewardStatus.REPEAT, next.rewardStatus());
         assertEquals(1, profiles.get(owner).stars());
+    }
+
+    @Test void raceChallengeResumesAndConcurrentFinalRetriesCannotAwardTwice() throws Exception {
+        String owner = pupil.getEmail();
+        Game first = games.start(owner, GameMode.RACE_TO_FINISH);
+        assertNotEquals(first.id(), games.start(owner).id());
+        Game game = first;
+        while (game.question() < 4) {
+            game = games.answer(owner, game.id(), new GameAnswer(game.question(), answer(game.prompt())));
+        }
+        assertEquals(game, games.start(owner, GameMode.RACE_TO_FINISH));
+        assertEquals(game, games.get(owner, first.id()));
+        mvc.perform(get("/api/v1/student/game-runs/{id}", first.id()).with(user(other.getEmail()).roles("STUDENT")))
+                .andExpect(status().isNotFound());
+        var last = new GameAnswer(game.question(), answer(game.prompt()));
+        try (var pool = Executors.newFixedThreadPool(2)) {
+            var gate = new CountDownLatch(1);
+            Callable<Game> submit = () -> { gate.await(); return games.answer(owner, first.id(), last); };
+            var a = pool.submit(submit);
+            var b = pool.submit(submit);
+            gate.countDown();
+            Game completed = a.get(15, TimeUnit.SECONDS);
+            assertEquals(completed, b.get(15, TimeUnit.SECONDS));
+            assertEquals(completed, games.get(owner, first.id()));
+            assertEquals(1, completed.stars());
+            assertEquals(GameRewardStatus.AWARDED, completed.rewardStatus());
+        }
+        assertEquals(1, profiles.get(owner).stats().games());
+        assertEquals(1, profiles.get(owner).stars());
+    }
+
+    @Test void raceChallengeReportsGameCapAndRecordsTheWin() {
+        for (int i = 0; i < 3; i++) {
+            rewards.record(pupil.getId(), StudentRewards.Source.GAME, "existing-" + i, "game-" + i);
+        }
+        String owner = pupil.getEmail();
+        Game game = games.start(owner, GameMode.RACE_TO_FINISH);
+        while (!game.completed()) {
+            game = games.answer(owner, game.id(), new GameAnswer(game.question(), answer(game.prompt())));
+        }
+        assertEquals(0, game.stars());
+        assertEquals(GameRewardStatus.GAME_LIMIT, game.rewardStatus());
+        assertEquals(game, games.get(owner, game.id()));
+        assertEquals(4, profiles.get(owner).stats().games());
+    }
+
+    @Test void expiredRaceChallengeCannotBeAnsweredAndCanStartAgain() throws Exception {
+        String owner = pupil.getEmail();
+        var player = user(owner).roles("STUDENT");
+        Game game = games.start(owner, GameMode.RACE_TO_FINISH);
+        db.update("UPDATE student_game_runs SET started_at = ? WHERE id = ?",
+                java.sql.Timestamp.from(java.time.Instant.now().minusSeconds(1260)), game.id());
+        mvc.perform(get("/api/v1/student/game-runs/{id}", game.id()).with(player))
+                .andExpect(status().isConflict()).andExpect(jsonPath("$.error.code").value("GAME_EXPIRED"));
+        mvc.perform(post("/api/v1/student/game-runs/{id}/answers", game.id()).with(player)
+                        .contentType("application/json").content("{\"question\":0,\"answer\":1}"))
+                .andExpect(status().isConflict()).andExpect(jsonPath("$.error.code").value("GAME_EXPIRED"));
+        assertNotEquals(game.id(), games.start(owner, GameMode.RACE_TO_FINISH).id());
+        assertEquals(0, profiles.get(owner).stars());
+    }
+
+    @Test void everyTrainingModeGradesItsOwnQuestionsAndSharesTheStarCap() {
+        pupil.setGradeLevel(5);
+        students.saveAndFlush(pupil);
+        String owner = pupil.getEmail();
+        GameMode[] modes = {GameMode.TERRAIN_RACING, GameMode.ENERGY_DEFENSE, GameMode.PLANET_RESCUE, GameMode.BLOCK_ISLAND};
+        for (int mode = 0; mode < modes.length; mode++) {
+            Game game = games.start(owner, modes[mode]);
+            while (!game.completed()) {
+                int expected = themedAnswer(modes[mode], game.prompt());
+                game = games.answer(owner, game.id(), new GameAnswer(game.question(), expected));
+            }
+            assertEquals(5, game.correct(), modes[mode].name());
+            assertEquals(mode < 3 ? GameRewardStatus.AWARDED : GameRewardStatus.GAME_LIMIT, game.rewardStatus());
+        }
+        var profile = profiles.get(owner);
+        assertEquals(3, profile.stars());
+        assertEquals(4, profile.stats().games());
+    }
+
+    @Test void trainingChallengesUseTheStoredGradeBeforeIntroducingFractionsOrSpeed() {
+        for (int grade : new int[]{1, 2, 3, 4, 5}) {
+            Student student = createStudent("@grade.profile.test");
+            student.setGradeLevel(grade);
+            students.saveAndFlush(student);
+            for (GameMode mode : GameMode.values()) {
+                if (mode == GameMode.ARITHMETIC_QUEST) continue;
+                Game game = games.start(student.getEmail(), mode);
+                assertEquals(grade, db.queryForObject("SELECT level FROM student_game_runs WHERE id = ?", Integer.class, game.id()));
+                while (!game.completed()) {
+                    boolean basic = grade <= 2 || mode == GameMode.RACE_TO_FINISH
+                            || mode == GameMode.TERRAIN_RACING && grade < 5
+                            || grade == 3 && (mode == GameMode.ENERGY_DEFENSE || mode == GameMode.PLANET_RESCUE);
+                    if (grade <= 2) assertTrue(game.prompt().matches("\\d+ [+−] \\d+"), game.prompt());
+                    if (grade == 1) {
+                        var numbers = java.util.regex.Pattern.compile("\\d+").matcher(game.prompt()).results().toList();
+                        for (var number : numbers) assertTrue(Integer.parseInt(number.group()) <= 18);
+                    }
+                    int expected = basic ? answer(game.prompt()) : themedAnswer(mode, game.prompt());
+                    game = games.answer(student.getEmail(), game.id(), new GameAnswer(game.question(), expected));
+                }
+                assertEquals(5, game.correct(), "grade " + grade + " " + mode);
+            }
+        }
+    }
+
+    private int themedAnswer(GameMode mode, String prompt) {
+        int[] values = java.util.regex.Pattern.compile("\\d+").matcher(prompt).results()
+                .mapToInt(match -> Integer.parseInt(match.group())).toArray();
+        int a = values[0], b = values[1];
+        return switch (mode) {
+            case TERRAIN_RACING -> prompt.contains("đi được") ? a * b : a / b;
+            case ENERGY_DEFENSE -> prompt.contains("Tổng") ? a + b : b - a;
+            case PLANET_RESCUE -> prompt.contains("Tử số") ? values[2] / b : b / a;
+            case BLOCK_ISLAND -> prompt.contains("Diện tích") ? a * b : 2 * (a + b);
+            default -> throw new IllegalArgumentException(prompt);
+        };
     }
 
     private int answer(String prompt) {
         String[] parts = prompt.split(" ");
         int a = Integer.parseInt(parts[0]), b = Integer.parseInt(parts[2]);
-        return parts[1].equals("+") ? a + b : a - b;
+        return switch (parts[1]) {
+            case "+" -> a + b;
+            case "×" -> a * b;
+            case "÷" -> a / b;
+            case "−" -> a - b;
+            default -> throw new IllegalArgumentException(prompt);
+        };
     }
 
     @Test void profileAndBoardUseAuthorizationAndPrivacyDefaults() throws Exception {
