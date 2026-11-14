@@ -11,4 +11,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, UUID> {
 
     @Query(value = "select teacher_id from teachers where teacher_id = :id for update", nativeQuery = true)
     Optional<UUID> lockForAssignmentCreation(@Param("id") UUID id);
+
+    @Query(value = "select teacher_id from teachers where teacher_id = :id for update", nativeQuery = true)
+    Optional<UUID> lockForClassroomCreation(@Param("id") UUID id);
 }

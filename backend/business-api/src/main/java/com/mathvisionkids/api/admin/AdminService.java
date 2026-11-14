@@ -27,6 +27,7 @@ public class AdminService {
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
     private final ClassroomRepository classroomRepository;
+    private final com.mathvisionkids.api.classroom.ClassroomAdmission classroomAdmission;
     private final AuditEventRepository auditEventRepository;
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
@@ -35,6 +36,7 @@ public class AdminService {
                         StudentRepository studentRepository,
                         TeacherRepository teacherRepository,
                         ClassroomRepository classroomRepository,
+                        com.mathvisionkids.api.classroom.ClassroomAdmission classroomAdmission,
                         AuditEventRepository auditEventRepository,
                         RefreshTokenService refreshTokenService,
                         PasswordEncoder passwordEncoder) {
@@ -42,6 +44,7 @@ public class AdminService {
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
         this.classroomRepository = classroomRepository;
+        this.classroomAdmission = classroomAdmission;
         this.auditEventRepository = auditEventRepository;
         this.refreshTokenService = refreshTokenService;
         this.passwordEncoder = passwordEncoder;
@@ -399,7 +402,7 @@ public class AdminService {
     @Transactional
     public AdminClassResponse updateClass(UUID classId, UpdateClassRequest request, String adminEmail) {
         User admin = getAdminActor(adminEmail);
-        Classroom classroom = classroomRepository.findById(classId)
+        Classroom classroom = classroomRepository.findForUpdate(classId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Classroom not found", HttpStatus.NOT_FOUND));
 
         if (request.getName() != null && !request.getName().isBlank()) {
@@ -427,7 +430,7 @@ public class AdminService {
     @Transactional
     public AdminClassResponse assignTeacher(UUID classId, UUID teacherId, String adminEmail) {
         User admin = getAdminActor(adminEmail);
-        Classroom classroom = classroomRepository.findById(classId)
+        Classroom classroom = classroomRepository.findForUpdate(classId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Classroom not found", HttpStatus.NOT_FOUND));
 
         User targetUser = userRepository.findById(teacherId)
@@ -443,12 +446,14 @@ public class AdminService {
         Teacher teacher = teacherRepository.findById(teacherId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Teacher record not found", HttpStatus.NOT_FOUND));
 
+        UUID previousTeacherId = classroom.getTeacher().getId();
         classroom.setTeacher(teacher);
         Classroom saved = classroomRepository.save(classroom);
 
         Map<String, Object> meta = new HashMap<>();
         meta.put("classId", classId.toString());
         meta.put("teacherId", teacherId.toString());
+        meta.put("previousTeacherId", previousTeacherId.toString());
         recordAudit(admin, "ADMIN_CLASS_TEACHER_ASSIGNED", meta);
 
         return mapToClassResponse(saved, true);
@@ -457,7 +462,7 @@ public class AdminService {
     @Transactional
     public AdminClassResponse addStudentToClass(UUID classId, UUID studentId, String adminEmail) {
         User admin = getAdminActor(adminEmail);
-        Classroom classroom = classroomRepository.findById(classId)
+        Classroom classroom = classroomRepository.findForUpdate(classId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Classroom not found", HttpStatus.NOT_FOUND));
 
         User targetUser = userRepository.findById(studentId)
@@ -490,13 +495,14 @@ public class AdminService {
             recordAudit(admin, "ADMIN_STUDENT_ADDED_TO_CLASS", meta);
         }
 
+        classroomAdmission.resolveAdminAddition(classId, studentId);
         return mapToClassResponse(classroom, true);
     }
 
     @Transactional
     public AdminClassResponse removeStudentFromClass(UUID classId, UUID studentId, String adminEmail) {
         User admin = getAdminActor(adminEmail);
-        Classroom classroom = classroomRepository.findById(classId)
+        Classroom classroom = classroomRepository.findForUpdate(classId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Classroom not found", HttpStatus.NOT_FOUND));
 
         if (classroom.getStudents() != null) {
@@ -507,6 +513,7 @@ public class AdminService {
                 Map<String, Object> meta = new HashMap<>();
                 meta.put("classId", classId.toString());
                 meta.put("studentId", studentId.toString());
+                classroomAdmission.markRemoved(classId, studentId);
                 recordAudit(admin, "ADMIN_STUDENT_REMOVED_FROM_CLASS", meta);
             }
         }

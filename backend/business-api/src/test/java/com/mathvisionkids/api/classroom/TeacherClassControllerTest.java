@@ -15,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -84,4 +85,25 @@ public class TeacherClassControllerTest {
                 .andExpect(jsonPath("$.students").isArray())
                 .andExpect(jsonPath("$.students[0].email").value("class_student2@test.com"));
     }
+
+    @Test
+    @org.springframework.transaction.annotation.Transactional
+    @WithMockUser(username = "class_teacher2@test.com", roles = "TEACHER")
+    void activeTeacherCanCreateClassWithoutAdminAndRetrySafely() throws Exception {
+        String request = """
+                {"name":"  Toán 2A  ","gradeLevel":2,"requestId":"ccbd1ba3-e906-4b17-92b4-d9848a745aa3"}
+                """;
+        var created = mockMvc.perform(post("/api/v1/teacher/classes")
+                        .contentType("application/json").content(request))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value("Toán 2A"))
+                .andExpect(jsonPath("$.gradeLevel").value(2))
+                .andExpect(jsonPath("$.studentCount").value(0))
+                .andReturn();
+        mockMvc.perform(post("/api/v1/teacher/classes")
+                        .contentType("application/json").content(request))
+                .andExpect(status().isOk())
+                .andExpect(content().json(created.getResponse().getContentAsString()));
+    }
+
 }

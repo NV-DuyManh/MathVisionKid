@@ -85,7 +85,7 @@ export default defineConfig(({ command, mode }) => {
     }],
     resolve: { dedupe: ['react', 'react-dom'] },
     define: {
-      __APP_CONFIG__: JSON.stringify(config),
+      __APP_CONFIG__: JSON.stringify(production ? config : { ...config, apiBaseUrl: '/api/v1' }),
       'import.meta.env.VITE_SHOW_DEV_TOOLS': JSON.stringify(!production && env.VITE_SHOW_DEV_TOOLS === 'true' ? 'true' : 'false'),
       'import.meta.env.VITE_USE_MOCK': JSON.stringify(!production && env.VITE_USE_MOCK === 'true' ? 'true' : 'false'),
     },
@@ -94,7 +94,7 @@ export default defineConfig(({ command, mode }) => {
       strictPort: true,
       host: true,
       proxy: {
-        '/api/v1': { target: api.origin, changeOrigin: true,
+        '/api/v1': { target: api.origin, changeOrigin: false,
           rewrite: path => path.replace(/^\/api\/v1/, api.pathname.replace(/\/$/, '')) },
         '/actuator/health': { target: api.origin, changeOrigin: true },
       },

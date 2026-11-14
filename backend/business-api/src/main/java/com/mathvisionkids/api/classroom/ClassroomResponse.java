@@ -11,6 +11,7 @@ public class ClassroomResponse {
     private String name;
     private Integer gradeLevel;
     private String academicYear;
+    private String joinMode;
     private int studentCount;
     private List<UserResponse> students;
 }

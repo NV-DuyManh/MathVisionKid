@@ -33,6 +33,7 @@ public class TeacherClassController {
         response.setClassId(classroom.getClassId());
         response.setName(classroom.getName());
         response.setGradeLevel(classroom.getGradeLevel());
+        response.setJoinMode(classroom.getJoinMode());
         response.setAcademicYear(classroom.getAcademicYear());
         response.setStudentCount(classroom.getStudents().size());
 
@@ -49,6 +50,41 @@ public class TeacherClassController {
         }
 
         return response;
+    }
+
+    public record CreateClassRequest(
+            @jakarta.validation.constraints.NotBlank @jakarta.validation.constraints.Size(max = 120) String name,
+            @jakarta.validation.constraints.NotNull @jakarta.validation.constraints.Min(1)
+            @jakarta.validation.constraints.Max(5) Integer gradeLevel,
+            @jakarta.validation.constraints.NotNull UUID requestId) {}
+
+    @PostMapping
+    @Transactional
+    public ResponseEntity<ClassroomResponse> createClass(
+            @jakarta.validation.Valid @RequestBody CreateClassRequest request, Principal principal) {
+        Teacher teacher = teacherRepository.findByEmail(principal.getName())
+                .filter(value -> Boolean.TRUE.equals(value.getActive()))
+                .orElseThrow(() -> new ApiException("FORBIDDEN", "Không có quyền tạo lớp.", HttpStatus.FORBIDDEN));
+        teacherRepository.lockForClassroomCreation(teacher.getId()).orElseThrow();
+        String name = request.name().strip();
+        var previous = classroomRepository.findByCreatedByTeacherIdAndCreationRequestId(teacher.getId(), request.requestId());
+        if (previous.isPresent()) {
+            Classroom classroom = previous.get();
+            if (!classroom.getTeacher().getId().equals(teacher.getId())) {
+                throw new ApiException("FORBIDDEN", "Lớp đã được bàn giao.", HttpStatus.FORBIDDEN);
+            }
+            if (!classroom.getName().equals(name) || !classroom.getGradeLevel().equals(request.gradeLevel())) {
+                throw new ApiException("CLASSROOM_REQUEST_CONFLICT", "Yêu cầu đã được dùng để tạo lớp khác.", HttpStatus.CONFLICT);
+            }
+            return ResponseEntity.ok(toResponse(classroom, false));
+        }
+        Classroom classroom = new Classroom();
+        classroom.setTeacher(teacher);
+        classroom.setName(name);
+        classroom.setGradeLevel(request.gradeLevel());
+        classroom.setCreatedByTeacherId(teacher.getId());
+        classroom.setCreationRequestId(request.requestId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(classroomRepository.save(classroom), false));
     }
 
     @GetMapping

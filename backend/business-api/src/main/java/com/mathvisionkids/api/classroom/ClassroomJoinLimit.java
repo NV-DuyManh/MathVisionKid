@@ -1,0 +1,35 @@
+package com.mathvisionkids.api.classroom;
+
+import com.mathvisionkids.api.common.ApiException;
+import java.util.UUID;
+import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+class ClassroomJoinLimit {
+    private final JdbcTemplate jdbc;
+
+    ClassroomJoinLimit(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void check(UUID studentId) {
+        int updated = jdbc.update("""
+                insert into classroom_join_limits (student_id, window_start, attempts)
+                values (?, floor(extract(epoch from clock_timestamp()) / 60)::bigint, 1)
+                on conflict (student_id) do update set
+                    window_start = greatest(classroom_join_limits.window_start, excluded.window_start),
+                    attempts = case when classroom_join_limits.window_start < excluded.window_start
+                        then 1 else classroom_join_limits.attempts + 1 end
+                where classroom_join_limits.window_start < excluded.window_start
+                    or classroom_join_limits.attempts < 20
+                """, studentId);
+        if (updated == 0) {
+            throw new ApiException("JOIN_LIMIT", "Em chờ một chút rồi thử lại nhé.", HttpStatus.TOO_MANY_REQUESTS);
+        }
+    }
+}

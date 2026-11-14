@@ -24,6 +24,10 @@ class PostgresUpgradeTest {
         verifyUpgrade("31");
     }
 
+    @Test void upgradeFrom33PreservesExistingClassroomMembership() throws Exception {
+        verifyUpgrade("33");
+    }
+
     private void verifyUpgrade(String startingVersion) throws Exception {
         String database = System.getenv("PGDATABASE");
         assertNotNull(database); assertTrue(database.endsWith("_test"), "Disposable *_test database required");
@@ -45,10 +49,15 @@ class PostgresUpgradeTest {
                 sql.execute("INSERT INTO submission_images(submission_id,file_path,content_type,file_size) VALUES ('"+source+"','synthetic/retained.png','image/png',68)");
                 sql.execute("INSERT INTO quiz_learning_sources(id,student_id,source_type,source_id,problem_text,fingerprint,completed,created_at) VALUES ('"+UUID.randomUUID()+"','"+id+"','LESSON','source','1 + 1 = ?',repeat('a',64),true,now())");
                 sql.execute("INSERT INTO student_quizzes(id,student_id,source_type,source_id,source_fingerprint,topic_code,topic_name,skill_code,grade_level,question_text,unit,answer_spec,validated_solution,status,created_at,updated_at,generation_version) VALUES ('"+quiz+"','"+id+"','LESSON','source',repeat('a',64),'ADDITION','Addition','ADD',5,'2 + 2 = ?','','4','2 + 2 = 4','READY',now(),now(),'test')");
+                UUID teacherId = UUID.randomUUID(), classId = UUID.randomUUID();
+                sql.execute("INSERT INTO users(id,email,password_hash,role,display_name) VALUES ('"+teacherId+"','teacher@upgrade.test','unused','TEACHER','Synthetic teacher')");
+                sql.execute("INSERT INTO teachers(teacher_id) VALUES ('"+teacherId+"')");
+                sql.execute("INSERT INTO classrooms(class_id,name,grade_level,teacher_id) VALUES ('"+classId+"','Legacy class',5,'"+teacherId+"')");
+                sql.execute("INSERT INTO classroom_students(class_id,student_id) VALUES ('"+classId+"','"+id+"')");
                 var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
-                assertEquals(33 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
-                assertEquals("33", upgrade.targetSchemaVersion);
+                assertEquals(34 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
+                assertEquals("34", upgrade.targetSchemaVersion);
                 assertTrue(latest.validateWithResult().validationSuccessful);
                 assertEquals(0, latest.migrate().migrationsExecuted);
                 sql.execute("INSERT INTO student_profile_photos(student_id,image_bytes,updated_at) VALUES ('"+id+"',decode('ffd8ffe0','hex'),now())");
@@ -70,6 +79,10 @@ class PostgresUpgradeTest {
                 try (var rows = sql.executeQuery("SELECT u.token_version,q.answer_spec,i.file_path FROM users u JOIN student_quizzes q ON q.student_id=u.id JOIN submissions s ON s.student_id=u.id JOIN submission_images i ON i.submission_id=s.submission_id WHERE u.id='"+id+"'")) {
                     assertTrue(rows.next()); assertEquals(0, rows.getLong(1)); assertEquals("4", rows.getString(2));
                     assertEquals("synthetic/retained.png", rows.getString(3)); assertFalse(rows.next());
+                }
+                try (var rows = sql.executeQuery("SELECT c.join_mode, m.student_id FROM classrooms c JOIN classroom_students m USING (class_id) WHERE c.class_id='"+classId+"'")) {
+                    assertTrue(rows.next()); assertEquals("APPROVAL_REQUIRED", rows.getString(1));
+                    assertEquals(UUID.fromString(id), rows.getObject(2, UUID.class)); assertFalse(rows.next());
                 }
                 try (var rows = sql.executeQuery("SELECT id FROM student_reward_lock")) {
                     assertTrue(rows.next()); assertEquals(1, rows.getInt(1)); assertFalse(rows.next());

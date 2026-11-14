@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { Dialog, DialogTitle, DialogContent } from '@mui/material';
+import { CreateClassForm } from './ClassroomFoundation';
 import { useQuery } from '@tanstack/react-query';
 import {
   Box,
@@ -15,6 +18,7 @@ import { EmptyState } from '../components/common/EmptyState';
 
 export default function ClassesPage() {
   const navigate = useNavigate();
+  const [creating, setCreating] = useState(false);
   const { data: classes = [], isLoading: loading, isError, refetch } = useQuery({
     queryKey: ['teacher-classes'],
     queryFn: () => AppTeacherService.getClasses(),
@@ -29,14 +33,20 @@ export default function ClassesPage() {
           <Button
             variant="contained"
             startIcon={<AddCircleOutlined />}
-            onClick={() => navigate('/assignments/create')}
+            onClick={() => setCreating(true)}
             sx={{ borderRadius: 2.5, fontWeight: 700 }}
           >
-            Tạo bài tập cho lớp
+            Tạo lớp
           </Button>
         }
       />
 
+      <Dialog open={creating} onClose={() => setCreating(false)} fullWidth maxWidth="xs" aria-labelledby="create-class-title">
+        <DialogTitle id="create-class-title">Tạo lớp</DialogTitle>
+        <DialogContent>
+          <CreateClassForm onCreated={id => { void refetch(); navigate('/classes/' + id); }} />
+        </DialogContent>
+      </Dialog>
       {isError ? (
         <Alert severity="error" action={<Button color="inherit" onClick={() => void refetch()}>Thử lại</Button>}>
           Chưa tải được danh sách. Vui lòng thử lại.
@@ -49,7 +59,7 @@ export default function ClassesPage() {
         <Card sx={{ borderRadius: 3.5, border: '1px solid #E2E8F0' }}>
           <EmptyState
             title="Chưa có lớp học nào được phân công"
-            description="Vui lòng liên hệ quản trị viên nhà trường để được gán quyền phụ trách lớp học trên hệ thống."
+            description="Tạo lớp đầu tiên rồi mời học sinh tham gia."
             icon={<School sx={{ fontSize: 42, color: '#94A3B8' }} />}
           />
         </Card>

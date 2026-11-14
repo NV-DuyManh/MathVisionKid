@@ -50,7 +50,7 @@ test('Google popup returns the OAuth token and clears the Firebase session even 
   assert.equal(signOuts, 2);
 });
 
-for (const oldResult of ['expired', 'old-teacher']) {
+for (const oldResult of ['expired', 'old-teacher', 'invite-old-teacher']) {
   test(`a late ${oldResult} session check cannot undo a new student login`, async () => {
     const dom = new JSDOM('<div id="root"></div>', { url: 'https://portal.mathvision.example/login' });
     const previous = { window: globalThis.window, document: globalThis.document,
@@ -63,6 +63,8 @@ for (const oldResult of ['expired', 'old-teacher']) {
     let cleared = 0;
     let ssoRequests = 0;
     const navigations = [];
+    const invitation = oldResult === 'invite-old-teacher' ? 'a'.repeat(64) : '';
+    const target = invitation ? '/study/classes#classroom=' + invitation : '/study/';
     const oldProfile = new Promise((resolve, reject) => { resolveOld = resolve; rejectOld = reject; });
     const placeholder = ({ children, component, onSubmit }) => {
       if (component === 'form') submit = onSubmit;
@@ -88,7 +90,7 @@ for (const oldResult of ['expired', 'old-teacher']) {
       compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.React, esModuleInterop: true },
     }).outputText;
     const browser = Object.create(dom.window, {
-      location: { value: { replace: navigate } },
+      location: { value: { replace: navigate, hash: invitation ? '#classroom=' + invitation : '' } },
     });
     vm.runInNewContext(source, { exports, window: browser, AbortController,
       require: id => imports[id] ?? (id.startsWith('@mui/icons-material/') ? placeholder : require(id)) });
@@ -100,14 +102,14 @@ for (const oldResult of ['expired', 'old-teacher']) {
         fields.password.onChange({ target: { value: '123' } });
       });
       await act(async () => submit({ preventDefault() {} }));
-      assert.deepEqual(navigations, ['/study/']);
+      assert.deepEqual(navigations, [target]);
       await act(async () => {
         if (oldResult === 'expired') rejectOld(new Error('Expired old session'));
         else resolveOld({ role: 'TEACHER' });
       });
       assert.equal(cleared, 0, 'The old request erased the new login tokens.');
       assert.equal(ssoRequests, 0, 'The old profile opened an unrelated role after the new login.');
-      assert.deepEqual(navigations, ['/study/']);
+      assert.deepEqual(navigations, [target]);
     } finally {
       await act(async () => root.unmount());
       Object.assign(globalThis, previous);

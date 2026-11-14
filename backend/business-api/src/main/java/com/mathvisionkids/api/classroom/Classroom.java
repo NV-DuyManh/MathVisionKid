@@ -32,6 +32,15 @@ public class Classroom {
 
     private String academicYear;
 
+    @Column(nullable = false)
+    private String joinMode = "APPROVAL_REQUIRED";
+
+    @Column(updatable = false)
+    private UUID creationRequestId;
+
+    @Column(updatable = false)
+    private UUID createdByTeacherId;
+
     @Column(updatable = false)
     private Instant createdAt = Instant.now();
 

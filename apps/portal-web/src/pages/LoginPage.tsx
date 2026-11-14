@@ -58,7 +58,8 @@ export const LoginPage: React.FC = () => {
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const socialRequestedRole = searchParams.get('role') === 'TEACHER' ? 'TEACHER' : undefined;
+  const invite = classroomInvite();
+  const socialRequestedRole = !invite && searchParams.get('role') === 'TEACHER' ? 'TEACHER' : undefined;
 
   // Display session expired notice if redirected after expiry
   useEffect(() => {
@@ -74,12 +75,21 @@ export const LoginPage: React.FC = () => {
       return () => controller.abort();
     }
 
+    if (invite && window.location.hash.endsWith('&switch=1')) {
+      void authService.logout();
+      window.history.replaceState(window.history.state, '', '/login#classroom=' + invite);
+      return () => controller.abort();
+    }
+
     if (tokenStore.hasTokens()) {
       authService.getMe(controller.signal).then(async (user) => {
         if (controller.signal.aborted) return;
         const role = user.role ? user.role.toUpperCase().replace('ROLE_', '') : '';
         if (role === 'STUDENT') {
-          window.location.replace('/study/');
+          window.location.replace(studentDestination());
+        } else if (invite) {
+          void authService.logout();
+          setError('Hãy dùng tài khoản học sinh để tham gia lớp.');
         } else if (role === 'TEACHER') {
           const ticket = await authService.requestSsoTicket('TEACHER', controller.signal);
           if (!controller.signal.aborted) {
@@ -96,7 +106,7 @@ export const LoginPage: React.FC = () => {
       });
     }
     return () => controller.abort();
-  }, [searchParams, navigate]);
+  }, [searchParams, navigate, invite]);
 
   const handleGoogleLogin = async () => {
     if (!beginSubmission()) return;
@@ -109,8 +119,11 @@ export const LoginPage: React.FC = () => {
       const credential = await getGoogleCredential();
       try {
         const user = await authService.loginWithGoogle(credential, socialRequestedRole);
-        if (user.role === 'STUDENT') window.location.replace('/study/');
-        else if (user.role === 'TEACHER' || user.role === 'ADMIN') {
+        if (user.role === 'STUDENT') window.location.replace(studentDestination());
+        else if (invite) {
+          void authService.logout();
+          setError('Hãy dùng tài khoản học sinh để tham gia lớp.');
+        } else if (user.role === 'TEACHER' || user.role === 'ADMIN') {
           const origin = user.role === 'TEACHER' ? appConfig.teacherOrigin : appConfig.adminOrigin;
           const ticket = await authService.requestSsoTicket(user.role);
           window.location.href = origin + '/login#sso=' + encodeURIComponent(ticket.code);
@@ -161,7 +174,7 @@ export const LoginPage: React.FC = () => {
     try {
       const user = await authService.loginWithGoogle(socialSetupCredential, 'STUDENT', Number(socialSetupGrade));
       setSocialSetupCredential('');
-      if (user.role.toUpperCase().replace('ROLE_', '') === 'STUDENT') window.location.replace('/study/');
+      if (user.role.toUpperCase().replace('ROLE_', '') === 'STUDENT') window.location.replace(studentDestination());
       else {
         tokenStore.clearTokens();
         setError('Tài khoản này không thuộc cổng học sinh.');
@@ -190,9 +203,18 @@ export const LoginPage: React.FC = () => {
       const user = await authService.login(email.trim(), password);
       const role = user.role ? user.role.toUpperCase().replace('ROLE_', '') : '';
 
+      if (invite && role !== 'STUDENT') {
+        void authService.logout();
+        setPassword('');
+        setError('Hãy dùng tài khoản học sinh để tham gia lớp.');
+        submitLock.current = false;
+        setLoading(false);
+        return;
+      }
+
       switch (role) {
         case 'STUDENT':
-          window.location.replace('/study/');
+          window.location.replace(studentDestination());
           break;
         case 'TEACHER': {
           const ticket = await authService.requestSsoTicket('TEACHER');
@@ -644,5 +666,14 @@ export const LoginPage: React.FC = () => {
     </Box>
   );
 };
+
+function classroomInvite() {
+  return (typeof window === 'undefined' ? '' : window.location?.hash || '').match(/^#classroom=([a-f0-9]{64})(?:&switch=1)?$/)?.[1] ?? null;
+}
+
+function studentDestination() {
+  const invite = classroomInvite();
+  return invite ? '/study/classes#classroom=' + invite : '/study/';
+}
 
 export default LoginPage;
