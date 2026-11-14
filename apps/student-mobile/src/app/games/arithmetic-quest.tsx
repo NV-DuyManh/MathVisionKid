@@ -94,6 +94,7 @@ function Quest({ mode }: { mode: GameMode }) {
           <GameIcon artwork={game.artwork} />
           <Text accessibilityRole="header" style={s.heading}>{mode === 'ARITHMETIC_QUEST' ? 'Vượt 5 chặng tính nhẩm' : 'Vượt 5 câu hỏi toán'}</Text>
           <Text style={s.body}>Giải đúng ít nhất 4 câu để hoàn thành thử thách. Em có thể nhận sao nếu còn lượt thưởng hôm nay.</Text>
+          <Text style={s.body}>Câu hỏi tính sao được chọn theo khối lớp trong hồ sơ của em.</Text>
           <AppButton title={busy ? 'Đang mở lượt chơi' : 'Bắt đầu hoặc học tiếp'} disabled={busy} onPress={start} />
         </> : run.completed ? <>
           <GameIcon artwork={game.artwork} />

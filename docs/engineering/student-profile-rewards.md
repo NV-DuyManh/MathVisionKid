@@ -17,6 +17,8 @@ Opening, capturing, saving, incorrect answers, and starting a game do not issue 
 
 Game answers accept only question index and numerical answer. The backend determines the student, grade, game seed, current index, score and terminal result. A retry of the most recent identical answer returns the same result. An older/out-of-order index is rejected. A run expires after 20 minutes. Ledger writes use transactions and a serialized reward lock to keep caps and rank high-water marks consistent. Reassess lock contention and ranking-query cost before expanding the rollout.
 
+The five themed challenges use the grade stored in the run. Grades 1–2 receive addition/subtraction (grade 1 operands stay within 9); grade 3 uses multiplication/division before the fraction challenges introduced at grade 4. Terrain speed questions start at grade 5; earlier grades use the foundational operations instead. The packaged boards remain separate from these adapted, server-graded challenges.
+
 `POST /api/v1/student/game-runs` accepts the optional `mode` parameter and defaults to the original Đường đua sao. `GET /api/v1/student/game-runs/{id}` returns the owned run so the client can recover after losing a response. Completed runs can be read after the 20-minute live-play window. The result explains repeat wins, the daily total cap and the daily game cap. V34 preserves existing runs by defaulting them to the original mode. Roll back the application with the additive columns retained.
 
 ## Rank formula

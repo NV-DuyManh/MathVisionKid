@@ -150,6 +150,18 @@ public class StudentGameService {
     private Problem trainingQuestion(Run run, int index, Random random) {
         int a = 2 + random.nextInt(11), b = 2 + random.nextInt(8);
         boolean even = index % 2 == 0;
+        if (run.level() <= 2) {
+            int bound = run.level() == 1 ? 9 : 20;
+            a = 1 + random.nextInt(bound);
+            b = 1 + random.nextInt(bound);
+            return even ? new Problem(a + " + " + b, a + b)
+                    : new Problem((a + b) + " − " + b, a);
+        }
+        if (run.mode() == GameMode.TERRAIN_RACING && run.level() < 5
+                || run.level() == 3 && (run.mode() == GameMode.ENERGY_DEFENSE || run.mode() == GameMode.PLANET_RESCUE)) {
+            return even ? new Problem(a + " × " + b, a * b)
+                    : new Problem((a * b) + " ÷ " + b, a);
+        }
         return switch (run.mode()) {
             case RACE_TO_FINISH -> run.level() >= 3
                     ? (even ? new Problem(a + " × " + b, a * b) : new Problem((a * b) + " ÷ " + b, a))

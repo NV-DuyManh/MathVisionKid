@@ -176,6 +176,8 @@ class StudentProfileIntegrationTest {
     }
 
     @Test void everyTrainingModeGradesItsOwnQuestionsAndSharesTheStarCap() {
+        pupil.setGradeLevel(5);
+        students.saveAndFlush(pupil);
         String owner = pupil.getEmail();
         GameMode[] modes = {GameMode.TERRAIN_RACING, GameMode.ENERGY_DEFENSE, GameMode.PLANET_RESCUE, GameMode.BLOCK_ISLAND};
         for (int mode = 0; mode < modes.length; mode++) {
@@ -190,6 +192,32 @@ class StudentProfileIntegrationTest {
         var profile = profiles.get(owner);
         assertEquals(3, profile.stars());
         assertEquals(4, profile.stats().games());
+    }
+
+    @Test void trainingChallengesUseTheStoredGradeBeforeIntroducingFractionsOrSpeed() {
+        for (int grade : new int[]{1, 2, 3, 4, 5}) {
+            Student student = createStudent("@grade.profile.test");
+            student.setGradeLevel(grade);
+            students.saveAndFlush(student);
+            for (GameMode mode : GameMode.values()) {
+                if (mode == GameMode.ARITHMETIC_QUEST) continue;
+                Game game = games.start(student.getEmail(), mode);
+                assertEquals(grade, db.queryForObject("SELECT level FROM student_game_runs WHERE id = ?", Integer.class, game.id()));
+                while (!game.completed()) {
+                    boolean basic = grade <= 2 || mode == GameMode.RACE_TO_FINISH
+                            || mode == GameMode.TERRAIN_RACING && grade < 5
+                            || grade == 3 && (mode == GameMode.ENERGY_DEFENSE || mode == GameMode.PLANET_RESCUE);
+                    if (grade <= 2) assertTrue(game.prompt().matches("\\d+ [+−] \\d+"), game.prompt());
+                    if (grade == 1) {
+                        var numbers = java.util.regex.Pattern.compile("\\d+").matcher(game.prompt()).results().toList();
+                        for (var number : numbers) assertTrue(Integer.parseInt(number.group()) <= 18);
+                    }
+                    int expected = basic ? answer(game.prompt()) : themedAnswer(mode, game.prompt());
+                    game = games.answer(student.getEmail(), game.id(), new GameAnswer(game.question(), expected));
+                }
+                assertEquals(5, game.correct(), "grade " + grade + " " + mode);
+            }
+        }
     }
 
     private int themedAnswer(GameMode mode, String prompt) {
