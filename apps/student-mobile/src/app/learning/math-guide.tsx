@@ -125,6 +125,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [finishing, setFinishing] = useState<{ kind: 'read' | 'lesson'; id: number } | null>(null);
   const [error, setError] = useState('');
   const [failedTask, setFailedTask] = useState<GuideTask | null>(null);
+  const [photoNeedsCrop, setPhotoNeedsCrop] = useState(false);
   const [expired, setExpired] = useState(false);
   const [editing, setEditing] = useState<'problem' | 'work' | null>(null);
   const [reviewFocused, setReviewFocused] = useState(false);
@@ -235,19 +236,33 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     requestId.current += 1; controller.current?.abort(); controller.current = null; running.current = false; setBusy(null); setFinishing(null);
   };
   const failureMessage = useCallback((failure: any, task?: GuideTask) => {
-    if (failure?.response?.status === 401) {
+    const status = failure?.response?.status;
+    const code = failure?.response?.data?.error?.code;
+    const timedOut = failure?.code === 'ECONNABORTED' || failure?.code === 'ETIMEDOUT' || code === 'TUTOR_TIMEOUT';
+    if (status === 401) {
       setExpired(true); setError('Phiên học đã hết hạn. Em đăng nhập lại để tiếp tục nhé.');
-    } else if (task === 'read' && [429, 503].includes(failure?.response?.status)) {
-      setError('Chưa đọc được ảnh lúc này. Ảnh của em vẫn được giữ; em có thể nhập đề và bài làm bằng chữ hoặc thử lại sau nhé.');
-    } else if ([409, 410].includes(failure?.response?.status)) {
+    } else if (task === 'read') {
+      if (status === 413 || code === 'IMAGE_TOO_LARGE') {
+        setPhotoNeedsCrop(true);
+        setError('Ảnh hơi lớn. Em chọn vùng nhỏ hơn hoặc nhập đề bằng chữ nhé.');
+      } else if ([400, 415, 422].includes(status)) {
+        setPhotoNeedsCrop(true);
+        setError('Mình chưa mở được ảnh này. Em chọn lại vùng bài toán hoặc nhập đề bằng chữ nhé.');
+      } else if (timedOut || status === 504) {
+        setError('Đọc ảnh lâu hơn dự kiến. Ảnh vẫn được giữ để em thử lại hoặc nhập đề bằng chữ.');
+      } else if (status === 429 || code === 'TUTOR_RATE_LIMITED' || code === 'TUTOR_BUSY') {
+        setError('Đang có nhiều yêu cầu đọc ảnh. Ảnh vẫn được giữ. Em đợi một chút rồi thử lại nhé.');
+      } else {
+        setError('Chưa đọc được ảnh lúc này. Ảnh của em vẫn được giữ để em thử lại hoặc nhập đề bằng chữ.');
+      }
+    } else if ([409, 410].includes(status)) {
       setLesson(null); setError('Bài học đã hết phiên. Đề và bài làm vẫn ở đây; em bắt đầu lại nhé.');
-    } else if ([400, 422].includes(failure?.response?.status)) {
+    } else if ([400, 422].includes(status)) {
       setError('Đề bài còn thiếu hoặc có chỗ chưa rõ. Em kiểm tra lại lời văn, số và câu hỏi nhé.');
-    } else if (failure?.code === 'ECONNABORTED' || failure?.response?.data?.error?.code === 'TUTOR_TIMEOUT') {
+    } else if (timedOut) {
       setError('Phần hướng dẫn chưa kịp chuẩn bị trong thời gian chờ. Đề và bài làm vẫn được giữ; em thử lại nhé.');
-    } else if (failure?.response?.status === 503 || failure?.response?.status === 429) {
-      const code = failure?.response?.data?.error?.code;
-      setError(code === 'TUTOR_RATE_LIMITED' || code === 'TUTOR_BUSY' || failure?.response?.status === 429
+    } else if (status === 503 || status === 429) {
+      setError(code === 'TUTOR_RATE_LIMITED' || code === 'TUTOR_BUSY' || status === 429
         ? 'Đang có nhiều yêu cầu. Em chờ một chút rồi thử lại; đề và bài làm vẫn được giữ.'
         : code === 'LESSON_VALIDATION_FAILED'
           ? 'Bản hướng dẫn vừa tạo chưa đạt kiểm tra nên mình chưa mở cho em. Đề và bài làm vẫn được giữ; em thử lại nhé.'
@@ -257,7 +272,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const run = useCallback(async <T,>(kind: GuideTask, task: (signal: AbortSignal) => Promise<T>, apply: (value: T) => void) => {
     if (running.current || expired) return;
     const id = ++requestId.current; const abort = new AbortController();
-    controller.current = abort; running.current = true; setBusy(kind); setFinishing(null); setError(''); setFailedTask(null);
+    controller.current = abort; running.current = true; setBusy(kind); setFinishing(null); setError(''); setFailedTask(null); setPhotoNeedsCrop(false);
     try {
       const result = await task(abort.signal);
       if (active.current && id === requestId.current) {
@@ -486,8 +501,12 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         {error ? <RecoveryNotice title={expired ? 'Em cần đăng nhập lại' : 'Chưa thực hiện được'} message={error} actions={expired
           ? [{ label: 'Đăng nhập lại', onPress: () => router.push('/login' as any) }]
           : failedTask === 'read' && imageUri && photoAllowed ? [
-            { label: 'Đọc lại ảnh', accessibilityLabel: 'Đọc lại ảnh bài làm', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy },
-            { label: 'Nhập đề bằng chữ', accessibilityLabel: 'Nhập đề bằng chữ', icon: 'create-outline', onPress: () => edit('problem'), disabled: !!busy },
+            photoNeedsCrop
+              ? { label: 'Chọn lại vùng bài toán', icon: 'crop-outline', onPress: () => router.push('/crop' as any), disabled: !!busy }
+              : { label: 'Đọc lại ảnh', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy },
+            context?.purpose === 'ADD_WORK'
+              ? { label: 'Nhập bài làm bằng chữ', icon: 'create-outline', onPress: () => edit('work'), disabled: !!busy }
+              : { label: 'Nhập đề bằng chữ', icon: 'create-outline', onPress: () => edit('problem'), disabled: !!busy },
           ]
           : problem && !lesson && !workReviewMode ? [{ label: problemConfirmed && !problem.includes('[?]') ? 'Thử lại' : 'Kiểm tra đề', accessibilityLabel: 'Bắt đầu lại bài học', icon: 'refresh-outline', onPress: () => { if (problemConfirmed && !problem.includes('[?]')) start(); else edit('problem'); }, disabled: !!busy }]
           : imageUri && photoAllowed && !lesson ? [{ label: 'Thử lại', accessibilityLabel: 'Đọc lại ảnh bài làm', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy }]
@@ -495,7 +514,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
 
         {!!imageUri && !photoAllowed ? <View style={styles.card}><Text style={styles.body}>Em kiểm tra thông tin cá nhân trên ảnh trước nhé.</Text>
           <AppButton title="Kiểm tra thông tin cá nhân trên ảnh" onPress={() => router.replace('/privacy' as any)} /></View> : null}
-        {photoAllowed && !reading ? <AppButton title="Đọc lại ảnh" variant="secondary" onPress={() => void inspectPhoto()} /> : null}
+        {photoAllowed && !reading && !error && !editing && !expired ? <AppButton title="Đọc lại ảnh" variant="secondary" onPress={() => void inspectPhoto()} /> : null}
 
         {reading?.kind === 'MULTIPLE' && reading.questions?.length && context?.purpose !== 'ADD_WORK' ? <View style={styles.card}>
           <QuestionPicker questions={reading.questions} onCrop={() => router.push('/crop' as any)} onChoose={question => {

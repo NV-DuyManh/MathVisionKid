@@ -594,11 +594,37 @@ it('keeps an unread photo after service failure and offers text entry without bl
   expect(readText()).toContain('Chưa đọc được ảnh lúc này');
   expect(readText()).not.toContain('chưa chuẩn bị được hướng dẫn');
   expect(button('Nhập đề bằng chữ')).toBeDefined();
+  expect(view.root.findAll(node => node.props.accessibilityLabel === 'Đọc lại ảnh' && typeof node.props.onPress === 'function')).toHaveLength(1);
   expect(recognitionDraftStore.getDraft()?.croppedImageUri).toBe('file:///masked-crop.jpg');
   act(() => button('Nhập đề bằng chữ').props.onPress());
   expect(input('Nội dung đề bài')).toBeDefined();
   expect(TutorService.startLesson).not.toHaveBeenCalled();
   expect(TutorService.reviewWork).not.toHaveBeenCalled();
+});
+
+it.each([
+  [503, 'TUTOR_TIMEOUT', 'Đọc ảnh lâu hơn dự kiến', 'Đọc lại ảnh'],
+  [503, 'TUTOR_RATE_LIMITED', 'Đang có nhiều yêu cầu đọc ảnh', 'Đọc lại ảnh'],
+  [413, 'IMAGE_TOO_LARGE', 'Ảnh hơi lớn', 'Chọn lại vùng bài toán'],
+  [400, 'TUTOR_INPUT_INVALID', 'Mình chưa mở được ảnh này', 'Chọn lại vùng bài toán'],
+])('shows the right photo recovery for %s / %s', async (status, code, message, action) => {
+  photo();
+  (TutorService.inspect as jest.Mock).mockRejectedValue({ response: { status, data: { error: { code } } } });
+  await render(false);
+  expect(readText()).toContain(message);
+  expect(button(action)).toBeDefined();
+  if (action !== 'Đọc lại ảnh') expect(button('Đọc lại ảnh')).toBeUndefined();
+  expect(recognitionDraftStore.getDraft()?.croppedImageUri).toBe('file:///masked-crop.jpg');
+});
+
+it('offers to type the missing work if reading an added work photo fails', async () => {
+  photo();
+  recognitionDraftStore.updateDraft({ lessonContext: { purpose: 'ADD_WORK', problemText: PROBLEM } });
+  (TutorService.inspect as jest.Mock).mockRejectedValue({ response: { status: 503 } });
+  await render(false);
+  act(() => button('Nhập bài làm bằng chữ').props.onPress());
+  expect(input('Nội dung bài làm')).toBeDefined();
+  expect(button('Đọc lại ảnh')).toBeUndefined();
 });
 
 it('keeps source-bound work lines through adding the original problem photo', async () => {
