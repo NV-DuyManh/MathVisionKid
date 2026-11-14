@@ -996,6 +996,13 @@ class MathTutorServiceTest {
         server.verify();
     }
 
+    @Test void photoInspectionReportsTransportTimeout() {
+        server.expect(requestTo(URL + "/internal/v1/tutor/inspect"))
+                .andRespond(withException(new SocketTimeoutException("secret backend URL")));
+        error("TUTOR_TIMEOUT", HttpStatus.SERVICE_UNAVAILABLE, () -> service.inspect(png(), true));
+        server.verify();
+    }
+
     @Test void timeoutAndMissingConfigurationAreUnavailable() {
         server.expect(requestTo(URL + "/internal/v1/tutor/guide"))
                 .andRespond(withException(new SocketTimeoutException("secret backend URL")));

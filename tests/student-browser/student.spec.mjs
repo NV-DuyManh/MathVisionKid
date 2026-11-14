@@ -77,6 +77,48 @@ test('Work Review edits all affected calculations with compact stacked fractions
   expect(reviews[1].body.sourceId).not.toBe(reviews[0].body.sourceId);
 });
 
+test('Student retries photo reading after a temporary service failure', async ({ page, app, browserName }) => {
+  app.realStudent = true;
+  let firstUpload;
+  let inspections = 0;
+  const problemText = 'Tính 384 + 219';
+  app.responses.set('POST /student/tutor/inspect', async ({ route, json }) => {
+    const request = route.request();
+    expect(request.headers()['content-type']).toMatch(/^multipart\/form-data; boundary=/);
+    const body = request.postDataBuffer();
+    expect(body.toString('latin1')).toContain('filename="notebook.jpg"');
+    expect(body.toString('latin1')).toMatch(/name="privacyConfirmed"\r\n\r\ntrue/);
+    // WebKit interception omits Blob-backed file bytes from postDataBuffer.
+    if (browserName !== 'webkit') {
+      const start = body.indexOf('\r\n\r\n') + 4;
+      const jpeg = body.subarray(start, body.indexOf('\r\n--', start));
+      expect([...jpeg.subarray(0, 3)]).toEqual([255, 216, 255]);
+      if (firstUpload) expect(jpeg.equals(firstUpload)).toBe(true);
+      else firstUpload = jpeg;
+    }
+    if (++inspections === 1) return json({ error: { code: 'TUTOR_BUSY' } }, 503);
+    return json({ kind: 'PROBLEM', problemText, lines: [], needsProblem: false });
+  });
+  app.responses.set('POST /student/tutor/lesson/prepare', ({ json }) => json({ phase: 'ready' }));
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/camera?mode=MATH_TUTOR`);
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Chọn ảnh từ thư viện' }).click();
+  await (await chooser).setFiles(fileURLToPath(new URL('../../backend/business-api/src/test/resources/fixtures/worksheet-addition.jpg', import.meta.url)));
+  await page.getByRole('checkbox', { name: 'Tôi đã kiểm tra và che thông tin riêng tư trong ảnh' }).click();
+  await page.getByRole('button', { name: 'Tiếp tục xem lại' }).click();
+  await page.getByRole('button', { name: 'Xác nhận cắt ảnh' }).click();
+  await expect(page).toHaveURL(/\/study\/learning\/math-guide/);
+  await expect(page.getByText(/Đang có nhiều yêu cầu đọc ảnh/)).toBeVisible();
+  const retry = page.getByRole('button', { name: 'Đọc lại ảnh', exact: true });
+  await expect(retry).toHaveCount(1);
+  await expect(page.getByRole('button', { name: 'Nhập đề bằng chữ', exact: true })).toBeVisible();
+  await retry.click();
+  await expect(page.getByText(problemText, { exact: true })).toBeVisible();
+  expect(app.requests.filter(({ path }) => path === '/student/tutor/inspect')).toHaveLength(2);
+});
+
 test('Student previews and crops a local worksheet without sending it', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
