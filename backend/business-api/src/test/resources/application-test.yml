@@ -16,6 +16,7 @@ spring:
         - classpath:db/migration/V32__student_profile_rewards.sql
         - classpath:db/migration/V33__student_account_photos.sql
         - classpath:classroom-test-schema.sql
+        - classpath:db/migration/V34__verified_training_runs.sql
   flyway:
     enabled: false
 

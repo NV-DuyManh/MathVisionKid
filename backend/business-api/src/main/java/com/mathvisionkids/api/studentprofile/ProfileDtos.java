@@ -25,7 +25,10 @@ final class ProfileDtos {
     record Entry(long position, String alias, String avatar, long stars, StudentRank.Rank rank, boolean self) {}
     record Leaderboard(List<Entry> entries, Long ownPosition) {}
     record GameAnswer(@NotNull @Min(0) @Max(4) Integer question, @NotNull @Min(-10000) @Max(10000) Integer answer) {}
-    record Game(UUID id, int question, String prompt, int correct, int length, boolean completed, int stars) {}
+    enum GameMode { ARITHMETIC_QUEST, RACE_TO_FINISH, TERRAIN_RACING, ENERGY_DEFENSE, PLANET_RESCUE, BLOCK_ISLAND }
+    enum GameRewardStatus { AWARDED, REPEAT, DAILY_LIMIT, GAME_LIMIT, UNAVAILABLE }
+    record Game(UUID id, int question, String prompt, int correct, int length, boolean completed, int stars,
+                GameRewardStatus rewardStatus) {}
 
     private ProfileDtos() {}
 }

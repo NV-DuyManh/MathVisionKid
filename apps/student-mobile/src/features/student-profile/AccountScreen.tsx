@@ -44,8 +44,10 @@ export function AccountScreen({ owner }: { owner: string }) {
             </View>
             <AppButton title="Đăng xuất" variant="ghost" icon={<Ionicons accessible={false} aria-hidden name="log-out-outline" color={COLORS.textSecondary} size={20} />} onPress={() => setConfirmLogout(true)} />
           </View>
-        </View> : profile.failed ? <RecoveryNotice title="Chưa tải được hồ sơ" message="Em kiểm tra kết nối rồi thử lại nhé."
-          actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại hồ sơ', icon: 'refresh-outline', onPress: profile.retry }]} /> : <ActivityIndicator accessibilityLabel="Đang tải hồ sơ" />}
+        </View> : !profile.failed && <ActivityIndicator accessibilityLabel="Đang tải hồ sơ" />}
+        {profile.failed && <RecoveryNotice title={profile.value ? 'Chưa cập nhật được hồ sơ' : 'Chưa tải được hồ sơ'}
+          message={profile.value ? 'Em đang xem thông tin đã tải trước đó.' : 'Em kiểm tra kết nối rồi thử lại nhé.'}
+          actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại hồ sơ', icon: 'refresh-outline', onPress: profile.retry }]} />}
       </ScrollView>
     </KeyboardAvoidingView>
     {confirmLogout && <LessonSheet title="Đăng xuất" compact onClose={() => { if (!leaving) setConfirmLogout(false); }}>

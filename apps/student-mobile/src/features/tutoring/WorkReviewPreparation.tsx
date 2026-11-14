@@ -8,12 +8,15 @@ import { COLORS, FONTS } from '../../constants/theme';
 
 type Props = {
   problem: string; work: string; problemImage: string; workImage: string; photoCurrent: boolean;
+  problemNeedsReview?: boolean;
   disabled: boolean; onEdit: (field: 'problem' | 'work') => void; onConfirm: () => void;
+  confirmLabel?: string;
 };
 
 /** Transcription confirmation is separate from the mathematical review. */
-export function WorkReviewPreparation({ problem, work, problemImage, workImage, photoCurrent, disabled, onEdit, onConfirm }: Props) {
-  const [section, setSection] = useState<'problem' | 'work'>('work');
+export function WorkReviewPreparation({ problem, work, problemImage, workImage, photoCurrent, problemNeedsReview, disabled, onEdit, onConfirm,
+  confirmLabel = 'Nội dung đã đúng · Xem nhận xét' }: Props) {
+  const [section, setSection] = useState<'problem' | 'work'>(problemNeedsReview ? 'problem' : 'work');
   const source = section === 'work' ? work : problem;
   const photo = section === 'work' ? workImage : problemImage;
   const unclear = problem.includes('[?]') || work.includes('[?]');
@@ -26,6 +29,7 @@ export function WorkReviewPreparation({ problem, work, problemImage, workImage, 
       onPress={() => setSection(field)} style={({ pressed }) => [s.tab, section === field && s.activeTab, pressed && s.pressed]}>
       <Text style={[s.tabText, section === field && s.activeText]}>{field === 'problem' ? 'Đề bài' : 'Bài em đã viết'}{(field === 'problem' ? problem : work).includes('[?]') ? ' · Chưa rõ' : ''}</Text>
     </Pressable>)}</View>
+    {problemNeedsReview ? <Text style={s.note} accessibilityRole="alert">Em kiểm tra lại đề với ảnh, nhất là các số và dấu phép tính, rồi xác nhận nhé.</Text> : null}
     {photo ? <View style={s.photoFrame}><Image source={{ uri: photo }} style={s.photo} resizeMode="contain"
       accessibilityLabel={section === 'problem' ? 'Ảnh đề bài' : photoCurrent ? 'Ảnh bài em đã làm' : 'Ảnh trước khi sửa bài bằng chữ'} /></View> : null}
     {section === 'work' && photo && !photoCurrent ? <Text style={s.note}>Ảnh trước khi sửa. Nhận xét tiếp theo sẽ dựa trên phần chữ mới bên dưới.</Text> : null}
@@ -35,7 +39,7 @@ export function WorkReviewPreparation({ problem, work, problemImage, workImage, 
       <Ionicons name="create-outline" size={18} color={COLORS.primaryDark} accessible={false} /><Text style={s.editText}>Chỉnh phần chữ này</Text>
     </Pressable>
     {unclear ? <Text accessibilityRole="alert" style={s.note}>Còn ký hiệu [?] chưa đọc rõ. Em đối chiếu cả hai mục và chỉnh lại trước khi nhận xét nhé.</Text> : null}
-    <AppButton title="Nội dung đã đúng · Xem nhận xét" disabled={disabled || unclear || !problem.trim() || !work.trim()} onPress={onConfirm} />
+    <AppButton title={confirmLabel} disabled={disabled || unclear || !problem.trim() || !work.trim()} onPress={onConfirm} />
     <Text style={s.caption}>Bấm tiếp nghĩa là em xác nhận phần chữ của đề và bài làm đã khớp. Không cần giải lại hay tóm tắt đề.</Text>
   </View>;
 }

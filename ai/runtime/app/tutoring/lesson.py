@@ -268,8 +268,9 @@ def calculate_exact(expression: str) -> Fraction:
             return Fraction(ast.get_source_segment(normalized, node))
         if isinstance(node, ast.BinOp) and type(node.op) in _OPS:
             return _OPS[type(node.op)](visit(node.left), visit(node.right))
-        if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub):
-            return -visit(node.operand)
+        if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.USub, ast.UAdd)):
+            value = visit(node.operand)
+            return -value if isinstance(node.op, ast.USub) else value
         raise ValueError("Unsupported expression")
 
     value = visit(tree.body)
@@ -283,19 +284,43 @@ def calculate(expression: str) -> Decimal:
     return Decimal(value.numerator) / Decimal(value.denominator)
 
 
+def written_calculation_sides(row: str) -> list[str] | None:
+    # Remove a trailing unit label, preserving numeric fraction parentheses.
+    row = re.sub(r"\s*\([^()]*[^\W\d_][^()]*\)\s*\.?$", "", row).strip()
+    row = re.sub(r"(?<=[\d)])\s*(?:học sinh|cây|quyển sách|viên bi|viên kẹo|bông hoa|quả bóng|"
+                 r"bút|hộp|quả|đồng|km|hm|dam|m|dm|cm|mm|kg|hg|dag|g|mg|ha|l|dl|cl|ml|tấn|tạ|yến|giờ|phút|giây)"
+                 r"(?:[²³])?\s*\.?$", "", row, flags=re.I)
+    row = re.sub(r"\\(?:d?frac)\s*\{\s*([+-]?\d+)\s*\}\s*\{\s*([1-9]\d*)\s*\}", r"(\1/\2)", row)
+    row = row.translate(str.maketrans('⁄∕：·⋅＝－＋', '//:××=-+'))
+    row = re.sub(r'(?<=[\d)])\s*[xX]\s*(?=[\d(])', '×', row)
+    row = re.sub(r'(?<![\d)])\(\s*([+−-]?\d+)\s*\)\s*/\s*\(\s*(\d+)\s*\)', r'(\1/\2)', row)
+    from app.tutoring.choice_source import numeric_notation
+    row = numeric_notation(row)
+    if '=' not in row or not re.fullmatch(r"[0-9.,\s+\-:*×÷/()−=]+", row):
+        return None
+    return [part.strip().replace(',', '.') for part in row.split('=')]
+
+
 def checked_written_calculation(excerpt: str) -> tuple[bool, Fraction] | None:
     """Check complete visible equalities; never grade a partial numerator."""
     values = []
     consistent = True
     for row in excerpt.splitlines():
-        if "=" not in row:
+        if "=" not in row and "＝" not in row:
             continue
-        # Remove a trailing unit label, preserving numeric fraction parentheses.
-        row = re.sub(r"\s*\([^()]*[^\W\d_][^()]*\)\s*$", "", row).strip()
-        if not re.fullmatch(r"[0-9.,\s+\-:*×÷/()−=]+", row):
+        expressions = written_calculation_sides(row)
+        if expressions is None:
             return None
         try:
-            values = [calculate_exact(part.strip().replace(",", ".")) for part in row.split("=")]
+            # The pupil sees slash fractions as stacked fractions. Keep each
+            # fraction together when ':'/÷ divides by it, rather than treating
+            # its denominator as another left-associative division operation.
+            number = r'(?:\(\s*\d+(?:\.\d+)?\s*\)|\d+(?:\.\d+)?)'
+            if any(re.search(r'\d\s*/\s*\d+\s*/\s*\d', part) for part in expressions):
+                return None
+            expressions = [re.sub(fr'({number})\s*/\s*({number})', r'(\1/\2)', part)
+                           if ':' in part or '÷' in part else part for part in expressions]
+            values = [calculate_exact(part) for part in expressions]
         except (ValueError, SyntaxError, ArithmeticError):
             return None
         consistent = consistent and all(value == values[0] for value in values[1:])

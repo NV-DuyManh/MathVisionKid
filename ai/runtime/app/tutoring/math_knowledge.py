@@ -60,6 +60,12 @@ def normalized_units(problem):
     return text
 
 
+def quantity_unit(text):
+    """Return the dimension and exact scale of a standalone known unit."""
+    unit = _CANONICAL.get(normalized_units(text).strip())
+    return _UNITS.get(unit)
+
+
 def unit_conversions(problem):
     text=normalized_units(problem)
     units=set()

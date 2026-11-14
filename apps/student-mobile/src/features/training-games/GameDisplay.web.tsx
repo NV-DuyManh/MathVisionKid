@@ -29,9 +29,13 @@ export function enterGameDisplay(gameId: TrainingGameId) {
   })().catch(() => {});
 }
 
-export function GameDisplay({ gameId, children }: { gameId: TrainingGameId; children: React.ReactNode }) {
+export function GameDisplay({ gameId, children, onExit }: { gameId: TrainingGameId; children: React.ReactNode; onExit?: () => void }) {
   const { width, height } = useWindowDimensions();
   const portraitPhone = trainingScreenOptions(gameId).orientation === 'landscape' && width < 700 && height > width;
+  // Mount the board once in landscape. Keeping it mounted after that preserves
+  // the current race if the player briefly rotates the phone back to portrait.
+  const [opened, setOpened] = React.useState(!portraitPhone);
+  if (!opened && !portraitPhone) setOpened(true);
   useEffect(() => {
     if (requestedGame !== gameId) enterGameDisplay(gameId);
     return () => {
@@ -48,18 +52,25 @@ export function GameDisplay({ gameId, children }: { gameId: TrainingGameId; chil
   }, [gameId]);
   return <View style={styles.root}>
     {portraitPhone ? <View style={styles.notice}>
-      <Text style={styles.text}>Xoay ngang điện thoại để chơi rộng hơn.</Text>
-      <Pressable accessibilityRole="button" accessibilityLabel="Mở trò chơi toàn màn hình và xoay ngang" onPress={() => enterGameDisplay(gameId)} style={styles.button}>
+      <Text accessibilityRole="header" style={styles.title}>Đua Về Đích</Text>
+      <Text style={styles.text}>Xoay ngang điện thoại để xem đủ bàn đua và chọn nhân vật.</Text>
+      <Pressable accessibilityRole="button" accessibilityLabel="Mở trò chơi toàn màn hình và xoay ngang"
+        onPress={() => enterGameDisplay(gameId)} style={styles.button}>
         <Text style={styles.buttonText}>Toàn màn hình</Text>
       </Pressable>
+      {onExit && <Pressable accessibilityRole="button" onPress={onExit} style={styles.button}>
+        <Text style={styles.buttonText}>Về danh sách trò chơi</Text>
+      </Pressable>}
     </View> : null}
-    {children}
+    {opened && <View aria-hidden={portraitPhone || undefined} style={portraitPhone ? styles.hidden : styles.root}>{children}</View>}
   </View>;
 }
 const styles = StyleSheet.create({
   root: { flex: 1, minHeight: 0 },
-  notice: { padding: 8, gap: 8, flexDirection: 'row', alignItems: 'center', backgroundColor: COLORS.primaryLight },
-  text: { flex: 1, fontFamily: FONTS.semiBold, fontSize: 12, color: COLORS.textPrimary },
-  button: { minHeight: 44, justifyContent: 'center', paddingHorizontal: 12, borderRadius: 12, backgroundColor: COLORS.primary },
-  buttonText: { fontFamily: FONTS.bold, fontSize: 12, color: '#FFFFFF' },
+  hidden: { display: 'none' },
+  notice: { flex: 1, padding: 24, gap: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.primaryLight },
+  title: { fontFamily: FONTS.extraBold, fontSize: 24, color: COLORS.textPrimary },
+  text: { maxWidth: 350, fontFamily: FONTS.semiBold, fontSize: 16, textAlign: 'center', color: COLORS.textPrimary },
+  button: { minHeight: 48, justifyContent: 'center', paddingHorizontal: 16, borderRadius: 12, backgroundColor: COLORS.primary },
+  buttonText: { fontFamily: FONTS.bold, fontSize: 14, color: '#FFFFFF' },
 });

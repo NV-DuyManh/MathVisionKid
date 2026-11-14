@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { ActivityIndicator, AppState, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, Alert, AppState, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import type { ScrollViewInstance, TextInputInstance, ViewInstance } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -98,7 +98,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [problemImage, setProblemImage] = useState(context?.problemImageUri || '');
   const [uncertainWork, setUncertainWork] = useState(context?.uncertainWork || false);
   const [problemConfirmed, setProblemConfirmed] = useState(context?.problemConfirmed === true);
-  const [sourceNeedsReview, setSourceNeedsReview] = useState(false);
+  const [sourceNeedsReview, setSourceNeedsReview] = useState(context?.problemNeedsReview === true);
   const [quizPreparationKey] = useState(() => context?.quizPreparationKey || submissionId());
   const sourceIssue = sourceClarification(problem);
   const needsSourceClarification = sourceIssue !== null;
@@ -234,9 +234,11 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const cancel = () => {
     requestId.current += 1; controller.current?.abort(); controller.current = null; running.current = false; setBusy(null); setFinishing(null);
   };
-  const failureMessage = useCallback((failure: any) => {
+  const failureMessage = useCallback((failure: any, task?: GuideTask) => {
     if (failure?.response?.status === 401) {
       setExpired(true); setError('Phiên học đã hết hạn. Em đăng nhập lại để tiếp tục nhé.');
+    } else if (task === 'read' && [429, 503].includes(failure?.response?.status)) {
+      setError('Chưa đọc được ảnh lúc này. Ảnh của em vẫn được giữ; em có thể nhập đề và bài làm bằng chữ hoặc thử lại sau nhé.');
     } else if ([409, 410].includes(failure?.response?.status)) {
       setLesson(null); setError('Bài học đã hết phiên. Đề và bài làm vẫn ở đây; em bắt đầu lại nhé.');
     } else if ([400, 422].includes(failure?.response?.status)) {
@@ -266,7 +268,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
       if (__DEV__ && !abort.signal.aborted) {
         console.warn('[MATH_TUTOR_REQUEST_FAILED]', { stage: kind, status: (failure as any)?.response?.status, code: (failure as any)?.code });
       }
-      if (active.current && id === requestId.current && !abort.signal.aborted) { setFailedTask(kind); failureMessage(failure); }
+      if (active.current && id === requestId.current && !abort.signal.aborted) { setFailedTask(kind); failureMessage(failure, kind); }
     } finally {
       if (active.current && id === requestId.current) { running.current = false; controller.current = null; setBusy(null); }
     }
@@ -319,11 +321,13 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         // A worked page is not silently treated as an original question.
         if (!result.problemText.trim()) { setError('Ảnh này chưa có đề bài. Em chụp phần câu hỏi nhé.'); return; }
         setProblem(result.problemText); setProblemImage(imageUri); setProblemConfirmed(false);
+        setSourceNeedsReview(result.problemNeedsReview === true);
       } else if (context?.purpose === 'ADD_WORK') {
         if (!workRead) { setError('Ảnh này chưa có phần em đã làm. Em chụp bài làm nhé.'); return; }
         setWork(text); setWorkImage(imageUri); setWorkImageCurrent(true); setWorkLines(result.lines); setUncertainWork(result.lines.some(row => row.uncertain)); setWorkConfirmed(false);
       } else {
         setProblem(draft?.problemText || result.problemText);
+        setSourceNeedsReview(!draft?.problemText && result.problemNeedsReview === true);
         setProblemConfirmed(false); setWorkConfirmed(false);
         setWork(text); setWorkLines(workRead ? result.lines : []); setUncertainWork(workRead && result.lines.some(row => row.uncertain));
         if (workRead) { setWorkImage(imageUri); setWorkImageCurrent(true); }
@@ -343,7 +347,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     if (purpose) {
       const pending: ImageDraft = { rawUri: '', uri: '', width: 0, height: 0, mimeType: 'image/jpeg', filename: 'pending.jpg', mode: 'MATH_TUTOR',
         lessonContext: { purpose, problemText: problem, workText: work, workImageUri: workImage, workImageCurrent, workLines, problemImageUri: problemImage,
-          lessonId, uncertainWork, problemConfirmed, workConfirmed, quizPreparationKey } };
+          lessonId, uncertainWork, problemConfirmed, problemNeedsReview: sourceNeedsReview, workConfirmed, quizPreparationKey } };
       recognitionDraftStore.setDraft(pending);
     } else recognitionDraftStore.clearDraft();
     router.push({ pathname: '/camera' as any, params: { mode: 'MATH_TUTOR' } });
@@ -360,6 +364,27 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
       setHintCount(0); setFractionInput(!!result.step?.expression && /phân số|mấy phần/i.test(result.step.question));
       setHintText(''); setHintExhausted(false); setFocusedChoice(null);
     });
+  };
+  const onHasSolution = () => {
+    if (busy || expired || restoring || problem.includes('[?]') || work.includes('[?]') || sourceClarification(problem)) return;
+    if (work && work.trim()) {
+      setProblemConfirmed(true);
+      setWorkConfirmed(true);
+      setReviewStarted(true);
+      setReviewFocused(true);
+      setError('');
+      requestAnimationFrame(() => scroll.current?.scrollTo({ y: 0, animated: false }));
+    } else {
+      Alert.alert(
+        'Bài đã có lời giải',
+        'Ảnh hiện tại chưa nhận diện được phần bài giải viết tay của em. Em hãy chụp lại ảnh trọn vẹn cả đề bài và bài giải nhé!',
+        [
+          { text: 'Chụp lại cả đề và bài giải', onPress: () => capture() },
+          { text: 'Nhập bài làm bằng chữ', onPress: () => edit('work') },
+          { text: 'Đóng', style: 'cancel' },
+        ]
+      );
+    }
   };
   const answer = (value: string, hint = false) => {
     if (!lesson || viewingHistory || running.current || expired || (hint && hintExhausted)) return;
@@ -451,7 +476,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         {restoring?<Text accessibilityLiveRegion="polite" style={styles.caption}>Đang kiểm tra bài đang học…</Text>:progressNotice?<Text accessibilityLiveRegion="polite" style={styles.caption}>{progressNotice}</Text>:null}
         {reviewFocused && !lesson ? <Pressable accessibilityRole="button" accessibilityLabel="Xem lại đề và bài làm" style={styles.reviewBack} onPress={() => setReviewFocused(false)}>
           <Ionicons name="chevron-back" size={18} color={COLORS.primaryDark} /><Text style={styles.link}>Xem lại đề và bài làm</Text></Pressable> : null}
-        {!lesson && !reviewFocused && !workReviewMode ? <LinearGradient colors={['#EEE7FF', '#F5F0FF']} style={styles.hero}>
+        {!lesson && !reviewFocused && !reviewStarted ? <LinearGradient colors={['#EEE7FF', '#F5F0FF']} style={styles.hero}>
           <View style={styles.flex}><Text style={styles.eyebrow}>HỌC CÙNG MATHVISIONKID</Text>
             <Text style={styles.title}>{division ? 'Cùng kiểm tra phép chia' : !problem && work ? 'Thêm đề, hiểu trọn bài' : work ? 'Cùng nhìn lại bài em làm' : 'Hiểu cách làm, tự tìm lời giải'}</Text>
             <Text style={styles.body}>{division ? 'Đối chiếu với ảnh → kiểm tra → tự sửa chỗ chưa đúng.' : !problem && work ? 'Mình giữ bài em đã viết. Có đề gốc, mình mới đối chiếu được cách làm.' : work ? 'Đọc đúng đề và bài làm → nhận xét từng dòng → em tự sửa và kiểm tra lại.' : 'Hiểu đề → chọn cách làm → tự tính → kiểm tra lại.'}</Text></View>
@@ -460,7 +485,10 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
 
         {error ? <RecoveryNotice title={expired ? 'Em cần đăng nhập lại' : 'Chưa thực hiện được'} message={error} actions={expired
           ? [{ label: 'Đăng nhập lại', onPress: () => router.push('/login' as any) }]
-          : failedTask === 'read' && imageUri && photoAllowed ? [{ label: 'Đọc lại ảnh', accessibilityLabel: 'Đọc lại ảnh bài làm', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy }]
+          : failedTask === 'read' && imageUri && photoAllowed ? [
+            { label: 'Đọc lại ảnh', accessibilityLabel: 'Đọc lại ảnh bài làm', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy },
+            { label: 'Nhập đề bằng chữ', accessibilityLabel: 'Nhập đề bằng chữ', icon: 'create-outline', onPress: () => edit('problem'), disabled: !!busy },
+          ]
           : problem && !lesson && !workReviewMode ? [{ label: problemConfirmed && !problem.includes('[?]') ? 'Thử lại' : 'Kiểm tra đề', accessibilityLabel: 'Bắt đầu lại bài học', icon: 'refresh-outline', onPress: () => { if (problemConfirmed && !problem.includes('[?]')) start(); else edit('problem'); }, disabled: !!busy }]
           : imageUri && photoAllowed && !lesson ? [{ label: 'Thử lại', accessibilityLabel: 'Đọc lại ảnh bài làm', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy }]
           : []} /> : null}
@@ -485,7 +513,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
           <Pressable style={styles.linkButton} accessibilityRole="button" onPress={() => edit('problem')}><Text style={styles.link}>Em muốn nhập đề bằng chữ</Text></Pressable>
         </View> : null}
 
-        {!!(workImage || problemImage) && !lesson && !division && !reviewFocused && !workReviewMode && <View style={styles.photos}>
+        {!!(workImage || problemImage) && !lesson && !division && !reviewFocused && !reviewStarted && <View style={styles.photos}>
           {problemImage ? <View style={styles.photoCard}><Image source={{ uri: problemImage }} style={styles.photo} resizeMode="contain" accessibilityLabel="Ảnh đề bài đã che thông tin" /><Text style={styles.caption}>Đề bài</Text></View> : null}
           {workImage && workImage !== problemImage ? <View style={styles.photoCard}><Image source={{ uri: workImage }} style={styles.photo} resizeMode="contain" accessibilityLabel={workImageCurrent ? 'Ảnh bài em đã làm' : 'Ảnh bài làm trước khi sửa bằng chữ'} /><Text style={styles.caption}>{workImageCurrent ? 'Bài em làm' : 'Ảnh trước khi sửa'}</Text></View> : null}
         </View>}
@@ -523,13 +551,11 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
 
         {workReviewMode && problem && !editing && !reviewFocused && !invalidPhoto ? <WorkReviewPreparation
           problem={problem} work={work} problemImage={problemImage} workImage={workImage} photoCurrent={workImageCurrent}
-          disabled={!!busy || expired || restoring} onEdit={edit} onConfirm={() => {
-            if (busy || expired || restoring || problem.includes('[?]') || work.includes('[?]')) return;
-            setProblemConfirmed(true); setWorkConfirmed(true); setReviewStarted(true); setReviewFocused(true); setError('');
-            requestAnimationFrame(() => scroll.current?.scrollTo({ y: 0, animated: false }));
-          }} /> : null}
+          problemNeedsReview={sourceNeedsReview && !problemConfirmed}
+          confirmLabel="Bài đã có lời giải" disabled={!!busy || expired || restoring || !!sourceIssue}
+          onEdit={edit} onConfirm={onHasSolution} /> : null}
 
-        {!!problem && !editing && !lesson && !reviewFocused && !workReviewMode ? <View style={styles.card}>
+        {!!problem && !editing && !lesson && !reviewFocused && !reviewStarted && !workReviewMode ? <View style={styles.card}>
           <View style={styles.problemHeader}>
             <View style={styles.problemToggle}>
               <View style={styles.problemIcon}><Ionicons name="document-text-outline" size={21} color={COLORS.primaryDark} /></View>
@@ -564,8 +590,22 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
               <Text style={[styles.body, styles.flex]}>Em đã kiểm tra đề bài và các số</Text>
             </Pressable>
           </> : null}
-          {problem.includes('[?]') ? <Text style={styles.error}>Có dữ kiện chưa rõ. Em chỉnh lại chỗ đánh dấu trước nhé.</Text> : !lesson && !busy ? <AppButton title={work ? 'Cùng hiểu và đối chiếu bài' : 'Bắt đầu từng bước'} onPress={start} disabled={!!sourceIssue || restoring || expired || !!invalidPhoto || !problemConfirmed} /> : null}
-          {!work && !lesson ? <Pressable style={styles.linkButton} accessibilityRole="button" accessibilityLabel="Chụp thêm bài làm" onPress={() => capture('ADD_WORK')}><Text style={styles.link}>Em đã làm rồi? Chụp thêm bài làm</Text></Pressable> : null}
+          {problem.includes('[?]') ? <Text style={styles.error}>Có dữ kiện chưa rõ. Em chỉnh lại chỗ đánh dấu trước nhé.</Text> : !lesson && !busy ? (
+            <View style={styles.actionButtons}>
+              <AppButton
+                title="Bắt đầu từng bước"
+                onPress={start}
+                disabled={!!sourceIssue || restoring || expired || !!invalidPhoto || !problemConfirmed}
+              />
+              <AppButton
+                title="Bài đã có lời giải"
+                variant="secondary"
+                onPress={onHasSolution}
+                disabled={restoring || expired || !!invalidPhoto}
+                accessibilityLabel="Bài đã có lời giải"
+              />
+            </View>
+          ) : null}
         </View> : null}
 
         {problem && work && !editing && !division && !invalidPhoto && !lesson && reviewStarted ? <View style={!reviewFocused ? styles.hidden : undefined}><StudentWorkReview
@@ -574,7 +614,11 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
           autoStart
           disabled={!!busy || expired} onCaptureWork={() => capture('ADD_WORK')}
           onSessionExpired={() => { setExpired(true); setError('Phiên học đã hết hạn. Em đăng nhập lại để tiếp tục nhé.'); }}
-          onReviseWork={text => { cancel(); setReviewFocused(false); setReviewStarted(false); setWork(text); setWorkLines([]); setWorkImageCurrent(false); setWorkConfirmed(false); setUncertainWork(text.includes('[?]')); setSaved(false); }} /></View> : null}
+          onReviseWork={text => {
+            cancel(); Keyboard.dismiss(); setWork(text); setWorkLines([]); setWorkImageCurrent(false);
+            setWorkConfirmed(true); setUncertainWork(false); setSaved(false);
+            requestAnimationFrame(() => scroll.current?.scrollTo({ y: 0, animated: false }));
+          }} /></View> : null}
 
         {lesson && !editing ? <>
           <View style={styles.progressRow}><View style={styles.rail} accessible accessibilityRole="progressbar" accessibilityLabel="Tiến trình bài học"
@@ -763,6 +807,7 @@ const styles = StyleSheet.create({
   heading: { fontSize: 17, lineHeight: 23, color: COLORS.textPrimary, fontFamily: FONTS.extraBold },
   stepPrompt: { borderRadius: 12, padding: 12, gap: 3, backgroundColor: '#F1EAFF' }, stepCaption: { fontFamily: FONTS.semiBold, fontSize: 12, lineHeight: 18, color: COLORS.textSecondary },
   body: { fontSize: 14, lineHeight: 21, color: COLORS.textSecondary, fontFamily: FONTS.regular },
+  actionButtons: { gap: 10 },
   card: { backgroundColor: COLORS.surface, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#EAE2F7', ...SHADOWS.small },
   activeStep: { gap: 10 }, stepNote: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, borderRadius: 13, backgroundColor: '#FFF9ED', padding: 10 },
   reviewBack: { minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 7 },

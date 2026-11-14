@@ -115,7 +115,8 @@ public class MathTutorService {
             }
             if (!questions.isEmpty() && (!kind.equals("MULTIPLE") || !problem.isEmpty() || !lines.isEmpty() || needsCrop)) throw unavailable();
         }
-        return new NotebookRead(kind, problem, lines, flag(body, "needsProblem"), needsCrop, questions);
+        boolean problemNeedsReview = body.has("problemNeedsReview") && flag(body, "problemNeedsReview");
+        return new NotebookRead(kind, problem, lines, flag(body, "needsProblem"), needsCrop, questions, problemNeedsReview);
     }
 
     private WrittenDivision writtenDivision(JsonNode value) {
@@ -315,6 +316,9 @@ public class MathTutorService {
         String sourceId = text(body, "sourceId", 100, false), status = text(body, "status", 20, false);
         String summary = text(body, "summary", 500, false), praise = text(body, "praise", 300, true);
         String nextAction = text(body, "nextAction", 300, false), alternative = text(body, "alternative", 600, true);
+        Boolean complete = body.hasNonNull("complete") ? flag(body, "complete") : null;
+        Boolean arithmeticVerified = body.hasNonNull("arithmeticVerified") ? flag(body, "arithmeticVerified") : null;
+        String missingPart = body.has("missingPart") ? text(body, "missingPart", 500, true) : "";
         JsonNode rows = body.get("rows");
         if (!sourceId.equals(request.sourceId()) || !List.of("CORRECT", "NEEDS_REVISION", "NEEDS_REVIEW").contains(status)
                 || rows == null || !rows.isArray() || rows.size() != source.size()) throw unavailable();
@@ -331,12 +335,23 @@ public class MathTutorService {
                 if (!hint.isTextual() || hint.asText().isBlank() || hint.asText().length() > 300) throw unavailable();
                 help.add(hint.asText());
             }
-            result.add(new WorkReviewRow(index, sourceText, rowStatus, text(row, "feedback", 400, false), help));
+            String errorKind = row.has("errorKind") ? text(row, "errorKind", 20, false) : "NONE";
+            if (!List.of("NONE", "CALCULATION", "OPERAND", "DEPENDENT", "EXPLANATION", "UNIT").contains(errorKind)
+                    || (!rowStatus.equals("FIX") && !errorKind.equals("NONE"))) throw unavailable();
+            String rowKind = row.hasNonNull("rowKind") ? text(row, "rowKind", 20, false) : null;
+            Boolean arithmeticCorrect = row.hasNonNull("arithmeticCorrect") ? flag(row, "arithmeticCorrect") : null;
+            if (rowKind != null && !List.of("HEADING", "EXPLANATION", "CALCULATION", "ANSWER", "UNVERIFIABLE").contains(rowKind)
+                    || arithmeticCorrect != null && !"CALCULATION".equals(rowKind)
+                    || Boolean.FALSE.equals(arithmeticCorrect) && !rowStatus.equals("FIX")) throw unavailable();
+            result.add(new WorkReviewRow(index, sourceText, rowStatus, text(row, "feedback", 400, false), help,
+                    errorKind, rowKind, arithmeticCorrect));
         }
         if (status.equals("CORRECT") ? praise.isBlank() || result.stream().anyMatch(row -> !row.status().equals("OK"))
                 : !praise.isBlank() || !alternative.isBlank()) throw unavailable();
         if (status.equals("NEEDS_REVISION") && result.stream().noneMatch(row -> row.status().equals("FIX"))) throw unavailable();
-        return new WorkReviewResponse(sourceId, status, summary, praise, result, nextAction, alternative);
+        if (status.equals("CORRECT") && (Boolean.FALSE.equals(complete) || !missingPart.isBlank())
+                || !missingPart.isBlank() && !Boolean.FALSE.equals(complete)) throw unavailable();
+        return new WorkReviewResponse(sourceId, status, summary, praise, result, nextAction, alternative, complete, missingPart, arithmeticVerified);
     }
 
     private LessonResponse lessonResponse(JsonNode body) {
@@ -519,7 +534,8 @@ public class MathTutorService {
             if (ex.getStatusCode().value() == 413) {
                 throw new ApiException("IMAGE_TOO_LARGE", "Ảnh quá lớn. Em hãy chọn ảnh nhỏ hơn 8 MB.", HttpStatus.PAYLOAD_TOO_LARGE);
             }
-            if (List.of("/internal/v1/tutor/lesson", "/internal/v1/tutor/lesson/answer").contains(path)) {
+            if (List.of("/internal/v1/tutor/lesson", "/internal/v1/tutor/lesson/answer",
+                    "/internal/v1/tutor/inspect", "/internal/v1/tutor/work-review").contains(path)) {
                 String reason = ex.getResponseHeaders() == null ? null : ex.getResponseHeaders().getFirst("X-Tutor-Failure");
                 String code = switch (reason == null ? "" : reason) {
                     case "rate_limit" -> "TUTOR_RATE_LIMITED";
@@ -529,8 +545,11 @@ public class MathTutorService {
                     case "busy" -> "TUTOR_BUSY";
                     default -> "TUTOR_UNAVAILABLE";
                 };
-                logger.warn("Lesson preparation unavailable code={}", code);
-                throw new ApiException(code, "Chưa chuẩn bị được phần hướng dẫn. Đề bài vẫn được giữ.", HttpStatus.SERVICE_UNAVAILABLE);
+                logger.warn("Tutor request unavailable path={} code={}", path, code);
+                String message = path.equals("/internal/v1/tutor/inspect") ? "Chưa đọc được ảnh. Ảnh của em vẫn được giữ."
+                        : path.equals("/internal/v1/tutor/work-review") ? "Chưa nhận xét được bài. Bài làm của em vẫn được giữ."
+                        : "Chưa chuẩn bị được phần hướng dẫn. Đề bài vẫn được giữ.";
+                throw new ApiException(code, message, HttpStatus.SERVICE_UNAVAILABLE);
             }
             throw unavailable();
         } catch (RestClientException ex) {

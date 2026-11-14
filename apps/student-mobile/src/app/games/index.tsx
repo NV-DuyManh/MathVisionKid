@@ -6,7 +6,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../../components/ui/AppButton';
 import { AuthContext } from '../../context/AuthContext';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
-import { TRAINING_CATALOG } from '../../features/training-games/catalog';
+import { STAR_QUEST, TRAINING_CATALOG } from '../../features/training-games/catalog';
+import { GameIcon } from '../../features/training-games/GameIcon';
 import { trainingAccess } from '../../features/training-games/identity';
 import { trainingTrace } from '../../features/training-games/diagnostics';
 import { trainingResults } from '../../features/training-games/resultStore';
@@ -51,18 +52,35 @@ export default function GamesScreen() {
       <Text accessibilityRole="header" style={styles.title}>Trò chơi rèn luyện cho em</Text>
       <View style={styles.placeholder} />
     </View>
-    <View style={styles.intro}><Text style={styles.eyebrow}>MỖI LƯỢT CHƠI, THÊM MỘT ĐIỀU HAY</Text><Text style={styles.heading}>Chọn chuyến phiêu lưu của em</Text><Text style={styles.copy}>Vừa chơi, vừa luyện toán theo cách em thích.</Text><Text style={styles.local}>{access.kind === 'trial' ? 'Lượt chơi thử không ghi vào thành tích.' : 'Kết quả được lưu riêng trên thiết bị này.'}</Text></View>
     {access.kind === 'blocked' && <Text accessibilityRole="alert" style={styles.notice}>{access.message}</Text>}
     {access.kind === 'trial' && <Text accessibilityRole="alert" style={styles.notice}>Chơi thử không lưu thành tích. Tài khoản dùng thử chưa có hồ sơ học sinh thật; dữ liệu lượt thử chỉ giữ tạm và được bỏ khi thoát trò chơi.</Text>}
     {saveError && <View accessibilityRole="alert" style={styles.noticeBox}><Text style={styles.notice}>{saveError}</Text><Pressable accessibilityRole="button" accessibilityLabel="Thử lưu kết quả" onPress={() => { if (studentId) void trainingResults.retry(studentId).catch(() => {}); }} style={styles.retry}><Text style={styles.playText}>Thử lưu lại</Text></Pressable></View>}
     {recent.owner === studentId && recent.failed && <Text accessibilityRole="alert" style={styles.notice}>Chưa đọc được kết quả gần đây. Dữ liệu cũ vẫn được giữ nguyên.</Text>}
-    {access.kind === 'student' && <AppButton title="Đường đua sao" onPress={() => router.push('/games/arithmetic-quest')} />}
+    {access.kind === 'student' && <Pressable testID="game-star-quest" accessibilityRole="button"
+      accessibilityLabel={STAR_QUEST.title} accessibilityHint={STAR_QUEST.description}
+      onPress={() => router.push('/games/arithmetic-quest')}
+      style={({ pressed }) => [styles.card, styles.feature, pressed && styles.pressed]}>
+      <GameIcon artwork={STAR_QUEST.artwork} />
+      <View style={styles.gameCopy}>
+        <Text style={styles.gameTitle}>{STAR_QUEST.title}</Text>
+        <Text style={styles.copy}>{STAR_QUEST.description}</Text>
+      </View>
+      <Ionicons name="chevron-forward" size={22} color={COLORS.primaryDark} accessible={false} />
+    </Pressable>}
+    <View style={styles.section}>
+      <Text accessibilityRole="header" style={styles.heading}>Chọn trò luyện toán</Text>
+      {access.kind === 'student' && <Text style={styles.copy}>Kết quả chơi thông thường lưu trên thiết bị. Các thử thách tính sao ghi kết quả vào hồ sơ.</Text>}
+    </View>
     <View style={styles.grid}>{TRAINING_CATALOG.map(game => {
       const result = recent.owner === studentId ? recent.rows[game.id] : undefined;
       const playable = game.ready && access.kind !== 'blocked';
       return <View key={game.id} testID={`training-card-${game.id}`} style={[styles.card, width >= 720 && styles.wideCard]}>
-        <View accessible={false} style={[styles.art, { backgroundColor: game.tint }]}><View style={styles.orbit} /><View style={styles.spark} /><Ionicons name={game.icon} size={68} color={game.color} /><Text style={[styles.artCaption, { color: game.color }]}>CÙNG EM CHINH PHỤC</Text></View>
-        <View style={styles.cardBody}><Text style={styles.gameTitle}>{game.title}</Text><Text style={styles.copy}>{game.description}</Text><Text style={styles.math}>{game.math}</Text>
+        <View style={styles.cardBody}>
+          <View style={styles.gameHeader}>
+            <GameIcon artwork={game.artwork} />
+            <Text accessibilityRole="header" style={[styles.gameTitle, styles.gameCopy]}>{game.title}</Text>
+          </View>
+          <Text style={styles.copy}>{game.description}</Text><Text style={styles.math}>{game.math}</Text>
           {game.note && <Text style={styles.note}>{game.note}</Text>}
           {result && <Text testID={`training-recent-${game.id}`} style={styles.recent}>Gần đây: {({ won: 'Hoàn thành', lost: 'Đã thử sức', abandoned: 'Dừng giữa chừng', restarted: 'Chơi lại' } as const)[result.status]}{result.score !== undefined ? ` · ${result.score}${result.maxScore !== undefined ? '/' + result.maxScore : ''} điểm` : ''}</Text>}
           <Pressable accessibilityRole="button" accessibilityLabel={`${access.kind === 'trial' ? 'Chơi thử' : 'Chơi'} ${game.title}`} accessibilityState={{ disabled: !playable }} disabled={!playable} testID={`training-play-${game.id}`} onPress={() => {
@@ -71,6 +89,11 @@ export default function GamesScreen() {
             enterGameDisplay(game.id);
             router.push({ pathname: '/games/[gameId]', params: access.kind === 'trial' ? { gameId: game.id, playMode: 'trial' } : { gameId: game.id } });
           }} style={({ pressed }) => [styles.play, !playable && styles.disabled, pressed && styles.pressed]}><Text style={styles.playText}>{!game.ready ? 'Chưa sẵn sàng' : access.kind === 'blocked' ? 'Đăng nhập để chơi' : access.kind === 'trial' ? 'Chơi thử' : 'Chơi ngay'}</Text><Ionicons name="arrow-forward" size={20} color="#FFFFFF" accessible={false} /></Pressable>
+          {playable && access.kind === 'student' && <>
+            <AppButton title="Mở thử thách tính sao" accessibilityLabel={`Mở thử thách tính sao · ${game.title}`} variant="secondary"
+              onPress={() => router.push({ pathname: '/games/arithmetic-quest', params: { mode: game.id } })} />
+            <Text style={styles.note}>Giải 5 câu để có cơ hội nhận sao vào hồ sơ.</Text>
+          </>}
         </View>
       </View>;
     })}</View>
@@ -81,13 +104,16 @@ export default function GamesScreen() {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: COLORS.background },
   content: { flexGrow: 1, width: '100%', maxWidth: 1060, alignSelf: 'center', paddingHorizontal: 16, paddingBottom: 32 },
-  intro: { paddingVertical: 22, gap: 10 }, eyebrow: { fontFamily: FONTS.extraBold, color: COLORS.primaryDark, fontSize: 10, letterSpacing: 1.3 },
-  heading: { fontFamily: FONTS.extraBold, color: COLORS.textPrimary, fontSize: 26, lineHeight: 34 },
+  section: { paddingVertical: 16, gap: 4 },
+  heading: { fontFamily: FONTS.extraBold, color: COLORS.textPrimary, fontSize: 20, lineHeight: 28 },
   copy: { fontFamily: FONTS.regular, color: COLORS.textSecondary, fontSize: 14, lineHeight: 22 },
-  local: { fontFamily: FONTS.semiBold, fontSize: 12, color: COLORS.textMuted }, grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 },
-  card: { width: '100%', overflow: 'hidden', borderRadius: 24, backgroundColor: COLORS.surface, borderWidth: 1, borderColor: '#E8E3F4' }, wideCard: { width: '48%' },
-  art: { height: 152, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', gap: 9 }, orbit: { position: 'absolute', width: 190, height: 190, borderRadius: 95, borderWidth: 1, borderColor: '#FFFFFF90', transform: [{ rotate: '-20deg' }, { scaleY: .55 }] }, spark: { position: 'absolute', right: 35, top: 25, width: 12, height: 12, backgroundColor: '#FFFFFF', borderRadius: 4, transform: [{ rotate: '20deg' }] }, artCaption: { fontFamily: FONTS.extraBold, fontSize: 9, letterSpacing: 1.7 },
-  cardBody: { padding: 20, gap: 10 }, gameTitle: { fontFamily: FONTS.extraBold, fontSize: 21, lineHeight: 28, color: COLORS.textPrimary },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 },
+  card: { width: '100%', borderRadius: 24, backgroundColor: COLORS.surface, borderWidth: 1, borderColor: '#E8E3F4' },
+  wideCard: { flexBasis: '48%', flexGrow: 1, maxWidth: '50%' },
+  feature: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, backgroundColor: '#FFFBEE', borderColor: '#EED7A3' },
+  gameHeader: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  gameCopy: { flex: 1, minWidth: 0 },
+  cardBody: { padding: 16, gap: 10, flex: 1 }, gameTitle: { fontFamily: FONTS.extraBold, fontSize: 19, lineHeight: 26, color: COLORS.textPrimary },
   math: { fontFamily: FONTS.bold, fontSize: 12, lineHeight: 19, color: COLORS.primaryDark }, note: { fontFamily: FONTS.semiBold, fontSize: 11, color: COLORS.textMuted },
   play: { minHeight: 48, marginTop: 8, borderRadius: 16, backgroundColor: COLORS.primary, paddingHorizontal: 18, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }, playText: { fontFamily: FONTS.extraBold, color: '#FFFFFF', fontSize: 15 }, disabled: { opacity: .45 },
   recent: { fontFamily: FONTS.semiBold, fontSize: 12, color: COLORS.textSecondary }, notice: { fontFamily: FONTS.semiBold, color: '#7C4315', fontSize: 13, lineHeight: 21, paddingVertical: 8 }, noticeBox: { backgroundColor: COLORS.warningLight, padding: 12, borderRadius: 14, marginBottom: 16 }, retry: { minHeight: 48, alignItems: 'center', justifyContent: 'center', padding: 12, borderRadius: 14, backgroundColor: COLORS.primary },

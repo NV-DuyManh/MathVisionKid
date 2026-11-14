@@ -207,7 +207,7 @@ export default function CameraScreen() {
           <TouchableOpacity style={styles.iconButton} onPress={() => Alert.alert((isHandwriting ? 'Hướng dẫn chụp chữ viết tay' : 'Hướng dẫn chụp bài toán'), (isHandwriting
             ? '1. Đặt dòng chữ hoặc đoạn văn viết tay vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh rõ nét.'
             : mode === 'MATH_TUTOR'
-            ? '1. Chụp rõ trọn một đề toán, gồm chữ, số và hình nếu có.\n2. Che thông tin cá nhân ở bước tiếp theo.\n3. Kiểm tra lại đề rồi cùng tìm cách giải.'
+            ? '1. Chụp rõ trọn bài toán (có thể chụp cả đề bài và lời giải trên cùng một ảnh nếu em đã làm rồi).\n2. Che thông tin cá nhân ở bước tiếp theo.\n3. Chọn học từng bước hoặc xem nhận xét bài đã giải.'
             : '1. Đặt trọn vẹn phép tính vào khung.\n2. Chụp trong không gian đủ ánh sáng.\n3. Giữ chắc tay để ảnh không bị mờ.'))} accessibilityRole="button" accessibilityLabel={'Xem hướng dẫn chụp ảnh'} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
             <Ionicons name="help-circle-outline" size={26} color="#FFFFFF"/>
           </TouchableOpacity>

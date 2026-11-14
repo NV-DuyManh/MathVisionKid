@@ -28,7 +28,12 @@ export type Leaderboard = {
   ownPosition: number | null;
   entries: { position: number; alias: string; avatar: string; stars: number; rank: Rank; self: boolean }[];
 };
-export type GameRun = { id: string; question: number; prompt: string | null; correct: number; length: number; completed: boolean; stars: number };
+export type RankMilestone = { name: string; stars: number; top: number | null };
+export type GameMode = 'ARITHMETIC_QUEST' | 'RACE_TO_FINISH' | 'TERRAIN_RACING' | 'ENERGY_DEFENSE' | 'PLANET_RESCUE' | 'BLOCK_ISLAND';
+export type GameRun = {
+  id: string; question: number; prompt: string | null; correct: number; length: number; completed: boolean; stars: number;
+  rewardStatus?: 'AWARDED' | 'REPEAT' | 'DAILY_LIMIT' | 'GAME_LIMIT' | 'UNAVAILABLE' | null;
+};
 const root = '/student';
 export const profileApi = {
   async get(signal: AbortSignal) {
@@ -52,10 +57,19 @@ export const profileApi = {
   async leaderboard(classroom: string | undefined, signal: AbortSignal) {
     return (await apiClient.get<Leaderboard>(root + '/leaderboard', { params: { classroom }, signal })).data;
   },
-  async startGame(signal: AbortSignal) {
-    return (await apiClient.post<GameRun>(root + '/game-runs', undefined, { signal })).data;
+  async rankMilestones(signal: AbortSignal) {
+    return (await apiClient.get<RankMilestone[]>(root + '/rank-milestones', { signal })).data;
   },
-  async answer(run: GameRun, answer: number, signal: AbortSignal) {
-    return (await apiClient.post<GameRun>(root + '/game-runs/' + run.id + '/answers', { question: run.question, answer }, { signal })).data;
+  async startGame(mode: GameMode, signal: AbortSignal, identity: string | null) {
+    const config = { params: { mode }, signal, _identity: identity };
+    return (await apiClient.post<GameRun>(root + '/game-runs', undefined, config)).data;
+  },
+  async readGame(id: string, signal: AbortSignal, identity: string | null) {
+    const config = { signal, _identity: identity };
+    return (await apiClient.get<GameRun>(root + '/game-runs/' + id, config)).data;
+  },
+  async answer(run: GameRun, answer: number, signal: AbortSignal, identity: string | null) {
+    const config = { signal, _identity: identity };
+    return (await apiClient.post<GameRun>(root + '/game-runs/' + run.id + '/answers', { question: run.question, answer }, config)).data;
   },
 };

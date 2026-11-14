@@ -11,6 +11,9 @@ import { ProfileRankCard, ProfileStats, profileStyles as s, StudentAvatar } from
 import { profileApi, type Leaderboard } from '../../features/student-profile/profileApi';
 import { useStudentProfile } from '../../features/student-profile/useStudentProfile';
 import { RankEmblem } from '../../features/student-profile/RankEmblem';
+import { RankGuide } from '../../features/student-profile/RankGuide';
+
+const LEADERBOARD_PAGE_SIZE = 10;
 
 export default function AchievementsScreen() {
   const auth = useContext(AuthContext);
@@ -23,6 +26,8 @@ function Achievements({ owner }: { owner?: string }) {
   const profile = useStudentProfile(owner);
   const [classroom, setClassroom] = useState<string>();
   const [retry, setRetry] = useState(0);
+  const [visibleEntries, setVisibleEntries] = useState(LEADERBOARD_PAGE_SIZE);
+  const [guideOpen, setGuideOpen] = useState(false);
   const [board, setBoard] = useState<{ classroom?: string; data?: Leaderboard; error?: boolean }>();
   useFocusEffect(useCallback(() => {
     if (!owner) return;
@@ -42,8 +47,38 @@ function Achievements({ owner }: { owner?: string }) {
   return <SafeAreaView style={s.screen} edges={['top']}>
     <ScrollView contentContainerStyle={s.content}>
       <StudentPageHeader compact title="Thành tích" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/account')} />
+      {value && <ProfileRankCard profile={value} />}
+      <View style={s.card}>
+        <Text accessibilityRole="header" style={s.heading}>Bảng xếp hạng</Text>
+        <Text style={s.body}>Thách Đấu dành cho Top 200 toàn hệ thống đã đạt ít nhất Chiến Tướng.</Text>
+        <AppButton title="Xem các bậc xếp hạng" variant="secondary" onPress={() => setGuideOpen(true)} />
+        <View style={s.row}>{[{ id: undefined, name: 'Toàn hệ thống' }, ...(value?.classrooms ?? [])].map(scope =>
+          <Pressable key={scope.id ?? 'all'} accessibilityRole="button" accessibilityState={{ selected: classroom === scope.id }}
+            style={[s.chip, classroom === scope.id && s.selected]} onPress={() => {
+              setClassroom(scope.id);
+              setVisibleEntries(LEADERBOARD_PAGE_SIZE);
+            }}><Text style={s.body}>{scope.name}</Text></Pressable>)}</View>
+        {current?.error ? <RecoveryNotice title="Chưa mở được bảng xếp hạng" message="Em kiểm tra kết nối rồi thử lại nhé."
+          actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại bảng xếp hạng', icon: 'refresh-outline', onPress: () => setRetry(n => n + 1) }]} />
+          : current?.data ? <>
+            <Text accessibilityLiveRegion="polite" style={s.body}>{current.data.ownPosition
+              ? `Vị trí của em · #${current.data.ownPosition}` : 'Em chưa có vị trí trên bảng này.'}</Text>
+            {current.data.entries.length === 0 && <Text style={s.body}>Chưa có bạn nào được xếp hạng.</Text>}
+            {current.data.entries.slice(0, visibleEntries).map(item => <View key={item.alias} style={[s.row, s.chip]}>
+              <Text style={s.heading}>#{item.position}</Text><StudentAvatar id={item.avatar} size={32} />
+              <View style={{ flex: 1, minWidth: 105 }}>
+                <Text style={s.body}>{item.alias}{item.self ? ' (em)' : ''}</Text>
+                <View style={[s.row, { gap: 5 }]}><RankEmblem name={item.rank.name} size={25} /><Text style={s.body}>{item.rank.name}</Text></View>
+              </View>
+              <Text style={s.body}>{item.stars} sao</Text>
+            </View>)}
+            {current.data.entries.length > visibleEntries && <AppButton title="Xem thêm xếp hạng" variant="secondary"
+              onPress={() => setVisibleEntries(count => count + LEADERBOARD_PAGE_SIZE)} />}
+            {visibleEntries > LEADERBOARD_PAGE_SIZE && <AppButton title="Thu gọn bảng xếp hạng" variant="ghost"
+              onPress={() => setVisibleEntries(LEADERBOARD_PAGE_SIZE)} />}
+          </> : <ActivityIndicator accessibilityLabel="Đang tải bảng xếp hạng" />}
+      </View>
       {value ? <>
-        <ProfileRankCard profile={value} />
         <ProfileStats profile={value} />
         <View style={s.card}>
           <Text accessibilityRole="header" style={s.heading}>Nhiệm vụ của em</Text>
@@ -74,30 +109,11 @@ function Achievements({ owner }: { owner?: string }) {
             +{item.stars} sao · {{ LESSON: 'Hoàn thành bài học', QUIZ: 'Giải đúng Quiz', GAME: 'Thắng lượt chơi' }[item.source]} · {new Date(item.completedAt).toLocaleDateString('vi-VN')}
           </Text>)}
         </View>
-      </> : profile.failed ? <RecoveryNotice title="Chưa tải được thành tích" message="Em kiểm tra kết nối và thử lại nhé."
-        actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại thành tích', icon: 'refresh-outline', onPress: profile.retry }]} />
-        : <ActivityIndicator accessibilityLabel="Đang tải thành tích" />}
-      <View style={s.card}>
-        <Text accessibilityRole="header" style={s.heading}>Bảng xếp hạng</Text>
-        <Text style={s.body}>Thách Đấu dành cho Top 200 toàn hệ thống đã đạt ít nhất Chiến Tướng.</Text>
-        <View style={s.row}>{[{ id: undefined, name: 'Toàn hệ thống' }, ...(value?.classrooms ?? [])].map(scope =>
-          <Pressable key={scope.id ?? 'all'} accessibilityRole="button" accessibilityState={{ selected: classroom === scope.id }}
-            style={[s.chip, classroom === scope.id && s.selected]} onPress={() => setClassroom(scope.id)}><Text style={s.body}>{scope.name}</Text></Pressable>)}</View>
-        {current?.error ? <RecoveryNotice title="Chưa mở được bảng xếp hạng" message="Em kiểm tra kết nối rồi thử lại nhé."
-          actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại bảng xếp hạng', icon: 'refresh-outline', onPress: () => setRetry(n => n + 1) }]} />
-          : current?.data ? <>
-            <Text style={s.body}>{current.data.ownPosition ? `Vị trí của em · #${current.data.ownPosition}` : 'Em chưa có vị trí trên bảng này.'}</Text>
-            {current.data.entries.length === 0 && <Text style={s.body}>Chưa có bạn nào được xếp hạng.</Text>}
-            {current.data.entries.map(item => <View key={item.alias} style={[s.row, s.chip]}>
-              <Text style={s.heading}>#{item.position}</Text><StudentAvatar id={item.avatar} size={32} />
-              <View style={{ flex: 1, minWidth: 105 }}>
-                <Text style={s.body}>{item.alias}{item.self ? ' (em)' : ''}</Text>
-                <View style={[s.row, { gap: 5 }]}><RankEmblem name={item.rank.name} size={25} /><Text style={s.body}>{item.rank.name}</Text></View>
-              </View>
-              <Text style={s.body}>{item.stars} sao</Text>
-            </View>)}
-          </> : <ActivityIndicator accessibilityLabel="Đang tải bảng xếp hạng" />}
-      </View>
+      </> : !profile.failed && <ActivityIndicator accessibilityLabel="Đang tải thành tích" />}
+      {profile.failed && <RecoveryNotice title={value ? 'Chưa cập nhật được thành tích' : 'Chưa tải được thành tích'}
+        message={value ? 'Em đang xem thành tích đã tải trước đó.' : 'Em kiểm tra kết nối rồi thử lại nhé.'}
+        actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại thành tích', icon: 'refresh-outline', onPress: profile.retry }]} />}
     </ScrollView>
+    {guideOpen && <RankGuide onClose={() => setGuideOpen(false)} />}
   </SafeAreaView>;
 }

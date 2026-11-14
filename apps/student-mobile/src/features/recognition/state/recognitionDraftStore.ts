@@ -39,6 +39,7 @@ export interface ImageDraft {
         lessonId: string;
         uncertainWork: boolean;
         problemConfirmed?: boolean;
+        problemNeedsReview?: boolean;
         quizPreparationKey?: string;
         workConfirmed?: boolean;
     };

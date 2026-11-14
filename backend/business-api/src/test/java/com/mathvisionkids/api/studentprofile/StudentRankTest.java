@@ -4,6 +4,22 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StudentRankTest {
+    @Test void milestonesMatchTheRankRules() {
+        long[] stars = {0, 9, 21, 37, 62, 87, 112, 122, 162, 212};
+        var milestones = StudentRank.milestones();
+        assertEquals(stars.length + 1, milestones.size());
+        for (int i = 0; i < stars.length; i++) {
+            var row = milestones.get(i);
+            assertEquals(stars[i], row.stars());
+            assertTrue(StudentRank.at(row.stars(), null).name().startsWith(row.name()));
+            assertNull(row.top());
+        }
+        var challenger = milestones.getLast();
+        assertEquals(162, challenger.stars());
+        assertEquals(200, challenger.top());
+        assertEquals(StudentRank.at(challenger.stars(), challenger.top().longValue()).name(), challenger.name());
+    }
+
     @Test void everyDivisionUsesItsOwnStarThreshold() {
         String[] names = {"Đồng", "Bạc", "Vàng", "Bạch Kim", "Kim Cương", "Tinh Anh"};
         int[] divisions = {3, 3, 4, 5, 5, 5};

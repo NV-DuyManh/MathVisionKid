@@ -139,7 +139,7 @@ def test_fraction_ink_misread_as_rows_keeps_the_whole_image_review(monkeypatch, 
 
 @pytest.mark.parametrize('other', ['Tính 12 × 8.', 'Tính 12 + 9.'])
 @pytest.mark.parametrize('first_line_matches_other', [False, True])
-def test_disputed_question_cannot_start_a_lesson_even_with_matching_line_text(monkeypatch, other, first_line_matches_other):
+def test_disputed_question_is_flagged_without_altering_the_transcript(monkeypatch, other, first_line_matches_other):
     first = {'kind': 'PROBLEM', 'problemText': 'Tính 12 + 8.', 'lines': [
         {'text': other if first_line_matches_other else 'Tính 12 + 8.'}]}
     second = {'kind': 'PROBLEM', 'problemText': other, 'lines': [{'text': other}]}
@@ -147,10 +147,8 @@ def test_disputed_question_cannot_start_a_lesson_even_with_matching_line_text(mo
     monkeypatch.setattr(notebook, '_generate', cloud)
     result = asyncio.run(notebook.inspect_notebook(photo(np.full((300, 500, 3), 245, np.uint8))))
     assert cloud.await_count == 2
-    assert result.kind == 'PROBLEM' and result.problemText == '[?] Tính 12 + 8.' and not result.needsProblem
-    from app.tutoring.lesson import LessonRequest
-    with pytest.raises(ValueError):
-        LessonRequest(problemText=result.problemText, problemConfirmed=True)
+    assert result.kind == 'PROBLEM' and result.problemText == first['problemText'] and not result.needsProblem
+    assert result.problemNeedsReview
     assert result.lines[0].text == first['lines'][0]['text']
 
 

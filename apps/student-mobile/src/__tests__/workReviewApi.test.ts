@@ -35,6 +35,11 @@ it.each([
   { rows: response.rows.map((row, i) => i === 1 ? { ...row, hints: ['a', 'b', 'c'] } : row) },
   { status: 'CORRECT', praise: 'Em làm tốt!', rows: response.rows }, { praise: 'Bài em đúng rồi!' },
   { alternative: 'Cách giải khác' }, { nextAction: '' }, { summary: 'a'.repeat(501) },
+  { complete: 'false' }, { missingPart: 'a'.repeat(501) }, { complete: null, missingPart: 'Thiếu tổng số cây.' },
+  { rows: response.rows.map((row, i) => i === 1 ? { ...row, errorKind: 'INVENTED' } : row) },
+  { rows: response.rows.map((row, i) => i === 0 ? { ...row, errorKind: 'OPERAND' } : row) },
+  { rows: response.rows.map((row, i) => i === 1 ? { ...row, rowKind: 'HEADING', arithmeticCorrect: true } : row) },
+  { rows: response.rows.map((row, i) => i === 1 ? { ...row, rowKind: 'CALCULATION', arithmeticCorrect: 'true' } : row) },
   { status: 'NEEDS_REVISION', rows: response.rows.map(row => ({ ...row, status: 'UNSURE' })) },
 ])('rejects malformed, detached or contradictory feedback', async patch => {
   (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...response, ...patch } });
@@ -46,4 +51,12 @@ it('accepts grounded success and an optional method discussion without changing 
     rows: response.rows.map(row => ({ ...row, status: 'OK', hints: [] })), alternative: 'Em thử gộp các nhóm theo cách khác rồi so sánh nhé.' };
   (apiClient.post as jest.Mock).mockResolvedValue({ data: correct });
   await expect(TutorService.reviewWork(request)).resolves.toEqual(correct);
+});
+
+it.each(['OPERAND', 'DEPENDENT'])('preserves completeness, missing quantity and %s received through Spring', async errorKind => {
+  const data = { ...response, complete: false, missingPart: 'Em chưa tìm tổng số cây trong vườn.',
+    rows: response.rows.map((row, i) => ({ ...row, errorKind: i === 1 ? errorKind : 'NONE',
+      ...(i === 1 ? { rowKind: 'CALCULATION', arithmeticCorrect: errorKind === 'DEPENDENT' } : {}) })) };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.reviewWork(request)).resolves.toEqual(data);
 });

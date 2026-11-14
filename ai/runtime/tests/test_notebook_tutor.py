@@ -270,14 +270,16 @@ def test_written_division_work_is_not_itself_the_original_question(monkeypatch, 
     assert result.needsProblem is (not question.startswith('Tính'))
 
 
-def test_independent_reading_can_dispute_an_original_question_without_replacing_text(monkeypatch):
-    lines = [{'text': 'Tính 84 : 4.'}, {'text': '84 : 4 = 21', 'role': 'EQUATION'}]
-    first = {'kind': 'MIXED', 'problemText': 'Tính 84 : 4.', 'lines': lines}
+@pytest.mark.parametrize('question', ['Tính 84 : 4.', 'Tính [?] : 4.'])
+def test_independent_reading_can_dispute_an_original_question_without_replacing_text(monkeypatch, question):
+    lines = [{'text': question}, {'text': '84 : 4 = 21', 'role': 'EQUATION'}]
+    first = {'kind': 'MIXED', 'problemText': question, 'lines': lines}
     second = {'kind': 'WORK', 'lines': lines}
     monkeypatch.setattr(notebook, 'handwriting_rows', lambda _: [(20, 20, 800, 100), (20, 150, 800, 230)])
     monkeypatch.setattr(notebook, '_generate', AsyncMock(side_effect=[first, second]))
     result = run(notebook.inspect_notebook(image_bytes((1000, 1000))))
-    assert result.kind == 'MIXED' and result.problemText == '[?] Tính 84 : 4.' and not result.needsProblem
+    assert result.kind == 'MIXED' and result.problemText == question and not result.needsProblem
+    assert result.problemNeedsReview
     assert [line.text for line in result.lines] == [line['text'] for line in lines]
 
 
@@ -289,7 +291,7 @@ def test_worksheet_heading_or_sentence_punctuation_does_not_erase_a_question(mon
     monkeypatch.setattr(notebook, '_generate', AsyncMock(side_effect=[first, second]))
     result = run(notebook.inspect_notebook(image_bytes()))
     assert result.kind == 'PROBLEM' and result.problemText == first['problemText']
-    assert not result.needsProblem and '[?]' not in result.problemText
+    assert not result.needsProblem and not result.problemNeedsReview
 
 
 def test_fraction_operand_parentheses_do_not_dispute_an_identical_transcription():

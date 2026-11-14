@@ -11,6 +11,7 @@ from pathlib import Path
 # Serialize only first initialization, never synthesis or catalog transactions.
 # ponytail: process-local setup lock; multi-host writes need the existing database.
 _schema_lock = threading.Lock()
+_SCHEMA_SETUP_WAIT_SECONDS = 1.0
 
 
 def normalized_source(text):
@@ -23,19 +24,26 @@ class CatalogStore:
 
     def connect(self):
         self.path.parent.mkdir(parents=True,exist_ok=True)
-        db=sqlite3.connect(self.path,timeout=.15)
+        db = None
         try:
-            db.execute('PRAGMA journal_size_limit=1048576')
-            if (db.execute('PRAGMA journal_mode').fetchone()[0]=='wal'
-                    and db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='entries'").fetchone()):
-                return db
-            # Release the probing reader before another voice switches this
-            # database to WAL. Waiting with it open can block that transition.
-            db.close()
-            if not _schema_lock.acquire(timeout=.15):
+            # An absent file needs initialization. Don't create it outside the
+            # lock, where a second voice could probe it during the WAL transition.
+            if self.path.is_file():
+                db = sqlite3.connect(self.path, timeout=.15)
+                db.execute('PRAGMA journal_size_limit=1048576')
+                if (db.execute('PRAGMA journal_mode').fetchone()[0] == 'wal'
+                        and db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='entries'").fetchone()):
+                    return db
+                db.close()
+                db = None
+            # A peer can spend the whole SQLite busy budget setting up the
+            # schema, plus time creating the file and being scheduled. Give
+            # only the cold-path wait its own bounded budget.
+            if not _schema_lock.acquire(timeout=_SCHEMA_SETUP_WAIT_SECONDS):
                 raise sqlite3.OperationalError('Catalog initialization busy')
             try:
                 db=sqlite3.connect(self.path,timeout=.15)
+                db.execute('PRAGMA journal_size_limit=1048576')
                 db.execute('PRAGMA journal_size_limit=1048576')
                 if db.execute('PRAGMA journal_mode').fetchone()[0] != 'wal':
                     db.execute('PRAGMA journal_mode=WAL')
@@ -48,7 +56,9 @@ class CatalogStore:
                 _schema_lock.release()
             return db
         except BaseException:
-            db.close();raise
+            if db is not None:
+                db.close()
+            raise
 
     def get(self,kind,scope,key,policy):
         now=time.time()

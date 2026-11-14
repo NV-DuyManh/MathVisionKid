@@ -10,13 +10,20 @@ export function useStudentProfile(owner: string | undefined) {
     if (!owner) return;
     const request = new AbortController();
     active.current = request;
-    setResult({ owner });
+    setResult(previous => previous?.owner === owner ? { owner, value: previous.value } : { owner });
     void profileApi.get(request.signal).then(value => {
       if (!request.signal.aborted) setResult({ owner, value });
     }).catch(() => {
-      if (!request.signal.aborted) setResult({ owner, failed: true });
+      if (!request.signal.aborted) setResult(previous => ({
+        owner,
+        value: previous?.owner === owner ? previous.value : undefined,
+        failed: true,
+      }));
     });
-    return () => request.abort();
+    return () => {
+      request.abort();
+      if (active.current === request) active.current = null;
+    };
     // The retry counter intentionally reloads the focused request.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [owner, revision]));
@@ -24,7 +31,9 @@ export function useStudentProfile(owner: string | undefined) {
   return {
     value: current?.value, failed: current?.failed, retry: () => setRevision(n => n + 1),
     accept(value: StudentProfile) {
-      if (owner && active.current && !active.current.signal.aborted) setResult({ owner, value });
+      if (!owner || !active.current) return;
+      active.current.abort();
+      setResult({ owner, value });
     },
   };
 }
