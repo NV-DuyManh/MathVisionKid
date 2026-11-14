@@ -212,6 +212,28 @@ async def test_independent_reviewers_can_finish_in_parallel_without_seeing_each_
 
 
 @pytest.mark.asyncio
+async def test_correct_multistep_work_waits_for_independent_checks_beyond_five_seconds(monkeypatch):
+    source = request(
+        problemText='Hiền mua 12 quyển vở hết 102000 đồng. Mai mua 8 quyển vở như thế '
+                    'nhưng còn thiếu 15000 đồng. Hỏi Mai đang có bao nhiêu tiền?',
+        workText='Giá một quyển vở là:\n102000 : 12 = 8500 (đồng)\n'
+                 'Số tiền mua 8 quyển vở là:\n8500 × 8 = 68000 (đồng)\n'
+                 'Số tiền Mai có là:\n68000 - 15000 = 53000 (đồng)\nĐáp số: 53000 đồng.',
+    )
+    monkeypatch.setattr(settings, 'cloud_advisor_max_concurrency', 2)
+
+    async def generate(*args, **kwargs):
+        await asyncio.sleep(5.2)
+        return assessment(source)
+
+    monkeypatch.setattr(review, '_generate', generate)
+    result = await asyncio.wait_for(review.review_work(source), timeout=8)
+    assert result.status == 'CORRECT' and result.complete is True
+    assert result.arithmeticVerified is True and result.praise
+    assert [row.sourceText for row in result.rows] == review.source_rows(source.workText)
+
+
+@pytest.mark.asyncio
 async def test_failed_review_cancels_its_other_independent_request(monkeypatch):
     source = request()
     cancelled = asyncio.Event()

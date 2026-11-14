@@ -446,9 +446,9 @@ async def _review_work(request: WorkReviewRequest, rows: list[str], local_rows: 
                     if attempt + 1 == attempts or exc.reason not in {'unavailable', 'busy'}:
                         raise
                     await asyncio.sleep(.25)
-        # Like lesson preparation, prefer the exact result. Cloud checks can add
-        # context, but must not hold up already verified arithmetic for 32s.
-        async with asyncio.timeout(5.0 if has_local_result else 32.0):
+        # A local error can be shown promptly. Correct arithmetic still needs
+        # independent source/unit checks before the whole solution is approved.
+        async with asyncio.timeout(5.0 if local.status == 'NEEDS_REVISION' else 32.0):
             if parallel:
                 tasks = [asyncio.create_task(assess(prompt)) for prompt in (REVIEW_PROMPT, VERIFY_PROMPT)]
                 try:
