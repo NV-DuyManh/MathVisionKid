@@ -141,8 +141,9 @@ def narration_prepare_endpoint(request: narration.NarrationRequest):
 async def work_review_endpoint(request: WorkReviewRequest):
     try:
         return await review_work(request)
-    except TutorUnavailable:
-        raise HTTPException(status_code=503, detail="Chưa kiểm tra được bài lúc này. Em giữ bài đã viết và thử lại nhé.") from None
+    except TutorUnavailable as exc:
+        raise HTTPException(status_code=503, detail="Chưa kiểm tra được bài lúc này. Em giữ bài đã viết và thử lại nhé.",
+                            headers={'X-Tutor-Failure': exc.reason}) from None
 
 
 @router.post('/lesson/prepare', dependencies=[Depends(require_internal_key)])
@@ -278,8 +279,9 @@ async def inspect_endpoint(request: Request):
         return await inspect_notebook(await image_body(request))
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from None
-    except TutorUnavailable:
-        raise HTTPException(status_code=503, detail="Chưa đọc được bài. Em hãy giữ ảnh và thử lại nhé.") from None
+    except TutorUnavailable as exc:
+        raise HTTPException(status_code=503, detail="Chưa đọc được bài. Em hãy giữ ảnh và thử lại nhé.",
+                            headers={'X-Tutor-Failure': exc.reason}) from None
 
 
 @router.post("/coach", response_model=GuideResponse, dependencies=[Depends(require_internal_key)])

@@ -270,6 +270,61 @@ class MathTutorServiceTest {
         server.verify();
     }
 
+    @ParameterizedTest @ValueSource(strings = {"OPERAND", "DEPENDENT"})
+    void workReviewPreservesMissingQuantityAndErrorKindThroughThePublicContract(String errorKind) throws Exception {
+        var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        var body = (com.fasterxml.jackson.databind.node.ObjectNode) mapper.readTree(workReviewBody());
+        body.put("complete", false).put("missingPart", "Em chưa tìm tổng số cây trong vườn.").put("arithmeticVerified", true);
+        ((com.fasterxml.jackson.databind.node.ObjectNode) body.get("rows").get(0))
+                .put("errorKind", errorKind).put("rowKind", "CALCULATION").put("arithmeticCorrect", errorKind.equals("DEPENDENT"));
+        server.expect(requestTo(URL + "/internal/v1/tutor/work-review"))
+                .andRespond(withSuccess(body.toString(), MediaType.APPLICATION_JSON));
+        var result = service.reviewWork(workReviewRequest());
+        assertEquals(Boolean.FALSE, result.complete());
+        assertEquals(Boolean.TRUE, result.arithmeticVerified());
+        assertEquals("Em chưa tìm tổng số cây trong vườn.", result.missingPart());
+        assertEquals(errorKind, result.rows().get(0).errorKind());
+        assertEquals("CALCULATION", result.rows().get(0).rowKind());
+        assertEquals(errorKind.equals("DEPENDENT"), result.rows().get(0).arithmeticCorrect());
+        var wire = mapper.readTree(mapper.writeValueAsString(result));
+        assertFalse(wire.get("complete").asBoolean());
+        assertEquals(errorKind, wire.get("rows").get(0).get("errorKind").asText());
+        server.verify();
+    }
+
+    @Test void workReviewRejectsContradictoryOrMalformedNewFields() throws Exception {
+        var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        for (String mutation : java.util.List.of("type", "arithmetic-type", "missing", "long", "kind", "uncertain-kind")) {
+            server.reset();
+            var body = (com.fasterxml.jackson.databind.node.ObjectNode) mapper.readTree(workReviewBody());
+            switch (mutation) {
+                case "type" -> body.put("complete", "false");
+                case "arithmetic-type" -> body.put("arithmeticVerified", "true");
+                case "missing" -> body.put("complete", true).put("missingPart", "Thiếu kết quả.");
+                case "long" -> body.put("complete", false).put("missingPart", "x".repeat(501));
+                case "kind" -> ((com.fasterxml.jackson.databind.node.ObjectNode) body.get("rows").get(0)).put("errorKind", "GUESSED");
+                default -> ((com.fasterxml.jackson.databind.node.ObjectNode) body.get("rows").get(1)).put("errorKind", "OPERAND");
+            }
+            server.expect(requestTo(URL + "/internal/v1/tutor/work-review"))
+                    .andRespond(withSuccess(body.toString(), MediaType.APPLICATION_JSON));
+            error("TUTOR_UNAVAILABLE", HttpStatus.SERVICE_UNAVAILABLE, () -> service.reviewWork(workReviewRequest()));
+            server.verify();
+        }
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"configuration", "rate_limit"})
+    void inspectionAndWorkReviewPreserveSafeFailureCodes(String reason) {
+        String code = reason.equals("configuration") ? "TUTOR_CONFIGURATION" : "TUTOR_RATE_LIMITED";
+        server.expect(requestTo(URL + "/internal/v1/tutor/inspect"))
+                .andRespond(withStatus(HttpStatus.SERVICE_UNAVAILABLE).header("X-Tutor-Failure", reason).body("private provider details"));
+        error(code, HttpStatus.SERVICE_UNAVAILABLE, () -> service.inspect(png(), true));
+        server.verify(); server.reset();
+        server.expect(requestTo(URL + "/internal/v1/tutor/work-review"))
+                .andRespond(withStatus(HttpStatus.SERVICE_UNAVAILABLE).header("X-Tutor-Failure", reason).body("private provider details"));
+        error(code, HttpStatus.SERVICE_UNAVAILABLE, () -> service.reviewWork(workReviewRequest()));
+        server.verify();
+    }
+
     @Test void workReviewRejectsInvalidSourcesBeforeCallingUpstream() {
         for (WorkReviewRequest request : java.util.List.of(
                 new WorkReviewRequest("short", "Có 12 bút.", "12+5=18", true, true),
@@ -759,6 +814,18 @@ class MathTutorServiceTest {
         assertEquals(java.util.List.of(120, 300, 700, 410), result.lines().getFirst().box());
         assertTrue(result.needsProblem());
         assertFalse(result.needsCrop()); // Older runtimes omitted this optional flag.
+        assertFalse(result.problemNeedsReview());
+        server.verify();
+    }
+
+    @Test void notebookInspectionKeepsQuestionReviewSeparateFromTheTranscript() {
+        String response = """
+                {"kind":"PROBLEM","problemText":"Tính 12 + 8.","needsProblem":false,"lines":[],"problemNeedsReview":true}
+                """;
+        server.expect(requestTo(URL + "/internal/v1/tutor/inspect")).andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        NotebookRead result = service.inspect(png(), true);
+        assertEquals("Tính 12 + 8.", result.problemText());
+        assertTrue(result.problemNeedsReview());
         server.verify();
     }
 

@@ -207,6 +207,7 @@ jobs:
           tests/test_daily_sales.py tests/test_quiz_variants.py
           tests/test_neural_speech.py tests/test_quiz_narration.py tests/test_lesson_narration.py
           tests/test_lesson_catalog.py tests/test_published_catalog.py
+          tests/test_work_review.py tests/test_math_tutor.py
       - run: python ai/runtime/scripts/test_catalog_store.py -v
       - run: python ai/runtime/scripts/test_catalog_bot.py -v
       - run: python -m unittest scripts/test/test_runtime_tutor_auth.py

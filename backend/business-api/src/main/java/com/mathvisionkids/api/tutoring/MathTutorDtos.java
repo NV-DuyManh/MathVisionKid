@@ -50,9 +50,10 @@ public final class MathTutorDtos {
     }
     public record NotebookQuestion(String label, String problemText, boolean uncertain) {}
     public record NotebookRead(String kind, String problemText, java.util.List<NotebookLine> lines,
-                               boolean needsProblem, boolean needsCrop, java.util.List<NotebookQuestion> questions) {
+                               boolean needsProblem, boolean needsCrop, java.util.List<NotebookQuestion> questions,
+                               boolean problemNeedsReview) {
         public NotebookRead(String kind, String problemText, java.util.List<NotebookLine> lines, boolean needsProblem, boolean needsCrop) {
-            this(kind, problemText, lines, needsProblem, needsCrop, java.util.List.of());
+            this(kind, problemText, lines, needsProblem, needsCrop, java.util.List.of(), false);
         }
     }
     public record CoachRequest(
@@ -94,9 +95,20 @@ public final class MathTutorDtos {
             return parser.getBooleanValue();
         }
     }
-    public record WorkReviewRow(int lineIndex, String sourceText, String status, String feedback, java.util.List<String> hints) {}
+    public record WorkReviewRow(int lineIndex, String sourceText, String status, String feedback, java.util.List<String> hints,
+                                String errorKind, String rowKind, Boolean arithmeticCorrect) {
+        public WorkReviewRow(int lineIndex, String sourceText, String status, String feedback, java.util.List<String> hints) {
+            this(lineIndex, sourceText, status, feedback, hints, "NONE", null, null);
+        }
+    }
     public record WorkReviewResponse(String sourceId, String status, String summary, String praise,
-                                     java.util.List<WorkReviewRow> rows, String nextAction, String alternative) {}
+                                     java.util.List<WorkReviewRow> rows, String nextAction, String alternative,
+                                     Boolean complete, String missingPart, Boolean arithmeticVerified) {
+        public WorkReviewResponse(String sourceId, String status, String summary, String praise,
+                                  java.util.List<WorkReviewRow> rows, String nextAction, String alternative) {
+            this(sourceId, status, summary, praise, rows, nextAction, alternative, null, "", null);
+        }
+    }
 
     public record LessonRequest(@NotBlank @Size(min = 3, max = 4000) String problemText,
                                 @NotNull @Size(max = 6000) String workText,
