@@ -152,11 +152,11 @@ async def generate(request: VariantRequest):
     if source is None:
         source = await asyncio.to_thread(catalog.load_plan, source_request)
     if source is None:
-        # Share an existing lesson preparation. Quiz never starts a second
-        # source-planning model job while a learner is waiting for the lesson.
+        # Share lesson preparation, or start it for completed work reviews that
+        # never opened a lesson. Both paths use the same owner/capacity boundary.
         try:
             async with asyncio.timeout(20):
-                source = await plan_preparation.prepared_plan(source_request)
+                source = await plan_preparation.prepared_plan(source_request, start_missing=True)
         except TimeoutError as error:
             raise TutorUnavailable('preparing') from error
     if source is None:
