@@ -2,6 +2,30 @@ import { test, expect, sites, login } from '../browser/fixtures.mjs';
 import { fileURLToPath } from 'node:url';
 import { studentPort } from '../browser/sites.mjs';
 
+test('Student can add missing written work from the solved-work action on web', async ({ page, app }, testInfo) => {
+  app.realStudent = true;
+  app.responses.set('POST /student/tutor/lesson/prepare', ({ json }) => json({ status: 'READY' }));
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  const url = `${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: 'Tính: 23 + 17' })}`;
+  await page.goto(url);
+  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Bài đã có lời giải', exact: true })).toBeVisible();
+  await testInfo.attach('Add missing work choices on web', { body: await page.screenshot(), contentType: 'image/png' });
+  await page.getByRole('button', { name: 'Đóng', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Bài đã có lời giải', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await page.getByRole('button', { name: 'Nhập bài làm bằng chữ', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Nội dung bài làm', exact: true }).fill('23 + 17 = 40');
+  await page.getByRole('button', { name: 'Dùng nội dung này', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Bài đã có lời giải', exact: true })).toBeVisible();
+  await page.goto(url);
+  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await page.getByRole('button', { name: 'Chụp lại cả đề và bài giải', exact: true }).click();
+  await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
+  expect(app.requests.some(request => request.path === '/student/tutor/work-review')).toBe(false);
+});
+
 test('Work Review edits all affected calculations with compact stacked fractions and celebrates a verified correction', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   const problem = 'Có 30 kg táo, bán 15 kg. Sau đó bán một nửa số táo còn lại. Hỏi lần sau bán bao nhiêu kg táo?';
