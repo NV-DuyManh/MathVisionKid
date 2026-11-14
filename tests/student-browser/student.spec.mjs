@@ -452,6 +452,7 @@ test('student can find rank, switch leaderboards and open all six games on a nar
   ]));
   await page.setViewportSize({ width: 320, height: 660 });
   await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/account`);
   await page.getByRole('textbox', { name: 'Tên hiển thị' }).fill('Bạn nhỏ thích tính nhẩm');
   await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
@@ -516,6 +517,7 @@ test('race challenge recovers a lost answer response and explains the reward lim
     await route.fulfill({ json: payload() });
   });
   await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/games`);
   await page.getByRole('button', { name: 'Mở thử thách tính sao · Đua Về Đích' }).click();
   await page.getByRole('button', { name: 'Bắt đầu hoặc học tiếp' }).click();
