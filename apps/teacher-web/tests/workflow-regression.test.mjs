@@ -50,6 +50,7 @@ async function screen(run) {
     await act(async () => { await new Promise(resolve => setTimeout(resolve, 15)); });
   };
   const imports = { '@tanstack/react-query': queryRuntime, 'react-router-dom': routerRuntime,
+    './ClassroomFoundation': { CreateClassForm: () => null },
     '@mui/material': mui, '@mui/icons-material': new Proxy({}, { get: () => () => null }),
     '../services/api/newCreationRequestId': { newCreationRequestId: () => '173f718e-2c21-4a98-8c0e-f01337cabaf1' },
     '../services/api/AuthTokenStore': { AuthTokenStore: { getSessionId: () => null } },

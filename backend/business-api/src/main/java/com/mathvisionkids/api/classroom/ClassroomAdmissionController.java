@@ -73,13 +73,13 @@ class ClassroomAdmissionController {
 
     @PostMapping("/student/classes/invitation-preview")
     ResponseEntity<ClassroomAdmission.Preview> preview(Principal actor, @Valid @RequestBody Credential request) {
-        admission.checkJoinLimit(actor.getName());
+        admission.checkJoinLimit(actor.getName(), request.credential());
         return privateResponse(admission.preview(actor.getName(), request.credential()));
     }
 
     @PostMapping("/student/classes/join")
     ResponseEntity<ClassroomAdmission.Admission> join(Principal actor, @Valid @RequestBody Join request) {
-        admission.checkJoinLimit(actor.getName());
+        admission.checkJoinLimit(actor.getName(), request.credential());
         return privateResponse(admission.join(actor.getName(), request.credential(), request.classId(), request.generation()));
     }
 

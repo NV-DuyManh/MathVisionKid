@@ -28,6 +28,10 @@ class PostgresUpgradeTest {
         verifyUpgrade("33");
     }
 
+    @Test void upgradeFrom34PreservesClassroomAndAddsSharedCodeQuota() throws Exception {
+        verifyUpgrade("34");
+    }
+
     private void verifyUpgrade(String startingVersion) throws Exception {
         String database = System.getenv("PGDATABASE");
         assertNotNull(database); assertTrue(database.endsWith("_test"), "Disposable *_test database required");
@@ -56,8 +60,8 @@ class PostgresUpgradeTest {
                 sql.execute("INSERT INTO classroom_students(class_id,student_id) VALUES ('"+classId+"','"+id+"')");
                 var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
-                assertEquals(34 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
-                assertEquals("34", upgrade.targetSchemaVersion);
+                assertEquals(35 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
+                assertEquals("35", upgrade.targetSchemaVersion);
                 assertTrue(latest.validateWithResult().validationSuccessful);
                 assertEquals(0, latest.migrate().migrationsExecuted);
                 sql.execute("INSERT INTO student_profile_photos(student_id,image_bytes,updated_at) VALUES ('"+id+"',decode('ffd8ffe0','hex'),now())");
@@ -83,6 +87,9 @@ class PostgresUpgradeTest {
                 try (var rows = sql.executeQuery("SELECT c.join_mode, m.student_id FROM classrooms c JOIN classroom_students m USING (class_id) WHERE c.class_id='"+classId+"'")) {
                     assertTrue(rows.next()); assertEquals("APPROVAL_REQUIRED", rows.getString(1));
                     assertEquals(UUID.fromString(id), rows.getObject(2, UUID.class)); assertFalse(rows.next());
+                }
+                try (var rows = sql.executeQuery("SELECT count(*) FROM classroom_code_limit")) {
+                    assertTrue(rows.next()); assertEquals(0, rows.getInt(1));
                 }
                 try (var rows = sql.executeQuery("SELECT id FROM student_reward_lock")) {
                     assertTrue(rows.next()); assertEquals(1, rows.getInt(1)); assertFalse(rows.next());

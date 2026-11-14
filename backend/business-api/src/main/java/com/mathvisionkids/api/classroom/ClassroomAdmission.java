@@ -94,14 +94,12 @@ public class ClassroomAdmission {
         return invitations(condition, credential).stream().findFirst().orElseThrow(ClassroomAdmission::unavailable);
     }
 
-    @Transactional(propagation = org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED)
-    public void checkJoinLimit(String email) {
-        limit.check(student(email).getId());
+    public void checkJoinLimit(String email, String credential) {
+        limit.check(student(email).getId(), credential.matches("[0-9]{6}"));
     }
 
     Preview preview(String email, String credential) {
-        var student = student(email);
-
+        student(email);
         var invite = resolve(credential);
         var classroom = classes.findById(invite.classId()).orElseThrow(ClassroomAdmission::unavailable);
         return new Preview(classroom.getClassId(), classroom.getName(), classroom.getGradeLevel(), invite.generation());

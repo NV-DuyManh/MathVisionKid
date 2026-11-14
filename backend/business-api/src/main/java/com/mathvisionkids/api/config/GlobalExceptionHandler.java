@@ -41,7 +41,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleApiException(ApiException ex, HttpServletRequest request) {
         if(request.getRequestURI().startsWith("/api/v1/student/quizzes"))
             org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler.class).info("quiz_error request={} code={} status={}",getRequestId(request).replaceAll("[^a-zA-Z0-9_-]",""),ex.getCode(),ex.getStatus().value());
-        return ResponseEntity.status(ex.getStatus())
+        var response = ResponseEntity.status(ex.getStatus());
+        if (ex.getStatus() == HttpStatus.TOO_MANY_REQUESTS && "JOIN_LIMIT".equals(ex.getCode())) {
+            response.header("Retry-After", "60").cacheControl(org.springframework.http.CacheControl.noStore());
+        }
+        return response
                 .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                 .body(buildError(ex.getCode(), ex.getMessage(), getRequestId(request), ex.getDetails()));
     }

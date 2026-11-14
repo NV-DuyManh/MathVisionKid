@@ -54,6 +54,9 @@ public class AdminControllerTest {
     private ClassroomRepository classroomRepository;
 
     @Autowired
+    private org.springframework.jdbc.core.JdbcTemplate jdbc;
+
+    @Autowired
     private AuditEventRepository auditEventRepository;
 
     @Autowired
@@ -129,6 +132,7 @@ public class AdminControllerTest {
         tt.execute(status -> {
             for (UUID classId : createdClassIds) {
                 if (classroomRepository.existsById(classId)) {
+                    jdbc.update("delete from classroom_join_requests where class_id = ?", classId);
                     classroomRepository.deleteById(classId);
                 }
             }
