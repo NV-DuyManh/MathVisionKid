@@ -27,6 +27,20 @@ class AssignedUploadCleanup {
         for (var candidate : reservations.recoveryCandidates()) {
             reconcile(candidate);
         }
+        // A storage server may finish an old PUT after the final deletion sweep,
+        // even if its client timed out. Re-arm only terminal attempts whose object
+        // actually exists, retaining stable completion for absent objects.
+        try {
+            storage.forEachAssignedObject(key -> jdbc.update("""
+                    UPDATE assigned_upload_attempts a SET cleanup_after = clock_timestamp()
+                    WHERE a.object_key = ? AND a.state = 'EXPIRED'
+                      AND a.cleanup_after IS NULL AND a.cleanup_first_deleted = TRUE
+                      AND NOT EXISTS (SELECT 1 FROM submission_images i WHERE i.file_path = a.object_key)
+                    """, key));
+        } catch (IOException unavailable) {
+            // Listing failure does not establish absence. The next tick retries;
+            // already durable deletion/recovery work below can still progress.
+        }
         jdbc.update("""
                 UPDATE assigned_upload_attempts SET state = 'EXPIRED',
                     cleanup_after = CURRENT_TIMESTAMP + INTERVAL '15 minutes'
@@ -44,6 +58,8 @@ class AssignedUploadCleanup {
                 WHERE attempt_id IN (
                     SELECT attempt_id FROM assigned_upload_attempts
                     WHERE state = 'EXPIRED' AND cleanup_after <= CURRENT_TIMESTAMP
+                      AND NOT EXISTS (SELECT 1 FROM submission_images i
+                                      WHERE i.file_path = assigned_upload_attempts.object_key)
                     ORDER BY cleanup_after LIMIT 50 FOR UPDATE SKIP LOCKED
                 )
                 RETURNING object_key, cleanup_after

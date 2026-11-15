@@ -186,6 +186,106 @@ class AssignedUploadRecoveryIntegrationTest {
     }
 
     @Test
+    void putCompletingAfterFinalSweepIsDiscoveredAndRemovedWithoutRevivingAttempt() throws Exception {
+        String email = "student-" + UUID.randomUUID() + "@assigned-recovery.test";
+        UUID assignment = seedAssignment(email);
+        var output = new ByteArrayOutputStream();
+        ImageIO.write(new BufferedImage(32, 32, BufferedImage.TYPE_INT_RGB), "png", output);
+        var image = AssignedWebImage.read(
+                new MockMultipartFile("image", "synthetic.png", "image/png", output.toByteArray()), true);
+        UUID request = UUID.randomUUID();
+        var attempt = reservations.reserve(email, assignment, request, 0, image.inputDigest(), image.storedDigest());
+        var worker = new AssignedUploadCleanup(jdbc, storage, reservations);
+        try {
+            reservations.recordPreparedImage(attempt, image);
+            jdbc.update("UPDATE assigned_upload_attempts SET state = 'EXPIRED', cleanup_after = now() WHERE attempt_id = ?",
+                    attempt.id());
+            worker.cleanExpired();
+            jdbc.update("UPDATE assigned_upload_attempts SET cleanup_after = now() WHERE attempt_id = ?", attempt.id());
+            worker.cleanExpired();
+            assertNull(jdbc.queryForObject("SELECT cleanup_after FROM assigned_upload_attempts WHERE attempt_id = ?",
+                    java.sql.Timestamp.class, attempt.id()));
+
+            // The storage server completes the old PUT after both scheduled deletion sweeps.
+            storage.storeAssignedImage(attempt.objectKey(), image.bytes(), image.contentType());
+            assertArrayEquals(image.bytes(), storage.loadBytes(attempt.objectKey()));
+            var unavailable = org.mockito.Mockito.mock(ObjectStorageService.class,
+                    org.mockito.AdditionalAnswers.delegatesTo(storage));
+            org.mockito.Mockito.doThrow(new java.io.IOException("Synthetic listing outage"))
+                    .when(unavailable).forEachAssignedObject(org.mockito.ArgumentMatchers.any());
+            new AssignedUploadCleanup(jdbc, unavailable, reservations).cleanExpired();
+            assertArrayEquals(image.bytes(), storage.loadBytes(attempt.objectKey()));
+            assertNull(jdbc.queryForObject("SELECT cleanup_after FROM assigned_upload_attempts WHERE attempt_id = ?",
+                    java.sql.Timestamp.class, attempt.id()));
+
+            org.mockito.Mockito.doThrow(new java.io.IOException("Synthetic DELETE outage"))
+                    .when(unavailable).delete(attempt.objectKey());
+            // Use the real streaming listing, but a failing DELETE, to exercise the durable retry lease.
+            org.mockito.Mockito.doAnswer(invocation -> {
+                storage.forEachAssignedObject(invocation.getArgument(0));
+                return null;
+            }).when(unavailable).forEachAssignedObject(org.mockito.ArgumentMatchers.any());
+            new AssignedUploadCleanup(jdbc, unavailable, reservations).cleanExpired();
+            assertArrayEquals(image.bytes(), storage.loadBytes(attempt.objectKey()));
+            assertNotNull(jdbc.queryForObject("SELECT cleanup_after FROM assigned_upload_attempts WHERE attempt_id = ?",
+                    java.sql.Timestamp.class, attempt.id()));
+            jdbc.update("UPDATE assigned_upload_attempts SET cleanup_after = now() WHERE attempt_id = ?", attempt.id());
+            try (var pool = Executors.newFixedThreadPool(2)) {
+                var first = pool.submit(worker::cleanExpired);
+                var second = pool.submit(new AssignedUploadCleanup(jdbc, storage, reservations)::cleanExpired);
+                first.get(30, TimeUnit.SECONDS);
+                second.get(30, TimeUnit.SECONDS);
+            }
+
+            assertThrows(java.io.FileNotFoundException.class, () -> storage.loadBytes(attempt.objectKey()));
+            assertEquals("EXPIRED", jdbc.queryForObject("SELECT state FROM assigned_upload_attempts WHERE attempt_id = ?",
+                    String.class, attempt.id()));
+            assertNull(jdbc.queryForObject("SELECT cleanup_after FROM assigned_upload_attempts WHERE attempt_id = ?",
+                    java.sql.Timestamp.class, attempt.id()));
+            assertThrows(ApiException.class, () -> reservations.confirm(email, assignment, request, attempt, image));
+            assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM submission_images WHERE submission_id = ?",
+                    Integer.class, attempt.submissionId()));
+            worker.cleanExpired();
+            assertNull(jdbc.queryForObject("SELECT cleanup_after FROM assigned_upload_attempts WHERE attempt_id = ?",
+                    java.sql.Timestamp.class, attempt.id()));
+        } finally {
+            storage.delete(attempt.objectKey());
+        }
+    }
+
+    @Test
+    void orphanScanLeavesLiveAndUntrackedObjectsUntouched() throws Exception {
+        String email = "student-" + UUID.randomUUID() + "@assigned-recovery.test";
+        UUID assignment = seedAssignment(email);
+        var output = new ByteArrayOutputStream();
+        ImageIO.write(new BufferedImage(32, 32, BufferedImage.TYPE_INT_RGB), "png", output);
+        var image = AssignedWebImage.read(
+                new MockMultipartFile("image", "synthetic.png", "image/png", output.toByteArray()), true);
+        UUID request = UUID.randomUUID();
+        var attempt = reservations.reserve(email, assignment, request, 0, image.inputDigest(), image.storedDigest());
+        String untracked = "assigned-work/" + UUID.randomUUID() + "/" + image.storedDigest();
+        try {
+            reservations.recordPreparedImage(attempt, image);
+            storage.storeAssignedImage(attempt.objectKey(), image.bytes(), image.contentType());
+            storage.storeAssignedImage(untracked, image.bytes(), image.contentType());
+            new AssignedUploadCleanup(jdbc, storage, reservations).cleanExpired();
+            assertArrayEquals(image.bytes(), storage.loadBytes(attempt.objectKey()));
+            assertArrayEquals(image.bytes(), storage.loadBytes(untracked));
+            assertEquals("OPEN", jdbc.queryForObject("SELECT state FROM assigned_upload_attempts WHERE attempt_id = ?",
+                    String.class, attempt.id()));
+
+            reservations.confirm(email, assignment, request, attempt, image);
+            new AssignedUploadCleanup(jdbc, storage, reservations).cleanExpired();
+            assertArrayEquals(image.bytes(), storage.loadBytes(attempt.objectKey()));
+            assertEquals(1, reservations.status(email, assignment).imageVersion());
+            assertArrayEquals(image.bytes(), storage.loadBytes(untracked));
+        } finally {
+            storage.delete(attempt.objectKey());
+            storage.delete(untracked);
+        }
+    }
+
+    @Test
     void reconcilesStoredUploadAfterBackendDowntimePastReservationExpiry() throws Exception {
         recoverStoredUpload(false, true);
     }
@@ -229,6 +329,20 @@ class AssignedUploadRecoveryIntegrationTest {
             assertThrows(java.io.IOException.class, () -> storage.loadBytes(attempt.objectKey()));
             assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM submission_images WHERE submission_id = ?",
                     Integer.class, attempt.submissionId()));
+            // A still later completion is rediscovered after another full process restart.
+            storage.storeAssignedImage(attempt.objectKey(), image.bytes(), image.contentType());
+            runFreshWorkerUntil(() -> {
+                try {
+                    storage.loadBytes(attempt.objectKey());
+                    return false;
+                } catch (java.io.FileNotFoundException absent) {
+                    return Boolean.TRUE.equals(jdbc.queryForObject(
+                            "SELECT cleanup_after IS NULL FROM assigned_upload_attempts WHERE attempt_id = ?",
+                            Boolean.class, attempt.id()));
+                } catch (java.io.IOException unavailable) {
+                    return false;
+                }
+            });
         } finally {
             storage.delete(attempt.objectKey());
         }

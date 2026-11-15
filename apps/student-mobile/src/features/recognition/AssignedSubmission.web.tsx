@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useFocusEffect } from 'expo-router';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { isAxiosError } from 'axios';
 import apiClient from '../../services/api/apiClient';
@@ -28,9 +29,9 @@ function newUploadKey() {
 const labels: Record<string, string> = {
   UPLOADING: 'Đang gửi ảnh',
   AWAITING_IMAGE: 'Chưa gửi',
-  AWAITING_REVIEW: 'Cô/thầy đã nhận bài',
-  RETAKE_REQUESTED: 'Cần chụp lại',
-  GRADE_RELEASED: 'Cô/thầy đã trả bài',
+  AWAITING_REVIEW: 'Cô/thầy đã nhận bài của em',
+  RETAKE_REQUESTED: 'Cô/thầy muốn em chụp lại',
+  GRADE_RELEASED: 'Bài của em đã có kết quả',
 };
 
 export default function AssignedSubmission({ assignmentId, maxScore }: {
@@ -40,6 +41,7 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
   const [result, setResult] = useState<Status>();
   const [failed, setFailed] = useState(false);
   const [revision, setRevision] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
   const [photo, setPhoto] = useState<{ file: File; key: string; version: number; preview: string; normalized: boolean; checked: boolean }>();
   const [confirmed, setConfirmed] = useState(false);
   const [sending, setSending] = useState(false);
@@ -59,6 +61,8 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
   }, [preview]);
   async function applyPrivacyEdits() {
     if (!photo || editing || sending || !hasEdits || incompleteMask) return;
+    const controller = new AbortController();
+    pending.current = controller;
     setEditing(true);
     setConfirmed(false);
     setUploadError('');
@@ -69,14 +73,18 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
       }, hasMask ? [{ x: mask.x / 100, y: mask.y / 100, w: mask.w / 100, h: mask.h / 100 }] : []);
       try {
         const blob = await (await fetch(cropped.uri)).blob();
+        if (controller.signal.aborted) return;
         setPhoto({ ...photo, normalized: true, checked: false, file: new File([blob], 'bai-lam.jpg', { type: 'image/jpeg' }),
           key: newUploadKey(), preview: URL.createObjectURL(blob) });
         setCrop(emptyCrop);
         setMask(emptyMask);
       } finally { URL.revokeObjectURL(cropped.uri); }
     } catch {
-      setUploadError('Chưa chỉnh được ảnh. Em thử chọn ảnh khác nhé.');
-    } finally { setEditing(false); }
+      if (!controller.signal.aborted) setUploadError('Chưa chỉnh được ảnh. Em thử chọn ảnh khác nhé.');
+    } finally {
+      if (pending.current === controller) pending.current = null;
+      if (!controller.signal.aborted) setEditing(false);
+    }
   }
   async function checkPrivacy() {
     if (!photo || hasEdits || editing || pending.current) return;
@@ -109,7 +117,7 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
         ? 'Em hãy cắt hoặc che thông tin riêng tư rồi kiểm tra lại ảnh.'
         : 'Chưa kiểm tra được ảnh. Em hãy thử lại.');
     } finally {
-      pending.current = null;
+      if (pending.current === controller) pending.current = null;
       if (!controller.signal.aborted) setEditing(false);
     }
   }
@@ -170,37 +178,81 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
         setUploadError('Chưa gửi được ảnh. Em có thể thử lại hoặc tải lại bài để xem trạng thái.');
       }
     } finally {
-      pending.current = null;
+      if (pending.current === controller) pending.current = null;
       if (!controller.signal.aborted) setSending(false);
     }
   }
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     const controller = new AbortController();
-    void apiClient.get<Status>(`/student/assignments/${encodeURIComponent(assignmentId)}/submission`, {
-      signal: controller.signal,
-    }).then(({ data }) => {
-      if (!controller.signal.aborted) setResult(data);
-    }).catch(() => {
-      if (!controller.signal.aborted) setFailed(true);
-    });
-    return () => controller.abort();
-  }, [assignmentId, revision]);
-
-  useEffect(() => {
-    if (result?.status !== 'UPLOADING' || failed) return;
-    const timer = window.setTimeout(() => setRevision(value => value + 1), 5000);
-    return () => window.clearTimeout(timer);
-  }, [result, failed]);
+    let inFlight = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let polls = 0;
+    let lastStatus: string | undefined;
+    const visible = () => document.visibilityState !== 'hidden';
+    const clearTimer = () => { if (timer !== undefined) window.clearTimeout(timer); };
+    const refresh = async () => {
+      if (controller.signal.aborted || inFlight || !visible()) return;
+      clearTimer();
+      inFlight = true;
+      setRefreshing(true);
+      try {
+        const { data } = await apiClient.get<Status>(`/student/assignments/${encodeURIComponent(assignmentId)}/submission`, {
+          signal: controller.signal, timeout: 10000,
+        });
+        if (controller.signal.aborted) return;
+        lastStatus = data.status;
+        setResult(data);
+        setFailed(false);
+        if (data.status === 'GRADE_RELEASED') {
+          setPhoto(undefined);
+          setConfirmed(false);
+        }
+      } catch {
+        if (!controller.signal.aborted) setFailed(true);
+      } finally {
+        inFlight = false;
+        if (!controller.signal.aborted) {
+          setRefreshing(false);
+          // Bound background work, back off, and pause in hidden tabs. Focus or
+          // the visible refresh action starts another observation window.
+          if (visible() && polls < 20 && (lastStatus === 'UPLOADING' || lastStatus === 'AWAITING_REVIEW')) {
+            timer = window.setTimeout(() => { polls++; void refresh(); }, Math.min(5000 * 2 ** Math.min(polls, 4), 60000));
+          }
+        }
+      }
+    };
+    const resume = () => { clearTimer(); polls = 0; if (visible()) void refresh(); };
+    window.addEventListener('focus', resume);
+    window.addEventListener('pageshow', resume);
+    window.addEventListener('online', resume);
+    document.addEventListener('visibilitychange', resume);
+    void refresh();
+    return () => {
+      controller.abort();
+      pending.current?.abort();
+      pending.current = null;
+      setSending(false);
+      setEditing(false);
+      clearTimer();
+      window.removeEventListener('focus', resume);
+      window.removeEventListener('pageshow', resume);
+      window.removeEventListener('online', resume);
+      document.removeEventListener('visibilitychange', resume);
+    };
+  // revision deliberately restarts the observer after an upload or explicit retry.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [assignmentId, revision]));
 
   return <View style={{ gap: 8, padding: 16, borderRadius: 16, backgroundColor: '#fff' }}>
-    {failed ? <>
-      <Text accessibilityRole="alert">Chưa xem được bài đã gửi.</Text>
+    {refreshing && <Text accessibilityRole="status">Đang cập nhật bài của em</Text>}
+    {failed && <>
+      <Text accessibilityRole="alert">Chưa kết nối được. Em hãy thử lại nhé!</Text>
       <Pressable accessibilityRole="button" style={{ minHeight: 44 }} onPress={() => {
         setFailed(false);
-        setResult(undefined);
         setRevision(value => value + 1);
       }}><Text>Thử lại</Text></Pressable>
-    </> : result ? <>
+    </>}
+    {result ? <>
       <Text accessibilityRole="header" style={{ fontSize: 18, fontWeight: '700' }}>
         {labels[result.status] ?? 'Bài làm của em'}
       </Text>
@@ -215,15 +267,22 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
       {result.imageVersion > 0 && <SubmittedImage
         key={result.imageVersion} assignmentId={assignmentId} />}
       {result.status === 'UPLOADING' && <Text accessibilityRole="status">Đang kiểm tra ảnh đã gửi. Em có thể quay lại bài này sau.</Text>}
+      {result.status !== 'GRADE_RELEASED' && <button type="button" style={{ minHeight: 44 }}
+        disabled={refreshing || sending || editing} onClick={() => setRevision(value => value + 1)}>Cập nhật bài của em</button>}
       {result.status !== 'GRADE_RELEASED' && (result.status !== 'UPLOADING' || photo) && <>
         <Text>Chụp rõ phần bài làm. Để tên, mặt và thông tin riêng tư ngoài khung ảnh.</Text>
-        {(['Chụp ảnh', 'Chọn ảnh'] as const).map(label => <label key={label}>
+        <Text>Nếu chưa dùng được máy ảnh, em bấm Chọn ảnh nhé.</Text>
+        {(['Chụp ảnh', 'Chọn ảnh'] as const).map(label => <label key={label} style={{ display: 'grid', gap: 6, minHeight: 44 }}>
           {label}
           <input type="file" accept="image/jpeg,image/png" capture={label === 'Chụp ảnh' ? 'environment' : undefined}
             disabled={sending || editing || result.status === 'UPLOADING'} onChange={event => {
               const file = event.currentTarget.files?.[0];
               event.currentTarget.value = '';
               if (!file) return;
+              if (!['image/jpeg', 'image/png'].includes(file.type) || file.size === 0 || file.size > 8 * 1024 * 1024) {
+                setUploadError('Em hãy chọn ảnh JPG hoặc PNG nhỏ hơn 8 MB nhé.');
+                return;
+              }
               setConfirmed(false);
               setCrop(emptyCrop);
               setMask(emptyMask);
@@ -233,7 +292,8 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
             }} />
         </label>)}
         {photo && <>
-          <img src={photo.preview} alt="Xem trước ảnh bài làm" style={{ maxWidth: '100%', maxHeight: 350, objectFit: 'contain' }} />
+          <img src={photo.preview} alt="Xem trước ảnh bài làm" style={{ maxWidth: '100%', maxHeight: 350, objectFit: 'contain' }}
+            onError={() => { setPhoto(undefined); setConfirmed(false); setUploadError('Chưa mở được ảnh này. Em hãy chọn ảnh khác nhé.'); }} />
           <details>
             <summary>Cắt ảnh hoặc che thông tin</summary>
             <fieldset disabled={sending || editing}>
@@ -270,7 +330,7 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
         </>}
         {uploadError && <Text accessibilityRole="alert">{uploadError}</Text>}
       </>}
-    </> : <ActivityIndicator accessibilityLabel="Đang tải trạng thái bài làm" />}
+    </> : !failed && <ActivityIndicator accessibilityLabel="Đang tải trạng thái bài làm" />}
   </View>;
 }
 

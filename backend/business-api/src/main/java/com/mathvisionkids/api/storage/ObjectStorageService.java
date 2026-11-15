@@ -11,4 +11,8 @@ public interface ObjectStorageService {
     default void storeAssignedImage(String key, byte[] bytes, String contentType) throws IOException {
         throw new IOException("Immutable assigned image storage is unavailable");
     }
+    /** Visits the assigned-image namespace lazily; never exposes private object URLs. */
+    default void forEachAssignedObject(java.util.function.Consumer<String> visitor) throws IOException {
+        throw new IOException("Assigned image reconciliation is unavailable");
+    }
 }

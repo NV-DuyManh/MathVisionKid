@@ -5,7 +5,8 @@ const oldImage = global.Image, oldDocument = global.document, oldUrl = URL.creat
 let photo: any, canvas: any, context: any;
 beforeEach(() => {
   jest.useFakeTimers();
-  context = { fillRect: jest.fn(), scale: jest.fn(), translate: jest.fn(), rotate: jest.fn(), drawImage: jest.fn() };
+  context = { fillRect: jest.fn(), scale: jest.fn(), translate: jest.fn(), rotate: jest.fn(),
+    drawImage: jest.fn(), resetTransform: jest.fn() };
   canvas = { width: 0, height: 0, getContext: () => context,
     toBlob: jest.fn((done: (blob: Blob | null) => void) => done(new Blob(['jpeg']))) };
   global.Image = class {

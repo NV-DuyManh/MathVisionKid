@@ -106,6 +106,22 @@ public class MinioObjectStorageService implements ObjectStorageService {
     }
 
     @Override
+    public void forEachAssignedObject(java.util.function.Consumer<String> visitor) throws java.io.IOException {
+        var objects = minioClient.listObjects(io.minio.ListObjectsArgs.builder()
+                .bucket(bucketName).prefix("assigned-work/").recursive(true).build()).iterator();
+        // MinIO's iterator fetches pages lazily. Do not materialize the bucket in memory.
+        while (objects.hasNext()) {
+            String key;
+            try {
+                key = objects.next().get().objectName();
+            } catch (Exception failure) {
+                throw new java.io.IOException("Assigned image listing failed", failure);
+            }
+            visitor.accept(key);
+        }
+    }
+
+    @Override
     public byte[] loadBytes(String filePath) throws java.io.IOException {
         try (InputStream stream = minioClient.getObject(
                 GetObjectArgs.builder()

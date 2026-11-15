@@ -36,6 +36,8 @@ export function ClassAssignmentsPanel({ classId, studentCount }: { classId: stri
   });
   const recipients = recipientQuery.isError ? [] : recipientQuery.data ?? [];
   const visibleRecipients = recipients.filter(recipient => !queueFilter || recipient.status === queueFilter);
+  const nextReviewId = visibleRecipients.find(recipient => recipient.status === 'AWAITING_REVIEW'
+    && recipient.submissionId && recipient.submissionId !== reviewId)?.submissionId;
   const { data = [], isPending, isError, refetch } = useQuery({
     queryKey: ['teacher-class-assignments', classId],
     queryFn: () => AppTeacherService.listClassAssignments(classId),
@@ -106,9 +108,11 @@ export function ClassAssignmentsPanel({ classId, studentCount }: { classId: stri
       </DialogContent>
       <DialogActions><Button onClick={() => setQueue(null)}>Đóng</Button></DialogActions>
     </Dialog>
-    {reviewId && <AssignedReviewDialog key={reviewId} id={reviewId} onClose={() => setReviewId(null)}
+    {reviewId && <AssignedReviewDialog key={reviewId} id={reviewId} onClose={() => {
+      setReviewId(null);
+      void recipientQuery.refetch();
+    }} onNext={nextReviewId ? () => setReviewId(nextReviewId) : undefined}
       onSaved={() => {
-        setReviewId((currentId) => currentId === reviewId ? null : currentId);
         void recipientQuery.refetch();
       }} />}
     <Dialog open={editor !== null} onClose={() => !save.isPending && setEditor(null)} fullWidth maxWidth="sm">
