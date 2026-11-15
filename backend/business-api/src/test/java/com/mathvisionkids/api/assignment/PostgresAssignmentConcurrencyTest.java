@@ -6,6 +6,8 @@ import com.mathvisionkids.api.admin.AdminService;
 import com.mathvisionkids.api.classroom.Classroom;
 import com.mathvisionkids.api.classroom.ClassroomRepository;
 import com.mathvisionkids.api.common.ApiException;
+import com.mathvisionkids.api.submission.AssignedTeacherReview;
+import com.fasterxml.jackson.databind.node.IntNode;
 import com.mathvisionkids.api.user.Student;
 import com.mathvisionkids.api.user.StudentRepository;
 import com.mathvisionkids.api.user.Teacher;
@@ -66,6 +68,8 @@ class PostgresAssignmentConcurrencyTest {
     }
 
     @Autowired private AssignmentWorkflowService workflow;
+    @Autowired private TeacherAssignmentController legacyAssignments;
+    @Autowired private AssignedTeacherReview review;
     @Autowired private AssignmentRepository assignments;
     @Autowired private AssignmentPublicationRepository publications;
     @Autowired private AssignmentRecipientRepository recipients;
@@ -82,6 +86,130 @@ class PostgresAssignmentConcurrencyTest {
     private User admin;
     private Student pupil;
     private Classroom classroom;
+
+    @Test
+    void legacyCreationLockDoesNotBlockAssignedGradeForeignKey() throws Exception {
+        legacyCreationDuringReview(true);
+    }
+
+    @Test
+    void legacyCreationLockDoesNotBlockAssignedImageReturnForeignKey() throws Exception {
+        legacyCreationDuringReview(false);
+    }
+
+    private void legacyCreationDuringReview(boolean releaseGrade) throws Exception {
+        var assigned = draft(owner, classroom, UUID.randomUUID());
+        workflow.publish(owner.getEmail(), assigned.assignmentId());
+        UUID publicationId = publications.findByAssignmentId(assigned.assignmentId()).orElseThrow().getPublicationId();
+        UUID submissionId = UUID.randomUUID();
+        jdbc.update("""
+                INSERT INTO submissions(submission_id, assignment_id, publication_id, student_id, source, status)
+                VALUES (?, ?, ?, ?, 'ASSIGNED_WEB', 'AWAITING_REVIEW')
+                """, submissionId, assigned.assignmentId(), publicationId, pupil.getId());
+        jdbc.update("""
+                INSERT INTO submission_images(submission_id, file_path, content_type, file_size, source, image_version)
+                VALUES (?, ?, 'image/png', 68, 'ASSIGNED_WEB', 1)
+                """, submissionId, "synthetic/concurrency-" + submissionId);
+
+        var classLocked = new CountDownLatch(1);
+        var legacyWritten = new CountDownLatch(1);
+        var commitLegacy = new CountDownLatch(1);
+        var transactions = new TransactionTemplate(transactionManager);
+        try (var workers = Executors.newVirtualThreadPerTaskExecutor()) {
+            var reviewing = workers.submit(() -> transactions.executeWithoutResult(status -> {
+                classrooms.findForUpdate(classroom.getClassId()).orElseThrow();
+                classLocked.countDown();
+                await(legacyWritten);
+                if (releaseGrade) {
+                    review.releaseGrade(owner.getEmail(), submissionId, new AssignedTeacherReview.Grade(
+                            UUID.randomUUID(), 1, true, true, IntNode.valueOf(0), "Reviewed"));
+                } else {
+                    review.returnImage(owner.getEmail(), submissionId,
+                            new AssignedTeacherReview.ReturnImage(1, "UNREADABLE", "Please retake the image"));
+                }
+            }));
+            assertTrue(classLocked.await(5, TimeUnit.SECONDS));
+            var creating = workers.submit(() -> transactions.execute(status -> {
+                var response = createLegacy(UUID.randomUUID());
+                assignments.flush();
+                legacyWritten.countDown();
+                await(commitLegacy);
+                return response;
+            }));
+            try {
+                assertTrue(legacyWritten.await(5, TimeUnit.SECONDS));
+                // The legacy controller's creation lock remains held here. The
+                // review must commit its teacher FK before legacy creation commits.
+                reviewing.get(5, TimeUnit.SECONDS);
+            } finally {
+                commitLegacy.countDown();
+            }
+            assertEquals(201, creating.get(10, TimeUnit.SECONDS).getStatusCode().value());
+        }
+        assertEquals(releaseGrade ? "GRADE_RELEASED" : "RETAKE_REQUESTED",
+                jdbc.queryForObject("SELECT status FROM submissions WHERE submission_id = ?", String.class, submissionId));
+        assertEquals(releaseGrade ? 1 : 0, jdbc.queryForObject(
+                "SELECT count(*) FROM teacher_decisions WHERE submission_id = ?", Integer.class, submissionId));
+        assertEquals(releaseGrade ? 0 : 1, jdbc.queryForObject(
+                "SELECT count(*) FROM assigned_image_returns WHERE submission_id = ?", Integer.class, submissionId));
+    }
+
+    @Test
+    void keyedDraftWaitsForLegacyCreationAndReturnsConflict() throws Exception {
+        UUID key = UUID.randomUUID();
+        var legacyWritten = new CountDownLatch(1);
+        var commitLegacy = new CountDownLatch(1);
+        var transactions = new TransactionTemplate(transactionManager);
+        String marker = "legacy-draft-" + UUID.randomUUID();
+        try (var workers = Executors.newVirtualThreadPerTaskExecutor()) {
+            var legacy = workers.submit(() -> transactions.execute(status -> {
+                var response = createLegacy(key);
+                assignments.flush();
+                legacyWritten.countDown();
+                await(commitLegacy);
+                return response;
+            }));
+            assertTrue(legacyWritten.await(5, TimeUnit.SECONDS));
+            var draft = workers.submit(() -> transactions.execute(status -> {
+                jdbc.queryForObject("SELECT set_config('application_name', ?, true)", String.class, marker);
+                return draft(owner, classroom, key);
+            }));
+            try {
+                awaitDatabaseLock(marker, draft);
+            } finally {
+                commitLegacy.countDown();
+            }
+            assertEquals(201, legacy.get(10, TimeUnit.SECONDS).getStatusCode().value());
+            var rejected = assertThrows(ExecutionException.class, () -> draft.get(10, TimeUnit.SECONDS));
+            assertEquals("ASSIGNMENT_CONFLICT", assertInstanceOf(ApiException.class, rejected.getCause()).getCode());
+            assertEquals(1, jdbc.queryForObject(
+                    "SELECT count(*) FROM assignments WHERE teacher_id = ? AND creation_request_id = ?",
+                    Integer.class, owner.getId(), key));
+        }
+    }
+
+    private org.springframework.http.ResponseEntity<AssignmentResponse> createLegacy(UUID key) {
+        var request = new AssignmentRequest();
+        request.setClassId(classroom.getClassId());
+        request.setCreationRequestId(key);
+        request.setTitle("Legacy paper assignment");
+        request.setOperationType("ADDITION");
+        request.setMaxScore(10);
+        return legacyAssignments.createAssignment(request, () -> owner.getEmail());
+    }
+
+    private void awaitDatabaseLock(String marker, java.util.concurrent.Future<?> operation) throws Exception {
+        long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5);
+        boolean waiting;
+        do {
+            waiting = Boolean.TRUE.equals(jdbc.queryForObject("""
+                    SELECT EXISTS(SELECT 1 FROM pg_stat_activity
+                        WHERE application_name = ? AND wait_event_type = 'Lock')
+                    """, Boolean.class, marker));
+            if (!waiting) Thread.sleep(25);
+        } while (!waiting && !operation.isDone() && System.nanoTime() < deadline);
+        assertTrue(waiting, "Expected an overlapping database lock wait");
+    }
 
     @BeforeEach
     void createFixture() {
@@ -107,6 +235,56 @@ class PostgresAssignmentConcurrencyTest {
         classroom.setTeacher(owner);
         classroom.getStudents().add(pupil);
         classroom = classrooms.saveAndFlush(classroom);
+    }
+
+    @Test
+    void draftCreationKeyIsSerializedAcrossClassesOwnedByTheSameTeacher() throws Exception {
+        Classroom other = new Classroom();
+        other.setName("Second concurrency fixture");
+        other.setGradeLevel(3);
+        other.setTeacher(owner);
+        classrooms.saveAndFlush(other);
+        UUID key = UUID.randomUUID();
+        var firstWritten = new CountDownLatch(1);
+        var commitFirst = new CountDownLatch(1);
+        var transactions = new TransactionTemplate(transactionManager);
+        String marker = "draft-idempotency-" + UUID.randomUUID();
+        try (var workers = Executors.newVirtualThreadPerTaskExecutor()) {
+            var first = workers.submit(() -> transactions.execute(status -> {
+                var created = draft(owner, classroom, key);
+                assignments.flush();
+                firstWritten.countDown();
+                await(commitFirst);
+                return created;
+            }));
+            var second = workers.submit(() -> {
+                await(firstWritten);
+                return transactions.execute(status -> {
+                    jdbc.queryForObject("SELECT set_config('application_name', ?, true)", String.class, marker);
+                    return draft(owner, other, key);
+                });
+            });
+            try {
+                long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5);
+                boolean waiting;
+                do {
+                    waiting = Boolean.TRUE.equals(jdbc.queryForObject("""
+                            SELECT EXISTS(SELECT 1 FROM pg_stat_activity
+                                WHERE application_name = ? AND wait_event_type = 'Lock')
+                            """, Boolean.class, marker));
+                    if (!waiting) Thread.sleep(25);
+                } while (!waiting && !second.isDone() && System.nanoTime() < deadline);
+                assertTrue(waiting, "The second create must overlap the first uncommitted transaction");
+            } finally {
+                commitFirst.countDown();
+            }
+            var created = first.get(10, TimeUnit.SECONDS);
+            var rejected = assertThrows(ExecutionException.class, () -> second.get(10, TimeUnit.SECONDS));
+            assertEquals("ASSIGNMENT_CONFLICT", assertInstanceOf(ApiException.class, rejected.getCause()).getCode());
+            assertEquals(created.assignmentId(), draft(owner, classroom, key).assignmentId());
+            assertEquals(1, jdbc.queryForObject("SELECT count(*) FROM assignments WHERE teacher_id = ? AND creation_request_id = ?",
+                    Integer.class, owner.getId(), key));
+        }
     }
 
     @Test
@@ -170,6 +348,9 @@ class PostgresAssignmentConcurrencyTest {
     @Test
     void publishWaitsForHandoverThenOldOwnerIsDeniedAndSuccessorCanPublish() throws Exception {
         AssignmentWorkflowService.AssignmentView draft = draft(owner, classroom, UUID.randomUUID());
+        long submissionsBefore = count("submissions");
+        long decisionsBefore = count("teacher_decisions");
+        long jobsBefore = count("ai_jobs");
         CountDownLatch handoverLocked = new CountDownLatch(1);
         CountDownLatch commitHandover = new CountDownLatch(1);
         TransactionTemplate transactions = new TransactionTemplate(transactionManager);
@@ -194,9 +375,9 @@ class PostgresAssignmentConcurrencyTest {
 
         assertEquals("PUBLISHED", workflow.publish(successor.getEmail(), draft.assignmentId()).status());
         assertEquals(1, recipientCountFor(draft.assignmentId()));
-        assertEquals(0, count("submissions"));
-        assertEquals(0, count("teacher_decisions"));
-        assertEquals(0, count("ai_jobs"));
+        assertEquals(submissionsBefore, count("submissions"));
+        assertEquals(decisionsBefore, count("teacher_decisions"));
+        assertEquals(jobsBefore, count("ai_jobs"));
     }
 
     @AfterAll

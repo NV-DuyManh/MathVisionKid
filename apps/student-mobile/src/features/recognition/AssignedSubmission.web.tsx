@@ -19,6 +19,11 @@ const edges = [
 const emptyCrop = { top: 0, right: 0, bottom: 0, left: 0 };
 const emptyMask = { x: 0, y: 0, w: 0, h: 0 };
 
+function isDefinitiveDenial(error: unknown) {
+  const status = isAxiosError(error) ? error.response?.status : undefined;
+  return status === 403 || status === 404;
+}
+
 function newUploadKey() {
   const bytes = crypto.getRandomValues(new Uint8Array(16));
   bytes[6] = (bytes[6] & 15) | 64;
@@ -34,14 +39,17 @@ const labels: Record<string, string> = {
   GRADE_RELEASED: 'Bài của em đã có kết quả',
 };
 
-export default function AssignedSubmission({ assignmentId, maxScore }: {
+export default function AssignedSubmission({ assignmentId, maxScore, onUnavailable }: {
   assignmentId: string;
   maxScore: number;
+  onUnavailable?: () => void;
 }) {
   const [result, setResult] = useState<Status>();
   const [failed, setFailed] = useState(false);
+  const [unavailable, setUnavailable] = useState(false);
   const [revision, setRevision] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
+  const [autoRefreshPaused, setAutoRefreshPaused] = useState(false);
   const [photo, setPhoto] = useState<{ file: File; key: string; version: number; preview: string; normalized: boolean; checked: boolean }>();
   const [confirmed, setConfirmed] = useState(false);
   const [sending, setSending] = useState(false);
@@ -54,6 +62,28 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
   const incompleteMask = hasMaskDraft && !hasMask;
   const hasEdits = Object.values(crop).some(Boolean) || hasMaskDraft;
   const pending = useRef<AbortController | null>(null);
+  const observer = useRef<AbortController | null>(null);
+  const accessRevoked = useRef(false);
+  const revokeAccess = useCallback(() => {
+    if (accessRevoked.current) return;
+    accessRevoked.current = true;
+    observer.current?.abort();
+    pending.current?.abort();
+    pending.current = null;
+    setSending(false);
+    setEditing(false);
+    setRefreshing(false);
+    setAutoRefreshPaused(false);
+    setResult(undefined);
+    setPhoto(undefined);
+    setConfirmed(false);
+    setCrop(emptyCrop);
+    setMask(emptyMask);
+    setUploadError('');
+    setFailed(false);
+    setUnavailable(true);
+    onUnavailable?.();
+  }, [onUnavailable]);
   useEffect(() => () => pending.current?.abort(), []);
   const preview = photo?.preview;
   useEffect(() => {
@@ -112,6 +142,7 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
       if (!controller.signal.aborted) setPhoto({ ...checkedPhoto, checked: true });
     } catch (error) {
       if (controller.signal.aborted) return;
+      if (isDefinitiveDenial(error)) { revokeAccess(); return; }
       const code = isAxiosError<{ error?: { code?: string } }>(error) ? error.response?.data?.error?.code : undefined;
       setUploadError(code === 'IMAGE_PRIVACY_REVIEW'
         ? 'Em hãy cắt hoặc che thông tin riêng tư rồi kiểm tra lại ảnh.'
@@ -158,6 +189,7 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
       setRevision(value => value + 1);
     } catch (error) {
       if (controller.signal.aborted) return;
+      if (isDefinitiveDenial(error)) { revokeAccess(); return; }
       const response = isAxiosError<{ error?: { code?: string } }>(error) ? error.response : undefined;
       if (response?.data?.error?.code === 'IMAGE_PRIVACY_REVIEW') {
         setPhoto(current => current && { ...current, checked: false });
@@ -183,7 +215,9 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
     }
   }
   useFocusEffect(useCallback(() => {
+    if (accessRevoked.current) return;
     const controller = new AbortController();
+    observer.current = controller;
     let inFlight = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let polls = 0;
@@ -195,6 +229,7 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
       clearTimer();
       inFlight = true;
       setRefreshing(true);
+      setAutoRefreshPaused(false);
       try {
         const { data } = await apiClient.get<Status>(`/student/assignments/${encodeURIComponent(assignmentId)}/submission`, {
           signal: controller.signal, timeout: 10000,
@@ -203,20 +238,24 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
         lastStatus = data.status;
         setResult(data);
         setFailed(false);
+        setUnavailable(false);
         if (data.status === 'GRADE_RELEASED') {
           setPhoto(undefined);
           setConfirmed(false);
         }
-      } catch {
-        if (!controller.signal.aborted) setFailed(true);
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        if (isDefinitiveDenial(error)) revokeAccess();
+        else setFailed(true);
       } finally {
         inFlight = false;
         if (!controller.signal.aborted) {
           setRefreshing(false);
           // Bound background work, back off, and pause in hidden tabs. Focus or
           // the visible refresh action starts another observation window.
-          if (visible() && polls < 20 && (lastStatus === 'UPLOADING' || lastStatus === 'AWAITING_REVIEW')) {
-            timer = window.setTimeout(() => { polls++; void refresh(); }, Math.min(5000 * 2 ** Math.min(polls, 4), 60000));
+          if (visible() && (lastStatus === 'UPLOADING' || lastStatus === 'AWAITING_REVIEW')) {
+            if (polls >= 20) setAutoRefreshPaused(true);
+            else timer = window.setTimeout(() => { polls++; void refresh(); }, Math.min(5000 * 2 ** Math.min(polls, 4), 60000));
           }
         }
       }
@@ -229,6 +268,7 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
     void refresh();
     return () => {
       controller.abort();
+      if (observer.current === controller) observer.current = null;
       pending.current?.abort();
       pending.current = null;
       setSending(false);
@@ -241,13 +281,16 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
     };
   // revision deliberately restarts the observer after an upload or explicit retry.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [assignmentId, revision]));
+  }, [assignmentId, revokeAccess, revision]));
+
+  if (unavailable) return <Text accessibilityRole="alert">Bài này không còn khả dụng.</Text>;
 
   return <View style={{ gap: 8, padding: 16, borderRadius: 16, backgroundColor: '#fff' }}>
     {refreshing && <Text accessibilityRole="status">Đang cập nhật bài của em</Text>}
     {failed && <>
       <Text accessibilityRole="alert">Chưa kết nối được. Em hãy thử lại nhé!</Text>
-      <Pressable accessibilityRole="button" style={{ minHeight: 44 }} onPress={() => {
+      <Pressable accessibilityRole="button" disabled={sending || editing} style={{ minHeight: 44 }} onPress={() => {
+        if (pending.current) return;
         setFailed(false);
         setRevision(value => value + 1);
       }}><Text>Thử lại</Text></Pressable>
@@ -265,8 +308,11 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
         {!!result.feedback && <Text selectable>{result.feedback}</Text>}
       </>}
       {result.imageVersion > 0 && <SubmittedImage
-        key={result.imageVersion} assignmentId={assignmentId} />}
+        key={result.imageVersion} assignmentId={assignmentId} onUnavailable={revokeAccess} />}
       {result.status === 'UPLOADING' && <Text accessibilityRole="status">Đang kiểm tra ảnh đã gửi. Em có thể quay lại bài này sau.</Text>}
+      {autoRefreshPaused && !failed && <Text accessibilityRole="status">
+        Em có thể bấm Cập nhật bài của em để kiểm tra lại.
+      </Text>}
       {result.status !== 'GRADE_RELEASED' && <button type="button" style={{ minHeight: 44 }}
         disabled={refreshing || sending || editing} onClick={() => setRevision(value => value + 1)}>Cập nhật bài của em</button>}
       {result.status !== 'GRADE_RELEASED' && (result.status !== 'UPLOADING' || photo) && <>
@@ -334,7 +380,7 @@ export default function AssignedSubmission({ assignmentId, maxScore }: {
   </View>;
 }
 
-function SubmittedImage({ assignmentId }: { assignmentId: string }) {
+function SubmittedImage({ assignmentId, onUnavailable }: { assignmentId: string; onUnavailable: () => void }) {
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState<string>();
   const [failed, setFailed] = useState(false);
@@ -349,14 +395,16 @@ function SubmittedImage({ assignmentId }: { assignmentId: string }) {
       if (controller.signal.aborted) return;
       objectUrl = URL.createObjectURL(data);
       setUrl(objectUrl);
-    }).catch(() => {
-      if (!controller.signal.aborted) setFailed(true);
+    }).catch(error => {
+      if (controller.signal.aborted) return;
+      if (isDefinitiveDenial(error)) onUnavailable();
+      else setFailed(true);
     });
     return () => {
       controller.abort();
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [assignmentId, open]);
+  }, [assignmentId, onUnavailable, open]);
 
   return <>
     <button type="button" style={{ minHeight: 44 }} aria-expanded={open} onClick={() => {

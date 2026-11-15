@@ -15,3 +15,38 @@ The account and shared quotas commit before invitation lookup. Invalid or expire
 Teacher assignment workflow uses `/api/v1/teacher/classes/{classId}/assignments` to list this teacher's class assignments, `POST /teacher/assignments/drafts` to create a private draft, `PUT /teacher/assignments/{id}/draft` to edit a draft, and `POST /teacher/assignments/{id}/publish` to publish once. Only the teacher currently assigned to the class can manage its workflow. Drafts remain invisible to students. Publication snapshots the active class roster in `assignment_recipients`; a published assignment and its snapshot are immutable. Classes above the 50-student workflow cap cannot be published through this path.
 
 Student Web reads `/api/v1/student/assignments` and `/api/v1/student/assignments/{id}`. A student can read a published assignment only while active, currently enrolled in that class, and present in the publication snapshot. Responses use `Cache-Control: no-store`. Assignment publication is separate from the legacy Batch/Image workflow: existing ACTIVE assignments and batch grading remain available, and this phase does not create submissions, grades, or AI results. V37 adds nullable `prompt` and `instructions` to legacy assignments plus one publication row and a recipient snapshot per new published assignment.
+
+Creation request IDs are scoped to their teacher. Keyed classroom, draft, legacy assignment and batch creation serialize on the teacher's `users` row, separate from the `teachers` row referenced by review foreign keys. Identical assignment replays must also match the workflow (legacy ACTIVE versus online DRAFT/PUBLISHED); a conflicting reuse returns 409. A new legacy Batch requires an ACTIVE assignment. Existing Batch reads and replays remain available.
+
+## Assigned submissions — Phase 3
+
+All routes below are under `/api/v1`. Student assignment access requires an active account, current class membership and inclusion in the immutable publication snapshot. Admin does not acquire Teacher image/review authority through these routes. Handover immediately changes the Teacher authorized to review; it does not replace recipients, images or decisions.
+
+| Student route | Request and response |
+|---|---|
+| `GET /student/assignments/{assignmentId}/submission` | Private status, current image version and released result/retake instructions when applicable. |
+| `GET /student/assignments/{assignmentId}/submission/image` | Current private image bytes; rechecks access/version after storage read. |
+| `POST /student/assignments/{assignmentId}/submission/privacy-check` | Multipart `image`; validates eligibility and image, then requires a CLEAR privacy verdict; 204 on success. |
+| `POST /student/assignments/{assignmentId}/submission` | UUID `Idempotency-Key` header; multipart `image`, integer `expectedImageVersion`, boolean `privacyConfirmed`. Returns 200 `{submissionId, imageVersion}`. |
+
+The web editor crops/masks locally and requires explicit user confirmation. Final upload independently validates the bytes, confirmation and privacy verdict before reserving/writing an image. Detector transport errors or unknown verdicts fail closed. Local acceptance uses a synthetic HTTP fixture; it does not establish real detector accuracy. Sanitized input and stored image digests bind an attempt to its content. Confirmed identical retries return the prior receipt, while conflicting or expired attempts require recovery/new confirmation as indicated by the error. There is one official ASSIGNED_WEB submission per recipient, with immutable incrementing image versions. Storage keys remain private; these APIs return bytes rather than public URLs.
+
+| Teacher route | Request and response |
+|---|---|
+| `GET /teacher/assigned-submissions/queue/{assignmentId}` | Recipient status and submission IDs for the currently owned class. |
+| `GET /teacher/assigned-submissions/{id}` | Review metadata, current image version and max score. |
+| `GET /teacher/assigned-submissions/{id}/image?imageVersion=N` | Private bytes for the authorized current version; generic 404 for unavailable/version-mismatched references. Client retry first reloads metadata. |
+| `POST /teacher/assigned-submissions/{id}/return-image` | `{imageVersion, reason, instruction}`; reason UNREADABLE or WRONG_ASSIGNMENT, nonblank instruction at most 500 characters; 204. Does not create a grade. |
+| `POST /teacher/assigned-submissions/{id}/release-grade` | `{imageVersion, requestId, readable, matchesAssignment, score, feedback}`; UUID request ID, both confirmations true, integer score 0..maxScore, feedback at most 2000 characters; 204. |
+
+Review mutations lock class, assignment and submission, reject obsolete versions/states with 409 REVIEW_CONFLICT, and create at most one official TeacherDecision. An identical released-grade replay matches request ID, image version, score and trimmed feedback; other writes cannot change a released grade. Legacy Batch/AI paths cannot mutate ASSIGNED_WEB work. Image/status reads use `Cache-Control: no-store`, image bytes also use `X-Content-Type-Options: nosniff`.
+
+## Recovery and observation — Phase 3.1
+
+Student-visible states include AWAITING_IMAGE, UPLOADING, AWAITING_REVIEW, RETAKE_REQUESTED and GRADE_RELEASED. An OPEN prepared attempt with a recorded stored digest remains UPLOADING even after its reservation deadline: recovery may still confirm its object, so expiry alone is not evidence that no image was received. Recovery rechecks eligibility, content and current version before confirmation. Released grades and current/released images remain protected.
+
+Cleanup uses persisted recovery/deletion claims and retained attempt records to reconcile interrupted work and late PUTs, including objects that appear after an earlier deletion sweep. An unrecognized object without an owned attempt record is not automatically deleted. V38 adds assigned uploads and integrity constraints, V39 image returns, V40 prepared-upload recovery and V41 durable cleanup/reconciliation. Never renumber or repair an already-applied divergent Flyway history to make validation pass.
+
+Student Web observes pending work with bounded 5/10/20/40/60-second backoff and at most 20 background polls per observation window, pauses hidden tabs, and resumes on focus/pageshow/online or explicit refresh. At the cap it offers manual refresh. Definitive 403/404 clears loaded assignment/photo/result state and pending image operations; a transient transport error retains work for retry. Logout/unmount aborts observers and image work. Teacher stale-image retry reloads metadata and clears confirmations/score before assessment. These client controls complement backend authorization and do not replace it.
+
+Implementation and acceptance details: [Phase 3 plan](../superpowers/plans/2026-11-14-submission-phase3.md), [Phase 3.1 plan](../superpowers/plans/2026-11-15-phase31-hardening.md). Historical local reports under `report/` are verification receipts, not a promise that every database history or physical device has been tested.

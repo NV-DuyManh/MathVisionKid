@@ -153,7 +153,7 @@ public class AssignedUploadReservation {
                 SELECT s.submission_id, s.status,
                        EXISTS (SELECT 1 FROM assigned_upload_attempts pending
                                WHERE pending.submission_id = s.submission_id AND pending.state = 'OPEN'
-                                 AND pending.expires_at > clock_timestamp()) AS uploading,
+                                 AND (pending.expires_at > clock_timestamp() OR pending.stored_digest IS NOT NULL)) AS uploading,
                        (SELECT COALESCE(MAX(i.image_version), 0) FROM submission_images i
                         WHERE i.submission_id = s.submission_id) AS image_version,
                        d.final_score, d.reason, retake.reason AS retake_reason, retake.instruction

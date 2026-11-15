@@ -34,7 +34,8 @@ public class AssignedTeacherReview {
                 SELECT r.student_id, pupil.display_name, s.submission_id,
                        CASE WHEN EXISTS (
                            SELECT 1 FROM assigned_upload_attempts u WHERE u.submission_id = s.submission_id
-                           AND u.state = 'OPEN' AND u.expires_at > CURRENT_TIMESTAMP
+                           AND u.state = 'OPEN'
+                           AND (u.expires_at > clock_timestamp() OR u.stored_digest IS NOT NULL)
                        ) AND s.status <> 'GRADE_RELEASED' THEN 'UPLOADING'
                        ELSE COALESCE(s.status, 'AWAITING_IMAGE') END AS review_status
                 FROM assignments a JOIN classrooms c ON c.class_id = a.class_id

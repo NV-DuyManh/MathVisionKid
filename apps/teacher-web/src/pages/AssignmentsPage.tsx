@@ -138,7 +138,9 @@ export default function AssignmentsPage() {
                           size="small"
                           endIcon={<ArrowForward />}
                           onClick={() =>
-                            navigate(`/batches/create?assignmentId=${encodeURIComponent(a.assignmentId || a.id || '')}`)
+                            navigate(a.status === 'DRAFT' || a.status === 'PUBLISHED'
+                              ? `/classes/${encodeURIComponent(a.classId || '')}`
+                              : `/batches/create?assignmentId=${encodeURIComponent(a.assignmentId || a.id || '')}`)
                           }
                           sx={{
                             borderRadius: 2,
@@ -152,7 +154,7 @@ export default function AssignmentsPage() {
                             },
                           }}
                         >
-                          Tạo đợt chấm
+                          {a.status === 'DRAFT' || a.status === 'PUBLISHED' ? 'Mở bài tập của lớp' : 'Tạo đợt chấm'}
                         </Button>
                       </TableCell>
                     </TableRow>

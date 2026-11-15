@@ -377,6 +377,14 @@ class AssignedUploadRecoveryIntegrationTest {
                 jdbc.update("UPDATE assigned_upload_attempts SET expires_at = now() WHERE attempt_id = ?", attempt.id());
             }
 
+            assertEquals("UPLOADING", reservations.status(email, assignment).status(),
+                    "An expired prepared upload is still being recovered until the worker resolves it");
+            String teacherEmail = jdbc.queryForObject("""
+                    SELECT u.email FROM assignments a JOIN classrooms c ON c.class_id = a.class_id
+                    JOIN users u ON u.id = c.teacher_id WHERE a.assignment_id = ?
+                    """, String.class, assignment);
+            assertEquals("UPLOADING", review.queue(teacherEmail, assignment).getFirst().status());
+
             if (freshProcess) {
                 runFreshWorkerUntil(() -> reservations.status(email, assignment).imageVersion() == 1);
             } else try (var pool = Executors.newFixedThreadPool(2)) {

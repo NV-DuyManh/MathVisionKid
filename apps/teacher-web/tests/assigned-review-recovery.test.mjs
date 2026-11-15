@@ -17,6 +17,8 @@ const initial = { studentName: 'Synthetic student', prompt: '2 + 2', status: 'AW
 async function screen(run) {
   const dom = new JSDOM('<div id="root"></div>', { url: 'http://localhost/' });
   const old = { window: globalThis.window, document: globalThis.document, IS_REACT_ACT_ENVIRONMENT: globalThis.IS_REACT_ACT_ENVIRONMENT };
+  const browserCrypto = { getRandomValues: bytes => globalThis.crypto.getRandomValues(bytes) };
+  Object.defineProperty(dom.window, 'crypto', { value: browserCrypto });
   Object.assign(globalThis, { window: dom.window, document: dom.window.document, IS_REACT_ACT_ENVIRONMENT: true });
   const root = createRoot(dom.window.document.getElementById('root'));
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 } } });
@@ -29,18 +31,26 @@ async function screen(run) {
     Button: ({ children, onClick, disabled }) => React.createElement('button', { onClick, disabled }, children),
     FormControlLabel: ({ label, control }) => React.createElement('label', null, label, control),
     Checkbox: ({ checked, onChange }) => React.createElement('input', { type: 'checkbox', checked, onChange: e => onChange(e, e.target.checked) }),
-    TextField: props => { const { label, value, onChange, select, children } = props; controls[label] = props; return React.createElement('label', null, label,
-      React.createElement(select ? 'select' : 'input', { value, onChange, 'aria-label': label }, select ? children : undefined)); },
+    TextField: props => { const { id, label, value, onChange, onBlur, error, helperText, select, children } = props; controls[label] = props; return React.createElement('label', null, label,
+      React.createElement(select ? 'select' : 'input', { id, value, onChange, onBlur, 'aria-label': label,
+        'aria-invalid': Boolean(error), 'aria-describedby': helperText && id ? `${id}-helper-text` : undefined }, select ? children : undefined),
+      helperText && React.createElement('span', { id: id ? `${id}-helper-text` : undefined }, helperText)); },
     MenuItem: ({ value, children }) => React.createElement('option', { value }, children),
   };
   let api = { get: async () => ({ data: initial }), post: async () => ({}) };
   const imports = { '@mui/material': mui, '@tanstack/react-query': queryRuntime,
     '../services/api/apiClient': { __esModule: true, default: { get: (...args) => api.get(...args), post: (...args) => api.post(...args) } } };
+  const helperExports = {};
+  const helperSource = transpileModule(readFileSync(new URL('../src/services/api/newCreationRequestId.ts', import.meta.url), 'utf8'), {
+    compilerOptions: { module: ModuleKind.CommonJS },
+  }).outputText;
+  vm.runInNewContext(helperSource, { exports: helperExports, window: dom.window });
+  imports['../services/api/newCreationRequestId'] = helperExports;
   const source = transpileModule(readFileSync(new URL('../src/pages/AssignedReviewDialog.tsx', import.meta.url), 'utf8'), {
     compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.ReactJSX, esModuleInterop: true },
   }).outputText;
   const exports = {};
-  vm.runInNewContext(source, { exports, AbortController, crypto: globalThis.crypto,
+  vm.runInNewContext(source, { exports, AbortController, crypto: browserCrypto,
     URL: { createObjectURL: () => 'blob:synthetic', revokeObjectURL: () => {} },
     require: id => imports[id] ?? require(id) });
   const Component = exports.default;
@@ -49,7 +59,7 @@ async function screen(run) {
     const compiled = transpileModule(readFileSync(new URL('../src/pages/ClassAssignmentsPanel.tsx', import.meta.url), 'utf8'), {
       compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.ReactJSX, esModuleInterop: true },
     }).outputText;
-    vm.runInNewContext(compiled, { exports: panelExports, crypto: globalThis.crypto,
+    vm.runInNewContext(compiled, { exports: panelExports, crypto: browserCrypto,
       require: id => extraImports[id] ?? imports[id] ?? require(id) });
     return panelExports.ClassAssignmentsPanel;
   };
@@ -151,7 +161,7 @@ test('saving keeps review available for next pending work and Back preserves the
       { assignmentId: 'assignment', title: 'Synthetic', status: 'PUBLISHED', recipientCount: 2 },
     ] } },
     './AssignedReviewDialog': { __esModule: true, default: props => React.createElement('div', null, `Review ${props.id}`,
-      React.createElement('button', { onClick: () => { saved = true; props.onSaved(); } }, 'Save'),
+      React.createElement('button', { onClick: () => { saved = true; props.onSaved('release-grade'); } }, 'Save'),
       props.onNext && React.createElement('button', { onClick: props.onNext }, 'Next'),
       React.createElement('button', { onClick: props.onClose }, 'Back')) },
   });
@@ -166,6 +176,54 @@ test('saving keeps review available for next pending work and Back preserves the
   await ui.click('Back');
   assert.equal(ui.dom.window.document.querySelector('[aria-label="Trạng thái bài nộp"]').value, 'AWAITING_REVIEW');
   assert.equal([...ui.dom.window.document.querySelectorAll('button')].filter(el => el.textContent === 'Mở bài làm').length, 1);
+}));
+
+test('Next skips completed reviews while the queue refresh is delayed', () => screen(async ui => {
+  const queue = ['first', 'second', 'third'].map(id => ({ studentId: id, studentName: id,
+    submissionId: id, status: 'AWAITING_REVIEW' }));
+  let reads = 0;
+  ui.api({ get: async (_, { signal }) => ++reads === 1 ? { data: queue } : new Promise((_, reject) => {
+    signal.addEventListener('abort', () => reject(new Error('Cancelled')), { once: true });
+  }) });
+  const Panel = ui.loadPanel({
+    '../types': { MathType: { VERTICAL_ADDITION: 'VERTICAL_ADDITION' } },
+    '../services/api/ServiceLocator': { AppTeacherService: { listClassAssignments: async () => [
+      { assignmentId: 'assignment', title: 'Synthetic', status: 'PUBLISHED', recipientCount: 3 },
+    ] } },
+    './AssignedReviewDialog': { __esModule: true, default: props => React.createElement('div', null, `Review ${props.id}`,
+      React.createElement('button', { onClick: () => props.onSaved('release-grade') }, 'Save'),
+      props.onNext && React.createElement('button', { onClick: props.onNext }, 'Next'),
+      React.createElement('button', { onClick: props.onClose }, 'Back')) },
+  });
+  await ui.render({ classId: 'class', studentCount: 3 }, Panel);
+  await ui.click('Bài nộp của lớp');
+  await ui.fill('Trạng thái bài nộp', 'AWAITING_REVIEW');
+  await ui.click('Mở bài làm');
+  await ui.click('Save');
+  await ui.click('Next');
+  assert.match(ui.dom.window.document.body.textContent, /Review second/);
+  await ui.click('Save');
+  await ui.click('Next');
+  assert.match(ui.dom.window.document.body.textContent, /Review third/);
+  await ui.click('Back');
+  assert.equal(ui.dom.window.document.querySelector('[aria-label="Trạng thái bài nộp"]').value, 'AWAITING_REVIEW');
+}));
+
+test('a publish response failure is announced inside the dialog without claiming the draft was unchanged', () => screen(async ui => {
+  const Panel = ui.loadPanel({
+    '../types': { MathType: { VERTICAL_ADDITION: 'VERTICAL_ADDITION' } },
+    '../services/api/ServiceLocator': { AppTeacherService: {
+      listClassAssignments: async () => [{ assignmentId: 'assignment', title: 'Synthetic', status: 'DRAFT' }],
+      publishAssignment: async () => { throw new Error('Synthetic response lost'); },
+    } },
+    './AssignedReviewDialog': { __esModule: true, default: () => null },
+  });
+  await ui.render({ classId: 'class', studentCount: 2 }, Panel);
+  await ui.click('Giao bài');
+  await ui.click('Xác nhận giao');
+  const alert = ui.dom.window.document.querySelector('[role="dialog"] [role="alert"]');
+  assert.match(alert?.textContent ?? '', /Chưa xác nhận được kết quả giao bài/);
+  assert.equal(ui.button('Xác nhận giao').disabled, false);
 }));
 
 test('successful zero grade hides editable assessment and exposes the explicit next action', () => screen(async ui => {
@@ -183,4 +241,55 @@ test('successful zero grade hides editable assessment and exposes the explicit n
   assert.equal(ui.dom.window.document.querySelector('[aria-label="Điểm (0–10)"]'), null);
   await ui.click('Mở bài tiếp theo');
   assert.equal(next, 1);
+}));
+
+test('score explains blank, decimal and out-of-range values through associated feedback and accepts zero', () => screen(async ui => {
+  ui.api({ get: async url => ({ data: url.endsWith('/image') ? {} : initial }), post: async () => ({}) });
+  await ui.render({ id: 'first', onClose() {}, onSaved() {} });
+  await ui.loadImage(); await ui.check();
+  const input = () => ui.dom.window.document.querySelector('[aria-label="Điểm (0–10)"]');
+  for (const value of ['', '1.5', '-1', '11']) {
+    await ui.fill('Điểm (0–10)', value);
+    await act(async () => input().dispatchEvent(new ui.dom.window.FocusEvent('focusout', { bubbles: true })));
+    assert.equal(input().getAttribute('aria-invalid'), 'true', `Invalid score ${value}`);
+    const feedback = ui.dom.window.document.getElementById(input().getAttribute('aria-describedby'));
+    assert.match(feedback?.textContent ?? '', /Nhập điểm nguyên từ 0 đến 10/);
+    assert.equal(ui.button('Chấm và trả').disabled, true);
+  }
+  await ui.fill('Điểm (0–10)', '0');
+  assert.equal(input().getAttribute('aria-invalid'), 'false');
+  assert.equal(ui.button('Chấm và trả').disabled, false);
+}));
+
+test('LAN HTTP without randomUUID can create and edit drafts and release a grade with valid request IDs', () => screen(async ui => {
+  const drafts = [];
+  const Panel = ui.loadPanel({
+    '../types': { MathType: { VERTICAL_ADDITION: 'VERTICAL_ADDITION' } },
+    '../services/api/ServiceLocator': { AppTeacherService: {
+      listClassAssignments: async () => [{ assignmentId: 'assignment', title: 'Synthetic', prompt: '2 + 2',
+        mathType: 'VERTICAL_ADDITION', maxScore: 10, status: 'DRAFT' }],
+      saveAssignmentDraft: async draft => { drafts.push(draft); },
+    } },
+    './AssignedReviewDialog': { __esModule: true, default: () => null },
+  });
+  await ui.render({ classId: 'class', studentCount: 2 }, Panel);
+  await ui.click('Tạo bài tập');
+  await ui.fill('Tên bài tập', 'New synthetic');
+  await ui.fill('Đề toán', '3 + 3');
+  await ui.click('Lưu bản nháp');
+  await ui.click('Sửa bản nháp');
+  await ui.fill('Tên bài tập', 'Edited synthetic');
+  await ui.click('Lưu bản nháp');
+  let submitted;
+  ui.api({ get: async url => ({ data: url.endsWith('/image') ? {} : initial }),
+    post: async (_, body) => { submitted = body; return {}; } });
+  await ui.render({ id: 'first', onClose() {}, onSaved() {} });
+  await ui.loadImage(); await ui.check(); await ui.fill('Điểm (0–10)', '0');
+  await ui.fill('Nhận xét', 'Synthetic feedback');
+  await ui.click('Chấm và trả');
+  const ids = [...drafts.map(draft => draft.creationRequestId), submitted.requestId];
+  assert.equal(ids.length, 3);
+  assert.equal(new Set(ids).size, 3);
+  for (const id of ids) assert.match(id, /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/);
+  assert.equal(submitted.score, 0);
 }));

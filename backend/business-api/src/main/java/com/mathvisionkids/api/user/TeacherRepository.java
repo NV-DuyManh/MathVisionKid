@@ -9,9 +9,8 @@ import java.util.UUID;
 public interface TeacherRepository extends JpaRepository<Teacher, UUID> {
     Optional<Teacher> findByEmail(String email);
 
-    @Query(value = "select teacher_id from teachers where teacher_id = :id for update", nativeQuery = true)
-    Optional<UUID> lockForAssignmentCreation(@Param("id") UUID id);
-
-    @Query(value = "select teacher_id from teachers where teacher_id = :id for update", nativeQuery = true)
-    Optional<UUID> lockForClassroomCreation(@Param("id") UUID id);
+    // Creation keys are scoped to the teacher. Use the account row so the lock
+    // does not conflict with foreign-key checks against the teachers row.
+    @Query(value = "select id from users where id = :id and role = 'TEACHER' for update", nativeQuery = true)
+    Optional<UUID> lockForCreation(@Param("id") UUID id);
 }

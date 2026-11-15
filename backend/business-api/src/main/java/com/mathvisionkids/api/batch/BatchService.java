@@ -64,7 +64,7 @@ public class BatchService {
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Teacher not found", HttpStatus.NOT_FOUND));
 
         if (creationRequestId != null) {
-            teacherRepository.lockForAssignmentCreation(teacher.getId()).orElseThrow();
+            teacherRepository.lockForCreation(teacher.getId()).orElseThrow();
         }
 
         Assignment assignment = assignmentRepository.findById(assignmentId)
@@ -83,6 +83,10 @@ public class BatchService {
                 }
                 return new BatchCreation(saved, false);
             }
+        }
+
+        if (!"ACTIVE".equals(assignment.getStatus())) {
+            throw new ApiException("ASSIGNMENT_CONFLICT", "Bài giao trực tuyến được quản lý trong lớp học.", HttpStatus.CONFLICT);
         }
 
         Batch batch = new Batch();

@@ -76,6 +76,8 @@ export default function BatchCreatePage() {
   const { data: assignments = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['teacher-assignments'], queryFn: () => AppTeacherService.getAssignments(),
   });
+  const onlineAssignment = (assignment: typeof assignments[number]) => assignment.status === 'DRAFT' || assignment.status === 'PUBLISHED';
+  const selectedOnline = !resumeId && assignments.find(assignment => (assignment.assignmentId || assignment.id) === chosenId && onlineAssignment(assignment));
   return <Box>
     <PageHeader title={resumeId ? 'Tiếp tục tải ảnh' : 'Tạo đợt chấm bài'} subtitle="Chọn bài tập rồi tải ảnh bài làm của học sinh." />
     {resumeId && (resume.isPending || resume.isFetching || resume.isPaused) &&
@@ -94,13 +96,18 @@ export default function BatchCreatePage() {
         onChange={e => setParams({ assignmentId: e.target.value }, { replace: true })}>
         {chosenId && !assignments.some(a => (a.assignmentId || a.id) === chosenId) &&
           <MenuItem value={chosenId}>Bài tập đã chọn</MenuItem>}
-        {assignments.map(a => <MenuItem key={a.assignmentId || a.id} value={a.assignmentId || a.id}>{a.title}</MenuItem>)}
+        {selectedOnline && <MenuItem disabled value={chosenId}>{selectedOnline.title}</MenuItem>}
+        {assignments.filter(a => !onlineAssignment(a) || (!!resumeId && (a.assignmentId || a.id) === chosenId))
+          .map(a => <MenuItem key={a.assignmentId || a.id} value={a.assignmentId || a.id}>{a.title}</MenuItem>)}
       </Select>
     </FormControl>
     {hasDraft && <Typography variant="body2" sx={{ mb: 2 }}>Xóa các ảnh đã chọn nếu muốn đổi bài tập.</Typography>}
     {!isLoading && !isError && assignments.length === 0 && !chosenId &&
       <Alert severity="info" action={<Button onClick={() => navigate('/assignments/create')}>Tạo bài tập</Button>}>Chưa có bài tập để chấm.</Alert>}
-    {chosenId && (!resumeId || canResume || hasDraft) &&
+    {selectedOnline && <Alert severity="info" action={<Button component={Link} to={`/classes/${encodeURIComponent(selectedOnline.classId || '')}`}>Mở lớp học</Button>}>
+      Bài giao trực tuyến được quản lý trong lớp học.
+    </Alert>}
+    {chosenId && !isLoading && (!isError || hasDraft) && !selectedOnline && (!resumeId || canResume || hasDraft) &&
       <BatchUpload key={JSON.stringify([location.search, assignmentId, chosenId])} assignmentId={chosenId} resumeBatchId={resumeId}
         checkingResume={Boolean(resumeId && (!canResume || !resume.isSuccess || resume.isFetching || resume.isPaused))}
         onDraftChange={setHasDraft} />}

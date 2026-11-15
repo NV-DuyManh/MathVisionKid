@@ -46,6 +46,7 @@ public class AssignmentWorkflowService {
     public DraftCreationResult createDraft(String email, DraftRequest request) {
         validate(request);
         Teacher teacher = teacher(email);
+        if (request.creationRequestId() != null) teachers.lockForCreation(teacher.getId()).orElseThrow();
         Classroom classroom = ownedClassroomForUpdate(request.classId(), teacher.getId());
         if (request.creationRequestId() != null) {
             Assignment previous = assignments.findByTeacher_IdAndCreationRequestId(teacher.getId(), request.creationRequestId()).orElse(null);
@@ -187,8 +188,9 @@ public class AssignmentWorkflowService {
     private static String clean(String value) { return value == null || value.isBlank() ? null : value.trim(); }
 
     private static void requireSameRequest(Assignment a, DraftRequest r) {
-        if (!a.getClassroom().getClassId().equals(r.classId()) || !a.getTitle().equals(r.title().trim())
-                || !a.getPrompt().equals(r.prompt().trim()) || !java.util.Objects.equals(a.getInstructions(), clean(r.instructions()))
+        if (!("DRAFT".equals(a.getStatus()) || "PUBLISHED".equals(a.getStatus()))
+                || !a.getClassroom().getClassId().equals(r.classId()) || !a.getTitle().equals(r.title().trim())
+                || !r.prompt().trim().equals(a.getPrompt()) || !java.util.Objects.equals(a.getInstructions(), clean(r.instructions()))
                 || !a.getOperationType().equals(r.operationType()) || !a.getMaxScore().equals(r.maxScore())) {
             throw conflict("Yêu cầu tạo này đã được dùng với nội dung khác.");
         }

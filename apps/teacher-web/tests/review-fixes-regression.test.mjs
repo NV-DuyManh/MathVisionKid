@@ -75,13 +75,72 @@ async function screen(run) {
     '../components/common/StatusChip': { StatusChip: block },
     './SubmissionRetake': { SubmissionRetake: block },
   };
-  try { await run({ dom, root, render, imports, controls, path: () => path }); }
+  try { await run({ dom, root, render, imports, controls, client, path: () => path }); }
   finally { await act(async () => root.unmount()); client.clear(); Object.assign(globalThis, previous); dom.window.close(); }
 }
 
 // ---------------------------------------------------------
 // R2: SpringTeacherService upload progress
 // ---------------------------------------------------------
+test('online assignments open their class workflow rather than creating a legacy batch', () => screen(async ui => {
+  const Component = load('pages/AssignmentsPage', {
+    ...ui.imports,
+    '../services/api/ServiceLocator': { AppTeacherService: { getAssignments: async () => [
+      { assignmentId: 'legacy', classId: 'class1', title: 'Legacy', status: 'ACTIVE' },
+      { assignmentId: 'online', classId: 'class2', title: 'Online', status: 'PUBLISHED' },
+    ] } },
+  });
+  await ui.render(Component);
+  const actions = [...ui.dom.window.document.querySelectorAll('button')];
+  assert.equal(actions.filter(button => button.textContent.includes('Tạo đợt chấm')).length, 1);
+  const online = actions.find(button => button.textContent.includes('Mở bài tập của lớp'));
+  assert.ok(online);
+  await act(async () => online.click());
+  assert.equal(ui.path().pathname, '/classes/class2');
+}));
+
+test('batch picker blocks a direct online assignment URL before selecting files', () => screen(async ui => {
+  let rosterReads = 0;
+  const Component = load('pages/BatchCreatePage', {
+    ...ui.imports,
+    './PrivacyEditorModal': () => null,
+    '../services/api/newCreationRequestId': { newCreationRequestId: () => 'synthetic-key' },
+    '../hooks/useUploadDraftGuard': { useUploadDraftGuard: () => ({ confirmation: null, allowNextNavigation() {} }) },
+    '../services/api/ServiceLocator': { AppTeacherService: {
+      getAssignments: async () => [{ assignmentId: 'online', classId: 'class2', title: 'Online', status: 'PUBLISHED' }],
+      getAssignmentRoster: async () => { rosterReads++; return []; },
+    } },
+  });
+  await ui.render(Component, {}, '/batches/create?assignmentId=online');
+  assert.equal(ui.dom.window.document.querySelectorAll('input[type=file]').length, 0);
+  assert.equal(rosterReads, 0);
+  assert.ok(ui.dom.window.document.body.textContent.includes('Bài giao trực tuyến được quản lý trong lớp học.'));
+}));
+
+test('a failed assignment-list background refresh preserves the selected batch photos', () => screen(async ui => {
+  let fail = false;
+  const Component = load('pages/BatchCreatePage', {
+    ...ui.imports,
+    './PrivacyEditorModal': () => null,
+    '../services/api/newCreationRequestId': { newCreationRequestId: () => 'synthetic-key' },
+    '../hooks/useUploadDraftGuard': { useUploadDraftGuard: () => ({ confirmation: null, allowNextNavigation() {} }) },
+    '../services/api/ServiceLocator': { AppTeacherService: {
+      getAssignments: async () => { if (fail) throw Error('offline'); return [{ assignmentId: 'legacy', title: 'Legacy', status: 'ACTIVE' }]; },
+      getAssignmentRoster: async () => [],
+    } },
+  }, { URL: { createObjectURL: () => 'blob:retained-photo', revokeObjectURL() {} } });
+  await ui.render(Component, {}, '/batches/create?assignmentId=legacy');
+  const input = ui.dom.window.document.querySelector('input[type=file]');
+  Object.defineProperty(input, 'files', { configurable: true, value: [{ name: 'synthetic.png', type: 'image/png', size: 100 }] });
+  await act(async () => input.dispatchEvent(new ui.dom.window.Event('change', { bubbles: true })));
+  assert.equal(ui.dom.window.document.querySelectorAll('img').length, 1);
+  fail = true;
+  await act(async () => ui.client.invalidateQueries({ queryKey: ['teacher-assignments'] }));
+  await act(async () => { await new Promise(resolve => setTimeout(resolve, 50)); });
+  assert.ok(ui.dom.window.document.body.textContent.includes('Chưa tải được bài tập.'));
+  assert.equal(ui.dom.window.document.querySelectorAll('img').length, 1);
+}));
+
 test('R2: SpringTeacherService wires onUploadProgress and handles valid/zero/missing total', async () => {
   let capturedConfig = null;
   const mockApi = {

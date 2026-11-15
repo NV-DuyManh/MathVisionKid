@@ -56,6 +56,19 @@ class BatchUploadTransactionTest {
         return new MockMultipartFile("images", "synthetic.png", "image/png", Base64.getDecoder().decode(
                 "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aBXsAAAAASUVORK5CYII="));
     }
+    @Test void onlineAssignmentsCannotCreateLegacyBatchesButExistingBatchesRemainReadable() {
+        UUID assignmentId = transactions.execute(status -> batches.findById(batch).orElseThrow().getAssignment().getAssignmentId());
+        long before = batches.count();
+        for (String state : List.of("DRAFT", "PUBLISHED")) {
+            transactions.executeWithoutResult(status -> assignments.findById(assignmentId).orElseThrow().setStatus(state));
+            ApiException denied = assertThrows(ApiException.class,
+                    () -> service.createBatch(email, assignmentId, UUID.randomUUID()));
+            assertEquals(409, denied.getStatus().value());
+            assertEquals(before, batches.count());
+            assertNotNull(service.getBatch(email, batch));
+        }
+        verifyNoInteractions(storage, gateway);
+    }
     BatchImageMapping mapping(int index) {
         var mapping = new BatchImageMapping(); mapping.setFileIndex(index); mapping.setStudentId(pupil); return mapping;
     }

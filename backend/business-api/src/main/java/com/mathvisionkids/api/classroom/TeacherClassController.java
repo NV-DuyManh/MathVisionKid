@@ -65,7 +65,7 @@ public class TeacherClassController {
         Teacher teacher = teacherRepository.findByEmail(principal.getName())
                 .filter(value -> Boolean.TRUE.equals(value.getActive()))
                 .orElseThrow(() -> new ApiException("FORBIDDEN", "Không có quyền tạo lớp.", HttpStatus.FORBIDDEN));
-        teacherRepository.lockForClassroomCreation(teacher.getId()).orElseThrow();
+        teacherRepository.lockForCreation(teacher.getId()).orElseThrow();
         String name = request.name().strip();
         var previous = classroomRepository.findByCreatedByTeacherIdAndCreationRequestId(teacher.getId(), request.requestId());
         if (previous.isPresent()) {

@@ -1,5 +1,5 @@
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { FONTS, WEB_DESIGN } from '../../constants/theme';
 import apiClient from '../../services/api/apiClient';
@@ -15,6 +15,10 @@ export default function StudentAssignments() {
   const [retry, setRetry] = useState(0);
   const [request, setRequest] = useState<{ key: string; status: 'loading' | 'success' | 'error' }>({ key: '', status: 'loading' });
   const requestKey = `${id ? `assignment:${id}` : 'list'}:${retry}`;
+  const handleUnavailable = useCallback(() => {
+    setSelected(null);
+    setRequest({ key: requestKey, status: 'error' });
+  }, [requestKey]);
   const isCurrentRequest = request.key === requestKey;
   const isLoading = !isCurrentRequest || request.status === 'loading';
   const hasError = isCurrentRequest && request.status === 'error';
@@ -55,7 +59,7 @@ export default function StudentAssignments() {
       <View style={styles.card}><Text style={styles.cardTitle}>Đề bài</Text><Text selectable style={styles.prompt}>{selected.prompt}</Text></View>
       {!!selected.instructions && <View style={styles.card}><Text style={styles.cardTitle}>Hướng dẫn của cô/thầy</Text><Text selectable style={styles.copy}>{selected.instructions}</Text></View>}
       <View style={styles.note}><Text style={styles.copy}>Em hãy làm bài vào vở nhé!</Text></View>
-      <AssignedSubmission key={id} assignmentId={id} maxScore={selected.maxScore} />
+      <AssignedSubmission key={id} assignmentId={id} maxScore={selected.maxScore} onUnavailable={handleUnavailable} />
     </>}
   </ScrollView>;
 }

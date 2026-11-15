@@ -72,7 +72,7 @@ public class TeacherAssignmentController {
         Teacher teacher = teacherRepository.findByEmail(principal.getName()).orElseThrow();
         UUID requestId = request.getCreationRequestId();
         if (requestId != null) {
-            teacherRepository.lockForAssignmentCreation(teacher.getId()).orElseThrow();
+            teacherRepository.lockForCreation(teacher.getId()).orElseThrow();
         }
         Classroom classroom = classroomRepository.findById(request.getClassId())
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Classroom not found", HttpStatus.NOT_FOUND));
@@ -85,7 +85,7 @@ public class TeacherAssignmentController {
             var previous = assignmentRepository.findByTeacher_IdAndCreationRequestId(teacher.getId(), requestId);
             if (previous.isPresent()) {
                 Assignment saved = previous.get();
-                if (!request.getClassId().equals(saved.getClassroom().getClassId())
+                if (!"ACTIVE".equals(saved.getStatus()) || !request.getClassId().equals(saved.getClassroom().getClassId())
                         || !request.getTitle().equals(saved.getTitle())
                         || !request.getOperationType().equals(saved.getOperationType())
                         || !request.getMaxScore().equals(saved.getMaxScore())) {

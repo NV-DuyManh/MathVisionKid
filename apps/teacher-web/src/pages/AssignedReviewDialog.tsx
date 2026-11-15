@@ -3,17 +3,19 @@ import { Alert, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTi
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import apiClient from '../services/api/apiClient';
+import { newCreationRequestId } from '../services/api/newCreationRequestId';
 
 type Detail = { studentName: string; prompt: string; status: string; maxScore: number; imageVersion: number };
+type ReviewAction = 'return-image' | 'release-grade';
 
 export default function AssignedReviewDialog(props: {
-  id: string; onClose: () => void; onSaved: () => void; onNext?: () => void;
+  id: string; onClose: () => void; onSaved: (kind: ReviewAction) => void; onNext?: () => void;
 }) {
   return <ReviewWorkspace key={props.id} {...props} />;
 }
 
 function ReviewWorkspace({ id, onClose, onSaved, onNext }: {
-  id: string; onClose: () => void; onSaved: () => void; onNext?: () => void;
+  id: string; onClose: () => void; onSaved: (kind: ReviewAction) => void; onNext?: () => void;
 }) {
   const [saved, setSaved] = useState(false);
   const [refreshed, setRefreshed] = useState(false);
@@ -30,7 +32,7 @@ function ReviewWorkspace({ id, onClose, onSaved, onNext }: {
       {detail.isPending && <Typography role="status">Đang tải bài làm…</Typography>}
       {detail.isError && <Alert severity="error" action={<Button onClick={() => void detail.refetch()}>Thử lại</Button>}>Chưa mở được bài nộp.</Alert>}
       {!detail.isError && detail.data && <Review key={`${id}:${detail.data.imageVersion}:${detail.data.status}`} id={id} detail={detail.data}
-        onSaved={() => { setSaved(true); void detail.refetch(); onSaved(); }}
+        onSaved={kind => { setSaved(true); void detail.refetch(); onSaved(kind); }}
         onRefresh={async () => {
           const result = await detail.refetch();
           if (!result.isError) setRefreshed(true);
@@ -45,7 +47,7 @@ function ReviewWorkspace({ id, onClose, onSaved, onNext }: {
 }
 
 function Review({ id, detail, onSaved, onRefresh }: {
-  id: string; detail: Detail; onSaved: () => void; onRefresh: () => Promise<boolean>;
+  id: string; detail: Detail; onSaved: (kind: ReviewAction) => void; onRefresh: () => Promise<boolean>;
 }) {
   const [photo, setPhoto] = useState('');
   const [loaded, setLoaded] = useState(false);
@@ -55,10 +57,11 @@ function Review({ id, detail, onSaved, onRefresh }: {
   const [readable, setReadable] = useState(false);
   const [matchesAssignment, setMatchesAssignment] = useState(false);
   const [score, setScore] = useState('');
+  const [scoreTouched, setScoreTouched] = useState(false);
   const [feedback, setFeedback] = useState('');
   const [reason, setReason] = useState('UNREADABLE');
   const [instruction, setInstruction] = useState('');
-  const [requestId, setRequestId] = useState(() => crypto.randomUUID());
+  const [requestId, setRequestId] = useState(newCreationRequestId);
   const [stale, setStale] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const active = useRef(true);
@@ -68,8 +71,8 @@ function Review({ id, detail, onSaved, onRefresh }: {
     return () => { active.current = false; mutationRequest.current?.abort(); };
   }, []);
   const clearAssessment = () => {
-    setReadable(false); setMatchesAssignment(false); setScore(''); setFeedback('');
-    setInstruction(''); setRequestId(crypto.randomUUID());
+    setReadable(false); setMatchesAssignment(false); setScore(''); setScoreTouched(false); setFeedback('');
+    setInstruction(''); setRequestId(newCreationRequestId());
   };
   useEffect(() => {
     const controller = new AbortController();
@@ -96,7 +99,7 @@ function Review({ id, detail, onSaved, onRefresh }: {
     };
   }, [id, detail.imageVersion, reload]);
   const action = useMutation({
-    mutationFn: (kind: 'return-image' | 'release-grade') => {
+    mutationFn: (kind: ReviewAction) => {
       const controller = new AbortController();
       mutationRequest.current = controller;
       return apiClient.post(`/teacher/assigned-submissions/${id}/${kind}`,
@@ -104,7 +107,7 @@ function Review({ id, detail, onSaved, onRefresh }: {
           { imageVersion: detail.imageVersion, requestId, readable, matchesAssignment, score: Number(score), feedback },
         { signal: controller.signal });
     },
-    onSuccess: () => { if (active.current) onSaved(); },
+    onSuccess: (_, kind) => { if (active.current) onSaved(kind); },
     onError: error => {
       if (active.current && isAxiosError(error) && error.response?.status === 409) {
         setStale(true);
@@ -124,6 +127,7 @@ function Review({ id, detail, onSaved, onRefresh }: {
     } finally { if (active.current) setRefreshing(false); }
   };
   const canReview = detail.status === 'AWAITING_REVIEW' && loaded && !photoError && !action.isPending && !stale && !refreshing;
+  const validScore = /^\d+$/.test(score) && Number(score) <= detail.maxScore;
   return <>
     <Typography sx={{ whiteSpace: 'pre-wrap', my: 2 }}>{detail.prompt}</Typography>
     {detail.imageVersion > 0 && <Typography>Phiên bản ảnh {detail.imageVersion}</Typography>}
@@ -139,14 +143,16 @@ function Review({ id, detail, onSaved, onRefresh }: {
       {conflict ? 'Bài nộp đã thay đổi. Tải lại và kiểm tra ảnh trước khi chấm.' : 'Chưa lưu được phản hồi. Hãy thử lại.'}
     </Alert>}
     {detail.status === 'AWAITING_REVIEW' && <>
-      <FormControlLabel control={<Checkbox checked={readable} onChange={(_, checked) => { setReadable(checked); setRequestId(crypto.randomUUID()); }} />} label="Ảnh đọc được" />
-      <FormControlLabel control={<Checkbox checked={matchesAssignment} onChange={(_, checked) => { setMatchesAssignment(checked); setRequestId(crypto.randomUUID()); }} />} label="Bài làm đúng đề" />
-      <TextField fullWidth margin="dense" label={`Điểm (0–${detail.maxScore})`} type="number" value={score}
-        onChange={event => { setScore(event.target.value); setRequestId(crypto.randomUUID()); }} />
+      <FormControlLabel control={<Checkbox checked={readable} onChange={(_, checked) => { setReadable(checked); setRequestId(newCreationRequestId()); }} />} label="Ảnh đọc được" />
+      <FormControlLabel control={<Checkbox checked={matchesAssignment} onChange={(_, checked) => { setMatchesAssignment(checked); setRequestId(newCreationRequestId()); }} />} label="Bài làm đúng đề" />
+      <TextField id="assigned-review-score" fullWidth required margin="dense" label={`Điểm (0–${detail.maxScore})`} type="number" value={score}
+        error={scoreTouched && !validScore} helperText={`Nhập điểm nguyên từ 0 đến ${detail.maxScore}.`}
+        slotProps={{ htmlInput: { min: 0, max: detail.maxScore, step: 1 } }} onBlur={() => setScoreTouched(true)}
+        onChange={event => { setScore(event.target.value); setScoreTouched(false); setRequestId(newCreationRequestId()); }} />
       <TextField fullWidth margin="dense" label="Nhận xét" multiline value={feedback}
         slotProps={{ htmlInput: { maxLength: 2000 } }} helperText={`${feedback.length}/2000 ký tự`}
-        onChange={event => { setFeedback(event.target.value); setRequestId(crypto.randomUUID()); }} />
-      <Button variant="contained" disabled={!canReview || !readable || !matchesAssignment || !/^\d+$/.test(score) || Number(score) > detail.maxScore}
+        onChange={event => { setFeedback(event.target.value); setRequestId(newCreationRequestId()); }} />
+      <Button variant="contained" disabled={!canReview || !readable || !matchesAssignment || !validScore}
         onClick={() => action.mutate('release-grade')}>Chấm và trả</Button>
       <TextField fullWidth margin="dense" select label="Lý do chụp lại" value={reason} onChange={event => setReason(event.target.value)}>
         <MenuItem value="UNREADABLE">Ảnh khó đọc</MenuItem><MenuItem value="WRONG_ASSIGNMENT">Bài làm sai đề</MenuItem>
