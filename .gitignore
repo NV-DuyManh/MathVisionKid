@@ -70,6 +70,7 @@ ai/runtime/models/**
 !ai/runtime/scripts/
 !ai/runtime/.env.example
 !ai/runtime/Dockerfile
+!ai/runtime/Dockerfile.assigned-privacy
 !ai/runtime/.dockerignore
 !ai/runtime/README.md
 !ai/runtime/pyproject.toml

@@ -71,6 +71,36 @@ public class MinioObjectStorageService implements ObjectStorageService {
     }
 
     @Override
+    public void storeAssignedImage(String key, byte[] bytes, String contentType) throws java.io.IOException {
+        // Older MinIO releases can ignore If-None-Match for PUT. Bind each key
+        // to its bytes so parallel callers can only write the same content.
+        try {
+            String digest = java.util.HexFormat.of().formatHex(
+                    java.security.MessageDigest.getInstance("SHA-256").digest(bytes));
+            if (!key.matches("assigned-work/[0-9a-f-]{36}/" + digest)) {
+                throw new java.io.IOException("Assigned image does not match its object key");
+            }
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
+        try (var stream = new java.io.ByteArrayInputStream(bytes)) {
+            minioClient.putObject(PutObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(key)
+                    .headers(java.util.Map.of("If-None-Match", "*"))
+                    .stream(stream, bytes.length, -1)
+                    .contentType(contentType)
+                    .build());
+        } catch (io.minio.errors.ErrorResponseException e) {
+            if (!"PreconditionFailed".equals(e.errorResponse().code())) {
+                throw new java.io.IOException("Assigned image write failed", e);
+            }
+        } catch (Exception e) {
+            throw new java.io.IOException("Assigned image write failed", e);
+        }
+    }
+
+    @Override
     public String getAuthorizedReference(String filePath) {
         return "/api/v1/internal/images?path=" + filePath;
     }
@@ -83,6 +113,13 @@ public class MinioObjectStorageService implements ObjectStorageService {
                         .object(filePath)
                         .build())) {
             return stream.readAllBytes();
+        } catch (io.minio.errors.ErrorResponseException e) {
+            if ("NoSuchKey".equals(e.errorResponse().code())) {
+                var missing = new java.io.FileNotFoundException("Object is absent");
+                missing.initCause(e);
+                throw missing;
+            }
+            throw new java.io.IOException("Failed to load object bytes from MinIO", e);
         } catch (Exception e) {
             throw new java.io.IOException("Failed to load object bytes from MinIO: " + filePath, e);
         }

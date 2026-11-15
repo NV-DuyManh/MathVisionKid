@@ -49,6 +49,9 @@ public class InternalAiCallbackController {
                         "NOT_FOUND", "Job not found", HttpStatus.NOT_FOUND));
         // Retry, correction and callbacks serialize on the submission before loading a job/result.
         Submission submission = submissionRepository.findForUpdate(submissionId).orElseThrow();
+        if (submission.isAssignedWeb()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         AiJob job = aiJobRepository.findById(jobId).orElseThrow();
 
         try {

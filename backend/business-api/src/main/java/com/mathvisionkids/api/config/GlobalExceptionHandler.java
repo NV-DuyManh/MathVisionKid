@@ -66,7 +66,9 @@ public class GlobalExceptionHandler {
                 .body(buildError("FORBIDDEN", "Access Denied", getRequestId(request), null));
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ExceptionHandler({HttpMessageNotReadableException.class,
+            org.springframework.web.bind.MissingRequestHeaderException.class,
+            org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class})
     public ResponseEntity<ApiErrorResponse> handleUnreadableRequest(HttpServletRequest request) {
         return ResponseEntity.badRequest()
                 .body(buildError("VALIDATION_ERROR", "Nội dung yêu cầu không hợp lệ.", getRequestId(request), null));

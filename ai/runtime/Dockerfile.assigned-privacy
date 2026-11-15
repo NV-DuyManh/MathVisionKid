@@ -1,0 +1,21 @@
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    HF_HUB_OFFLINE=1 \
+    PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK=True \
+    ASSIGNED_PRIVACY_MODEL_DIR=/models
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 libgomp1 \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir paddlepaddle==3.3.1 paddleocr==3.7.0 paddlex==3.7.2 fastapi==0.162.7 uvicorn==0.54.0 \
+    && groupadd --system privacy \
+    && useradd --system --gid privacy --create-home privacy
+
+WORKDIR /srv/privacy
+COPY app/api/assigned_image_privacy.py .
+
+USER privacy
+EXPOSE 8495
+CMD ["uvicorn", "assigned_image_privacy:app", "--host", "0.0.0.0", "--port", "8495"]

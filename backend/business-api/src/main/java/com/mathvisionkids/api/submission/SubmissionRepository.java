@@ -32,6 +32,9 @@ public interface SubmissionRepository extends JpaRepository<Submission, UUID> {
     @Query("select s from Submission s where s.submissionId = :id")
     Optional<Submission> findForUpdate(@Param("id") UUID submissionId);
     List<Submission> findByStudent_Id(UUID studentId);
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select s from Submission s where s.publicationId = :publicationId and s.student.id = :studentId")
+    Optional<Submission> findAssignedForUpdate(@Param("publicationId") UUID publicationId, @Param("studentId") UUID studentId);
     List<Submission> findByBatch_BatchId(UUID batchId);
     List<Submission> findByBatch_BatchIdAndStatus(UUID batchId, String status);
 

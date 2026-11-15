@@ -4,6 +4,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MathType } from '../types';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import type { AssignmentWorkflow } from '../services/api/TeacherService';
+import apiClient from '../services/api/apiClient';
+import AssignedReviewDialog from './AssignedReviewDialog';
+
+type Recipient = { studentId: string; studentName: string; submissionId: string | null; status: string };
+const recipientLabels: Record<string, string> = {
+  AWAITING_IMAGE: 'Chưa gửi', UPLOADING: 'Đang gửi ảnh', AWAITING_REVIEW: 'Chờ chấm',
+  RETAKE_REQUESTED: 'Cần chụp lại', GRADE_RELEASED: 'Đã trả bài',
+};
 
 type Draft = { assignmentId?: string; creationRequestId: string; title: string; prompt: string; instructions: string; mathType: MathType; maxScore: number };
 const blankDraft = (): Draft => ({ creationRequestId: crypto.randomUUID(), title: '', prompt: '', instructions: '', mathType: MathType.VERTICAL_ADDITION, maxScore: 10 });
@@ -14,6 +22,20 @@ export function ClassAssignmentsPanel({ classId, studentCount }: { classId: stri
   const [preview, setPreview] = useState<AssignmentWorkflow | null>(null);
   const [publish, setPublish] = useState<AssignmentWorkflow | null>(null);
   const [error, setError] = useState('');
+  const [queue, setQueue] = useState<AssignmentWorkflow | null>(null);
+  const [reviewId, setReviewId] = useState<string | null>(null);
+  const [queueFilter, setQueueFilter] = useState('');
+  const queueId = queue?.assignmentId ?? queue?.id;
+  const recipientQuery = useQuery({
+    queryKey: ['assigned-review-queue', queueId],
+    enabled: Boolean(queueId),
+    gcTime: 0,
+    queryFn: async ({ signal }) => (await apiClient.get<Recipient[]>(
+      `/teacher/assigned-submissions/queue/${encodeURIComponent(queueId ?? '')}`, { signal }
+    )).data,
+  });
+  const recipients = recipientQuery.isError ? [] : recipientQuery.data ?? [];
+  const visibleRecipients = recipients.filter(recipient => !queueFilter || recipient.status === queueFilter);
   const { data = [], isPending, isError, refetch } = useQuery({
     queryKey: ['teacher-class-assignments', classId],
     queryFn: () => AppTeacherService.listClassAssignments(classId),
@@ -52,6 +74,7 @@ export function ClassAssignmentsPanel({ classId, studentCount }: { classId: stri
       <Typography color="text.secondary" sx={{ overflowWrap: 'anywhere' }}>{item.prompt}</Typography>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
         <Button onClick={() => setPreview(item)}>Xem trước</Button>
+        {item.status === 'PUBLISHED' && <Button onClick={() => { setQueueFilter(''); setQueue(item); }}>Bài nộp của lớp</Button>}
         {item.status === 'DRAFT' && <>
           <Button onClick={() => setEditor({ assignmentId: item.assignmentId ?? item.id, title: item.title,
             creationRequestId: crypto.randomUUID(), prompt: item.prompt, instructions: item.instructions ?? '', mathType: item.mathType, maxScore: item.maxScore ?? 10 })}>Sửa bản nháp</Button>
@@ -60,6 +83,34 @@ export function ClassAssignmentsPanel({ classId, studentCount }: { classId: stri
       </Box>
     </Card>)}
 
+    <Dialog open={queue !== null && !reviewId} onClose={() => setQueue(null)} fullWidth maxWidth="sm">
+      <DialogTitle>Bài nộp · {queue?.title}</DialogTitle>
+      <DialogContent>
+        {recipientQuery.isPending && <Skeleton aria-label="Đang tải bài nộp" height={48} />}
+        {recipientQuery.isError && <Alert severity="error" action={<Button onClick={() => void recipientQuery.refetch()}>Thử lại</Button>}>
+          Chưa tải được danh sách bài nộp.
+        </Alert>}
+        {!recipientQuery.isError && recipientQuery.isSuccess && <TextField select fullWidth margin="dense"
+          label="Trạng thái bài nộp" value={queueFilter} onChange={event => setQueueFilter(event.target.value)}
+          slotProps={{ inputLabel: { shrink: true }, select: { displayEmpty: true } }}>
+          <MenuItem value="">Tất cả</MenuItem>
+          {Object.entries(recipientLabels).map(([status, label]) => <MenuItem key={status} value={status}>{label}</MenuItem>)}
+        </TextField>}
+        {recipientQuery.isSuccess && !visibleRecipients.length && <Typography>Không có bài nộp phù hợp.</Typography>}
+        {visibleRecipients.map(recipient => <Box key={recipient.studentId} sx={{ py: 1, borderBottom: 1, borderColor: 'divider' }}>
+          <Typography>{recipient.studentName}</Typography>
+          <Typography color="text.secondary">{recipientLabels[recipient.status] ?? 'Chưa xác định'}</Typography>
+          {recipient.submissionId && !['AWAITING_IMAGE', 'UPLOADING'].includes(recipient.status) &&
+            <Button onClick={() => setReviewId(recipient.submissionId)}>Mở bài làm</Button>}
+        </Box>)}
+      </DialogContent>
+      <DialogActions><Button onClick={() => setQueue(null)}>Đóng</Button></DialogActions>
+    </Dialog>
+    {reviewId && <AssignedReviewDialog key={reviewId} id={reviewId} onClose={() => setReviewId(null)}
+      onSaved={() => {
+        setReviewId((currentId) => currentId === reviewId ? null : currentId);
+        void recipientQuery.refetch();
+      }} />}
     <Dialog open={editor !== null} onClose={() => !save.isPending && setEditor(null)} fullWidth maxWidth="sm">
       <DialogTitle>{editor?.assignmentId ? 'Sửa bản nháp' : 'Tạo bài tập'}</DialogTitle>
       {editor && <DialogContent sx={{ display: 'grid', gap: 2, pt: '12px !important' }}>

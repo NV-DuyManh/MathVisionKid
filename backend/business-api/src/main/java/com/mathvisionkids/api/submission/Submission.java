@@ -35,6 +35,21 @@ public class Submission {
     @JoinColumn(name = "batch_id")
     private Batch batch;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Source source = Source.SELF_PRACTICE;
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    private UUID publicationId;
+
+    public enum Source { SELF_PRACTICE, BATCH, ASSIGNED_WEB }
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    public boolean isAssignedWeb() {
+        return source == Source.ASSIGNED_WEB;
+    }
+
     @Column(nullable = false)
     private String status;
 

@@ -8,4 +8,7 @@ public interface ObjectStorageService {
     void delete(String filePath) throws IOException;
     String getAuthorizedReference(String filePath);
     byte[] loadBytes(String filePath) throws IOException;
+    default void storeAssignedImage(String key, byte[] bytes, String contentType) throws IOException {
+        throw new IOException("Immutable assigned image storage is unavailable");
+    }
 }

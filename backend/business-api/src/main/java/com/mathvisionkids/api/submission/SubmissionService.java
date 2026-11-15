@@ -141,7 +141,7 @@ public class SubmissionService {
         Submission submission = submissionRepository.findById(submissionId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Submission not found", HttpStatus.NOT_FOUND));
 
-        if (submission.getStudent() == null || !submission.getStudent().getId().equals(student.getId())) {
+        if (submission.isAssignedWeb() || submission.getStudent() == null || !submission.getStudent().getId().equals(student.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized", HttpStatus.FORBIDDEN);
         }
         
@@ -355,7 +355,7 @@ public class SubmissionService {
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Student not found", HttpStatus.NOT_FOUND));
         Submission submission = submissionRepository.findForUpdate(submissionId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Submission not found", HttpStatus.NOT_FOUND));
-        if (submission.getStudent() == null || !submission.getStudent().getId().equals(student.getId())) {
+        if (submission.isAssignedWeb() || submission.getStudent() == null || !submission.getStudent().getId().equals(student.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized", HttpStatus.FORBIDDEN);
         }
         return submission;
@@ -384,7 +384,7 @@ public class SubmissionService {
     private Teacher requireTeacherSubmissionAccess(String email, Submission submission) {
         Teacher teacher = teacherRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "Teacher not found", HttpStatus.NOT_FOUND));
-        if (submission.getBatch() == null || !submission.getBatch().isAssignedToTeacher(teacher.getId())) {
+        if (submission.isAssignedWeb() || submission.getBatch() == null || !submission.getBatch().isAssignedToTeacher(teacher.getId())) {
             throw new ApiException("FORBIDDEN", "Not authorized", HttpStatus.FORBIDDEN);
         }
         return teacher;

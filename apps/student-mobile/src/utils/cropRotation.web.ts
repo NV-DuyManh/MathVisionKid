@@ -2,7 +2,8 @@ import { normalizeRotation } from './cropRotationGeometry';
 export { normalizeRotation, rotatedFrame } from './cropRotationGeometry';
 
 /** Draw only the final crop: avoid full-size PNG round trips on phone browsers. */
-export async function exportCropImage(sourceUri: string, degrees: number, selection: { x: number; y: number; w: number; h: number }) {
+export async function exportCropImage(sourceUri: string, degrees: number, selection: { x: number; y: number; w: number; h: number },
+  masks: { x: number; y: number; w: number; h: number }[] = []) {
   if (!sourceUri || Object.values(selection).some(v => !Number.isFinite(v)) || selection.w <= 0 || selection.h <= 0) throw new Error('Invalid crop');
   const angle = normalizeRotation(degrees) * Math.PI / 180;
   const source = await new Promise<HTMLImageElement>((resolve, reject) => {
@@ -33,6 +34,11 @@ export async function exportCropImage(sourceUri: string, degrees: number, select
     context.translate(rotatedW / 2 - x, rotatedH / 2 - y);
     context.rotate(angle);
     context.drawImage(source, -source.naturalWidth / 2, -source.naturalHeight / 2);
+    context.resetTransform();
+    context.fillStyle = '#000';
+    for (const mask of masks) {
+      context.fillRect(mask.x * width, mask.y * height, mask.w * width, mask.h * height);
+    }
     const blob = await new Promise<Blob>((resolve, reject) => {
       const timer = setTimeout(() => reject(new Error('Crop save timed out')), 15000);
       try {

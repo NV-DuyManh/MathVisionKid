@@ -32,6 +32,17 @@ class SecurityDeploymentTest {
                 .andExpect(status().isForbidden()).andExpect(header().doesNotExist("Access-Control-Allow-Origin"));
     }
 
+    @Test void configuredStudentOriginCanPreflightAssignedUploadWithItsIdempotencyKey() throws Exception {
+        mvc.perform(options("/api/v1/student/assignments/00000000-0000-0000-0000-000000000001/submission")
+                .header("Origin", "https://student.example.com")
+                .header("Access-Control-Request-Method", "POST")
+                .header("Access-Control-Request-Headers", "authorization,content-type,idempotency-key"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Access-Control-Allow-Origin", "https://student.example.com"))
+                .andExpect(header().string("Access-Control-Allow-Headers",
+                        org.hamcrest.Matchers.containsString("idempotency-key")));
+    }
+
     @Test void healthShowsOnlyStatusAndOtherActuatorPathsNeedAuthentication() throws Exception {
         mvc.perform(get("/actuator/health")).andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("UP"))

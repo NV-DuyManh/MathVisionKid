@@ -32,7 +32,7 @@ public class StubAiAnalysisGateway implements AiAnalysisGateway {
     public void analyze(UUID submissionId) {
         UUID jobId = transactions.execute(status -> {
             Submission submission = submissionRepository.findForUpdate(submissionId).orElseThrow();
-            if (!"PROCESSING".equals(submission.getStatus())) return null;
+            if (submission.isAssignedWeb() || !"PROCESSING".equals(submission.getStatus())) return null;
             AiJob job = new AiJob();
             job.setSubmission(submission);
             job.setStatus("PENDING");

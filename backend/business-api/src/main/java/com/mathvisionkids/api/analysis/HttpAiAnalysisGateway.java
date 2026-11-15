@@ -93,7 +93,7 @@ public class HttpAiAnalysisGateway implements AiAnalysisGateway {
             Submission submission = (transactionTemplate != null
                     ? submissionRepository.findForUpdate(submissionId)
                     : submissionRepository.findById(submissionId)).orElseThrow();
-            if (!"PROCESSING".equals(submission.getStatus())) return null;
+            if (submission.isAssignedWeb() || !"PROCESSING".equals(submission.getStatus())) return null;
             if (aiJobRepository.findFirstBySubmission_SubmissionIdOrderBySubmittedAtDescJobIdDesc(submissionId)
                     .filter(job -> java.util.Set.of("PENDING", "QUEUED", "PROCESSING").contains(job.getStatus()))
                     .isPresent()) return null;

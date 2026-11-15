@@ -41,7 +41,7 @@ class PostgresUpgradeTest {
     }
 
     private void verifyUpgrade(String startingVersion) throws Exception {
-        verifyUpgrade(startingVersion, "classpath:db/migration", 37);
+        verifyUpgrade(startingVersion, "classpath:db/migration", 40);
     }
 
     @Test
@@ -94,7 +94,7 @@ class PostgresUpgradeTest {
                 var upgrade = latest.migrate();
                 assertEquals(targetVersion - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
                 assertEquals(Integer.toString(targetVersion), upgrade.targetSchemaVersion);
-                if (targetVersion == 37 && Integer.parseInt(startingVersion) >= 32) {
+                if (Integer.parseInt(startingVersion) >= 32) {
                     try (var rows = sql.executeQuery("SELECT mode,reward_status,seed,answered,correct FROM student_game_runs WHERE id='"+gameRunId+"'")) {
                         assertTrue(rows.next());
                         assertEquals("ARITHMETIC_QUEST", rows.getString(1));
@@ -107,6 +107,17 @@ class PostgresUpgradeTest {
                 }
                 assertTrue(latest.validateWithResult().validationSuccessful);
                 assertEquals(0, latest.migrate().migrationsExecuted);
+                if (targetVersion >= 38) {
+                    try (var rows = sql.executeQuery("SELECT source, publication_id FROM submissions WHERE submission_id='" + source + "'")) {
+                        assertTrue(rows.next());
+                        assertEquals("BATCH", rows.getString(1));
+                        assertNull(rows.getObject(2));
+                    }
+                    try (var rows = sql.executeQuery("SELECT count(*) FROM assigned_upload_attempts")) {
+                        assertTrue(rows.next());
+                        assertEquals(0, rows.getInt(1));
+                    }
+                }
                 sql.execute("INSERT INTO student_profile_photos(student_id,image_bytes,updated_at) VALUES ('"+id+"',decode('ffd8ffe0','hex'),now())");
                 var dump = java.nio.file.Files.createTempFile("mathvision-upgrade-test-", ".dump");
                 var diagnostics = java.nio.file.Files.createTempFile("mathvision-upgrade-test-", ".log");

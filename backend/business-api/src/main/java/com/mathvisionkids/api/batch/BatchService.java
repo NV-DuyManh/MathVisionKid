@@ -185,6 +185,7 @@ public class BatchService {
             }
             storedPaths.add(path);
             Submission submission = new Submission();
+            submission.setSource(Submission.Source.BATCH);
             submission.setBatch(batch);
             submission.setAssignment(batch.getAssignment());
             submission.setStudent(students.get(i));

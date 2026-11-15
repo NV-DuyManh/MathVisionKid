@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { FONTS, WEB_DESIGN } from '../../constants/theme';
 import apiClient from '../../services/api/apiClient';
+import AssignedSubmission from '../../features/recognition/AssignedSubmission.web';
 
 type Assignment = { assignmentId: string; className: string; teacherName: string; title: string; prompt: string; instructions?: string; maxScore: number; publishedAt: string };
 
@@ -54,6 +55,7 @@ export default function StudentAssignments() {
       <View style={styles.card}><Text style={styles.cardTitle}>Đề bài</Text><Text selectable style={styles.prompt}>{selected.prompt}</Text></View>
       {!!selected.instructions && <View style={styles.card}><Text style={styles.cardTitle}>Hướng dẫn của cô/thầy</Text><Text selectable style={styles.copy}>{selected.instructions}</Text></View>}
       <View style={styles.note}><Text style={styles.copy}>Em hãy làm bài vào vở nhé!</Text></View>
+      <AssignedSubmission key={id} assignmentId={id} maxScore={selected.maxScore} />
     </>}
   </ScrollView>;
 }
