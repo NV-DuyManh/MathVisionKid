@@ -41,7 +41,7 @@ class PostgresUpgradeTest {
     }
 
     private void verifyUpgrade(String startingVersion) throws Exception {
-        verifyUpgrade(startingVersion, "classpath:db/migration", 40);
+        verifyUpgrade(startingVersion, "classpath:db/migration", 41);
     }
 
     @Test

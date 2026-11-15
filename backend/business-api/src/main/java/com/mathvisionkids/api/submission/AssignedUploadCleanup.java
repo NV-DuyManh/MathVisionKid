@@ -3,6 +3,7 @@ package com.mathvisionkids.api.submission;
 import com.mathvisionkids.api.storage.ObjectStorageService;
 import com.mathvisionkids.api.common.ApiException;
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @org.springframework.context.annotation.Profile("!test")
 class AssignedUploadCleanup {
+    private record Deletion(String key, OffsetDateTime leaseUntil) {}
     private final JdbcTemplate jdbc;
     private final ObjectStorageService storage;
     private final AssignedUploadReservation reservations;
@@ -37,23 +39,27 @@ class AssignedUploadCleanup {
                 """);
         // Lease the deletion work before releasing DB locks. Expired attempts
         // cannot be confirmed, and deleting their unique key is idempotent.
-        var keys = jdbc.queryForList("""
+        var deletions = jdbc.query("""
                 UPDATE assigned_upload_attempts SET cleanup_after = CURRENT_TIMESTAMP + INTERVAL '5 minutes'
                 WHERE attempt_id IN (
                     SELECT attempt_id FROM assigned_upload_attempts
                     WHERE state = 'EXPIRED' AND cleanup_after <= CURRENT_TIMESTAMP
                     ORDER BY cleanup_after LIMIT 50 FOR UPDATE SKIP LOCKED
                 )
-                RETURNING object_key
-                """, String.class);
-        for (String key : keys) {
+                RETURNING object_key, cleanup_after
+                """, (row, index) -> new Deletion(row.getString(1), row.getObject(2, OffsetDateTime.class)));
+        for (var deletion : deletions) {
             try {
-                storage.delete(key);
-                // Recheck later because a PUT already in flight may finish after deletion.
+                storage.delete(deletion.key());
+                // Allow one delayed sweep for a PUT that was already in flight.
+                // Only the current lease can advance or finish the schedule.
                 jdbc.update("""
-                        UPDATE assigned_upload_attempts SET cleanup_after = CURRENT_TIMESTAMP + INTERVAL '1 day'
-                        WHERE state = 'EXPIRED' AND object_key = ?
-                        """, key);
+                        UPDATE assigned_upload_attempts
+                        SET cleanup_after = CASE WHEN cleanup_first_deleted THEN NULL
+                            ELSE clock_timestamp() + INTERVAL '1 day' END,
+                            cleanup_first_deleted = TRUE
+                        WHERE state = 'EXPIRED' AND object_key = ? AND cleanup_after = ?
+                        """, deletion.key(), deletion.leaseUntil());
             } catch (IOException failure) {
                 // The lease expiry schedules another attempt.
             }

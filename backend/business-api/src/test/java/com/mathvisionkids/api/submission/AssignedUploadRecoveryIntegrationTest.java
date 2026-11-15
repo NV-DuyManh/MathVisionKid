@@ -2,6 +2,8 @@ package com.mathvisionkids.api.submission;
 
 import com.mathvisionkids.api.storage.ObjectStorageService;
 import com.mathvisionkids.api.common.ApiException;
+import com.mathvisionkids.api.analysis.AiCallbackRequest;
+import com.mathvisionkids.api.analysis.InternalAiCallbackController;
 import com.fasterxml.jackson.databind.node.IntNode;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -36,12 +38,15 @@ class AssignedUploadRecoveryIntegrationTest {
         registry.add("spring.jpa.properties.hibernate.default_schema", () -> SCHEMA);
         registry.add("app.assigned-upload.cleanup-delay-ms", () -> "3600000");
         registry.add("minio.bucket-name", () -> "mathvision-phase3-acceptance");
+        registry.add("ai.callback.api-key", () -> "assigned-recovery-fixture");
     }
 
     @Autowired JdbcTemplate jdbc;
     @Autowired AssignedUploadReservation reservations;
     @Autowired ObjectStorageService storage;
     @Autowired AssignedTeacherReview review;
+    @Autowired SubmissionService legacySubmissions;
+    @Autowired InternalAiCallbackController aiCallback;
     @Autowired com.mathvisionkids.api.admin.AdminService adminService;
 
     @Test
@@ -74,6 +79,8 @@ class AssignedUploadRecoveryIntegrationTest {
             worker.cleanExpired();
             assertEquals("EXPIRED", jdbc.queryForObject("SELECT state FROM assigned_upload_attempts WHERE attempt_id = ?",
                     String.class, attempt.id()));
+            assertArrayEquals(image.bytes(), storage.loadBytes(attempt.objectKey()),
+                    "The object must remain available until its cleanup retention deadline");
             jdbc.update("UPDATE assigned_upload_attempts SET cleanup_after = now() WHERE attempt_id = ?", attempt.id());
             worker.cleanExpired();
             assertThrows(java.io.IOException.class, () -> storage.loadBytes(attempt.objectKey()));
@@ -89,10 +96,33 @@ class AssignedUploadRecoveryIntegrationTest {
             worker.cleanExpired();
             assertArrayEquals(image.bytes(), storage.loadBytes(attempt.objectKey()));
             jdbc.update("UPDATE assigned_upload_attempts SET cleanup_after = now() WHERE attempt_id = ?", attempt.id());
-            worker.cleanExpired();
+            var entered = new java.util.concurrent.CountDownLatch(1);
+            var finish = new java.util.concurrent.CountDownLatch(1);
+            var observedStorage = org.mockito.Mockito.mock(ObjectStorageService.class,
+                    org.mockito.AdditionalAnswers.delegatesTo(storage));
+            org.mockito.Mockito.doAnswer(invocation -> {
+                entered.countDown();
+                assertTrue(finish.await(10, TimeUnit.SECONDS));
+                storage.delete(attempt.objectKey());
+                return null;
+            }).when(observedStorage).delete(attempt.objectKey());
+            try (var pool = Executors.newSingleThreadExecutor()) {
+                var first = pool.submit(new AssignedUploadCleanup(jdbc, observedStorage, reservations)::cleanExpired);
+                try {
+                    assertTrue(entered.await(10, TimeUnit.SECONDS));
+                    new AssignedUploadCleanup(jdbc, observedStorage, reservations).cleanExpired();
+                } finally {
+                    finish.countDown();
+                }
+                first.get(10, TimeUnit.SECONDS);
+            }
             assertThrows(java.io.IOException.class, () -> storage.loadBytes(attempt.objectKey()));
             assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM submission_images WHERE submission_id = ?",
                     Integer.class, attempt.submissionId()));
+            assertNull(jdbc.queryForObject("SELECT cleanup_after FROM assigned_upload_attempts WHERE attempt_id = ?",
+                    java.sql.Timestamp.class, attempt.id()), "Successful final deletion must leave no scheduled cleanup");
+            new AssignedUploadCleanup(jdbc, observedStorage, reservations).cleanExpired();
+            org.mockito.Mockito.verify(observedStorage).delete(attempt.objectKey());
         } finally {
             storage.delete(attempt.objectKey());
         }
@@ -166,6 +196,44 @@ class AssignedUploadRecoveryIntegrationTest {
         recoverStoredUpload(true, false);
     }
 
+    @Test
+    @EnabledIfEnvironmentVariable(named = "ASSIGNED_IT_RESTART_JAR", matches = ".+")
+    void cleanupCompletesAfterRestartBetweenDeletionSweeps() throws Exception {
+        String email = "student-" + UUID.randomUUID() + "@assigned-recovery.test";
+        UUID assignment = seedAssignment(email);
+        var output = new ByteArrayOutputStream();
+        ImageIO.write(new BufferedImage(32, 32, BufferedImage.TYPE_INT_RGB), "png", output);
+        var image = AssignedWebImage.read(
+                new MockMultipartFile("image", "synthetic.png", "image/png", output.toByteArray()), true);
+        var attempt = reservations.reserve(email, assignment, UUID.randomUUID(), 0,
+                image.inputDigest(), image.storedDigest());
+        try {
+            reservations.recordPreparedImage(attempt, image);
+            storage.storeAssignedImage(attempt.objectKey(), image.bytes(), image.contentType());
+            jdbc.update("""
+                    UPDATE assigned_upload_attempts SET state = 'EXPIRED', cleanup_after = now()
+                    WHERE attempt_id = ?
+                    """, attempt.id());
+            new AssignedUploadCleanup(jdbc, storage, reservations).cleanExpired();
+            assertTrue(jdbc.queryForObject("SELECT cleanup_first_deleted FROM assigned_upload_attempts WHERE attempt_id = ?",
+                    Boolean.class, attempt.id()));
+            assertNotNull(jdbc.queryForObject("SELECT cleanup_after FROM assigned_upload_attempts WHERE attempt_id = ?",
+                    java.sql.Timestamp.class, attempt.id()));
+            storage.storeAssignedImage(attempt.objectKey(), image.bytes(), image.contentType());
+            jdbc.update("UPDATE assigned_upload_attempts SET cleanup_after = now() WHERE attempt_id = ?", attempt.id());
+
+            runFreshWorkerUntil(() -> Boolean.TRUE.equals(jdbc.queryForObject(
+                    "SELECT cleanup_after IS NULL FROM assigned_upload_attempts WHERE attempt_id = ?",
+                    Boolean.class, attempt.id())));
+
+            assertThrows(java.io.IOException.class, () -> storage.loadBytes(attempt.objectKey()));
+            assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM submission_images WHERE submission_id = ?",
+                    Integer.class, attempt.submissionId()));
+        } finally {
+            storage.delete(attempt.objectKey());
+        }
+    }
+
     private void recoverStoredUpload(boolean freshProcess, boolean expired) throws Exception {
         String email = "student-" + UUID.randomUUID() + "@assigned-recovery.test";
         UUID assignment = seedAssignment(email);
@@ -196,7 +264,7 @@ class AssignedUploadRecoveryIntegrationTest {
             }
 
             if (freshProcess) {
-                recoverInFreshProcess(email, assignment);
+                runFreshWorkerUntil(() -> reservations.status(email, assignment).imageVersion() == 1);
             } else try (var pool = Executors.newFixedThreadPool(2)) {
                 var first = pool.submit(new AssignedUploadCleanup(jdbc, storage, reservations)::cleanExpired);
                 var second = pool.submit(new AssignedUploadCleanup(jdbc, storage, reservations)::cleanExpired);
@@ -215,7 +283,7 @@ class AssignedUploadRecoveryIntegrationTest {
         }
     }
 
-    private void recoverInFreshProcess(String email, UUID assignment) throws Exception {
+    private void runFreshWorkerUntil(java.util.function.BooleanSupplier completed) throws Exception {
         var log = java.nio.file.Files.createTempFile("assigned-recovery-process-", ".log");
         String executable = java.nio.file.Path.of(System.getProperty("java.home"), "bin", "java.exe").toString();
         if (!java.nio.file.Files.exists(java.nio.file.Path.of(executable))) {
@@ -236,10 +304,10 @@ class AssignedUploadRecoveryIntegrationTest {
         try {
             long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(75);
             while (process.isAlive() && System.nanoTime() < deadline) {
-                if (reservations.status(email, assignment).imageVersion() == 1) return;
+                if (completed.getAsBoolean()) return;
                 Thread.sleep(250);
             }
-            fail("Fresh backend did not recover the image. Process output: " + log);
+            fail("Fresh backend did not finish scheduled work. Process output: " + log);
         } finally {
             process.destroy();
             if (!process.waitFor(5, TimeUnit.SECONDS)) process.destroyForcibly().waitFor(5, TimeUnit.SECONDS);
@@ -247,7 +315,7 @@ class AssignedUploadRecoveryIntegrationTest {
     }
 
     @Test
-    void studentReplacesReturnedImageAndReceivesGradeForTheNewVersion() throws Exception {
+    void studentReplacesReturnedImageAndReceivesZeroForTheNewVersion() throws Exception {
         String email = "student-" + UUID.randomUUID() + "@assigned-recovery.test";
         UUID assignment = seedAssignment(email);
         var original = new ByteArrayOutputStream();
@@ -284,12 +352,42 @@ class AssignedUploadRecoveryIntegrationTest {
                     new AssignedTeacherReview.Grade(UUID.randomUUID(), 1, true, true, IntNode.valueOf(8), "Bài cũ")));
 
             review.releaseGrade(teacher, first.submissionId(),
-                    new AssignedTeacherReview.Grade(UUID.randomUUID(), 2, true, true, IntNode.valueOf(8), "Làm tốt!"));
+                    new AssignedTeacherReview.Grade(UUID.randomUUID(), 2, true, true, IntNode.valueOf(0), "Thử lại nhé."));
             var released = reservations.status(email, assignment);
             assertEquals("GRADE_RELEASED", released.status());
-            assertEquals(8, released.score());
-            assertEquals("Làm tốt!", released.feedback());
+            assertEquals(0, released.score());
+            assertEquals("Thử lại nhé.", released.feedback());
             assertEquals(2, released.imageVersion());
+            String releasedKey = review.image(teacher, first.submissionId(), 2).key();
+            byte[] releasedBytes = storage.loadBytes(releasedKey);
+            var rejected = assertThrows(ApiException.class, () -> controller.upload(() -> email, assignment,
+                    UUID.randomUUID(), 2, true,
+                    new MockMultipartFile("image", "replacement.png", "image/png", original.toByteArray())));
+            assertEquals("UPLOAD_CONFLICT", rejected.getCode());
+            assertEquals(released, reservations.status(email, assignment));
+            assertEquals(releasedKey, review.image(teacher, first.submissionId(), 2).key());
+            assertArrayEquals(releasedBytes, storage.loadBytes(releasedKey));
+            assertEquals(2, jdbc.queryForObject("SELECT count(*) FROM assigned_upload_attempts WHERE submission_id = ?",
+                    Integer.class, first.submissionId()));
+            var cleanupStorage = org.mockito.Mockito.mock(ObjectStorageService.class,
+                    org.mockito.AdditionalAnswers.delegatesTo(storage));
+            new AssignedUploadCleanup(jdbc, cleanupStorage, reservations).cleanExpired();
+            org.mockito.Mockito.verify(cleanupStorage, org.mockito.Mockito.never()).delete(releasedKey);
+            assertArrayEquals(releasedBytes, storage.loadBytes(releasedKey));
+
+            var legacyRejection = assertThrows(ApiException.class,
+                    () -> legacySubmissions.retakeTeacherSubmission(teacher, first.submissionId(),
+                            new MockMultipartFile("image", "legacy.png", "image/png", original.toByteArray())));
+            assertEquals("FORBIDDEN", legacyRejection.getCode());
+            UUID job = UUID.randomUUID();
+            jdbc.update("INSERT INTO ai_jobs(job_id, submission_id, status) VALUES (?, ?, 'PENDING')",
+                    job, first.submissionId());
+            var callback = new AiCallbackRequest();
+            callback.setStatus("COMPLETED");
+            assertEquals(409, aiCallback.aiJobCompleted(job, "assigned-recovery-fixture", callback).getStatusCode().value());
+            assertEquals("PENDING", jdbc.queryForObject("SELECT status FROM ai_jobs WHERE job_id = ?", String.class, job));
+            assertEquals(released, reservations.status(email, assignment));
+            assertArrayEquals(releasedBytes, storage.loadBytes(releasedKey));
         } finally {
             for (String key : jdbc.queryForList("SELECT object_key FROM assigned_upload_attempts WHERE submission_id = ?",
                     String.class, first.submissionId())) storage.delete(key);
