@@ -5,6 +5,8 @@ import DashboardPage from './pages/DashboardPage';
 import ClassesPage from './pages/ClassesPage';
 import ClassDetailPage from './pages/ClassDetailPage';
 import AssignmentsPage from './pages/AssignmentsPage';
+import AssignmentResultsPage from './pages/AssignmentResultsPage';
+import TeacherActionCenterPage from './pages/TeacherActionCenterPage';
 import AssignmentCreatePage from './pages/AssignmentCreatePage';
 import BatchesPage from './pages/BatchesPage';
 import BatchCreatePage from './pages/BatchCreatePage';
@@ -22,10 +24,12 @@ const router = createBrowserRouter(createRoutesFromElements(
           <Route path="/" element={<Layout />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="action-center" element={<TeacherActionCenterPage />} />
             <Route path="classes" element={<ClassesPage />} />
             <Route path="classes/:id" element={<ClassDetailPage />} />
             <Route path="assignments" element={<AssignmentsPage />} />
             <Route path="assignments/create" element={<AssignmentCreatePage />} />
+            <Route path="assignments/:id/results" element={<AssignmentResultsPage />} />
             <Route path="batches" element={<BatchesPage />} />
             <Route path="batches/create" element={<BatchCreatePage />} />
             <Route path="batches/:id" element={<BatchDetailPage />} />

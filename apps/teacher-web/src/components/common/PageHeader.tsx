@@ -9,6 +9,7 @@ export interface PageHeaderProps {
   actions?: React.ReactNode;
   action?: React.ReactNode;
   back?: React.ReactNode;
+  focusOnMount?: boolean;
 }
 
 export const PageHeader: React.FC<PageHeaderProps> = ({
@@ -19,9 +20,13 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   actions,
   action,
   back,
+  focusOnMount,
 }) => {
   const desc = description || subtitle;
   const acts = actions || action;
+  const focusHeading = React.useCallback((heading: HTMLHeadingElement | null) => {
+    heading?.focus();
+  }, []);
 
   return (
     <Box
@@ -48,6 +53,8 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         <Typography
           component="h1"
           variant="h3"
+          ref={focusOnMount ? focusHeading : undefined}
+          tabIndex={focusOnMount ? -1 : undefined}
           sx={{
             fontWeight: 800,
             color: 'text.primary',

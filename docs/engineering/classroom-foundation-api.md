@@ -34,7 +34,7 @@ The web editor crops/masks locally and requires explicit user confirmation. Fina
 | Teacher route | Request and response |
 |---|---|
 | `GET /teacher/assigned-submissions/queue/{assignmentId}` | Recipient status and submission IDs for the currently owned class. |
-| `GET /teacher/assigned-submissions/{id}` | Review metadata, current image version and max score. |
+| `GET /teacher/assigned-submissions/{id}` | Review metadata, current image version and max score. Includes official score and feedback after grade release. |
 | `GET /teacher/assigned-submissions/{id}/image?imageVersion=N` | Private bytes for the authorized current version; generic 404 for unavailable/version-mismatched references. Client retry first reloads metadata. |
 | `POST /teacher/assigned-submissions/{id}/return-image` | `{imageVersion, reason, instruction}`; reason UNREADABLE or WRONG_ASSIGNMENT, nonblank instruction at most 500 characters; 204. Does not create a grade. |
 | `POST /teacher/assigned-submissions/{id}/release-grade` | `{imageVersion, requestId, readable, matchesAssignment, score, feedback}`; UUID request ID, both confirmations true, integer score 0..maxScore, feedback at most 2000 characters; 204. |
@@ -50,3 +50,14 @@ Cleanup uses persisted recovery/deletion claims and retained attempt records to 
 Student Web observes pending work with bounded 5/10/20/40/60-second backoff and at most 20 background polls per observation window, pauses hidden tabs, and resumes on focus/pageshow/online or explicit refresh. At the cap it offers manual refresh. Definitive 403/404 clears loaded assignment/photo/result state and pending image operations; a transient transport error retains work for retry. Logout/unmount aborts observers and image work. Teacher stale-image retry reloads metadata and clears confirmations/score before assessment. These client controls complement backend authorization and do not replace it.
 
 Implementation and acceptance details: [Phase 3 plan](../superpowers/plans/2026-11-14-submission-phase3.md), [Phase 3.1 plan](../superpowers/plans/2026-11-15-phase31-hardening.md). Historical local reports under `report/` are verification receipts, not a promise that every database history or physical device has been tested.
+
+## Assignment results and Teacher Action Center — Phase 4
+
+| Teacher route | Response |
+|---|---|
+| `GET /teacher/assignments/{assignmentId}/results` | Published assignment and current class/teacher metadata, recipient snapshot size, counts by status and recipient rows. Each row includes membership flags and a nullable official score. |
+| `GET /teacher/assignments/action-center?filter=ALL&page=0` | Class count, pending and released submission counts, retake recipient-task count, count of assignments with missing work, and the matching assignment page. Filters are ALL, PENDING, RETAKE, MISSING and RELEASED. Pages are zero-based and contain at most 20 assignments, ordered by publication time and assignment ID descending. |
+
+Both responses use `Cache-Control: no-store` and scope reads to the current active Teacher who owns each class. The Results endpoint returns 404 for an unavailable publication. Its denominator stays tied to publication even when membership changes. A score of 0 requires an official release. The Action Center includes missing and retake tasks only for active current members. Pending review and released counts include historical recipients under the current Teacher's review rights. Neither endpoint returns images or private feedback.
+
+`GET /student/assignments/history` returns the active Student's assignments in current classes where the Student belongs to the publication snapshot. Each row includes the assignment and current class/teacher labels, publication date, status, max score and nullable official score. Responses use `Cache-Control: no-store`. Feedback and image viewing use the existing authorized submission-detail routes.

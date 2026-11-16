@@ -94,6 +94,7 @@ test('cached class navigation isolates the assignment editor, preview and recipi
   ui.client.setQueryDefaults(['teacher-class'], { gcTime: Infinity, staleTime: Infinity });
   ui.api({ get: async () => ({ data: [] }), post: async () => ({}) });
   let currentClass = 'A';
+  let search = new URLSearchParams();
   const classes = {
     A: { name: 'Class A', studentCount: 1, students: [{ id: 'studentA', name: 'Student A' }] },
     B: { name: 'Class B', studentCount: 1, students: [{ id: 'studentB', name: 'Student B' }] },
@@ -119,7 +120,14 @@ test('cached class navigation isolates the assignment editor, preview and recipi
   });
   const block = ({ children, title }) => React.createElement('div', null, title, children);
   const Page = ui.loadClassPage({
-    'react-router-dom': { useParams: () => ({ id: currentClass }), Link: block },
+    'react-router-dom': {
+      useParams: () => ({ id: currentClass }),
+      useSearchParams: () => {
+        const [, refresh] = React.useReducer(value => value + 1, 0);
+        return [search, next => { search = new URLSearchParams(next); refresh(); }];
+      },
+      Link: block,
+    },
     '@mui/material': { ...ui.mui, List: block, ListItem: block, ListItemText: block,
       Tab: ({ label, onClick }) => React.createElement('button', { onClick }, label),
       Tabs: ({ children, onChange }) => React.createElement('div', null,
@@ -131,7 +139,7 @@ test('cached class navigation isolates the assignment editor, preview and recipi
     '../services/api/ServiceLocator': { AppTeacherService: service },
   });
   for (const id of ['A', 'B']) ui.client.setQueryData(['teacher-class', id], classes[id]);
-  const go = async id => { currentClass = id; await ui.render({}, Page); };
+  const go = async id => { currentClass = id; search = new URLSearchParams(); await ui.render({}, Page); };
   for (const action of ['Tạo bài tập', 'Sửa bản nháp', 'Xem trước', 'Bài nộp của lớp']) {
     await go('A');
     await ui.click('Bài tập');
@@ -168,6 +176,16 @@ test('cached class navigation isolates the assignment editor, preview and recipi
   assert.equal(writes[1].classId, 'B');
   assert.equal(writes[1].title, 'New B');
   assert.equal(writes[1].assignmentId, undefined);
+}));
+
+test('released zero displays official feedback without editable grading controls', () => screen(async ui => {
+  ui.api({ get: async () => ({
+    data: { ...initial, imageVersion: 0, status: 'GRADE_RELEASED', score: 0, feedback: 'Thử lại phép cộng.' },
+  }) });
+  await ui.render({ id: 'released', onClose() {}, onSaved() {} });
+  assert.match(ui.dom.window.document.body.textContent, /Điểm đã trả 0\/10/);
+  assert.match(ui.dom.window.document.body.textContent, /Thử lại phép cộng\./);
+  assert.equal(ui.button('Chấm và trả'), undefined);
 }));
 
 test('image conflict reloads current metadata and the new image without closing review', () => screen(async ui => {

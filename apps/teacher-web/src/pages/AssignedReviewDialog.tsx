@@ -5,19 +5,22 @@ import { isAxiosError } from 'axios';
 import apiClient from '../services/api/apiClient';
 import { newCreationRequestId } from '../services/api/newCreationRequestId';
 
-type Detail = { studentName: string; prompt: string; status: string; maxScore: number; imageVersion: number };
+type Detail = {
+  studentName: string; prompt: string; status: string; maxScore: number; imageVersion: number;
+  score: number | null; feedback: string | null;
+};
 type ReviewAction = 'return-image' | 'release-grade';
 
 export default function AssignedReviewDialog(props: {
-  id: string; onClose: () => void; onSaved: (kind: ReviewAction) => void; onNext?: () => void;
+  id: string; onClose: () => void; onSaved: (kind: ReviewAction) => void; onNext?: () => void; nextBusy?: boolean;
 }) {
   return <ReviewWorkspace key={props.id} {...props} />;
 }
 
-function ReviewWorkspace({ id, onClose, onSaved, onNext }: {
-  id: string; onClose: () => void; onSaved: (kind: ReviewAction) => void; onNext?: () => void;
+function ReviewWorkspace({ id, onClose, onSaved, onNext, nextBusy }: {
+  id: string; onClose: () => void; onSaved: (kind: ReviewAction) => void; onNext?: () => void; nextBusy?: boolean;
 }) {
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState<ReviewAction>();
   const [refreshed, setRefreshed] = useState(false);
   const detail = useQuery({
     queryKey: ['assigned-review', id],
@@ -27,12 +30,14 @@ function ReviewWorkspace({ id, onClose, onSaved, onNext }: {
   return <Dialog open onClose={onClose} fullWidth maxWidth="md">
     <DialogTitle>Bài làm của {detail.data?.studentName ?? 'học sinh'}</DialogTitle>
     <DialogContent>
-      {saved && <Alert severity="success">Đã lưu phản hồi cho bài này.</Alert>}
+      {saved && <Alert severity="success">
+        {saved === 'release-grade' ? 'Đã trả điểm và nhận xét cho học sinh.' : 'Đã gửi yêu cầu chụp lại cho học sinh.'}
+      </Alert>}
       {refreshed && !saved && <Alert severity="info">Đã cập nhật bài nộp. Hãy xem ảnh và xác nhận lại trước khi chấm.</Alert>}
       {detail.isPending && <Typography role="status">Đang tải bài làm…</Typography>}
       {detail.isError && <Alert severity="error" action={<Button onClick={() => void detail.refetch()}>Thử lại</Button>}>Chưa mở được bài nộp.</Alert>}
       {!detail.isError && detail.data && <Review key={`${id}:${detail.data.imageVersion}:${detail.data.status}`} id={id} detail={detail.data}
-        onSaved={kind => { setSaved(true); void detail.refetch(); onSaved(kind); }}
+        onSaved={kind => { setSaved(kind); void detail.refetch(); onSaved(kind); }}
         onRefresh={async () => {
           const result = await detail.refetch();
           if (!result.isError) setRefreshed(true);
@@ -40,7 +45,9 @@ function ReviewWorkspace({ id, onClose, onSaved, onNext }: {
         }} />}
     </DialogContent>
     <DialogActions>
-      {saved && onNext && <Button variant="contained" onClick={onNext}>Mở bài tiếp theo</Button>}
+      {saved && onNext && <Button variant="contained" onClick={onNext} disabled={nextBusy} aria-busy={nextBusy}>
+        {nextBusy ? 'Đang tìm bài tiếp theo…' : 'Mở bài tiếp theo'}
+      </Button>}
       <Button onClick={onClose}>Về danh sách</Button>
     </DialogActions>
   </Dialog>;
@@ -130,6 +137,10 @@ function Review({ id, detail, onSaved, onRefresh }: {
   const validScore = /^\d+$/.test(score) && Number(score) <= detail.maxScore;
   return <>
     <Typography sx={{ whiteSpace: 'pre-wrap', my: 2 }}>{detail.prompt}</Typography>
+    {detail.status === 'GRADE_RELEASED' && detail.score != null && <Alert severity="success" sx={{ mb: 2 }}>
+      <Typography sx={{ fontWeight: 700 }}>Điểm đã trả {detail.score}/{detail.maxScore}</Typography>
+      {detail.feedback && <Typography sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{detail.feedback}</Typography>}
+    </Alert>}
     {detail.imageVersion > 0 && <Typography>Phiên bản ảnh {detail.imageVersion}</Typography>}
     {photoError ? <Alert severity="error" action={<Button disabled={refreshing} onClick={() => void refreshReview()}>
       {stale ? 'Tải phiên bản mới' : 'Tải lại ảnh'}</Button>}>

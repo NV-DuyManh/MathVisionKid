@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Alert, Box, Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Skeleton, TextField, Typography } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import { MathType } from '../types';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import type { AssignmentWorkflow } from '../services/api/TeacherService';
@@ -75,6 +76,8 @@ export function ClassAssignmentsPanel({ classId, studentCount }: { classId: stri
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
         <Button onClick={() => setPreview(item)}>Xem trước</Button>
         {item.status === 'PUBLISHED' && <Button onClick={() => { setQueueFilter(''); setQueue(item); }}>Bài nộp của lớp</Button>}
+        {item.status === 'PUBLISHED' && <Button component={Link}
+          to={`/assignments/${encodeURIComponent(item.assignmentId ?? item.id ?? '')}/results`}>Kết quả</Button>}
         {item.status === 'DRAFT' && <>
           <Button onClick={() => { save.reset(); setEditor({ assignmentId: item.assignmentId ?? item.id, title: item.title,
             creationRequestId: newCreationRequestId(), prompt: item.prompt, instructions: item.instructions ?? '', mathType: item.mathType, maxScore: item.maxScore ?? 10 }); }}>Sửa bản nháp</Button>

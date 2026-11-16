@@ -28,6 +28,7 @@ import { useAuth } from '../components/layout/AuthContext';
 import { StatusChip } from '../components/common/StatusChip';
 import { StatCard } from '../components/common/StatCard';
 import { EmptyState } from '../components/common/EmptyState';
+import { TeacherWorkOverview } from './TeacherActionCenterPage';
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -94,6 +95,7 @@ export default function DashboardPage() {
         </Box>
       </Box>
 
+      <TeacherWorkOverview />
       {!stats && (
         <Alert severity="warning" sx={{ mb: 3 }}
           action={<Button size="small" onClick={() => void refetch()}>Thử lại</Button>}>

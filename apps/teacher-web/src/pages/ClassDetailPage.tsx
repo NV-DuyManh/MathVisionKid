@@ -3,7 +3,7 @@ import apiClient from '../services/api/apiClient';
 import { useState } from 'react';
 import { Alert, Box, Button, Card, List, ListItem, ListItemText, Skeleton, Tab, Tabs, TextField, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { PageHeader } from '../components/common/PageHeader';
 import { AppTeacherService } from '../services/api/ServiceLocator';
 import { ClassAssignmentsPanel } from './ClassAssignmentsPanel';
@@ -17,7 +17,8 @@ function ClassDetail({ id }: { id: string }) {
   const [search, setSearch] = useState('');
   const [removing, setRemoving] = useState(false);
   const [removeError, setRemoveError] = useState(false);
-  const [tab, setTab] = useState(0);
+  const [params, setParams] = useSearchParams();
+  const tab = params.get('tab') === 'assignments' ? 1 : 0;
   const { data: classroom, isPending, isError, refetch } = useQuery({
     queryKey: ['teacher-class', id],
     queryFn: () => AppTeacherService.getClassDetail(id),
@@ -37,7 +38,7 @@ function ClassDetail({ id }: { id: string }) {
     {isError && <Alert severity="error" action={<Button onClick={() => void refetch()}>Thử lại</Button>}>
       Chưa tải được lớp học. Vui lòng kiểm tra lớp được phân công và thử lại.
     </Alert>}
-    {classroom && <Tabs value={tab} onChange={(_, value) => setTab(value)} aria-label="Thông tin lớp học" sx={{ mb: 2 }}>
+    {classroom && <Tabs value={tab} onChange={(_, value) => setParams(value === 1 ? { tab: 'assignments' } : {}, { replace: true })} aria-label="Thông tin lớp học" sx={{ mb: 2 }}>
       <Tab label="Học sinh" />
       <Tab label="Bài tập" />
     </Tabs>}

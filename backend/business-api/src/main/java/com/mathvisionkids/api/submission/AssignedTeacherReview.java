@@ -17,7 +17,7 @@ public class AssignedTeacherReview {
                         com.fasterxml.jackson.databind.JsonNode score, String feedback) {}
     private record ReviewTarget(Submission submission, UUID teacherId, int maxScore, int imageVersion) {}
     public record Detail(UUID submissionId, UUID assignmentId, String studentName, String prompt,
-                         String status, int maxScore, int imageVersion) {}
+                         String status, int maxScore, int imageVersion, Integer score, String feedback) {}
     record ImageReference(String key, String contentType) {}
 
     public record RecipientStatus(UUID studentId, String studentName, UUID submissionId, String status) {}
@@ -53,14 +53,17 @@ public class AssignedTeacherReview {
         var rows = jdbc.query("""
                 SELECT s.submission_id, a.assignment_id, pupil.display_name, a.prompt, s.status, a.max_score,
                        (SELECT COALESCE(MAX(i.image_version), 0) FROM submission_images i
-                        WHERE i.submission_id = s.submission_id) AS image_version
+                        WHERE i.submission_id = s.submission_id) AS image_version, d.final_score, d.reason
                 FROM submissions s JOIN assignments a ON a.assignment_id = s.assignment_id
                 JOIN classrooms c ON c.class_id = a.class_id
                 JOIN users owner ON owner.id = c.teacher_id AND owner.active = TRUE
                 JOIN users pupil ON pupil.id = s.student_id
+                LEFT JOIN teacher_decisions d ON d.submission_id = s.submission_id
+                    AND s.status = 'GRADE_RELEASED' AND d.type = 'ASSIGNED_RELEASE'
                 WHERE s.submission_id = ? AND s.source = 'ASSIGNED_WEB' AND owner.email = ?
                 """, (row, index) -> new Detail(row.getObject(1, UUID.class), row.getObject(2, UUID.class),
-                row.getString(3), row.getString(4), row.getString(5), row.getInt(6), row.getInt(7)), submissionId, email);
+                row.getString(3), row.getString(4), row.getString(5), row.getInt(6), row.getInt(7),
+                row.getObject(8, Integer.class), row.getString(9)), submissionId, email);
         if (rows.isEmpty()) throw unavailable();
         return rows.getFirst();
     }
