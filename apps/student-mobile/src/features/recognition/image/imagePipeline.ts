@@ -3,6 +3,7 @@ import * as FileSystem from 'expo-file-system/legacy';
 import { Image, Platform } from 'react-native';
 import { ImageDraft } from '../state/recognitionDraftStore';
 import { exportCropImage } from '../../../utils/cropRotation';
+import { imageDraftPersistence } from '../state/imageDraftPersistence';
 
 /**
  * Normalizes local file URIs safely.
@@ -238,7 +239,10 @@ export async function normalizeImageDraft(
     });
   const stableUri = ensureFileUri(manipResult.uri);
   if (Platform.OS !== 'web' && !stableUri.startsWith('file://')) throw new Error('IMAGE_NOT_MATERIALIZED');
-  const image = await inspectReadableImage(stableUri);
+  const image = await inspectReadableImage(stableUri).catch(error => {
+    if (Platform.OS === 'web') imageDraftPersistence.releaseUrl(stableUri);
+    throw error;
+  });
   const draft: ImageDraft = {
     imageSessionId: `session_${Date.now()}_${Math.random().toString(36).slice(2)}`,
     originalImageUri: stableUri,

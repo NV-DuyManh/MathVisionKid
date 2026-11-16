@@ -45,6 +45,9 @@ test('student web session validates the backend, rejects cached authority, and s
   const logoutRequests = [];
   let sharedPostCalls = 0;
   let clearDraftCalls = 0;
+  const photoOwners = [], photoListeners = new Set();
+  let photoRecovery = { restoring: false, issue: 'none' }, recoveryGate;
+  const publishRecovery = restoring => { photoRecovery = { restoring, issue: 'none' }; photoListeners.forEach(listener => listener()); };
   const ssoRequests = [];
   const ssoCode = 'mvk_sso_' + 'a'.repeat(64);
   let createTicket = async target => ({ data: { targetApp: target, code: ssoCode, expiresIn: 60 } });
@@ -82,6 +85,14 @@ test('student web session validates the backend, rejects cached authority, and s
     '../config/workspaceOrigin.web': { workspaceOrigin },
     '../features/recognition/api/RecognitionService': { RecognitionService: { clearCache() {} } },
     '../features/recognition/state/recognitionDraftStore': { recognitionDraftStore: { clearDraft: () => { clearDraftCalls++; } } },
+    '../features/recognition/state/imageDraftPersistence': { imageDraftPersistence: {
+      subscribe: listener => { photoListeners.add(listener); return () => photoListeners.delete(listener); },
+      getSnapshot: () => photoRecovery,
+      activate: async owner => {
+        photoOwners.push(owner || null);
+        if (owner && recoveryGate) { publishRecovery(true); await recoveryGate; publishRecovery(false); }
+      },
+    } },
     '../features/recognition/analytics/recognitionAnalyticsStore': { recognitionAnalyticsStore: { setUserScope() {} } },
     '../constants/theme': { COLORS: {}, FONTS: {} },
   });
@@ -128,6 +139,20 @@ test('student web session validates the backend, rejects cached authority, and s
       assert.equal(await tokenStorage.getAccessToken(), null);
       assert.equal(await tokenStorage.getRefreshToken(), null);
       assert.equal(await tokenStorage.getUser(), null);
+      await unmount();
+    });
+
+    await t.test('photo restoration uses verified ownership and finishes before protected screens mount', async () => {
+      await tokenStorage.saveTokens('valid-access', 'valid-refresh');
+      getProfile = async () => ({ data: profile });
+      let finish;
+      recoveryGate = new Promise(resolve => { finish = resolve; });
+      await mount();
+      assert.equal(photoOwners.at(-1), profile.userId);
+      assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
+      assert.ok(dom.window.document.body.textContent.includes('Đang khôi phục ảnh của em...'));
+      await act(async () => finish()); recoveryGate = undefined;
+      assert.ok(dom.window.document.body.textContent.includes('Protected Bình Minh'));
       await unmount();
     });
 

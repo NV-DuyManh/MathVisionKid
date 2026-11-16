@@ -28,6 +28,9 @@ export function logFlowDomain(stage: 'ACQUIRE' | 'PRIVACY' | 'POST_PRIVACY' | 'R
     console.log(`[FLOW_DOMAIN][${stage}] ${domain}`);
 }
 export interface ImageDraft {
+    cropEdit?: { selection: { x: number; y: number; w: number; h: number }; turns: number; fine: number };
+    processingStarted?: boolean;
+    recoveredAfterReload?: boolean;
     lessonContext?: {
         purpose: 'ADD_PROBLEM' | 'ADD_WORK';
         problemText: string;

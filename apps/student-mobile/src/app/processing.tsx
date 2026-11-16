@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { COLORS } from '../constants/theme';
@@ -10,12 +10,23 @@ import { RecognitionProgress } from '../features/recognition/components/Recognit
 import { RecoveryNotice } from '../components/ui/RecoveryNotice';
 import { resolveResultRoute } from '../utils/resultRouting';
 import { pollSubmission } from '../utils/submissionPolling';
+import { imageDraftPersistence } from '../features/recognition/state/imageDraftPersistence';
+import { DraftImagePicker } from '../features/recognition/components/DraftImagePicker';
 
 export default function ProcessingScreen() {
   const params = useLocalSearchParams<{ uri?: string; originalUri?: string; retrySubmissionId?: string; submissionId?: string }>();
   const draft = recognitionDraftStore.getDraft();
   const activeUri = draft?.uri || params.uri || '';
-  return <ProcessingRequest key={`${params.submissionId || params.retrySubmissionId || ''}:${activeUri}`} params={params} activeUri={activeUri} />;
+  const router = useRouter();
+  const submissionId = params.submissionId || draft?.arithmeticSubmissionId;
+  if (Platform.OS === 'web' && !submissionId && (!draft?.privacyConfirmed || !activeUri)) return <SafeAreaView style={styles.container}>
+    <DraftImagePicker showReason mode="ARITHMETIC" />
+  </SafeAreaView>;
+  if (Platform.OS === 'web' && !submissionId && draft?.recoveredAfterReload && draft.processingStarted) return <SafeAreaView style={styles.container}>
+    <RecoveryNotice title="Ảnh của em vẫn được giữ" message="Lần gửi trước chưa có kết quả xác nhận. Em xem lại ảnh trước khi gửi tiếp nhé."
+      actions={[{ label: 'Xem lại ảnh', onPress: () => router.replace('/preview') }]} />
+  </SafeAreaView>;
+  return <ProcessingRequest key={`${submissionId || params.retrySubmissionId || ''}:${activeUri}`} params={{ ...params, submissionId }} activeUri={activeUri} />;
 }
 
 function ProcessingRequest({ params, activeUri }: {
@@ -44,6 +55,8 @@ function ProcessingRequest({ params, activeUri }: {
         if (!activeUri && !resumeId.current) throw new Error('IMAGE_MISSING');
         const service = getSubmissionService();
         const retryId = currentDraft?.retrySubmissionId || params.retrySubmissionId;
+        if (!resumeId.current && currentDraft) await imageDraftPersistence.beginProcessing(currentDraft);
+        if (controller.signal.aborted) return;
         const initial = resumeId.current ? await service.getSubmission(resumeId.current, undefined, controller.signal)
           : retryId ? await service.retrySubmission(retryId, ensureFileUri(activeUri), controller.signal)
           : await service.uploadImage(ensureFileUri(activeUri), controller.signal);
@@ -51,9 +64,13 @@ function ProcessingRequest({ params, activeUri }: {
         resumeId.current = initial.id;
         setHasSubmission(true);
         if (currentDraft?.mode === 'ARITHMETIC' && !params.submissionId) recognitionDraftStore.updateDraft({ arithmeticSubmissionId: initial.id });
+        const accepted = recognitionDraftStore.getDraft();
+        if (accepted) await imageDraftPersistence.checkpoint(accepted, 'processing');
         setStep(1);
         const scenarioHint = activeUri.includes('mock-earliest-error') ? 'mock-earliest-error' : activeUri.includes('mock-confirm') ? 'mock-confirm' : undefined;
         const result = await pollSubmission(initial, service, controller.signal, scenarioHint);
+        if (controller.signal.aborted) return;
+        await imageDraftPersistence.complete();
         if (controller.signal.aborted) return;
         router.replace(resolveResultRoute(result, currentDraft?.rawUri || params.originalUri) as any);
       } catch (failure: any) {
