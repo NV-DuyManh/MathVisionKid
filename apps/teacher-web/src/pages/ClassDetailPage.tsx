@@ -10,6 +10,10 @@ import { ClassAssignmentsPanel } from './ClassAssignmentsPanel';
 
 export default function ClassDetailPage() {
   const { id = '' } = useParams();
+  return <ClassDetail key={id} id={id} />;
+}
+
+function ClassDetail({ id }: { id: string }) {
   const [search, setSearch] = useState('');
   const [removing, setRemoving] = useState(false);
   const [removeError, setRemoveError] = useState(false);

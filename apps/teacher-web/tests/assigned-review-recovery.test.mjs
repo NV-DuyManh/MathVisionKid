@@ -77,9 +77,98 @@ async function screen(run) {
   };
   const loadImage = async () => { await act(async () => dom.window.document.querySelector('img').dispatchEvent(new dom.window.Event('load'))); };
   const check = async () => { await act(async () => dom.window.document.querySelectorAll('input[type="checkbox"]').forEach(el => el.click())); };
-  try { await run({ dom, render, settle, click, fill, check, loadImage, button, loadPanel, api: value => { api = value; } }); }
+  const loadClassPage = extraImports => {
+    const pageExports = {};
+    const compiled = transpileModule(readFileSync(new URL('../src/pages/ClassDetailPage.tsx', import.meta.url), 'utf8'), {
+      compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.ReactJSX, esModuleInterop: true },
+    }).outputText;
+    vm.runInNewContext(compiled, { exports: pageExports,
+      require: id => extraImports[id] ?? imports[id] ?? require(id) });
+    return pageExports.default;
+  };
+  try { await run({ dom, render, settle, click, fill, check, loadImage, button, loadPanel, loadClassPage, client, mui, api: value => { api = value; } }); }
   finally { await act(async () => root.unmount()); client.clear(); Object.assign(globalThis, old); dom.window.close(); }
 }
+
+test('cached class navigation isolates the assignment editor, preview and recipient queue', () => screen(async ui => {
+  ui.client.setQueryDefaults(['teacher-class'], { gcTime: Infinity, staleTime: Infinity });
+  ui.api({ get: async () => ({ data: [] }), post: async () => ({}) });
+  let currentClass = 'A';
+  const classes = {
+    A: { name: 'Class A', studentCount: 1, students: [{ id: 'studentA', name: 'Student A' }] },
+    B: { name: 'Class B', studentCount: 1, students: [{ id: 'studentB', name: 'Student B' }] },
+  };
+  const assignment = { assignmentId: 'draftA', classId: 'A', title: 'Saved draft A', prompt: 'Only class A', status: 'DRAFT', maxScore: 10 };
+  const published = { ...assignment, assignmentId: 'publishedA', title: 'Published A', status: 'PUBLISHED', recipientCount: 1 };
+  const writes = [];
+  let completeOldSave;
+  let deferOldSave = false;
+  const service = {
+    getClassDetail: async id => classes[id],
+    listClassAssignments: async id => id === 'A' ? [assignment, published] : [],
+    saveAssignmentDraft: async body => {
+      writes.push(body);
+      if (deferOldSave && body.classId === 'A') return new Promise(resolve => { completeOldSave = resolve; });
+      return {};
+    },
+  };
+  const panel = ui.loadPanel({
+    '../services/api/ServiceLocator': { AppTeacherService: service },
+    '../types': { MathType: { VERTICAL_ADDITION: 'VERTICAL_ADDITION', VERTICAL_SUBTRACTION: 'VERTICAL_SUBTRACTION' } },
+    './AssignedReviewDialog': { __esModule: true, default: () => null },
+  });
+  const block = ({ children, title }) => React.createElement('div', null, title, children);
+  const Page = ui.loadClassPage({
+    'react-router-dom': { useParams: () => ({ id: currentClass }), Link: block },
+    '@mui/material': { ...ui.mui, List: block, ListItem: block, ListItemText: block,
+      Tab: ({ label, onClick }) => React.createElement('button', { onClick }, label),
+      Tabs: ({ children, onChange }) => React.createElement('div', null,
+        React.Children.map(children, (child, index) => React.cloneElement(child, { onClick: () => onChange(null, index) }))),
+    },
+    '../components/common/PageHeader': { PageHeader: block },
+    './ClassroomFoundation': { ClassroomSettings: () => null },
+    './ClassAssignmentsPanel': { ClassAssignmentsPanel: panel },
+    '../services/api/ServiceLocator': { AppTeacherService: service },
+  });
+  for (const id of ['A', 'B']) ui.client.setQueryData(['teacher-class', id], classes[id]);
+  const go = async id => { currentClass = id; await ui.render({}, Page); };
+  for (const action of ['Tạo bài tập', 'Sửa bản nháp', 'Xem trước', 'Bài nộp của lớp']) {
+    await go('A');
+    await ui.click('Bài tập');
+    await ui.click(action);
+    if (action === 'Tạo bài tập') {
+      await ui.fill('Tên bài tập', 'Unsaved A');
+      await ui.fill('Đề toán', 'Private draft A');
+    }
+    assert.ok(ui.dom.window.document.querySelector('[role=dialog]'), `Missing A dialog for ${action}`);
+    await go('B');
+    assert.match(ui.dom.window.document.body.textContent, /Class B/);
+    assert.equal(Boolean(ui.dom.window.document.querySelector('[role=dialog]')), false, `A ${action} leaked into cached class B`);
+  }
+  await go('A');
+  await ui.click('Bài tập');
+  await ui.click('Tạo bài tập');
+  await ui.fill('Tên bài tập', 'Save A in flight');
+  await ui.fill('Đề toán', 'Only A');
+  deferOldSave = true;
+  await ui.click('Lưu bản nháp');
+  assert.equal(typeof completeOldSave, 'function');
+  await go('B');
+  await ui.click('Bài tập');
+  await ui.click('Tạo bài tập');
+  assert.equal(ui.dom.window.document.querySelector('[aria-label="Tên bài tập"]').value, '');
+  await ui.fill('Tên bài tập', 'New B');
+  await ui.fill('Đề toán', 'Only class B');
+  await act(async () => completeOldSave({}));
+  await ui.settle();
+  assert.equal(ui.dom.window.document.querySelector('[aria-label="Tên bài tập"]').value, 'New B', 'Late A save closed or replaced the B editor');
+  await ui.click('Lưu bản nháp');
+  assert.equal(writes.length, 2);
+  assert.equal(writes[0].classId, 'A');
+  assert.equal(writes[1].classId, 'B');
+  assert.equal(writes[1].title, 'New B');
+  assert.equal(writes[1].assignmentId, undefined);
+}));
 
 test('image conflict reloads current metadata and the new image without closing review', () => screen(async ui => {
   let current = 1;
