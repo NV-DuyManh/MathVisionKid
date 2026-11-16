@@ -151,7 +151,12 @@ async function activate(nextOwner?: string | null) {
       const privacySize = await dimensions(images!.privacy);
       const activeSize = images!.cropped ? await dimensions(images!.cropped) : privacySize;
       if (activeSize.width !== record.meta.width || activeSize.height !== record.meta.height) throw new Error('Image revision does not match');
-    } catch { await remove(scope); if (generation === revision) publish('corrupt'); return; }
+    } catch {
+      if (!await current(generation)) return;
+      await remove(scope);
+      if (generation === revision) publish('corrupt');
+      return;
+    }
     if (!await current(generation)) return;
     try {
       const edit = JSON.parse(localStorage.getItem(JOURNAL) || 'null');
