@@ -238,7 +238,15 @@ function ReviewSession({
               <Ionicons name="alert-circle" size={20} color="#EA580C" />
               <Text style={styles.missingTitle}>Em đang thiếu phần này:</Text>
             </View>
-            <Text style={styles.missingBody}>{incompleteInfo.missingDescription}</Text>
+            {(incompleteInfo.missingParts || [{ description: incompleteInfo.missingDescription, hint: incompleteInfo.nextStepSummary }]).map((part, index, parts) => (
+              <View key={index} style={styles.resultCopy}>
+                <Text style={styles.missingBody}>{parts.length > 1 ? `${index + 1}. ${part.description}` : part.description}</Text>
+                {part.hint && part.hint !== part.description ? <>
+                  <Text style={styles.missingTitle}>Gợi ý cho em:</Text>
+                  <Text style={styles.missingBody}>{part.hint}</Text>
+                </> : null}
+              </View>
+            ))}
           </View>
         </View>
       ) : arithmeticOnly ? (
@@ -257,6 +265,8 @@ function ReviewSession({
           </View>
         </View>
       )}
+      {!hasCorrections && !incompleteInfo?.isIncomplete && result.status !== 'CORRECT' ? <AppButton
+        title="Thử lại nhận xét" variant="secondary" disabled={disabledNow || busy} onPress={() => void review()} /> : null}
 
       {unresolved.map(row => <View key={row.lineIndex} style={styles.panel}>
         <Text style={styles.label}>{`Dòng ${row.lineIndex + 1}`}</Text>

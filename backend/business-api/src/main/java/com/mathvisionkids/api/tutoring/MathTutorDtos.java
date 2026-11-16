@@ -101,9 +101,18 @@ public final class MathTutorDtos {
             this(lineIndex, sourceText, status, feedback, hints, "NONE", null, null);
         }
     }
+    public record MissingWorkPart(String type, String target, String description, String hint,
+                                  int requirementIndex, java.util.List<Integer> relatedLineIndices, String evidence) {}
     public record WorkReviewResponse(String sourceId, String status, String summary, String praise,
                                      java.util.List<WorkReviewRow> rows, String nextAction, String alternative,
-                                     Boolean complete, String missingPart, Boolean arithmeticVerified) {
+                                     Boolean complete, String missingPart, Boolean arithmeticVerified,
+                                     java.util.List<MissingWorkPart> missingParts, Integer completionVersion) {
+        public WorkReviewResponse(String sourceId, String status, String summary, String praise,
+                                  java.util.List<WorkReviewRow> rows, String nextAction, String alternative,
+                                  Boolean complete, String missingPart, Boolean arithmeticVerified) {
+            this(sourceId, status, summary, praise, rows, nextAction, alternative, complete, missingPart,
+                    arithmeticVerified, java.util.List.of(), null);
+        }
         public WorkReviewResponse(String sourceId, String status, String summary, String praise,
                                   java.util.List<WorkReviewRow> rows, String nextAction, String alternative) {
             this(sourceId, status, summary, praise, rows, nextAction, alternative, null, "", null);

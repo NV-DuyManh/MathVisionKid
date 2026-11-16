@@ -10,6 +10,28 @@ const response = { sourceId: request.sourceId, status: 'NEEDS_REVISION', summary
   nextAction: 'Em sửa dòng được nhắc tới rồi kiểm tra lại.', alternative: '' };
 beforeEach(() => jest.clearAllMocks());
 
+const missingPart = { type: 'MISSING_CALCULATION', target: 'số bút còn lại', description: 'Tính số bút còn lại.',
+  hint: 'Em dùng số bút đã cho để tính số bút còn lại.', requirementIndex: 0, relatedLineIndices: [1], evidence: 'DUAL_REVIEW' };
+const incompleteResponse = () => ({ ...response, status: 'NEEDS_REVIEW', complete: false, missingPart: missingPart.description,
+  completionVersion: 2, missingParts: [missingPart], arithmeticVerified: true,
+  rows: response.rows.map((row, index) => ({ ...row, status: 'OK', errorKind: 'NONE', hints: [],
+    rowKind: index === 1 ? 'CALCULATION' : index === 0 ? 'EXPLANATION' : 'ANSWER',
+    ...(index === 1 ? { arithmeticCorrect: true } : {}) })) });
+
+it('preserves source-bound completion hints through the public API', async () => {
+  const data = incompleteResponse();
+  (apiClient.post as jest.Mock).mockResolvedValue({ data });
+  await expect(TutorService.reviewWork(request)).resolves.toEqual(data);
+});
+
+it.each([
+  { relatedLineIndices: [0] }, { relatedLineIndices: [99] }, { relatedLineIndices: [1.5] },
+  { requirementIndex: 8 }, { evidence: 'GUESSED' }, { type: 'INVENTED' }, { hint: 'x'.repeat(301) },
+])('rejects malformed or unverified completion references', async patch => {
+  (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...incompleteResponse(), missingParts: [{ ...missingPart, ...patch }] } });
+  await expect(TutorService.reviewWork(request)).rejects.toThrow();
+});
+
 it('sends only confirmed source text and binds every feedback row to its source index', async () => {
   (apiClient.post as jest.Mock).mockResolvedValue({ data: response });
   await expect(TutorService.reviewWork(request)).resolves.toEqual(response);

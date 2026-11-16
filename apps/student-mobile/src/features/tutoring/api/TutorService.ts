@@ -32,8 +32,12 @@ export type WorkReviewRequest = { sourceId: string; problemText: string; workTex
 export type WorkReviewRow = { lineIndex: number; sourceText: string; status: 'OK' | 'FIX' | 'UNSURE'; feedback: string; hints: string[];
   errorKind?: 'NONE' | 'CALCULATION' | 'OPERAND' | 'DEPENDENT' | 'EXPLANATION' | 'UNIT';
   rowKind?: 'HEADING' | 'EXPLANATION' | 'CALCULATION' | 'ANSWER' | 'UNVERIFIABLE' | null; arithmeticCorrect?: boolean | null };
+export type MissingWorkPart = { type: 'MISSING_CALCULATION' | 'MISSING_INTERMEDIATE' | 'MISSING_ANSWER' | 'NOT_STARTED';
+  target: string; description: string; hint: string; requirementIndex: number; relatedLineIndices: number[];
+  evidence: 'DUAL_REVIEW' | 'DETERMINISTIC' };
 export type WorkReview = { sourceId: string; status: 'CORRECT' | 'NEEDS_REVISION' | 'NEEDS_REVIEW'; summary: string; praise: string;
-  rows: WorkReviewRow[]; nextAction: string; alternative: string; complete?: boolean | null; missingPart?: string; arithmeticVerified?: boolean | null };
+  rows: WorkReviewRow[]; nextAction: string; alternative: string; complete?: boolean | null; missingPart?: string; arithmeticVerified?: boolean | null;
+  missingParts?: MissingWorkPart[]; completionVersion?: 2 };
 /** Same physical line separators as Python splitlines; blank rows do not get review indexes. */
 export function trimWorkReviewLine(text: string): string {
   return text.replace(/^[\u0009-\u000D\u001C-\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+|[\u0009-\u000D\u001C-\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+$/g, '');
@@ -197,6 +201,17 @@ export const TutorService = {
       || (data.arithmeticVerified != null && typeof data.arithmeticVerified !== 'boolean')
       || (data.missingPart !== undefined && !bounded(data.missingPart, 500, true))
       || (data.missingPart?.trim() && data.complete !== false)
+      || (data.completionVersion != null && data.completionVersion !== 2)
+      || (data.missingParts !== undefined && (!Array.isArray(data.missingParts) || data.missingParts.length > 8
+        || (data.missingParts.length > 0 && data.complete !== false)
+        || data.missingParts.some((part: MissingWorkPart) => !part
+          || !['MISSING_CALCULATION', 'MISSING_INTERMEDIATE', 'MISSING_ANSWER', 'NOT_STARTED'].includes(part.type)
+          || !bounded(part.target, 160) || !bounded(part.description, 240) || !bounded(part.hint, 300)
+          || !Number.isInteger(part.requirementIndex) || part.requirementIndex < 0 || part.requirementIndex > 7
+          || !['DUAL_REVIEW', 'DETERMINISTIC'].includes(part.evidence)
+          || !Array.isArray(part.relatedLineIndices) || part.relatedLineIndices.length > 35
+          || part.relatedLineIndices.some(index => !Number.isInteger(index) || index < 0 || index >= source.length
+            || data.rows[index]?.status !== 'OK' || data.rows[index]?.arithmeticCorrect !== true))))
       || (data.status === 'CORRECT' && data.complete === false)
       || data.rows.some((row: any, index: number) => !row || row.lineIndex !== index || row.sourceText !== source[index]
         || !['OK', 'FIX', 'UNSURE'].includes(row.status) || !bounded(row.feedback, 400)

@@ -351,7 +351,38 @@ public class MathTutorService {
         if (status.equals("NEEDS_REVISION") && result.stream().noneMatch(row -> row.status().equals("FIX"))) throw unavailable();
         if (status.equals("CORRECT") && (Boolean.FALSE.equals(complete) || !missingPart.isBlank())
                 || !missingPart.isBlank() && !Boolean.FALSE.equals(complete)) throw unavailable();
-        return new WorkReviewResponse(sourceId, status, summary, praise, result, nextAction, alternative, complete, missingPart, arithmeticVerified);
+        java.util.ArrayList<MissingWorkPart> missingParts = new java.util.ArrayList<>();
+        if (body.has("missingParts")) {
+            JsonNode parts = body.get("missingParts");
+            if (!parts.isArray() || parts.size() > 8 || !parts.isEmpty() && !Boolean.FALSE.equals(complete)) throw unavailable();
+            for (JsonNode part : parts) {
+                String kind = text(part, "type", 30, false), evidence = text(part, "evidence", 20, false);
+                JsonNode requirement = part.get("requirementIndex"), indices = part.get("relatedLineIndices");
+                if (!List.of("MISSING_CALCULATION", "MISSING_INTERMEDIATE", "MISSING_ANSWER", "NOT_STARTED").contains(kind)
+                        || !List.of("DUAL_REVIEW", "DETERMINISTIC").contains(evidence)
+                        || requirement == null || !requirement.isIntegralNumber() || !requirement.canConvertToInt()
+                        || requirement.intValue() < 0 || requirement.intValue() > 7
+                        || indices == null || !indices.isArray() || indices.size() > 35) throw unavailable();
+                java.util.ArrayList<Integer> related = new java.util.ArrayList<>();
+                for (JsonNode index : indices) {
+                    if (!index.isIntegralNumber() || !index.canConvertToInt() || index.intValue() < 0
+                            || index.intValue() >= result.size() || !result.get(index.intValue()).status().equals("OK")
+                            || !Boolean.TRUE.equals(result.get(index.intValue()).arithmeticCorrect())) throw unavailable();
+                    related.add(index.intValue());
+                }
+                missingParts.add(new MissingWorkPart(kind, text(part, "target", 160, false),
+                        text(part, "description", 240, false), text(part, "hint", 300, false),
+                        requirement.intValue(), related, evidence));
+            }
+        }
+        Integer completionVersion = null;
+        if (body.hasNonNull("completionVersion")) {
+            JsonNode version = body.get("completionVersion");
+            if (!version.isIntegralNumber() || !version.canConvertToInt() || version.intValue() != 2) throw unavailable();
+            completionVersion = version.intValue();
+        }
+        return new WorkReviewResponse(sourceId, status, summary, praise, result, nextAction, alternative, complete, missingPart,
+                arithmeticVerified, missingParts, completionVersion);
     }
 
     private LessonResponse lessonResponse(JsonNode body) {

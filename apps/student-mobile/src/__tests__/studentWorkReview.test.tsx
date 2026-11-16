@@ -27,6 +27,39 @@ const text = () => view.root.findAllByType('Text' as any).map(node => String(nod
 beforeEach(() => { mockDeferFocus = false; jest.clearAllMocks(); (TutorService.reviewWork as jest.Mock).mockImplementation(async ({ sourceId }) => makeResult(sourceId)); });
 afterEach(() => { if (view) act(() => view.unmount()); });
 
+it('shows a named missing quantity and next-step hint, then removes them for the revised source', async () => {
+  const target = 'diện tích phần đất trồng hoa';
+  (TutorService.reviewWork as jest.Mock).mockImplementation(async ({ sourceId, workText }) => ({ ...makeResult(sourceId, 'CORRECT'),
+    status: workText === props.workText ? 'NEEDS_REVIEW' : 'CORRECT', complete: workText !== props.workText,
+    completionVersion: 2, praise: workText === props.workText ? '' : 'Em đã hoàn thành yêu cầu của đề.', alternative: '',
+    arithmeticVerified: true, missingPart: '', missingParts: workText === props.workText ? [{
+      type: 'MISSING_CALCULATION', target, description: `Tính ${target}.`,
+      hint: 'Em dùng diện tích mảnh đất vừa tìm được để tìm phần đất trồng hoa.', requirementIndex: 0, relatedLineIndices: [1], evidence: 'DUAL_REVIEW',
+    }] : [],
+  }));
+  await act(async () => { view = TestRenderer.create(<StudentWorkReview {...props} autoStart />); });
+  expect(text()).toContain(`Tính ${target}.`);
+  expect(text()).toContain('Gợi ý cho em:');
+  expect(text()).toContain('diện tích mảnh đất vừa tìm được');
+  expect(text()).toContain('Bài làm thiếu · Chưa làm xong');
+  await act(async () => { view.update(<StudentWorkReview {...props} workText={props.workText + '\nPhần đã bổ sung'} autoStart />); });
+  expect(text()).not.toContain('Bài làm thiếu · Chưa làm xong');
+  expect(text()).not.toContain(`Tính ${target}.`);
+  expect(text()).toContain('Em làm đúng rồi!');
+  expect(TutorService.reviewWork).toHaveBeenCalledTimes(2);
+});
+
+it('offers retry without inventing a missing part when completion evidence is unavailable', async () => {
+  (TutorService.reviewWork as jest.Mock).mockImplementation(async ({ sourceId }) => ({ ...makeResult(sourceId, 'CORRECT'),
+    status: 'NEEDS_REVIEW', complete: false, completionVersion: 2, missingParts: [], arithmeticVerified: true,
+    praise: '', alternative: '', summary: 'Chưa xác định chắc chắn phần nào còn thiếu.' }));
+  await act(async () => { view = TestRenderer.create(<StudentWorkReview {...props} autoStart />); });
+  expect(text()).not.toContain('Bài làm thiếu · Chưa làm xong');
+  expect(text()).toContain('Các phép tính em viết đều đúng');
+  expect(button('Thử lại nhận xét')).toBeDefined();
+  expect(props.onCaptureWork).not.toHaveBeenCalled();
+});
+
 it('starts the confirmed review when navigation focus arrives after mounting', async () => {
   mockDeferFocus = true;
   await act(async () => { view = TestRenderer.create(<StudentWorkReview {...props} autoStart />); });
