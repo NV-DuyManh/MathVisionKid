@@ -61,7 +61,7 @@ export default function TeacherActionCenterPage() {
   const query = useTeacherWork(filter, page);
   const summary = query.isError ? undefined : query.data;
   return <Stack spacing={2} sx={{ minWidth: 0 }}>
-    <PageHeader focusOnMount title="Việc cần xử lý"
+    <PageHeader key={`${filter}:${page}`} focusOnMount title="Việc cần xử lý"
       subtitle={summary && `Bài tập đã giao trong ${summary.classCount} lớp đang phụ trách`}
       back={<Button component={Link} to="/dashboard">Về tổng quan</Button>}
       actions={<Button onClick={() => void query.refetch()} disabled={query.isFetching}>Cập nhật</Button>} />

@@ -350,6 +350,37 @@ test('successful zero grade hides editable assessment and exposes the explicit n
   assert.equal(next, 1);
 }));
 
+test('a transient review detail failure preserves the draft, while lost access removes it', () => screen(async ui => {
+  let failure = 0;
+  ui.api({ get: async url => {
+    if (url.endsWith('/image')) return { data: {} };
+    if (failure) throw Object.assign(new Error('Detail unavailable'), { isAxiosError: true, response: { status: failure } });
+    return { data: initial };
+  } });
+  await ui.render({ id: 'first', onClose() {}, onSaved() {} });
+  await ui.loadImage();
+  await ui.check();
+  await ui.fill('Điểm (0–10)', '8');
+  await ui.fill('Nhận xét', 'Nháp cần giữ');
+  const feedback = () => ui.dom.window.document.querySelector('[aria-label="Nhận xét"]');
+  const refresh = async status => {
+    failure = status;
+    await act(async () => { await ui.client.refetchQueries({ queryKey: ['assigned-review', 'first'] }); });
+    await ui.settle();
+  };
+
+  await refresh(503);
+  assert.equal(feedback()?.value, 'Nháp cần giữ');
+  assert.equal(ui.button('Chấm và trả').disabled, true);
+  failure = 0;
+  await ui.click('Thử lại');
+  assert.equal(feedback()?.value, 'Nháp cần giữ');
+  assert.equal(ui.button('Chấm và trả').disabled, false);
+  await refresh(404);
+  assert.equal(feedback(), null);
+  assert.doesNotMatch(ui.dom.window.document.body.textContent, /Synthetic student/);
+}));
+
 test('score explains blank, decimal and out-of-range values through associated feedback and accepts zero', () => screen(async ui => {
   ui.api({ get: async url => ({ data: url.endsWith('/image') ? {} : initial }), post: async () => ({}) });
   await ui.render({ id: 'first', onClose() {}, onSaved() {} });

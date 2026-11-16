@@ -15,6 +15,7 @@ const labels = {
   GRADE_RELEASED: 'Đã trả',
 };
 type Status = keyof typeof labels;
+const recipientPageSize = 20;
 type Recipient = {
   studentId: string; studentName: string; member: boolean; activeMember: boolean; status: Status;
   submissionId: string | null; score: number | null;
@@ -37,6 +38,7 @@ function AssignmentResults({ id }: { id: string }) {
   const [nextBusy, setNextBusy] = useState(false);
   const [nextNotice, setNextNotice] = useState('');
   const [search, setSearch] = useState('');
+  const [recipientPage, setRecipientPage] = useState(0);
   const resultsStatus = useRef<HTMLParagraphElement>(null);
   const reviewTrigger = useRef<HTMLButtonElement | null>(null);
   const query = useQuery({
@@ -60,17 +62,28 @@ function AssignmentResults({ id }: { id: string }) {
     .includes(search.trim().toLocaleLowerCase('vi'));
   const rows = publication?.recipients.filter(row =>
     (!status || row.status === status) && (!activeOnly || row.activeMember) && matchesSearch(row)) ?? [];
-  const setStatus = (value: string) => setParams(previous => {
-    const next = new URLSearchParams(previous);
-    if (value) next.set('status', value);
-    else next.delete('status');
-    next.delete('member');
-    return next;
-  }, { replace: true });
+  const lastPage = Math.max(0, Math.ceil(rows.length / recipientPageSize) - 1);
+  const currentPage = Math.min(recipientPage, lastPage);
+  const firstRow = currentPage * recipientPageSize;
+  const visibleRows = rows.slice(firstRow, firstRow + recipientPageSize);
+  const setStatus = (value: string) => {
+    setRecipientPage(0);
+    setParams(previous => {
+      const next = new URLSearchParams(previous);
+      if (value) next.set('status', value);
+      else next.delete('status');
+      next.delete('member');
+      return next;
+    }, { replace: true });
+  };
   const refresh = () => {
     void client.invalidateQueries({ queryKey: ['teacher-action-center'] });
     return query.refetch();
   };
+  const restoreReviewFocus = () => requestAnimationFrame(() => {
+    if (reviewTrigger.current?.isConnected) reviewTrigger.current.focus();
+    else resultsStatus.current?.focus();
+  });
   const nextReview = async () => {
     if (nextBusy) return;
     const previousId = reviewId;
@@ -81,7 +94,10 @@ function AssignmentResults({ id }: { id: string }) {
       if (fresh.isError) return;
       const candidate = fresh.data?.recipients.find(row =>
         row.status === 'AWAITING_REVIEW' && row.submissionId !== previousId && matchesSearch(row));
-      if (!candidate?.submissionId) setNextNotice('Không còn bài chờ chấm phù hợp.');
+      if (!candidate?.submissionId) {
+        setNextNotice('Không còn bài chờ chấm phù hợp.');
+        restoreReviewFocus();
+      }
       setReviewId(current => current === previousId ? candidate?.submissionId ?? undefined : current);
     } finally { setNextBusy(false); }
   };
@@ -114,10 +130,13 @@ function AssignmentResults({ id }: { id: string }) {
           <MenuItem value="">Tất cả</MenuItem>
           {Object.entries(labels).map(([key, label]) => <MenuItem key={key} value={key}>{label}</MenuItem>)}
         </TextField>
-        <TextField label="Tìm theo tên học sinh" value={search} onChange={event => setSearch(event.target.value)} />
+        <TextField label="Tìm theo tên học sinh" value={search} onChange={event => {
+          setSearch(event.target.value);
+          setRecipientPage(0);
+        }} />
       </Box>
       <Typography component="p" ref={resultsStatus} role="status" tabIndex={-1} color="text.secondary">
-        {nextNotice || `Hiển thị ${rows.length} / ${publication.recipientCount} học sinh${activeOnly ? ' · Chỉ học sinh còn hoạt động trong lớp' : ''}`}
+        {nextNotice || `Hiển thị ${rows.length ? firstRow + 1 : 0}–${firstRow + visibleRows.length} / ${rows.length} học sinh phù hợp${activeOnly ? ' · Chỉ học sinh còn hoạt động trong lớp' : ''}`}
       </Typography>
       {rows.length === 0 ? <Alert severity="info">
         {publication.recipientCount === 0 ? 'Bài tập này chưa được giao cho học sinh nào.' : 'Không có học sinh phù hợp với bộ lọc.'}
@@ -128,7 +147,7 @@ function AssignmentResults({ id }: { id: string }) {
               <TableCell scope="col">Học sinh</TableCell><TableCell scope="col">Trạng thái</TableCell>
               <TableCell scope="col">Điểm</TableCell><TableCell scope="col">Tác vụ</TableCell>
             </TableRow></TableHead>
-            <TableBody>{rows.map(row => <TableRow key={row.studentId}>
+            <TableBody>{visibleRows.map(row => <TableRow key={row.studentId}>
               <TableCell component="th" scope="row" sx={{ overflowWrap: 'anywhere' }}>
                 {row.studentName}{!row.member && <Typography variant="caption" sx={{ display: 'block' }}>Đã rời lớp</Typography>}
               </TableCell>
@@ -144,13 +163,18 @@ function AssignmentResults({ id }: { id: string }) {
           </Table>
         </TableContainer>
       </Card>}
+      {lastPage > 0 && <Box component="nav" aria-label="Phân trang kết quả học sinh" sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+        <Button disabled={currentPage === 0} aria-disabled={currentPage === 0}
+          onClick={() => setRecipientPage(Math.max(0, currentPage - 1))}
+          sx={{ minHeight: 44 }}>Trang trước</Button>
+        <Button disabled={currentPage === lastPage} aria-disabled={currentPage === lastPage}
+          onClick={() => setRecipientPage(Math.min(lastPage, currentPage + 1))}
+          sx={{ minHeight: 44 }}>Trang sau</Button>
+      </Box>}
     </>}
     {!accessLost && reviewId && <AssignedReviewDialog id={reviewId} onClose={() => {
       setReviewId(undefined);
-      requestAnimationFrame(() => {
-        if (reviewTrigger.current?.isConnected) reviewTrigger.current.focus();
-        else resultsStatus.current?.focus();
-      });
+      restoreReviewFocus();
     }}
       onSaved={() => void refresh()} onNext={() => void nextReview()} nextBusy={nextBusy} />}
   </Box>;

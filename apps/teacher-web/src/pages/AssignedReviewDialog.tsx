@@ -27,16 +27,22 @@ function ReviewWorkspace({ id, onClose, onSaved, onNext, nextBusy }: {
     gcTime: 0,
     queryFn: async ({ signal }) => (await apiClient.get<Detail>(`/teacher/assigned-submissions/${id}`, { signal })).data,
   });
+  const errorStatus = isAxiosError(detail.error) ? detail.error.response?.status : undefined;
+  const accessLost = errorStatus === 401 || errorStatus === 403 || errorStatus === 404;
+  const visibleDetail = accessLost ? undefined : detail.data;
   return <Dialog open onClose={onClose} fullWidth maxWidth="md">
-    <DialogTitle>Bài làm của {detail.data?.studentName ?? 'học sinh'}</DialogTitle>
+    <DialogTitle>Bài làm của {visibleDetail?.studentName ?? 'học sinh'}</DialogTitle>
     <DialogContent>
       {saved && <Alert severity="success">
         {saved === 'release-grade' ? 'Đã trả điểm và nhận xét cho học sinh.' : 'Đã gửi yêu cầu chụp lại cho học sinh.'}
       </Alert>}
       {refreshed && !saved && <Alert severity="info">Đã cập nhật bài nộp. Hãy xem ảnh và xác nhận lại trước khi chấm.</Alert>}
       {detail.isPending && <Typography role="status">Đang tải bài làm…</Typography>}
-      {detail.isError && <Alert severity="error" action={<Button onClick={() => void detail.refetch()}>Thử lại</Button>}>Chưa mở được bài nộp.</Alert>}
-      {!detail.isError && detail.data && <Review key={`${id}:${detail.data.imageVersion}:${detail.data.status}`} id={id} detail={detail.data}
+      {detail.isError && <Alert severity="error" action={<Button disabled={detail.isFetching} onClick={() => void detail.refetch()}>Thử lại</Button>}>
+        {visibleDetail ? 'Chưa cập nhật được bài nộp. Bản nháp vẫn được giữ.' : 'Chưa mở được bài nộp.'}
+      </Alert>}
+      {visibleDetail && <Review key={`${id}:${visibleDetail.imageVersion}:${visibleDetail.status}`} id={id} detail={visibleDetail}
+        readUnavailable={detail.isError || Boolean(saved)}
         onSaved={kind => { setSaved(kind); void detail.refetch(); onSaved(kind); }}
         onRefresh={async () => {
           const result = await detail.refetch();
@@ -45,7 +51,7 @@ function ReviewWorkspace({ id, onClose, onSaved, onNext, nextBusy }: {
         }} />}
     </DialogContent>
     <DialogActions>
-      {saved && onNext && <Button variant="contained" onClick={onNext} disabled={nextBusy} aria-busy={nextBusy}>
+      {!accessLost && saved && onNext && <Button variant="contained" onClick={onNext} disabled={nextBusy} aria-busy={nextBusy}>
         {nextBusy ? 'Đang tìm bài tiếp theo…' : 'Mở bài tiếp theo'}
       </Button>}
       <Button onClick={onClose}>Về danh sách</Button>
@@ -53,8 +59,8 @@ function ReviewWorkspace({ id, onClose, onSaved, onNext, nextBusy }: {
   </Dialog>;
 }
 
-function Review({ id, detail, onSaved, onRefresh }: {
-  id: string; detail: Detail; onSaved: (kind: ReviewAction) => void; onRefresh: () => Promise<boolean>;
+function Review({ id, detail, onSaved, onRefresh, readUnavailable }: {
+  id: string; detail: Detail; onSaved: (kind: ReviewAction) => void; onRefresh: () => Promise<boolean>; readUnavailable: boolean;
 }) {
   const [photo, setPhoto] = useState('');
   const [loaded, setLoaded] = useState(false);
@@ -125,15 +131,15 @@ function Review({ id, detail, onSaved, onRefresh }: {
   const conflict = isAxiosError(action.error) && action.error.response?.status === 409;
   const refreshReview = async () => {
     if (refreshing) return;
-    clearAssessment();
-    setPhoto(''); setLoaded(false); setRefreshing(true);
+    setRefreshing(true);
     try {
       const success = await onRefresh();
       if (!active.current || !success) return;
+      setPhoto(''); setLoaded(false);
       setPhotoError(false); setStale(false); action.reset(); setReload(value => value + 1);
     } finally { if (active.current) setRefreshing(false); }
   };
-  const canReview = detail.status === 'AWAITING_REVIEW' && loaded && !photoError && !action.isPending && !stale && !refreshing;
+  const canReview = detail.status === 'AWAITING_REVIEW' && loaded && !photoError && !action.isPending && !stale && !refreshing && !readUnavailable;
   const validScore = /^\d+$/.test(score) && Number(score) <= detail.maxScore;
   return <>
     <Typography sx={{ whiteSpace: 'pre-wrap', my: 2 }}>{detail.prompt}</Typography>

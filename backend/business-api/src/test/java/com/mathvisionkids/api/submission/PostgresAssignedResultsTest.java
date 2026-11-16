@@ -203,16 +203,19 @@ class PostgresAssignedResultsTest {
             var grade = executor.submit(() -> mvc.perform(post("/api/v1/teacher/assigned-submissions/" + pending + "/release-grade")
                     .with(user("other@results.test").roles("TEACHER")).contentType(MediaType.APPLICATION_JSON)
                     .content(gradeBody)).andExpect(status().isNoContent()));
-            var response = mvc.perform(get(url).with(user("other@results.test").roles("TEACHER")))
-                    .andExpect(status().isOk()).andReturn().getResponse();
-            var snapshot = json.readTree(response.getContentAsByteArray());
-            var recipient = snapshot.path("recipients").get(1);
-            boolean releasedDuringRead = "GRADE_RELEASED".equals(recipient.path("status").asText());
-            assertEquals(releasedDuringRead ? 3 : 2, snapshot.path("counts").path("GRADE_RELEASED").asInt());
-            if (releasedDuringRead) assertEquals(0, recipient.path("score").asInt(-1));
-            else assertEquals(true, recipient.path("score").isNull());
+            mvc.perform(get(url).with(user("other@results.test").roles("TEACHER")))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.counts.GRADE_RELEASED").value(org.hamcrest.Matchers.anyOf(
+                            org.hamcrest.Matchers.is(2), org.hamcrest.Matchers.is(3))))
+                    .andExpect(jsonPath("$.recipients[1].status").value(org.hamcrest.Matchers.anyOf(
+                            org.hamcrest.Matchers.is("AWAITING_REVIEW"), org.hamcrest.Matchers.is("GRADE_RELEASED"))));
             grade.get(10, TimeUnit.SECONDS);
         }
+        mvc.perform(get(url).with(user("other@results.test").roles("TEACHER")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.counts.GRADE_RELEASED").value(3))
+                .andExpect(jsonPath("$.counts.AWAITING_REVIEW").value(0))
+                .andExpect(jsonPath("$.recipients[1].score").value(0));
         mvc.perform(get(center).param("filter", "PENDING").with(user("other@results.test").roles("TEACHER")))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.pendingSubmissions").value(0))
                 .andExpect(jsonPath("$.releasedSubmissions").value(3));
