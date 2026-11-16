@@ -1,0 +1,2718 @@
+[
+  {
+    "id": "grade1_prob1",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 1,
+    "week": 25,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 25.doc",
+      "topic": "Phép cộng trong phạm vi 100 (không nhớ)"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép cộng trong phạm vi 100 (không nhớ)",
+    "title": "Bài toán thêm hoa vào lọ",
+    "problemText": "Trong lọ có 15 bông hoa. Mẹ cắm thêm 4 bông hoa nữa. Hỏi trong lọ có tất cả bao nhiêu bông hoa?",
+    "guidance": "Mẹ cắm thêm hoa nên số hoa tăng lên. Em cộng số hoa có sẵn với số hoa được thêm.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Bài toán thêm hoa vào lọ là:",
+        "15 + 4 = 19 (bông hoa)",
+        "Đáp số: 19 bông hoa"
+      ],
+      "finalAnswer": "19 bông hoa"
+    }
+  },
+  {
+    "id": "grade1_prob2",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 2,
+    "week": 27,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 27.doc",
+      "topic": "Phép trừ trong phạm vi 100 (không nhớ)"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép trừ trong phạm vi 100 (không nhớ)",
+    "title": "Bài toán cho bớt viên bi",
+    "problemText": "Nam có 28 viên bi. Nam cho bạn Việt 6 viên bi. Hỏi Nam còn lại bao nhiêu viên bi?",
+    "guidance": "Nam cho đi một phần số bi. Em lấy số bi ban đầu trừ số bi đã cho.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Bài toán cho bớt viên bi là:",
+        "28 − 6 = 22 (viên bi)",
+        "Đáp số: 22 viên bi"
+      ],
+      "finalAnswer": "22 viên bi"
+    }
+  },
+  {
+    "id": "grade1_prob3",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 3,
+    "week": 9,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 9.doc",
+      "topic": "Phép cộng trong phạm vi 10"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép cộng trong phạm vi 10",
+    "title": "Bút chì trong hộp",
+    "problemText": "Hộp có 3 bút chì. Lan bỏ thêm 2 bút chì vào hộp. Hỏi trong hộp có tất cả bao nhiêu bút chì?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Bút chì trong hộp là:",
+        "3 + 2 = 5 (bút chì)",
+        "Đáp số: 5 bút chì"
+      ],
+      "finalAnswer": "5 bút chì"
+    }
+  },
+  {
+    "id": "grade1_prob4",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 4,
+    "week": 11,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 11.doc",
+      "topic": "Phép trừ trong phạm vi 10"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép trừ trong phạm vi 10",
+    "title": "Những quả cam còn lại",
+    "problemText": "Đĩa có 5 quả cam. Mẹ lấy đi 2 quả. Hỏi trên đĩa còn bao nhiêu quả cam?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Những quả cam còn lại là:",
+        "5 − 2 = 3 (quả cam)",
+        "Đáp số: 3 quả cam"
+      ],
+      "finalAnswer": "3 quả cam"
+    }
+  },
+  {
+    "id": "grade1_prob5",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 5,
+    "week": 12,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 12.doc",
+      "topic": "Phép trừ trong phạm vi 10"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép trừ trong phạm vi 10",
+    "title": "Chim trên cành",
+    "problemText": "Có 9 con chim trên cành. 4 con bay đi. Hỏi trên cành còn lại bao nhiêu con chim?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chim trên cành là:",
+        "9 − 4 = 5 (con chim)",
+        "Đáp số: 5 con chim"
+      ],
+      "finalAnswer": "5 con chim"
+    }
+  },
+  {
+    "id": "grade1_prob6",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 6,
+    "week": 10,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 10.doc",
+      "topic": "Phép cộng trong phạm vi 10"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép cộng trong phạm vi 10",
+    "title": "Hoa trong vườn",
+    "problemText": "Vườn có 6 bông hoa đỏ và 3 bông hoa vàng. Hỏi vườn có tất cả bao nhiêu bông hoa?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Hoa trong vườn là:",
+        "6 + 3 = 9 (bông hoa)",
+        "Đáp số: 9 bông hoa"
+      ],
+      "finalAnswer": "9 bông hoa"
+    }
+  },
+  {
+    "id": "grade1_prob7",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 7,
+    "week": 13,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 13.doc",
+      "topic": "Bảng cộng trong phạm vi 10"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bảng cộng trong phạm vi 10",
+    "title": "Hai hàng ghế",
+    "problemText": "Hàng trước có 4 chiếc ghế, hàng sau có 4 chiếc ghế. Hỏi hai hàng có tất cả bao nhiêu chiếc ghế?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Hai hàng ghế là:",
+        "4 + 4 = 8 (chiếc ghế)",
+        "Đáp số: 8 chiếc ghế"
+      ],
+      "finalAnswer": "8 chiếc ghế"
+    }
+  },
+  {
+    "id": "grade1_prob8",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 8,
+    "week": 14,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 14.doc",
+      "topic": "Bảng trừ trong phạm vi 10"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bảng trừ trong phạm vi 10",
+    "title": "Bóng trong giỏ",
+    "problemText": "Giỏ có 8 quả bóng. Các bạn lấy ra 5 quả. Hỏi giỏ còn bao nhiêu quả bóng?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Bóng trong giỏ là:",
+        "8 − 5 = 3 (quả bóng)",
+        "Đáp số: 3 quả bóng"
+      ],
+      "finalAnswer": "3 quả bóng"
+    }
+  },
+  {
+    "id": "grade1_prob9",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 9,
+    "week": 18,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 18.doc",
+      "topic": "Ôn tập phép trừ trong phạm vi 10"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Ôn tập phép trừ trong phạm vi 10",
+    "title": "Vở chưa phát",
+    "problemText": "Cô có 10 quyển vở, đã phát 6 quyển. Hỏi cô còn bao nhiêu quyển vở chưa phát?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Vở chưa phát là:",
+        "10 − 6 = 4 (quyển vở)",
+        "Đáp số: 4 quyển vở"
+      ],
+      "finalAnswer": "4 quyển vở"
+    }
+  },
+  {
+    "id": "grade1_prob10",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 10,
+    "week": 26,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 26.doc",
+      "topic": "Cộng các số tròn chục"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Cộng các số tròn chục",
+    "title": "Gộp các chục",
+    "problemText": "Một bó có 20 que tính, bó kia có 30 que tính. Hỏi hai bó có tất cả bao nhiêu que tính?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Gộp các chục là:",
+        "20 + 30 = 50 (que tính)",
+        "Đáp số: 50 que tính"
+      ],
+      "finalAnswer": "50 que tính"
+    }
+  },
+  {
+    "id": "grade1_prob11",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 11,
+    "week": 25,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 25.doc",
+      "topic": "Cộng số có hai chữ số với số có một chữ số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Cộng số có hai chữ số với số có một chữ số",
+    "title": "Tủ sách nhỏ",
+    "problemText": "Tủ có 42 quyển sách. Cô thêm 5 quyển sách. Hỏi tủ có tất cả bao nhiêu quyển sách?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Tủ sách nhỏ là:",
+        "42 + 5 = 47 (quyển sách)",
+        "Đáp số: 47 quyển sách"
+      ],
+      "finalAnswer": "47 quyển sách"
+    }
+  },
+  {
+    "id": "grade1_prob12",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 12,
+    "week": 27,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 27.doc",
+      "topic": "Trừ số có hai chữ số cho số có một chữ số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Trừ số có hai chữ số cho số có một chữ số",
+    "title": "Số nhãn vở còn lại",
+    "problemText": "Bình có 36 nhãn vở. Bình dùng 4 nhãn vở. Hỏi Bình còn bao nhiêu nhãn vở?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Số nhãn vở còn lại là:",
+        "36 − 4 = 32 (nhãn vở)",
+        "Đáp số: 32 nhãn vở"
+      ],
+      "finalAnswer": "32 nhãn vở"
+    }
+  },
+  {
+    "id": "grade1_prob13",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 13,
+    "week": 28,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 28.doc",
+      "topic": "Trừ số có hai chữ số cho số có hai chữ số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Trừ số có hai chữ số cho số có hai chữ số",
+    "title": "Bán bớt quả táo",
+    "problemText": "Cửa hàng có 58 quả táo, đã bán 20 quả. Hỏi cửa hàng còn bao nhiêu quả táo?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Bán bớt quả táo là:",
+        "58 − 20 = 38 (quả táo)",
+        "Đáp số: 38 quả táo"
+      ],
+      "finalAnswer": "38 quả táo"
+    }
+  },
+  {
+    "id": "grade1_prob14",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 14,
+    "week": 34,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 34.doc",
+      "topic": "Ôn tập phép cộng trong phạm vi 100"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Ôn tập phép cộng trong phạm vi 100",
+    "title": "Thêm viên kẹo",
+    "problemText": "Túi có 12 viên kẹo. Bố thêm 7 viên kẹo. Hỏi túi có tất cả bao nhiêu viên kẹo?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Thêm viên kẹo là:",
+        "12 + 7 = 19 (viên kẹo)",
+        "Đáp số: 19 viên kẹo"
+      ],
+      "finalAnswer": "19 viên kẹo"
+    }
+  },
+  {
+    "id": "grade1_prob15",
+    "grade": 1,
+    "section": "Hình học và đo lường",
+    "order": 15,
+    "week": 24,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 24.doc",
+      "topic": "Đơn vị đo độ dài"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Đơn vị đo độ dài",
+    "title": "Độ dài hai băng giấy",
+    "problemText": "Băng giấy đỏ dài 24 cm, băng giấy xanh dài 3 cm. Hỏi hai băng giấy dài tất cả bao nhiêu xăng-ti-mét?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Độ dài hai băng giấy là:",
+        "24 + 3 = 27 (cm)",
+        "Đáp số: 27 cm"
+      ],
+      "finalAnswer": "27 cm"
+    }
+  },
+  {
+    "id": "grade1_prob16",
+    "grade": 1,
+    "section": "Thực hành và trải nghiệm",
+    "order": 16,
+    "week": 30,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 30.doc",
+      "topic": "Xem giờ đúng trên đồng hồ"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Xem giờ đúng trên đồng hồ",
+    "title": "Giờ học và giờ nghỉ",
+    "problemText": "Em bắt đầu học lúc 7 giờ. Sau 2 giờ em nghỉ. Hỏi em nghỉ lúc mấy giờ?",
+    "guidance": "Thời gian trôi thêm thì giờ trên đồng hồ tăng. Em cộng giờ bắt đầu với số giờ đã trôi qua.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Giờ học và giờ nghỉ là:",
+        "7 + 2 = 9 (giờ)",
+        "Đáp số: 9 giờ"
+      ],
+      "finalAnswer": "9 giờ"
+    }
+  },
+  {
+    "id": "grade1_prob17",
+    "grade": 1,
+    "section": "Thực hành và trải nghiệm",
+    "order": 17,
+    "week": 31,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 31.doc",
+      "topic": "Các ngày trong tuần"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Các ngày trong tuần",
+    "title": "Ngày đi thư viện",
+    "problemText": "Hôm nay là thứ 2. Em đến thư viện sau 1 ngày nữa. Hỏi ngày em đến thư viện là thứ mấy?",
+    "guidance": "Ngày tiếp theo của thứ hai là thứ ba. Em tăng số chỉ thứ lên một đơn vị.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Ngày đi thư viện là:",
+        "2 + 1 = 3",
+        "Đáp số: Thứ 3"
+      ],
+      "finalAnswer": "Thứ 3"
+    }
+  },
+  {
+    "id": "grade1_prob18",
+    "grade": 1,
+    "section": "Hình học và đo lường",
+    "order": 18,
+    "week": 7,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 7.doc",
+      "topic": "Hình vuông và hình tròn"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Hình vuông và hình tròn",
+    "title": "Các hình trên bàn",
+    "problemText": "Trên bàn có 2 hình vuông và 3 hình tròn. Hỏi trên bàn có tất cả bao nhiêu hình?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Các hình trên bàn là:",
+        "2 + 3 = 5 (hình)",
+        "Đáp số: 5 hình"
+      ],
+      "finalAnswer": "5 hình"
+    }
+  },
+  {
+    "id": "grade1_prob19",
+    "grade": 1,
+    "section": "Số và phép tính",
+    "order": 19,
+    "week": 19,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 19.doc",
+      "topic": "Số có hai chữ số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Số có hai chữ số",
+    "title": "Đếm thêm một chục",
+    "problemText": "Em có 40 que tính. Em lấy thêm 10 que tính. Hỏi em có tất cả bao nhiêu que tính?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Đếm thêm một chục là:",
+        "40 + 10 = 50 (que tính)",
+        "Đáp số: 50 que tính"
+      ],
+      "finalAnswer": "50 que tính"
+    }
+  },
+  {
+    "id": "grade1_prob20",
+    "grade": 1,
+    "section": "Hình học và đo lường",
+    "order": 20,
+    "week": 35,
+    "source": {
+      "kind": "authored-from-owner-topic",
+      "reference": "GIÁO ÁN LỚP 1.6/Tuần 35.doc",
+      "topic": "Thực hành đo độ dài"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Thực hành đo độ dài",
+    "title": "Đoạn đường còn lại",
+    "problemText": "Một đoạn đường dài 38 m. Em đã đi 12 m. Hỏi em còn phải đi bao nhiêu mét để hết đoạn đường?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Đoạn đường còn lại là:",
+        "38 − 12 = 26 (m)",
+        "Đáp số: 26 m"
+      ],
+      "finalAnswer": "26 m"
+    }
+  },
+  {
+    "id": "grade2_prob1",
+    "grade": 2,
+    "section": "Số và phép tính",
+    "order": 1,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bài toán về nhiều hơn"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bài toán về nhiều hơn",
+    "title": "Số học sinh nam lớp 2A",
+    "problemText": "Lớp 2A có 18 bạn nữ. Số bạn nam nhiều hơn số bạn nữ là 5 bạn. Hỏi lớp 2A có bao nhiêu bạn nam?",
+    "guidance": "Số bạn nam nhiều hơn số bạn nữ. Em cộng số bạn nữ với phần nhiều hơn.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Số học sinh nam lớp 2a là:",
+        "18 + 5 = 23 (bạn)",
+        "Đáp số: 23 bạn"
+      ],
+      "finalAnswer": "23 bạn"
+    }
+  },
+  {
+    "id": "grade2_prob2",
+    "grade": 2,
+    "section": "Hình học và đo lường",
+    "order": 2,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bài toán về ít hơn"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bài toán về ít hơn",
+    "title": "Độ dài đoạn thẳng CD",
+    "problemText": "Đoạn thẳng AB dài 34 cm. Đoạn thẳng CD ngắn hơn đoạn thẳng AB là 8 cm. Hỏi đoạn thẳng CD dài bao nhiêu xăng-ti-mét?",
+    "guidance": "Đoạn CD ngắn hơn đoạn AB. Em lấy độ dài AB trừ phần ngắn hơn.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Độ dài đoạn thẳng cd là:",
+        "34 − 8 = 26 (cm)",
+        "Đáp số: 26 cm"
+      ],
+      "finalAnswer": "26 cm"
+    }
+  },
+  {
+    "id": "grade2_prob3",
+    "grade": 2,
+    "section": "Số và phép tính",
+    "order": 3,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bảng nhân hai"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bảng nhân hai",
+    "title": "Bốn đôi tất",
+    "problemText": "Mỗi đôi có 2 chiếc tất. Hỏi 4 đôi có tất cả bao nhiêu chiếc tất?",
+    "guidance": "Các nhóm có số đồ vật bằng nhau. Em nhân số đồ vật của mỗi nhóm với số nhóm.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Bốn đôi tất là:",
+        "2 × 4 = 8 (chiếc tất)",
+        "Đáp số: 8 chiếc tất"
+      ],
+      "finalAnswer": "8 chiếc tất"
+    }
+  },
+  {
+    "id": "grade2_prob4",
+    "grade": 2,
+    "section": "Số và phép tính",
+    "order": 4,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bảng nhân năm"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bảng nhân năm",
+    "title": "Sáu túi kẹo",
+    "problemText": "Mỗi túi có 5 viên kẹo. Hỏi 6 túi như vậy có tất cả bao nhiêu viên kẹo?",
+    "guidance": "Mỗi túi có cùng số kẹo. Em nhân số kẹo trong một túi với số túi.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Sáu túi kẹo là:",
+        "5 × 6 = 30 (viên kẹo)",
+        "Đáp số: 30 viên kẹo"
+      ],
+      "finalAnswer": "30 viên kẹo"
+    }
+  },
+  {
+    "id": "grade2_prob5",
+    "grade": 2,
+    "section": "Số và phép tính",
+    "order": 5,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bảng chia năm"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bảng chia năm",
+    "title": "Chia bút vào hộp",
+    "problemText": "Có 20 bút chì chia đều vào 5 hộp. Hỏi mỗi hộp có bao nhiêu bút chì?",
+    "guidance": "Chia đều nghĩa là mỗi hộp nhận như nhau. Em chia tổng số bút cho số hộp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chia bút vào hộp là:",
+        "20 : 5 = 4 (bút chì)",
+        "Đáp số: 4 bút chì"
+      ],
+      "finalAnswer": "4 bút chì"
+    }
+  },
+  {
+    "id": "grade2_prob6",
+    "grade": 2,
+    "section": "Số và phép tính",
+    "order": 6,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bảng chia hai"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bảng chia hai",
+    "title": "Hai nhóm học sinh",
+    "problemText": "Có 18 học sinh chia đều thành 2 nhóm. Hỏi mỗi nhóm có bao nhiêu học sinh?",
+    "guidance": "Hai nhóm có số bạn bằng nhau. Em chia tổng số học sinh cho số nhóm.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Hai nhóm học sinh là:",
+        "18 : 2 = 9 (học sinh)",
+        "Đáp số: 9 học sinh"
+      ],
+      "finalAnswer": "9 học sinh"
+    }
+  },
+  {
+    "id": "grade2_prob7",
+    "grade": 2,
+    "section": "Số và phép tính",
+    "order": 7,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Cộng có nhớ trong phạm vi 100"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Cộng có nhớ trong phạm vi 100",
+    "title": "Góp sách cho lớp",
+    "problemText": "Lớp góp được 47 quyển sách vào tuần trước và 26 quyển vào tuần này. Hỏi lớp góp được tất cả bao nhiêu quyển sách?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Góp sách cho lớp là:",
+        "47 + 26 = 73 (quyển sách)",
+        "Đáp số: 73 quyển sách"
+      ],
+      "finalAnswer": "73 quyển sách"
+    }
+  },
+  {
+    "id": "grade2_prob8",
+    "grade": 2,
+    "section": "Số và phép tính",
+    "order": 8,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Trừ có nhớ trong phạm vi 100"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Trừ có nhớ trong phạm vi 100",
+    "title": "Vở còn trong cửa hàng",
+    "problemText": "Cửa hàng có 82 quyển vở và bán 37 quyển. Hỏi cửa hàng còn bao nhiêu quyển vở?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Vở còn trong cửa hàng là:",
+        "82 − 37 = 45 (quyển vở)",
+        "Đáp số: 45 quyển vở"
+      ],
+      "finalAnswer": "45 quyển vở"
+    }
+  },
+  {
+    "id": "grade2_prob9",
+    "grade": 2,
+    "section": "Số và phép tính",
+    "order": 9,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Cộng trong phạm vi 1000"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Cộng trong phạm vi 1000",
+    "title": "Hai vườn cây",
+    "problemText": "Vườn thứ nhất có 125 cây, vườn thứ hai có 234 cây. Hỏi hai vườn có tất cả bao nhiêu cây?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Hai vườn cây là:",
+        "125 + 234 = 359 (cây)",
+        "Đáp số: 359 cây"
+      ],
+      "finalAnswer": "359 cây"
+    }
+  },
+  {
+    "id": "grade2_prob10",
+    "grade": 2,
+    "section": "Số và phép tính",
+    "order": 10,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Trừ trong phạm vi 1000"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Trừ trong phạm vi 1000",
+    "title": "Số gạch còn lại",
+    "problemText": "Có 568 viên gạch, người thợ dùng 123 viên. Hỏi còn lại bao nhiêu viên gạch?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Số gạch còn lại là:",
+        "568 − 123 = 445 (viên gạch)",
+        "Đáp số: 445 viên gạch"
+      ],
+      "finalAnswer": "445 viên gạch"
+    }
+  },
+  {
+    "id": "grade2_prob11",
+    "grade": 2,
+    "section": "Hình học và đo lường",
+    "order": 11,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Độ dài đường gấp khúc"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Độ dài đường gấp khúc",
+    "title": "Hai đoạn dây",
+    "problemText": "Một sợi dây gồm hai đoạn dài 7 cm và 8 cm. Hỏi sợi dây dài bao nhiêu xăng-ti-mét?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Hai đoạn dây là:",
+        "7 + 8 = 15 (cm)",
+        "Đáp số: 15 cm"
+      ],
+      "finalAnswer": "15 cm"
+    }
+  },
+  {
+    "id": "grade2_prob12",
+    "grade": 2,
+    "section": "Hình học và đo lường",
+    "order": 12,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Ki-lô-gam"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Ki-lô-gam",
+    "title": "Gạo còn trong túi",
+    "problemText": "Túi có 12 kg gạo. Mẹ lấy ra 5 kg. Hỏi túi còn bao nhiêu ki-lô-gam gạo?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Gạo còn trong túi là:",
+        "12 − 5 = 7 (kg)",
+        "Đáp số: 7 kg"
+      ],
+      "finalAnswer": "7 kg"
+    }
+  },
+  {
+    "id": "grade2_prob13",
+    "grade": 2,
+    "section": "Hình học và đo lường",
+    "order": 13,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Lít"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Lít",
+    "title": "Rót thêm nước",
+    "problemText": "Thùng có 15 l nước. Bố rót thêm 8 l nước. Hỏi thùng có tất cả bao nhiêu lít nước?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Rót thêm nước là:",
+        "15 + 8 = 23 (l)",
+        "Đáp số: 23 l"
+      ],
+      "finalAnswer": "23 l"
+    }
+  },
+  {
+    "id": "grade2_prob14",
+    "grade": 2,
+    "section": "Thực hành và trải nghiệm",
+    "order": 14,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Giờ và phút"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Giờ và phút",
+    "title": "Thời gian đọc sách",
+    "problemText": "Giờ đọc sách kéo dài 60 phút. Em đã đọc 25 phút. Hỏi còn bao nhiêu phút nữa thì hết giờ đọc sách?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Thời gian đọc sách là:",
+        "60 − 25 = 35 (phút)",
+        "Đáp số: 35 phút"
+      ],
+      "finalAnswer": "35 phút"
+    }
+  },
+  {
+    "id": "grade2_prob15",
+    "grade": 2,
+    "section": "Thực hành và trải nghiệm",
+    "order": 15,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Tiền Việt Nam"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Tiền Việt Nam",
+    "title": "Gộp tiền tiết kiệm",
+    "problemText": "Em có 500 đồng và được thêm 200 đồng. Hỏi em có tất cả bao nhiêu đồng?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Gộp tiền tiết kiệm là:",
+        "500 + 200 = 700 (đồng)",
+        "Đáp số: 700 đồng"
+      ],
+      "finalAnswer": "700 đồng"
+    }
+  },
+  {
+    "id": "grade2_prob16",
+    "grade": 2,
+    "section": "Thống kê và xác suất",
+    "order": 16,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Thu thập và đếm số liệu"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Thu thập và đếm số liệu",
+    "title": "Khảo sát trái cây",
+    "problemText": "Có 12 bạn thích chuối và 8 bạn thích táo. Mỗi bạn chỉ chọn một loại. Hỏi có tất cả bao nhiêu bạn tham gia?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Khảo sát trái cây là:",
+        "12 + 8 = 20 (bạn)",
+        "Đáp số: 20 bạn"
+      ],
+      "finalAnswer": "20 bạn"
+    }
+  },
+  {
+    "id": "grade2_prob17",
+    "grade": 2,
+    "section": "Hình học và đo lường",
+    "order": 17,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Độ dài đường gấp khúc"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Độ dài đường gấp khúc",
+    "title": "Đường gấp khúc ba đoạn",
+    "problemText": "Đường gấp khúc có ba đoạn dài 12 cm, 15 cm và 8 cm. Tính độ dài đường gấp khúc.",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Đường gấp khúc ba đoạn là:",
+        "12 + 15 + 8 = 35 (cm)",
+        "Đáp số: 35 cm"
+      ],
+      "finalAnswer": "35 cm"
+    }
+  },
+  {
+    "id": "grade2_prob18",
+    "grade": 2,
+    "section": "Số và phép tính",
+    "order": 18,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Ôn bảng nhân hai"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Ôn bảng nhân hai",
+    "title": "Chín đôi đũa",
+    "problemText": "Mỗi đôi có 2 chiếc đũa. Hỏi 9 đôi có bao nhiêu chiếc đũa?",
+    "guidance": "Mỗi đôi là một nhóm bằng nhau. Em nhân số chiếc trong mỗi đôi với số đôi.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chín đôi đũa là:",
+        "2 × 9 = 18 (chiếc đũa)",
+        "Đáp số: 18 chiếc đũa"
+      ],
+      "finalAnswer": "18 chiếc đũa"
+    }
+  },
+  {
+    "id": "grade2_prob19",
+    "grade": 2,
+    "section": "Số và phép tính",
+    "order": 19,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Ôn bảng nhân năm"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Ôn bảng nhân năm",
+    "title": "Bảy bông hoa năm cánh",
+    "problemText": "Mỗi bông hoa có 5 cánh. Hỏi 7 bông hoa có tất cả bao nhiêu cánh?",
+    "guidance": "Các bông có số cánh bằng nhau. Em nhân số cánh mỗi bông với số bông.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Bảy bông hoa năm cánh là:",
+        "5 × 7 = 35 (cánh hoa)",
+        "Đáp số: 35 cánh hoa"
+      ],
+      "finalAnswer": "35 cánh hoa"
+    }
+  },
+  {
+    "id": "grade2_prob20",
+    "grade": 2,
+    "section": "Thực hành và trải nghiệm",
+    "order": 20,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bài toán về nhiều hơn"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bài toán về nhiều hơn",
+    "title": "Quãng đường dài hơn",
+    "problemText": "Đường từ nhà An đến trường dài 320 m. Đường từ nhà Bình đến trường dài hơn 150 m. Hỏi đường từ nhà Bình đến trường dài bao nhiêu mét?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Dễ",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Quãng đường dài hơn là:",
+        "320 + 150 = 470 (m)",
+        "Đáp số: 470 m"
+      ],
+      "finalAnswer": "470 m"
+    }
+  },
+  {
+    "id": "grade3_prob1",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 1,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Giải bài toán bằng hai bước tính"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Giải bài toán bằng hai bước tính",
+    "title": "Cửa hàng bán gạo cả ngày",
+    "problemText": "Một cửa hàng buổi sáng bán được 24 kg gạo. Buổi chiều bán được số gạo gấp 3 lần buổi sáng. Hỏi cả hai buổi cửa hàng bán được bao nhiêu ki-lô-gam gạo?",
+    "guidance": "Buổi chiều bán gấp nhiều lần buổi sáng. Em nhân số gạo buổi sáng với số lần gấp.",
+    "difficulty": "Thử thách",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Số gạo buổi chiều là:",
+        "24 × 3 = 72 (kg)",
+        "Số gạo cả ngày là:",
+        "24 + (72) = 96 (kg)",
+        "Đáp số: 96 kg"
+      ],
+      "finalAnswer": "96 kg"
+    }
+  },
+  {
+    "id": "grade3_prob2",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 2,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Giảm đi một số lần"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Giảm đi một số lần",
+    "title": "Số vở trong hai thùng",
+    "problemText": "Thùng thứ nhất có 45 quyển vở. Thùng thứ hai có số vở giảm đi 3 lần so với thùng thứ nhất. Hỏi cả hai thùng có tất cả bao nhiêu quyển vở?",
+    "guidance": "Giảm đi nhiều lần thì dùng phép chia. Em chia số vở thùng đầu cho số lần giảm.",
+    "difficulty": "Thử thách",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Số vở thùng thứ hai là:",
+        "45 : 3 = 15 (quyển vở)",
+        "Số vở hai thùng là:",
+        "45 + (15) = 60 (quyển vở)",
+        "Đáp số: 60 quyển vở"
+      ],
+      "finalAnswer": "60 quyển vở"
+    }
+  },
+  {
+    "id": "grade3_prob3",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 3,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bảng nhân bảy"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bảng nhân bảy",
+    "title": "Bảy hộp màu",
+    "problemText": "Mỗi hộp có 7 bút màu. Hỏi 6 hộp có tất cả bao nhiêu bút màu?",
+    "guidance": "Số bút mỗi hộp bằng nhau. Em nhân số bút trong một hộp với số hộp.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Bảy hộp màu là:",
+        "7 × 6 = 42 (bút màu)",
+        "Đáp số: 42 bút màu"
+      ],
+      "finalAnswer": "42 bút màu"
+    }
+  },
+  {
+    "id": "grade3_prob4",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 4,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bảng chia tám"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bảng chia tám",
+    "title": "Chia bánh cho bạn",
+    "problemText": "Có 56 chiếc bánh chia đều cho 8 bạn. Hỏi mỗi bạn nhận bao nhiêu chiếc bánh?",
+    "guidance": "Các bạn nhận số bánh bằng nhau. Em chia tổng số bánh cho số bạn.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chia bánh cho bạn là:",
+        "56 : 8 = 7 (chiếc bánh)",
+        "Đáp số: 7 chiếc bánh"
+      ],
+      "finalAnswer": "7 chiếc bánh"
+    }
+  },
+  {
+    "id": "grade3_prob5",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 5,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Gấp một số lên nhiều lần"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Gấp một số lên nhiều lần",
+    "title": "Gấp số nhãn vở",
+    "problemText": "An có 12 nhãn vở. Bình có số nhãn vở gấp 4 lần An. Hỏi Bình có bao nhiêu nhãn vở?",
+    "guidance": "Số nhãn của Bình gấp nhiều lần số nhãn của An. Em dùng phép nhân.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Gấp số nhãn vở là:",
+        "12 × 4 = 48 (nhãn vở)",
+        "Đáp số: 48 nhãn vở"
+      ],
+      "finalAnswer": "48 nhãn vở"
+    }
+  },
+  {
+    "id": "grade3_prob6",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 6,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Giảm đi một số lần"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Giảm đi một số lần",
+    "title": "Giảm số viên bi",
+    "problemText": "Bình có 63 viên bi. Số bi của An giảm đi 7 lần so với Bình. Hỏi An có bao nhiêu viên bi?",
+    "guidance": "Giảm đi nhiều lần thì chia số ban đầu cho số lần giảm.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Giảm số viên bi là:",
+        "63 : 7 = 9 (viên bi)",
+        "Đáp số: 9 viên bi"
+      ],
+      "finalAnswer": "9 viên bi"
+    }
+  },
+  {
+    "id": "grade3_prob7",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 7,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Nhân số có ba chữ số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Nhân số có ba chữ số",
+    "title": "Đặt tính phép nhân",
+    "problemText": "Tính 124 × 3.",
+    "guidance": "Nhân lần lượt từ hàng đơn vị sang hàng trăm và nhớ đúng số đã chuyển.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Đặt tính phép nhân là:",
+        "124 × 3 = 372",
+        "Đáp số: 372"
+      ],
+      "finalAnswer": "372"
+    }
+  },
+  {
+    "id": "grade3_prob8",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 8,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Chia số có ba chữ số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Chia số có ba chữ số",
+    "title": "Chia vở cho các lớp",
+    "problemText": "Có 648 quyển vở chia đều cho 3 lớp. Hỏi mỗi lớp nhận bao nhiêu quyển vở?",
+    "guidance": "Mỗi lớp nhận như nhau. Em thực hiện phép chia tổng số vở cho số lớp.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chia vở cho các lớp là:",
+        "648 : 3 = 216 (quyển vở)",
+        "Đáp số: 216 quyển vở"
+      ],
+      "finalAnswer": "216 quyển vở"
+    }
+  },
+  {
+    "id": "grade3_prob9",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 9,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Thứ tự thực hiện phép tính"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Thứ tự thực hiện phép tính",
+    "title": "Tính giá trị biểu thức",
+    "problemText": "Tính giá trị biểu thức 28 + 6 × 4.",
+    "guidance": "Trong biểu thức có cộng và nhân, em thực hiện phép nhân trước rồi cộng.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Tính giá trị biểu thức là:",
+        "28 + 6 × 4 = 52",
+        "Đáp số: 52"
+      ],
+      "finalAnswer": "52"
+    }
+  },
+  {
+    "id": "grade3_prob10",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 10,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Thứ tự thực hiện phép tính"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Thứ tự thực hiện phép tính",
+    "title": "Biểu thức có dấu ngoặc",
+    "problemText": "Tính giá trị biểu thức (28 + 6) × 4.",
+    "guidance": "Dấu ngoặc cho biết phần cần tính trước. Em tính trong ngoặc rồi nhân.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Biểu thức có dấu ngoặc là:",
+        "(28 + 6) × 4 = 136",
+        "Đáp số: 136"
+      ],
+      "finalAnswer": "136"
+    }
+  },
+  {
+    "id": "grade3_prob11",
+    "grade": 3,
+    "section": "Hình học và đo lường",
+    "order": 11,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Chu vi hình chữ nhật"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Chu vi hình chữ nhật",
+    "title": "Chu vi sân hình chữ nhật",
+    "problemText": "Sân hình chữ nhật dài 18 m, rộng 12 m. Tính chu vi sân.",
+    "guidance": "Chu vi là tổng độ dài các cạnh. Hình chữ nhật có hai cặp cạnh đối bằng nhau.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chu vi sân hình chữ nhật là:",
+        "(18 + 12) × 2 = 60 (m)",
+        "Đáp số: 60 m"
+      ],
+      "finalAnswer": "60 m"
+    }
+  },
+  {
+    "id": "grade3_prob12",
+    "grade": 3,
+    "section": "Hình học và đo lường",
+    "order": 12,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Diện tích hình chữ nhật"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Diện tích hình chữ nhật",
+    "title": "Diện tích tấm bìa",
+    "problemText": "Tấm bìa hình chữ nhật dài 9 cm, rộng 6 cm. Tính diện tích tấm bìa.",
+    "guidance": "Diện tích hình chữ nhật bằng chiều dài nhân chiều rộng khi cùng đơn vị đo.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Diện tích tấm bìa là:",
+        "9 × 6 = 54 (cm²)",
+        "Đáp số: 54 cm²"
+      ],
+      "finalAnswer": "54 cm²"
+    }
+  },
+  {
+    "id": "grade3_prob13",
+    "grade": 3,
+    "section": "Hình học và đo lường",
+    "order": 13,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Diện tích hình vuông"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Diện tích hình vuông",
+    "title": "Diện tích hình vuông",
+    "problemText": "Một hình vuông có cạnh 7 cm. Tính diện tích hình vuông.",
+    "guidance": "Hình vuông có chiều dài và chiều rộng bằng cạnh. Em nhân cạnh với chính nó.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Diện tích hình vuông là:",
+        "7 × 7 = 49 (cm²)",
+        "Đáp số: 49 cm²"
+      ],
+      "finalAnswer": "49 cm²"
+    }
+  },
+  {
+    "id": "grade3_prob14",
+    "grade": 3,
+    "section": "Hình học và đo lường",
+    "order": 14,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Đổi đơn vị độ dài"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Đổi đơn vị độ dài",
+    "title": "Đổi mét sang xăng-ti-mét",
+    "problemText": "Biết 1 m bằng 100 cm. Hỏi 4 m bằng bao nhiêu xăng-ti-mét?",
+    "guidance": "Mỗi mét ứng với cùng số xăng-ti-mét. Em nhân số mét với số xăng-ti-mét trong một mét.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Đổi mét sang xăng-ti-mét là:",
+        "4 × 100 = 400 (cm)",
+        "Đáp số: 400 cm"
+      ],
+      "finalAnswer": "400 cm"
+    }
+  },
+  {
+    "id": "grade3_prob15",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 15,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Tìm một phần mấy của một số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Tìm một phần mấy của một số",
+    "title": "Một phần của túi kẹo",
+    "problemText": "Túi có 24 viên kẹo. Lan lấy 1/3 số kẹo. Hỏi Lan lấy bao nhiêu viên kẹo?",
+    "guidance": "Chia số kẹo thành các phần bằng nhau rồi lấy số phần đã cho.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Một phần của túi kẹo là:",
+        "24 × (1 : 3) = 8 (viên kẹo)",
+        "Đáp số: 8 viên kẹo"
+      ],
+      "finalAnswer": "8 viên kẹo"
+    }
+  },
+  {
+    "id": "grade3_prob16",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 16,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bài toán có hai bước tính"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bài toán có hai bước tính",
+    "title": "Số bút cả lớp",
+    "problemText": "Có 4 bàn, mỗi bàn có 6 bút chì. Cô thêm 8 bút chì. Hỏi có tất cả bao nhiêu bút chì?",
+    "guidance": "Các bàn có số bút bằng nhau. Em nhân số bàn với số bút mỗi bàn.",
+    "difficulty": "Thử thách",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Số bút trên các bàn là:",
+        "4 × 6 = 24 (bút chì)",
+        "Tất cả số bút là:",
+        "(24) + 8 = 32 (bút chì)",
+        "Đáp số: 32 bút chì"
+      ],
+      "finalAnswer": "32 bút chì"
+    }
+  },
+  {
+    "id": "grade3_prob17",
+    "grade": 3,
+    "section": "Thực hành và trải nghiệm",
+    "order": 17,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Tiền Việt Nam"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Tiền Việt Nam",
+    "title": "Tiền mua vở",
+    "problemText": "Mỗi quyển vở giá 6000 đồng. Mua 3 quyển vở hết bao nhiêu đồng?",
+    "guidance": "Các quyển vở có cùng giá. Em nhân giá một quyển với số quyển.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Tiền mua vở là:",
+        "6000 × 3 = 18000 (đồng)",
+        "Đáp số: 18000 đồng"
+      ],
+      "finalAnswer": "18000 đồng"
+    }
+  },
+  {
+    "id": "grade3_prob18",
+    "grade": 3,
+    "section": "Thực hành và trải nghiệm",
+    "order": 18,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Đồng hồ và thời gian"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Đồng hồ và thời gian",
+    "title": "Thời gian tập thể dục",
+    "problemText": "Em tập thể dục từ 6 giờ 15 phút đến 6 giờ 45 phút. Hỏi em tập trong bao nhiêu phút?",
+    "guidance": "Hai thời điểm nằm trong cùng một giờ. Em lấy số phút kết thúc trừ số phút bắt đầu.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Thời gian tập thể dục là:",
+        "45 − 15 = 30 (phút)",
+        "Đáp số: 30 phút"
+      ],
+      "finalAnswer": "30 phút"
+    }
+  },
+  {
+    "id": "grade3_prob19",
+    "grade": 3,
+    "section": "Thống kê và xác suất",
+    "order": 19,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Đọc bảng số liệu"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Đọc bảng số liệu",
+    "title": "Bảng số sách đọc",
+    "problemText": "Tổ một đọc 18 quyển sách, tổ hai đọc 24 quyển và tổ ba đọc 15 quyển. Hỏi ba tổ đọc tất cả bao nhiêu quyển?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Bảng số sách đọc là:",
+        "18 + 24 + 15 = 57 (quyển sách)",
+        "Đáp số: 57 quyển sách"
+      ],
+      "finalAnswer": "57 quyển sách"
+    }
+  },
+  {
+    "id": "grade3_prob20",
+    "grade": 3,
+    "section": "Số và phép tính",
+    "order": 20,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Số lớn gấp mấy lần số bé"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Số lớn gấp mấy lần số bé",
+    "title": "So sánh hai số lượng",
+    "problemText": "Một giỏ có 36 quả cam, giỏ nhỏ có 9 quả. Hỏi số cam trong giỏ lớn gấp mấy lần số cam trong giỏ nhỏ?",
+    "guidance": "Muốn biết số lớn gấp mấy lần số bé, em chia số lớn cho số bé.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "So sánh hai số lượng là:",
+        "36 : 9 = 4 (lần)",
+        "Đáp số: 4 lần"
+      ],
+      "finalAnswer": "4 lần"
+    }
+  },
+  {
+    "id": "grade4_prob1",
+    "grade": 4,
+    "section": "Hình học và đo lường",
+    "order": 1,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Tìm hai số khi biết tổng và hiệu"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Tìm hai số khi biết tổng và hiệu",
+    "title": "Diện tích mảnh vườn hình chữ nhật",
+    "problemText": "Một mảnh vườn hình chữ nhật có nửa chu vi là 48 m. Chiều dài hơn chiều rộng 12 m. Tính diện tích của mảnh vườn đó.",
+    "guidance": "Nửa chu vi là tổng chiều dài và chiều rộng. Cộng tổng với hiệu rồi chia đôi để tìm cạnh dài.",
+    "difficulty": "Thử thách",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chiều dài là:",
+        "(48 + 12) : 2 = 30 (m)",
+        "Chiều rộng là:",
+        "48 − (30) = 18 (m)",
+        "Diện tích là:",
+        "(30) × (18) = 540 (m²)",
+        "Đáp số: 540 m²"
+      ],
+      "finalAnswer": "540 m²"
+    }
+  },
+  {
+    "id": "grade4_prob2",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 2,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Ôn tập phép cộng"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Ôn tập phép cộng",
+    "title": "Đặt tính phép cộng ba chữ số",
+    "problemText": "Đặt tính rồi tính phép tính sau ra vở: 356 + 128 = ?",
+    "guidance": "Đặt các chữ số thẳng hàng. Cộng từ hàng đơn vị và nhớ sang hàng liền trước khi cần.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Đặt tính phép cộng ba chữ số là:",
+        "356 + 128 = 484",
+        "Đáp số: 484"
+      ],
+      "finalAnswer": "484"
+    }
+  },
+  {
+    "id": "grade4_prob3",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 3,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép cộng số tự nhiên"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép cộng số tự nhiên",
+    "title": "Cộng số nhiều chữ số",
+    "problemText": "Tính 23456 + 12345.",
+    "guidance": "Đặt thẳng hàng các chữ số rồi cộng từ phải sang trái.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Cộng số nhiều chữ số là:",
+        "23456 + 12345 = 35801",
+        "Đáp số: 35801"
+      ],
+      "finalAnswer": "35801"
+    }
+  },
+  {
+    "id": "grade4_prob4",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 4,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép trừ số tự nhiên"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép trừ số tự nhiên",
+    "title": "Trừ số nhiều chữ số",
+    "problemText": "Tính 70000 - 28576.",
+    "guidance": "Đặt thẳng các hàng và thực hiện trừ từ phải sang trái, đổi ở hàng cần thiết.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Trừ số nhiều chữ số là:",
+        "70000 − 28576 = 41424",
+        "Đáp số: 41424"
+      ],
+      "finalAnswer": "41424"
+    }
+  },
+  {
+    "id": "grade4_prob5",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 5,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép nhân số tự nhiên"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép nhân số tự nhiên",
+    "title": "Nhân với số có hai chữ số",
+    "problemText": "Tính 236 × 24.",
+    "guidance": "Tách số nhân theo hàng chục và hàng đơn vị, tính các tích riêng rồi cộng lại.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Nhân với số có hai chữ số là:",
+        "236 × 24 = 5664",
+        "Đáp số: 5664"
+      ],
+      "finalAnswer": "5664"
+    }
+  },
+  {
+    "id": "grade4_prob6",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 6,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép chia số tự nhiên"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép chia số tự nhiên",
+    "title": "Chia cho số có hai chữ số",
+    "problemText": "Tính 864 : 24.",
+    "guidance": "Ước lượng thương từng lần chia, nhân lại rồi trừ để kiểm tra số dư.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chia cho số có hai chữ số là:",
+        "864 : 24 = 36",
+        "Đáp số: 36"
+      ],
+      "finalAnswer": "36"
+    }
+  },
+  {
+    "id": "grade4_prob7",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 7,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Tìm số trung bình cộng"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Tìm số trung bình cộng",
+    "title": "Trung bình số cây",
+    "problemText": "Có 3 tổ trồng lần lượt 12 cây, 15 cây và 18 cây. Hỏi trung bình mỗi tổ trồng bao nhiêu cây?",
+    "guidance": "Trung bình cộng bằng tổng số cây chia cho số tổ.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Trung bình số cây là:",
+        "(12 + 15 + 18) : 3 = 15 (cây)",
+        "Đáp số: 15 cây"
+      ],
+      "finalAnswer": "15 cây"
+    }
+  },
+  {
+    "id": "grade4_prob8",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 8,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Tìm hai số khi biết tổng và hiệu"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Tìm hai số khi biết tổng và hiệu",
+    "title": "Hai số biết tổng và hiệu",
+    "problemText": "Tổng hai số là 70, hiệu hai số là 14. Tìm số lớn.",
+    "guidance": "Cộng tổng và hiệu được hai lần số lớn. Em chia kết quả đó cho hai.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Hai số biết tổng và hiệu là:",
+        "(70 + 14) : 2 = 42",
+        "Đáp số: 42"
+      ],
+      "finalAnswer": "42"
+    }
+  },
+  {
+    "id": "grade4_prob9",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 9,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép cộng phân số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép cộng phân số",
+    "title": "Cộng phân số cùng mẫu",
+    "problemText": "Tính 2/7 + 3/7.",
+    "guidance": "Hai phân số cùng mẫu. Em cộng các tử số và giữ nguyên mẫu số.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Cộng phân số cùng mẫu là:",
+        "2 : 7 + 3 : 7 = 5/7",
+        "Đáp số: 5/7"
+      ],
+      "finalAnswer": "5/7"
+    }
+  },
+  {
+    "id": "grade4_prob10",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 10,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép trừ phân số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép trừ phân số",
+    "title": "Trừ phân số cùng mẫu",
+    "problemText": "Tính 8/9 - 2/9.",
+    "guidance": "Hai phân số cùng mẫu. Em trừ các tử số, giữ mẫu rồi rút gọn nếu có thể.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Trừ phân số cùng mẫu là:",
+        "8 : 9 − 2 : 9 = 2/3",
+        "Đáp số: 2/3"
+      ],
+      "finalAnswer": "2/3"
+    }
+  },
+  {
+    "id": "grade4_prob11",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 11,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép cộng phân số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép cộng phân số",
+    "title": "Cộng phân số khác mẫu",
+    "problemText": "Tính 1/3 + 1/6.",
+    "guidance": "Quy đồng để hai phân số có cùng mẫu. Sau đó cộng tử số và giữ mẫu chung.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Cộng phân số khác mẫu là:",
+        "1 : 3 + 1 : 6 = 1/2",
+        "Đáp số: 1/2"
+      ],
+      "finalAnswer": "1/2"
+    }
+  },
+  {
+    "id": "grade4_prob12",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 12,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép nhân phân số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép nhân phân số",
+    "title": "Nhân hai phân số",
+    "problemText": "Tính 2/3 × 3/5.",
+    "guidance": "Nhân tử số với tử số, mẫu số với mẫu số, rồi rút gọn phân số.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Nhân hai phân số là:",
+        "(2 : 3) × (3 : 5) = 2/5",
+        "Đáp số: 2/5"
+      ],
+      "finalAnswer": "2/5"
+    }
+  },
+  {
+    "id": "grade4_prob13",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 13,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép chia phân số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép chia phân số",
+    "title": "Chia hai phân số",
+    "problemText": "Tính 3/4 : 2/5.",
+    "guidance": "Chia cho một phân số khác không bằng nhân với phân số đảo ngược của nó.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chia hai phân số là:",
+        "(3 : 4) : (2 : 5) = 15/8",
+        "Đáp số: 15/8"
+      ],
+      "finalAnswer": "15/8"
+    }
+  },
+  {
+    "id": "grade4_prob14",
+    "grade": 4,
+    "section": "Số và phép tính",
+    "order": 14,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Tìm phân số của một số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Tìm phân số của một số",
+    "title": "Phân số của số cây",
+    "problemText": "Vườn có 35 cây. Trong đó 3/5 số cây là cây cam. Hỏi vườn có bao nhiêu cây cam?",
+    "guidance": "Tìm phân số của một số bằng cách nhân số đó với phân số đã cho.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Phân số của số cây là:",
+        "35 × (3 : 5) = 21 (cây cam)",
+        "Đáp số: 21 cây cam"
+      ],
+      "finalAnswer": "21 cây cam"
+    }
+  },
+  {
+    "id": "grade4_prob15",
+    "grade": 4,
+    "section": "Hình học và đo lường",
+    "order": 15,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Diện tích hình bình hành"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Diện tích hình bình hành",
+    "title": "Diện tích hình bình hành",
+    "problemText": "Hình bình hành có đáy 12 cm và chiều cao 7 cm. Tính diện tích hình bình hành.",
+    "guidance": "Diện tích hình bình hành bằng đáy nhân chiều cao tương ứng khi cùng đơn vị.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Diện tích hình bình hành là:",
+        "12 × 7 = 84 (cm²)",
+        "Đáp số: 84 cm²"
+      ],
+      "finalAnswer": "84 cm²"
+    }
+  },
+  {
+    "id": "grade4_prob16",
+    "grade": 4,
+    "section": "Hình học và đo lường",
+    "order": 16,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Đổi đơn vị khối lượng"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Đổi đơn vị khối lượng",
+    "title": "Đổi ki-lô-gam thành gam",
+    "problemText": "Biết 1 kg bằng 1000 g. Hỏi 3 kg bằng bao nhiêu gam?",
+    "guidance": "Mỗi ki-lô-gam có cùng số gam. Em nhân số ki-lô-gam với hệ số đổi đã cho.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Đổi ki-lô-gam thành gam là:",
+        "3 × 1000 = 3000 (g)",
+        "Đáp số: 3000 g"
+      ],
+      "finalAnswer": "3000 g"
+    }
+  },
+  {
+    "id": "grade4_prob17",
+    "grade": 4,
+    "section": "Thống kê và xác suất",
+    "order": 17,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Đọc biểu đồ cột"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Đọc biểu đồ cột",
+    "title": "Tổng số sách hai tháng",
+    "problemText": "Biểu đồ cho biết tháng đầu lớp đọc 45 quyển sách, tháng sau đọc 38 quyển. Hỏi hai tháng lớp đọc tất cả bao nhiêu quyển?",
+    "guidance": "Gộp các phần thì cộng; tìm phần còn lại thì trừ. Em đọc câu hỏi để chọn phép tính phù hợp.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Tổng số sách hai tháng là:",
+        "45 + 38 = 83 (quyển sách)",
+        "Đáp số: 83 quyển sách"
+      ],
+      "finalAnswer": "83 quyển sách"
+    }
+  },
+  {
+    "id": "grade4_prob18",
+    "grade": 4,
+    "section": "Thực hành và trải nghiệm",
+    "order": 18,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bài toán liên quan đến rút về đơn vị"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bài toán liên quan đến rút về đơn vị",
+    "title": "Số tiền mua bút",
+    "problemText": "Mua 4 bút hết 28000 đồng. Hỏi mua 7 bút cùng loại hết bao nhiêu đồng?",
+    "guidance": "Các bút có giá như nhau. Em chia số tiền mua ban đầu cho số bút đã mua.",
+    "difficulty": "Thử thách",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Giá một bút là:",
+        "28000 : 4 = 7000 (đồng)",
+        "Giá số bút cần mua là:",
+        "(7000) × 7 = 49000 (đồng)",
+        "Đáp số: 49000 đồng"
+      ],
+      "finalAnswer": "49000 đồng"
+    }
+  },
+  {
+    "id": "grade4_prob19",
+    "grade": 4,
+    "section": "Hình học và đo lường",
+    "order": 19,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Chu vi và diện tích"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Chu vi và diện tích",
+    "title": "Diện tích sân hình chữ nhật",
+    "problemText": "Sân hình chữ nhật dài 25 m, rộng 16 m. Tính diện tích sân.",
+    "guidance": "Diện tích hình chữ nhật bằng chiều dài nhân chiều rộng.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Diện tích sân hình chữ nhật là:",
+        "25 × 16 = 400 (m²)",
+        "Đáp số: 400 m²"
+      ],
+      "finalAnswer": "400 m²"
+    }
+  },
+  {
+    "id": "grade4_prob20",
+    "grade": 4,
+    "section": "Thực hành và trải nghiệm",
+    "order": 20,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Ôn tập số trung bình cộng"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Ôn tập số trung bình cộng",
+    "title": "Trung bình lượng nước",
+    "problemText": "Trong 4 ngày, gia đình dùng lần lượt 120 l, 130 l, 110 l và 140 l nước. Trung bình mỗi ngày dùng bao nhiêu lít nước?",
+    "guidance": "Cộng lượng nước trong các ngày rồi chia cho số ngày được thống kê.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Trung bình lượng nước là:",
+        "(120 + 130 + 110 + 140) : 4 = 125 (l)",
+        "Đáp số: 125 l"
+      ],
+      "finalAnswer": "125 l"
+    }
+  },
+  {
+    "id": "grade5_prob1",
+    "grade": 5,
+    "section": "Hình học và đo lường",
+    "order": 1,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Diện tích hình tam giác"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Diện tích hình tam giác",
+    "title": "Diện tích tam giác có đáy và chiều cao thập phân",
+    "problemText": "Một hình tam giác có độ dài đáy là 15 cm và chiều cao tương ứng là 8,4 cm. Tính diện tích của hình tam giác đó.",
+    "guidance": "Diện tích tam giác bằng đáy nhân chiều cao tương ứng rồi chia đôi.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Diện tích tam giác có đáy và chiều cao thập phân là:",
+        "15 × 8.4 : 2 = 63 (cm²)",
+        "Đáp số: 63 cm²"
+      ],
+      "finalAnswer": "63 cm²"
+    }
+  },
+  {
+    "id": "grade5_prob2",
+    "grade": 5,
+    "section": "Thực hành và trải nghiệm",
+    "order": 2,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Vận tốc, quãng đường, thời gian"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Vận tốc, quãng đường, thời gian",
+    "title": "Vận tốc người đi xe máy",
+    "problemText": "Một người đi xe máy khởi hành từ A lúc 7 giờ 30 phút và đến B lúc 9 giờ. Quãng đường AB dài 60 km. Tính vận tốc của xe máy theo đơn vị km/giờ.",
+    "guidance": "Đổi phần phút ra phần của một giờ rồi lấy giờ đến trừ giờ xuất phát.",
+    "difficulty": "Thử thách",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Thời gian đi là:",
+        "9 − (7 + 30 : 60) = 1,5 (giờ)",
+        "Vận tốc là:",
+        "60 : (3 : 2) = 40 (km/giờ)",
+        "Đáp số: 40 km/giờ"
+      ],
+      "finalAnswer": "40 km/giờ"
+    }
+  },
+  {
+    "id": "grade5_prob3",
+    "grade": 5,
+    "section": "Số và phép tính",
+    "order": 3,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép cộng số thập phân"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép cộng số thập phân",
+    "title": "Cộng số thập phân",
+    "problemText": "Tính 12,35 + 4,8.",
+    "guidance": "Viết các dấu phẩy thẳng cột, cộng theo hàng rồi đặt dấu phẩy ở kết quả.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Cộng số thập phân là:",
+        "12.35 + 4.8 = 17,15",
+        "Đáp số: 17,15"
+      ],
+      "finalAnswer": "17,15"
+    }
+  },
+  {
+    "id": "grade5_prob4",
+    "grade": 5,
+    "section": "Số và phép tính",
+    "order": 4,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép trừ số thập phân"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép trừ số thập phân",
+    "title": "Trừ số thập phân",
+    "problemText": "Tính 20,5 - 7,85.",
+    "guidance": "Đặt thẳng dấu phẩy, bổ sung chữ số không nếu cần rồi trừ theo hàng.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Trừ số thập phân là:",
+        "20.5 − 7.85 = 12,65",
+        "Đáp số: 12,65"
+      ],
+      "finalAnswer": "12,65"
+    }
+  },
+  {
+    "id": "grade5_prob5",
+    "grade": 5,
+    "section": "Số và phép tính",
+    "order": 5,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép nhân số thập phân"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép nhân số thập phân",
+    "title": "Nhân số thập phân",
+    "problemText": "Tính 3,6 × 2,5.",
+    "guidance": "Nhân như số tự nhiên rồi đếm tổng số chữ số ở phần thập phân của các thừa số.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Nhân số thập phân là:",
+        "3.6 × 2.5 = 9",
+        "Đáp số: 9"
+      ],
+      "finalAnswer": "9"
+    }
+  },
+  {
+    "id": "grade5_prob6",
+    "grade": 5,
+    "section": "Số và phép tính",
+    "order": 6,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép chia số thập phân"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép chia số thập phân",
+    "title": "Chia số thập phân",
+    "problemText": "Tính 18,9 : 3.",
+    "guidance": "Chia lần lượt từng hàng, khi chuyển sang phần thập phân thì viết dấu phẩy ở thương.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chia số thập phân là:",
+        "18.9 : 3 = 6,3",
+        "Đáp số: 6,3"
+      ],
+      "finalAnswer": "6,3"
+    }
+  },
+  {
+    "id": "grade5_prob7",
+    "grade": 5,
+    "section": "Số và phép tính",
+    "order": 7,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Phép chia số thập phân"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Phép chia số thập phân",
+    "title": "Chia cho số thập phân",
+    "problemText": "Tính 6,72 : 1,2.",
+    "guidance": "Nhân cả số bị chia và số chia với cùng một lũy thừa của mười để số chia thành số tự nhiên.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chia cho số thập phân là:",
+        "6.72 : 1.2 = 5,6",
+        "Đáp số: 5,6"
+      ],
+      "finalAnswer": "5,6"
+    }
+  },
+  {
+    "id": "grade5_prob8",
+    "grade": 5,
+    "section": "Thống kê và xác suất",
+    "order": 8,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Tìm tỉ số phần trăm"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Tìm tỉ số phần trăm",
+    "title": "Tỉ số phần trăm",
+    "problemText": "Lớp có 40 học sinh, trong đó 18 học sinh thích bóng rổ. Biết tỉ số phần trăm được tính bằng tỉ số nhân 100. Tính tỉ số phần trăm học sinh thích bóng rổ.",
+    "guidance": "Lấy số bạn thích bóng rổ chia số bạn cả lớp rồi nhân với một trăm.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Tỉ số phần trăm là:",
+        "18 : 40 × 100 = 45 (%)",
+        "Đáp số: 45 %"
+      ],
+      "finalAnswer": "45 %"
+    }
+  },
+  {
+    "id": "grade5_prob9",
+    "grade": 5,
+    "section": "Thực hành và trải nghiệm",
+    "order": 9,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Tìm phần trăm của một số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Tìm phần trăm của một số",
+    "title": "Giảm giá chiếc cặp",
+    "problemText": "Chiếc cặp giá 200000 đồng, được giảm 15%. Tính số tiền được giảm.",
+    "guidance": "Phần trăm nghĩa là các phần trong một trăm. Nhân giá ban đầu với tỉ lệ giảm.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Giảm giá chiếc cặp là:",
+        "200000 × (15 : 100) = 30000 (đồng)",
+        "Đáp số: 30000 đồng"
+      ],
+      "finalAnswer": "30000 đồng"
+    }
+  },
+  {
+    "id": "grade5_prob10",
+    "grade": 5,
+    "section": "Thực hành và trải nghiệm",
+    "order": 10,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Bài toán về phần trăm"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Bài toán về phần trăm",
+    "title": "Giá sau khi giảm",
+    "problemText": "Áo giá 150000 đồng được giảm 20%. Hỏi giá áo sau khi giảm là bao nhiêu đồng?",
+    "guidance": "Nhân giá ban đầu với tỉ lệ giảm để tìm phần tiền được bớt.",
+    "difficulty": "Thử thách",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Số tiền được giảm là:",
+        "150000 × (20 : 100) = 30000 (đồng)",
+        "Giá sau khi giảm là:",
+        "150000 − (30000) = 120000 (đồng)",
+        "Đáp số: 120000 đồng"
+      ],
+      "finalAnswer": "120000 đồng"
+    }
+  },
+  {
+    "id": "grade5_prob11",
+    "grade": 5,
+    "section": "Hình học và đo lường",
+    "order": 11,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Diện tích hình thang"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Diện tích hình thang",
+    "title": "Diện tích hình thang",
+    "problemText": "Hình thang có hai đáy dài 12 m và 8 m, chiều cao 5 m. Tính diện tích hình thang.",
+    "guidance": "Diện tích hình thang bằng tổng hai đáy nhân chiều cao rồi chia đôi.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Diện tích hình thang là:",
+        "(12 + 8) × 5 : 2 = 50 (m²)",
+        "Đáp số: 50 m²"
+      ],
+      "finalAnswer": "50 m²"
+    }
+  },
+  {
+    "id": "grade5_prob12",
+    "grade": 5,
+    "section": "Hình học và đo lường",
+    "order": 12,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Chu vi hình tròn"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Chu vi hình tròn",
+    "title": "Chu vi hình tròn",
+    "problemText": "Hình tròn có đường kính 10 cm. Lấy số pi bằng 3,14. Tính chu vi hình tròn.",
+    "guidance": "Chu vi hình tròn bằng đường kính nhân số pi theo giá trị mà đề đã cho.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Chu vi hình tròn là:",
+        "10 × 3.14 = 31,4 (cm)",
+        "Đáp số: 31,4 cm"
+      ],
+      "finalAnswer": "31,4 cm"
+    }
+  },
+  {
+    "id": "grade5_prob13",
+    "grade": 5,
+    "section": "Hình học và đo lường",
+    "order": 13,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Diện tích hình tròn"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Diện tích hình tròn",
+    "title": "Diện tích hình tròn",
+    "problemText": "Hình tròn có bán kính 5 cm. Lấy số pi bằng 3,14. Tính diện tích hình tròn.",
+    "guidance": "Diện tích hình tròn bằng bán kính nhân bán kính rồi nhân số pi.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Diện tích hình tròn là:",
+        "5 × 5 × 3.14 = 78,5 (cm²)",
+        "Đáp số: 78,5 cm²"
+      ],
+      "finalAnswer": "78,5 cm²"
+    }
+  },
+  {
+    "id": "grade5_prob14",
+    "grade": 5,
+    "section": "Hình học và đo lường",
+    "order": 14,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Thể tích hình hộp chữ nhật"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Thể tích hình hộp chữ nhật",
+    "title": "Thể tích hộp",
+    "problemText": "Hộp chữ nhật có chiều dài 8 cm, chiều rộng 5 cm, chiều cao 4 cm. Tính thể tích hộp.",
+    "guidance": "Thể tích hình hộp chữ nhật bằng tích của chiều dài, chiều rộng và chiều cao.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Thể tích hộp là:",
+        "8 × 5 × 4 = 160 (cm³)",
+        "Đáp số: 160 cm³"
+      ],
+      "finalAnswer": "160 cm³"
+    }
+  },
+  {
+    "id": "grade5_prob15",
+    "grade": 5,
+    "section": "Hình học và đo lường",
+    "order": 15,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Thể tích hình lập phương"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Thể tích hình lập phương",
+    "title": "Thể tích khối lập phương",
+    "problemText": "Khối lập phương có cạnh 6 cm. Tính thể tích khối lập phương.",
+    "guidance": "Thể tích khối lập phương bằng cạnh nhân cạnh rồi nhân cạnh.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Thể tích khối lập phương là:",
+        "6 × 6 × 6 = 216 (cm³)",
+        "Đáp số: 216 cm³"
+      ],
+      "finalAnswer": "216 cm³"
+    }
+  },
+  {
+    "id": "grade5_prob16",
+    "grade": 5,
+    "section": "Thực hành và trải nghiệm",
+    "order": 16,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Chuyển động đều"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Chuyển động đều",
+    "title": "Quãng đường xe đạp",
+    "problemText": "Một bạn đi xe đạp với vận tốc 12 km/giờ trong 2 giờ. Tính quãng đường bạn đã đi.",
+    "guidance": "Trong chuyển động đều, quãng đường bằng vận tốc nhân thời gian.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Quãng đường xe đạp là:",
+        "12 × 2 = 24 (km)",
+        "Đáp số: 24 km"
+      ],
+      "finalAnswer": "24 km"
+    }
+  },
+  {
+    "id": "grade5_prob17",
+    "grade": 5,
+    "section": "Thực hành và trải nghiệm",
+    "order": 17,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Chuyển động đều"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Chuyển động đều",
+    "title": "Thời gian đi ô tô",
+    "problemText": "Ô tô đi quãng đường 135 km với vận tốc 45 km/giờ. Hỏi ô tô đi trong bao nhiêu giờ?",
+    "guidance": "Thời gian bằng quãng đường chia cho vận tốc khi các đơn vị phù hợp.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Thời gian đi ô tô là:",
+        "135 : 45 = 3 (giờ)",
+        "Đáp số: 3 giờ"
+      ],
+      "finalAnswer": "3 giờ"
+    }
+  },
+  {
+    "id": "grade5_prob18",
+    "grade": 5,
+    "section": "Hình học và đo lường",
+    "order": 18,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Đơn vị đo diện tích"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Đơn vị đo diện tích",
+    "title": "Đổi diện tích",
+    "problemText": "Biết 1 ha bằng 10000 m². Hỏi 2,5 ha bằng bao nhiêu mét vuông?",
+    "guidance": "Nhân số héc-ta với số mét vuông trong một héc-ta đã được đề cho.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Đổi diện tích là:",
+        "2.5 × 10000 = 25000 (m²)",
+        "Đáp số: 25000 m²"
+      ],
+      "finalAnswer": "25000 m²"
+    }
+  },
+  {
+    "id": "grade5_prob19",
+    "grade": 5,
+    "section": "Thống kê và xác suất",
+    "order": 19,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Đọc bảng và tính trung bình"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Đọc bảng và tính trung bình",
+    "title": "Trung bình lượng mưa",
+    "problemText": "Lượng mưa trong 3 ngày lần lượt là 12,5 mm, 8 mm và 15,5 mm. Tính lượng mưa trung bình mỗi ngày.",
+    "guidance": "Tổng lượng mưa của các ngày chia cho số ngày là lượng mưa trung bình.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Trung bình lượng mưa là:",
+        "(12.5 + 8 + 15.5) : 3 = 12 (mm)",
+        "Đáp số: 12 mm"
+      ],
+      "finalAnswer": "12 mm"
+    }
+  },
+  {
+    "id": "grade5_prob20",
+    "grade": 5,
+    "section": "Số và phép tính",
+    "order": 20,
+    "week": null,
+    "source": {
+      "kind": "authored-practice",
+      "reference": "https://thphuthohoa.hcm.edu.vn/van-ban-chi-dao/chuong-trinh-giao-duc-pho-thong-2018-mon-toan/ctmb/76384/1240433",
+      "topic": "Ôn tập phân số"
+    },
+    "bookSeries": "Bài luyện tập",
+    "topic": "Ôn tập phân số",
+    "title": "Cộng hai phân số",
+    "problemText": "Tính 2/5 + 3/10.",
+    "guidance": "Đổi hai phân số về cùng mẫu số rồi cộng các tử và giữ mẫu chung.",
+    "difficulty": "Trung bình",
+    "sampleSolution": {
+      "lines": [
+        "Bài giải",
+        "Cộng hai phân số là:",
+        "2 : 5 + 3 : 10 = 7/10",
+        "Đáp số: 7/10"
+      ],
+      "finalAnswer": "7/10"
+    }
+  }
+]

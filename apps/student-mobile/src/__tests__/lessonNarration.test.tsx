@@ -33,6 +33,12 @@ beforeEach(() => {
 });
 afterEach(() => { act(() => view?.unmount()); jest.restoreAllMocks(); jest.useRealTimers(); });
 
+it('opens prepared curriculum speech with an explicit Vietnamese fallback label', async () => {
+  await render({ preparedFallback: true });
+  expect(downloadNarration).toHaveBeenCalledWith({ ...source, useFallback: true }, paragraphs, expect.any(AbortSignal), 'vi-VN-NamMinhNeural', expect.any(Function));
+  expect(text()).toContain('Đang dùng giọng Việt dự phòng.');
+});
+
 it('opens the persisted device voice directly without cloud requests or autoplay', async () => {
   await saveNarrationVoice('device');
   try {

@@ -32,7 +32,7 @@ function ReadyQuizEntry({ sourceType, sourceId }: Source) {
     return () => abort.abort();
   }, [sourceType, sourceId, retry]));
 
-  if (busy) return <PendingTask title="Đang chuẩn bị Quiz…" detail="Sao đang kiểm tra câu luyện tập. Em có thể về trang chủ; bài đã hoàn thành vẫn được giữ."/>;
+  if (busy) return <PendingTask title="Đang chuẩn bị Quiz…" detail="Đang kiểm tra câu luyện tập. Em có thể về trang chủ; bài đã hoàn thành vẫn được giữ."/>;
   if (failed) return <RecoveryNotice title="Chưa tải được Quiz" message="Bài học của em đã hoàn thành. Em có thể thử tải lại Quiz."
     actions={[{ label: 'Thử lại Quiz', icon: 'refresh-outline', onPress: () => setRetry(value => value + 1) }]} />;
   if (!quiz) return null;
@@ -97,7 +97,7 @@ function Invitation({ sourceType, sourceId }: Source) {
     if (!quiz) return null;
     if (quiz.status === 'READY' || quiz.status === 'DEFERRED') {
       return <>
-        <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={s.mascot} accessible={false} />
+        <Image source={require('../../../assets/illustrations/robot-mascot.png')} style={s.mascot} accessible={false} />
         <Text style={s.heading}>Quiz đang chờ em!</Text>
         <Text style={s.body}>Em đã có một Quiz từ bài này rồi. Quiz đang chờ em làm nhé!</Text>
         <AppButton title="Làm Quiz" disabled={busy} onPress={() => router.push(`/quiz/${quiz.quizId}` as never)} />
@@ -106,7 +106,7 @@ function Invitation({ sourceType, sourceId }: Source) {
     }
     if (quiz.status === 'IN_PROGRESS') {
       return <>
-        <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={s.mascot} accessible={false} />
+        <Image source={require('../../../assets/illustrations/robot-mascot.png')} style={s.mascot} accessible={false} />
         <Text style={s.heading}>Quiz đang làm dở</Text>
         <Text style={s.body}>Em đang làm dở Quiz của bài này.</Text>
         <AppButton title="Tiếp tục làm" disabled={busy} onPress={() => router.push(`/quiz/${quiz.quizId}` as never)} />
@@ -115,7 +115,7 @@ function Invitation({ sourceType, sourceId }: Source) {
     }
     // COMPLETED
     return <>
-      <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={s.mascot} accessible={false} />
+      <Image source={require('../../../assets/illustrations/robot-mascot.png')} style={s.mascot} accessible={false} />
       <Text style={s.heading}>Em đã hoàn thành Quiz này!</Text>
       <Text style={s.body}>Em đã hoàn thành Quiz của bài này rồi! Em có thể thử thách câu hỏi mới để nâng sao, hoặc ôn lại câu hỏi cũ nhé.</Text>
       <AppButton title="Làm lại" loadingTitle="Đang chuẩn bị câu mới…" disabled={busy} loading={replaying === 'CHALLENGE'} onPress={() => void handleReplay('CHALLENGE')} />
@@ -126,13 +126,13 @@ function Invitation({ sourceType, sourceId }: Source) {
 
   if (!quiz) return <View style={s.card}>
     <Text style={s.title}>{unavailable ? 'Chưa có Quiz cùng dạng' : 'Quiz sau bài học'}</Text>
-    {busy ? <PendingTask title="Đang chuẩn bị Quiz…" detail="Sao đang kiểm tra câu luyện tập cho em."/> : <Text style={s.body} accessibilityLiveRegion="polite">{error}</Text>}
+    {busy ? <PendingTask title="Đang chuẩn bị Quiz…" detail="Đang kiểm tra câu luyện tập cho em."/> : <Text style={s.body} accessibilityLiveRegion="polite">{error}</Text>}
     {error && !unavailable ? <AppButton title="Thử lại Quiz" variant="secondary" disabled={busy} onPress={() => void prepare()} /> : null}
   </View>;
   return <View style={s.card}>
     {offered ? <>
-      <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={s.mascot} accessible={false} />
-      <Text style={s.heading}>{quiz.topicCode === 'CHECKED_SOURCE_REVIEW' ? 'Ôn chắc bài vừa học' : 'Một thử thách cùng Sao!'}</Text>
+      <Image source={require('../../../assets/illustrations/robot-mascot.png')} style={s.mascot} accessible={false} />
+      <Text style={s.heading}>{quiz.topicCode === 'CHECKED_SOURCE_REVIEW' ? 'Ôn chắc bài vừa học' : 'Một thử thách mới!'}</Text>
       <Text style={s.body}>{quiz.topicCode === 'CHECKED_SOURCE_REVIEW'
         ? 'Em ôn lại đề vừa làm để nhớ cách giải. Câu này giữ các dữ kiện của bài gốc.'
         : 'Em có thể luyện thêm một câu cùng dạng toán vừa học.'}</Text>

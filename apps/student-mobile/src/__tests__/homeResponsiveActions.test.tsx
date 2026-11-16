@@ -24,3 +24,17 @@ it('lets a learner choose a grade directly on a spacious screen after a resize',
   expect(tree!.root.findAll(node => node.props.accessibilityLabel === 'Luyện tập lớp 5')).toHaveLength(0);
   act(() => tree!.unmount());
 });
+
+it('keeps every quick action and the journey available on a phone with carousel controls', () => {
+  let tree: TestRenderer.ReactTestRenderer;
+  act(() => { tree = TestRenderer.create(<HomeDashboard userName="An" onAcquire={() => {}} onArithmetic={() => {}}
+    onPractice={() => {}} onTips={() => {}} onPrivacy={() => {}} />); });
+  const button = (label: string) => tree!.root.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0];
+  expect(button('Tiện ích trước').props.disabled).toBe(true);
+  expect(button('Tiện ích tiếp theo').props.disabled).toBe(false);
+  expect(button('Mở máy tính bỏ túi')).toBeDefined();
+  expect(tree!.root.findAll(node => node.props.testID === 'learning-journey')).not.toHaveLength(0);
+  act(() => button('Tiện ích tiếp theo').props.onPress());
+  expect(button('Tiện ích trước').props.disabled).toBe(false);
+  act(() => tree!.unmount());
+});

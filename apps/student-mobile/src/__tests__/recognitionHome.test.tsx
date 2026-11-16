@@ -76,15 +76,14 @@ describe('Native MathVision recognition entry points', () => {
     expect((useRouter as jest.Mock).mock.results.at(-1)?.value.push).toHaveBeenLastCalledWith({ pathname: '/camera', params: { mode: 'MATH_TUTOR' } });
     act(() => renderer!.unmount());
   });
-  it('opens saved history and the real grade-one curriculum', () => {
+  it('opens saved history and the registered curriculum route', () => {
     let renderer: TestRenderer.ReactTestRenderer;
     act(() => { renderer = TestRenderer.create(<HomeScreen />); });
     const press = (label: string) => renderer!.root.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0].props.onPress();
     act(() => press('Bài đã lưu. Xem lại bài làm của em'));
     expect((useRouter as jest.Mock).mock.results.at(-1)?.value.push).toHaveBeenLastCalledWith('/(tabs)/profile');
     act(() => press('Luyện phép cộng và trừ trong phạm vi 100, lớp 1'));
-    const content = renderer!.root.findAllByType('Text' as any).map(node => String(node.props.children)).join(' ');
-    expect(content).toContain('Bài toán thêm hoa vào lọ');
+    expect((useRouter as jest.Mock).mock.results.at(-1)?.value.push).toHaveBeenLastCalledWith('/(tabs)/lessons');
     act(() => renderer!.unmount());
   });
   it('keeps the native image picker reachable inside the camera', async () => {

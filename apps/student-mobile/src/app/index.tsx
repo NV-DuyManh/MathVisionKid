@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS } from '../constants/theme';
 import { AuthContext } from '../context/AuthContext';
@@ -9,7 +9,7 @@ export default function SplashScreen() {
     const auth = useContext(AuthContext);
     useEffect(() => {
         if (auth?.isLoading) return;
-        router.replace(auth?.isAuthenticated ? '/(tabs)' : '/login');
+        router.replace(auth?.isAuthenticated ? '/(tabs)' : Platform.OS === 'web' ? '/login' : '/welcome');
     }, [router, auth?.isAuthenticated, auth?.isLoading]);
     return (<View style={styles.container}>
       <BrandLockup />

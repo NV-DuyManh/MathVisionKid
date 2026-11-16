@@ -7,11 +7,11 @@ const SOURCES = [
   require('../../../assets/illustrations/approved/progress.webp'),
   require('../../../assets/illustrations/approved/calculator.webp'),
   require('../../../assets/illustrations/student-avatar.png'),
-  require('../../../assets/illustrations/mathvision-star.png'),
+  require('../../../assets/illustrations/robot-mascot.png'),
   require('../../../assets/illustrations/encouragement-crown.png'),
   require('../../../assets/illustrations/streak-flame.png'),
   require('../../../assets/illustrations/reward-star.png'),
-  require('../../../assets/images/mathvision-icon-v2.png'),
+  require('../../../assets/images/mathvision-robot-icon.png'),
 ];
 const ready = new Map<number, ImageRef>();
 const loads = new Map<number, { started: number; promise: Promise<ImageRef> }>();

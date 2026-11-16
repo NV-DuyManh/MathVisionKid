@@ -18,11 +18,12 @@ import { DeviceNarration } from './DeviceNarration';
 import { VoicePicker } from './VoicePicker';
 
 type Props = { scope: string; source: NarrationSource; paragraphs: string[]; disabled?: boolean; compact?: boolean; onFinished?: () => void;
+  preparedFallback?: boolean;
   audioLoader?: (voice: NarrationVoice, signal: AbortSignal) => Promise<Uint8Array> };
 export function LessonNarration(props: Props) {
   return <Narration key={JSON.stringify([NARRATION_RENDER_POLICY, props.scope, props.source, props.paragraphs, props.disabled])} {...props} />;
 }
-function Narration({ source, paragraphs, disabled = false, compact = false, onFinished, audioLoader }: Props) {
+function Narration({ source, paragraphs, disabled = false, compact = false, onFinished, audioLoader, preparedFallback = false }: Props) {
   const cache = useContext(NarrationCacheContext);
   const bookmarks = useContext(PlaybackBookmarksContext);
   const [cues,setCues] = useState<AudioCue[]>([]), [initialPosition,setInitialPosition] = useState(0), [activeCue,setActiveCue] = useState(-1);
@@ -31,7 +32,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
   const playerMeasure = useRef<ReturnType<typeof measureVoice> | null>(null);
   const [uri, setUri] = useState(''), [error, setError] = useState(''), [attempt, setAttempt] = useState(0), [expanded, setExpanded] = useState(false);
   const [voice, setVoice] = useState<NarrationChoice | null>(currentNarrationVoice);
-  const [serverFallback, setServerFallback] = useState(false);
+  const [serverFallback, setServerFallback] = useState(preparedFallback);
   const onlineVoice = useRef<NarrationVoice>(isNarrationVoice(voice) ? voice : DEFAULT_NARRATION_VOICE);
   const [progress, setProgress] = useState<NarrationProgress | null>(null);
   const deviceVoice = voice === 'device';

@@ -36,6 +36,13 @@ it('does not request cloud audio for a saved device choice and resumes warming w
   expect(prepareLessonMedia).toHaveBeenCalledWith(source,'vi-VN-NamMinhNeural',expect.any(AbortSignal));
 });
 
+it('prepares one catalog fallback without requesting speculative neural voices', async () => {
+  await act(async () => { view = TestRenderer.create(screen({ ...source, useFallback: true })); });
+  expect(prepareLessonMedia).not.toHaveBeenCalled();
+  expect(downloadNarration).toHaveBeenCalledTimes(1);
+  expect(downloadNarration).toHaveBeenCalledWith({ ...source, useFallback: true, prefetch: true }, parts, expect.any(AbortSignal), 'vi-VN-HoaiMyNeural', expect.any(Function));
+});
+
 it('prepares both current voices once and joins the selected download on listening', async () => {
   let finish!: (value: Uint8Array) => void;
   (downloadNarration as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));

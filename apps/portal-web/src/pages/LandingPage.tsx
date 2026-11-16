@@ -118,8 +118,8 @@ export const LandingPage: React.FC = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                   <Box
                     component="img"
-                    src="/ui/mathvision-star.webp"
-                    alt="Ngôi sao MathVision"
+                    src="/ui/robot-mascot.webp"
+                    alt="Robot MathVisionKid"
                     sx={{ width: { xs: 58, md: 82 }, height: { xs: 58, md: 82 }, flexShrink: 0, objectFit: 'contain' }}
                   />
                   <Box sx={{ maxWidth: 280 }}>
@@ -134,7 +134,7 @@ export const LandingPage: React.FC = () => {
                     >
                       {user && isStudent
                         ? `Chào ${user.displayName}! Hôm nay em muốn giải toán gì cùng MathVision?`
-                        : 'Cùng Ngôi sao MathVision mở trang vở hôm nay nhé!'}
+                        : 'Cùng robot MathVisionKid mở trang vở hôm nay nhé!'}
                     </Typography>
                   </Box>
                 </Box>
@@ -171,7 +171,7 @@ export const LandingPage: React.FC = () => {
                     mb: 3,
                   }}
                 >
-                  Chụp bài toán viết tay và cùng Ngôi sao tìm ra lời giải qua từng câu hỏi gợi mở. Dành cho học sinh lớp 1 đến lớp 5.
+                  Chụp bài toán viết tay và cùng robot MathVisionKid tìm ra lời giải qua từng câu hỏi gợi mở. Dành cho học sinh lớp 1 đến lớp 5.
                 </Typography>
 
                 {/* Dynamic Auth Hub */}
@@ -822,9 +822,9 @@ export const LandingPage: React.FC = () => {
 
                     {/* Mascot Note */}
                     <Box sx={{ mt: 2.5, p: 2, borderRadius: 2.5, bgcolor: '#FFFBEB', border: '1px solid #FDE68A', display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                      <Box component="img" src="/ui/mathvision-star.webp" alt="Star" sx={{ width: 28, height: 28 }} />
+                      <Box component="img" src="/ui/robot-mascot.webp" alt="Robot MathVisionKid" sx={{ width: 28, height: 28 }} />
                       <Typography variant="caption" sx={{ color: '#92400E', fontWeight: 800 }}>
-                        💡 Ngôi sao MathVision nhắc: "Bé hãy tự nhẩm từng bước trước khi điền số nhé, em làm rất tốt đấy!"
+                        💡 Robot MathVisionKid nhắc: "Bé hãy tự nhẩm từng bước trước khi điền số nhé, em làm rất tốt đấy!"
                       </Typography>
                     </Box>
                   </Box>
@@ -982,9 +982,9 @@ export const LandingPage: React.FC = () => {
                     }}
                   >
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                      <Box component="img" src="/ui/mathvision-star.webp" alt="Star mascot" sx={{ width: 32, height: 32 }} />
+                      <Box component="img" src="/ui/robot-mascot.webp" alt="Robot MathVisionKid" sx={{ width: 32, height: 32 }} />
                       <Typography variant="subtitle2" sx={{ fontWeight: 900, color: '#0F172A' }}>
-                        Lời khuyên của Ngôi sao MathVision
+                        Lời khuyên của robot MathVisionKid
                       </Typography>
                     </Box>
                     <Typography variant="body2" sx={{ color: '#475569', lineHeight: 1.6 }}>

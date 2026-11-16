@@ -234,6 +234,26 @@ test('student web session validates the backend, rejects cached authority, and s
       assert.equal(redirects.length, 0);
       await unmount();
     });
+    await t.test('signed-out welcome is public while adjacent student deep links still require login', async () => {
+      await tokenStorage.clearTokens();
+      getProfile = async () => { assert.fail('A signed-out welcome never requests an authenticated profile'); };
+      for (const path of ['/study/welcome', '/learn/welcome', '/welcome']) {
+        dom.reconfigure({ url: `https://mathvision.example${path}` });
+        redirects.length = 0;
+        await mount();
+        assert.equal(currentContext.isLoading, false);
+        assert.equal(currentContext.isAuthenticated, false);
+        assert.equal(dom.window.document.body.textContent, 'Login form');
+        assert.equal(redirects.length, 0);
+        await unmount();
+      }
+      dom.reconfigure({ url: 'https://mathvision.example/study/lessons' });
+      await mount();
+      assert.equal(redirects.at(-1), '/login');
+      assert.equal(dom.window.document.body.textContent.includes('Login form'), false);
+      await unmount();
+      dom.reconfigure({ url: 'https://mathvision.example/login' });
+    });
     await t.test('Teacher and Admin use a verified one-time handoff without entering or persisting a Student session', async () => {
       for (const role of ['TEACHER', 'ADMIN']) {
         redirects.length = 0;

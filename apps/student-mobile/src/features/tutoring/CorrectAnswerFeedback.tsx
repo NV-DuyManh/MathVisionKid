@@ -10,7 +10,7 @@ const PIECES = Array.from({ length: 18 }, (_, index) => ({
 }));
 
 /** One small celebration; never moves the next task or intercepts a touch. */
-export function CorrectAnswerFeedback({ message, detail = 'Em xem lại bước vừa làm, rồi bấm tiếp tục nhé.' }: { message: string; detail?: string }) {
+export function CorrectAnswerFeedback({ message, detail = '' }: { message: string; detail?: string }) {
   const [motion] = useState(() => new Animated.Value(0));
   const [celebrating, setCelebrating] = useState(false);
   useEffect(() => {

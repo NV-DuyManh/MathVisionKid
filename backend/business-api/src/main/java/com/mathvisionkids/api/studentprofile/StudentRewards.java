@@ -85,14 +85,16 @@ public class StudentRewards {
     }
 
     static final String GLOBAL_RANKING = """
-            SELECT p.student_id, p.public_alias, p.avatar, SUM(a.stars) AS stars,
+            SELECT p.student_id, p.public_alias, p.avatar,
+              CASE WHEN p.leaderboard_name_hidden = FALSE AND TRIM(u.display_name) <> '' AND u.display_name NOT LIKE '%@%'
+                THEN u.display_name ELSE p.public_alias END AS board_name, SUM(a.stars) AS stars,
               ROW_NUMBER() OVER (ORDER BY SUM(a.stars) DESC, p.public_alias) AS position
             FROM student_profile_preferences p
             JOIN users u ON u.id = p.student_id
             JOIN student_verified_activities a ON a.student_id = p.student_id AND a.stars = 1
             WHERE p.leaderboard_visible = TRUE AND u.active = TRUE AND u.role = 'STUDENT'
               AND LOWER(u.email) NOT LIKE '%@mathvision.local'
-            GROUP BY p.student_id, p.public_alias, p.avatar
+            GROUP BY p.student_id, p.public_alias, p.avatar, p.leaderboard_name_hidden, u.display_name
             """;
 
     void rememberChallengers() {

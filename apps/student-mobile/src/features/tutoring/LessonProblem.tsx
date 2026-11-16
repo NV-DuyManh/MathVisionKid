@@ -7,7 +7,7 @@ import { COLORS, FONTS } from '../../constants/theme';
 
 /** Stays above the working area; long questions scroll without pushing the task away. */
 export function LessonProblem({ problem, imageUri, onEdit }: { problem: string; imageUri?: string; onEdit: () => void }) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const [showImage, setShowImage] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
   const contentId = useId();
@@ -25,8 +25,8 @@ export function LessonProblem({ problem, imageUri, onEdit }: { problem: string; 
         <Text style={styles.action}>{expanded ? 'Thu gọn' : 'Xem đầy đủ'}</Text>
         <Ionicons name={expanded ? 'chevron-up' : 'chevron-down'} size={17} color={COLORS.primaryDark} accessible={false} />
       </Pressable>
-      {imageUri ? <Pressable accessibilityRole="button" accessibilityLabel={showImage ? 'Ẩn ảnh đề bài' : 'Xem ảnh đề bài'}
-        accessibilityState={{ expanded: showImage }} onPress={() => { setExpanded(true); setShowImage(value => !value); }}
+      {imageUri ? <Pressable accessibilityRole="button" accessibilityLabel={showImage ? 'Xem đề bài bằng chữ' : 'Xem ảnh đề bài'}
+        accessibilityState={{ selected: showImage }} aria-pressed={showImage} onPress={() => { setExpanded(true); setShowImage(value => !value); setContentHeight(0); }}
         style={({ pressed }) => [styles.edit, pressed && styles.pressed]}>
         <Ionicons name="image-outline" size={19} color={COLORS.primaryDark} accessible={false} />
       </Pressable> : null}
@@ -38,8 +38,8 @@ export function LessonProblem({ problem, imageUri, onEdit }: { problem: string; 
     {expanded ? <ScrollView nativeID={contentId} testID="lesson-problem-content" nestedScrollEnabled tabIndex={0} accessibilityLabel="Nội dung đề bài"
       onContentSizeChange={(_, value) => setContentHeight(value)}
       style={[styles.content, { maxHeight: maxBodyHeight, ...(contentHeight > 0 ? { height: Math.min(contentHeight, maxBodyHeight) } : {}) }]} contentContainerStyle={styles.words}>
-      <MathText style={styles.body}>{problemPresentation(problem)}</MathText>
-      {imageUri && showImage ? <Image source={{ uri: imageUri }} resizeMode="contain" style={styles.photo} accessibilityLabel="Ảnh đề bài đã che thông tin" /> : null}
+      {imageUri && showImage ? <Image source={{ uri: imageUri }} resizeMode="contain" style={styles.photo} accessibilityLabel="Ảnh đề bài đã che thông tin" />
+        : <MathText style={styles.body}>{problemPresentation(problem)}</MathText>}
     </ScrollView> : null}
   </View>;
 }

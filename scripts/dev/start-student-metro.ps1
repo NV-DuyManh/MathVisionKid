@@ -1,6 +1,8 @@
 # scripts/dev/start-student-metro.ps1
 # Starts the Student Mobile Metro bundler in LAN mode in a dedicated visible console window
 $ErrorActionPreference = "Stop"
+. (Join-Path $PSScriptRoot 'toolchain.ps1')
+Use-MathVisionToolchain
 [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
 
 $RepoRoot = if (Test-Path "$PSScriptRoot\..\..\package.json") {

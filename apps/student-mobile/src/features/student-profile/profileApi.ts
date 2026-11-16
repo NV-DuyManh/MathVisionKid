@@ -13,6 +13,7 @@ export type StudentProfile = {
   avatarPhoto?: string | null;
   passwordLoginAvailable?: boolean;
   leaderboardVisible: boolean;
+  leaderboardNameHidden?: boolean;
   publicAlias: string;
   selectedTitle: string | null;
   stars: number;
@@ -23,8 +24,9 @@ export type StudentProfile = {
   titles: StudentTitle[];
   history: { source: 'LESSON' | 'QUIZ' | 'GAME'; completedAt: string; stars: number }[];
 };
-export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'leaderboardVisible' | 'selectedTitle'> & { removePhoto?: boolean };
+export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'leaderboardVisible' | 'leaderboardNameHidden' | 'selectedTitle'> & { removePhoto?: boolean };
 export type Leaderboard = {
+  gradeLevel?: number | null;
   ownPosition: number | null;
   entries: { position: number; alias: string; avatar: string; stars: number; rank: Rank; self: boolean }[];
 };

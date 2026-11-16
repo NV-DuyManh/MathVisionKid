@@ -45,7 +45,7 @@ export function ProfileRankCard({ profile }: { profile: StudentProfile }) {
       ? 'Em đang ở bậc Thách Đấu.'
       : 'Đạt Top 200 toàn hệ thống để lên Thách Đấu.'}</Text>}
     <Text style={styles.light}>Hạng cao nhất · {highestRank}</Text>
-    {position !== null && <Text style={styles.light}>Vị trí toàn hệ thống · #{position}</Text>}
+    {position !== null && <Text style={styles.light}>Vị trí khối {profile.gradeLevel} · #{position}</Text>}
   </View>;
 }
 

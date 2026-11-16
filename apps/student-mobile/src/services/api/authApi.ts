@@ -9,7 +9,7 @@ export interface LoginResponse {
 }
 
 export const DEMO_STUDENTS: Record<string, { name: string; gradeLevel: number }> = {
-  'minh.student@mathvision.local': { name: 'Nguyễn Bình Minh', gradeLevel: 3 },
+  'minh.student@mathvision.local': { name: 'Nguyễn Bình Minh', gradeLevel: 5 },
   'an.student@mathvision.local': { name: 'Trần Văn An', gradeLevel: 3 },
   'binh.student@mathvision.local': { name: 'Lê Thanh Bình', gradeLevel: 3 },
   'cuong.student@mathvision.local': { name: 'Phạm Quốc Cường', gradeLevel: 3 },

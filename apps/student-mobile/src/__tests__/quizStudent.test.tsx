@@ -288,6 +288,16 @@ it('does not prefetch the placeholder or an unopened Quiz question',async()=>{
   expect(view.root.findByType(QuizNarrationPreparation).props.paragraphs).toEqual([]);
 });
 
+it('keeps all Quiz tools in a non-scrolling bottom dock', async () => {
+  (quizApi.get as jest.Mock).mockResolvedValue({ ...ready, status: 'IN_PROGRESS' });
+  await act(async () => { view = TestRenderer.create(wrapper(<QuizScreen />)); });
+  const dock = view.root.findAllByProps({ testID: 'quiz-fixed-tools' })[0];
+  expect(dock).toBeDefined();
+  for (const label of ['Nghe giảng', 'Hỏi bài', 'Xem thêm']) {
+    expect(dock.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function').length).toBeGreaterThan(0);
+  }
+});
+
 it('acknowledges challenge preparation immediately, preserves the result and keeps safe tools usable', async () => {
   const completed = { ...ready, status: 'COMPLETED', stars: 3, explanationText: 'Cách giải bài cũ.' };
   (quizApi.get as jest.Mock).mockResolvedValue(completed);
@@ -297,7 +307,7 @@ it('acknowledges challenge preparation immediately, preserves the result and kee
   act(() => { button('Thử thách nâng sao').props.onPress(); button('Thử thách nâng sao').props.onPress(); });
   expect(quizApi.replay).toHaveBeenCalledTimes(1);
   expect(text()).toContain('Đang chuẩn bị câu mới…');
-  expect(text()).toContain('Sao đang tạo câu mới cùng dạng');
+  expect(text()).toContain('Đang tạo câu mới cùng dạng');
   expect(text()).toContain('Em đã hoàn thành rồi!');
   expect(button('Thử thách nâng sao').props.accessibilityState.busy).toBe(true);
   expect(button('Về trang chủ').props.accessibilityState.busy).toBe(false);
@@ -307,10 +317,10 @@ it('acknowledges challenge preparation immediately, preserves the result and kee
   act(() => button('Hỏi bài').props.onPress());
   // Read-only tools work; a second mutation cannot target a run being replaced.
   expect(view.root.findAllByType('QuizHelp' as any)).toHaveLength(0);
-  expect(text()).toContain('Sao đang hoàn tất thao tác vừa rồi');
+  expect(text()).toContain('Đang hoàn tất thao tác vừa rồi');
   await act(async () => resolve({ ...ready, status: 'IN_PROGRESS', questionText: 'Câu mới đã kiểm tra.' }));
   expect(text()).toContain('Câu mới đã kiểm tra.');
-  expect(text()).not.toContain('Sao đang tạo câu mới cùng dạng');
+  expect(text()).not.toContain('Đang tạo câu mới cùng dạng');
   expect(view.root.findAllByType('QuizHelp' as any)).toHaveLength(0);
   expect(button('Hoàn thành')).toBeDefined();
 });

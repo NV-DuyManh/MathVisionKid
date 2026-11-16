@@ -563,8 +563,8 @@ it('opens review from one full-page photo and never navigates to capture another
   await render();
   expect(readText()).toContain(WORK.lines[1].text);
   expect(TutorService.reviewWork).not.toHaveBeenCalled();
-  expect(button('Bài đã có lời giải').props.disabled).toBe(false);
-  await act(async () => button('Bài đã có lời giải').props.onPress());
+  expect(button('Bài đã làm').props.disabled).toBe(false);
+  await act(async () => button('Bài đã làm').props.onPress());
   expect(TutorService.inspect).toHaveBeenCalledTimes(1);
   expect(TutorService.reviewWork).toHaveBeenCalledTimes(1);
   expect(view.root.findByType(StudentWorkReview).props.imageUri).toBe('file:///masked-crop.jpg');
@@ -581,7 +581,7 @@ it('shows the photographed question unchanged and waits for confirmation when th
   expect(readText()).toContain('Em kiểm tra lại đề với ảnh');
   expect(readText()).not.toContain('[?]');
   expect(TutorService.reviewWork).not.toHaveBeenCalled();
-  await act(async () => button('Bài đã có lời giải').props.onPress());
+  await act(async () => button('Bài đã làm').props.onPress());
   expect((TutorService.reviewWork as jest.Mock).mock.calls[0][0]).toEqual(expect.objectContaining({
     problemText: PROBLEM, problemConfirmed: true, workConfirmed: true,
   }));
@@ -642,7 +642,7 @@ it('keeps source-bound work lines through adding the original problem photo', as
   await render();
   expect(view.root.findAllByType(StudentWorkReview)).toHaveLength(0);
   expect(TutorService.prepareLesson).not.toHaveBeenCalled();
-  await act(async () => button('Bài đã có lời giải').props.onPress());
+  await act(async () => button('Bài đã làm').props.onPress());
   const review = view.root.findByType(StudentWorkReview);
   expect(review.props.lines).toEqual(lines);
   expect(review.props.imageUri).toBe('file:///masked-crop.jpg');
@@ -652,8 +652,8 @@ it('keeps source-bound work lines through adding the original problem photo', as
   expect(button('Xem lại đề và bài làm')).toBeDefined();
   expect(button('Em đã kiểm tra đề bài và các số')).toBeUndefined();
   act(() => button('Xem lại đề và bài làm').props.onPress());
-  expect(button('Bài đã có lời giải')).toBeDefined();
-  await act(async () => button('Bài đã có lời giải').props.onPress());
+  expect(button('Bài đã làm')).toBeDefined();
+  await act(async () => button('Bài đã làm').props.onPress());
   expect(TutorService.reviewWork).toHaveBeenCalledTimes(1);
 });
 
@@ -662,12 +662,12 @@ it('submits typed revisions immediately and invalidates image regions while keep
   const lines = WORK.lines.map((line, index) => ({ ...line, box: [50, 50 + index * 200, 950, 150 + index * 200] }));
   (TutorService.inspect as jest.Mock).mockResolvedValue({ ...WORK, kind: 'MIXED', problemText: PROBLEM, lines });
   await render();
-  await act(async () => button('Bài đã có lời giải').props.onPress());
+  await act(async () => button('Bài đã làm').props.onPress());
   const revised = '90 × 2 : 15 = 13 (cm)';
   await act(async () => view.root.findByType(StudentWorkReview).props.onReviseWork(revised));
   expect(TutorService.reviewWork).toHaveBeenCalledTimes(2);
   expect((TutorService.reviewWork as jest.Mock).mock.calls[1][0]).toMatchObject({ workText: revised, workConfirmed: true });
-  expect(button('Bài đã có lời giải')).toBeUndefined();
+  expect(button('Bài đã làm')).toBeUndefined();
   const review = view.root.findByType(StudentWorkReview);
   expect(review.props.workText).toBe(revised); expect(review.props.photoCurrent).toBe(false);
   expect(review.props.lines).toEqual([{ text: revised, box: null, uncertain: false }]);
@@ -699,7 +699,7 @@ it('shows the existing success celebration after reviewing the corrected photo a
     })) }));
   await render();
   expect(TutorService.reviewWork).not.toHaveBeenCalled();
-  await act(async () => button('Bài đã có lời giải').props.onPress());
+  await act(async () => button('Bài đã làm').props.onPress());
   expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({
     problemText: PROBLEM, workText: corrected, problemConfirmed: true, workConfirmed: true,
   }), expect.any(AbortSignal));
@@ -844,13 +844,11 @@ it('keeps a wrong response at the same reasoning step', async () => {
   expect(readText()).toContain('Em tìm gì trước?');
 });
 
-it('keeps the full confirmed source behind a collapsed reference and expands without leaving the lesson', async () => {
+it('opens the confirmed source by default and can collapse without leaving the lesson', async () => {
   await render();
   await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });
   expect(readText()).toContain(PROBLEM);
-  expect(button('Mở đề bài').props.accessibilityState.expanded).toBe(false);
-  expect(view.root.findAllByProps({ testID: 'lesson-problem-content' })).toHaveLength(0);
-  act(() => button('Mở đề bài').props.onPress());
+  expect(view.root.findAllByProps({ testID: 'lesson-problem-content' }).length).toBeGreaterThan(0);
   const toggle = button('Thu gọn đề bài');
   expect(toggle.props.accessibilityState.expanded).toBe(true);
   expect(view.root.findAllByProps({ nativeID: toggle.props['aria-controls'] }).length).toBeGreaterThan(0);
@@ -877,7 +875,7 @@ it('removes duplicated question and calculator entries from more tools while ret
   expect(button('Lưu bài để học tiếp')).toBeDefined();
   act(() => button('Đóng Em cần gì thêm?').props.onPress());
   expect(button('Mở máy tính bỏ túi')).toBeDefined();
-  expect(button('Mở đề bài')).toBeDefined();
+  expect(button('Thu gọn đề bài')).toBeDefined();
 });
 
 it('uses a short numeric input and unit only after the server advances', async () => {
@@ -886,11 +884,11 @@ it('uses a short numeric input and unit only after the server advances', async (
     step: { ...LESSON.step, title: 'Tìm chiều cao', question: 'Em tính chiều cao?', choices: [], expression: '90 × 2 ÷ 15', unit: 'cm' } });
   await render();
   await act(async () => { await button('Bắt đầu từng bước').props.onPress(); });
-  expect(button('Mở đề bài')).toBeDefined();
+  expect(button('Thu gọn đề bài')).toBeDefined();
   await act(async () => { await button('Chiều cao').props.onPress(); });
   expect(readText()).not.toContain('Em tính chiều cao?');
   act(() => button('Tiếp tục bước tiếp theo').props.onPress());
-  expect(button('Mở đề bài')).toBeDefined();
+  expect(button('Thu gọn đề bài')).toBeDefined();
   expect(readText()).not.toContain('90 × 2 ÷ 15');
   expect(readText()).not.toContain('138');
   expect(input('Câu trả lời của em').props.keyboardType).toBe('decimal-pad');
@@ -1097,7 +1095,9 @@ it('reveals the operation only through help and pauses on a checked classroom so
   await act(async () => button('Gợi ý cách làm bước này').props.onPress());
   expect(input('Tử số câu trả lời').props.value).toBe('11');
   expect(input('Mẫu số câu trả lời').props.value).toBe('15');
-  expect(view.root.findAllByProps({ accessibilityLabel: '1 phần 3 + 2 phần 5 = ?' }).length).toBeGreaterThan(0);
+  expect(view.root.findAllByProps({ accessibilityLabel: '1 phần 3 + 2 phần 5 = ?' })).toHaveLength(0);
+  expect(readText()).toContain('Đổi về các phần cùng cỡ.');
+  expect(readText()).not.toContain(first.step.explanation);
   await act(async () => button('Kiểm tra bước này').props.onPress());
   expect(readText()).toContain('Viết vào bài giải');
   expect(readText()).not.toContain('Còn lại mấy phần?');
@@ -1133,20 +1133,72 @@ it('assembles checked solution sentences and an answer only after all steps are 
   await act(async () => button('Chiều cao').props.onPress());
   expect(view.root.findAllByProps({ testID: 'correct-answer-feedback' }).length).toBeGreaterThan(0);
   expect(readText()).not.toContain('Đáp số: 60 cây.');
+  expect(button('Về trang chủ')).toBeUndefined();
+  expect(button('Thử sức với Quiz')).toBeUndefined();
   expect(TutorService.answerLesson).toHaveBeenCalledTimes(1);
   await act(async () => button('Xem bài giải').props.onPress());
   expect(readText()).toContain('Bài giải');
   expect(readText()).toContain('Số cây trong vườn là:');
   expect(readText()).toContain('Đáp số: 60 cây.');
+  expect(readText()).not.toContain('Tìm một phần rồi gộp cả vườn.');
+  act(() => button('Xem chi tiết: Tìm cả vườn').props.onPress());
+  expect(readText()).toContain('Tìm một phần rồi gộp cả vườn.');
   expect(readText()).not.toContain('Nhìn lại cách giải');
   expect(button('Nghe giảng')).toBeDefined();
   // A missing/unsupported practice suggestion must not remove the completion exits.
   expect(button('Về trang chủ')).toBeDefined();
-  expect(button('Làm bài khác')).toBeDefined();
+  expect(button('Làm bài khác')).toBeUndefined();
   expect(quizApi.fromLearning).toHaveBeenCalledWith('LESSON', LESSON.sessionId, expect.any(AbortSignal));
   expect(readText()).not.toContain('Sao đang chuẩn bị một câu luyện tập');
   expect(button('Thử sức với Quiz')).toBeUndefined();
   expect(button('Thử lại Quiz')).toBeDefined();
+});
+
+it('keeps the unchanged lesson tools outside the scrolling work area', async () => {
+  await render();
+  await act(async () => button('Bắt đầu từng bước').props.onPress());
+  const area = view.root.findAllByProps({ testID: 'lesson-working-area' })[0];
+  const tools = view.root.findAllByProps({ testID: 'lesson-fixed-tools' })[0];
+  expect(area.findAll(node => ['Nghe giảng', 'Hỏi bài', 'Xem thêm'].includes(node.props.accessibilityLabel))).toHaveLength(0);
+  for (const label of ['Nghe giảng', 'Hỏi bài', 'Xem thêm']) {
+    expect(tools.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function').length).toBeGreaterThan(0);
+  }
+});
+
+it('converts compatible answer modes exactly and recovers a repeating fraction draft', async () => {
+  (TutorService.startLesson as jest.Mock).mockResolvedValue({ ...LESSON, step: { ...LESSON.step, choices: [], expression: '12+5' } });
+  await render(); await act(async () => button('Bắt đầu từng bước').props.onPress());
+  act(() => input('Câu trả lời của em').props.onChangeText('2'));
+  act(() => button('Nhập kết quả phân số').props.onPress());
+  expect(input('Tử số câu trả lời').props.value).toBe('2');
+  expect(input('Mẫu số câu trả lời').props.value).toBe('1');
+  act(() => input('Tử số câu trả lời').props.onChangeText('1'));
+  act(() => input('Mẫu số câu trả lời').props.onChangeText('3'));
+  act(() => button('Nhập số thường').props.onPress());
+  expect(input('Câu trả lời của em').props.value).toBe('2');
+  act(() => button('Nhập kết quả phân số').props.onPress());
+  expect(input('Tử số câu trả lời').props.value).toBe('1');
+  expect(input('Mẫu số câu trả lời').props.value).toBe('3');
+  act(() => input('Mẫu số câu trả lời').props.onChangeText('8'));
+  act(() => button('Nhập số thường').props.onPress());
+  expect(input('Câu trả lời của em').props.value).toBe('0,125');
+});
+
+it('pages through already-opened hints without another server request', async () => {
+  (TutorService.answerLesson as jest.Mock)
+    .mockResolvedValueOnce({ ...LESSON, status: 'HINT', feedback: 'Gợi ý thứ nhất.' })
+    .mockResolvedValueOnce({ ...LESSON, status: 'HINT', feedback: 'Gợi ý thứ hai.' });
+  await render(); await act(async () => button('Bắt đầu từng bước').props.onPress());
+  await act(async () => button('Gợi ý cách làm bước này').props.onPress());
+  await act(async () => button('Gợi ý sau').props.onPress());
+  expect(readText()).toContain('Gợi ý thứ hai.');
+  expect(readText()).not.toContain('Gợi ý thứ nhất.');
+  act(() => button('Gợi ý trước').props.onPress());
+  expect(readText()).toContain('Gợi ý thứ nhất.');
+  expect(readText()).not.toContain('Gợi ý thứ hai.');
+  act(() => button('Gợi ý sau').props.onPress());
+  expect(readText()).toContain('Gợi ý thứ hai.');
+  expect(TutorService.answerLesson).toHaveBeenCalledTimes(2);
 });
 
 it('never uploads before privacy review', async () => {
@@ -1163,7 +1215,7 @@ it('offers progressive help for a concept step without clearing the pupil answer
   await act(async () => { button('Bắt đầu từng bước').props.onPress(); });
   await act(async () => { button('Gợi ý cách làm bước này').props.onPress(); });
   expect(TutorService.answerLesson).toHaveBeenCalledWith(LESSON, '', true, expect.anything());
-  await act(async () => { button('Gợi ý rõ hơn').props.onPress(); });
+  await act(async () => { button('Gợi ý sau').props.onPress(); });
   expect(readText()).toContain('Kẻ đường vuông góc');
   expect(readText()).toContain('Em tìm gì trước?');
 });
@@ -1219,7 +1271,7 @@ it('combines the second privacy-approved problem photo with the first work', asy
   await render();
   act(() => button('Đối chiếu đề bài').props.onPress());
   expect(readText()).toContain(PROBLEM);
-  await act(async () => button('Bài đã có lời giải').props.onPress());
+  await act(async () => button('Bài đã làm').props.onPress());
   expect(TutorService.startLesson).not.toHaveBeenCalled();
   expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({ problemText: PROBLEM, workText: '90 × 2 : 15 = 12 (cm)', problemConfirmed: true, workConfirmed: true }), expect.any(AbortSignal));
   act(() => button('Xem lại đề và bài làm').props.onPress());
@@ -1241,7 +1293,7 @@ it('allows a manually supplied original question without losing work', async () 
   act(() => button('Nhập đề bài').props.onPress());
   act(() => input('Nội dung đề bài').props.onChangeText(PROBLEM));
   act(() => button('Dùng nội dung này').props.onPress());
-  await act(async () => button('Bài đã có lời giải').props.onPress());
+  await act(async () => button('Bài đã làm').props.onPress());
   expect(TutorService.startLesson).not.toHaveBeenCalled();
   expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({ problemText: PROBLEM, workText: WORK.lines.map(row => row.text).join('\n'), problemConfirmed: true, workConfirmed: true }), expect.any(AbortSignal));
 });
@@ -1269,7 +1321,7 @@ it('does not use uncertain work as a basis for comparing a method', async () => 
   await render();
   expect(TutorService.reviewWork).not.toHaveBeenCalled();
   expect(TutorService.startLesson).not.toHaveBeenCalled();
-  await act(async () => button('Bài đã có lời giải').props.onPress());
+  await act(async () => button('Bài đã làm').props.onPress());
   expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({ problemConfirmed: true, workConfirmed: true }), expect.any(AbortSignal));
 });
 
@@ -1277,17 +1329,17 @@ it('blocks even confident photo text until the pupil confirms and invalidates co
   photo();
   (TutorService.inspect as jest.Mock).mockResolvedValue({ ...WORK, kind: 'MIXED', problemText: PROBLEM });
   await render(false);
-  expect(button('Bài đã có lời giải')).toBeDefined();
+  expect(button('Bài đã làm')).toBeDefined();
   expect(TutorService.startLesson).not.toHaveBeenCalled();
   expect(TutorService.reviewWork).not.toHaveBeenCalled();
-  await act(async () => button('Bài đã có lời giải').props.onPress());
+  await act(async () => button('Bài đã làm').props.onPress());
   expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({ problemConfirmed: true, workConfirmed: true }), expect.any(AbortSignal));
   act(() => button('Xem lại đề và bài làm').props.onPress());
   act(() => button('Đối chiếu đề bài').props.onPress());
   editProblem();
   act(() => input('Nội dung đề bài').props.onChangeText(PROBLEM.replace('90', '[?]')));
   act(() => button('Dùng nội dung này').props.onPress());
-  expect(button('Bài đã có lời giải').props.disabled).toBe(true);
+  expect(button('Bài đã làm').props.disabled).toBe(true);
   expect(button('Cùng hiểu và đối chiếu bài')).toBeUndefined();
 });
 
@@ -1316,7 +1368,7 @@ it('preserves a wrong written value and uses work only after explicit source rev
   act(() => button('Chỉnh chỗ chưa đọc đúng').props.onPress());
   act(() => input('Nội dung bài làm').props.onChangeText('4(2x - 5) + 15 = 11'));
   act(() => button('Dùng nội dung này').props.onPress());
-  await act(async () => button('Bài đã có lời giải').props.onPress());
+  await act(async () => button('Bài đã làm').props.onPress());
   expect(TutorService.startLesson).not.toHaveBeenCalled();
   expect(TutorService.reviewWork).toHaveBeenCalledWith(expect.objectContaining({ problemText: PROBLEM, workText: '4(2x - 5) + 15 = 11',
     problemConfirmed: true, workConfirmed: true }), expect.any(AbortSignal));
@@ -1475,11 +1527,11 @@ it('keeps opened hints visible after a wrong attempt and avoids requesting the s
   await act(async () => button('Kiểm tra bước này').props.onPress());
   expect(readText()).toContain('Gộp hai nhóm, giữ cùng một đơn vị.');
   expect(readText()).toContain('Em kiểm tra phép cộng nhé.');
-  await act(async () => button('Gợi ý rõ hơn').props.onPress());
+  await act(async () => button('Gợi ý sau').props.onPress());
   expect(readText()).toContain('Đếm tiếp từ nhóm đã có.');
-  await act(async () => button('Gợi ý rõ hơn').props.onPress());
-  expect(button('Đã mở đủ gợi ý bước này').props.disabled).toBe(true);
-  act(() => button('Đã mở đủ gợi ý bước này').props.onPress());
+  await act(async () => button('Gợi ý sau').props.onPress());
+  expect(button('Gợi ý sau').props.disabled).toBe(true);
+  act(() => button('Gợi ý sau').props.onPress());
   expect(TutorService.answerLesson).toHaveBeenCalledTimes(4);
   expect(input('Câu trả lời của em').props.value).toBe('18');
 });
@@ -1508,10 +1560,10 @@ it('allows a third distinct hint and clears old help only when the server advanc
     .mockResolvedValueOnce({ ...calculation, revision: 1, stepIndex: 1, status: 'CORRECT', completed: [{ ...calculation.step, answer: '17' }] });
   await render(); await act(async () => button('Bắt đầu từng bước').props.onPress());
   await act(async () => button('Gợi ý cách làm bước này').props.onPress());
-  await act(async () => button('Gợi ý rõ hơn').props.onPress());
-  await act(async () => button('Gợi ý rõ hơn').props.onPress());
+  await act(async () => button('Gợi ý sau').props.onPress());
+  await act(async () => button('Gợi ý sau').props.onPress());
   expect(readText()).toContain('Viết phép cộng rồi kiểm tra số bút.');
-  expect(button('Gợi ý rõ hơn').props.disabled).toBe(false);
+  expect(button('Gợi ý sau').props.disabled).toBe(false);
   act(() => input('Câu trả lời của em').props.onChangeText('17'));
   await act(async () => button('Kiểm tra bước này').props.onPress());
   act(() => button('Tiếp tục bước tiếp theo').props.onPress());

@@ -294,6 +294,64 @@ class StudentProfileIntegrationTest {
         assertEquals("Thách Đấu", profiles.get(pupil.getEmail()).highestRank());
     }
 
+    @Test void namePrivacyDoesNotRemoveEntryAndBoardUsesRegisteredGrade() {
+        pupil.setGradeLevel(5);
+        other.setGradeLevel(5);
+        students.saveAndFlush(pupil);
+        students.saveAndFlush(other);
+        rewards.record(pupil.getId(), StudentRewards.Source.LESSON, "private", "private-content");
+        var privateProfile = profiles.update(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null));
+        assertTrue(privateProfile.leaderboardNameHidden());
+        assertTrue(StudentAnimalAliases.ANIMALS.contains(privateProfile.publicAlias())
+                || privateProfile.publicAlias().matches(".+ \\d+"));
+        var board = profiles.leaderboard(other.getEmail(), null);
+        assertEquals(5, board.gradeLevel());
+        assertTrue(board.entries().stream().anyMatch(entry -> entry.alias().equals(privateProfile.publicAlias())));
+        profiles.update(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null, false, false));
+        assertTrue(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(entry -> entry.alias().equals("Minh Anh")));
+        assertFalse(profiles.update(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null)).leaderboardNameHidden());
+        assertEquals(privateProfile.publicAlias(), profiles.get(pupil.getEmail()).publicAlias());
+        db.update("UPDATE users SET display_name = ? WHERE id = ?", "old-account@example.com", pupil.getId());
+        assertTrue(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(entry -> entry.alias().equals(privateProfile.publicAlias())));
+        other.setGradeLevel(4);
+        students.saveAndFlush(other);
+        assertEquals(4, profiles.leaderboard(other.getEmail(), null).gradeLevel());
+        assertFalse(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(entry -> entry.alias().equals("Minh Anh")));
+    }
+
+    @Test void legacyAliasesAreReplacedOnFirstProfileReadAndConcurrentReadsKeepOneAlias() throws Exception {
+        db.update("INSERT INTO student_profile_preferences(student_id, public_alias) VALUES (?, ?)", pupil.getId(), "Sao abcdef123456");
+        String alias = profiles.get(pupil.getEmail()).publicAlias();
+        assertFalse(alias.startsWith("Sao abcdef"));
+        try (var pool = Executors.newFixedThreadPool(4)) {
+            var gate = new CountDownLatch(1);
+            var responses = new java.util.ArrayList<Future<String>>();
+            for (int i = 0; i < 4; i++) responses.add(pool.submit(() -> {
+                gate.await();
+                return profiles.get(other.getEmail()).publicAlias();
+            }));
+            gate.countDown();
+            String otherAlias = responses.getFirst().get(15, TimeUnit.SECONDS);
+            assertNotEquals(alias, otherAlias);
+            for (var response : responses) assertEquals(otherAlias, response.get(15, TimeUnit.SECONDS));
+        }
+    }
+
+    @Test void concurrentNewProfilesAllocateDifferentAnimalNames() throws Exception {
+        var emails = new java.util.ArrayList<String>();
+        for (int i = 0; i < 6; i++) emails.add(createStudent("@alias.profile.test").getEmail());
+        try (var pool = Executors.newFixedThreadPool(6)) {
+            var gate = new CountDownLatch(1);
+            var responses = emails.stream().map(email -> pool.submit(() -> {
+                gate.await();
+                return profiles.get(email).publicAlias();
+            })).toList();
+            gate.countDown();
+            var aliases = new java.util.HashSet<String>();
+            for (var response : responses) assertTrue(aliases.add(response.get(15, TimeUnit.SECONDS)));
+        }
+    }
+
     @Test void developmentAccountNeverEarnsStarsOrStartsRankedGame() {
         Student demo = createStudent("@mathvision.local");
         assertEquals(0, rewards.record(demo.getId(), StudentRewards.Source.LESSON, "demo", "demo"));

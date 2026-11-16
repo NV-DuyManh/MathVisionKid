@@ -25,11 +25,12 @@ class VariantRequest(TutorModel):
 
 
 def exact_plan(text):
+    from app.tutoring.curriculum import verified_plan as curriculum
     from app.tutoring.short_math import verified_plan as short
     from app.tutoring.fraction_remainder import verified_plan as remainder
     from app.tutoring.digit_append import verified_plan as digit
     from app.tutoring.mass_fraction import verified_plan as mass
-    raw = short(text) or remainder(text) or digit(text) or mass(text)
+    raw = curriculum(text) or short(text) or remainder(text) or digit(text) or mass(text)
     return lesson.Plan.model_validate(raw) if raw else None
 
 

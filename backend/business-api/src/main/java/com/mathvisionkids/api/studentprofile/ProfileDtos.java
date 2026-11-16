@@ -7,9 +7,13 @@ import java.util.UUID;
 
 final class ProfileDtos {
     record Edit(@NotBlank @Size(max = 40) String displayName, @NotBlank @Size(max = 16) String avatar,
-                @NotNull Boolean leaderboardVisible, @Size(max = 32) String selectedTitle, Boolean removePhoto) {
+                @NotNull Boolean leaderboardVisible, @Size(max = 32) String selectedTitle, Boolean removePhoto,
+                Boolean leaderboardNameHidden) {
         Edit(String displayName, String avatar, Boolean leaderboardVisible, String selectedTitle) {
-            this(displayName, avatar, leaderboardVisible, selectedTitle, false);
+            this(displayName, avatar, leaderboardVisible, selectedTitle, false, null);
+        }
+        Edit(String displayName, String avatar, Boolean leaderboardVisible, String selectedTitle, Boolean removePhoto) {
+            this(displayName, avatar, leaderboardVisible, selectedTitle, removePhoto, null);
         }
     }
     record PasswordChange(@NotBlank @Size(max = 200) String currentPassword,
@@ -21,9 +25,9 @@ final class ProfileDtos {
     record Profile(String displayName, Integer gradeLevel, Instant joinedAt, List<Classroom> classrooms, String avatar,
                    boolean leaderboardVisible, String publicAlias, String selectedTitle, long stars, StudentRank.Rank rank,
                    String highestRank, Long position, Stats stats, List<Title> titles, List<Activity> history,
-                   String avatarPhoto, boolean passwordLoginAvailable) {}
+                   String avatarPhoto, boolean passwordLoginAvailable, boolean leaderboardNameHidden) {}
     record Entry(long position, String alias, String avatar, long stars, StudentRank.Rank rank, boolean self) {}
-    record Leaderboard(List<Entry> entries, Long ownPosition) {}
+    record Leaderboard(List<Entry> entries, Long ownPosition, Integer gradeLevel) {}
     record GameAnswer(@NotNull @Min(0) @Max(4) Integer question, @NotNull @Min(-10000) @Max(10000) Integer answer) {}
     enum GameMode { ARITHMETIC_QUEST, RACE_TO_FINISH, TERRAIN_RACING, ENERGY_DEFENSE, PLANET_RESCUE, BLOCK_ISLAND }
     enum GameRewardStatus { AWARDED, REPEAT, DAILY_LIMIT, GAME_LIMIT, UNAVAILABLE }

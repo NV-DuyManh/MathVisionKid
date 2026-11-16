@@ -9,18 +9,18 @@ test('Student can add missing written work from the solved-work action on web', 
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   const url = `${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: 'Tính: 23 + 17' })}`;
   await page.goto(url);
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Bài đã có lời giải', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Bài đã làm', exact: true })).toBeVisible();
   await testInfo.attach('Add missing work choices on web', { body: await page.screenshot(), contentType: 'image/png' });
   await page.getByRole('button', { name: 'Đóng', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Bài đã có lời giải', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Bài đã làm', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await page.getByRole('button', { name: 'Nhập bài làm bằng chữ', exact: true }).click();
   await page.getByRole('textbox', { name: 'Nội dung bài làm', exact: true }).fill('23 + 17 = 40');
   await page.getByRole('button', { name: 'Dùng nội dung này', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Bài đã có lời giải', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Bài đã làm', exact: true })).toBeVisible();
   await page.goto(url);
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await page.getByRole('button', { name: 'Chụp lại cả đề và bài giải', exact: true }).click();
   await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
   expect(app.requests.some(request => request.path === '/student/tutor/work-review')).toBe(false);
@@ -53,7 +53,7 @@ test('Work Review edits all affected calculations with compact stacked fractions
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem, workText: work })}`);
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await expect(page.getByText('Sai tính toán', { exact: false }).first()).toBeVisible();
   await expect(page.getByText('Cần tính lại sau khi sửa bước trước', { exact: false }).first()).toBeVisible();
   await expect(page.getByText('Cần đối chiếu', { exact: true })).toHaveCount(0);
@@ -271,12 +271,12 @@ test('Portal login enters the real Student bundle, navigates and survives a deep
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.getByRole('tab', { name: 'Bài học' }).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons`);
-  await expect(page.getByText('Hôm nay em học gì?', { exact: true })).toBeVisible();
+  await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
   await page.reload();
-  await expect(page.getByText('Hôm nay em học gì?', { exact: true })).toBeVisible();
+  await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
   const originalViewport = page.viewportSize();
   await page.setViewportSize({ width: 320, height: 844 });
-  await page.getByRole('button', { name: 'Chọn Lớp 3' }).click();
+  await expect(page.getByRole('button', { name: /^Chọn Lớp / })).toHaveCount(0);
   await page.getByRole('button', { name: /^Mở bài:/ }).first().click();
   await page.getByRole('button', { name: /^Xem gợi ý:/ }).click();
   await expect(page.getByRole('button', { name: /^Ẩn gợi ý:/ })).toBeVisible();
@@ -472,26 +472,30 @@ test('the old Student web login uses the same Portal form', async ({ page, app }
   await expect(page.locator('input[autocomplete="current-password"]')).toHaveCount(1);
 });
 
-test('student can find rank, switch leaderboards and open all six games on a narrow screen', async ({ page, app }, testInfo) => {
+test('student can find registered-grade ranking, choose name privacy and open all six games on a narrow screen', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   const rank = { name: 'Chiến Thần', masterStars: 102, progress: 0, goal: 0 };
   let profile = {
     displayName: 'Bạn nhỏ yêu toán', gradeLevel: 5, joinedAt: null, classrooms: [{ id: 'class-5a', name: 'Lớp 5A' }],
-    avatar: 'star', leaderboardVisible: false, publicAlias: 'Sao Toán', selectedTitle: null,
+    avatar: 'star', leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Sư Tử', selectedTitle: null,
     stars: 214, rank, highestRank: rank.name, position: null,
     stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
     titles: [], history: [],
   };
   const entries = Array.from({ length: 12 }, (_, index) => ({
-    position: index + 1, alias: `Bạn Sao ${index + 1}`, avatar: 'star', stars: 200 - index, rank, self: false,
+    position: index + 1, alias: `Bạn Sao ${index + 1}`, gradeLevel: 5, avatar: 'star', stars: 200 - index, rank, self: index === 0,
   }));
+  entries.push({ position: 1, alias: 'Bạn Khác Khối', gradeLevel: 4, avatar: 'moon', stars: 300, rank, self: false });
   await page.route('**/api/v1/student/profile', async route => {
     if (route.request().method() === 'PUT') profile = { ...profile, ...route.request().postDataJSON() };
     await route.fulfill({ json: profile });
   });
   await page.route('**/api/v1/student/leaderboard*', async route => {
-    const classroom = new URL(route.request().url()).searchParams.get('classroom');
-    await route.fulfill({ json: { entries: classroom ? entries.slice(0, 2) : entries, ownPosition: null } });
+    expect(new URL(route.request().url()).searchParams.has('classroom')).toBe(false);
+    const gradeEntries = entries.filter(entry => entry.gradeLevel === profile.gradeLevel).map(({ gradeLevel, ...entry }) => ({
+      ...entry, alias: entry.self ? profile.leaderboardNameHidden ? profile.publicAlias : profile.displayName : entry.alias,
+    }));
+    await route.fulfill({ json: { entries: gradeEntries, ownPosition: 1, gradeLevel: profile.gradeLevel } });
   });
   app.responses.set('GET /student/rank-milestones', ({ json }) => json([
     { name: 'Đồng', stars: 0, top: null },
@@ -502,6 +506,7 @@ test('student can find rank, switch leaderboards and open all six games on a nar
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/account`);
   await page.getByRole('textbox', { name: 'Tên hiển thị' }).fill('Bạn nhỏ thích tính nhẩm');
+  await page.getByRole('switch', { name: 'Ẩn tên trên bảng xếp hạng', exact: true }).click();
   await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Bạn nhỏ thích tính nhẩm' })).toBeVisible();
   await testInfo.attach('Profile and rank at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
@@ -511,18 +516,25 @@ test('student can find rank, switch leaderboards and open all six games on a nar
   await expect(page.getByText('Từ 162 sao và thuộc Top 200 toàn hệ thống')).toBeVisible();
   await testInfo.attach('Rank milestones at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
   await page.getByRole('button', { name: 'Đóng Các bậc xếp hạng' }).click();
-  const board = page.getByRole('heading', { name: 'Bảng xếp hạng', exact: true });
+  const board = page.getByRole('heading', { name: 'Bảng xếp hạng khối 5', exact: true });
   await board.scrollIntoViewIfNeeded();
+  await expect(page.getByTestId('leaderboard-entry').getByText('Bạn nhỏ thích tính nhẩm', { exact: true })).toBeVisible();
+  await expect(page.getByText('Bạn Khác Khối', { exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Toàn hệ thống', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Lớp 5A', exact: true })).toHaveCount(0);
   await expect(page.getByText('Bạn Sao 10', { exact: true })).toHaveCount(1);
   await expect(page.getByText('Bạn Sao 11', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'Xem thêm xếp hạng' }).click();
   await expect(page.getByText('Bạn Sao 11', { exact: true })).toHaveCount(1);
-  await page.getByRole('button', { name: 'Lớp 5A', exact: true }).click();
-  await expect(page.getByText('Bạn Sao 2', { exact: true })).toBeVisible();
-  await expect(page.getByText('Bạn Sao 3', { exact: true })).toHaveCount(0);
-  await testInfo.attach('Class leaderboard at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
-  await page.getByRole('button', { name: 'Toàn hệ thống', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Xem thêm xếp hạng' })).toBeVisible();
+  await testInfo.attach('Registered grade leaderboard at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  await page.goto(`${sites.portal.origin}/study/account`);
+  await page.getByRole('switch', { name: 'Ẩn tên trên bảng xếp hạng', exact: true }).click();
+  await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/achievements`);
+  await expect(page.getByText('Sư Tử', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('leaderboard-entry').getByText('Bạn nhỏ thích tính nhẩm', { exact: true })).toHaveCount(0);
   await page.getByRole('tab', { name: 'Của em', exact: true }).click();
   await page.getByRole('button', { name: 'Trò chơi rèn luyện cho em' }).click();
   await expect(page.getByTestId('game-star-quest')).toBeVisible();

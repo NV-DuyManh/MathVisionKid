@@ -80,6 +80,7 @@ public class SeedDataInitializer {
                     return studentRepository.save(newS);
                 });
                 if (email.equals("minh.student@mathvision.local")) {
+                    s.setGradeLevel(5);
                     updateDemoPassword(s, "STUDENT", passwordEncoder);
                     studentRepository.save(s);
                 }

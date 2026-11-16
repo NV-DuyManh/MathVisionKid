@@ -4,7 +4,7 @@ import { WEB_DESIGN } from '../../../packages/ui-brand/src/web-design';
 /**
  * MathVision Kids — Kid-First Premium Design System Theme
  * Modern children's EdTech: playful + delightful + intuitive + modern + premium + safe + educational.
- * Inspired by tactile digital math notebooks, cheerful companion star mascot, and clear Vietnamese typography.
+ * Inspired by tactile digital math notebooks, a cheerful robot companion, and clear Vietnamese typography.
  */
 export const theme = createTheme({
   palette: {

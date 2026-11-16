@@ -34,10 +34,10 @@ beforeEach(() => {
 });
 afterEach(() => { if (view) act(() => view.unmount()); });
 
-it('opens the compact entry from Lessons and does not start a quiz when browsing the library', async () => {
+it('keeps the lesson program focused and leaves quiz browsing in its own route', async () => {
   await act(async () => { view = TestRenderer.create(wrapper(<LessonsScreen />)); });
-  act(() => button('Câu đố của em').props.onPress());
-  expect(mockPush).toHaveBeenCalledWith('/quiz');
+  expect(button('Câu đố của em')).toBeUndefined();
+  expect(mockPush).not.toHaveBeenCalled();
   await act(async () => view.update(wrapper(<QuizLibraryScreen />)));
   expect(quizApi.list).toHaveBeenCalledWith('PENDING', 0, expect.any(AbortSignal));
   expect(visibleText()).toContain('Chưa có câu đố mới');

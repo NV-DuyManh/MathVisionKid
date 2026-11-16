@@ -29,7 +29,7 @@ export function StatusPage({ code = '404' }: { code?: keyof typeof statuses }) {
     <Box className="admin-auth admin-status">
       <Card sx={{ maxWidth: 560, width: '100%' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 2.5, py: 1.25, bgcolor: 'var(--admin-paper)', borderBottom: 1, borderColor: 'var(--admin-paper-line)' }}>
-          <Box component="img" src="/ui/mathvision-star.png" alt="" width={30} height={30} sx={{ objectFit: 'contain' }} />
+          <Box component="img" src="/ui/robot-mascot.webp" alt="" width={30} height={30} sx={{ objectFit: 'contain' }} />
           <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 800 }}>MathVision Kids</Typography>
         </Box>
         <CardContent sx={{ p: { xs: 2.5, sm: 4 }, '&:last-child': { pb: { xs: 2.5, sm: 4 } } }}>

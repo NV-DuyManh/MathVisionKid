@@ -383,8 +383,10 @@ def _narrate(request: NarrationRequest, session, check, background=False, deadli
             check();_cache.move_to_end(key)
             return cached[1]
     # The session/issued-text check above remains mandatory even for a durable hit.
-    from app.tutoring import catalog
-    saved=catalog.load_audio(request)
+    from app.tutoring import catalog, curriculum_audio
+    saved=curriculum_audio.load_audio(request)
+    if saved is None:
+        saved=catalog.load_audio(request)
     if saved is not None:
         check()
         with _cache_lock:_store_audio(key,session,saved)

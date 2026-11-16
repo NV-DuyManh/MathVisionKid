@@ -8,16 +8,13 @@ import { recognitionDraftStore, logFlowDomain, FlowDomain } from '../../features
 import { getAppBranding } from '../../config/appConfig';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HomeDashboard } from '../../components/home/HomeDashboard';
-import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
 export default function HomeScreen() {
     const router = useRouter();
     const auth = useContext(AuthContext);
     const userName = auth?.user?.displayName || auth?.user?.name || 'em';
     const [showTipsModal, setShowTipsModal] = useState(false);
     const [showPrivacyInfoModal, setShowPrivacyInfoModal] = useState(false);
-    const [showCurriculumModal, setShowCurriculumModal] = useState(false);
-    const [selectedGrade, setSelectedGrade] = useState<1 | 2 | 3 | 4 | 5>(3);
-    const [expandedProblemId, setExpandedProblemId] = useState<string | null>(null);
+    const [heroVisible, setHeroVisible] = useState(true);
     const branding = getAppBranding();
     const insets = useSafeAreaInsets();
     const { width } = useWindowDimensions();
@@ -26,16 +23,14 @@ export default function HomeScreen() {
         logFlowDomain('ACQUIRE', mode);
         router.push({ pathname: '/camera' as any, params: { mode } });
     };
-    return (<ScrollView style={styles.container} contentContainerStyle={[styles.content, { flexGrow: 1, paddingTop: insets.top + 12, paddingBottom: 108 + insets.bottom }, width >= 768 && { maxWidth: width >= 1200 ? 1360 : 1040, paddingHorizontal: width >= 1200 ? 30 : 24, paddingTop: insets.top + 20, paddingBottom: 28 }]} showsVerticalScrollIndicator={false}>
+    return (<ScrollView style={styles.container} onScroll={event => setHeroVisible(event.nativeEvent.contentOffset.y < 340)} scrollEventThrottle={100} contentContainerStyle={[styles.content, { flexGrow: 1, paddingTop: insets.top + 12, paddingBottom: 108 + insets.bottom }, width >= 768 && { maxWidth: width >= 1200 ? 1360 : 1040, paddingHorizontal: width >= 1200 ? 30 : 24, paddingTop: insets.top + 20, paddingBottom: 28 }]} showsVerticalScrollIndicator={false}>
       <HomeDashboard
         userName={userName}
+        heroVisible={heroVisible}
         userKey={auth?.user?.id || auth?.user?.userId || auth?.user?.email}
         onAcquire={() => navigateToCamera('MATH_TUTOR')}
         onArithmetic={() => navigateToCamera('MATH_TUTOR')}
-        onPractice={(grade) => {
-            if (grade) setSelectedGrade(grade);
-            setShowCurriculumModal(true);
-        }}
+        onPractice={() => router.push('/(tabs)/lessons')}
         onTips={() => setShowTipsModal(true)}
         onPrivacy={() => setShowPrivacyInfoModal(true)}
       />
@@ -151,85 +146,7 @@ export default function HomeScreen() {
         </Pressable>
       </Modal>
 
-      {/* Modal: Primary Math Curriculum Library */}
-      <Modal visible={showCurriculumModal} transparent animationType="slide" onRequestClose={() => setShowCurriculumModal(false)}>
-        <Pressable style={styles.modalBackdrop} onPress={() => setShowCurriculumModal(false)}>
-          <Pressable style={[styles.curriculumModalCard, SHADOWS.large]} onPress={() => { }}>
-            <View style={styles.modalHeaderRow}>
-              <View style={[styles.modalHeaderIconBadge, { backgroundColor: '#FEF3C7' }]}>
-                <Ionicons name="school" size={22} color="#D97706"/>
-              </View>
-              <Text style={styles.modalTitle}>Kho đề toán SGK (Lớp 1 - 5)</Text>
-              <TouchableOpacity onPress={() => setShowCurriculumModal(false)} style={styles.modalCloseBtn} accessibilityRole="button" accessibilityLabel="Đóng kho đề">
-                <Ionicons name="close" size={20} color="#64748B"/>
-              </TouchableOpacity>
-            </View>
 
-            {/* Grade Tabs: Lớp 1 to Lớp 5 */}
-            <View style={styles.gradeTabRow}>
-              {([1, 2, 3, 4, 5] as const).map((grade) => (<TouchableOpacity key={grade} style={[
-                styles.gradeTabBtn,
-                selectedGrade === grade && styles.gradeTabBtnActive
-            ]} onPress={() => setSelectedGrade(grade)} accessibilityRole="button" accessibilityLabel={`Chọn Lớp ${grade}`} accessibilityState={{ selected: selectedGrade === grade }}>
-                  <Text style={[
-                styles.gradeTabBtnText,
-                selectedGrade === grade && styles.gradeTabBtnTextActive
-            ]}>
-                    Lớp {grade}
-                  </Text>
-                </TouchableOpacity>))}
-            </View>
-
-            <ScrollView style={styles.problemListScroll} showsVerticalScrollIndicator={false} >
-              {getProblemsByGrade(selectedGrade).map((p) => {
-            const isExpanded = expandedProblemId === p.id;
-            return (<View key={p.id} style={styles.curriculumProblemCard}>
-                    <View style={styles.problemTagRow}>
-                      <View style={styles.bookTag}>
-                        <Text style={styles.bookTagText}>{p.bookSeries}</Text>
-                      </View>
-                      <View style={styles.difficultyTag}>
-                        <Text style={styles.difficultyTagText}>{p.difficulty}</Text>
-                      </View>
-                    </View>
-
-                    <Text style={styles.problemTopicText}>{p.topic}</Text>
-                    <Text style={styles.problemTitleText}>{p.title}</Text>
-                    <Text style={styles.problemBodyText}>{p.problemText}</Text>
-
-                    {/* Direction only; the worked answer remains in curriculum data. */}
-                    <TouchableOpacity style={styles.guidanceToggleBtn} onPress={() => setExpandedProblemId(isExpanded ? null : p.id)} accessibilityRole="button" accessibilityState={{ expanded: isExpanded }}>
-                      <Ionicons name={isExpanded ? 'chevron-up' : 'bulb-outline'} size={16} color="#2563EB"/>
-                      <Text style={styles.guidanceToggleText}>
-                        {isExpanded ? 'Ẩn gợi ý cách giải' : 'Xem gợi ý cách giải'}
-                      </Text>
-                    </TouchableOpacity>
-
-                    {isExpanded && (<View style={styles.guidanceContentBox}>
-                        <Text style={styles.guidanceIntro}>{p.guidance}</Text>
-                      </View>)}
-
-                    {/* Action: Snap photo of written solution */}
-                    <TouchableOpacity style={styles.solveNowBtn} onPress={() => {
-                    setShowCurriculumModal(false);
-                    router.push({ pathname: '/learning/math-guide' as any, params: { problemText: p.problemText } });
-                }} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel={`Học từng bước: ${p.title}`}>
-                      <Ionicons name="bulb-outline" size={18} color="#FFFFFF" accessible={false}/>
-                      <Text style={styles.solveNowBtnText}>Cùng em tìm cách giải</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.solveNowBtn} onPress={() => {
-                    setShowCurriculumModal(false);
-                    navigateToCamera('MATH_TUTOR');
-                }} activeOpacity={0.88} accessibilityRole="button" accessibilityLabel="Chụp bài giải của em">
-                      <Ionicons name="camera" size={16} color="#FFFFFF"/>
-                      <Text style={styles.solveNowBtnText}>Chụp bài làm của em để chấm</Text>
-                    </TouchableOpacity>
-                  </View>);
-        })}
-            </ScrollView>
-          </Pressable>
-        </Pressable>
-      </Modal>
     </ScrollView>);
 }
 const styles = StyleSheet.create({
@@ -323,144 +240,5 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontFamily: FONTS.bold,
         color: '#FFFFFF',
-    },
-    curriculumModalCard: {
-        width: '92%',
-        maxWidth: 520,
-        maxHeight: '82%',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 24,
-        padding: 20,
-    },
-    gradeTabRow: {
-        flexDirection: 'row',
-        backgroundColor: '#F1F5F9',
-        borderRadius: 12,
-        padding: 4,
-        marginBottom: 14,
-        gap: 4,
-    },
-    gradeTabBtn: {
-        minHeight: 48, justifyContent: 'center',
-        flex: 1,
-        paddingVertical: 8,
-        alignItems: 'center',
-        borderRadius: 8,
-    },
-    gradeTabBtnActive: {
-        backgroundColor: '#FFFFFF',
-        ...SHADOWS.small,
-    },
-    gradeTabBtnText: {
-        fontSize: 13,
-        fontFamily: FONTS.semiBold,
-        color: COLORS.textSecondary,
-    },
-    gradeTabBtnTextActive: {
-        fontFamily: FONTS.extraBold,
-        color: '#D97706',
-    },
-    problemListScroll: {
-        maxHeight: 460,
-    },
-    curriculumProblemCard: {
-        backgroundColor: '#F8FAFC',
-        borderRadius: 16,
-        padding: 16,
-        marginBottom: 12,
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-    },
-    problemTagRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-        marginBottom: 6,
-    },
-    bookTag: {
-        backgroundColor: '#EFF6FF',
-        paddingHorizontal: 8,
-        paddingVertical: 3,
-        borderRadius: 6,
-    },
-    bookTagText: {
-        fontSize: 11,
-        fontFamily: FONTS.bold,
-        color: COLORS.primaryDark,
-    },
-    difficultyTag: {
-        backgroundColor: '#FEF3C7',
-        paddingHorizontal: 8,
-        paddingVertical: 3,
-        borderRadius: 6,
-    },
-    difficultyTagText: {
-        fontSize: 11,
-        fontFamily: FONTS.bold,
-        color: '#D97706',
-    },
-    problemTopicText: {
-        fontSize: 11,
-        color: COLORS.textSecondary,
-        marginBottom: 2,
-        fontFamily: FONTS.semiBold,
-    },
-    problemTitleText: {
-        fontSize: 14,
-        fontFamily: FONTS.extraBold,
-        color: COLORS.textPrimary,
-        marginBottom: 6,
-    },
-    problemBodyText: {
-        fontFamily: FONTS.regular,
-        fontSize: 13,
-        lineHeight: 19,
-        color: '#334155',
-        marginBottom: 10,
-    },
-    guidanceToggleBtn: {
-        minHeight: 48,
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 6,
-        marginBottom: 8,
-        alignSelf: 'flex-start',
-    },
-    guidanceToggleText: {
-        fontSize: 12,
-        fontFamily: FONTS.bold,
-        color: COLORS.primaryDark,
-    },
-    guidanceContentBox: {
-        backgroundColor: '#EFF6FF',
-        borderRadius: 10,
-        padding: 12,
-        marginBottom: 12,
-        borderLeftWidth: 3,
-        borderLeftColor: '#2563EB',
-    },
-    guidanceIntro: {
-        fontFamily: FONTS.regular,
-        fontSize: 12,
-        lineHeight: 17,
-        color: '#1E40AF',
-        marginBottom: 6,
-    },
-    solveNowBtn: {
-        minHeight: 48,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-        backgroundColor: '#D97706',
-        borderRadius: 12,
-        paddingVertical: 10,
-        paddingHorizontal: 16,
-        marginTop: 4,
-    },
-    solveNowBtnText: {
-        color: '#FFFFFF',
-        fontSize: 13,
-        fontFamily: FONTS.bold,
     },
 });

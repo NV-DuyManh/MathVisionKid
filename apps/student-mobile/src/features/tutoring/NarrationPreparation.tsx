@@ -30,7 +30,7 @@ function NarrationPreparationSession({ children, owner, download }: { children: 
 export function useNarrationPreparation(source: NarrationSource | null, paragraphs: string[], { wholeLesson = true }: { wholeLesson?: boolean } = {}) {
   const cache = useContext(NarrationCacheContext);
   const bookmarks=useContext(PlaybackBookmarksContext);
-  const sessionId = source?.sessionId, revision = source?.revision, text = JSON.stringify(paragraphs);
+  const sessionId = source?.sessionId, revision = source?.revision, useFallback = source?.useFallback === true, text = JSON.stringify(paragraphs);
   useFocusEffect(useCallback(() => {
     if (!cache || !sessionId || revision === undefined || !JSON.parse(text).some((part: string) => part.trim())) return;
     let active = true, generation = 0;
@@ -40,7 +40,7 @@ export function useNarrationPreparation(source: NarrationSource | null, paragrap
     const controls = new Set<AbortController>();
     const stop = () => { ++generation; leases.forEach(lease => lease.release()); leases.clear(); controls.forEach(control => control.abort()); controls.clear();void bookmarks?.flush(); };
     const prepareFuture = (voice: NarrationVoice) => {
-      if (!wholeLesson) return;
+      if (!wholeLesson || useFallback) return;
       const control = new AbortController(); controls.add(control);
       // Private future scripts stay on the server; a question reply needs only its two voices.
       void prepareLessonMedia({ sessionId, revision }, voice, control.signal).catch(() => {})
@@ -56,9 +56,9 @@ export function useNarrationPreparation(source: NarrationSource | null, paragrap
       prepareFuture(selected);
       // Warm both versions of the currently issued script. The shared bounded
       // render/cache joins server preparation instead of synthesizing duplicates.
-      const voices = [selected, ...NARRATION_VOICES.map(option => option.id).filter(voice => voice !== selected)];
+      const voices = useFallback ? [selected] : [selected, ...NARRATION_VOICES.map(option => option.id).filter(voice => voice !== selected)];
       await Promise.allSettled(voices.map(async voice => {
-        const lease = cache.acquire({ sessionId, revision }, JSON.parse(text), voice, true);
+        const lease = cache.acquire({ sessionId, revision, ...(useFallback ? { useFallback: true } : {}) }, JSON.parse(text), voice, true);
         leases.add(lease);
         await lease.promise;
       }));
@@ -82,5 +82,5 @@ export function useNarrationPreparation(source: NarrationSource | null, paragrap
       }
     });
     return () => { active = false; stop(); listener.remove(); unsubscribe(); };
-  }, [cache, sessionId, revision, text, wholeLesson,bookmarks]));
+  }, [cache, sessionId, revision, text, wholeLesson,bookmarks, useFallback]));
 }

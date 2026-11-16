@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,6 +12,7 @@ import { profileApi, type Leaderboard } from '../../features/student-profile/pro
 import { useStudentProfile } from '../../features/student-profile/useStudentProfile';
 import { RankEmblem } from '../../features/student-profile/RankEmblem';
 import { RankGuide } from '../../features/student-profile/RankGuide';
+import { COLORS, FONTS } from '../../constants/theme';
 
 const LEADERBOARD_PAGE_SIZE = 10;
 
@@ -24,53 +25,51 @@ export default function AchievementsScreen() {
 function Achievements({ owner }: { owner?: string }) {
   const router = useRouter();
   const profile = useStudentProfile(owner);
-  const [classroom, setClassroom] = useState<string>();
   const [retry, setRetry] = useState(0);
   const [visibleEntries, setVisibleEntries] = useState(LEADERBOARD_PAGE_SIZE);
   const [guideOpen, setGuideOpen] = useState(false);
-  const [board, setBoard] = useState<{ classroom?: string; data?: Leaderboard; error?: boolean }>();
+  const [board, setBoard] = useState<{ data?: Leaderboard; error?: boolean }>();
   useFocusEffect(useCallback(() => {
     if (!owner) return;
     const call = new AbortController();
     setBoard(undefined);
-    void profileApi.leaderboard(classroom, call.signal).then(data => {
-      if (!call.signal.aborted) setBoard({ classroom, data });
+    void profileApi.leaderboard(undefined, call.signal).then(data => {
+      if (!call.signal.aborted) setBoard({ data });
     }).catch(() => {
-      if (!call.signal.aborted) setBoard({ classroom, error: true });
+      if (!call.signal.aborted) setBoard({ error: true });
     });
     return () => call.abort();
     // The retry counter intentionally reloads the focused request.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [owner, classroom, retry]));
-  const current = board?.classroom === classroom ? board : undefined;
+  }, [owner, profile.value?.publicAlias, profile.value?.gradeLevel, retry]));
+  const current = board;
   const value = profile.value;
+  const grade = current?.data?.gradeLevel ?? value?.gradeLevel;
   return <SafeAreaView style={s.screen} edges={['top']}>
     <ScrollView contentContainerStyle={s.content}>
       <StudentPageHeader compact title="Thành tích" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/account')} />
       {value && <ProfileRankCard profile={value} />}
       <View style={s.card}>
-        <Text accessibilityRole="header" style={s.heading}>Bảng xếp hạng</Text>
-        <Text style={s.body}>Thách Đấu dành cho Top 200 toàn hệ thống đã đạt ít nhất Chiến Tướng.</Text>
-        <AppButton title="Xem các bậc xếp hạng" variant="secondary" onPress={() => setGuideOpen(true)} />
-        <View style={s.row}>{[{ id: undefined, name: 'Toàn hệ thống' }, ...(value?.classrooms ?? [])].map(scope =>
-          <Pressable key={scope.id ?? 'all'} accessibilityRole="button" accessibilityState={{ selected: classroom === scope.id }}
-            style={[s.chip, classroom === scope.id && s.selected]} onPress={() => {
-              setClassroom(scope.id);
-              setVisibleEntries(LEADERBOARD_PAGE_SIZE);
-            }}><Text style={s.body}>{scope.name}</Text></Pressable>)}</View>
+        <View style={styles.boardHeader}>
+          <View style={styles.grow}><Text accessibilityRole="header" style={s.heading}>Bảng xếp hạng{grade ? ` khối ${grade}` : ''}</Text>
+            <Text style={s.body}>Cùng các bạn chăm học mỗi ngày</Text></View>
+          <Pressable accessibilityRole="button" accessibilityLabel="Xem các bậc xếp hạng" onPress={() => setGuideOpen(true)} style={styles.rankHelp}>
+            <Ionicons name="help-circle-outline" size={25} color={COLORS.primaryDark} accessible={false} /></Pressable>
+        </View>
         {current?.error ? <RecoveryNotice title="Chưa mở được bảng xếp hạng" message="Em kiểm tra kết nối rồi thử lại nhé."
           actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại bảng xếp hạng', icon: 'refresh-outline', onPress: () => setRetry(n => n + 1) }]} />
           : current?.data ? <>
-            <Text accessibilityLiveRegion="polite" style={s.body}>{current.data.ownPosition
-              ? `Vị trí của em · #${current.data.ownPosition}` : 'Em chưa có vị trí trên bảng này.'}</Text>
-            {current.data.entries.length === 0 && <Text style={s.body}>Chưa có bạn nào được xếp hạng.</Text>}
-            {current.data.entries.slice(0, visibleEntries).map(item => <View key={item.alias} style={[s.row, s.chip]}>
-              <Text style={s.heading}>#{item.position}</Text><StudentAvatar id={item.avatar} size={32} />
-              <View style={{ flex: 1, minWidth: 105 }}>
-                <Text style={s.body}>{item.alias}{item.self ? ' (em)' : ''}</Text>
-                <View style={[s.row, { gap: 5 }]}><RankEmblem name={item.rank.name} size={25} /><Text style={s.body}>{item.rank.name}</Text></View>
+            <View style={styles.ownPosition}><Ionicons name="podium-outline" size={19} color={COLORS.primaryDark} accessible={false} />
+              <Text accessibilityLiveRegion="polite" style={styles.positionText}>{current.data.ownPosition
+                ? `Vị trí của em · #${current.data.ownPosition}` : 'Hoàn thành hoạt động để nhận sao nhé'}</Text></View>
+            {current.data.entries.length === 0 && <Text style={s.body}>{grade ? 'Chưa có bạn nào được xếp hạng trong khối này.' : 'Em cập nhật khối lớp trong hồ sơ để mở bảng xếp hạng nhé.'}</Text>}
+            {current.data.entries.slice(0, visibleEntries).map(item => <View key={item.position} testID="leaderboard-entry" style={[styles.boardRow, item.self && styles.selfRow]}>
+              <Text style={styles.position}>#{item.position}</Text><StudentAvatar id={item.avatar} size={40} />
+              <View style={styles.grow}>
+                <View style={styles.nameRow}><Text style={styles.alias}>{item.alias?.trim() || 'Bạn chăm học'}</Text>{item.self && <Text style={styles.selfBadge}>Em</Text>}</View>
+                <View style={styles.rankRow}><RankEmblem name={item.rank.name} size={22} /><Text style={styles.rankName}>{item.rank.name}</Text></View>
               </View>
-              <Text style={s.body}>{item.stars} sao</Text>
+              <View style={styles.stars}><Ionicons name="star" size={14} color="#A56200" accessible={false} /><Text style={styles.starCount}>{item.stars}</Text></View>
             </View>)}
             {current.data.entries.length > visibleEntries && <AppButton title="Xem thêm xếp hạng" variant="secondary"
               onPress={() => setVisibleEntries(count => count + LEADERBOARD_PAGE_SIZE)} />}
@@ -117,3 +116,16 @@ function Achievements({ owner }: { owner?: string }) {
     {guideOpen && <RankGuide onClose={() => setGuideOpen(false)} />}
   </SafeAreaView>;
 }
+
+const styles = StyleSheet.create({
+  boardHeader: { flexDirection: 'row', alignItems: 'center', gap: 10 }, grow: { flex: 1, minWidth: 0, gap: 4 },
+  rankHelp: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.surfaceSubdued },
+  ownPosition: { minHeight: 48, borderRadius: 14, padding: 12, backgroundColor: COLORS.primaryLight, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  positionText: { flex: 1, fontFamily: FONTS.bold, fontSize: 14, color: COLORS.primaryDark },
+  boardRow: { minHeight: 84, flexDirection: 'row', alignItems: 'center', gap: 10, padding: 12, borderRadius: 16, backgroundColor: COLORS.background, borderWidth: 1, borderColor: 'transparent' },
+  selfRow: { borderColor: '#BCA8F6', backgroundColor: '#F2ECFF' }, position: { minWidth: 28, fontFamily: FONTS.extraBold, fontSize: 16, color: COLORS.primaryDark },
+  nameRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6 }, alias: { flexShrink: 1, fontFamily: FONTS.bold, fontSize: 15, lineHeight: 22, color: COLORS.textPrimary },
+  selfBadge: { fontFamily: FONTS.bold, fontSize: 11, color: COLORS.primaryDark, backgroundColor: '#E2D6FF', paddingHorizontal: 7, paddingVertical: 2, borderRadius: 8 },
+  rankRow: { flexDirection: 'row', alignItems: 'center', gap: 5 }, rankName: { fontFamily: FONTS.regular, fontSize: 12, color: COLORS.textSecondary },
+  stars: { flexDirection: 'row', alignItems: 'center', gap: 4 }, starCount: { fontFamily: FONTS.extraBold, fontSize: 15, color: '#8C5400' },
+});

@@ -63,13 +63,14 @@ function AccountEditor({ profile, onSave }: { profile: StudentProfile; onSave: (
   const auth = useContext(AuthContext);
   const { width } = useWindowDimensions();
   const [edit, setEdit] = useState<ProfileEdit>({ displayName: profile.displayName, avatar: profile.avatar,
-    leaderboardVisible: profile.leaderboardVisible, selectedTitle: profile.selectedTitle });
+    leaderboardVisible: profile.leaderboardVisible, leaderboardNameHidden: profile.leaderboardNameHidden ?? true, selectedTitle: profile.selectedTitle });
   const [photoSelected, setPhotoSelected] = useState(Boolean(profile.avatarPhoto));
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState('');
   const lifetime = useRef(new AbortController()), lock = useRef(false);
   useEffect(() => { const controller = new AbortController(); lifetime.current = controller; return () => controller.abort(); }, []);
   const dirty = edit.displayName !== profile.displayName || edit.avatar !== profile.avatar || edit.selectedTitle !== profile.selectedTitle
-    || edit.leaderboardVisible !== profile.leaderboardVisible || photoSelected !== Boolean(profile.avatarPhoto);
+    || edit.leaderboardVisible !== profile.leaderboardVisible || edit.leaderboardNameHidden !== (profile.leaderboardNameHidden ?? true)
+    || photoSelected !== Boolean(profile.avatarPhoto);
   const save = async () => {
     const signal = lifetime.current.signal;
     if (lock.current) return;
@@ -79,7 +80,7 @@ function AccountEditor({ profile, onSave }: { profile: StudentProfile; onSave: (
     try {
       const next = await profileApi.update({ ...edit, displayName, removePhoto: !photoSelected }, signal);
       if (!signal.aborted) {
-        onSave(next); setEdit({ ...edit, displayName: next.displayName }); setNotice('Đã lưu hồ sơ của em.');
+        onSave(next); setEdit({ ...edit, displayName: next.displayName, leaderboardNameHidden: next.leaderboardNameHidden ?? true }); setNotice('Đã lưu hồ sơ của em.');
         void auth?.refreshUser?.().catch(() => {});
       }
     } catch { if (!signal.aborted) setError('Chưa lưu được hồ sơ. Em kiểm tra kết nối rồi thử lại nhé.'); }
@@ -132,9 +133,11 @@ function AccountEditor({ profile, onSave }: { profile: StudentProfile; onSave: (
     </>}
     <View style={s.divider} />
     <View style={s.privacy}><Ionicons accessible={false} aria-hidden name="shield-checkmark-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={[s.label, { flex: 1 }]}>Quyền riêng tư</Text></View>
-    <View style={s.privacy}><Text style={[s.body, { flex: 1 }]}>Tham gia bảng xếp hạng bằng bí danh</Text><Switch accessibilityLabel="Tham gia bảng xếp hạng bằng bí danh" disabled={busy}
+    <View style={s.privacy}><Text style={[s.body, { flex: 1 }]}>Tham gia bảng xếp hạng</Text><Switch accessibilityLabel="Tham gia bảng xếp hạng" disabled={busy}
       value={edit.leaderboardVisible} onValueChange={leaderboardVisible => setEdit(value => ({ ...value, leaderboardVisible }))} /></View>
-    <Text style={s.hint}>Ảnh tải lên chỉ hiện trong tài khoản của em. Bảng xếp hạng dùng bí danh và hình có sẵn, không hiển thị tên hay ảnh cá nhân.</Text>
+    <View style={s.privacy}><Text style={[s.body, { flex: 1 }]}>Ẩn tên trên bảng xếp hạng</Text><Switch accessibilityLabel="Ẩn tên trên bảng xếp hạng" disabled={busy}
+      value={edit.leaderboardNameHidden ?? true} onValueChange={leaderboardNameHidden => setEdit(value => ({ ...value, leaderboardNameHidden }))} /></View>
+    <Text style={s.hint}>{edit.leaderboardNameHidden ? `Bạn bè sẽ thấy bí danh ${profile.publicAlias || 'động vật của em'}.` : 'Bạn bè sẽ thấy tên hiển thị của em trên bảng xếp hạng.'} Ảnh tải lên chỉ hiện trong tài khoản của em.</Text>
     {error !== '' && <Text nativeID="account-editor-error" accessibilityRole="alert" style={s.error}>{error}</Text>}
     {notice !== '' && <Text accessibilityLiveRegion="polite" style={s.success}>{notice}</Text>}
     <AppButton title="Lưu thay đổi" loading={busy} loadingTitle="Đang cập nhật…" disabled={!dirty} onPress={() => { void save(); }} />

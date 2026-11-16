@@ -108,7 +108,7 @@ export function PocketCalculator({ visible, onClose }: { visible: boolean; onClo
           {mode === 'calculate' ? <>
           <View style={styles.display}>
             <TextInput ref={input} accessibilityLabel="Phép tính" accessibilityHint="Nhập bằng bàn phím bên dưới. Phím phân số nối tử số với mẫu số."
-              value={expression} placeholder="0" maxLength={120} showSoftInputOnFocus={false} multiline
+              value={expression} maxLength={120} showSoftInputOnFocus={false} multiline
               onChangeText={update} onSubmitEditing={run} style={[styles.expressionInput, expression.includes('/') && styles.fractionInput]} />
             {expression.includes('/') ? <View style={styles.result}><MathText style={styles.fractionPreview}>{expression}</MathText></View> : null}
             {output ? <View style={styles.result} accessibilityLiveRegion="polite"><MathText style={styles.answer}>{activeResult!.result}</MathText></View>

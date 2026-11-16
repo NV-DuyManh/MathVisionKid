@@ -100,6 +100,7 @@ function Find-DockerDesktopPath {
         $(if ($env:ProgramFilesX86) { Join-Path $env:ProgramFilesX86 "Docker\Docker\Docker Desktop.exe" }),
         $(if (${env:ProgramFiles(x86)}) { Join-Path ${env:ProgramFiles(x86)} "Docker\Docker\Docker Desktop.exe" }),
         (Join-Path $env:LOCALAPPDATA "Programs\Docker\Docker\Docker Desktop.exe")
+        (Join-Path $env:LOCALAPPDATA "Programs\DockerDesktop\Docker Desktop.exe")
     )
     foreach ($p in $candidates) {
         if ($p -and (Test-Path $p)) { return $p }

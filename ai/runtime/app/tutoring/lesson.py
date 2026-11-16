@@ -1228,6 +1228,12 @@ async def generate_plan(request: LessonRequest) -> Plan:
 async def checked_plan(request):
     from app.tutoring.source_clarification import require_clear_source
     require_clear_source(request.problemText)
+    from app.tutoring.curriculum import verified_plan as curriculum_plan
+    prepared = curriculum_plan(request.problemText) if not request.workText.strip() else None
+    if prepared is not None:
+        # Authored public plans take precedence over older private copies, so
+        # their prepared teaching and audio stay identical on every account.
+        return Plan.model_validate(prepared)
     # Both background preparation and confirmed lessons use the same checked
     # solvers. Work review failures may fall back to math without claiming that
     # the pupil's written work was reviewed.
@@ -1239,7 +1245,7 @@ async def checked_plan(request):
         from app.tutoring.digit_append import verified_plan as digit_plan
         from app.tutoring.mass_fraction import verified_plan as mass_plan
         from app.tutoring.short_math import verified_plan as short_plan
-        exact = short_plan(request.problemText) or fraction_plan(request.problemText) or digit_plan(request.problemText) or mass_plan(request.problemText)
+        exact = curriculum_plan(request.problemText) or short_plan(request.problemText) or fraction_plan(request.problemText) or digit_plan(request.problemText) or mass_plan(request.problemText)
         if exact is not None and not request.workText:
             plan = Plan.model_validate(exact)
         else:

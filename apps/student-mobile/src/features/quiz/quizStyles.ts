@@ -30,6 +30,7 @@ export const quizStyles = StyleSheet.create({
   divider: { height: 1, backgroundColor: '#EEE8F6', marginVertical: 2 },
   result: { gap: 14, paddingTop: 6 },
   tools: { flexDirection: 'row', gap: 6, padding: 5, borderRadius: 19, backgroundColor: '#F1EAFB', marginTop: 5 },
+  toolsDock: { flexShrink: 0, width: '100%', maxWidth: 760, alignSelf: 'center', paddingHorizontal: 16, paddingTop: 3, paddingBottom: 8, backgroundColor: COLORS.background, borderTopWidth: 1, borderTopColor: COLORS.border },
   tool: { flex: 1, minHeight: 61, justifyContent: 'center', alignItems: 'center', gap: 5, borderRadius: 14, backgroundColor: '#FFFFFF' },
   toolLabel: { fontFamily: FONTS.bold, fontSize: 13, color: IS_STUDENT_WEB ? COLORS.primaryDark : '#6940C9' },
   detailLink: { minHeight: 46, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },

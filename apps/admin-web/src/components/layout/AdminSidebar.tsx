@@ -84,7 +84,7 @@ export function AdminSidebar({ open, onClose, collapsed, onToggle }: Props) {
             color: 'text.primary', textDecoration: 'none', '&:hover': { textDecoration: 'none' },
           }}
         >
-          <Box component="img" src="/ui/mathvision-star.png" alt="" width={34} height={34} sx={{ flexShrink: 0, objectFit: 'contain' }} />
+          <Box component="img" src="/ui/robot-mascot.webp" alt="" width={34} height={34} sx={{ flexShrink: 0, objectFit: 'contain' }} />
           {!compact && (
             <Box sx={{ minWidth: 0 }}>
               <Typography sx={{ fontSize: '0.95rem', fontWeight: 800, lineHeight: 1.3, whiteSpace: 'nowrap' }}>

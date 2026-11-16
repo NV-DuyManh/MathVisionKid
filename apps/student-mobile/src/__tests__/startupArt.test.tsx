@@ -61,5 +61,5 @@ it.each([
     <AuthContext.Provider value={{ user: { role: profile.role, active: profile.active }, isAuthenticated: profile.authenticated }}><RootLayout /></AuthContext.Provider>
   ); });
   const names = view.root.findAllByType('Screen' as any).map(node => node.props.name);
-  expect(names).toEqual(['index', 'login', 'privacy']);
+  expect(names).toEqual(['index', 'welcome', 'login', 'privacy']);
 });

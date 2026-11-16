@@ -13,6 +13,8 @@ beforeEach(() => { act(() => { view = TestRenderer.create(<PocketCalculator visi
 afterEach(() => act(() => view.unmount()));
 
 it('uses one compact popup keypad, with extra keys hidden until requested', () => {
+  expect(field().props.value).toBe('');
+  expect(field().props.placeholder).toBeUndefined();
   expect(view.root.findByType(Modal).props.transparent).toBe(true);
   expect(button('Số thường')).toBeUndefined(); expect(button('Phân số')).toBeUndefined();
   expect(button('Mở ngoặc')).toBeUndefined();
