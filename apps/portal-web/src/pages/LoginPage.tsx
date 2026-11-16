@@ -604,14 +604,13 @@ export const LoginPage: React.FC = () => {
           </Button>
         </Box>}
 
-        {authView === 'login' && googleConfigured && <Box sx={{ mt: 2 }}>
+        {authView === 'login' && <Box sx={{ mt: 2 }}>
           <Divider sx={{ mb: 2, color: 'text.secondary', fontSize: '0.875rem' }}>Hoặc</Divider>
           <Box sx={{ display: 'grid', justifyItems: 'center', gap: 1.25, minWidth: 0 }}>
-            {googleConfigured && <Button type="button" variant="outlined" fullWidth disabled={loading} onClick={() => void handleGoogleLogin()}
+            <Button type="button" variant="outlined" fullWidth disabled={loading || !googleConfigured} onClick={() => void handleGoogleLogin()}
               startIcon={<GoogleIcon aria-hidden="true" />} sx={{ maxWidth: 400, minHeight: 44, textTransform: 'none' }}>
               Tiếp tục với Google
-            </Button>}
-
+            </Button>
           </Box>
         </Box>}
 
