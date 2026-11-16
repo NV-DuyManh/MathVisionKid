@@ -141,6 +141,8 @@ test('Preview reload preserves the cropped bytes and a second reload keeps baked
   await expect(page.getByLabel('Ảnh bài toán em đã chọn')).toBeVisible();
   expect(await imageHash(page, 'Ảnh bài toán em đã chọn')).toBe(hash);
   await page.getByRole('button', { name: 'Chỉnh lại vùng bài toán', exact: true }).click();
+  await expect(page).toHaveURL(/\/study\/crop(?:\?|$)/);
+  await expect(page.getByLabel('Ảnh bài tập đang căn chỉnh')).toBeVisible();
   await page.reload();
   await expect(page.getByLabel('Ảnh bài tập đang căn chỉnh')).toBeVisible();
   expect((await maskedPixels(page)).flat().every(channel => channel < 24)).toBe(true);
