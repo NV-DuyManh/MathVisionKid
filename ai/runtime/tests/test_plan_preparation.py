@@ -70,6 +70,28 @@ async def test_inflight_work_is_shared_and_cancelling_waiter_keeps_preparation(m
 
 
 @pytest.mark.asyncio
+async def test_completed_work_review_can_start_one_shared_source_plan_without_lesson_warmup(monkeypatch):
+    checked = AsyncMock(return_value=lesson.Plan.model_validate(candidate()))
+    monkeypatch.setattr(lesson, 'checked_plan', checked)
+    first, second = await asyncio.gather(
+        preparation.prepared_plan(confirmed(), start_missing=True),
+        preparation.prepared_plan(confirmed(), start_missing=True))
+    assert first is not second and first == second
+    assert checked.await_count == 1 and not lesson._sessions
+
+
+@pytest.mark.asyncio
+async def test_on_demand_source_plan_keeps_existing_owner_capacity_limit(monkeypatch):
+    async def slow(request):
+        await asyncio.sleep(20)
+    checked = AsyncMock(side_effect=slow)
+    monkeypatch.setattr(lesson, 'checked_plan', checked)
+    await preparation.prepare(draft())
+    assert await preparation.prepared_plan(confirmed(problemText=SOURCE.replace('8m', '9m')), start_missing=True) is None
+    assert len(preparation._jobs) == 1
+
+
+@pytest.mark.asyncio
 async def test_other_owner_edited_source_or_work_cannot_reuse_preparation(monkeypatch):
     monkeypatch.setattr(lesson, 'checked_plan', AsyncMock(return_value=lesson.Plan.model_validate(candidate())))
     await preparation.prepare(draft())

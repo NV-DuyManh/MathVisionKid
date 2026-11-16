@@ -77,6 +77,48 @@ test('Work Review edits all affected calculations with compact stacked fractions
   expect(reviews[1].body.sourceId).not.toBe(reviews[0].body.sourceId);
 });
 
+test('Student retries photo reading after a temporary service failure', async ({ page, app, browserName }) => {
+  app.realStudent = true;
+  let firstUpload;
+  let inspections = 0;
+  const problemText = 'Tính 384 + 219';
+  app.responses.set('POST /student/tutor/inspect', async ({ route, json }) => {
+    const request = route.request();
+    expect(request.headers()['content-type']).toMatch(/^multipart\/form-data; boundary=/);
+    const body = request.postDataBuffer();
+    expect(body.toString('latin1')).toContain('filename="notebook.jpg"');
+    expect(body.toString('latin1')).toMatch(/name="privacyConfirmed"\r\n\r\ntrue/);
+    // WebKit interception omits Blob-backed file bytes from postDataBuffer.
+    if (browserName !== 'webkit') {
+      const start = body.indexOf('\r\n\r\n') + 4;
+      const jpeg = body.subarray(start, body.indexOf('\r\n--', start));
+      expect([...jpeg.subarray(0, 3)]).toEqual([255, 216, 255]);
+      if (firstUpload) expect(jpeg.equals(firstUpload)).toBe(true);
+      else firstUpload = jpeg;
+    }
+    if (++inspections === 1) return json({ error: { code: 'TUTOR_BUSY' } }, 503);
+    return json({ kind: 'PROBLEM', problemText, lines: [], needsProblem: false });
+  });
+  app.responses.set('POST /student/tutor/lesson/prepare', ({ json }) => json({ phase: 'ready' }));
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/camera?mode=MATH_TUTOR`);
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Chọn ảnh từ thư viện' }).click();
+  await (await chooser).setFiles(fileURLToPath(new URL('../../backend/business-api/src/test/resources/fixtures/worksheet-addition.jpg', import.meta.url)));
+  await page.getByRole('checkbox', { name: 'Tôi đã kiểm tra và che thông tin riêng tư trong ảnh' }).click();
+  await page.getByRole('button', { name: 'Tiếp tục xem lại' }).click();
+  await page.getByRole('button', { name: 'Xác nhận cắt ảnh' }).click();
+  await expect(page).toHaveURL(/\/study\/learning\/math-guide/);
+  await expect(page.getByText(/Đang có nhiều yêu cầu đọc ảnh/)).toBeVisible();
+  const retry = page.getByRole('button', { name: 'Đọc lại ảnh', exact: true });
+  await expect(retry).toHaveCount(1);
+  await expect(page.getByRole('button', { name: 'Nhập đề bằng chữ', exact: true })).toBeVisible();
+  await retry.click();
+  await expect(page.getByText(problemText, { exact: true })).toBeVisible();
+  expect(app.requests.filter(({ path }) => path === '/student/tutor/inspect')).toHaveLength(2);
+});
+
 test('Student previews and crops a local worksheet without sending it', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
@@ -97,22 +139,27 @@ test('Student previews and crops a local worksheet without sending it', async ({
   await expect(undoMask).toBeVisible();
   await undoMask.click();
   await expect(undoMask).toHaveCount(0);
-  const maskEditor = page.getByText('Chỉnh vùng che bằng số', { exact: true });
-  await maskEditor.focus();
-  await maskEditor.press('Enter');
-  const addMask = page.getByRole('button', { name: 'Thêm vùng che', exact: true });
-  await addMask.focus();
-  await addMask.press('Enter');
+  await expect(page.getByText('Chỉnh vùng che bằng số', { exact: true })).toHaveCount(0);
+  await expect(page.getByRole('spinbutton')).toHaveCount(0);
+  const dragMask = async (fromX, fromY, toX, toY) => {
+    await privacyImage.scrollIntoViewIfNeeded();
+    const imageBounds = await privacyImage.boundingBox();
+    await page.mouse.move(imageBounds.x + imageBounds.width * fromX, imageBounds.y + imageBounds.height * fromY);
+    await page.mouse.down();
+    await page.mouse.move(imageBounds.x + imageBounds.width * toX, imageBounds.y + imageBounds.height * toY, { steps: 8 });
+    await page.mouse.up();
+  };
+  await dragMask(0.1, 0.1, 0.55, 0.5);
+  await expect(undoMask).toBeVisible();
   const confirmation = page.getByRole('checkbox', { name: 'Tôi đã kiểm tra và che thông tin riêng tư trong ảnh' });
   await confirmation.click();
   await expect(confirmation).toBeChecked();
-  const offset = page.getByRole('spinbutton', { name: 'Cách trái' });
-  await offset.fill('12');
-  await offset.press('Tab');
-  await expect(offset).toHaveValue('12');
+  await dragMask(0.15, 0.15, 0.25, 0.2);
   await expect(confirmation).not.toBeChecked();
-  await testInfo.attach('Student privacy accessibility tree', { body: await page.getByRole('group', { name: 'Vị trí và kích thước vùng che (px)' }).ariaSnapshot(), contentType: 'text/plain' });
-  await maskEditor.press('Enter');
+  await confirmation.click();
+  await dragMask(0.65, 0.55, 0.75, 0.65);
+  await expect(confirmation).not.toBeChecked();
+  await testInfo.attach('Privacy uses direct dragging', { body: await page.screenshot(), contentType: 'image/png' });
   await confirmation.click();
   await page.getByRole('button', { name: 'Tiếp tục xem lại' }).click();
   await expect(page).toHaveURL(/\/study\/crop/);
@@ -130,7 +177,7 @@ test('Student previews and crops a local worksheet without sending it', async ({
     const context = canvas.getContext('2d');
     context.drawImage(image, 0, 0);
     const rgb = (x, y) => [...context.getImageData(Math.floor(canvas.width * x), Math.floor(canvas.height * y), 1, 1).data].slice(0, 3);
-    return rgb(0.25, 0.125).every(channel => channel < 24) && rgb(0.9, 0.9).some(channel => channel > 64);
+    return rgb(0.3, 0.25).every(channel => channel < 24) && rgb(0.9, 0.9).some(channel => channel > 64);
   })).toBe(true);
   await page.setViewportSize({ width: 320, height: 300 });
   await expect.poll(async () => (await cropImage.boundingBox()).height).toBeGreaterThan(60);

@@ -24,6 +24,7 @@ export const test = base.extend({
     const handleRoute = async route => {
       const request = route.request();
       const url = new URL(request.url());
+      if (url.protocol === 'blob:') return route.continue();
       const site = Object.values(sites).find(site => site.origin === url.origin);
       if (site && !url.pathname.startsWith('/api/v1/')) {
         const port = state.realStudent && url.pathname.startsWith('/study/') ? studentPort : site.port;

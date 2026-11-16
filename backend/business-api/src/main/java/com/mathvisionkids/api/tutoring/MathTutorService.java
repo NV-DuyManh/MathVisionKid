@@ -508,7 +508,7 @@ public class MathTutorService {
             if (result == null || !result.isObject()) throw unavailable();
             return result;
         } catch (HttpStatusCodeException ex) {
-            logger.warn("Tutor upstream request failed path={} status={}",path,ex.getStatusCode().value());
+            logger.warn("Tutor upstream request failed request={} path={} status={}", headers.getFirst("X-Request-ID"), path, ex.getStatusCode().value());
             if (ex.getStatusCode().value() == 429 && List.of("/internal/v1/tutor/lesson/narration/prepare",
                     "/internal/v1/tutor/lesson/narration/status").contains(path)) {
                 throw new ApiException("NARRATION_BUSY", "Đang chuẩn bị lời giảng. Em chờ một chút nhé.", HttpStatus.TOO_MANY_REQUESTS);
@@ -545,7 +545,7 @@ public class MathTutorService {
                     case "busy" -> "TUTOR_BUSY";
                     default -> "TUTOR_UNAVAILABLE";
                 };
-                logger.warn("Tutor request unavailable path={} code={}", path, code);
+                logger.warn("Tutor request unavailable request={} path={} code={}", headers.getFirst("X-Request-ID"), path, code);
                 String message = path.equals("/internal/v1/tutor/inspect") ? "Chưa đọc được ảnh. Ảnh của em vẫn được giữ."
                         : path.equals("/internal/v1/tutor/work-review") ? "Chưa nhận xét được bài. Bài làm của em vẫn được giữ."
                         : "Chưa chuẩn bị được phần hướng dẫn. Đề bài vẫn được giữ.";
@@ -553,10 +553,15 @@ public class MathTutorService {
             }
             throw unavailable();
         } catch (RestClientException ex) {
-            logger.warn("Tutor upstream request failed path={} category={}",path,ex.getClass().getSimpleName());
-            if (List.of("/internal/v1/tutor/lesson", "/internal/v1/tutor/lesson/answer").contains(path)
-                    && ex.getCause() instanceof java.net.SocketTimeoutException) {
-                throw new ApiException("TUTOR_TIMEOUT", "Phần hướng dẫn chưa kịp chuẩn bị. Đề bài vẫn được giữ.", HttpStatus.SERVICE_UNAVAILABLE);
+            logger.warn("Tutor upstream request failed request={} path={} category={}", headers.getFirst("X-Request-ID"), path, ex.getClass().getSimpleName());
+            if (ex.getCause() instanceof java.net.SocketTimeoutException
+                    || ex.getCause() instanceof java.net.http.HttpTimeoutException) {
+                if (path.equals("/internal/v1/tutor/inspect")) {
+                    throw new ApiException("TUTOR_TIMEOUT", "Đọc ảnh lâu hơn dự kiến. Ảnh vẫn được giữ.", HttpStatus.SERVICE_UNAVAILABLE);
+                }
+                if (List.of("/internal/v1/tutor/lesson", "/internal/v1/tutor/lesson/answer").contains(path)) {
+                    throw new ApiException("TUTOR_TIMEOUT", "Phần hướng dẫn chưa kịp chuẩn bị. Đề bài vẫn được giữ.", HttpStatus.SERVICE_UNAVAILABLE);
+                }
             }
             throw unavailable();
         }

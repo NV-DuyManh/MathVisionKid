@@ -4,7 +4,9 @@ import { pathToFileURL } from 'node:url';
 
 export function validateStudentApiBundle(bundle, expectedBase) {
   const bases = [...bundle.matchAll(/https?:\/\/[a-zA-Z0-9.-]+(?::\d+)?\/api\/v1\b/g)].map(match => match[0]);
-  if (!bases.includes(expectedBase) || bases.some(base => base !== expectedBase))
+  const configured = expectedBase === '/api/v1' ? bundle.includes(JSON.stringify(expectedBase)) && bases.length === 0
+    : bases.includes(expectedBase) && bases.every(base => base === expectedBase);
+  if (!configured)
     throw new Error('Student export has a missing or stale service address. Clear the export cache and rebuild before publishing.');
 }
 

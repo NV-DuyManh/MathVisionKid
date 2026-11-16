@@ -138,6 +138,7 @@ async def test_new_source_never_borrows_another_owners_plan_or_invents_an_answer
     with pytest.raises(TutorUnavailable):
         await quiz.generate(quiz.VariantRequest(owner='source-owner', problemText='Một đề còn thiếu thông tin.'))
     assert prepared.call_args.args[0].owner == 'source-owner'
+    assert prepared.call_args.kwargs == {'start_missing': True}
 
 
 @pytest.mark.asyncio

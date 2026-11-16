@@ -60,7 +60,6 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   const sidePanel = webColumns || (!IS_STUDENT_WEB && landscape);
   const [masks, setMasks] = useState<Mask[]>([]);
   const [selectedMaskId, setSelectedMaskId] = useState<number | null>(null);
-  const [showMaskEditor, setShowMaskEditor] = useState(false);
   const [movingMaskId, setMovingMaskId] = useState<number | null>(null);
   const [confirmedAttempt, setConfirmedAttempt] = useState<string | null>(null);
   const [saveError, setSaveError] = useState(false);
@@ -198,16 +197,6 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
     setMasks(prev => [...prev, { id: newId, ...rect }]);
     setSelectedMaskId(newId);
     if (IS_STUDENT_WEB) setConfirmedAttempt(null);
-  };
-
-  const fittedWidth = typeof fittedStyle.width === 'number' ? fittedStyle.width : 0;
-  const fittedHeight = typeof fittedStyle.height === 'number' ? fittedStyle.height : 0;
-  const selectedMask = masks.find(mask => mask.id === selectedMaskId);
-  const canEditMask = imageLoaded && !imageLoadError && !saving && fittedWidth >= MIN_MASK_SIZE && fittedHeight >= MIN_MASK_SIZE;
-  const addWebMask = () => {
-    const width = Math.max(MIN_MASK_SIZE, Math.floor(fittedWidth / 3));
-    const height = Math.max(MIN_MASK_SIZE, Math.floor(fittedHeight / 4));
-    commitNewMask({ x: 0, y: 0, width, height });
   };
 
   const commitSelectMask = (id: number) => {
@@ -731,44 +720,6 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
 
         {/* Footer Confirmation & Actions */}
         <View style={[styles.footer, !IS_STUDENT_WEB && SHADOWS.medium, sidePanel && styles.landscapeFooter, IS_STUDENT_WEB && styles.webFooter]}>
-          {IS_STUDENT_WEB && <details onToggle={event => setShowMaskEditor(event.currentTarget.open)}>
-            <summary>Chỉnh vùng che bằng số</summary>
-            {showMaskEditor && <div style={{ paddingBlock: 8, maxHeight: 'min(32vh, 240px)', overflowY: 'auto' }}>
-              <button type="button" disabled={!canEditMask} onClick={addWebMask}>Thêm vùng che</button>
-              {masks.length > 0 && <fieldset disabled={!canEditMask} style={{ minWidth: 0, margin: '8px 0', padding: 8 }}>
-                <legend>Vị trí và kích thước vùng che (px)</legend>
-                <label>Vùng che{' '}
-                  <select value={selectedMaskId ?? ''} onChange={event => setSelectedMaskId(Number(event.currentTarget.value) || null)}>
-                    <option value="">Chọn vùng</option>
-                    {masks.map((mask, index) => <option key={mask.id} value={mask.id}>Vùng {index + 1}</option>)}
-                  </select>
-                </label>
-                {selectedMask && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 8, marginTop: 8 }}>
-                  {([
-                    ['x', 'Cách trái', 0, Math.max(0, Math.floor(fittedWidth - selectedMask.width))],
-                    ['y', 'Cách trên', 0, Math.max(0, Math.floor(fittedHeight - selectedMask.height))],
-                    ['width', 'Chiều rộng', Math.min(MIN_MASK_SIZE, Math.floor(fittedWidth - selectedMask.x)), Math.floor(fittedWidth - selectedMask.x)],
-                    ['height', 'Chiều cao', Math.min(MIN_MASK_SIZE, Math.floor(fittedHeight - selectedMask.y)), Math.floor(fittedHeight - selectedMask.y)],
-                  ] as const).map(([key, label, min, max]) => (
-                    <label key={key}>{label}
-                      <input type="number" min={min} max={max} step={1}
-                        key={`${selectedMask.id}:${key}:${selectedMask[key]}`}
-                        defaultValue={Math.round(selectedMask[key])}
-                        style={{ display: 'block', width: '100%', minHeight: 32 }}
-                        onKeyDown={event => { if (event.key === 'Enter') event.currentTarget.blur(); }}
-                        onBlur={event => {
-                          const next = event.currentTarget.valueAsNumber;
-                          const value = Number.isFinite(next) ? Math.max(min, Math.min(max, Math.round(next))) : Math.round(selectedMask[key]);
-                          event.currentTarget.value = String(value);
-                          if (value === Math.round(selectedMask[key])) return;
-                          commitMaskUpdate(selectedMask.id, { ...selectedMask, [key]: value });
-                        }} />
-                    </label>
-                  ))}
-                </div>}
-              </fieldset>}
-            </div>}
-          </details>}
           {IS_STUDENT_WEB && maskControls}
           <TouchableOpacity
             style={styles.checkboxContainer}

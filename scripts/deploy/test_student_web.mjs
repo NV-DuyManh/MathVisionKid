@@ -15,6 +15,9 @@ test('a cached student export is rejected when its API differs from the target',
   assert.throws(() => validateStudentApiBundle('const api="https://new-service.trycloudflare.com/api/v1"; const other="https://old-service.trycloudflare.com/api/v1";', 'https://new-service.trycloudflare.com/api/v1'));
   assert.throws(() => validateStudentApiBundle('const api=undefined;', 'https://new-service.trycloudflare.com/api/v1'));
   validateStudentApiBundle('const api="https://new-service.trycloudflare.com/api/v1";', 'https://new-service.trycloudflare.com/api/v1');
+  validateStudentApiBundle('const api="/api/v1";', '/api/v1');
+  assert.throws(() => validateStudentApiBundle('const api=undefined;', '/api/v1'));
+  assert.throws(() => validateStudentApiBundle('const api="/api/v1"; const old="https://old-service.trycloudflare.com/api/v1";', '/api/v1'));
 });
 
 test('student web mount is opt-in and leaves native identity and configuration intact', () => {

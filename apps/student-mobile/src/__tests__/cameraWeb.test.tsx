@@ -27,6 +27,7 @@ let view: TestRenderer.ReactTestRenderer;
 let blur: () => void;
 const push = jest.fn();
 const requestPermission = jest.fn();
+const getPermission = jest.fn().mockResolvedValue({ granted: true });
 const button = (label: string) => view.root.findAll(node => (node.props.title === label || node.props.accessibilityLabel === label) && typeof node.props.onPress === 'function')[0];
 const preview = () => view.root.findByType('CameraView' as any);
 const ready = () => act(() => preview().props.onCameraReady());
@@ -38,7 +39,7 @@ beforeEach(() => {
   (useFocusEffect as jest.Mock).mockImplementation(callback => {
     React.useEffect(() => { blur = callback(); return blur; }, [callback]);
   });
-  (useCameraPermissions as jest.Mock).mockReturnValue([{ granted: true, status: 'granted' }, requestPermission]);
+  (useCameraPermissions as jest.Mock).mockReturnValue([{ granted: true, status: 'granted' }, requestPermission, getPermission]);
   (normalizeImageDraft as jest.Mock).mockResolvedValue({ uri: 'blob:normalized', width: 100, height: 80, isMasked: false });
   mockTakePicture.mockResolvedValue({ uri: 'data:image/jpeg;base64,photo', width: 1920, height: 1080 });
 });
@@ -97,7 +98,7 @@ it('restarts a granted preview without opening a competing permission stream', a
   expect(preview()).toBeDefined();
 });
 it('keeps gallery and the camera permission action available before permission is granted', async () => {
-  (useCameraPermissions as jest.Mock).mockReturnValue([null, requestPermission]);
+  (useCameraPermissions as jest.Mock).mockReturnValue([null, requestPermission, getPermission]);
   requestPermission.mockResolvedValue({ granted: false });
   await render();
   expect(view.root.findAllByType('CameraView' as any)).toHaveLength(0);
@@ -105,6 +106,16 @@ it('keeps gallery and the camera permission action available before permission i
   await act(async () => button('Cho phép mở máy ảnh').props.onPress());
   expect(requestPermission).toHaveBeenCalledTimes(1);
   expect(button('Chụp bằng máy ảnh điện thoại')).toBeDefined();
+});
+it('keeps the library usable if the browser cannot query camera permission', async () => {
+  getPermission.mockRejectedValueOnce(new Error('NotSupportedError'));
+  (useCameraPermissions as jest.Mock).mockReturnValue([null, requestPermission, getPermission]);
+  (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue({ canceled: false, assets: [{ uri: 'blob:photo' }] });
+  await render();
+  expect(useCameraPermissions).toHaveBeenCalledWith({ get: false });
+  expect(getPermission).toHaveBeenCalledTimes(1);
+  await act(async () => button('Chọn ảnh từ thư viện').props.onPress());
+  expect(push).toHaveBeenCalledWith('/privacy');
 });
 it('keeps the previous image and navigation unchanged on library cancellation', async () => {
   recognitionDraftStore.setDraft({ uri: 'blob:old', width: 20, height: 30 });
@@ -117,7 +128,7 @@ it('keeps the previous image and navigation unchanged on library cancellation', 
 });
 it('keeps the library usable while a browser permission prompt is unanswered', async () => {
   let finish!: (value: unknown) => void;
-  (useCameraPermissions as jest.Mock).mockReturnValue([null, requestPermission]);
+  (useCameraPermissions as jest.Mock).mockReturnValue([null, requestPermission, getPermission]);
   requestPermission.mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
   (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue({ canceled: true });
   await render();

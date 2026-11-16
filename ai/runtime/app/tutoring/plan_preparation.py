@@ -65,10 +65,15 @@ async def prepare(request: SourceDraft):
     return {'phase': 'preparing'}
 
 
-async def prepared_plan(request):
+async def prepared_plan(request, *, start_missing=False):
     prune()
     key = source_key(request)
     entry = _jobs.get(key)
+    if entry is None and start_missing:
+        # Completed work reviews may never open a guided lesson. Use the same
+        # bounded, owner-specific job instead of waiting for a job nobody starts.
+        await prepare(SourceDraft(owner=request.owner, problemText=request.problemText, workText=request.workText))
+        entry = _jobs.get(key)
     if entry is None:
         return None
     task = entry[1]
