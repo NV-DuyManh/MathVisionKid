@@ -41,3 +41,11 @@ HTTP backend trong browser suite là fixture, ảnh là tổng hợp. Không coi
 ## Nguồn và tích hợp
 
 Owner đã nghiệm thu local và cho phép commit/push, mở PR vào develop. Commit local nguồn `a02314c318cbd57bbce2b15dd0634cc62ddc220a` được chọn bằng `cherry-pick -x` trên develop `a48397ef5d6de95a4179c91c2188d492827c0439`, giữ tác giả. Patch ID trước/sau là `b4141ee1c8fb7756eed0f1f9a56dd7dae836359b`. Bản hướng dẫn phần thiếu ở PR #90 vẫn độc lập, không được đưa kèm vào PR sửa ảnh. Xem PR để biết revision cuối và CI; tích hợp source không đồng nghĩa merge hoặc deploy.
+
+## Ảnh minh chứng
+
+Ảnh tổng hợp từ lượt nghiệm thu local của commit nguồn nêu trên; màn crop dùng cùng thay đổi đã chọn sang develop. Không chứa ảnh bài làm thật hoặc tài khoản học sinh.
+
+![Mất ảnh sau reload trước sửa](../images/student-photo-drafts/before-reload-loss.png)
+
+![Ảnh đã che được khôi phục sau reload](../images/student-photo-drafts/after-reload-restored.png)
