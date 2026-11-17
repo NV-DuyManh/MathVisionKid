@@ -274,7 +274,7 @@ function ReviewSession({
         {row.arithmeticCorrect === true && !arithmeticOnly ? <Text style={styles.caption}>Phép tính ở dòng này đúng.</Text> : null}
         <Text style={styles.caption}>{row.feedback}</Text>
       </View>)}
-      {result.status === 'NEEDS_REVIEW' && result.complete !== false ? <AppButton
+      {(hasCorrections || incompleteInfo?.isIncomplete) && result.status === 'NEEDS_REVIEW' && result.complete !== false ? <AppButton
         title="Thử nhận xét lại" variant="secondary" disabled={disabledNow || busy} onPress={() => void review()} /> : null}
 
       {result.status === 'CORRECT' ? <AppButton title={showDetails ? 'Thu gọn nhận xét' : 'Xem nhận xét chi tiết'} variant="ghost" onPress={() => setShowDetails(value => !value)} /> : null}

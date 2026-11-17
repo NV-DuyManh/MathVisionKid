@@ -89,6 +89,7 @@ test('Unverified completion preserves correct calculations and offers retry with
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await openReview(page);
   await expect(page.getByRole('button', { name: 'Thử lại nhận xét', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Thử nhận xét lại', exact: true })).toHaveCount(0);
   await expect(page.getByText('Em đang thiếu phần này:', { exact: true })).toHaveCount(0);
   await expect(page.getByText('Cần đối chiếu', { exact: true })).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Chụp lại bài em đã sửa', exact: true })).toHaveCount(0);
