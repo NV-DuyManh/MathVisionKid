@@ -242,6 +242,55 @@ class MathTutorServiceTest {
                 " 12 + 5 = 18 \r\n\r\n\u00a0Đáp số: 18 bút.\u00a0\u2028", true, true);
     }
 
+    private static WorkReviewRequest unfinishedReviewRequest() {
+        return new WorkReviewRequest("fresh-missing-source-94017", "Mai có 12 bút, thêm 5 bút. Hỏi tổng số bút của Mai?",
+                "Số bút thêm là:\n5 * 1 = 5 (bút)", true, true);
+    }
+
+    private static String unfinishedReviewBody() {
+        return """
+            {"sourceId":"fresh-missing-source-94017","status":"NEEDS_REVIEW","summary":"Em làm tiếp phần còn thiếu nhé.",
+             "praise":"","alternative":"","nextAction":"Em dùng số bút thêm để tìm tổng số bút.",
+             "complete":false,"missingPart":"Tính tổng số bút của Mai.","arithmeticVerified":true,"completionVersion":2,
+             "rows":[{"lineIndex":0,"sourceText":"Số bút thêm là:","status":"OK","errorKind":"NONE","rowKind":"EXPLANATION","feedback":"Đây là lời dẫn.","hints":[]},
+                     {"lineIndex":1,"sourceText":"5 * 1 = 5 (bút)","status":"OK","errorKind":"NONE","rowKind":"CALCULATION","arithmeticCorrect":true,"feedback":"Phép tính phù hợp.","hints":[]}],
+             "missingParts":[{"type":"MISSING_CALCULATION","target":"tổng số bút của Mai","description":"Tính tổng số bút của Mai.",
+               "hint":"Em dùng số bút thêm để tìm tổng số bút.","requirementIndex":0,"relatedLineIndices":[1],"evidence":"DUAL_REVIEW"}]}
+            """;
+    }
+
+    @Test void workReviewPreservesStructuredMissingPartsAndEvidence() {
+        server.expect(requestTo(URL + "/internal/v1/tutor/work-review"))
+                .andRespond(withSuccess(unfinishedReviewBody(), MediaType.APPLICATION_JSON));
+        var result = service.reviewWork(unfinishedReviewRequest());
+        assertEquals(2, result.completionVersion());
+        assertEquals("tổng số bút của Mai", result.missingParts().get(0).target());
+        assertEquals(java.util.List.of(1), result.missingParts().get(0).relatedLineIndices());
+        assertTrue(result.arithmeticVerified());
+        assertFalse(result.complete());
+        server.verify();
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"reference", "requirement", "complete", "type", "evidence", "hint", "version"})
+    void workReviewRejectsDetachedOrMalformedCompletionEvidence(String invalid) throws Exception {
+        var body = (com.fasterxml.jackson.databind.node.ObjectNode) new com.fasterxml.jackson.databind.ObjectMapper().readTree(unfinishedReviewBody());
+        var part = (com.fasterxml.jackson.databind.node.ObjectNode) body.get("missingParts").get(0);
+        switch (invalid) {
+            case "reference" -> part.putArray("relatedLineIndices").add(0);
+            case "requirement" -> part.put("requirementIndex", 8);
+            case "complete" -> { body.put("complete", true); body.put("missingPart", ""); }
+            case "type" -> part.put("type", "INVENTED");
+            case "evidence" -> part.put("evidence", "GUESSED");
+            case "hint" -> part.put("hint", "x".repeat(301));
+            case "version" -> body.put("completionVersion", 99);
+            default -> throw new AssertionError(invalid);
+        }
+        server.expect(requestTo(URL + "/internal/v1/tutor/work-review"))
+                .andRespond(withSuccess(body.toString(), MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class, () -> service.reviewWork(unfinishedReviewRequest()));
+        server.verify();
+    }
+
     private static String workReviewBody() {
         return """
             {"sourceId":"source-1234567890","status":"NEEDS_REVISION","summary":"Em xem lại phép cộng nhé.",
