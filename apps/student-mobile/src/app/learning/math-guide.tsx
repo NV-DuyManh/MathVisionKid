@@ -10,6 +10,7 @@ import { AppButton } from '../../components/ui/AppButton';
 import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { ImageDraft, recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
+import { imageDraftPersistence } from '../../features/recognition/state/imageDraftPersistence';
 import { RecognitionProgress } from '../../features/recognition/components/RecognitionProgress';
 import { divisionText, savedDivision, CompletedLessonStep, LessonResponse, NotebookLine, NotebookRead, TutorService, trimWorkReviewLine, workReviewLines } from '../../features/tutoring/api/TutorService';
 import { DivisionReview } from '../../features/tutoring/DivisionReview';
@@ -71,8 +72,14 @@ export default function MathGuideScreen() {
     setDraftSource({ owner, draft: recognitionDraftStore.getDraft() });
   }, [owner]));
   const draft = draftSource.owner === owner ? draftSource.draft : null;
+  const [resumePhoto, setResumePhoto] = useState(false);
   // Remount also aborts pending requests: answers/exploration belong to one source and account.
   const sourceKey = JSON.stringify([owner, params.problemText, params.workText, params.lessonId, params.reflection, draft]);
+  if (Platform.OS === 'web' && draft?.recoveredAfterReload && draft.processingStarted && !resumePhoto) return <SafeAreaView>
+    <AppHeader title="Bài làm của em" showBack />
+    <RecoveryNotice title="Ảnh của em vẫn được giữ" message="Lần đọc trước chưa có kết quả xác nhận. Em có muốn tiếp tục đọc ảnh này không?"
+      actions={[{ label: 'Tiếp tục đọc ảnh', onPress: () => setResumePhoto(true) }]} />
+  </SafeAreaView>;
   return <NarrationPreparation key={sourceKey} owner={owner}><MathGuideLesson owner={owner} params={params} sourceDraft={draft} /></NarrationPreparation>;
 }
 
@@ -327,7 +334,13 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   };
   const inspectPhoto = useCallback(async () => {
     if (!photoAllowed) return;
-    await run('read', signal => TutorService.inspect(imageUri, true, signal), result => {
+    await run('read', async signal => {
+      if (draft) await imageDraftPersistence.beginProcessing(draft);
+      if (signal.aborted) throw new Error('Cancelled');
+      return TutorService.inspect(imageUri, true, signal);
+    }, result => {
+      recognitionDraftStore.updateDraft({ processingStarted: false, recoveredAfterReload: false });
+      void imageDraftPersistence.complete();
       setReading(result); setLesson(null);
       if (['MULTIPLE', 'UNREADABLE'].includes(result.kind)) return;
       const workRead = result.kind === 'WORK' || result.kind === 'MIXED';
@@ -349,7 +362,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         if (result.problemText) setProblemImage(imageUri);
       }
     });
-  }, [photoAllowed, imageUri, context?.purpose, draft?.problemText, run]);
+  }, [photoAllowed, imageUri, context?.purpose, draft, run]);
 
   useFocusEffect(useCallback(() => {
     active.current = true;

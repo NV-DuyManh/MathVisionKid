@@ -1,4 +1,5 @@
 import { normalizeRotation } from './cropRotationGeometry';
+import { imageDraftPersistence } from '../features/recognition/state/imageDraftPersistence';
 export { normalizeRotation, rotatedFrame } from './cropRotationGeometry';
 
 /** Draw only the final crop: avoid full-size PNG round trips on phone browsers. */
@@ -39,6 +40,6 @@ export async function exportCropImage(sourceUri: string, degrees: number, select
         canvas.toBlob(value => { clearTimeout(timer); if (value) resolve(value); else reject(new Error('Cannot save crop')); }, 'image/jpeg', 0.95);
       } catch (failure) { clearTimeout(timer); reject(failure); }
     });
-    return { uri: URL.createObjectURL(blob), width, height };
+    return { uri: imageDraftPersistence.ownUrl(URL.createObjectURL(blob)), width, height };
   } finally { canvas.width = canvas.height = 0; }
 }
