@@ -112,7 +112,8 @@ it('offers a retry when every row is unverified without asking the pupil to rewr
     rows: workText.split('\n').map((sourceText, lineIndex) => ({ sourceText, lineIndex, status: 'UNSURE', feedback: 'Cần đối chiếu.', hints: [] })),
   }));
   await act(async () => { view = TestRenderer.create(<StudentWorkReview {...props} workText={workText} autoStart />); });
-  expect(button('Thử nhận xét lại')).toBeDefined();
+  expect(button('Thử lại nhận xét')).toBeDefined();
+  expect(button('Thử nhận xét lại')).toBeUndefined();
   expect(button('Em nhập dòng vừa sửa')).toBeUndefined();
   expect(button('Gợi ý sửa dòng này')).toBeUndefined();
   expect(text()).not.toContain('Bài giải:');
