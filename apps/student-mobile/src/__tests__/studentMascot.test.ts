@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 
 const root = path.resolve(__dirname, '..');
 const mascotScreens = [
-  'app/welcome.tsx', 'app/(tabs)/lessons.tsx', 'app/(tabs)/_layout.tsx', 'app/learning/math-guide.tsx',
+  'features/onboarding/WelcomeScreen.tsx', 'app/(tabs)/lessons.tsx', 'app/(tabs)/_layout.tsx', 'app/learning/math-guide.tsx',
   'app/quiz/index.tsx', 'components/home/HomeDashboard.tsx', 'components/ui/AppIllustration.tsx',
   'components/ui/BrandLockup.tsx', 'components/ui/StudentResultShell.tsx', 'features/quiz/QuizInvitation.tsx',
   'features/tutoring/LessonQuestion.tsx', 'features/recognition/components/RecognitionProgress.tsx',
@@ -32,7 +32,7 @@ it('uses the approved robot throughout active student mascot surfaces', () => {
   }
 });
 
-it('keeps the selectable star avatar and earned reward stars independent of the mascot', () => {
+it('keeps the selectable star avatar and completed-day stars independent of the mascot', () => {
   const profile = fs.readFileSync(path.join(root, 'features/student-profile/ProfileCards.tsx'), 'utf8');
   const home = fs.readFileSync(path.join(root, 'components/home/HomeDashboard.tsx'), 'utf8');
   expect(profile).toContain("id: 'star'");

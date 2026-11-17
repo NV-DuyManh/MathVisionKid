@@ -121,7 +121,7 @@ async def test_content_failure_switches_source_then_requires_review(monkeypatch,
     expected.extend([('gemini',lesson.REPAIR_PROMPT),('groq',lesson.REVIEW_PROMPT)])
     assert [(name,prompt) for name,prompt,_ in events]==expected
     assert all(data['problemText']==SOURCE for _,_,data in events)
-    assert result.step.expression=='7 × 9' and not result.conclusion
+    assert not result.step.expression and result.step.answerFormat == 'INTEGER' and not result.conclusion
     assert '63' not in result.model_dump_json(exclude={'sessionId'})
     assert 'validationIssue' not in events[-1][2] and 'rejectedCandidate' not in events[-1][2]
 

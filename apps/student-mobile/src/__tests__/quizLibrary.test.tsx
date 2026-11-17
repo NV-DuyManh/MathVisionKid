@@ -8,6 +8,7 @@ import { quizApi } from '../features/quiz/quizApi';
 const mockPush = jest.fn(), mockReplace = jest.fn();
 jest.mock('expo-router', () => ({
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
+  useLocalSearchParams: () => ({}),
   useFocusEffect: (callback: () => (() => void)) => require('react').useEffect(callback, [callback]),
 }));
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: 'SafeAreaView', useSafeAreaInsets: () => ({ top: 0, bottom: 0 }) }));

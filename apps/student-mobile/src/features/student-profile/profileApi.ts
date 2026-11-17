@@ -43,7 +43,14 @@ export const profileApi = {
   },
   async update(edit: ProfileEdit, signal: AbortSignal) {
     const config = { signal, _identity: await tokenStorage.getSessionId() };
-    return (await apiClient.put<StudentProfile>(root + '/profile', edit, config)).data;
+    let next = (await apiClient.put<StudentProfile>(root + '/profile', edit, config)).data;
+    const matchesPrivacy = (value: StudentProfile) => value?.leaderboardVisible === edit.leaderboardVisible
+      && (edit.leaderboardNameHidden === undefined || value?.leaderboardNameHidden === edit.leaderboardNameHidden);
+    // Some older update responses omit privacy fields. Confirm stored settings
+    // before accepting them; never turn an explicit false into a default true.
+    if (!matchesPrivacy(next)) next = (await apiClient.get<StudentProfile>(root + '/profile', config)).data;
+    if (!matchesPrivacy(next)) throw Object.assign(new Error('Chưa xác nhận được quyền riêng tư đã lưu.'), { code: 'PROFILE_PRIVACY_UNCONFIRMED' });
+    return next;
   },
   async uploadPhoto(uri: string, signal: AbortSignal, expectedSession?: string | null) {
     const identity = expectedSession === undefined ? await tokenStorage.getSessionId() : expectedSession;

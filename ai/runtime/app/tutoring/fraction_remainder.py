@@ -4,6 +4,7 @@ Unknown wording returns None and keeps the independently reviewed cloud path.
 The grammar mirrors Smart Quiz's verified relation, not a particular exercise.
 """
 import re
+import unicodedata
 from fractions import Fraction
 
 from app.tutoring.service import _fold
@@ -35,10 +36,28 @@ def same_context(source, question):
 
 
 def verified_plan(problem: str) -> dict | None:
+    return _verified_content(problem)
+
+
+def verified_summary(problem: str) -> dict | None:
+    return _verified_content(problem, summary_only=True)
+
+
+def _verified_content(problem: str, *, summary_only: bool = False) -> dict | None:
     if not isinstance(problem, str) or len(problem) > 4000:
         return None
-    text = re.sub(r"\s+", " ", _fold(problem)).strip()
-    text = re.sub(r"\s*\(\d+(?:[.,]\d+)? diem\)\s*", "", text).strip()
+    original = re.sub(r"\s+", " ", unicodedata.normalize('NFC', problem)).strip()
+    text = _fold(original)
+    # A single worksheet label is metadata, never an extra mathematical given.
+    label = re.match(r'^(?:bai|cau)\s+(?:so\s+)?\d+[a-z]?\s*[:.)]?\s*', text)
+    if label:
+        original = original[label.end():]
+    score = re.search(r"\s*\(\d+(?:[.,]\d+)? diem\)\s*$", _fold(original))
+    if score:
+        original = original[:score.start()]
+    text = _fold(original)
+    if len(original) != len(text):
+        return None
     if re.search(r"\b(khong|chua|them|bot|mat|sau khi|truoc khi)\b", text):
         return None
     fractions = re.findall(r"\d{1,3}\s*/\s*\d{1,3}", text)
@@ -90,23 +109,34 @@ def verified_plan(problem: str) -> dict | None:
             return None
         # The proof checks all groups as positive integers and conserves the whole.
         assert total*a + total*b + count == total
+        first, second, rest = (original[match.start(i):match.end(i)].strip() for i in (1, 2, 3))
+        context = re.match(subject_pattern() + r' co ', text)[0][:-4]
+        subject = original[:len(context)]
+        location = re.sub(r'^(?:trong )?(?:một )?', '', subject, flags=re.I)
+        place = f' trong {location[0].lower() + location[1:]}' if not re.match(r'(ban|be|bac|co|chu) ', _fold(location)) else f' của {location[0].lower() + location[1:]}'
+        question = original[match.start(5):].strip().rstrip('?')
+        total_name = 'sách' if population == 'sach' else unit
+        if summary_only:
+            return {'givens': [f'{fractions[0]} số {total_name}{place} là {first}.',
+                               f'{fractions[1]} số {total_name}{place} là {second}.',
+                               f'Số {total_name} còn lại là {rest}.',
+                               f'Số {rest}{place} là {count} {unit}.'],
+                    'question': f'Tìm tổng số {total_name}{place}.'}
+        intros = [f"Đề bài cho biết phần {first} và phần {second}. Em cần tìm xem phần {rest} chiếm bao nhiêu trong tổng số {total_name}.",
+                  f"Em hãy dùng phần {rest} đã tìm ở bước trước và dữ kiện {count} {unit} để tìm tổng số {total_name}."]
         descriptions = [
-            ("Gộp hai phần đã biết", "Phân số chỉ hai nhóm đã biết là:",
-             "Hai phân số trong đề cùng chỉ các phần của toàn bộ. Ta cộng các phần này để biết hai nhóm đã chiếm bao nhiêu phần.",
-             "Em quy đồng các phân số đã cho, rồi cộng các tử số và giữ mẫu chung. Em tự tính kết quả, giữ phân số chính xác để dùng ở bước tiếp theo.",
-             f"{fractions[0]} + {fractions[1]}", "phần", "Hai nhóm đã biết chiếm mấy phần của toàn bộ?"),
-            ("Tìm phần còn lại", "Phân số chỉ nhóm còn lại là:",
-             "Coi toàn bộ là một đơn vị. Nhóm còn lại ghép với hai nhóm đã biết vừa đủ toàn bộ, nên ta lấy toàn bộ trừ phần vừa tìm.",
-             "Em dùng kết quả đã kiểm tra ở bước trước, viết một đơn vị thành phân số cùng mẫu, rồi thực hiện phép trừ. Phân số này chỉ phần còn lại, chưa phải số đồ vật.",
-             "1 - {s0}", "phần", "Nhóm còn lại chiếm mấy phần của toàn bộ?"),
-            ("Tìm số lượng toàn bộ", "Số lượng trong toàn bộ là:",
-             f"Đề cho nhóm còn lại có {count} {unit}. Muốn tìm toàn bộ, ta lấy số lượng đã biết chia cho phân số tương ứng. Đây là phép tìm toàn bộ từ một phần đã biết.",
-             "Em dùng phân số đã kiểm tra ở bước trước làm số chia. Khi chia cho một phân số, ta nhân với phân số đảo ngược của nó; em tự thực hiện phép tính và ghi đơn vị đếm.",
-             f"{count} / {{s1}}", unit, "Toàn bộ có tất cả bao nhiêu?")]
-        return {"topic": "Tìm toàn bộ từ phần còn lại", "goal": "Hiểu các phần, rồi tự tính số lượng toàn bộ.",
-                "finalAnswerStep": 2, "steps": [
+            (f"Tìm phân số chỉ số {rest}", f"Phân số chỉ số {rest}{place} là:",
+             f"Đề bài cho biết phần {first} và phần {second}. Phần còn lại là {rest}. Nếu coi tổng số {total_name} là một đơn vị, em sẽ tìm phần {rest} như thế nào?",
+             f"Cộng phần {first} và phần {second}, rồi lấy một đơn vị trừ tổng đó để tìm phần {rest}. Ta quy đồng để các phần có cùng kích thước trước khi cộng hoặc trừ.",
+             f"1-({fractions[0]}+{fractions[1]})", "", f"Số {rest} chiếm bao nhiêu phần tổng số {unit}{place}?"),
+            (f"Tìm tổng số {unit}{place}", f"Tổng số {unit}{place} là:",
+             f"Em đã tìm được phân số chỉ phần {rest} và đề bài cho biết có {count} {unit} thuộc phần đó. Làm thế nào để tìm tổng số {unit} khi đã biết giá trị của phần này?",
+             f"Lấy {count} {unit} chia cho phân số chỉ phần {rest} để tìm tổng số {unit}. Chia cho một phân số là nhân với phân số đảo ngược của nó.",
+             f"{count}/{{s0}}", unit, question[0].upper() + question[1:] + '?')]
+        return {"topic": "Tìm toàn bộ từ phần đã biết", "goal": f"Tìm tổng số {unit}{place} từ phần {rest}.",
+                "finalAnswerStep": 1, "steps": [
                     {"title": title, "solutionSentence": sentence, "explanation": why, "question": question,
-                     "expression": expression, "unit": step_unit, "fractionNotation": True,
+                     "expression": expression, "unit": step_unit, "fractionNotation": True, "intro": intros[index],
                      "guidance": [(f"Phần đã kiểm tra là {{s{index-1}}}. " if index else "") + why, how],
                      "initialGuidance": [(f"Phần đã kiểm tra là {{s{index-1}}}. " if index else "") + why, how], "hints": [why, how]}
                     for index, (title, sentence, why, how, expression, step_unit, question) in enumerate(descriptions)]}

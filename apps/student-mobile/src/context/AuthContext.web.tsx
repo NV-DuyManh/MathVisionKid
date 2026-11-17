@@ -34,7 +34,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const renderedRevision = revision.current;
   const router = useRouter();
   const pathname = usePathname();
-  const publicWelcome = /^(?:\/(?:study|learn))?\/welcome\/?$/.test(pathname);
+  // The shared export is mounted under /study, while the standalone preview
+  // can expose the same public onboarding screen at /welcome or /onboarding.
+  // Keep both entry points public so an anonymous student can reach the real
+  // login handoff without being held by the protected-route guard.
+  const publicWelcome = /^(?:\/(?:study|learn))?\/(?:welcome|onboarding)\/?$/.test(pathname);
+  const loginRoute = /^(?:\/(?:study|learn))?\/login\/?$/.test(pathname);
   const portal = typeof window !== 'undefined' && /^\/(?:study|learn)(?:\/|$)/.test(window.location.pathname);
   const setSessionUser = useCallback((profile: any) => {
     const recovery = imageDraftPersistence.activate(profile?.id || profile?.userId);
@@ -56,6 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [portal]);
   useEffect(() => {
     let active = true;
+    let restoring = true;
     const current = revision.current;
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 15000);
@@ -63,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const [access, refresh] = await Promise.all([tokenStorage.getAccessToken(), tokenStorage.getRefreshToken()]);
         if (!active || current !== revision.current) return;
-        if (!access && !refresh) { if (portal && !publicWelcome) window.location.replace(window.performance?.getEntriesByType?.('navigation').some(entry => (entry as PerformanceNavigationTiming).type === 'back_forward') ? '/' : '/login'); return; }
+        if (!access && !refresh) { if (!publicWelcome && !loginRoute) router.replace('/login'); return; }
         const { data } = await apiClient.get('/me', { signal: controller.signal, timeout: 15000 });
         if (!active || current !== revision.current) return;
         if (data.role !== 'STUDENT' || data.active !== true) {
@@ -81,24 +87,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         delete apiClient.defaults.headers.common.Authorization;
         setFailure(error?.response ? 'Phiên đăng nhập không còn hợp lệ. Vui lòng đăng nhập lại.' : 'Chưa kết nối được máy chủ. Vui lòng kiểm tra kết nối và đăng nhập lại.');
         if (portal) window.location.replace(error?.response ? '/login?session=expired' : '/login?connection=failed');
-      } finally { clearTimeout(timer); if (active && current === revision.current) setIsLoading(false); }
+      } finally { restoring = false; clearTimeout(timer); if (active && current === revision.current) setIsLoading(false); }
     };
     void restore();
     const unsubscribe = sessionEvents.subscribe(reason => {
       revision.current++;
       setSessionUser(null);
       setIsLoading(false);
-      if (portal) window.location.replace(reason === 'forbidden' ? '/access-denied' : '/session-expired');
+      if (portal) window.location.replace(reason === 'forbidden' ? '/access-denied' : restoring ? '/login?session=expired' : '/session-expired');
       else router.replace('/login');
     });
     return () => { active = false; unsubscribe(); controller.abort(); clearTimeout(timer); };
-  }, [setSessionUser, portal, publicWelcome, router]);
+  }, [setSessionUser, portal, publicWelcome, loginRoute, router]);
   useEffect(() => {
-    if (!portal && !isLoading && !user && pathname !== '/login' && !publicWelcome) router.replace('/login');
-  }, [portal, isLoading, user, pathname, publicWelcome, router]);
+    if (!portal && !isLoading && !user && !loginRoute && !publicWelcome) router.replace('/login');
+  }, [portal, isLoading, user, loginRoute, publicWelcome, router]);
   useEffect(() => {
-    if (portal && pathname === '/login' && user) router.replace('/(tabs)');
-  }, [portal, pathname, user, router]);
+    if (loginRoute && user) router.replace('/(tabs)');
+  }, [loginRoute, user, router]);
   const login = async (credentials: any) => {
     const current = ++revision.current;
     setFailure(null);
@@ -180,7 +186,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (current !== revision.current || signal?.aborted || await tokenStorage.getSessionId() !== session) throw new Error('Phiên đăng nhập đã thay đổi.');
   };
   return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'STUDENT' && user.active === true, isLoading, login, logout, refreshUser, changePassword }}>
-    {(user && (!portal || pathname !== '/login')) || (!isLoading && (publicWelcome || (!portal && pathname === '/login'))) ? photoRecovery.restoring ?
+    {(user && (!portal || !loginRoute)) || (!user && !isLoading && (publicWelcome || loginRoute)) ? photoRecovery.restoring ?
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, backgroundColor: COLORS.background }}>
         <ActivityIndicator color={COLORS.primary} /><Text>Đang khôi phục ảnh của em...</Text>
       </View> : children : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 24, backgroundColor: COLORS.background }}>
+      {failure ? <><Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary }}>{failure}</Text>
+        <Pressable accessibilityRole="button" onPress={() => window.location.replace('/login')}><Text>Đăng nhập lại</Text></Pressable></> :
+        <><ActivityIndicator color={COLORS.primary} /><Text style={{ fontFamily: FONTS.regular, color: COLORS.textSecondary }}>Đang xác minh tài khoản…</Text></>}
+    </View>}
+  </AuthContext.Provider>;
+};

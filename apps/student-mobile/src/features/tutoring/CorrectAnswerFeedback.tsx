@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AccessibilityInfo, Animated, AppState, Easing, Platform, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { FONTS } from '../../constants/theme';
+import { MathText } from '../../components/domain/MathText';
 
 const COLORS = ['#7055F6', '#F59E0B', '#10B981', '#3B82F6', '#EC4899'];
 const PIECES = Array.from({ length: 18 }, (_, index) => ({
@@ -30,7 +31,7 @@ export function CorrectAnswerFeedback({ message, detail = '' }: { message: strin
   return <View style={styles.banner} testID="correct-answer-feedback" accessibilityLiveRegion="polite">
     <View style={styles.badge}><Ionicons name="checkmark" size={23} color="#24794E" accessible={false} /></View>
     <View style={styles.words}><Text style={styles.title}>{message || 'Em làm đúng rồi!'}</Text>
-      {detail ? <Text style={styles.caption}>{detail}</Text> : null}</View>
+      {detail ? <MathText style={styles.caption}>{detail}</MathText> : null}</View>
     {celebrating ? <View testID="correct-answer-celebration" style={styles.burst} pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
       {PIECES.map((piece, index) => <Animated.View key={index} style={[styles.piece, { backgroundColor: piece.color,
         opacity: motion.interpolate({ inputRange: [0, .65, 1], outputRange: [1, 1, 0] }),

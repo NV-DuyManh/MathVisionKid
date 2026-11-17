@@ -741,8 +741,16 @@ if ($celeryActive) {
 }
 
 $authReady = $false
+$authTimeoutSeconds = 120
 $authWait = [Diagnostics.Stopwatch]::StartNew()
-while ($authWait.Elapsed.TotalSeconds -lt 30) {
+# Cold imports and provider catalog validation can exceed 30 seconds locally.
+Write-Host "  Waiting for authenticated AI startup (up to ${authTimeoutSeconds}s)..." -ForegroundColor Yellow
+while ($authWait.Elapsed.TotalSeconds -lt $authTimeoutSeconds) {
+    foreach ($service in $TrackedProcesses) {
+        if ($service.Name -eq 'FastAPI AI Runtime' -and $service.Process.HasExited) {
+            throw "AI runtime exited before authenticated startup completed. Inspect $($service.ErrLog) (key values withheld)."
+        }
+    }
     try {
         $null = Invoke-WebRequest -Uri 'http://127.0.0.1:8000/internal/v1/tutor/runtime' `
             -Headers @{ 'X-Internal-API-Key' = $env:INTERNAL_API_KEY } -TimeoutSec 2 -UseBasicParsing
@@ -755,7 +763,7 @@ while ($authWait.Elapsed.TotalSeconds -lt 30) {
         Start-Sleep -Milliseconds 500
     }
 }
-if (-not $authReady) { throw 'AI authenticated runtime did not become ready within 30 seconds (key values withheld).' }
+if (-not $authReady) { throw "AI authenticated runtime did not become ready within ${authTimeoutSeconds} seconds (key values withheld). Inspect $FastApiLog and $($FastApiLog -replace '\.log$', '.err.log')." }
 }
 
 # D. Unified Portal Web

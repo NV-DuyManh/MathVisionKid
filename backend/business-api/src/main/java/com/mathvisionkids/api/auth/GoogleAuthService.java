@@ -32,15 +32,16 @@ public class GoogleAuthService {
     private final RefreshTokenService refreshTokens;
     private final String clientIds;
     private final boolean enabled;
+    private final com.mathvisionkids.api.studentprofile.StudentProfileService profiles;
     private GoogleIdTokenVerifier verifier;
 
     public GoogleAuthService(UserRepository users, StudentRepository students, TeacherRepository teachers,
-                             PasswordEncoder passwordEncoder, JwtUtil jwtUtil, RefreshTokenService refreshTokens,
+                             PasswordEncoder passwordEncoder, JwtUtil jwtUtil, RefreshTokenService refreshTokens, com.mathvisionkids.api.studentprofile.StudentProfileService profiles,
                              @Value("${app.auth.google.enabled:false}") boolean enabled,
                              @Value("${app.auth.google.client-id:}") String clientIds) {
         this.users = users; this.students = students; this.teachers = teachers;
         this.passwordEncoder = passwordEncoder; this.jwtUtil = jwtUtil; this.refreshTokens = refreshTokens;
-        this.enabled = enabled; this.clientIds = clientIds;
+        this.enabled = enabled; this.clientIds = clientIds; this.profiles = profiles;
     }
 
     @jakarta.annotation.PostConstruct
@@ -119,7 +120,12 @@ public class GoogleAuthService {
         user.setGender(googleGender(payload.get("gender")));
         user.setActive(true);
         if (user instanceof Student student) student.setGradeLevel(request.getGradeLevel());
-        return user instanceof Student student ? students.save(student) : teachers.save((Teacher) user);
+        if (user instanceof Student student) {
+            students.saveAndFlush(student);
+            profiles.initialize(student.getId());
+            return student;
+        }
+        return teachers.save((Teacher) user);
     }
 
     private String googleGender(Object claim) {

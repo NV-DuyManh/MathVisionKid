@@ -10,6 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 /** Opt-in, real Flyway upgrade with existing data. Never touches the public app schema. */
 @EnabledIfEnvironmentVariable(named = "MATHVISION_POSTGRES_UPGRADE", matches = "true")
 class PostgresUpgradeTest {
+    @Test void upgradeFrom34AddsNamePrivacyAndPreservesVisibleParticipation() throws Exception {
+        verifyUpgrade("34");
+    }
+
     @Test void upgradeFrom33PreservesExistingArithmeticRun() throws Exception {
         verifyUpgrade("33");
     }
@@ -47,6 +51,8 @@ class PostgresUpgradeTest {
                 sql.execute("INSERT INTO users(id,email,password_hash,role,display_name) VALUES ('"+id+"','synthetic@upgrade.test','unused','STUDENT','Synthetic pupil')");
                 sql.execute("INSERT INTO students(student_id,grade_level) VALUES ('"+id+"',5)");
                 if (Integer.parseInt(startingVersion) >= 32) {
+                    sql.execute("INSERT INTO student_profile_preferences(student_id,avatar,public_alias,leaderboard_visible)"
+                            + " VALUES ('"+id+"','rocket','SyntheticStar',true)");
                     sql.execute("INSERT INTO student_game_runs(id,student_id,level,started_at,activity_day,seed,answered,correct,last_answer)"
                             + " VALUES ('"+game+"','"+id+"',5,now(),CURRENT_DATE,12,2,1,10)");
                 }
@@ -56,10 +62,16 @@ class PostgresUpgradeTest {
                 sql.execute("INSERT INTO student_quizzes(id,student_id,source_type,source_id,source_fingerprint,topic_code,topic_name,skill_code,grade_level,question_text,unit,answer_spec,validated_solution,status,created_at,updated_at,generation_version) VALUES ('"+quiz+"','"+id+"','LESSON','source',repeat('a',64),'ADDITION','Addition','ADD',5,'2 + 2 = ?','','4','2 + 2 = 4','READY',now(),now(),'test')");
                 var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
-                assertEquals(34 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
-                assertEquals("34", upgrade.targetSchemaVersion);
+                assertEquals(35 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
+                assertEquals("35", upgrade.targetSchemaVersion);
                 assertTrue(latest.validateWithResult().validationSuccessful);
                 assertEquals(0, latest.migrate().migrationsExecuted);
+                if (Integer.parseInt(startingVersion) >= 32) {
+                    try (var rows = sql.executeQuery("SELECT leaderboard_visible,leaderboard_name_hidden FROM student_profile_preferences WHERE student_id='"+id+"'")) {
+                        assertTrue(rows.next()); assertTrue(rows.getBoolean(1)); assertTrue(rows.getBoolean(2));
+                    }
+                    sql.execute("UPDATE student_profile_preferences SET leaderboard_name_hidden=false WHERE student_id='"+id+"'");
+                }
                 sql.execute("INSERT INTO student_profile_photos(student_id,image_bytes,updated_at) VALUES ('"+id+"',decode('ffd8ffe0','hex'),now())");
                 var dump = java.nio.file.Files.createTempFile("mathvision-upgrade-test-", ".dump");
                 var diagnostics = java.nio.file.Files.createTempFile("mathvision-upgrade-test-", ".log");
@@ -84,6 +96,9 @@ class PostgresUpgradeTest {
                     assertTrue(rows.next()); assertEquals(1, rows.getInt(1)); assertFalse(rows.next());
                 }
                 if (Integer.parseInt(startingVersion) >= 32) {
+                    try (var rows = sql.executeQuery("SELECT leaderboard_visible,leaderboard_name_hidden FROM student_profile_preferences WHERE student_id='"+id+"'")) {
+                        assertTrue(rows.next()); assertTrue(rows.getBoolean(1)); assertFalse(rows.getBoolean(2));
+                    }
                     try (var rows = sql.executeQuery("SELECT mode,answered,correct,last_answer,reward_status FROM student_game_runs WHERE id='"+game+"'")) {
                         assertTrue(rows.next()); assertEquals("ARITHMETIC_QUEST", rows.getString(1));
                         assertEquals(2, rows.getInt(2)); assertEquals(1, rows.getInt(3));

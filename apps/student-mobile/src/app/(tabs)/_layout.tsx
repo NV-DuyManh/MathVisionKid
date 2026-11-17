@@ -107,11 +107,11 @@ export default function TabLayout() {
 }
 
 const styles = StyleSheet.create({
-  webBar: { borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTopWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, paddingHorizontal: 8 },
-  webSelected: { backgroundColor: WEB_DESIGN.colors.blueLight },
-  webHovered: { backgroundColor: WEB_DESIGN.colors.blueLight },
+  webBar: { borderTopWidth: 1, borderColor: COLORS.border },
+  webSelected: { backgroundColor: COLORS.primaryLight },
+  webHovered: { backgroundColor: COLORS.primaryLight },
   webSidebar: { borderRightColor: WEB_DESIGN.colors.ink },
-  webSideSelected: { backgroundColor: WEB_DESIGN.colors.blue, borderColor: '#7596F8', borderRadius: WEB_DESIGN.radii.control, shadowOpacity: 0 },
+  webSideSelected: { backgroundColor: COLORS.primaryDark, borderColor: '#8265E6', borderRadius: WEB_DESIGN.radii.control, shadowOpacity: 0 },
   webSideHovered: { backgroundColor: '#2C4178' },
   webSideFocused: { outlineColor: WEB_DESIGN.colors.star, outlineWidth: 2, outlineOffset: 2 },
   bar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingTop: 8, paddingHorizontal: 12,

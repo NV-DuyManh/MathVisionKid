@@ -67,11 +67,11 @@ function ProfileContent({ owner }: { owner?: string }) {
             onPress={() => open(lesson)} style={({ pressed }) => [styles.lessonOpen, pressed && styles.pressed]}>
             <View style={[styles.thumbnail, { backgroundColor: ['#F0EBF9', '#FFF3DF', '#EAF3FD'][index % 3] }]} accessible={false} importantForAccessibility="no-hide-descendants" aria-hidden>
               <View style={styles.paperLines}>{[0, 1, 2, 3, 4].map(line => <View key={line} style={styles.paperLine} />)}</View>
-              <Text numberOfLines={3} style={styles.thumbnailText}>{(tab === 'notes' ? lesson.reflection : lesson.workText || lesson.problemText).slice(0, 65)}</Text>
+              <MathText style={styles.thumbnailText}>{(tab === 'notes' ? lesson.reflection : lesson.workText || lesson.problemText).slice(0, 65)}</MathText>
             </View>
-            <View style={styles.copy}><Text numberOfLines={2} style={styles.lessonTitle}>{lesson.problemText || lesson.workText}</Text>
+            <View style={styles.copy}><MathText style={styles.lessonTitle}>{lesson.problemText || lesson.workText}</MathText>
               <Text style={styles.date}>{new Date(lesson.timestamp).toLocaleDateString('vi-VN')} · {lesson.reviewedSteps} bước đã xem</Text>
-              {tab === 'notes' ? <Text numberOfLines={2} style={styles.note}>{lesson.reflection}</Text> : null}</View>
+              {tab === 'notes' ? <MathText style={styles.note}>{lesson.reflection}</MathText> : null}</View>
           </Pressable>
           <Pressable accessibilityRole="button" accessibilityLabel={'Tùy chọn bài ' + (index + 1)} onPress={() => setMenu(lesson)} style={styles.more}>
             <Ionicons name="ellipsis-vertical" size={20} color="#9C87C8" /></Pressable>
@@ -86,7 +86,7 @@ function ProfileContent({ owner }: { owner?: string }) {
     {menu ? <LessonSheet title="Bài học của em" onClose={() => setMenu(null)}>
       <MathText style={styles.emptyText}>{menu.problemText || menu.workText}</MathText>
       <AppButton title="Mở bài học" onPress={() => { const selected = menu; setMenu(null); open(selected); }} />
-      {menu.reflection ? <><Text style={styles.heading}>Ghi chú của em</Text><Text style={styles.emptyText}>{menu.reflection}</Text></> : null}
+      {menu.reflection ? <><Text style={styles.heading}>Ghi chú của em</Text><MathText style={styles.emptyText}>{menu.reflection}</MathText></> : null}
       <AppButton title="Đóng" variant="secondary" onPress={() => setMenu(null)} />
     </LessonSheet> : null}
   </SafeAreaView>;

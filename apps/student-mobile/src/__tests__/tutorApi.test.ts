@@ -162,7 +162,12 @@ it.each(['PREPARING', 'RETRYABLE', 'UNAVAILABLE'])('retains three checked answer
   expect(apiClient.post).toHaveBeenLastCalledWith('/student/tutor/lesson/preparation', {
     sessionId: data.sessionId, revision: 3, retry: true,
   }, expect.anything());
-  for (const patch of [{ preparingMath: false }, { status: 'COMPLETE' }, { stepIndex: 2 }, { conclusion: 'Đáp số: 60 cây.' }]) {
+  const timed = { ...data, retryAfterSeconds: status === 'PREPARING' ? 0 : 5 };
+  (apiClient.post as jest.Mock).mockResolvedValue({ data: timed });
+  await expect(TutorService.lessonPreparation(data)).resolves.toEqual(timed);
+  for (const patch of [{ preparingMath: false }, { status: 'COMPLETE' }, { stepIndex: 2 }, { conclusion: 'Đáp số: 60 cây.' },
+    ...[-1, 61, 1.5, '5', null].map(retryAfterSeconds => ({ retryAfterSeconds })),
+    ...(status === 'PREPARING' ? [{ retryAfterSeconds: 5 }] : [])]) {
     (apiClient.post as jest.Mock).mockResolvedValue({ data: { ...data, ...patch } });
     await expect(TutorService.lessonPreparation(data)).rejects.toThrow();
   }

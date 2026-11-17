@@ -146,7 +146,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
       title="Chưa mở được giọng đọc" message={error} actions={[
         { label: 'Thử lại', accessibilityLabel: 'Tải lại lời giảng', icon: 'refresh-outline', onPress: retry },
         ...(!serverFallback && !audioLoader ? [{ label: 'Dùng giọng Việt dự phòng', onPress: () => changeFallback(true) }] : []),
-        { label: 'Giọng có sẵn', accessibilityLabel: 'Dùng giọng đọc trên thiết bị', onPress: () => chooseVoice('device') },
+        { label: 'Giọng thiết bị', accessibilityLabel: 'Dùng giọng đọc trên thiết bị', onPress: () => chooseVoice('device') },
     ]} /> : <>
       {!audioReady ? <View testID="narration-preparation" style={[styles.preparing, !showPreparation && styles.hidden]} aria-hidden={!showPreparation} importantForAccessibility={showPreparation ? 'auto' : 'no-hide-descendants'}>
         <Text style={styles.preparingTitle}>Chuẩn bị lời giảng</Text>

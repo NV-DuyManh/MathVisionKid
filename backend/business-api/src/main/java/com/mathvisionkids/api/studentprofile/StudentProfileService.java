@@ -19,6 +19,7 @@ import static com.mathvisionkids.api.studentprofile.ProfileDtos.*;
 @Service
 public class StudentProfileService {
     static final Set<String> AVATARS = Set.of("star", "planet", "leaf", "rocket", "moon", "sun");
+    private static final List<String> INITIAL_AVATARS = List.of("star", "planet", "leaf", "rocket", "moon", "sun");
     private record Preferences(String avatar, String alias, boolean visible, String title, boolean reachedChallenger, boolean nameHidden) {}
     private record Day(LocalDate date, long lessons, long quizzes, long games, long stars) {
         long total() { return lessons + quizzes + games; }
@@ -78,13 +79,21 @@ public class StudentProfileService {
         return profile(student);
     }
 
+    @Transactional
+    public void initialize(UUID id) {
+        lockStudent(id);
+        rewards.lock();
+        ensurePreferences(id);
+    }
+
     private void ensurePreferences(UUID id) {
         var aliases = db.queryForList("SELECT public_alias FROM student_profile_preferences WHERE student_id = ?", String.class, id);
         if (!aliases.isEmpty() && !aliases.getFirst().isBlank() && !aliases.getFirst().matches("Sao [a-f0-9]{12}")) return;
         rewards.lock();
         String alias = StudentAnimalAliases.next(new HashSet<>(db.queryForList("SELECT public_alias FROM student_profile_preferences", String.class)));
         if (aliases.isEmpty()) {
-            db.update("INSERT INTO student_profile_preferences(student_id, public_alias) VALUES (?, ?)", id, alias);
+            String avatar = INITIAL_AVATARS.get(java.util.concurrent.ThreadLocalRandom.current().nextInt(INITIAL_AVATARS.size()));
+            db.update("INSERT INTO student_profile_preferences(student_id, public_alias, avatar) VALUES (?, ?, ?)", id, alias, avatar);
         } else {
             db.update("UPDATE student_profile_preferences SET public_alias = ? WHERE student_id = ?", alias, id);
         }

@@ -1,26 +1,19 @@
-import { buildLearningActivity } from '../learningActivity';
+import { buildCompletedLearningActivity } from '../learningActivity';
 
-const now = new Date(2026, 9, 2, 15);
-const saved = (day: number, id = `saved-${day}`) => ({ sessionId: id, timestamp: new Date(2026, 9, day, 10).getTime() });
+const now = new Date('2026-11-16T17:30:00Z'); // Tuesday 00:30 in Vietnam.
+const completed = (completedAt: string) => ({ source: 'LESSON' as const, completedAt, stars: 1 });
 
-describe('Learning activity from confirmed local history', () => {
-  it('starts empty and excludes benchmark samples and future dates', () => {
-    const activity = buildLearningActivity([
-      { ...saved(2), isSampleData: true }, saved(1, 'session_benchmark_1'), saved(3),
-    ], now);
-    expect(activity.streak).toBe(0);
-    expect(activity.days.every(day => !day.completed)).toBe(true);
-  });
-  it('counts one completed day once and permits yesterday until today is completed', () => {
-    const activity = buildLearningActivity([saved(1), saved(1, 'another-saved'), saved(0)], now);
-    expect(activity.streak).toBe(2);
-    expect(activity.completedToday).toBe(false);
-    expect(activity.days.filter(day => day.completed).map(day => day.label)).toEqual(['T4', 'T5']);
-  });
-  it('breaks on a missed day and marks the correct weekday for today', () => {
-    const activity = buildLearningActivity([saved(2), saved(0)], now);
-    expect(activity.streak).toBe(1);
-    expect(activity.completedToday).toBe(true);
-    expect(activity.days[4]).toMatchObject({ label: 'T6', completed: true });
-  });
+it('uses completed backend activity and Vietnam days across UTC midnight', () => {
+  const activity = buildCompletedLearningActivity([
+    completed('2026-11-15T17:10:00Z'), completed('2026-11-16T17:10:00Z'),
+    completed('2026-11-16T17:20:00Z'), completed('invalid'), completed('2026-11-17T17:10:00Z'),
+  ], now);
+  expect(activity.days.filter(day => day.completed).map(day => day.label)).toEqual(['T2', 'T3']);
+  expect(activity.days.find(day => day.today)).toEqual({ label: 'T3', today: true, completed: true });
+});
+
+it('does not invent completed days when history has not arrived', () => {
+  const activity = buildCompletedLearningActivity([], now);
+  expect(activity.days.every(day => !day.completed)).toBe(true);
+  expect(activity.days.filter(day => day.today)).toHaveLength(1);
 });

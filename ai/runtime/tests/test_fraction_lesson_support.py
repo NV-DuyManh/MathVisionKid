@@ -112,11 +112,17 @@ async def test_fraction_answers_remain_exact_across_steps_and_invalid_inputs_do_
     ])
     mock_generation(monkeypatch, plan)
     result = await start_lesson(LessonRequest(owner='child', problemText='Cho 1/3 và 2/5, còn lại 16. Tìm cả hình.', problemConfirmed=True))
+    assert result.step.expression == '' and result.step.answerFormat == 'FRACTION'
+    result = turn(result, hint=True)
+    assert not result.step.expression
+    result = turn(result, hint=True)
     assert '1/3' in result.step.expression and '÷' not in result.step.expression
     for bad in ['0.26', '0.266667', '4/0', '4/15 = 1', 'NaN', '4/15 cây']:
         assert turn(result, bad).status == 'TRY_AGAIN'
     result = turn(result, '8/30')
-    assert result.completed[0].answer == '4/15' and result.step.expression == '16 ÷ (4/15)'
+    assert result.completed[0].answer == '4/15' and not result.step.expression
+    result = turn(turn(result, hint=True), hint=True)
+    assert result.step.expression == '16 ÷ 4/15'
     result = turn(result, '60')
     assert result.status == 'COMPLETE'
 
@@ -136,18 +142,18 @@ async def test_fraction_help_explains_equal_parts_without_disclosing_the_current
     mock_generation(monkeypatch, garden_candidate())
     response = await start_lesson(LessonRequest(owner='child', problemText=garden(), problemConfirmed=True))
     response = turn(turn(response, hint=True), hint=True)
-    assert 'tử số tính 1 × 5' in response.feedback and 'mẫu số tính 3 × 5' in response.feedback
+    assert 'quy đồng' in response.feedback and '1/3 + 2/5' in response.step.expression
     assert '11/15' not in response.feedback and not response.completed
     response = turn(response, '11/15')
     assert response.completed[0].calculationDetails[-1] == '5/15 + 6/15 = 11/15'
     assert 'nhân cả tử và mẫu với 5' in response.completed[0].calculationDetails[0]
     response = turn(turn(response, hint=True), hint=True)
-    assert '15/15 − 11/15' in response.feedback and '4/15' not in response.feedback
+    assert '1 − 11/15' == response.step.expression and '4/15' not in response.feedback
     response = turn(response, '4/15')
     assert response.completed[-1].calculationDetails == [
         '1 = 15/15 (viết số nguyên thành phân số cùng mẫu).', '15/15 − 11/15 = 4/15']
     response = turn(turn(response, hint=True), hint=True)
-    assert '(16 ÷ 4) × 15' in response.feedback and '60' not in response.feedback
+    assert '16 ÷ 4/15' == response.step.expression and '60' not in response.feedback
     assert turn(response, '0.26').status == 'TRY_AGAIN'
     response = turn(response, '60')
     assert response.completed[-1].calculationDetails == ['(16 ÷ 4) × 15 = 60']
@@ -162,21 +168,18 @@ async def test_fraction_help_explains_equal_parts_without_disclosing_the_current
 async def test_teaching_breaks_each_solution_step_into_grounded_actions(monkeypatch, source, combined, remaining, total):
     mock_generation(monkeypatch, garden_candidate(*re.findall(r'\d+', source)[:5]))
     response = await start_lesson(LessonRequest(owner='child', problemText=source, problemConfirmed=True))
-    assert len(response.step.guidance) >= 3
-    assert combined not in '\n'.join(response.step.guidance)
+    assert response.step.guidance == [] and not response.step.expression
     assert not response.completed
     assert turn(response, '999').step.guidance == response.step.guidance
     response = turn(response, combined)
-    assert len(response.step.guidance) >= 3
-    assert combined in response.step.guidance[0]
-    assert remaining not in '\n'.join(response.step.guidance)
+    assert len(response.completed[-1].guidance) >= 3 and not response.step.expression
+    response = turn(turn(response, hint=True), hint=True)
+    assert combined in response.step.expression and remaining not in response.feedback
     response = turn(response, remaining)
-    assert len(response.step.guidance) >= 3
-    numerator, denominator = remaining.split('/')
-    assert f'chia cho {numerator}' in response.step.guidance[1]
-    assert f'nhân với {denominator}' in response.step.guidance[1]
-    assert total not in '\n'.join(response.step.guidance)
-    assert not any('{' in item for item in response.step.guidance)
+    assert len(response.completed[-1].guidance) >= 3 and not response.step.expression
+    response = turn(turn(response, hint=True), hint=True)
+    assert remaining in response.step.expression and total not in response.feedback
+    assert '{' not in response.step.expression
     response = turn(response, total)
     assert response.status == 'COMPLETE'
     assert [len(item.guidance) for item in response.completed] == [3, 3, 3]
@@ -249,9 +252,11 @@ async def test_fraction_hints_expand_only_checked_prior_answers_and_parts(monkey
         response = turn(response, expected)
     response = turn(response, '11/15')
     first = turn(response, hint=True)
-    assert 'Phần cây táo và xoài chiếm 11/15 cả vườn.' in first.feedback
+    assert not first.step.expression
     second = turn(first, hint=True)
-    assert 'mẫu 15, rồi bớt 11 phần đã biết' in second.feedback
+    assert '1 − 11/15' == second.step.expression and 'cùng mẫu' in second.feedback
+    third = turn(second, hint=True)
+    assert 'đã xem hết' in third.feedback and third.revealedHints == second.revealedHints
     assert '{' not in second.feedback and '4/15' not in second.feedback
     assert second.stepIndex == first.stepIndex == 1 + response.understandingSteps
     assert second.revision == first.revision == response.revision

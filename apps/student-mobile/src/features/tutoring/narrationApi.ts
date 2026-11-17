@@ -78,10 +78,12 @@ export async function downloadNarration(source: NarrationSource, paragraphs: str
       // Preparation is idempotent: a lost acknowledgement must not fail a warm-up
       // that may already be rendering. Never restart failed jobs or stale lessons.
       if (!busy && !isTransientNarrationError(error)) throw error;
-      if (!busy && !checkingProgress && (started || ++prepareFailures > 2)) throw error;
+      if (!busy && !checkingProgress && (started || ++prepareFailures >= 6)) throw error;
       retrying();
     }
-    await waitForCapacity(Math.min(1000, Math.max(0, deadline-Date.now())), signal);
+    // Brief outages must not exhaust recovery in three seconds. Back off within
+    // the same overall deadline; never start parallel jobs or switch voices.
+    await waitForCapacity(Math.min(prepareFailures ? Math.min(4000, 500 * 2 ** prepareFailures) : 1000, Math.max(0, deadline-Date.now())), signal);
   }
   if (Date.now()>=deadline) throw new Error('Đã hết thời gian chuẩn bị lời giảng.');
   const transfer = measureVoice('transfer',voice,{background:source.prefetch});

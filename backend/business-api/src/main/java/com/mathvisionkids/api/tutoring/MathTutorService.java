@@ -449,9 +449,12 @@ public class MathTutorService {
                 if (!choiceChecks.isEmpty() && (choiceChecks.stream().filter(Boolean::booleanValue).count() != 1
                         || new java.util.HashSet<>(labels).size() != labels.size())) throw unavailable();
             }
+            String answerFormat = step.hasNonNull("answerFormat") ? text(step, "answerFormat", 10, false) : null;
+            if (answerFormat != null && (!kind.equals("MATH") || !labels.isEmpty()
+                    || !List.of("INTEGER", "DECIMAL", "FRACTION").contains(answerFormat))) throw unavailable();
             current = new LessonStep(text(step, "title", 100, false), text(step, "explanation", 500, false),
                     text(step, "question", 220, false), labels, text(step, "expression", 220, true), text(step, "unit", 20, true), text(step, "workExcerpt", 500, true),
-                    step.has("solutionSentence") ? text(step, "solutionSentence", 220, true) : "", guidance(step), kind, choiceChecks);
+                    step.has("solutionSentence") ? text(step, "solutionSentence", 220, true) : "", guidance(step), kind, java.util.List.of(), answerFormat);
         }
         JsonNode revision = body.get("revision"), index = body.get("stepIndex");
         if (revision == null || !revision.isIntegralNumber() || revision.asInt() < 0 || index == null || !index.isIntegralNumber()
@@ -488,8 +491,27 @@ public class MathTutorService {
             if(!done.get(done.size()-1).answer().equals(selected)||!choices.isEmpty()&&!choices.contains(selected))throw unavailable();
             review=new StepReview(text(reviewed,"question",220,false),choices,selected);
         }
+        int hintLevel = 0, hintCount = 0;
+        if (body.has("hintLevel")) {
+            JsonNode value = body.get("hintLevel");
+            if (!value.isIntegralNumber() || !value.canConvertToInt() || value.asInt() < 0 || value.asInt() > 3) throw unavailable();
+            hintLevel = value.asInt();
+        }
+        if (body.has("hintCount")) {
+            JsonNode value = body.get("hintCount");
+            if (!value.isIntegralNumber() || !value.canConvertToInt() || value.asInt() < 0 || value.asInt() > 3) throw unavailable();
+            hintCount = value.asInt();
+        }
+        if (hintLevel > hintCount || current == null && (hintLevel != 0 || hintCount != 0)) throw unavailable();
+        List<String> revealedHints = body.has("revealedHints") ? paragraphs(body.get("revealedHints"), 3) : null;
+        if (revealedHints != null && (revealedHints.size() != hintLevel || revealedHints.stream().distinct().count() != hintLevel
+                || current != null && hintLevel < 2 && !current.expression().isEmpty())) throw unavailable();
+        JsonNode retryDelay = body.get("retryAfterSeconds");
+        int retryAfterSeconds = retryDelay == null ? 0 : retryDelay.asInt(-1);
+        if (retryDelay != null && (!retryDelay.isIntegralNumber() || retryAfterSeconds < 0 || retryAfterSeconds > 60)
+                || retryAfterSeconds > 0 && (!preparing || !(status.equals("RETRYABLE") || status.equals("UNAVAILABLE")))) throw unavailable();
         return new LessonResponse(text(body, "sessionId", 100, false), revision.asInt(), text(body, "topic", 120, false),
-                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true), conclusion, understanding, summary, preparing,review);
+                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true), conclusion, understanding, summary, preparing, review, hintLevel, hintCount, revealedHints, retryAfterSeconds);
     }
 
     private static String stepKind(JsonNode step, boolean understanding) {
@@ -611,8 +633,11 @@ public class MathTutorService {
 
     private static List<String> guidance(JsonNode body) {
         JsonNode values = body.get("guidance");
-        if (values == null) return List.of();
-        if (!values.isArray() || values.size() > 6) throw unavailable();
+        return values == null ? List.of() : paragraphs(values, 6);
+    }
+
+    private static List<String> paragraphs(JsonNode values, int limit) {
+        if (!values.isArray() || values.size() > limit) throw unavailable();
         java.util.ArrayList<String> result = new java.util.ArrayList<>();
         for (JsonNode value : values) {
             if (!value.isTextual() || value.asText().isBlank() || value.asText().length() > 500) throw unavailable();

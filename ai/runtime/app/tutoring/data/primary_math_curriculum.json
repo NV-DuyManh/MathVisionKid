@@ -4746,9 +4746,10 @@
         "steps": [
           {
             "kind": "MATH",
-            "title": "Diện tích tam giác có đáy và chiều cao thập phân",
+            "title": "Tìm diện tích hình tam giác",
             "explanation": "Diện tích tam giác bằng đáy nhân chiều cao tương ứng rồi chia đôi.",
-            "question": "Em tính được bao nhiêu?",
+            "question": "Hình tam giác trong đề có diện tích bao nhiêu xăng-ti-mét vuông?",
+            "intro": "Đề bài cho độ dài đáy và chiều cao tương ứng. Em dùng các dữ kiện đó để tìm diện tích hình tam giác nhé.",
             "expression": "15*8.4/2",
             "unit": "cm²",
             "hints": [
@@ -4762,7 +4763,7 @@
               "Diện tích tam giác bằng đáy nhân chiều cao tương ứng rồi chia đôi."
             ],
             "fractionNotation": false,
-            "solutionSentence": "Diện tích tam giác có đáy và chiều cao thập phân là:"
+            "solutionSentence": "Diện tích hình tam giác là:"
           }
         ],
         "finalAnswerStep": 0
@@ -4805,14 +4806,15 @@
         "steps": [
           {
             "kind": "MATH",
-            "title": "Tìm thời gian đi",
+            "title": "Tìm thời gian xe máy đi từ A đến B",
             "explanation": "Đổi phần phút ra phần của một giờ rồi lấy giờ đến trừ giờ xuất phát.",
-            "question": "Em tính được bao nhiêu?",
+            "question": "Xe máy đi từ A đến B hết bao nhiêu giờ?",
+            "intro": "Đề bài cho giờ xe xuất phát và giờ xe đến nơi. Em cần tìm thời gian xe đã đi trên quãng đường AB.",
             "expression": "9-(7+30/60)",
             "unit": "giờ",
             "hints": [
-              "Đổi phần phút ra phần của một giờ rồi lấy giờ đến trừ giờ xuất phát.",
-              "Em viết phép tính từ dữ kiện của đề, tính cẩn thận rồi kiểm tra lại đơn vị."
+              "Muốn biết xe máy đi bao lâu, em cần tìm khoảng thời gian từ lúc xuất phát đến lúc xe tới B.",
+              "Đổi phần phút của giờ xuất phát sang giờ để các mốc có cùng đơn vị. Sau đó lấy giờ đến trừ giờ xuất phát."
             ],
             "guidance": [
               "Đổi phần phút ra phần của một giờ rồi lấy giờ đến trừ giờ xuất phát."
@@ -4821,18 +4823,19 @@
               "Đổi phần phút ra phần của một giờ rồi lấy giờ đến trừ giờ xuất phát."
             ],
             "fractionNotation": false,
-            "solutionSentence": "Thời gian đi là:"
+            "solutionSentence": "Thời gian xe máy đi từ A đến B là:"
           },
           {
             "kind": "MATH",
-            "title": "Tìm vận tốc",
+            "title": "Tìm vận tốc của xe máy",
             "explanation": "Vận tốc bằng quãng đường chia cho thời gian đi. Em dùng thời gian vừa tìm.",
-            "question": "Em tính được bao nhiêu?",
+            "question": "Xe máy đi với vận tốc bao nhiêu ki-lô-mét mỗi giờ?",
+            "intro": "Em đã biết quãng đường AB và thời gian xe máy đi hết quãng đường đó. Bây giờ hãy tìm vận tốc của xe máy.",
             "expression": "60/{s0}",
             "unit": "km/giờ",
             "hints": [
-              "Vận tốc bằng quãng đường chia cho thời gian đi. Em dùng thời gian vừa tìm.",
-              "Em viết phép tính từ dữ kiện của đề, tính cẩn thận rồi kiểm tra lại đơn vị."
+              "Vận tốc theo ki-lô-mét mỗi giờ cho biết trung bình xe máy đi được bao xa trong mỗi giờ. Em đã biết tổng quãng đường và thời gian đi.",
+              "Chia quãng đường AB cho thời gian xe máy đi tính bằng giờ để biết trung bình mỗi giờ xe đi được bao nhiêu ki-lô-mét."
             ],
             "guidance": [
               "Vận tốc bằng quãng đường chia cho thời gian đi. Em dùng thời gian vừa tìm."
@@ -4841,7 +4844,7 @@
               "Vận tốc bằng quãng đường chia cho thời gian đi. Em dùng thời gian vừa tìm."
             ],
             "fractionNotation": false,
-            "solutionSentence": "Vận tốc là:"
+            "solutionSentence": "Vận tốc của xe máy là:"
           }
         ],
         "finalAnswerStep": 1

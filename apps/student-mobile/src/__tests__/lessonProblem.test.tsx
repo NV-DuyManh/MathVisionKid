@@ -15,6 +15,10 @@ it('opens the text by default, bounds long questions and switches exclusively be
   const style = StyleSheet.flatten(body().props.style);
   expect(style.height).toBe(style.maxHeight);
   expect(style.maxHeight).toBeLessThanOrEqual(124);
+  const readAll = view.root.findAll(node => node.props.accessibilityLabel === 'Đọc toàn bộ đề bài' && node.props.onPress)[0];
+  act(() => readAll.props.onPress());
+  expect(view.root.findAllByProps({ accessibilityLabel: 'Toàn bộ đề bài' }).length).toBeGreaterThan(0);
+  act(() => view.root.findAll(node => node.props.accessibilityLabel === 'Đóng Toàn bộ đề bài' && node.props.onPress)[0].props.onPress());
   const imageButton = view.root.findAll(node => node.props.accessibilityLabel === 'Xem ảnh đề bài' && node.props.onPress)[0];
   act(() => imageButton.props.onPress());
   expect(view.root.findAllByType('Image' as any).length).toBeGreaterThan(0);

@@ -57,6 +57,28 @@ def test_fixed_independent_cases_cover_counts_units_fractions_and_multistep_math
         assert by_id[identity]['expectedAnswers'] == answers
 
 
+@pytest.mark.asyncio
+@pytest.mark.parametrize('identity,quantity,unit,answers', [
+    ('grade5_prob1', 'hình tam giác', 'cm²', ['63']),
+    ('grade5_prob2', 'xe máy', 'km/giờ', ['1,5', '40']),
+    ('grade3_prob1', 'gạo', 'kg', ['72', '96']),
+    ('grade5_prob18', 'diện tích', 'm²', ['25000']),
+    ('grade5_prob20', 'phân số', '', ['7/10']),
+])
+async def test_published_steps_keep_the_quantity_and_checked_units(identity, quantity, unit, answers):
+    row = next(row for row in ROWS if row['id'] == identity)
+    owner = 'curriculum-quantity-test'
+    result = await lesson.start_lesson(lesson.LessonRequest(owner=owner, problemText=row['problemText'], problemConfirmed=True))
+    for answer in answers:
+        assert quantity in result.step.title.lower()
+        assert not result.step.expression and not result.step.guidance
+        result = lesson.answer_lesson(lesson.TurnRequest(owner=owner, sessionId=result.sessionId,
+            revision=result.revision, answer=answer))
+    assert result.status == 'COMPLETE'
+    assert quantity in result.completed[-1].solutionSentence.lower()
+    assert result.completed[-1].unit == unit
+
+
 def test_lookup_returns_independent_plans_and_never_matches_changed_source():
     text = ROWS[0]['problemText']
     first = curriculum.verified_plan(text)

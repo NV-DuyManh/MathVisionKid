@@ -81,22 +81,26 @@ async def test_geometry_guides_three_reasoning_steps_without_returning_answer_ke
     response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText=PROBLEM))
     assert len(response.outline) == 3
     assert response.step.choices == ['Chiều cao', 'Chu vi', 'Đường chéo AC']
-    assert response.step.choiceChecks == [True, False, False]
+    assert response.step.choiceChecks == []  # Correctness is returned only after submission.
     assert not response.completed and response.revision == 0
     assert '138' not in response.model_dump_json(exclude={'sessionId'}) and '12' not in response.model_dump_json(exclude={'sessionId'})
     assert 'correctChoice' not in response.model_dump_json()
     wrong = turn(response, 'Chu vi')
     assert wrong.status == 'TRY_AGAIN' and wrong.stepIndex == 0 and wrong.revision == 0
     response = turn(wrong, 'Chiều cao')
-    assert response.stepIndex == 1 and response.step.expression == '90 × 2 ÷ 15'
+    assert response.stepIndex == 1 and not response.step.expression
     assert response.step.choiceChecks == []
     assert '12' not in response.model_dump_json(exclude={'sessionId'})
     wrong = turn(response, '90')
     assert wrong.stepIndex == 1 and '12' not in wrong.model_dump_json(exclude={'sessionId'})
     hint = turn(wrong, hint=True)
     assert hint.stepIndex == 1 and '12' not in hint.model_dump_json(exclude={'sessionId'})
+    hint = turn(hint, hint=True)
+    assert hint.step.expression == '90 × 2 ÷ 15'
     response = turn(hint, '12')
-    assert '12' in response.step.expression and '138' not in response.model_dump_json(exclude={'sessionId'})
+    assert not response.step.expression and '138' not in response.model_dump_json(exclude={'sessionId'})
+    response = turn(turn(response, hint=True), hint=True)
+    assert '12' in response.step.expression
     response = turn(response, '138')
     assert response.status == 'COMPLETE' and response.step is None and len(response.completed) == 3
     assert response.completed[-1].answer == '138' and response.completed[-1].unit == 'cm²'
@@ -137,8 +141,7 @@ async def test_only_a_single_numeric_answer_is_accepted(answer):
 async def test_work_is_grouped_with_its_reason_and_compared_only_after_student_response():
     response = await start_lesson(LessonRequest(problemConfirmed=True, workConfirmed=True, owner='student-a', problemText=PROBLEM, workText=WORK.replace('= 12', '= 11')))
     response = turn(response, 'Chiều cao')
-    assert 'chiều cao AH' in response.step.workExcerpt
-    assert '= 11' in response.step.workExcerpt
+    assert not response.step.workExcerpt and '= 11' not in response.model_dump_json(exclude={'sessionId'})
     response = turn(response, '12')
     assert 'trong ảnh chưa khớp' in response.feedback
     assert response.stepIndex == 2

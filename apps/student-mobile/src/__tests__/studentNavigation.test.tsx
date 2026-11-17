@@ -14,6 +14,7 @@ import { profileApi, type StudentProfile } from '../features/student-profile/pro
 
 jest.mock('expo-router', () => ({
   useRouter: jest.fn(),
+  useLocalSearchParams: () => ({}),
   Redirect: ({ href }: { href: string }) => require('react').createElement('Redirect', { href }),
   useFocusEffect: (callback: () => void) => require('react').useEffect(callback, [callback]),
 }));
@@ -41,7 +42,7 @@ describe('Student navigation and real saved activity', () => {
     recognitionDraftStore.clearDraft();
   });
 
-  it('waits for restored auth, then opens the right destination immediately', () => {
+  it('waits for restored auth, then opens the right destination immediately', async () => {
     const auth = { user: null, isAuthenticated: false, isLoading: true, login: jest.fn(), logout: jest.fn() };
     let renderer: TestRenderer.ReactTestRenderer;
     act(() => { renderer = TestRenderer.create(<AuthContext.Provider value={auth}><SplashScreen /></AuthContext.Provider>); });
@@ -49,7 +50,7 @@ describe('Student navigation and real saved activity', () => {
     expect(router.replace).not.toHaveBeenCalled();
     act(() => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false, isAuthenticated: true }}><SplashScreen /></AuthContext.Provider>));
     expect(router.replace).toHaveBeenCalledWith('/(tabs)');
-    act(() => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false }}><SplashScreen /></AuthContext.Provider>));
+    await act(async () => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false }}><SplashScreen /></AuthContext.Provider>));
     expect(router.replace).toHaveBeenLastCalledWith('/welcome');
     act(() => renderer!.unmount());
   });

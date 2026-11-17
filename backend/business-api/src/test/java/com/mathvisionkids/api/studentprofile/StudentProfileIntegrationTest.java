@@ -51,6 +51,21 @@ class StudentProfileIntegrationTest {
         return students.saveAndFlush(s);
     }
 
+    @Test void initialAvatarIsPersistedOnceAndExistingChoicesArePreserved() {
+        profiles.initialize(pupil.getId());
+        String initial = profiles.get(pupil.getEmail()).avatar();
+        assertTrue(StudentProfileService.AVATARS.contains(initial));
+        for (int i = 0; i < 3; i++) {
+            profiles.initialize(pupil.getId());
+            assertEquals(initial, profiles.get(pupil.getEmail()).avatar());
+        }
+        String chosen = initial.equals("moon") ? "planet" : "moon";
+        profiles.update(pupil.getEmail(), new Edit("Học Sinh", chosen, false, null));
+        profiles.initialize(pupil.getId());
+        assertEquals(chosen, profiles.get(pupil.getEmail()).avatar());
+        assertEquals(1, db.queryForObject("SELECT COUNT(*) FROM student_profile_preferences WHERE student_id = ?", Integer.class, pupil.getId()));
+    }
+
     @Test void onlyVerifiedInteractiveCompletionIsCountedAndCannotBeFarmed() {
         String email = pupil.getEmail();
         lessons.record(email, "LESSON", "read", "2 + 2", false);
@@ -292,6 +307,18 @@ class StudentProfileIntegrationTest {
         assertEquals(201L, profiles.get(pupil.getEmail()).position());
         assertEquals("Chiến Tướng", profiles.get(pupil.getEmail()).rank().name());
         assertEquals("Thách Đấu", profiles.get(pupil.getEmail()).highestRank());
+    }
+
+    @Test void explicitVisibleNameSurvivesHttpSaveAndSubsequentProfileReads() throws Exception {
+        String body = "{\"displayName\":\"Minh Anh\",\"avatar\":\"moon\",\"leaderboardVisible\":true,\"leaderboardNameHidden\":false,\"selectedTitle\":null}";
+        for (int i = 0; i < 2; i++) {
+            mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")).contentType("application/json").content(body))
+                    .andExpect(status().isOk()).andExpect(jsonPath("$.leaderboardVisible").value(true))
+                    .andExpect(jsonPath("$.leaderboardNameHidden").value(false));
+            mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
+                    .andExpect(status().isOk()).andExpect(jsonPath("$.leaderboardNameHidden").value(false));
+        }
+        assertFalse(db.queryForObject("SELECT leaderboard_name_hidden FROM student_profile_preferences WHERE student_id = ?", Boolean.class, pupil.getId()));
     }
 
     @Test void namePrivacyDoesNotRemoveEntryAndBoardUsesRegisteredGrade() {
