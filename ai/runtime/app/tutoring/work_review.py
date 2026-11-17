@@ -9,6 +9,8 @@ from pydantic import Field, StrictBool, StringConstraints, ValidationError, fiel
 
 from app.tutoring.lesson import calculate_exact, checked_written_calculation, safe_public, written_calculation_sides
 from app.tutoring.math_knowledge import quantity_unit
+from app.tutoring.work_completion import (CompletionGap, MissingPart, requirements, agreed_gaps,
+                                         legacy_gaps, not_started, missing_parts)
 from app.tutoring.service import (
     TutorModel, TutorUnavailable, _generate, _fold, _NUMBER_VALUES, _PEDAGOGIC_COUNTERS,
 )
@@ -74,6 +76,7 @@ class _ReviewContent(TutorModel):
     alternative: str = Field(default='', max_length=600)
     complete: StrictBool | None = None
     missingPart: str = Field(default='', max_length=500)
+    missingParts: list[MissingPart] = Field(default_factory=list, max_length=8)
 
 
 class ReviewedRow(ReviewRow):
@@ -85,6 +88,7 @@ class WorkReviewResponse(_ReviewContent):
     sourceId: SourceId
     status: Literal['CORRECT', 'NEEDS_REVISION', 'NEEDS_REVIEW']
     arithmeticVerified: StrictBool = False
+    completionVersion: Literal[2] = 2
     rows: list[ReviewedRow] = Field(min_length=1, max_length=35)
 
     @model_validator(mode='after')
@@ -100,6 +104,12 @@ class WorkReviewResponse(_ReviewContent):
             raise ValueError('Revision needs a supported row to correct')
         if self.missingPart and self.complete is not False:
             raise ValueError('Missing work needs a corroborated incomplete judgment')
+        if self.missingParts and self.complete is not False:
+            raise ValueError('Structured missing work requires an incomplete judgment')
+        if any(not 0 <= index < len(self.rows) or self.rows[index].status != 'OK'
+               or self.rows[index].arithmeticCorrect is not True
+               for part in self.missingParts for index in part.relatedLineIndices):
+            raise ValueError('Missing work references only verified calculations')
         return self
 
 
@@ -109,6 +119,7 @@ class _Assessment(_ReviewContent):
     unitsCorrect: StrictBool
     mathematicsCorrect: StrictBool
     complete: StrictBool
+    gaps: list[CompletionGap] = Field(default_factory=list, max_length=8)
 
     @model_validator(mode='before')
     @classmethod
@@ -137,6 +148,7 @@ class _Verification(TutorModel):
     mathematicsCorrect: StrictBool
     complete: StrictBool
     rows: list[_VerifiedRow] = Field(min_length=1, max_length=35)
+    gaps: list[CompletionGap] = Field(default_factory=list, max_length=8)
 
 
 class _ReviewNote(_VerifiedRow):
@@ -186,6 +198,42 @@ transitively uses an earlier wrong result even if its own arithmetic is valid.
 Verify dependence by the method/quantities, never by a coincident number alone.
 A number absent from the question can be a valid intermediate result.
 Rows are {lineIndex,sourceText,status,errorKind}. No answers, coordinates or code.
+The input requirements are source question clauses, not a mandatory solution.
+methodCorrect judges ONLY the steps already written: a valid partial method is
+true even when the requested calculation is still missing. mathematicsCorrect
+likewise judges written calculations only. complete alone judges whether ALL
+requested quantities have been found. Do not mark valid partial work FIX merely
+because it has not yet answered the question.
+For incomplete work return gaps: [{requirementIndex,type,quantity,relatedLineIndices,givenQuantities,operation,operands}].
+type is MISSING_CALCULATION, MISSING_INTERMEDIATE, MISSING_ANSWER or NOT_STARTED.
+MISSING_CALCULATION means a requested quantity has NOT yet been calculated.
+MISSING_ANSWER means that SAME requested quantity has ALREADY been calculated
+correctly, but an explicitly required answer LABEL is missing. It NEVER means
+the final calculation is missing. Without an explicit answer-label requirement,
+use MISSING_CALCULATION for an uncomputed target and no gap for a computed one.
+quantity names exactly the unmet quantity using the source's objects/names, no
+numbers or answer values. Copy its words from the original problem; grammatical
+words may connect them. relatedLineIndices reference only correct calculations
+already written that help the pupil continue. Infer no reference from a heading
+alone. givenQuantities names up to three relevant quantities whose VALUES are
+explicitly given in the original facts, without copying values. Both checks must
+independently verify these givens; use [] when unsupported. Never call an unknown
+requested quantity a given. List all independent missing questions in source
+order. A missing step
+is not an error if a shorter valid method already answers the question. Require
+an answer label only when the original problem explicitly requires writing it.
+Missing units are UNIT row corrections, not missing calculations. Return gaps=[]
+when complete, or when you cannot establish the exact missing quantity.
+For each gap, independently identify ONE next calculation, not a full solution:
+operation is ADD/SUBTRACT/MULTIPLY/DIVIDE or null; operands names its two input
+quantities in calculation order, without values, equations or answer numbers.
+Copy input names exactly from givenQuantities, a referenced correct calculation's
+preceding heading (without its final 'là:'), or an earlier gap's quantity. A later
+missing question can depend on an earlier missing quantity; never treat that
+quantity as already calculated. Include all correct supporting row references.
+This step will teach a primary child HOW to continue instead of vaguely saying
+'use the data'. Infer it only from the original facts and verified work. Use
+operation=null, operands=[] for uncertain, multi-operation, or answer-label steps.
 """
 REVIEW_PROMPT = _SOURCE_CHECK + """
 Also return missingPart (specific missing quantity in Vietnamese, empty if complete),
@@ -201,7 +249,7 @@ Do not return summary, nextAction, alternative or additional fields.
 """
 VERIFY_PROMPT = _SOURCE_CHECK + """
 Independently verify every row and re-solve the question yourself. Return ONLY
-the five strict booleans and rows above, without praise, teaching or extra fields.
+the five strict booleans, rows and gaps above, without praise, teaching or extra fields.
 """
 
 _TEACHING_REFERENCES = re.compile(r'\b(?:một phân số|một phần nào đó|hai phân số đã cho|hai tử số)\b', re.I)
@@ -237,6 +285,7 @@ def _safe_review_text(text: str):
     # value. A terminal request to write an answer is not an answer label.
     without_references = _TEACHING_REFERENCES.sub('', without_temporal)
     without_answer_actions = _ANSWER_REFERENCES.sub('', _ANSWER_ACTIONS.sub('', text))
+    without_answer_actions = re.sub(r'\b(?:ghi|viết) đáp số (?=cho\b)', 'ghi kết luận ', without_answer_actions, flags=re.I)
     # A dimension's exponent is not an answer value. Keep all standalone
     # digits/number words guarded, including a value followed by this unit.
     without_unit_powers = re.sub(r'\b(?:mm|cm|dm|dam|hm|km|m)[²³]\b', 'đơn vị diện tích hoặc thể tích', text, flags=re.I)
@@ -401,11 +450,33 @@ def _safe_feedback_copy(assessment: _Assessment) -> _Assessment:
             for row in assessment.rows]})
 
 
+def _completion_text(text: str, problem: str):
+    # "nam" is also the unaccented number five; here it is a source-grounded
+    # gender. Likewise an explicitly named person is not an answer value.
+    safe_public(text)
+    checked = re.sub(r'\bhọc sinh nam\b|\bnam sinh\b', 'học sinh', text, flags=re.I)
+    if re.search(r'\bhọc sinh nam\b|\bnam sinh\b', problem, re.I):
+        checked = re.sub(r'\b(nhiều|ít) hơn nam\b', r'\1 hơn nhóm còn lại', checked, flags=re.I)
+    for match in re.finditer(r'\b(?:bác|cô|dì|chú|bạn|anh|chị|ông|bà|thầy|em)\s+([^\W\d_]+)', problem, re.I):
+        if match[1][0].isupper():
+            checked = re.sub(re.escape(match[0]), 'người trong đề', checked, flags=re.I)
+    _safe_review_text(checked)
+
+
 async def review_work(request: WorkReviewRequest) -> WorkReviewResponse:
     rows = source_rows(request.workText)
     checked = _local_rows(rows)
     arithmetic_verified = any(row.arithmeticCorrect is True for row in checked) and all(row.status == 'OK' for row in checked)
-    result = await _review_work(request, rows, checked)
+    goals = requirements(request.problemText)
+    initial = missing_parts(request.problemText, checked, goals,
+                            not_started(request.problemText, checked, goals),
+                            lambda text: _completion_text(text, request.problemText), 'DETERMINISTIC')
+    if initial:
+        result = _fallback(request, checked).model_copy(update={'complete': False, 'missingParts': initial,
+            'missingPart': initial[0].description, 'nextAction': initial[0].hint,
+            'summary': 'Em chưa viết phép tính để trả lời câu hỏi của đề. Mình bắt đầu từ phần dưới nhé.'})
+    else:
+        result = await _review_work(request, rows, checked)
     return result.model_copy(update={'arithmeticVerified': arithmetic_verified})
 
 
@@ -417,15 +488,16 @@ async def _review_work(request: WorkReviewRequest, rows: list[str], local_rows: 
     # Echo the source in both checks, but teaching is needed only for corrections.
     # The verifier returns judgments alone and uses a smaller reservation.
     source_tokens = len(request.workText) // 2
-    review_tokens = min(7000, 700 + 130 * len(rows) + source_tokens)
-    verify_tokens = min(4500, 300 + 75 * len(rows) + source_tokens)
+    completion_tokens = 80 * len(requirements(request.problemText))
+    review_tokens = min(7000, 700 + 130 * len(rows) + source_tokens + completion_tokens)
+    verify_tokens = min(4500, 300 + 75 * len(rows) + source_tokens + completion_tokens)
     # ponytail: text-only review; require explicit facts when the task depends on
     # a missing drawing. Add reviewed diagram evidence before extending this case.
     if re.search(r'\bhinh (?:ben|duoi|sau)\b|\b(?:theo|xem) hinh\b|\bso do\b|\[\s*(?:hinh(?: ve)?|diagram)\s*\]',
                  _fold(request.problemText + ' ' + request.workText)):
         return _fallback(request, local_rows, 'Cần có đủ dữ kiện của hình vẽ để đối chiếu bài làm. Em kiểm tra lại phần hình và các số đo nhé.')
     has_local_result = any(row.arithmeticCorrect is not None for row in local_rows)
-    payload = json.dumps({'problemText': request.problemText,
+    payload = json.dumps({'problemText': request.problemText, 'requirements': requirements(request.problemText),
         'rows': [{'lineIndex': index, 'sourceText': text} for index, text in enumerate(rows)]}, ensure_ascii=False)
     try:
         # Independent checks share only the source. Parallel checks reserve the
@@ -489,6 +561,30 @@ async def _review_work(request: WorkReviewRequest, rows: list[str], local_rows: 
             _safe_source(assessment, rows)
     except (ValidationError, TypeError, ValueError):
         return local
+
+    def completion_only_fallback(fallback=local):
+        # Prose is optional. Keep an independently corroborated, source-bound
+        # gap even when unsafe teaching prevents publishing the AI assessment.
+        # Exact arithmetic can refute a cloud calculation claim; it cannot
+        # establish method, operands, units or an uncomputed requested quantity.
+        arithmetic_proved = any(row.arithmeticCorrect is True for row in local_rows) and all(
+            row.arithmeticCorrect is True for row in local_rows if row.rowKind in {'CALCULATION', 'ANSWER'})
+        if (any(row.status != 'OK' for row in fallback.rows)
+                or any(item.complete or not all((item.sourceFaithful, item.methodCorrect, item.unitsCorrect))
+                    or any(row.status != 'OK' and not (row.status == 'FIX' and row.errorKind == 'CALCULATION'
+                        and local_rows[row.lineIndex].arithmeticCorrect is True) for row in item.rows)
+                    or not item.mathematicsCorrect and not arithmetic_proved for item in assessments)):
+            return fallback
+        goals = requirements(request.problemText)
+        parts = missing_parts(request.problemText, fallback.rows, goals,
+            agreed_gaps(assessments[0].gaps, assessments[1].gaps, request.problemText),
+            lambda text: _completion_text(text, request.problemText))
+        if not parts:
+            return fallback
+        return fallback.model_copy(update={'complete': False, 'missingParts': parts,
+            'missingPart': parts[0].description, 'nextAction': parts[0].hint,
+            'summary': 'Các phép tính đã kiểm tra vẫn được giữ. Em làm tiếp phần còn thiếu bên dưới nhé.'})
+
     safe = []
     for assessment in assessments:
         try:
@@ -507,9 +603,9 @@ async def _review_work(request: WorkReviewRequest, rows: list[str], local_rows: 
             for item in candidates:
                 _safe_assessment(item, rows)
         except (ValidationError, TypeError, ValueError):
-            return local
-        return _fallback(request, _merge_rows(local_rows, candidates[0], candidates[1]),
-            'Hai lượt kiểm tra chưa thống nhất cách làm, dữ kiện, đơn vị hoặc phần bài còn thiếu.')
+            return completion_only_fallback()
+        return completion_only_fallback(_fallback(request, _merge_rows(local_rows, candidates[0], candidates[1]),
+            'Hai lượt kiểm tra chưa thống nhất cách làm, dữ kiện, đơn vị hoặc phần bài còn thiếu.'))
     if not safe:
         if judgment(assessments[0]) != judgment(assessments[1]):
             return disputed_fallback()
@@ -519,7 +615,7 @@ async def _review_work(request: WorkReviewRequest, rows: list[str], local_rows: 
             _safe_assessment(candidate, rows)
             safe = [candidate]
         except (ValidationError, TypeError, ValueError):
-            return local
+            return completion_only_fallback()
     if len(safe) == 1:
         if judgment(assessments[0]) != judgment(assessments[1]):
             return disputed_fallback()
@@ -536,7 +632,7 @@ async def _review_work(request: WorkReviewRequest, rows: list[str], local_rows: 
         return local
     status = 'CORRECT' if correct else 'NEEDS_REVISION' if any(row.status == 'FIX' for row in checked) else 'NEEDS_REVIEW'
     complete = assessments[0].complete if assessments[0].complete == assessments[1].complete else None
-    return WorkReviewResponse(sourceId=request.sourceId, status=status, rows=checked,
+    result = WorkReviewResponse(sourceId=request.sourceId, status=status, rows=checked,
         summary=assessments[0].summary if correct else
             'Các bước em đã viết phù hợp, nhưng bài chưa hoàn tất yêu cầu của đề. Mình cùng làm tiếp nhé.' if unfinished else
             'Em xem các dòng cần sửa bên dưới nhé.' if status == 'NEEDS_REVISION' else
@@ -550,6 +646,22 @@ async def _review_work(request: WorkReviewRequest, rows: list[str], local_rows: 
         alternative=assessments[0].alternative if correct else '',
         complete=complete,
         missingPart=(assessments[0].missingPart or assessments[0].nextAction) if complete is False else '')
+    if complete is False:
+        goals = requirements(request.problemText)
+        explicit = any(item.gaps for item in assessments)
+        gaps = list(agreed_gaps(assessments[0].gaps, assessments[1].gaps, request.problemText)) if explicit else legacy_gaps(request.problemText, checked, goals)
+        parts = missing_parts(request.problemText, checked, goals, gaps, lambda text: _completion_text(text, request.problemText))
+        if parts:
+            result = result.model_copy(update={'missingParts': parts, **(
+                {'missingPart': parts[0].description, 'nextAction': parts[0].hint} if explicit else {})})
+        elif explicit:
+            result = result.model_copy(update={'complete': None, 'missingPart': '',
+                'summary': 'Các phép tính đã kiểm tra vẫn được giữ. Chưa xác định chắc chắn phần nào còn thiếu.',
+                'nextAction': 'Em có thể thử nhận xét lại trên đề và bài làm đã xác nhận.'})
+        else:
+            result = result.model_copy(update={
+                'summary': 'Các phép tính đã kiểm tra vẫn được giữ. Chưa xác định chắc chắn phần nào còn thiếu.'})
+    return result
 
 
 def _merge_rows(local_rows: list[ReviewedRow], first: _Assessment, second: _Assessment) -> list[ReviewedRow]:

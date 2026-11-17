@@ -1,5 +1,5 @@
 import { COLORS } from '../../constants/theme';
-import type { WorkReview, WorkReviewRow } from './api/TutorService';
+import type { WorkReview, WorkReviewRow, MissingWorkPart } from './api/TutorService';
 
 export type RowErrorKind = NonNullable<WorkReviewRow['errorKind']>;
 
@@ -49,14 +49,18 @@ export interface IncompleteCheckResult {
   isIncomplete: boolean;
   missingDescription: string;
   nextStepSummary: string;
+  missingParts?: MissingWorkPart[];
 }
 
 /** Missing work is independent of mistakes in the rows already written. */
-export function checkIncompleteWork(result: Pick<WorkReview, 'complete' | 'missingPart' | 'nextAction' | 'status'>): IncompleteCheckResult {
-  const isIncomplete = result.complete === false && result.status !== 'CORRECT';
+export function checkIncompleteWork(result: Pick<WorkReview, 'complete' | 'missingPart' | 'missingParts' | 'completionVersion' | 'nextAction' | 'status'>): IncompleteCheckResult {
+  const parts = result.missingParts || [];
+  const isIncomplete = result.complete === false && result.status !== 'CORRECT'
+    && (result.completionVersion !== 2 || parts.length > 0);
   return {
     isIncomplete,
-    missingDescription: isIncomplete ? result.missingPart || result.nextAction : '',
-    nextStepSummary: isIncomplete ? result.nextAction : '',
+    missingDescription: isIncomplete ? parts[0]?.description || result.missingPart || result.nextAction : '',
+    nextStepSummary: isIncomplete ? parts[0]?.hint || result.nextAction : '',
+    ...(parts.length ? { missingParts: parts } : {}),
   };
 }

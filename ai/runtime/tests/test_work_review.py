@@ -970,7 +970,8 @@ async def test_endpoint_publishes_only_the_agreed_source_bound_response(monkeypa
             headers={'X-Internal-API-Key': settings.internal_api_key})
     assert response.status_code == 200
     body = response.json()
-    assert set(body) == {'sourceId', 'status', 'summary', 'praise', 'rows', 'nextAction', 'alternative', 'complete', 'missingPart', 'arithmeticVerified'}
+    assert set(body) == {'sourceId', 'status', 'summary', 'praise', 'rows', 'nextAction', 'alternative', 'complete', 'missingPart', 'arithmeticVerified', 'missingParts', 'completionVersion'}
+    assert body['completionVersion'] == 2 and body['missingParts'] == []
     assert body['sourceId'] == source.sourceId and body['status'] == 'CORRECT'
     assert body['complete'] is True and body['missingPart'] == ''
     assert body['arithmeticVerified'] is True
@@ -1096,3 +1097,391 @@ async def test_endpoint_requires_internal_auth_and_returns_safe_provider_failure
         rejected = await client.post('/internal/v1/tutor/work-review',
             json={**request().model_dump(), 'workConfirmed': 'true'}, headers=headers)
         assert rejected.status_code == 422 and mocked.await_count == 1
+
+
+# Fresh completion fixtures below simulate independent reviewers; they are not live AI evidence.
+def _completion_source(problem, work, identity='fresh-missing-proof-94017'):
+    return review.WorkReviewRequest(sourceId=identity, problemText=problem, workText=work,
+                                    problemConfirmed=True, workConfirmed=True)
+
+
+@pytest.mark.asyncio
+async def test_completion_evidence_is_serialized_by_authenticated_fastapi_endpoint(monkeypatch):
+    source = _completion_source('Có 29 kg gạo, đã bán 7 kg. Hỏi số gạo còn lại?', 'Số gạo đã bán là:\n7 * 1 = 7 (kg)')
+    payload = _completion_judgment(source, 'số gạo còn lại')
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    app = FastAPI()
+    app.include_router(tutor.router, prefix='/internal/v1/tutor')
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='http://test') as client:
+        response = await client.post('/internal/v1/tutor/work-review', json=source.model_dump(),
+                                     headers={'X-Internal-API-Key': settings.internal_api_key})
+    assert response.status_code == 200
+    body = response.json()
+    assert body['completionVersion'] == 2 and body['sourceId'] == source.sourceId
+    assert body['missingParts'][0]['target'] == 'số gạo còn lại'
+    assert body['missingParts'][0]['relatedLineIndices'] == [1]
+
+
+def _completion_judgment(request, quantity, **changes):
+    return dict(sourceFaithful=True, methodCorrect=True, unitsCorrect=True, mathematicsCorrect=True,
+                complete=False, summary='Các phép tính đã viết phù hợp.', praise='', alternative='',
+                nextAction='Em đọc lại yêu cầu của đề nhé.', missingPart='Kết quả cuối là 72 cây.',
+                rows=[dict(lineIndex=i, sourceText=text, status='OK', errorKind='NONE',
+                           feedback='Phép tính phù hợp.', hints=[])
+                      for i, text in enumerate(review.source_rows(request.workText))],
+                gaps=[dict(requirementIndex=0, type='MISSING_CALCULATION', quantity=quantity,
+                           relatedLineIndices=[len(review.source_rows(request.workText)) - 1])], **changes)
+
+
+@pytest.mark.asyncio
+async def test_unsafe_prose_does_not_erase_source_bound_missing_quantity(monkeypatch):
+    request = _completion_source('Vườn của dì Hoa có 3/8 số cây là mận, 1/4 là ổi, còn lại là mít. '
+                     'Có 27 cây mít. Hỏi tổng số cây trong vườn của dì Hoa?',
+                     'Phân số chỉ số cây mít là:\n1 - 3/8 - 1/4 = 3/8 (số cây)')
+    payload = _completion_judgment(request, 'tổng số cây trong vườn của dì Hoa')
+    payload['gaps'][0]['givenQuantities'] = ['số cây mít']
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(request)
+    parts = result.model_dump().get('missingParts')
+    assert parts and parts[0]['target'] == 'tổng số cây trong vườn của dì Hoa'
+    assert 'phân số chỉ số cây mít' in parts[0]['hint'].lower()
+    assert 'số cây mít đề cho' in parts[0]['hint']
+    assert '72' not in str(parts) and result.complete is False
+
+
+def fresh_problems():
+    for i, name in enumerate(['Linh', 'Hải', 'Thảo', 'Quỳnh', 'Minh']):
+        n = 13 + i * 3
+        examples = [
+            (f'Vườn của cô {name} có 3/10 số cây là bưởi, 1/5 là nhãn, còn lại là ổi. '
+             f'Có {n} cây ổi. Hỏi tổng số cây trong vườn của cô {name}?',
+             'Phân số chỉ số cây ổi là:\n1 - 3/10 - 1/5 = 1/2 (số cây)',
+             f'tổng số cây trong vườn của cô {name}', 0),
+            (f'Lớp Sao Biển có {5*n} học sinh, nữ chiếm 3/5 số học sinh. Hỏi số học sinh nam trong lớp?',
+             f'Số học sinh nữ là:\n{5*n} * 3/5 = {3*n} (học sinh)', 'số học sinh nam trong lớp', 0),
+            (f'Mảnh vườn dài {3*n} m, chiều rộng bằng chiều dài chia 3. Tính diện tích mảnh vườn.',
+             f'Chiều rộng mảnh vườn là:\n{3*n} : 3 = {n} (m)', 'diện tích mảnh vườn', 0),
+            (f'Hình chữ nhật dài {n} m và rộng 7 m. Tính chu vi và diện tích hình chữ nhật.',
+             f'Chu vi hình chữ nhật là:\n({n} + 7) * 2 = {2*(n+7)} (m)', 'diện tích hình chữ nhật', 1),
+            (f'Mảnh đất dài {n} m, rộng 7 m, dùng 2/7 diện tích để trồng hoa. Tính diện tích phần đất trồng hoa.',
+             f'Diện tích mảnh đất là:\n{n} * 7 = {7*n} (m²)', 'diện tích phần đất trồng hoa', 0),
+            (f'Xe đi hai chặng dài {n} km và {2*n} km trong 3 giờ. Tính vận tốc trung bình của xe.',
+             f'Quãng đường xe đi là:\n{n} + {2*n} = {3*n} (km)', 'vận tốc trung bình của xe', 0),
+            (f'Chị {name} mua {n} gói bánh, mỗi gói 7 nghìn đồng, được giảm 5 nghìn đồng. Hỏi số tiền còn phải trả?',
+             f'Số tiền mua bánh trước khi giảm là:\n{n} * 7 = {7*n} (nghìn đồng)', 'số tiền còn phải trả', 0),
+            (f'Khối hộp dài {n} m, rộng 7 m, cao 4 m. Tính thể tích khối hộp.',
+             f'Diện tích đáy khối hộp là:\n{n} * 7 = {7*n} (m²)', 'thể tích khối hộp', 0),
+        ]
+        for family, (problem, work, quantity, requirement) in enumerate(examples):
+            yield f'fresh-completion-{i:02}-{family:02}-source', problem, work, quantity, requirement
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('identity,problem,work,quantity,requirement', list(fresh_problems()))
+async def test_forty_new_problems_keep_specific_safe_continuation(monkeypatch, identity, problem, work, quantity, requirement):
+    request = _completion_source(problem, work, identity)
+    payload = _completion_judgment(request, quantity)
+    payload['gaps'][0]['requirementIndex'] = requirement
+    generator = AsyncMock(side_effect=[payload, deepcopy(payload)])
+    monkeypatch.setattr(review, '_generate', generator)
+    result = await review.review_work(request)
+    assert result.complete is False and result.arithmeticVerified is True
+    assert result.missingParts[0].target == quantity
+    assert result.missingParts[0].relatedLineIndices == [1]
+    assert result.missingParts[0].requirementIndex == requirement
+    assert quantity in result.missingParts[0].hint
+    assert not any(char.isnumeric() for char in result.missingParts[0].description + result.missingParts[0].hint)
+    assert all(row.status == 'OK' for row in result.rows)
+    assert generator.await_count == 2
+
+
+@pytest.mark.asyncio
+async def test_intermediate_quantity_is_source_bound_but_compact_valid_method_is_accepted(monkeypatch):
+    problem = 'Mảnh vườn có chiều dài 18 m, chưa biết chiều rộng, chu vi 54 m. Tính diện tích mảnh vườn.'
+    request = _completion_source(problem, 'Nửa chu vi là:\n54 : 2 = 27 (m)')
+    payload = _completion_judgment(request, 'chiều rộng')
+    payload['gaps'][0]['type'] = 'MISSING_INTERMEDIATE'
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(request)
+    assert result.missingParts[0].type == 'MISSING_INTERMEDIATE'
+    assert 'chiều rộng trước' in result.missingParts[0].hint
+    complete = _completion_source(problem, 'Diện tích mảnh vườn là:\n(54 : 2 - 18) * 18 = 162 (m²)')
+    payload = _completion_judgment(complete, 'diện tích mảnh vườn')
+    payload.update(complete=True, gaps=[], missingPart='', praise='Em đã chọn cách tính phù hợp.')
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(complete)
+    assert result.status == 'CORRECT' and not result.missingParts
+
+
+@pytest.mark.asyncio
+async def test_missing_answer_only_when_explicitly_required(monkeypatch):
+    for required in [True, False]:
+        request = _completion_source('Hình chữ nhật dài 9 m, rộng 4 m. Tính diện tích hình chữ nhật'
+                         + (' và ghi đáp số.' if required else '.'), 'Diện tích hình chữ nhật là:\n9 * 4 = 36 (m²)')
+        payload = _completion_judgment(request, 'diện tích hình chữ nhật')
+        payload['gaps'][0]['type'] = 'MISSING_ANSWER'
+        monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+        result = await review.review_work(request)
+        assert bool(result.missingParts) is required
+        if required:
+            assert 'giữ nguyên phép tính' in result.missingParts[0].hint
+        else:
+            assert result.complete is None
+
+
+@pytest.mark.asyncio
+async def test_missing_questions_are_sorted_in_source_order(monkeypatch):
+    request = _completion_source('Khối hộp dài 9 m, rộng 4 m, cao 3 m. a) Tính chu vi đáy; '
+                     'b) Tính diện tích đáy; c) Tính thể tích khối hộp.', 'Chu vi đáy là:\n(9 + 4) * 2 = 26 (m)')
+    payload = _completion_judgment(request, 'thể tích khối hộp')
+    payload['gaps'][0]['requirementIndex'] = 2
+    payload['gaps'].append(dict(requirementIndex=1, type='MISSING_CALCULATION', quantity='diện tích đáy', relatedLineIndices=[1]))
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(request)
+    assert [part.target for part in result.missingParts] == ['diện tích đáy', 'thể tích khối hộp']
+
+
+@pytest.mark.asyncio
+async def test_not_started_needs_no_cloud_but_unreadable_diagram_is_not_invented(monkeypatch):
+    generator = AsyncMock(side_effect=review.TutorUnavailable('rate_limit'))
+    monkeypatch.setattr(review, '_generate', generator)
+    result = await review.review_work(_completion_source('Có 29 kg gạo, bán 7 kg. Hỏi số gạo còn lại?', 'Bài giải:'))
+    assert result.missingParts[0].type == 'NOT_STARTED' and result.complete is False
+    generator.assert_not_called()
+    result = await review.review_work(_completion_source('Theo hình bên có 29 m. Tính diện tích.', 'Bài giải:'))
+    assert result.complete is None and not result.missingParts
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('bad', ['số tiền của bác Đạt', 'diện tích bằng 36', 'API key'])
+async def test_invented_or_answer_bearing_quantities_are_not_published(monkeypatch, bad):
+    request = _completion_source('Có 29 kg gạo, bán 7 kg. Hỏi số gạo còn lại?', 'Số gạo bán là:\n7 * 1 = 7 (kg)')
+    payload = _completion_judgment(request, bad)
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(request)
+    assert not result.missingParts and result.complete is None
+    assert result.rows[1].arithmeticCorrect is True
+
+
+@pytest.mark.asyncio
+async def test_disagreement_timeout_and_revision_preserve_math_without_stale_missing_parts(monkeypatch):
+    request = _completion_source('Lớp có 40 học sinh, nữ chiếm 3/5. Hỏi số học sinh nam trong lớp?',
+                     'Số học sinh nữ là:\n40 * 3/5 = 24 (học sinh)')
+    first = _completion_judgment(request, 'số học sinh nam trong lớp')
+    second = deepcopy(first)
+    second['gaps'][0]['quantity'] = 'số học sinh nữ'
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[first, second]))
+    result = await review.review_work(request)
+    assert result.complete is None and not result.missingParts and result.arithmeticVerified
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=TimeoutError()))
+    result = await review.review_work(request)
+    assert result.complete is None and not result.missingParts and result.rows[1].arithmeticCorrect
+    revised = _completion_source(request.problemText, request.workText + '\nSố học sinh nam là:\n40 - 24 = 16 (học sinh)', 'fresh-revised-source-94017')
+    payload = _completion_judgment(revised, 'số học sinh nam')
+    payload.update(complete=True, missingPart='', gaps=[], praise='Em đã trả lời đủ câu hỏi của đề.')
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(revised)
+    assert result.sourceId == revised.sourceId and result.status == 'CORRECT' and not result.missingParts
+
+
+def test_source_names_and_gender_are_not_confused_with_number_answers():
+    problem = 'Bác Sáu hỏi số học sinh nam trong lớp.'
+    review._completion_text('Tìm số học sinh nam của bác Sáu.', problem)
+    with pytest.raises(ValueError):
+        review._completion_text('Số học sinh nam là năm.', problem)
+    with pytest.raises(ValueError):
+        review._completion_text('Đáp số: sáu học sinh.', problem)
+
+
+@pytest.mark.asyncio
+async def test_compact_reviewer_and_independent_verifier_carry_completion_evidence(monkeypatch):
+    request = _completion_source('Có 29 kg gạo, đã bán 7 kg. Hỏi số gạo còn lại?', 'Số gạo đã bán là:\n7 * 1 = 7 (kg)')
+    full = _completion_judgment(request, 'số gạo còn lại')
+    compact = {key: value for key, value in full.items() if key not in {'summary', 'nextAction', 'alternative', 'missingPart'}}
+    verifier = {key: value for key, value in compact.items() if key != 'praise'}
+    verifier['rows'] = [{key: value for key, value in row.items() if key not in {'feedback', 'hints'}} for row in verifier['rows']]
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[compact, verifier]))
+    result = await review.review_work(request)
+    assert result.missingParts[0].target == 'số gạo còn lại'
+    assert result.missingParts[0].relatedLineIndices == [1]
+
+
+@pytest.mark.asyncio
+async def test_technical_prose_is_rejected_without_erasing_independently_verified_gap(monkeypatch):
+    request = _completion_source('Có 29 kg gạo, đã bán 7 kg. Hỏi số gạo còn lại?', 'Số gạo đã bán là:\n7 * 1 = 7 (kg)')
+    payload = _completion_judgment(request, 'số gạo còn lại')
+    payload['rows'][1]['feedback'] = 'Open API localhost with provider-secret.'
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(request)
+    assert result.complete is False and result.missingParts[0].target == 'số gạo còn lại'
+    assert 'provider-secret' not in result.model_dump_json() and 'localhost' not in result.model_dump_json()
+
+
+@pytest.mark.asyncio
+async def test_verbal_answer_is_not_misclassified_as_not_started(monkeypatch):
+    request = _completion_source('Mai có 14 bút, Linh có 7 bút. Hỏi ai có nhiều bút hơn?', 'Mai có nhiều bút hơn Linh.')
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=TimeoutError()))
+    result = await review.review_work(request)
+    assert result.complete is None and not result.missingParts
+
+
+@pytest.mark.asyncio
+async def test_completion_fields_never_replace_unit_or_causal_calculation_errors(monkeypatch):
+    source = _completion_source('Có 620 kg gạo bán đều trong 2 ngày. Hỏi bán trong 7 ngày được bao nhiêu kg gạo?',
+                                '620 : 2 = 300 (kg)\n300 * 7 = 2100 (kg)')
+    payload = _completion_judgment(source, 'số kg gạo')
+    payload.update(complete=True, mathematicsCorrect=False, missingPart='', gaps=[])
+    for row, kind in zip(payload['rows'], ['CALCULATION', 'DEPENDENT']):
+        row.update(status='FIX', errorKind=kind, feedback='Em tính lại theo kết quả đúng của bước trước nhé.')
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(source)
+    assert [row.errorKind for row in result.rows] == ['CALCULATION', 'DEPENDENT']
+    assert result.status == 'NEEDS_REVISION' and not result.missingParts
+
+    source = _completion_source('Có 18 kg gạo, bán 6 kg. Hỏi số kg gạo còn lại?', '18 - 6 = 12')
+    payload = _completion_judgment(source, 'số kg gạo còn lại')
+    payload.update(complete=True, unitsCorrect=False, missingPart='', gaps=[])
+    payload['rows'][0].update(status='FIX', errorKind='UNIT', feedback='Em bổ sung đơn vị cho số gạo còn lại nhé.')
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(source)
+    assert result.rows[0].errorKind == 'UNIT' and result.rows[0].arithmeticCorrect is True
+    assert not result.missingParts and result.status == 'NEEDS_REVISION'
+
+
+@pytest.mark.asyncio
+async def test_agreed_gap_survives_cloud_arithmetic_dispute_only_with_exact_local_proof(monkeypatch):
+    source = _completion_source('Hình chữ nhật dài 18 m, rộng 7 m. a) Tính chu vi hình chữ nhật; b) Tính diện tích hình chữ nhật.',
+                                'Chu vi hình chữ nhật là:\n(18 + 7) × 2 = 50 (m)')
+    first = _completion_judgment(source, 'diện tích hình chữ nhật')
+    first['gaps'][0].update(requirementIndex=1, relatedLineIndices=[])
+    second = deepcopy(first)
+    first['mathematicsCorrect'] = False
+    first['rows'][1].update(status='FIX', errorKind='CALCULATION', feedback='Em kiểm tra phép tính nhé.')
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[first, second]))
+    result = await review.review_work(source)
+    assert result.complete is False and result.missingParts[0].target == 'diện tích hình chữ nhật'
+    assert result.rows[1].status == 'OK' and result.rows[1].arithmeticCorrect is True
+    assert result.status != 'CORRECT' and not result.praise
+    second['unitsCorrect'] = False
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[first, second]))
+    result = await review.review_work(source)
+    assert result.complete is None and not result.missingParts
+
+
+@pytest.mark.asyncio
+async def test_a_given_ratio_does_not_turn_computed_width_into_a_given_value(monkeypatch):
+    source = _completion_source('Mảnh vườn hình chữ nhật dài 24 m, chiều rộng bằng 2/3 chiều dài. Tính diện tích mảnh vườn.',
+                                'Chiều rộng mảnh vườn là:\n24 × 2/3 = 16 (m)')
+    payload = _completion_judgment(source, 'diện tích mảnh vườn')
+    payload['gaps'][0]['givenQuantities'] = ['chiều dài', 'chiều rộng']
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(source)
+    assert 'tìm được chiều rộng' in result.missingParts[0].hint
+    assert 'cùng chiều dài đề cho' in result.missingParts[0].hint
+    assert 'chiều rộng đề cho' not in result.missingParts[0].hint
+
+
+@pytest.mark.asyncio
+async def test_child_friendly_hint_explains_the_next_operation_without_giving_values(monkeypatch):
+    source = _completion_source('Lớp có 40 học sinh, nữ chiếm 3/5. Hỏi số học sinh nam trong lớp?',
+                                'Số học sinh nữ là:\n40 × 3/5 = 24 (học sinh)', 'clear-child-guidance-01')
+    payload = _completion_judgment(source, 'số học sinh nam trong lớp')
+    payload['gaps'][0].update(operation='SUBTRACT', operands=['tổng số học sinh trong lớp', 'số học sinh nữ'])
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(source)
+    hint = result.missingParts[0].hint
+    assert 'Em đã tìm được số học sinh nữ.' in hint
+    assert 'Em lấy tổng số học sinh trong lớp trừ đi số học sinh nữ.' in hint
+    assert 'Kết quả cho biết số học sinh nam trong lớp.' in hint
+    assert not any(char.isnumeric() for char in hint)
+    assert len(hint) <= 300 and result.rows[1].arithmeticCorrect is True
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('problem,work,target,operation,operands,action', [
+    ('Mai có 18 bút, Linh có 7 bút. Tính tổng số bút của Mai và Linh.',
+     'Số bút của Mai là:\n18 × 1 = 18 (bút)', 'tổng số bút của Mai và Linh', 'ADD', ['số bút của Mai', 'số bút của Linh'], 'cộng với'),
+    ('Hình chữ nhật dài 18 m, chiều rộng bằng chiều dài chia 3. Tính diện tích hình chữ nhật.',
+     'Chiều rộng là:\n18 : 3 = 6 (m)', 'diện tích hình chữ nhật', 'MULTIPLY', ['chiều dài', 'chiều rộng'], 'nhân với'),
+    ('Xe đi hai chặng 18 km và 12 km trong tổng thời gian 3 giờ. Tính vận tốc của xe.',
+     'Quãng đường là:\n18 + 12 = 30 (km)', 'vận tốc của xe', 'DIVIDE', ['quãng đường', 'thời gian'], 'chia cho'),
+])
+async def test_clear_operation_guidance_works_with_new_quantities(monkeypatch, problem, work, target, operation, operands, action):
+    source = _completion_source(problem, work)
+    payload = _completion_judgment(source, target)
+    payload['gaps'][0].update(operation=operation, operands=operands)
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(source)
+    assert action in result.missingParts[0].hint
+    assert target in result.missingParts[0].hint
+    assert not any(char.isnumeric() for char in result.missingParts[0].hint)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('change', ['operation', 'order', 'invented', 'answer-value'])
+async def test_unconfirmed_or_ungrounded_operation_never_becomes_teaching(monkeypatch, change):
+    source = _completion_source('Lớp có 40 học sinh, nữ chiếm 3/5. Hỏi số học sinh nam trong lớp?',
+                                'Số học sinh nữ là:\n40 × 3/5 = 24 (học sinh)')
+    first = _completion_judgment(source, 'số học sinh nam trong lớp')
+    first['gaps'][0].update(operation='SUBTRACT', operands=['tổng số học sinh trong lớp', 'số học sinh nữ'])
+    if change == 'invented': first['gaps'][0]['operands'][0] = 'số sách của bác Tùng'
+    if change == 'answer-value': first['gaps'][0]['operands'][0] = '40 học sinh'
+    second = deepcopy(first)
+    if change == 'operation': second['gaps'][0]['operation'] = 'ADD'
+    if change == 'order': second['gaps'][0]['operands'].reverse()
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[first, second]))
+    result = await review.review_work(source)
+    assert result.missingParts and 'trừ đi' not in result.missingParts[0].hint
+    assert 'Tùng' not in result.missingParts[0].hint and '40' not in result.missingParts[0].hint
+    assert result.rows[1].arithmeticCorrect is True
+
+
+@pytest.mark.asyncio
+async def test_a_later_question_tells_the_child_to_finish_its_missing_input_first(monkeypatch):
+    source = _completion_source('Lớp có 40 học sinh, nữ chiếm 3/5. a) Hỏi số học sinh nam trong lớp? '
+                                'b) Tính số học sinh nữ nhiều hơn nam.',
+                                'Số học sinh nữ là:\n40 × 3/5 = 24 (học sinh)')
+    payload = _completion_judgment(source, 'số học sinh nam trong lớp')
+    payload['gaps'][0].update(operation='SUBTRACT', operands=['tổng số học sinh trong lớp', 'số học sinh nữ'])
+    payload['gaps'].insert(0, dict(requirementIndex=1, type='MISSING_CALCULATION', quantity='số học sinh nữ nhiều hơn nam',
+        relatedLineIndices=[1], operation='SUBTRACT', operands=['số học sinh nữ', 'số học sinh nam trong lớp']))
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[payload, deepcopy(payload)]))
+    result = await review.review_work(source)
+    assert result.missingParts[0].requirementIndex == 0
+    assert 'Trước hết, em tìm số học sinh nam trong lớp ở phần trên.' in result.missingParts[1].hint
+    assert 'Sau đó, em lấy số học sinh nữ trừ đi số học sinh nam trong lớp.' in result.missingParts[1].hint
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('citation,has_operation', [('Lớp có 40 học sinh', True), ('Lớp có 41 học sinh', False)])
+async def test_original_fact_citation_can_confirm_a_name_without_publishing_its_value(monkeypatch, citation, has_operation):
+    source = _completion_source('Lớp có 40 học sinh, nữ chiếm 3/5. Hỏi số học sinh nam trong lớp?',
+                                'Số học sinh nữ là:\n40 × 3/5 = 24 (học sinh)')
+    first = _completion_judgment(source, 'số học sinh nam trong lớp')
+    first['gaps'][0].update(operation='SUBTRACT', operands=['tổng số học sinh trong lớp', 'số học sinh nữ'])
+    second = deepcopy(first)
+    second['gaps'][0]['operands'][0] = citation
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=[first, second]))
+    result = await review.review_work(source)
+    assert ('trừ đi' in result.missingParts[0].hint) is has_operation
+    assert not any(char.isnumeric() for char in result.missingParts[0].hint)
+
+
+def test_comparative_gender_name_is_not_a_number_but_an_answer_value_stays_blocked():
+    problem = 'Hỏi số học sinh nam trong lớp và số học sinh nữ nhiều hơn nam.'
+    review._completion_text('Kết quả cho biết số học sinh nữ nhiều hơn nam.', problem)
+    with pytest.raises(ValueError):
+        review._completion_text('Số học sinh nữ nhiều hơn nam là nam.', problem)
+
+
+@pytest.mark.parametrize('first_inputs,second_inputs', [
+    (['số cây cam', 'phân số chỉ số cây cam'], ['phân số chỉ số cây cam', 'số cây cam']),
+    (['tổng số gạo', 'số gạo còn lại'], ['số gạo còn lại', 'tổng số gạo']),
+    (['tổng diện tích', 'diện tích'], ['diện tích', 'tổng diện tích']),
+])
+def test_operation_consensus_preserves_fraction_and_remainder_meaning(first_inputs, second_inputs):
+    first = review.CompletionGap(requirementIndex=0, type='MISSING_CALCULATION', quantity='phần còn thiếu',
+                                 operation='DIVIDE', operands=first_inputs)
+    second = first.model_copy(update={'operands': second_inputs})
+    gap = list(review.agreed_gaps([first], [second]))[0]
+    assert gap.operation is None and not gap.operands
