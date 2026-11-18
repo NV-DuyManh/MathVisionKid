@@ -249,6 +249,7 @@ test('centers a short hint, constrains long hints and preserves the other lesson
   }
   await page.setViewportSize({ width: 390, height: 884 });
   await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   for (const entry of cases) {
     let hintLevel = 0;
     const step = { ...firstStep, answerFormat: 'INTEGER', title: 'Tính kết quả', expression: '' };
