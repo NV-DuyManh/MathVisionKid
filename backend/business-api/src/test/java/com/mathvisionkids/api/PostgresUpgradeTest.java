@@ -62,8 +62,8 @@ class PostgresUpgradeTest {
                 sql.execute("INSERT INTO student_quizzes(id,student_id,source_type,source_id,source_fingerprint,topic_code,topic_name,skill_code,grade_level,question_text,unit,answer_spec,validated_solution,status,created_at,updated_at,generation_version) VALUES ('"+quiz+"','"+id+"','LESSON','source',repeat('a',64),'ADDITION','Addition','ADD',5,'2 + 2 = ?','','4','2 + 2 = 4','READY',now(),now(),'test')");
                 var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
-                assertEquals(35 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
-                assertEquals("35", upgrade.targetSchemaVersion);
+                assertEquals(38 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
+                assertEquals("38", upgrade.targetSchemaVersion);
                 assertTrue(latest.validateWithResult().validationSuccessful);
                 assertEquals(0, latest.migrate().migrationsExecuted);
                 if (Integer.parseInt(startingVersion) >= 32) {
