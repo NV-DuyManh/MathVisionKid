@@ -4,24 +4,24 @@
     "slug": "MathVisionKid",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/images/mathvision-icon-v2.png",
+    "icon": "./assets/images/mathvision-robot-icon.png",
     "scheme": "mathvisionkid",
     "userInterfaceStyle": "light",
     "ios": {
       "bundleIdentifier": "com.mathvisionkids.student",
-      "icon": "./assets/images/mathvision-icon-v2.png"
+      "icon": "./assets/images/mathvision-robot-icon.png"
     },
     "android": {
       "package": "com.mathvisionkids.student",
       "adaptiveIcon": {
         "backgroundColor": "#6040DD",
-        "foregroundImage": "./assets/illustrations/mathvision-star.png"
+        "foregroundImage": "./assets/images/mathvision-robot-adaptive.png"
       },
       "predictiveBackGestureEnabled": false
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/mathvision-icon-v2.png"
+      "favicon": "./assets/images/mathvision-robot-icon.png"
     },
     "plugins": [
       "expo-router",
@@ -30,7 +30,7 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#F8F7FE",
-          "image": "./assets/images/mathvision-icon-v2.png",
+          "image": "./assets/images/mathvision-robot-icon.png",
           "imageWidth": 164,
           "resizeMode": "contain"
         }

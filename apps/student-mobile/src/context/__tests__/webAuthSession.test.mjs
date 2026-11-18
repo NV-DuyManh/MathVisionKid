@@ -40,11 +40,15 @@ test('student web session validates the backend, rejects cached authority, and s
     role: 'STUDENT', active: true, gradeLevel: 3 };
   let currentContext;
   let getProfile;
+  let expireSession;
   let logoutCalls = 0;
   let logoutError;
   const logoutRequests = [];
   let sharedPostCalls = 0;
   let clearDraftCalls = 0;
+  const photoOwners = [], photoListeners = new Set();
+  let photoRecovery = { restoring: false, issue: 'none' }, recoveryGate;
+  const publishRecovery = restoring => { photoRecovery = { restoring, issue: 'none' }; photoListeners.forEach(listener => listener()); };
   const ssoRequests = [];
   const ssoCode = 'mvk_sso_' + 'a'.repeat(64);
   let createTicket = async target => ({ data: { targetApp: target, code: ssoCode, expiresIn: 60 } });
@@ -56,12 +60,16 @@ test('student web session validates the backend, rejects cached authority, and s
     return { data: { accessToken: 'login-access', refreshToken: 'login-refresh' } };
   } };
   const placeholder = ({ children }) => React.createElement('div', null, children);
-  const router = { replace() {} };
+  const routeReplacements = [];
+  const router = { replace: path => routeReplacements.push(path) };
   const { AuthProvider, AuthContext } = load('../AuthContext.web.tsx', {
     'react-native': { View: placeholder, Text: placeholder, ActivityIndicator: placeholder, Pressable: placeholder },
     'expo-router': { useRouter: () => router, usePathname: () => dom.window.location.pathname },
     '../services/auth/tokenStorage': { tokenStorage },
-    '../services/auth/sessionEvents': { sessionEvents: { subscribe: () => () => {} } },
+    '../services/auth/sessionEvents': { sessionEvents: { subscribe: listener => {
+      expireSession = listener;
+      return () => { expireSession = null; };
+    } } },
     '../services/api/apiClient': api,
     axios: { get: async (url, config) => {
       assert.equal(url, 'https://api.mathvision.example/api/v1/me');
@@ -82,6 +90,14 @@ test('student web session validates the backend, rejects cached authority, and s
     '../config/workspaceOrigin.web': { workspaceOrigin },
     '../features/recognition/api/RecognitionService': { RecognitionService: { clearCache() {} } },
     '../features/recognition/state/recognitionDraftStore': { recognitionDraftStore: { clearDraft: () => { clearDraftCalls++; } } },
+    '../features/recognition/state/imageDraftPersistence': { imageDraftPersistence: {
+      subscribe: listener => { photoListeners.add(listener); return () => photoListeners.delete(listener); },
+      getSnapshot: () => photoRecovery,
+      activate: async owner => {
+        photoOwners.push(owner || null);
+        if (owner && recoveryGate) { publishRecovery(true); await recoveryGate; publishRecovery(false); }
+      },
+    } },
     '../features/recognition/analytics/recognitionAnalyticsStore': { recognitionAnalyticsStore: { setUserScope() {} } },
     '../constants/theme': { COLORS: {}, FONTS: {} },
   });
@@ -129,6 +145,52 @@ test('student web session validates the backend, rejects cached authority, and s
       assert.equal(await tokenStorage.getRefreshToken(), null);
       assert.equal(await tokenStorage.getUser(), null);
       await unmount();
+    });
+
+    await t.test('photo restoration uses verified ownership and finishes before protected screens mount', async () => {
+      await tokenStorage.saveTokens('valid-access', 'valid-refresh');
+      getProfile = async () => ({ data: profile });
+      let finish;
+      recoveryGate = new Promise(resolve => { finish = resolve; });
+      await mount();
+      assert.equal(photoOwners.at(-1), profile.userId);
+      assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
+      assert.ok(dom.window.document.body.textContent.includes('Đang khôi phục ảnh của em...'));
+      await act(async () => finish()); recoveryGate = undefined;
+      assert.ok(dom.window.document.body.textContent.includes('Protected Bình Minh'));
+      await unmount();
+    });
+
+    await t.test('an interceptor expiry during restore reaches login while an active session expiry uses the recovery page', async () => {
+      dom.window.history.replaceState({}, '', '/study/onboarding');
+      await tokenStorage.saveTokens('expired-access', 'expired-refresh');
+      getProfile = async () => {
+        await tokenStorage.clearTokens();
+        expireSession('expired');
+        throw Object.assign(new Error('Refresh rejected'), { response: { status: 401 } });
+      };
+      await mount();
+      assert.equal(redirects.at(-1), '/login?session=expired');
+      assert.equal(currentContext.isAuthenticated, false);
+      assert.equal(currentContext.isLoading, false);
+      assert.equal(await tokenStorage.getAccessToken(), null);
+      assert.equal(await tokenStorage.getRefreshToken(), null);
+      await unmount();
+
+      for (const [reason, destination] of [['expired', '/session-expired'], ['forbidden', '/access-denied']]) {
+        await tokenStorage.saveTokens('active-access', 'active-refresh');
+        getProfile = async () => ({ data: profile });
+        await mount();
+        assert.equal(currentContext.isAuthenticated, true);
+        await act(async () => {
+          await tokenStorage.clearTokens();
+          expireSession(reason);
+        });
+        assert.equal(currentContext.isAuthenticated, false);
+        assert.equal(redirects.at(-1), destination);
+        await unmount();
+      }
+      dom.window.history.replaceState({}, '', '/learn/lessons');
     });
 
     await t.test('offline restore clears cached authority and explains the connection failure', async () => {
@@ -208,6 +270,53 @@ test('student web session validates the backend, rejects cached authority, and s
       assert.equal(dom.window.document.body.textContent, 'Login form');
       assert.equal(redirects.length, 0);
       await unmount();
+    });
+    await t.test('a verified student opening any login entry returns to learning', async () => {
+      for (const path of ['/login', '/study/login', '/learn/login']) {
+        dom.reconfigure({ url: `https://mathvision.example${path}` });
+        routeReplacements.length = 0;
+        await tokenStorage.saveTokens('valid-student-access', 'valid-student-refresh');
+        getProfile = async () => ({ data: profile });
+        await mount();
+        assert.equal(currentContext.isAuthenticated, true);
+        assert.equal(routeReplacements.at(-1), '/(tabs)');
+        if (path !== '/login') assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
+        await unmount();
+      }
+    });
+    await t.test('signed-out welcome is public while adjacent student deep links still require login', async () => {
+      await tokenStorage.clearTokens();
+      getProfile = async () => { assert.fail('A signed-out welcome never requests an authenticated profile'); };
+      for (const path of ['/study/welcome', '/learn/welcome', '/welcome', '/study/onboarding', '/learn/onboarding', '/onboarding']) {
+        dom.reconfigure({ url: `https://mathvision.example${path}` });
+        redirects.length = 0;
+        await mount();
+        assert.equal(currentContext.isLoading, false);
+        assert.equal(currentContext.isAuthenticated, false);
+        assert.equal(dom.window.document.body.textContent, 'Login form');
+        assert.equal(redirects.length, 0);
+        await unmount();
+      }
+      dom.reconfigure({ url: 'https://mathvision.example/study/lessons' });
+      routeReplacements.length = 0;
+      await mount();
+      assert.equal(routeReplacements.at(-1), '/login');
+      assert.equal(dom.window.document.body.textContent.includes('Login form'), false);
+      await unmount();
+      dom.reconfigure({ url: 'https://mathvision.example/login' });
+    });
+    await t.test('mounted /study/login stays public so the login handoff can render', async () => {
+      await tokenStorage.clearTokens();
+      getProfile = async () => { assert.fail('A signed-out login route never requests an authenticated profile'); };
+      dom.reconfigure({ url: 'https://mathvision.example/study/login' });
+      redirects.length = 0;
+      await mount();
+      assert.equal(currentContext.isLoading, false);
+      assert.equal(currentContext.isAuthenticated, false);
+      assert.equal(dom.window.document.body.textContent, 'Login form');
+      assert.equal(redirects.length, 0);
+      await unmount();
+      dom.reconfigure({ url: 'https://mathvision.example/login' });
     });
     await t.test('Teacher and Admin use a verified one-time handoff without entering or persisting a Student session', async () => {
       for (const role of ['TEACHER', 'ADMIN']) {

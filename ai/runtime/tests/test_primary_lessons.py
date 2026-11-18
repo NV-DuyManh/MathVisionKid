@@ -55,10 +55,11 @@ async def test_every_source_reaches_model_and_independent_review_unchanged(monke
     assert response.conclusion == ''
     assert generation.kwargs['max_output_tokens'] > 1500
     for answer in expected:
-        assert 3 <= len(response.step.guidance) <= 6
-        assert response.step.solutionSentence.endswith('là:')
+        assert not response.step.guidance and not response.step.solutionSentence and not response.step.expression
         assert turn(response,'999').stepIndex == response.stepIndex
         response=turn(response,answer)
+        assert 3 <= len(response.completed[-1].guidance) <= 6
+        assert response.completed[-1].solutionSentence.endswith('là:')
     assert response.status == 'COMPLETE'
     assert response.conclusion == ('' if multiple else f'Đáp số: {expected[-1]}' + (f' {units[-1]}' if units[-1] else '') + '.')
 
@@ -245,7 +246,8 @@ async def test_current_worked_calculation_opens_only_on_deep_help_or_completion(
     value=answer_lesson(TurnRequest(owner='pupil',sessionId=value.sessionId,revision=value.revision,hint=True))
     assert worked not in value.step.guidance and '63' not in value.feedback
     value=answer_lesson(TurnRequest(owner='pupil',sessionId=value.sessionId,revision=value.revision,hint=True))
-    assert worked in value.step.guidance and value.stepIndex==0
+    assert value.stepIndex==0 and value.step.expression == '7 × 9' and not value.step.guidance
+    assert worked not in value.model_dump_json(exclude={'sessionId'})
     assert '52' not in value.model_dump_json(exclude={'sessionId'})
     assert turn(value,'52').stepIndex==0
     value=turn(value,'63')
@@ -395,7 +397,7 @@ async def test_separate_initial_guidance_is_published_before_private_worked_help
     monkeypatch.setattr(lesson,'_generate',cloud)
     value=await start_lesson(request('Có 7 hộp, mỗi hộp 9 bút. Hỏi có tất cả bao nhiêu bút?'))
     assert '63' not in value.model_dump_json(exclude={'sessionId'})
-    assert value.step.guidance
+    assert not value.step.guidance
     reviewed=json.loads(cloud.await_args_list[1].args[1])
     assert 'initialGuidance' not in reviewed['candidate']['steps'][1]
     assert '7 × 9 = 63' in ' '.join(reviewed['workedTeaching'][1])
@@ -460,7 +462,9 @@ async def test_flat_private_spoken_answers_and_reciprocal_stay_out_of_initial_te
     value=answer_lesson(TurnRequest(owner='pupil',sessionId=value.sessionId,revision=value.revision,hint=True))
     assert private[2] not in value.step.guidance
     value=answer_lesson(TurnRequest(owner='pupil',sessionId=value.sessionId,revision=value.revision,hint=True))
-    assert private[2] in value.step.guidance
+    assert private[2] not in value.model_dump_json(exclude={'sessionId'})
+    value=turn(value,'60')
+    assert private[2] in value.completed[2].guidance
 
 
 @pytest.mark.asyncio
@@ -574,9 +578,9 @@ async def test_paragraph_string_guidance_keeps_all_teaching_and_answer_guards(mo
     else:
         cloud=mock_generation(monkeypatch,plan)
         value=await start_lesson(request('Có 7 hộp, mỗi hộp 9 bút. Hỏi có tất cả bao nhiêu bút?'))
-        assert value.step.guidance==plan['steps'][0]['guidance'].split('\n\n')
+        assert not value.step.guidance
         reviewed=json.loads(cloud.await_args_list[1].args[1])
-        assert reviewed['initialTeaching'][0]==value.step.guidance
+        assert reviewed['initialTeaching'][0]==plan['steps'][0]['guidance'].split('\n\n')
 
 
 def test_paragraph_string_never_silently_discards_excess_teaching():

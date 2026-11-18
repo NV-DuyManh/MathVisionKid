@@ -351,7 +351,38 @@ public class MathTutorService {
         if (status.equals("NEEDS_REVISION") && result.stream().noneMatch(row -> row.status().equals("FIX"))) throw unavailable();
         if (status.equals("CORRECT") && (Boolean.FALSE.equals(complete) || !missingPart.isBlank())
                 || !missingPart.isBlank() && !Boolean.FALSE.equals(complete)) throw unavailable();
-        return new WorkReviewResponse(sourceId, status, summary, praise, result, nextAction, alternative, complete, missingPart, arithmeticVerified);
+        java.util.ArrayList<MissingWorkPart> missingParts = new java.util.ArrayList<>();
+        if (body.has("missingParts")) {
+            JsonNode parts = body.get("missingParts");
+            if (!parts.isArray() || parts.size() > 8 || !parts.isEmpty() && !Boolean.FALSE.equals(complete)) throw unavailable();
+            for (JsonNode part : parts) {
+                String kind = text(part, "type", 30, false), evidence = text(part, "evidence", 20, false);
+                JsonNode requirement = part.get("requirementIndex"), indices = part.get("relatedLineIndices");
+                if (!List.of("MISSING_CALCULATION", "MISSING_INTERMEDIATE", "MISSING_ANSWER", "NOT_STARTED").contains(kind)
+                        || !List.of("DUAL_REVIEW", "DETERMINISTIC").contains(evidence)
+                        || requirement == null || !requirement.isIntegralNumber() || !requirement.canConvertToInt()
+                        || requirement.intValue() < 0 || requirement.intValue() > 7
+                        || indices == null || !indices.isArray() || indices.size() > 35) throw unavailable();
+                java.util.ArrayList<Integer> related = new java.util.ArrayList<>();
+                for (JsonNode index : indices) {
+                    if (!index.isIntegralNumber() || !index.canConvertToInt() || index.intValue() < 0
+                            || index.intValue() >= result.size() || !result.get(index.intValue()).status().equals("OK")
+                            || !Boolean.TRUE.equals(result.get(index.intValue()).arithmeticCorrect())) throw unavailable();
+                    related.add(index.intValue());
+                }
+                missingParts.add(new MissingWorkPart(kind, text(part, "target", 160, false),
+                        text(part, "description", 240, false), text(part, "hint", 300, false),
+                        requirement.intValue(), related, evidence));
+            }
+        }
+        Integer completionVersion = null;
+        if (body.hasNonNull("completionVersion")) {
+            JsonNode version = body.get("completionVersion");
+            if (!version.isIntegralNumber() || !version.canConvertToInt() || version.intValue() != 2) throw unavailable();
+            completionVersion = version.intValue();
+        }
+        return new WorkReviewResponse(sourceId, status, summary, praise, result, nextAction, alternative, complete, missingPart,
+                arithmeticVerified, missingParts, completionVersion);
     }
 
     private LessonResponse lessonResponse(JsonNode body) {
@@ -418,9 +449,12 @@ public class MathTutorService {
                 if (!choiceChecks.isEmpty() && (choiceChecks.stream().filter(Boolean::booleanValue).count() != 1
                         || new java.util.HashSet<>(labels).size() != labels.size())) throw unavailable();
             }
+            String answerFormat = step.hasNonNull("answerFormat") ? text(step, "answerFormat", 10, false) : null;
+            if (answerFormat != null && (!kind.equals("MATH") || !labels.isEmpty()
+                    || !List.of("INTEGER", "DECIMAL", "FRACTION").contains(answerFormat))) throw unavailable();
             current = new LessonStep(text(step, "title", 100, false), text(step, "explanation", 500, false),
                     text(step, "question", 220, false), labels, text(step, "expression", 220, true), text(step, "unit", 20, true), text(step, "workExcerpt", 500, true),
-                    step.has("solutionSentence") ? text(step, "solutionSentence", 220, true) : "", guidance(step), kind, choiceChecks);
+                    step.has("solutionSentence") ? text(step, "solutionSentence", 220, true) : "", guidance(step), kind, java.util.List.of(), answerFormat);
         }
         JsonNode revision = body.get("revision"), index = body.get("stepIndex");
         if (revision == null || !revision.isIntegralNumber() || revision.asInt() < 0 || index == null || !index.isIntegralNumber()
@@ -457,8 +491,27 @@ public class MathTutorService {
             if(!done.get(done.size()-1).answer().equals(selected)||!choices.isEmpty()&&!choices.contains(selected))throw unavailable();
             review=new StepReview(text(reviewed,"question",220,false),choices,selected);
         }
+        int hintLevel = 0, hintCount = 0;
+        if (body.has("hintLevel")) {
+            JsonNode value = body.get("hintLevel");
+            if (!value.isIntegralNumber() || !value.canConvertToInt() || value.asInt() < 0 || value.asInt() > 3) throw unavailable();
+            hintLevel = value.asInt();
+        }
+        if (body.has("hintCount")) {
+            JsonNode value = body.get("hintCount");
+            if (!value.isIntegralNumber() || !value.canConvertToInt() || value.asInt() < 0 || value.asInt() > 3) throw unavailable();
+            hintCount = value.asInt();
+        }
+        if (hintLevel > hintCount || current == null && (hintLevel != 0 || hintCount != 0)) throw unavailable();
+        List<String> revealedHints = body.has("revealedHints") ? paragraphs(body.get("revealedHints"), 3) : null;
+        if (revealedHints != null && (revealedHints.size() != hintLevel || revealedHints.stream().distinct().count() != hintLevel
+                || current != null && hintLevel < 2 && !current.expression().isEmpty())) throw unavailable();
+        JsonNode retryDelay = body.get("retryAfterSeconds");
+        int retryAfterSeconds = retryDelay == null ? 0 : retryDelay.asInt(-1);
+        if (retryDelay != null && (!retryDelay.isIntegralNumber() || retryAfterSeconds < 0 || retryAfterSeconds > 60)
+                || retryAfterSeconds > 0 && (!preparing || !(status.equals("RETRYABLE") || status.equals("UNAVAILABLE")))) throw unavailable();
         return new LessonResponse(text(body, "sessionId", 100, false), revision.asInt(), text(body, "topic", 120, false),
-                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true), conclusion, understanding, summary, preparing,review);
+                text(body, "goal", 220, false), titles, index.asInt(), current, done, status, text(body, "feedback", 500, true), conclusion, understanding, summary, preparing, review, hintLevel, hintCount, revealedHints, retryAfterSeconds);
     }
 
     private static String stepKind(JsonNode step, boolean understanding) {
@@ -580,8 +633,11 @@ public class MathTutorService {
 
     private static List<String> guidance(JsonNode body) {
         JsonNode values = body.get("guidance");
-        if (values == null) return List.of();
-        if (!values.isArray() || values.size() > 6) throw unavailable();
+        return values == null ? List.of() : paragraphs(values, 6);
+    }
+
+    private static List<String> paragraphs(JsonNode values, int limit) {
+        if (!values.isArray() || values.size() > limit) throw unavailable();
         java.util.ArrayList<String> result = new java.util.ArrayList<>();
         for (JsonNode value : values) {
             if (!value.isTextual() || value.asText().isBlank() || value.asText().length() > 500) throw unavailable();

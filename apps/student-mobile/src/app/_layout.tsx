@@ -79,6 +79,8 @@ function StudentNavigator() {
   const auth = useContext(AuthContext);
   return <Stack screenOptions={{ headerShown: false }}>
     <Stack.Screen name="index" />
+    <Stack.Screen name="welcome" />
+    <Stack.Screen name="onboarding" />
     <Stack.Screen name="login" />
     <Stack.Screen name="privacy" />
     <Stack.Protected guard={auth?.isAuthenticated === true && auth.user?.role === 'STUDENT' && auth.user?.active === true}>

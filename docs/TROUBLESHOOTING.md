@@ -110,3 +110,11 @@ The readiness endpoint checks selected runtime dependencies. A green result does
 Normal stop keeps stored data. Data-reset scripts delete local database/storage data and are not a routine fix for a UI, camera, or provider error.
 
 For a bug report, include the exact action, relevant service, sanitized error, expected result, and a small reproducible sample. See [CONTRIBUTING.md](../CONTRIBUTING.md).
+
+## Setup on a freshly cloned Windows machine
+
+Run `SETUP_MATHVISION.bat -CheckOnly` first to identify missing tools. Setup and local launchers search for compatible installed versions even when another Node/JDK appears first on PATH, and set JAVA_HOME only in their child process environment. If a tool is missing, run setup normally to install the supported version through WinGet. Complete any Windows installer permission/license or reboot request, then rerun. Do not copy another machine's node_modules or .venv.
+
+Native Python DLL errors can mean the Visual C++ x64 runtime is missing; setup now checks and installs it before ML imports. A damaged/wrong-version .venv is preserved as .venv-backup-* before being rebuilt. Keep that backup until verification succeeds. Free disk space or move the checkout to a larger drive when preflight reports insufficient space; Docker downloads need additional room. On unsupported ARM/32-bit hosts, use a validated x64 environment rather than changing pins blindly.
+
+On failure, keep the first native error and `.local-artifacts/setup/last-failure.json` for diagnosis. This receipt deliberately contains no configuration values or credentials. The setup script stops at the failed stage and can be rerun after that cause is fixed.

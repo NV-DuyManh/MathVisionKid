@@ -73,7 +73,7 @@ export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, ex
   const sidebarColors = IS_STUDENT_WEB ? [WEB_DESIGN.colors.ink, WEB_DESIGN.colors.ink] as const : ['#352A7D', '#2B1D6C', '#352479'] as const;
   return <LinearGradient colors={sidebarColors} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.sidebar, IS_STUDENT_WEB && styles.webSidebar, { width: expanded ? (IS_STUDENT_WEB ? 218 : 248) : 80, paddingTop: Math.max(insets.top, 25), paddingBottom: Math.max(insets.bottom, 20) }]}>
     <View style={[styles.brand, !expanded && styles.compactBrand]}>
-      <AppIllustration source={IS_STUDENT_WEB ? require('../../../assets/illustrations/web/mathvision-icon-v2.webp') : require('../../../assets/images/mathvision-icon-v2.png')} style={{ width: 31, height: 31, borderRadius: 16 }} accessible={false} />
+      <AppIllustration source={IS_STUDENT_WEB ? require('../../../assets/illustrations/web/robot-mascot.webp') : require('../../../assets/images/mathvision-robot-icon.png')} style={{ width: 31, height: 31, borderRadius: 16 }} accessible={false} />
       {expanded && <Text style={styles.brandText}>MathVision<Text style={styles.brandAccent}>Kid</Text></Text>}
     </View>
     <Pressable accessibilityRole="button" accessibilityLabel={expanded ? 'Thu gọn menu' : 'Mở rộng menu'}
@@ -86,7 +86,7 @@ export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, ex
       {expanded && <Text style={styles.toggleText}>Thu gọn</Text>}
     </Pressable>
     <ScrollView nativeID="student-destinations" showsVerticalScrollIndicator={false} contentContainerStyle={styles.sidebarScroll}>{destinations}</ScrollView>
-    {expanded && !IS_STUDENT_WEB && <View style={styles.sidebarNote}><AppIllustration source={require('../../../assets/illustrations/mathvision-star.png')} style={styles.sidebarMascot} accessible={false} /><Text style={styles.noteTitle}>Một chút mỗi ngày</Text><Text style={styles.noteText}>Cùng em hiểu bài, tự tin hơn.</Text></View>}
+    {expanded && !IS_STUDENT_WEB && <View style={styles.sidebarNote}><AppIllustration source={require('../../../assets/illustrations/robot-mascot.png')} style={styles.sidebarMascot} accessible={false} /><Text style={styles.noteTitle}>Một chút mỗi ngày</Text><Text style={styles.noteText}>Cùng em hiểu bài, tự tin hơn.</Text></View>}
   </LinearGradient>;
 }
 
@@ -107,11 +107,11 @@ export default function TabLayout() {
 }
 
 const styles = StyleSheet.create({
-  webBar: { borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTopWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, paddingHorizontal: 8 },
-  webSelected: { backgroundColor: WEB_DESIGN.colors.blueLight },
-  webHovered: { backgroundColor: WEB_DESIGN.colors.blueLight },
+  webBar: { borderTopWidth: 1, borderColor: COLORS.border },
+  webSelected: { backgroundColor: COLORS.primaryLight },
+  webHovered: { backgroundColor: COLORS.primaryLight },
   webSidebar: { borderRightColor: WEB_DESIGN.colors.ink },
-  webSideSelected: { backgroundColor: WEB_DESIGN.colors.blue, borderColor: '#7596F8', borderRadius: WEB_DESIGN.radii.control, shadowOpacity: 0 },
+  webSideSelected: { backgroundColor: COLORS.primaryDark, borderColor: '#8265E6', borderRadius: WEB_DESIGN.radii.control, shadowOpacity: 0 },
   webSideHovered: { backgroundColor: '#2C4178' },
   webSideFocused: { outlineColor: WEB_DESIGN.colors.star, outlineWidth: 2, outlineOffset: 2 },
   bar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingTop: 8, paddingHorizontal: 12,

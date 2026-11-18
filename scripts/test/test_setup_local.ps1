@@ -8,7 +8,7 @@ $script:commands = [System.Collections.Generic.List[object]]::new()
 $script:installed = [System.Collections.Generic.List[string]]::new()
 $script:failCommand = $false
 $script:ffmpegReady = $false
-$script:tools = [ordered]@{ Git = $true; Node = $true; Python = $basePython; Java = $true; Docker = $true }
+$script:tools = [ordered]@{ Git = $true; Node = $true; Python = $basePython; Java = $true; Docker = $true; VCRuntime = $true }
 
 function Assert-Setup {
     param([bool]$Condition, [string]$Message)
@@ -33,7 +33,10 @@ try {
         [System.IO.File]::WriteAllText($path, 'keep-original-content')
     }
     Copy-Item -LiteralPath (Join-Path $repoRoot 'scripts/dev/setup-local.ps1') -Destination (Join-Path $fixture 'scripts/dev/setup-local.ps1')
+    Copy-Item -LiteralPath (Join-Path $repoRoot 'scripts/dev/toolchain.ps1') -Destination (Join-Path $fixture 'scripts/dev/toolchain.ps1')
     . (Join-Path $fixture 'scripts/dev/setup-local.ps1')
+    function Use-MathVisionToolchain {}
+    function Assert-SetupHost {}
     $nativeCommand = ${function:Invoke-SetupCommand}
     $detector = ${function:Get-SetupTools}
     $probePython = Join-Path $fixture 'python-probe.exe'
@@ -41,7 +44,10 @@ try {
     function Get-Command { param([string]$Name) return [pscustomobject]@{ Source = $Name } }
     function Get-SetupProbe {
         param([string]$FilePath, [string[]]$Arguments)
-        if ($FilePath -eq 'node.exe') { return $script:nodeVersion }
+        if ($FilePath -eq 'node.exe') {
+            if ($Arguments -contains 'process.arch') { return 'x64' }
+            return $script:nodeVersion
+        }
         if ($FilePath -eq 'py.exe') { return $probePython }
         if ($FilePath -eq 'javac.exe') { return 'javac 21.0.9' }
         if ($FilePath -like '*java.exe') { return 'openjdk 21.0.9 LTS' }
@@ -61,7 +67,8 @@ try {
     function Install-SetupTool {
         param([string]$PackageId)
         $script:installed.Add($PackageId)
-        $script:tools.Node = $true
+        if ($PackageId -eq 'Microsoft.VCRedist.2015+.x64') { $script:tools.VCRuntime = $true }
+        else { $script:tools.Node = $true }
     }
     function Get-SetupProbe { param([string]$FilePath, [string[]]$Arguments) return $script:ffmpegReady }
     function Invoke-SetupCommand {
@@ -118,8 +125,18 @@ try {
     $script:failCommand = $false
     $script:tools.Python = 'another-python.exe'
     $script:commands.Clear()
-    Assert-SetupFailure { Invoke-MathVisionSetup } '*existing ai/runtime/.venv is incompatible*'
-    Assert-Setup ($script:commands.Count -eq 0) 'A damaged existing environment was overwritten.'
+    Invoke-MathVisionSetup
+    $backups = @(Get-ChildItem -LiteralPath (Join-Path $fixture 'ai/runtime') -Directory -Filter '.venv-backup-*')
+    Assert-Setup ($backups.Count -eq 1) 'Incompatible environment was not backed up once.'
+    Assert-Setup ([IO.File]::ReadAllText((Join-Path $backups[0].FullName 'Scripts/python.exe')) -eq 'test-interpreter') 'Original interpreter backup was damaged.'
+    Assert-Setup (@($script:commands | Where-Object { $_.Args -contains 'venv' -and $_.File -eq 'another-python.exe' }).Count -eq 1) 'Incompatible environment was not recreated with the selected base Python.'
+    $script:commands.Clear()
+
+    $script:tools.VCRuntime = $false
+    Assert-SetupFailure { Invoke-MathVisionSetup -CheckOnly } '*Missing or incompatible VCRuntime*'
+    Invoke-MathVisionSetup
+    Assert-Setup ($script:installed[$script:installed.Count - 1] -eq 'Microsoft.VCRedist.2015+.x64') 'Missing native runtime was not installed before Python imports.'
+    $script:commands.Clear()
 
     $script:tools.Python = $python
     $heldLock = [System.IO.File]::Open((Join-Path $fixture '.local-artifacts/setup/install.lock'),

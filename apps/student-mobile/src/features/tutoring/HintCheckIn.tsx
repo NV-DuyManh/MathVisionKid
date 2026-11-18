@@ -99,7 +99,7 @@ function CheckIn({ depth = 1, disabled = false, onReady, ...context }: HintConte
     </Pressable>})}
     {choice ? <View accessibilityLiveRegion="polite" style={[styles.feedback, correct ? styles.rightChoice : styles.wrongChoice]}>
       <Text style={[styles.feedbackTitle, correct ? styles.rightText : styles.wrongText]}>{correct ? 'Đúng rồi!' : 'Chưa đúng, em thử chọn lại nhé'}</Text>
-      <Text style={styles.detail}>{check.why}</Text>
+      <MathText style={styles.detail}>{check.why}</MathText>
     </View> : null}</> : <Text style={styles.detail}>Em xem lại gợi ý rồi thử tiếp bước đang làm nhé.</Text>}
     {(!check || correct) && <Pressable accessibilityRole="button" accessibilityLabel="Em đã hiểu, để em thử" disabled={disabled}
       accessibilityState={{ disabled }}

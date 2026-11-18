@@ -31,7 +31,7 @@ def test_verified_relation_supports_different_populations_and_names(population,c
     lesson.validate_plan(plan,lesson.LessonRequest(owner='child',problemText=source,problemConfirmed=True))
     answers=[]
     for step in plan.steps: answers.append(str(lesson.calculate_exact(lesson.expression_at(step,answers))))
-    assert answers==['13/20','7/20','40']
+    assert answers==['7/20','40']
 
 
 @pytest.mark.asyncio
@@ -55,8 +55,8 @@ async def test_written_work_provider_failure_uses_checked_math_without_claiming_
     request=lesson.LessonRequest(owner='child',problemText=garden(),problemConfirmed=True,
         workText='1/3 + 2/5 = 10/15',workConfirmed=True)
     plan=await lesson.reviewed_plan(request,[])
-    assert len(plan.steps)==3 and all(not s.workExcerpt for s in plan.steps)
-    assert str(lesson.calculate_exact(plan.steps[0].expression))=='11/15'
+    assert len(plan.steps)==2 and all(not s.workExcerpt for s in plan.steps)
+    assert str(lesson.calculate_exact(plan.steps[0].expression))=='4/15'
 
 
 @pytest.mark.parametrize('a,b,count,total', [('1/3','2/5',16,60), ('1/4','2/5',14,40), ('2/6','1/6',9,18), ('2/7','1/7',12,21)])
@@ -77,7 +77,7 @@ async def test_exact_solver_reaches_complete_with_cloud_disabled(monkeypatch,a,b
     result=lesson.lesson_preparation(lesson.PreparationRequest(owner='child',sessionId=result.sessionId,revision=3))
     assert result.step.kind=='MATH' and result.stepIndex==3 and not result.preparingMath
     assert str(total) not in result.model_dump_json(exclude={'sessionId'})
-    for value in (Fraction(a)+Fraction(b),1-Fraction(a)-Fraction(b),Fraction(total)):
+    for value in (1-Fraction(a)-Fraction(b),Fraction(total)):
         assert result.step is not None
         result=lesson.answer_lesson(lesson.TurnRequest(owner='child',sessionId=result.sessionId,revision=result.revision,answer=str(value)))
     assert result.status=='COMPLETE' and result.completed[-1].answer==str(total)

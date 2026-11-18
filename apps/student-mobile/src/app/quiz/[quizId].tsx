@@ -86,7 +86,7 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
         setFeedback(result.quiz.status === 'COMPLETED' ? result.quiz.completedWithSolution ? 'Em đã hoàn thành bài luyện tập cùng cách giải. Mình tiếp tục khám phá nhé!'
           : result.attempt.correct ? 'Đúng rồi! Em đã hoàn thành bài luyện tập này.' : 'Quiz này đã được hoàn thành. Em có thể xem lại những lần thử bên dưới nhé.'
           : result.quiz.wrongAttempts < 2 ? 'Chưa đúng rồi, nhưng em thử kiểm tra lại nhé!'
-            : 'Em thử lại nhé! Sao cũng đã chuẩn bị Cách giải để cùng em tìm hiểu.');
+            : 'Em thử lại nhé! Phần Cách giải cũng đã sẵn sàng để cùng em tìm hiểu.');
       }
       return result.quiz;
     });
@@ -108,14 +108,14 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
   return <QuizNarrationPreparation owner={owner} quizId={id} content={quiz?.explanationText ? 'SOLUTION' : 'QUESTION'} paragraphs={quiz && !loading && quiz.startedAt ? [quiz.explanationText || quiz.questionText] : []}>
   <SafeAreaView style={s.screen} edges={['top', 'bottom']}>
     <AppHeader title="Thử thách nhỏ của em" showBack />
-    <KeyboardAvoidingView style={s.scroll} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView style={s.scroll} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView style={s.scroll} contentContainerStyle={[s.content,s.workContent]} keyboardShouldPersistTaps="handled">
         {loading ? <View style={s.card}><TaskProgress steps={['Mở câu đố của em', 'Khôi phục tiến trình']} activeStep={1} /></View> : null}
         {error ? <View style={s.note}><Text nativeID="quiz-answer-error" accessibilityRole="alert" style={s.error}>{error}</Text><AppButton title={quiz ? 'Kiểm tra lại trạng thái' : 'Thử tải lại'} variant="secondary" disabled={busy || loading} onPress={() => setRetry(value => value + 1)} /></View> : null}
         {quiz && !loading ? <>
           <View style={[s.card,s.workCard, IS_STUDENT_WEB && s.webWorkCard]}>
             <View style={s.workTopline}>
-              {done || !IS_STUDENT_WEB ? <View style={s.workBadge}><Ionicons name={done?'checkmark-circle-outline':'sparkles-outline'} size={16} color={IS_STUDENT_WEB ? QUIZ_ICON_COLOR : '#5637C9'} accessible={false}/><Text style={s.workBadgeText}>{done?'ĐÃ HOÀN THÀNH':'CÙNG SAO THỬ SỨC'}</Text></View> : <Text style={s.title}>Bài toán</Text>}
+              {done || !IS_STUDENT_WEB ? <View style={s.workBadge}><Ionicons name={done?'checkmark-circle-outline':'sparkles-outline'} size={16} color={IS_STUDENT_WEB ? QUIZ_ICON_COLOR : '#5637C9'} accessible={false}/><Text style={s.workBadgeText}>{done?'ĐÃ HOÀN THÀNH':'CÙNG THỬ SỨC'}</Text></View> : <Text style={s.title}>Bài toán</Text>}
               <View style={s.clock}><Ionicons name="time-outline" size={16} color={IS_STUDENT_WEB ? QUIZ_ICON_COLOR : '#5637C9'} accessible={false}/><Text style={s.clockText} accessibilityLabel={`Thời gian làm bài ${quizTime(done ? quiz.elapsedMillis : elapsed)}`}>{quizTime(done ? quiz.elapsedMillis : elapsed)}</Text></View>
             </View>
             <View style={[s.questionPanel, IS_STUDENT_WEB && s.webQuestionPanel]}>
@@ -126,11 +126,11 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
             {done ? <View style={s.result}>
               <View style={s.resultPanel}>
               {quiz.replayMode !== 'PRACTICE' ? <Reward stars={earnedStars}/> : null}
-              <Text accessibilityLiveRegion={IS_STUDENT_WEB ? 'polite' : undefined} style={[s.heading,{textAlign:'center'}]}>{quiz.completedWithSolution ? 'Cùng Sao hiểu thêm một bài!' : 'Em đã hoàn thành rồi!'}</Text>
+              <Text accessibilityLiveRegion={IS_STUDENT_WEB ? 'polite' : undefined} style={[s.heading,{textAlign:'center'}]}>{quiz.completedWithSolution ? 'Mình cùng hiểu thêm một bài!' : 'Em đã hoàn thành rồi!'}</Text>
               <Text style={[s.body,{textAlign:'center'}]}>{quiz.replayMode === 'PRACTICE' ? 'Em đã ôn lại bài cũ. Thành tích của em được giữ nguyên.' : `Lượt này: ${earnedStars} sao · Kỷ lục: ${quiz.stars} sao`}</Text>
               </View>
               <AppButton title="Thử thách nâng sao" loadingTitle="Đang chuẩn bị câu mới…" style={s.workButton} disabled={busy} loading={task === 'challenge'} onPress={() => replayQuiz('CHALLENGE')}/>
-              {task === 'challenge' || task === 'practice' ? <PendingTask key={task} title={task === 'challenge' ? 'Sao đang tạo câu mới cùng dạng' : 'Sao đang mở lại bài cũ'} detail="Em có thể xem lại cách giải hoặc về trang chủ trong lúc chờ. Bài đã làm vẫn được giữ."/> : null}
+              {task === 'challenge' || task === 'practice' ? <PendingTask key={task} title={task === 'challenge' ? 'Đang tạo câu mới cùng dạng' : 'Đang mở lại bài cũ'} detail="Em có thể xem lại cách giải hoặc về trang chủ trong lúc chờ. Bài đã làm vẫn được giữ."/> : null}
               <AppButton title="Về trang chủ" style={s.workButton} variant="secondary" icon={<Ionicons name="home-outline" size={19} color={QUIZ_LINK_COLOR}/>} onPress={() => router.replace('/(tabs)')}/>
               <AppButton title="Chọn câu đố khác" variant="ghost" onPress={() => router.replace('/quiz' as never)}/>
             </View> : running ? <>
@@ -162,21 +162,23 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
               <Text style={s.small}>Đúng trong 30 giây: 3 sao · đến 60 giây: 2 sao · sau đó: 1 sao. Đồng hồ chỉ tính khi em đang làm trong Quiz; rời màn hình sẽ tạm dừng.</Text>
               <AppButton title="Bắt đầu tính giờ" loadingTitle="Đang mở câu đố…" style={s.workButton} disabled={busy} loading={task === 'start'} onPress={() => void perform('start', signal => quizApi.start(id, signal))}/>
             </>}
-            {quiz.startedAt ? <View style={[s.tools,s.workTools,IS_STUDENT_WEB&&s.webWorkTools]}>
-              {([['audio','volume-high-outline','Nghe giảng'],['ask','mic-outline','Hỏi bài'],['menu','ellipsis-horizontal','Xem thêm']] as const).map(([value,icon,label])=><Pressable key={value} accessibilityRole="button" accessibilityLabel={label} style={({pressed})=>[s.tool,s.workTool,pressed&&s.selected]} onPress={()=>setTool(value)}>
-                <Ionicons name={icon} size={22} color={QUIZ_ICON_COLOR} accessible={false}/><Text style={s.toolLabel}>{label}</Text>
-              </Pressable>)}
-            </View> : null}
             {quiz.explanationText ? <Pressable accessibilityRole="button" accessibilityLabel="Xem cách giải" style={s.detailLink} onPress={()=>setTool('solution')}><Ionicons name="reader-outline" size={19} color={QUIZ_LINK_COLOR}/><Text style={s.topic}>Xem cách giải</Text><Ionicons name="chevron-forward" size={17} color={QUIZ_LINK_COLOR}/></Pressable> : null}
           </View>
           {!done ? <AppButton title="Lưu để làm sau" loadingTitle="Đang lưu bài…" variant="ghost" disabled={busy} loading={task === 'save'} onPress={saveForLater}/> : null}
         </> : null}
         {!done ? <AppButton title="Trở về danh sách" variant="ghost" onPress={() => router.replace('/quiz' as never)} /> : null}
       </ScrollView>
+      {quiz?.startedAt && !loading ? <View style={s.toolsDock} testID="quiz-fixed-tools">
+        <View style={[s.tools,s.workTools,IS_STUDENT_WEB&&s.webWorkTools]}>
+          {([['audio','volume-high-outline','Nghe giảng'],['ask','mic-outline','Hỏi bài'],['menu','ellipsis-horizontal','Xem thêm']] as const).map(([value,icon,label])=><Pressable key={value} accessibilityRole="button" accessibilityLabel={label} style={({pressed})=>[s.tool,s.workTool,pressed&&s.selected]} onPress={()=>setTool(value)}>
+            <Ionicons name={icon} size={22} color={QUIZ_ICON_COLOR} accessible={false}/><Text style={s.toolLabel}>{label}</Text>
+          </Pressable>)}
+        </View>
+      </View> : null}
     </KeyboardAvoidingView>
     {quiz && tool ? <LessonSheet title={{audio:'Nghe giảng',ask:'Hỏi bài',menu:'Em cần gì thêm?',solution:'Cách giải',history:'Những lần em đã thử'}[tool]} onClose={()=>setTool(null)}>
       {tool==='audio' ? <QuizVoice key={`${quiz.quizId}:${quiz.startedAt}:${!!quiz.explanationText}`} quizId={quiz.quizId} content={quiz.explanationText?'SOLUTION':'QUESTION'} paragraphs={[quiz.explanationText || quiz.questionText]}/> : null}
-      {tool==='ask' ? busy ? <PendingTask key={task} title="Sao đang hoàn tất thao tác vừa rồi" detail="Phần hỏi bài sẽ mở ngay khi xong, để câu hỏi của em đi đúng với bài đang làm."/> : <NarrationPreparation owner={owner}><QuizHelp quiz={quiz} onAssisted={apply} onReturn={()=>setTool(null)}/></NarrationPreparation> : null}
+      {tool==='ask' ? busy ? <PendingTask key={task} title="Đang hoàn tất thao tác vừa rồi" detail="Phần hỏi bài sẽ mở ngay khi xong, để câu hỏi của em đi đúng với bài đang làm."/> : <NarrationPreparation owner={owner}><QuizHelp quiz={quiz} onAssisted={apply} onReturn={()=>setTool(null)}/></NarrationPreparation> : null}
       {tool==='solution' ? <MathText style={s.body}>{quiz.explanationText || ''}</MathText> : null}
       {tool==='menu' ? <>
         {quiz.canRevealSolution && !quiz.solutionViewed && !done ? <AppButton title="Xem cách giải" loadingTitle="Đang mở cách giải…" variant="secondary" disabled={busy} loading={task === 'reveal'} onPress={()=>void perform('reveal', async signal=>{const next=await quizApi.reveal(id,signal);if(active.current&&!signal.aborted)setTool('solution');return next;})}/> : null}

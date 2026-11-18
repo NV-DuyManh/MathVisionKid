@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ScrollView, useWindowDimensions } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ScrollView, useWindowDimensions, Platform } from 'react-native';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { FONTS, COLORS, SIZES, SHADOWS, IS_STUDENT_WEB, WEB_DESIGN } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
@@ -8,6 +8,8 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { recognitionDraftStore, resolveFlowDomain, isHandwritingDomain } from '../features/recognition/state/recognitionDraftStore';
 import { ensureFileUri, logStageDiagnostic } from '../features/recognition/image/imagePipeline';
+import { imageDraftPersistence } from '../features/recognition/state/imageDraftPersistence';
+import { DraftImagePicker } from '../features/recognition/components/DraftImagePicker';
 
 export default function PreviewScreen() {
   const { width, height } = useWindowDimensions();
@@ -20,13 +22,22 @@ export default function PreviewScreen() {
   }>();
 
   const draft = recognitionDraftStore.getDraft();
+  const hasDraft = !!draft;
   const effectiveMode = resolveFlowDomain(null, draft?.mode);
   const rawUri = draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
   const initialUri = rawUri ? ensureFileUri(rawUri) : '';
 
   const [imageUri, setImageUri] = useState<string>(initialUri);
+  const [imageError, setImageError] = useState(false);
+  const [rotating, setRotating] = useState(false);
+  const rotation = useRef(0), focused = useRef(true), rotationLocked = useRef(false);
+  useFocusEffect(useCallback(() => {
+    focused.current = true; rotationLocked.current = false; setRotating(false);
+    return () => { focused.current = false; rotation.current++; };
+  }, []));
 
   useEffect(() => {
+    if (Platform.OS === 'web' && !hasDraft) return;
     if (isHandwritingDomain(effectiveMode) || effectiveMode !== 'ARITHMETIC') {
       if (__DEV__) {
         console.warn('[HANDWRITING_PREVIEW_GUARD_TRIGGERED] Non-arithmetic mode reached /preview. Redirecting to handwriting review.');
@@ -49,7 +60,7 @@ export default function PreviewScreen() {
         extra: `mode=${effectiveMode}`,
       });
     }
-  }, [initialUri, draft?.width, draft?.height, draft?.mimeType, draft?.source, effectiveMode, router]);
+  }, [initialUri, draft?.width, draft?.height, draft?.mimeType, draft?.source, effectiveMode, hasDraft, router]);
 
   const handleContinue = () => {
     if (isHandwritingDomain(effectiveMode) || effectiveMode !== 'ARITHMETIC') {
@@ -61,7 +72,7 @@ export default function PreviewScreen() {
     }
 
     const activeUri = ensureFileUri(imageUri);
-    recognitionDraftStore.updateDraft({ uri: activeUri, mode: 'ARITHMETIC' });
+    recognitionDraftStore.updateDraft({ uri: activeUri, mode: 'ARITHMETIC', processingStarted: false, recoveredAfterReload: false });
 
     router.replace({
       pathname: '/processing' as any,
@@ -74,6 +85,12 @@ export default function PreviewScreen() {
   };
 
   const handleRotate = async () => {
+    if (rotationLocked.current) return;
+    rotationLocked.current = true; setRotating(true);
+    const request = ++rotation.current, sourceId = draft?.imageSessionId;
+    const identity = imageDraftPersistence.identity();
+    const current = () => focused.current && request === rotation.current &&
+      (Platform.OS !== 'web' || (sourceId === recognitionDraftStore.getDraft()?.imageSessionId && identity === imageDraftPersistence.identity()));
     try {
       const activeUri = ensureFileUri(imageUri);
       const manipResult = await ImageManipulator.manipulateAsync(
@@ -82,14 +99,24 @@ export default function PreviewScreen() {
         { compress: 0.95, format: ImageManipulator.SaveFormat.JPEG }
       );
       const rotatedUri = ensureFileUri(manipResult.uri);
+      if (!current()) { imageDraftPersistence.releaseUrl(rotatedUri); return; }
+      imageDraftPersistence.ownUrl(rotatedUri);
       setImageUri(rotatedUri);
       recognitionDraftStore.updateDraft({
         uri: rotatedUri,
+        croppedImageUri: rotatedUri,
+        arithmeticSubmissionId: undefined,
+        processingStarted: false,
+        recoveredAfterReload: false,
         width: manipResult.width,
         height: manipResult.height,
       });
+      const updated = recognitionDraftStore.getDraft();
+      if (updated) await imageDraftPersistence.confirm(updated, 'preview');
     } catch {
-      Alert.alert('Lỗi', 'Không thể xoay ảnh. Vui lòng thử lại.');
+      if (current()) Alert.alert('Lỗi', 'Không thể xoay ảnh. Vui lòng thử lại.');
+    } finally {
+      if (current()) { rotationLocked.current = false; setRotating(false); }
     }
   };
 
@@ -104,6 +131,9 @@ export default function PreviewScreen() {
     });
   };
 
+  if (Platform.OS === 'web' && (!draft?.privacyConfirmed || !imageUri || imageError)) return <View style={styles.container}>
+    <AppHeader title="Xem lại bài đã chụp" showBack /><DraftImagePicker showReason mode="ARITHMETIC" />
+  </View>;
   return (
     <View style={styles.container}>
       <AppHeader title="Xem lại bài đã chụp" showBack />
@@ -111,7 +141,7 @@ export default function PreviewScreen() {
       <ScrollView contentContainerStyle={[styles.content, { minHeight: Math.max(0, height - 90) }, wide && styles.contentWide, IS_STUDENT_WEB && styles.webContent]}>
         {/* Preview image box with quality badge overlay */}
         <View style={[styles.imageContainer, SHADOWS.small, wide && styles.imageWide, IS_STUDENT_WEB && styles.webImage]}>
-          <Image source={{ uri: imageUri }} style={styles.image} resizeMode="contain" accessibilityLabel="Ảnh bài toán em đã chọn" />
+          <Image source={{ uri: imageUri }} style={styles.image} resizeMode="contain" accessibilityLabel="Ảnh bài toán em đã chọn" onError={() => setImageError(true)} />
 
           {!IS_STUDENT_WEB && <View style={styles.qualityOverlay}>
             <Text style={styles.checkingText}>Em kiểm tra ảnh có rõ chữ, đủ bài và đúng chiều trước khi gửi nhé.</Text>
@@ -126,6 +156,8 @@ export default function PreviewScreen() {
           <TouchableOpacity
             style={[styles.toolButton, IS_STUDENT_WEB && styles.webTool]}
             onPress={handleRotate}
+            disabled={rotating}
+            accessibilityState={{ disabled: rotating, busy: rotating }}
             accessibilityRole="button"
             accessibilityLabel="Xoay ảnh 90 độ"
           >
@@ -136,6 +168,8 @@ export default function PreviewScreen() {
           <TouchableOpacity
             style={[styles.toolButton, IS_STUDENT_WEB && styles.webTool]}
             onPress={handleCrop}
+            disabled={rotating}
+            accessibilityState={{ disabled: rotating }}
             accessibilityRole="button"
             accessibilityLabel="Chỉnh lại vùng bài toán"
           >
@@ -148,15 +182,16 @@ export default function PreviewScreen() {
         <View style={styles.actionSection}>
           <AppButton
             title="KIỂM TRA BÀI TOÁN"
+            disabled={rotating}
             onPress={handleContinue}
             variant="primary"
           />
           <View style={{ height: SIZES.small }} />
-          <AppButton
+          {Platform.OS === 'web' ? <DraftImagePicker title="Chọn ảnh khác" mode="ARITHMETIC" disabled={rotating} /> : <AppButton
             title="Chụp lại ảnh khác"
             variant="secondary"
             onPress={() => router.back()}
-          />
+          />}
         </View>
         </View>
       </ScrollView>

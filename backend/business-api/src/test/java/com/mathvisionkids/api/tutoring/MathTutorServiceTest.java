@@ -242,6 +242,55 @@ class MathTutorServiceTest {
                 " 12 + 5 = 18 \r\n\r\n\u00a0Đáp số: 18 bút.\u00a0\u2028", true, true);
     }
 
+    private static WorkReviewRequest unfinishedReviewRequest() {
+        return new WorkReviewRequest("fresh-missing-source-94017", "Mai có 12 bút, thêm 5 bút. Hỏi tổng số bút của Mai?",
+                "Số bút thêm là:\n5 * 1 = 5 (bút)", true, true);
+    }
+
+    private static String unfinishedReviewBody() {
+        return """
+            {"sourceId":"fresh-missing-source-94017","status":"NEEDS_REVIEW","summary":"Em làm tiếp phần còn thiếu nhé.",
+             "praise":"","alternative":"","nextAction":"Em dùng số bút thêm để tìm tổng số bút.",
+             "complete":false,"missingPart":"Tính tổng số bút của Mai.","arithmeticVerified":true,"completionVersion":2,
+             "rows":[{"lineIndex":0,"sourceText":"Số bút thêm là:","status":"OK","errorKind":"NONE","rowKind":"EXPLANATION","feedback":"Đây là lời dẫn.","hints":[]},
+                     {"lineIndex":1,"sourceText":"5 * 1 = 5 (bút)","status":"OK","errorKind":"NONE","rowKind":"CALCULATION","arithmeticCorrect":true,"feedback":"Phép tính phù hợp.","hints":[]}],
+             "missingParts":[{"type":"MISSING_CALCULATION","target":"tổng số bút của Mai","description":"Tính tổng số bút của Mai.",
+               "hint":"Em dùng số bút thêm để tìm tổng số bút.","requirementIndex":0,"relatedLineIndices":[1],"evidence":"DUAL_REVIEW"}]}
+            """;
+    }
+
+    @Test void workReviewPreservesStructuredMissingPartsAndEvidence() {
+        server.expect(requestTo(URL + "/internal/v1/tutor/work-review"))
+                .andRespond(withSuccess(unfinishedReviewBody(), MediaType.APPLICATION_JSON));
+        var result = service.reviewWork(unfinishedReviewRequest());
+        assertEquals(2, result.completionVersion());
+        assertEquals("tổng số bút của Mai", result.missingParts().get(0).target());
+        assertEquals(java.util.List.of(1), result.missingParts().get(0).relatedLineIndices());
+        assertTrue(result.arithmeticVerified());
+        assertFalse(result.complete());
+        server.verify();
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"reference", "requirement", "complete", "type", "evidence", "hint", "version"})
+    void workReviewRejectsDetachedOrMalformedCompletionEvidence(String invalid) throws Exception {
+        var body = (com.fasterxml.jackson.databind.node.ObjectNode) new com.fasterxml.jackson.databind.ObjectMapper().readTree(unfinishedReviewBody());
+        var part = (com.fasterxml.jackson.databind.node.ObjectNode) body.get("missingParts").get(0);
+        switch (invalid) {
+            case "reference" -> part.putArray("relatedLineIndices").add(0);
+            case "requirement" -> part.put("requirementIndex", 8);
+            case "complete" -> { body.put("complete", true); body.put("missingPart", ""); }
+            case "type" -> part.put("type", "INVENTED");
+            case "evidence" -> part.put("evidence", "GUESSED");
+            case "hint" -> part.put("hint", "x".repeat(301));
+            case "version" -> body.put("completionVersion", 99);
+            default -> throw new AssertionError(invalid);
+        }
+        server.expect(requestTo(URL + "/internal/v1/tutor/work-review"))
+                .andRespond(withSuccess(body.toString(), MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class, () -> service.reviewWork(unfinishedReviewRequest()));
+        server.verify();
+    }
+
     private static String workReviewBody() {
         return """
             {"sourceId":"source-1234567890","status":"NEEDS_REVISION","summary":"Em xem lại phép cộng nhé.",
@@ -441,6 +490,7 @@ class MathTutorServiceTest {
         var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
         var body = (com.fasterxml.jackson.databind.node.ObjectNode) mapper.readTree(comprehensionResponse());
         body.put("preparingMath", true).put("revision", 3).put("stepIndex", 3).put("status", status).putNull("step");
+        body.put("retryAfterSeconds", status.equals("PREPARING") ? 0 : 5);
         body.set("outline", mapper.readTree("[\"Dữ kiện\",\"Câu hỏi\",\"Đối chiếu\"]"));
         var done = body.putArray("completed");
         for (int i=0; i<3; i++) done.addObject().put("kind", "UNDERSTAND").put("title", "Đọc đề")
@@ -451,7 +501,16 @@ class MathTutorServiceTest {
                 .andRespond(withSuccess(body.toString(),MediaType.APPLICATION_JSON));
         var result=service.preparation(new LessonPreparation("abcdefghijklmnopqrstuv",3,true),"real-student");
         assertEquals(status,result.status()); assertEquals(3,result.completed().size()); assertNull(result.step());
+        assertEquals(status.equals("PREPARING") ? 0 : 5, result.retryAfterSeconds());
         server.verify(); server.reset();
+        for (String invalid : new String[]{"-1", "61", "1.5", "\"5\""}) {
+            body.set("retryAfterSeconds", mapper.readTree(invalid));
+            server.expect(requestTo(URL+"/internal/v1/tutor/lesson/preparation"))
+                    .andRespond(withSuccess(body.toString(),MediaType.APPLICATION_JSON));
+            assertThrows(ApiException.class,()->service.preparation(new LessonPreparation("abcdefghijklmnopqrstuv",3,false),"real-student"));
+            server.verify(); server.reset();
+        }
+        body.put("retryAfterSeconds", 0);
         body.put("status","COMPLETE");
         server.expect(requestTo(URL+"/internal/v1/tutor/lesson/preparation"))
                 .andRespond(withSuccess(body.toString(),MediaType.APPLICATION_JSON));
@@ -645,7 +704,7 @@ class MathTutorServiceTest {
     }
 
     @ParameterizedTest @ValueSource(strings={"[true,false]", "[]"})
-    void currentChoiceFeedbackIsForwardedWithoutGrantingProgress(String checks) {
+    void currentChoiceAnswerKeysStayPrivateWithoutGrantingProgress(String checks) {
         String response = """
             {"sessionId":"abcdefghijklmnopqrstuv","revision":0,"topic":"Tính","goal":"Chọn phép tính",
              "outline":["Chọn"],"stepIndex":0,"completed":[],"status":"READY","feedback":"",
@@ -654,8 +713,45 @@ class MathTutorServiceTest {
             """.formatted(checks);
         server.expect(requestTo(URL + "/internal/v1/tutor/lesson")).andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
         var result = service.lesson(new LessonRequest("Lan có 12 bút, thêm 5 bút.", "", true, false), "pupil-a");
-        assertEquals(checks.equals("[]") ? java.util.List.of() : java.util.List.of(true,false), result.step().choiceChecks());
+        assertEquals(java.util.List.of(), result.step().choiceChecks());
         assertEquals(0, result.revision()); assertTrue(result.completed().isEmpty());
+        server.verify();
+    }
+
+    @Test void hintProgressReachesStudentWithoutExposingAnswerKeysOrAdvancingTheLesson() {
+        String response = """
+            {"sessionId":"abcdefghijklmnopqrstuv","revision":0,"topic":"Phân số","goal":"Tự tính",
+             "outline":["Tính"],"stepIndex":0,"completed":[],"status":"HINT","feedback":"Em quy đồng trước nhé.",
+             "hintLevel":2,"hintCount":2,"revealedHints":["Em xem phần còn lại.","Em quy đồng trước nhé."],
+             "step":{"title":"Tính","explanation":"Tìm phần còn lại.","question":"Còn mấy phần?",
+                     "choices":[],"expression":"1 - (1/3 + 2/5)","unit":"phần","workExcerpt":"","answerFormat":"FRACTION"}}
+            """;
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson/answer"))
+                .andExpect(jsonPath("$.owner").value("pupil-a"))
+                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        var result = service.answer(new LessonAnswer("abcdefghijklmnopqrstuv", 0, "", true), "pupil-a");
+        assertEquals(2, result.hintLevel()); assertEquals(2, result.hintCount());
+        assertEquals(java.util.List.of("Em xem phần còn lại.", "Em quy đồng trước nhé."), result.revealedHints());
+        assertEquals("FRACTION", result.step().answerFormat());
+        assertEquals(0, result.revision()); assertTrue(result.completed().isEmpty());
+        assertEquals("1 - (1/3 + 2/5)", result.step().expression());
+        server.verify();
+    }
+
+    @ParameterizedTest @ValueSource(strings={"\"hintLevel\":4,\"hintCount\":3", "\"hintLevel\":1,\"hintCount\":0",
+            "\"hintLevel\":-1,\"hintCount\":3", "\"hintLevel\":true,\"hintCount\":3", "\"hintLevel\":1,\"hintCount\":null",
+            "\"hintLevel\":1,\"hintCount\":2,\"revealedHints\":[\"Chỉ xem đại lượng.\"]",
+            "\"hintLevel\":2,\"hintCount\":2,\"revealedHints\":[\"Gợi ý\",\"Gợi ý\"]",
+            "\"hintLevel\":2,\"hintCount\":2,\"revealedHints\":[\"Gợi ý\"]"})
+    void malformedHintProgressFailsClosed(String fields) {
+        String response = """
+            {"sessionId":"abcdefghijklmnopqrstuv","revision":0,"topic":"Tính","goal":"Tự tính",
+             "outline":["Tính"],"stepIndex":0,"completed":[],"status":"HINT","feedback":"Em tính nhé.",%s,
+             "step":{"title":"Tính","explanation":"Cộng hai số.","question":"Bao nhiêu?",
+                     "choices":[],"expression":"2+3","unit":"","workExcerpt":""}}
+            """.formatted(fields);
+        server.expect(requestTo(URL + "/internal/v1/tutor/lesson/answer")).andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        assertThrows(ApiException.class, () -> service.answer(new LessonAnswer("abcdefghijklmnopqrstuv", 0, "", true), "pupil-a"));
         server.verify();
     }
 

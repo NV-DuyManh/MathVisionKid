@@ -10,7 +10,7 @@ jest.mock('expo-splash-screen', () => ({ preventAutoHideAsync: jest.fn().mockRes
 jest.mock('../context/AuthContext', () => ({ AuthContext: require('react').createContext({ user: { role: 'STUDENT', active: true }, isAuthenticated: true }), AuthProvider: ({ children }: any) => children }));
 
 let view: TestRenderer.ReactTestRenderer;
-beforeEach(() => { jest.clearAllMocks(); global.fetch = jest.fn().mockResolvedValue({ ok: true }); });
+beforeEach(() => { jest.useFakeTimers(); jest.clearAllMocks(); global.fetch = jest.fn().mockResolvedValue({ ok: true }); });
 afterEach(() => { act(() => view?.unmount()); jest.useRealTimers(); });
 const text = () => view.root.findAllByType('Text' as any).map(node => String(node.props.children)).join(' ');
 
@@ -41,7 +41,6 @@ it('offers a retry after loading fails and does not open empty-image screens', a
 });
 
 it('shows a retry for a stalled first download instead of waiting indefinitely', async () => {
-  jest.useFakeTimers();
   (prepareIllustrations as jest.Mock).mockReturnValue(new Promise(() => {}));
   await act(async () => { view = TestRenderer.create(<RootLayout />); });
   act(() => jest.advanceTimersByTime(15000));
@@ -61,5 +60,5 @@ it.each([
     <AuthContext.Provider value={{ user: { role: profile.role, active: profile.active }, isAuthenticated: profile.authenticated }}><RootLayout /></AuthContext.Provider>
   ); });
   const names = view.root.findAllByType('Screen' as any).map(node => node.props.name);
-  expect(names).toEqual(['index', 'login', 'privacy']);
+  expect(names).toEqual(['index', 'welcome', 'onboarding', 'login', 'privacy']);
 });

@@ -14,6 +14,7 @@ import { profileApi, type StudentProfile } from '../features/student-profile/pro
 
 jest.mock('expo-router', () => ({
   useRouter: jest.fn(),
+  useLocalSearchParams: () => ({}),
   Redirect: ({ href }: { href: string }) => require('react').createElement('Redirect', { href }),
   useFocusEffect: (callback: () => void) => require('react').useEffect(callback, [callback]),
 }));
@@ -41,7 +42,7 @@ describe('Student navigation and real saved activity', () => {
     recognitionDraftStore.clearDraft();
   });
 
-  it('waits for restored auth, then opens the right destination immediately', () => {
+  it('waits for restored auth, then opens the right destination immediately', async () => {
     const auth = { user: null, isAuthenticated: false, isLoading: true, login: jest.fn(), logout: jest.fn() };
     let renderer: TestRenderer.ReactTestRenderer;
     act(() => { renderer = TestRenderer.create(<AuthContext.Provider value={auth}><SplashScreen /></AuthContext.Provider>); });
@@ -49,8 +50,8 @@ describe('Student navigation and real saved activity', () => {
     expect(router.replace).not.toHaveBeenCalled();
     act(() => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false, isAuthenticated: true }}><SplashScreen /></AuthContext.Provider>));
     expect(router.replace).toHaveBeenCalledWith('/(tabs)');
-    act(() => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false }}><SplashScreen /></AuthContext.Provider>));
-    expect(router.replace).toHaveBeenLastCalledWith('/login');
+    await act(async () => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false }}><SplashScreen /></AuthContext.Provider>));
+    expect(router.replace).toHaveBeenLastCalledWith('/welcome');
     act(() => renderer!.unmount());
   });
 
@@ -74,6 +75,49 @@ describe('Student navigation and real saved activity', () => {
     expect(recognitionDraftStore.getDraft()).toBeNull();
     expect((useRouter as jest.Mock).mock.results.at(-1)!.value.push)
       .toHaveBeenCalledWith({ pathname: '/camera', params: { mode: 'MATH_TUTOR', problemText: problem.problemText } });
+    act(() => renderer!.unmount());
+  });
+
+  it('uses the registered grade without offering a grade switch in the student library', () => {
+    jest.mocked(profileApi.get).mockReturnValue(new Promise(() => {}));
+    const auth = { user: { id: 'student', gradeLevel: 5 }, isAuthenticated: true, isLoading: false, login: jest.fn(), logout: jest.fn() };
+    let renderer: TestRenderer.ReactTestRenderer;
+    act(() => { renderer = TestRenderer.create(<AuthContext.Provider value={auth}><LessonsScreen /></AuthContext.Provider>); });
+    expect(text(renderer!)).toContain(getProblemsByGrade(5)[0].title);
+    expect(text(renderer!)).not.toContain(getProblemsByGrade(1)[0].title);
+    expect(renderer!.root.findAll(node => String(node.props.accessibilityLabel).startsWith('Chọn Lớp'))).toHaveLength(0);
+    act(() => renderer!.unmount());
+  });
+
+  it('filters the registered program by section and accent-insensitive search, with an empty recovery', () => {
+    jest.mocked(profileApi.get).mockReturnValue(new Promise(() => {}));
+    const auth = { user: { id: 'student', gradeLevel: 5 }, isAuthenticated: true, isLoading: false, login: jest.fn(), logout: jest.fn() };
+    let renderer: TestRenderer.ReactTestRenderer;
+    act(() => { renderer = TestRenderer.create(<AuthContext.Provider value={auth}><LessonsScreen /></AuthContext.Provider>); });
+    act(() => press(renderer!, 'Hình học và đo lường'));
+    expect(text(renderer!)).toContain('Diện tích hình thang');
+    expect(text(renderer!)).not.toContain('Cộng số thập phân');
+    const input = renderer!.root.findAll(node => node.props.accessibilityLabel === 'Tìm bài học' && node.props.onChangeText)[0];
+    act(() => input.props.onChangeText('the tich hop'));
+    expect(text(renderer!)).toContain('Thể tích hộp');
+    expect(text(renderer!)).not.toContain('Diện tích hình thang');
+    act(() => input.props.onChangeText('khong-co-bai'));
+    expect(text(renderer!)).toContain('Chưa tìm thấy bài phù hợp.');
+    act(() => press(renderer!, 'Xem tất cả bài học'));
+    expect(text(renderer!)).toContain('Cộng số thập phân');
+    act(() => renderer!.unmount());
+  });
+
+  it('offers profile recovery when a signed-in student has no registered grade', () => {
+    jest.mocked(profileApi.get).mockReturnValue(new Promise(() => {}));
+    const refreshUser = jest.fn().mockResolvedValue(undefined);
+    const auth = { user: { id: 'student' }, isAuthenticated: true, isLoading: false, login: jest.fn(), logout: jest.fn(), refreshUser };
+    let renderer: TestRenderer.ReactTestRenderer;
+    act(() => { renderer = TestRenderer.create(<AuthContext.Provider value={auth}><LessonsScreen /></AuthContext.Provider>); });
+    expect(text(renderer!)).toContain('Chưa tải được lớp của em');
+    expect(renderer!.root.findAll(node => String(node.props.accessibilityLabel).startsWith('Chọn Lớp'))).toHaveLength(0);
+    act(() => press(renderer!, 'Tải lại hồ sơ'));
+    expect(refreshUser).toHaveBeenCalledTimes(1);
     act(() => renderer!.unmount());
   });
 

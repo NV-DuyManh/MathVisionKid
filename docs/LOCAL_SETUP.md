@@ -8,12 +8,14 @@ This guide covers the repository's Windows launcher. It distinguishes starting t
 
 | Tool | Version / requirement |
 | :--- | :--- |
-| Windows | PowerShell and Command Prompt available |
+| Windows | Windows 10/11 x64, 64-bit PowerShell and Command Prompt; Docker-supported Windows build, virtualization/WSL 2 |
 | Git | Installed and available on PATH |
 | Node.js | Node 22.13+, 24.3+, or 26+; use a supported even-numbered release compatible with the lockfile |
 | Python | 3.12; Windows `py -3.12` launcher available |
 | Java | JDK 21; `java` available on PATH |
 | Docker Desktop | Running engine, Linux containers, and Docker Compose |
+| Visual C++ runtime | Microsoft Visual C++ 2015+ x64 runtime for native Python/ML libraries; setup installs it if absent |
+| Disk space | Setup preflight needs at least 8 GB free for a new environment, 2 GB for an existing one; allow additional space for downloads/caches and Docker images |
 | Phone, optional | Expo Go compatible with SDK 58; same Wi-Fi as the computer for LAN testing |
 
 The Gradle wrapper is included. You do not need global Gradle. Internet access is needed for the first dependency installation, container pulls, detector download, and cloud capabilities. Use the [versioned Expo SDK 58 reference](https://docs.expo.dev/versions/v58.0.0/) and its [release notes](https://expo.dev/changelog/sdk-58) for React Native and Node.js compatibility.
@@ -28,7 +30,11 @@ cd MathVisionKid
 
 You can also double-click `SETUP_MATHVISION.bat` in File Explorer. It checks the supported tool versions and uses WinGet to install missing Git, Node 22, Python 3.12 (64-bit), JDK 21 or Docker Desktop. Windows can request administrator permission, license acceptance or a restart. If WinGet is unavailable, install Microsoft's App Installer or the prerequisites above, then reopen setup.
 
-The script installs all npm workspaces from the root lockfile, creates or reuses `ai/runtime/.venv`, installs Python requirements with lock constraints, verifies package compatibility/imports, prepares FFmpeg for speech and compiles the backend using the included Gradle wrapper. A failed step stops setup with an error. Close running project services before rerunning an installation. Setup preserves private environment files, models and application data.
+The script finds compatible installed tools, including alternatives behind an incompatible first PATH entry, common Node/NVM, Python, JDK and Docker install locations. It selects them for the current process and child services, correcting stale JAVA_HOME without rewriting global settings or downgrading other projects. Launchers repeat the same selection so a new terminal uses the same compatible tools. Missing tools are installed through WinGet; its source agreement is accepted, while Windows installer/UAC and package license prompts remain visible.
+
+The script installs all npm workspaces from the root lockfile, creates or reuses `ai/runtime/.venv`, installs Python requirements with lock constraints, verifies package compatibility/imports, prepares FFmpeg for speech and compiles the backend using the included Gradle wrapper. A damaged/wrong-version Python environment is moved to a unique `ai/runtime/.venv-backup-*` folder before recreation; backups stay outside Git. Linked environments are not moved automatically. Close running project services before setup. Environment files, models and application data are preserved. Libraries are kept at the repository's tested versions rather than arbitrarily substituted to suit a machine.
+
+A failed step stops setup with the native error still in the console and a small receipt at `.local-artifacts/setup/last-failure.json` naming the failed stage, Windows and architecture (no environment values or secrets). For a console that must not pause, run `SETUP_MATHVISION.bat -NoPause` (put `-NoPause` first). `-CheckOnly` installs nothing and reports low disk space as a warning. ARM/32-bit Windows is rejected explicitly because this locked host AI runtime is not validated there. Docker still requires a supported Windows build, hardware virtualization/WSL and any requested restart; setup cannot enable BIOS features or provide private model weights/API credentials.
 
 `SETUP_MATHVISION.bat -CheckOnly` checks prerequisite tools without installing libraries. A completed setup still needs Docker Desktop running for the app. The first app launch prepares infrastructure images. API keys and model weights follow section 3.
 

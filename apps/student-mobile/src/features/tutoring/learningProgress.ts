@@ -1,6 +1,6 @@
 import { readLessonStorage, writeLessonStorage } from './lessonStorage';
 
-export type LearningProgress={version:1;at:number;lessonId:string;sessionId:string;revision:number;stepIndex:number;problemText:string;workText:string;attempt:string;question?:string;reviewing?:boolean;completedAnswers?:string[]};
+export type LearningProgress={version:1;at:number;lessonId:string;sessionId:string;revision:number;stepIndex:number;problemText:string;workText:string;attempt:string;question?:string;reviewing?:boolean;completedAnswers?:string[];summaryStage?:'summary'|'solving'};
 export function sameStoredAnswer(a:string,b:string):boolean{
   if(a===b)return true;
   const parse=(text:string)=>{const match=/^(-?)(\d{1,12})(?:[.,](\d{1,8}))?(?:\s*\/\s*(\d{1,12}))?$/.exec(text.trim());if(!match)return null;
@@ -19,7 +19,8 @@ export function validLearningProgress(value:unknown):value is LearningProgress {
     &&typeof row.workText==='string'&&row.workText.length<=6000&&typeof row.attempt==='string'&&row.attempt.length<=500
     &&(row.completedAnswers===undefined||Array.isArray(row.completedAnswers)&&row.completedAnswers.length<=10
       &&row.completedAnswers.every(answer=>typeof answer==='string'&&answer.length<=500))
-    &&(row.question===undefined||typeof row.question==='string'&&row.question.length<=500)&&(row.reviewing===undefined||typeof row.reviewing==='boolean');
+    &&(row.question===undefined||typeof row.question==='string'&&row.question.length<=500)&&(row.reviewing===undefined||typeof row.reviewing==='boolean')
+    &&(row.summaryStage===undefined||['summary','solving'].includes(row.summaryStage));
 }
 export async function loadLearningProgress(owner?:string):Promise<LearningProgress|null>{
   if(!owner)return null;

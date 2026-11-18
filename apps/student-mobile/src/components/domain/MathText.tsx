@@ -5,17 +5,23 @@ import { StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native';
 export function MathText({ children, style }: { children: string; style?: StyleProp<TextStyle> }) {
   // OCR may preserve the grouping around each printed numerator/denominator.
   // Normalize presentation only; keep the original source for confirmation/API use.
-  const displayed = children.replace(/\\(?:d?frac)\s*\{\s*([+-]?\d+)\s*\}\s*\{\s*([1-9]\d*)\s*\}/g, '$1/$2')
+  const protectedParts = children.split(/((?:https?:\/\/|www\.)\S+|(?<!\S)(?:[A-Za-z]:[\\/]|\/)[^\s]+)/g);
+  const displayed = protectedParts.map((part, index) => index % 2 ? part : part
+    .replace(/\\(?:[()[\]]|left|right)/g, '')
+    .replace(/\\(?:times|cdot)\b/g, '×').replace(/\\div\b/g, '÷')
+    .replace(/\\(?:d?frac)\s*\{\s*([+−-]?\d+)\s*\}\s*\{\s*([1-9]\d*)\s*\}/g, '$1/$2')
     .replace(/\(\s*([+-]?\d+)\s*\)\s*[/⁄]\s*\(\s*([1-9]\d*)\s*\)/g, '$1/$2')
-    .replace(/⁄/g, '/');
-  const parts = displayed.split(/(?<![\w/.,])([+-]?\d+\s*\/\s*[1-9]\d*)(?![\w/]|[.,]\d)/g);
-  if (parts.length === 1) return <Text style={style}>{children}</Text>;
+    .replace(/⁄/g, '/').replace(/\*\*([^*]+)\*\*/g, '$1')).join('');
+  const fractionPattern = /(?<![\w/.,])([+−-]?\d+\s*\/\s*[1-9]\d*)(?![\w/]|[.,]\d)/g;
+  const parts = displayed.split(/((?:https?:\/\/|www\.)\S+|(?<!\S)(?:[A-Za-z]:[\\/]|\/)[^\s]+)/g)
+    .flatMap((part, index) => index % 2 ? [{ text: part, fraction: false }] : part.split(fractionPattern).map((text, token) => ({ text, fraction: token % 2 === 1 })));
+  if (!parts.some(part => part.fraction)) return <Text style={style}>{displayed}</Text>;
   const textStyle = StyleSheet.flatten(style) || {};
   const size = textStyle.fontSize || 16;
-  const spoken = displayed.replace(/(?<![\w/.,])([+-]?\d+)\s*\/\s*([1-9]\d*)(?![\w/]|[.,]\d)/g, '$1 phần $2');
+  const spoken = parts.map(part => part.fraction ? part.text.replace(/\s*\/\s*/, ' phần ') : part.text).join('');
   return <View style={styles.flow} accessible accessibilityLabel={spoken}>
-    {parts.flatMap((part, index) => {
-      if (index % 2) {
+    {parts.flatMap(({ text: part, fraction }, index) => {
+      if (fraction) {
         const [top, bottom] = part.split('/').map(value => value.trim());
         return [<View key={`fraction-${index}`} testID="stacked-fraction" style={styles.fraction} accessible={false}>
           <Text style={[style, { fontSize: size * .86, lineHeight: size * 1.05, textAlign: 'center' }]}>{top}</Text>

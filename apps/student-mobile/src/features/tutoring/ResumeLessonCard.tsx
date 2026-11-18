@@ -4,6 +4,7 @@ import {useFocusEffect,useRouter} from 'expo-router';
 import {Ionicons} from '@expo/vector-icons';
 import {COLORS,FONTS} from '../../constants/theme';
 import {loadLearningProgress,type LearningProgress} from './learningProgress';
+import {MathPreview} from '../../components/domain/MathPreview';
 
 export function ResumeLessonCard({owner}:{owner?:string}){
   const router=useRouter(),[saved,setSaved]=useState<LearningProgress|null>(null);
@@ -14,7 +15,7 @@ export function ResumeLessonCard({owner}:{owner?:string}){
     onFocus={event=>{const target=event.currentTarget as unknown as {matches?:(selector:string)=>boolean};if(Platform.OS!=='web'||target.matches?.(':focus-visible'))setFocused(true);}} onBlur={()=>setFocused(false)} onPointerDown={()=>setFocused(false)}
     onPress={()=>router.push({pathname:'/learning/math-guide',params:{problemText:saved.problemText,workText:saved.workText,lessonId:saved.lessonId}})}>
     <View style={styles.badge}><Ionicons name="play-outline" size={23} color={COLORS.primaryDark} accessible={false}/></View>
-    <View style={styles.words}><Text style={styles.title}>Bài học gần nhất của em</Text><Text style={styles.preview} numberOfLines={1}>{saved.problemText}</Text><Text style={styles.link}>Mở lại để học tiếp</Text></View>
+    <View style={styles.words}><Text style={styles.title}>Bài học gần nhất của em</Text><MathPreview style={styles.preview}>{saved.problemText}</MathPreview><Text style={styles.link}>Mở lại để học tiếp</Text></View>
     <Ionicons name="chevron-forward" size={19} color={COLORS.primaryDark} accessible={false}/>
   </Pressable>;
 }

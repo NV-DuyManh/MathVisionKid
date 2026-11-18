@@ -1,5 +1,6 @@
 import React, { useId, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS } from '../../constants/theme';
 import type { LessonResponse } from './api/TutorService';
@@ -19,10 +20,10 @@ export function ProblemSummary({ lesson, compact = false }: { lesson: LessonResp
   const summary = fact && question && lesson.stepIndex >= 2 ? lesson.summary : null;
   const open = reading || expanded;
   if (compact) return <View style={styles.content}>
-    <View style={styles.givens}><Text style={styles.label}>Đã biết</Text>
-      {(summary?.givens || (fact ? [fact] : [])).map((value, index) => <MathText key={index} style={styles.body}>{value}</MathText>)}
+    <View style={styles.givens}><View style={styles.panelHeading}><Ionicons name="checkmark-circle-outline" size={20} color={COLORS.primaryDark} accessible={false} /><Text style={styles.label}>Đã biết</Text></View>
+      {(summary?.givens || (fact ? [fact] : [])).map((value, index) => <View key={index} style={styles.line}><Text style={styles.bullet} accessible={false}>•</Text><View style={styles.flex}><MathText style={styles.body}>{value}</MathText></View></View>)}
       {!summary && !fact ? <Text style={styles.body}>Em chọn dữ kiện trong bước hiểu đề trước nhé.</Text> : null}
-    </View><View style={styles.asked}><Text style={styles.label}>Cần tìm</Text>
+    </View><View style={styles.asked}><View style={styles.panelHeading}><Ionicons name="help-circle-outline" size={20} color="#23734D" accessible={false} /><Text style={[styles.label, styles.askedLabel]}>Cần tìm</Text></View>
       <MathText style={styles.body}>{summary?.question || question || 'Em tìm câu hỏi trong đề nhé.'}</MathText></View>
     <Text style={styles.caption}>Em đối chiếu lại các số và đơn vị với đề gốc nhé.</Text>
   </View>;
@@ -67,8 +68,9 @@ const styles = StyleSheet.create({
   link: { color: COLORS.primaryDark, fontFamily: FONTS.bold, fontSize: 15, lineHeight: 23 },
   caption: { color: COLORS.textSecondary, fontFamily: FONTS.regular, fontSize: 14, lineHeight: 23 },
   content: { gap: 10 },
-  givens: { backgroundColor: '#F1ECFF', borderRadius: 14, padding: 14, gap: 9 },
-  asked: { backgroundColor: '#EAF6F0', borderRadius: 14, padding: 14, gap: 9 },
+  givens: { backgroundColor: '#F4F0FF', borderRadius: 16, padding: 16, gap: 10, borderWidth: 1, borderColor: '#E5DCF9' },
+  asked: { backgroundColor: '#EAF6F0', borderRadius: 16, padding: 16, gap: 10, borderWidth: 1, borderColor: '#D3EADF' },
+  panelHeading: { flexDirection: 'row', alignItems: 'center', gap: 7 }, askedLabel: { color: '#23734D' },
   line: { flexDirection: 'row', gap: 8 }, flex: { flex: 1 },
   bullet: { color: COLORS.primaryDark, fontSize: 18, lineHeight: 25 },
   toggle: { minHeight: 48, padding: 4, gap: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 2, borderColor: 'transparent', borderRadius: 12, flexWrap: 'wrap' },

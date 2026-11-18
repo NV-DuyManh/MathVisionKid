@@ -8,7 +8,7 @@ import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 export function BrandLockup({ compact = false }: { compact?: boolean }) {
   return <View style={styles.container} accessibilityLabel="MathVisionKid — Toán học thật dễ, thật vui!">
     <View style={[styles.iconFrame, compact && styles.compactFrame]}>
-      <Image highResolution={compact} source={compact ? require('../../../assets/illustrations/mathvision-star.png') : require('../../../assets/images/mathvision-icon-v2.png')} style={styles.icon} resizeMode={compact ? 'contain' : 'cover'} accessible={false} />
+      <Image highResolution={compact} source={compact ? require('../../../assets/illustrations/robot-mascot.png') : require('../../../assets/images/mathvision-robot-icon.png')} style={styles.icon} resizeMode={compact ? 'contain' : 'cover'} accessible={false} />
     </View>
     <View style={styles.wordmarkRow}>
       <Text style={[styles.wordmark, compact && styles.smallWordmark]}>MathVision<Text style={styles.accent}>Kid</Text></Text>

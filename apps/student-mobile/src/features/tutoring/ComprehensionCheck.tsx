@@ -20,10 +20,10 @@ export function ComprehensionCheck({sessionId,revision}:{sessionId:string;revisi
   return <View style={styles.card}>
     {!check&&!busy&&!error?<AppButton title="Thử nhanh để nhớ cách làm" variant="secondary" onPress={()=>{void send();}}/>:null}
     {busy?<View style={styles.waiting} accessibilityLiveRegion="polite" aria-busy><ActivityIndicator color={COLORS.primaryDark}/><Text style={styles.body}>{check?'Đang kiểm tra kết quả…':'Đang mở câu thử nhanh…'}</Text></View>:null}
-    {check?<><Text style={styles.label}>THỬ VỚI SỐ KHÁC</Text><Text style={styles.body}>{check.question}</Text><MathText style={styles.expression}>{check.expression+' = ?'}</MathText>
+    {check?<><Text style={styles.label}>THỬ VỚI SỐ KHÁC</Text><MathText style={styles.body}>{check.question}</MathText><MathText style={styles.expression}>{check.expression+' = ?'}</MathText>
       <Text style={styles.caption}>Câu luyện nhỏ này tách riêng với đề bài phía trên.</Text>
       <TextInput accessibilityLabel="Kết quả câu thử nhanh" style={[styles.input,focused&&{borderColor:COLORS.primaryDark}]} onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} value={value} maxLength={30} onChangeText={setValue} keyboardType="numbers-and-punctuation" editable={!busy&&!check.correct} placeholder="Nhập số hoặc phân số"/>
-      {check.checked?<Text accessibilityRole="alert" style={[styles.body,{color:check.correct?'#236747':'#9A4935'}]}>{check.feedback}</Text>:null}
+      {check.checked?<View accessibilityRole="alert"><MathText style={[styles.body,{color:check.correct?'#236747':'#9A4935'}]}>{check.feedback}</MathText></View>:null}
       {!check.correct?<AppButton title="Kiểm tra câu thử nhanh" disabled={!value.trim()||busy} onPress={()=>{void send(value);}}/>:null}
     </>:null}
     {error?<RecoveryNotice title="Chưa mở được câu thử nhanh" message="Em vẫn có thể tiếp tục bài học." actions={[{label:'Thử lại',onPress:()=>{void send(check?value:'');}}]}/>:null}

@@ -9,19 +9,21 @@ test('Student can add missing written work from the solved-work action on web', 
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   const url = `${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: 'Tính: 23 + 17' })}`;
   await page.goto(url);
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Bài đã có lời giải', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Thêm bài em đã làm', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true })).toBeVisible();
   await testInfo.attach('Add missing work choices on web', { body: await page.screenshot(), contentType: 'image/png' });
-  await page.getByRole('button', { name: 'Đóng', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Bài đã có lời giải', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await page.getByRole('button', { name: 'Đóng Thêm bài em đã làm', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Thêm bài em đã làm', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Bài đã làm', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await page.getByRole('button', { name: 'Nhập bài làm bằng chữ', exact: true }).click();
   await page.getByRole('textbox', { name: 'Nội dung bài làm', exact: true }).fill('23 + 17 = 40');
   await page.getByRole('button', { name: 'Dùng nội dung này', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Bài đã có lời giải', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Bài đã làm', exact: true })).toBeVisible();
   await page.goto(url);
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
-  await page.getByRole('button', { name: 'Chụp lại cả đề và bài giải', exact: true }).click();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
+  await page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true }).click();
   await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
   expect(app.requests.some(request => request.path === '/student/tutor/work-review')).toBe(false);
 });
@@ -53,7 +55,7 @@ test('Work Review edits all affected calculations with compact stacked fractions
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem, workText: work })}`);
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await expect(page.getByText('Sai tính toán', { exact: false }).first()).toBeVisible();
   await expect(page.getByText('Cần tính lại sau khi sửa bước trước', { exact: false }).first()).toBeVisible();
   await expect(page.getByText('Cần đối chiếu', { exact: true })).toHaveCount(0);
@@ -271,12 +273,12 @@ test('Portal login enters the real Student bundle, navigates and survives a deep
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.getByRole('tab', { name: 'Bài học' }).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons`);
-  await expect(page.getByText('Hôm nay em học gì?', { exact: true })).toBeVisible();
+  await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
   await page.reload();
-  await expect(page.getByText('Hôm nay em học gì?', { exact: true })).toBeVisible();
+  await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
   const originalViewport = page.viewportSize();
   await page.setViewportSize({ width: 320, height: 844 });
-  await page.getByRole('button', { name: 'Chọn Lớp 3' }).click();
+  await expect(page.getByRole('button', { name: /^Chọn Lớp / })).toHaveCount(0);
   await page.getByRole('button', { name: /^Mở bài:/ }).first().click();
   await page.getByRole('button', { name: /^Xem gợi ý:/ }).click();
   await expect(page.getByRole('button', { name: /^Ẩn gợi ý:/ })).toBeVisible();
@@ -323,25 +325,35 @@ test('Của em keeps saved work, while the avatar opens account settings and log
   await expect(page.getByRole('banner').getByRole('link', { name: 'Đăng nhập', exact: true })).toBeVisible();
   await expect.poll(() => app.requests.filter(({ path }) => path === '/auth/logout').length).toBe(1);
   await page.goBack();
-  await expect(page).toHaveURL(`${sites.portal.origin}/`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
+  await expect(page.getByRole('textbox', { name: 'Email', exact: true })).toBeVisible();
+  expect(await page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
+  expect(await page.evaluate(() => sessionStorage.getItem('portal_refresh_token'))).toBeNull();
   await page.goto(`${sites.portal.origin}/study/profile`);
-  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
 });
 
-test('Avatar account page saves name and photo, restores a preset, and validates password change', async ({ page, app }, testInfo) => {
+test('Avatar account page edits name beside the header, uploads through the avatar, and validates password change', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/account`);
+  await expect(page.getByRole('textbox', { name: 'Tên hiển thị', exact: true })).toHaveCount(0);
+  await expect(page.getByText('Ảnh và tên hiển thị của em', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('Góc học tập', { exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Chọn ảnh từ thiết bị', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /^Chọn hình / })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Đổi tên hiển thị', exact: true }).click();
   await page.getByRole('textbox', { name: 'Tên hiển thị', exact: true }).fill('Sao Thông Minh');
-  await page.getByRole('button', { name: 'Chọn hình Hành tinh', exact: true }).click();
-  await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
+  await page.getByRole('button', { name: 'Lưu tên', exact: true }).click();
   await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toBeVisible();
   await page.reload();
-  await expect(page.getByRole('textbox', { name: 'Tên hiển thị', exact: true })).toHaveValue('Sao Thông Minh');
+  await expect(page.getByRole('heading', { name: 'Sao Thông Minh', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Thay ảnh đại diện', exact: true }).focus();
+  await expect(page.getByTestId('avatar-change-overlay')).toHaveCSS('opacity', '1');
   const chooser = page.waitForEvent('filechooser');
-  await page.getByRole('button', { name: 'Chọn ảnh từ thiết bị', exact: true }).click();
+  await page.getByRole('button', { name: 'Thay ảnh đại diện', exact: true }).click();
   await (await chooser).setFiles(fileURLToPath(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)));
   await expect(page.getByText('Đã cập nhật ảnh đại diện.', { exact: true })).toBeVisible();
   await expect.poll(() => page.locator('img[src^="data:image/"]').count()).toBeGreaterThan(0);
@@ -349,11 +361,11 @@ test('Avatar account page saves name and photo, restores a preset, and validates
   await expect.poll(() => page.locator('img[src^="data:image/"]').count()).toBeGreaterThan(0);
   await testInfo.attach('Account settings with selected photo', { body: await page.screenshot({ path: testInfo.outputPath('account-settings.png') }), contentType: 'image/png' });
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize().width);
-  await page.getByRole('button', { name: 'Chọn hình Lá xanh', exact: true }).click();
+  await page.getByRole('switch', { name: 'Tham gia bảng xếp hạng', exact: true }).click();
   await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
   await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toBeVisible();
   await page.reload();
-  await expect(page.locator('img[src^="data:image/"]')).toHaveCount(0);
+  await expect.poll(() => page.locator('img[src^="data:image/"]').count()).toBeGreaterThan(0);
   await page.getByRole('button', { name: 'Đổi mật khẩu', exact: true }).click();
   await page.getByLabel('Mật khẩu hiện tại', { exact: true }).fill('incorrect-password');
   await page.getByLabel('Mật khẩu mới', { exact: true }).fill('NewPassword-123');
@@ -377,7 +389,7 @@ test('A photo picker opened in an old session cannot upload into a new session',
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
   const chooser = page.waitForEvent('filechooser');
-  await page.getByRole('button', { name: 'Chọn ảnh từ thiết bị', exact: true }).click();
+  await page.getByRole('button', { name: 'Thay ảnh đại diện', exact: true }).click();
   const selected = await chooser;
   await page.evaluate(() => window.sessionStorage.setItem('portal_session_id', crypto.randomUUID()));
   await selected.setFiles(fileURLToPath(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)));
@@ -388,7 +400,7 @@ test('A photo picker opened in an old session cannot upload into a new session',
 test('anonymous Student deep link returns to login and missing bundles return 404', async ({ page, app }) => {
   app.realStudent = true;
   await page.goto(`${sites.portal.origin}/study/login`);
-  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
   for (const width of [320, 768, 1280]) {
     await page.setViewportSize({ width, height: 844 });
     await expect(page.getByRole('textbox', { name: 'Email', exact: true })).toBeVisible();
@@ -396,8 +408,7 @@ test('anonymous Student deep link returns to login and missing bundles return 40
     await expect(page.locator('.oly-grid-paper')).toHaveCount(0);
   }
   await page.goto(`${sites.portal.origin}/study/quiz`);
-  // Mounted Student deliberately delegates login to the shared Portal.
-  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
   await expect(page.getByRole('button', { name: 'Đăng nhập', exact: true })).toBeVisible();
   const missing = await page.request.get(`http://127.0.0.1:${studentPort}/study/_expo/static/js/web/missing.js`);
   expect(missing.status()).toBe(404);
@@ -465,33 +476,37 @@ test('Student quiz starts, shows feedback and completes with the existing API co
   await testInfo.attach('Student quiz fixture completed', { body: await page.screenshot(), contentType: 'image/png' });
 });
 
-test('the old Student web login uses the same Portal form', async ({ page, app }) => {
+test('Student Web has a direct login form on its mounted route', async ({ page, app }) => {
   app.realStudent = true;
   await page.goto(`${sites.portal.origin}/study/login`);
-  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
-  await expect(page.locator('input[autocomplete="current-password"]')).toHaveCount(1);
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
+  await expect(page.getByRole('textbox', { name: 'Mật khẩu', exact: true })).toHaveAttribute('type', 'password');
 });
 
-test('student can find rank, switch leaderboards and open all six games on a narrow screen', async ({ page, app }, testInfo) => {
+test('student can find registered-grade ranking, choose name privacy and open all six games on a narrow screen', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   const rank = { name: 'Chiến Thần', masterStars: 102, progress: 0, goal: 0 };
   let profile = {
     displayName: 'Bạn nhỏ yêu toán', gradeLevel: 5, joinedAt: null, classrooms: [{ id: 'class-5a', name: 'Lớp 5A' }],
-    avatar: 'star', leaderboardVisible: false, publicAlias: 'Sao Toán', selectedTitle: null,
+    avatar: 'star', leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Sư Tử', selectedTitle: null,
     stars: 214, rank, highestRank: rank.name, position: null,
     stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
     titles: [], history: [],
   };
   const entries = Array.from({ length: 12 }, (_, index) => ({
-    position: index + 1, alias: `Bạn Sao ${index + 1}`, avatar: 'star', stars: 200 - index, rank, self: false,
+    position: index + 1, alias: `Bạn Sao ${index + 1}`, gradeLevel: 5, avatar: 'star', stars: 200 - index, rank, self: index === 0,
   }));
+  entries.push({ position: 1, alias: 'Bạn Khác Khối', gradeLevel: 4, avatar: 'moon', stars: 300, rank, self: false });
   await page.route('**/api/v1/student/profile', async route => {
     if (route.request().method() === 'PUT') profile = { ...profile, ...route.request().postDataJSON() };
     await route.fulfill({ json: profile });
   });
   await page.route('**/api/v1/student/leaderboard*', async route => {
-    const classroom = new URL(route.request().url()).searchParams.get('classroom');
-    await route.fulfill({ json: { entries: classroom ? entries.slice(0, 2) : entries, ownPosition: null } });
+    expect(new URL(route.request().url()).searchParams.has('classroom')).toBe(false);
+    const gradeEntries = entries.filter(entry => entry.gradeLevel === profile.gradeLevel).map(({ gradeLevel, ...entry }) => ({
+      ...entry, alias: entry.self ? profile.leaderboardNameHidden ? profile.publicAlias : profile.displayName : entry.alias,
+    }));
+    await route.fulfill({ json: { entries: gradeEntries, ownPosition: 1, gradeLevel: profile.gradeLevel } });
   });
   app.responses.set('GET /student/rank-milestones', ({ json }) => json([
     { name: 'Đồng', stars: 0, top: null },
@@ -501,40 +516,54 @@ test('student can find rank, switch leaderboards and open all six games on a nar
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/account`);
+  await page.getByRole('button', { name: 'Đổi tên hiển thị', exact: true }).click();
   await page.getByRole('textbox', { name: 'Tên hiển thị' }).fill('Bạn nhỏ thích tính nhẩm');
+  await page.getByRole('button', { name: 'Lưu tên', exact: true }).click();
+  await page.getByRole('switch', { name: 'Ẩn tên trên bảng xếp hạng', exact: true }).click();
   await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Bạn nhỏ thích tính nhẩm' })).toBeVisible();
   await testInfo.attach('Profile and rank at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
-  await page.getByRole('button', { name: 'Xem thành tích', exact: true }).click();
+  await page.goto(`${sites.portal.origin}/study/achievements`);
   await expect(page.getByText('Đạt Top 200 toàn hệ thống để lên Thách Đấu.')).toBeVisible();
   await page.getByRole('button', { name: 'Xem các bậc xếp hạng' }).click();
   await expect(page.getByText('Từ 162 sao và thuộc Top 200 toàn hệ thống')).toBeVisible();
   await testInfo.attach('Rank milestones at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
   await page.getByRole('button', { name: 'Đóng Các bậc xếp hạng' }).click();
-  const board = page.getByRole('heading', { name: 'Bảng xếp hạng', exact: true });
+  const board = page.getByRole('heading', { name: 'Bảng xếp hạng khối 5', exact: true });
   await board.scrollIntoViewIfNeeded();
+  await expect(page.getByTestId('leaderboard-entry').getByText('Bạn nhỏ thích tính nhẩm', { exact: true })).toBeVisible();
+  await expect(page.getByText('Bạn Khác Khối', { exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Toàn hệ thống', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Lớp 5A', exact: true })).toHaveCount(0);
   await expect(page.getByText('Bạn Sao 10', { exact: true })).toHaveCount(1);
   await expect(page.getByText('Bạn Sao 11', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'Xem thêm xếp hạng' }).click();
   await expect(page.getByText('Bạn Sao 11', { exact: true })).toHaveCount(1);
-  await page.getByRole('button', { name: 'Lớp 5A', exact: true }).click();
-  await expect(page.getByText('Bạn Sao 2', { exact: true })).toBeVisible();
-  await expect(page.getByText('Bạn Sao 3', { exact: true })).toHaveCount(0);
-  await testInfo.attach('Class leaderboard at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
-  await page.getByRole('button', { name: 'Toàn hệ thống', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Xem thêm xếp hạng' })).toBeVisible();
+  await testInfo.attach('Registered grade leaderboard at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  await page.goto(`${sites.portal.origin}/study/account`);
+  await page.getByRole('switch', { name: 'Ẩn tên trên bảng xếp hạng', exact: true }).click();
+  await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/achievements`);
+  await expect(page.getByText('Sư Tử', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('leaderboard-entry').getByText('Bạn nhỏ thích tính nhẩm', { exact: true })).toHaveCount(0);
   await page.getByRole('tab', { name: 'Của em', exact: true }).click();
   await page.getByRole('button', { name: 'Trò chơi rèn luyện cho em' }).click();
   await expect(page.getByTestId('game-star-quest')).toBeVisible();
   const cards = page.getByTestId(/^training-card-/);
   await expect(cards).toHaveCount(5);
+  const covers = page.locator('img[src*="illustrations/games/"]');
+  await expect(covers).toHaveCount(6);
+  await expect.poll(() => covers.evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0
+    && Math.abs(image.naturalWidth / image.naturalHeight - 16 / 9) < 0.01))).toBe(true);
   await expect(page.getByRole('button', { name: /^Mở thử thách tính sao ·/ })).toHaveCount(5);
   for (const card of await cards.all()) {
     const box = await card.boundingBox();
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(320);
   }
-  await testInfo.attach('Game icons at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
+  await testInfo.attach('Game covers at 320 px', { body: await page.screenshot({ path: testInfo.outputPath('student-game-covers.png'), fullPage: true }), contentType: 'image/png' });
   await page.getByTestId('game-star-quest').click();
   await expect(page.getByRole('heading', { name: 'Vượt 5 chặng tính nhẩm' })).toBeVisible();
   await page.getByRole('button', { name: 'Quay lại danh sách trò chơi' }).click();
@@ -738,7 +767,7 @@ test('camera permission, live preview and shutter work with a simulated video st
   await expect(page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư')).toBeVisible();
 });
 
-test('Student calculator keeps simple answers compact and supports mixed numbers and exact unit conversion', async ({ page, app }) => {
+test('Student calculator omits mixed-number controls and preserves fractions and exact unit conversion', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
   // Complete the Portal -> Student handoff before starting another navigation.
@@ -750,12 +779,9 @@ test('Student calculator keeps simple answers compact and supports mixed numbers
   await expression.fill('2+3');
   await page.getByRole('button', { name: 'Tính kết quả', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Xem cách tính', exact: true })).toHaveCount(0);
-  await page.getByRole('button', { name: 'Nhập hỗn số', exact: true }).click();
-  await page.getByRole('textbox', { name: 'Phần nguyên hỗn số', exact: true }).fill('2');
-  await page.getByRole('textbox', { name: 'Tử số hỗn số', exact: true }).fill('1');
-  await page.getByRole('textbox', { name: 'Mẫu số hỗn số', exact: true }).fill('4');
-  await page.getByRole('button', { name: 'Thêm hỗn số vào phép tính', exact: true }).click();
-  await expect(expression).toHaveValue('2 1/4');
+  await expect(page.getByRole('button', { name: 'Nhập hỗn số', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('textbox', { name: /hỗn số/ })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Nhập phân số', exact: true })).toBeVisible();
   await expression.fill('1/3+2/5');
   await page.getByRole('button', { name: 'Tính kết quả', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Xem cách tính', exact: true })).toBeVisible();
@@ -771,9 +797,43 @@ test('Student calculator keeps simple answers compact and supports mixed numbers
   await page.getByRole('textbox', { name: 'Số đo cần đổi', exact: true }).fill('2');
   await page.getByRole('button', { name: 'Đổi đơn vị ngay', exact: true }).click();
   await expect(page.getByText('200 dm²', { exact: true })).toBeVisible();
-  await page.screenshot({ path: `.local-artifacts/dependency-setup-20261107/calculator-conversion-${test.info().project.name}.png` });
+  await testInfo.attach('calculator-unit-conversion', { body: await page.screenshot(), contentType: 'image/png' });
   await page.getByRole('button', { name: 'Tính toán', exact: true }).click();
   await expect(expression).toHaveValue('1/3+2/5');
   await page.getByRole('button', { name: 'Đóng máy tính', exact: true }).click();
   await expect(expression).toHaveCount(0);
 });
+
+for (const viewport of [{ width: 360, height: 640 }, { width: 640, height: 360 }]) {
+  test(`calculator keeps ordinary fraction keys and recovery usable at ${viewport.width}x${viewport.height}`, async ({ page, app }, testInfo) => {
+    app.realStudent = true;
+    await page.setViewportSize(viewport);
+    await login(page, 'STUDENT');
+    await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Mở máy tính bỏ túi', exact: true }).click();
+    const popup = page.getByTestId('calculator-popup');
+    const bounds = await popup.boundingBox();
+    expect(bounds.y).toBeGreaterThanOrEqual(0);
+    expect(bounds.y + bounds.height).toBeLessThanOrEqual(viewport.height + 1);
+    await expect(popup.getByRole('button', { name: 'Nhập hỗn số', exact: true })).toHaveCount(0);
+    for (const name of ['Nhập 1', 'Nhập phân số', 'Nhập 3', 'Cộng', 'Nhập 2', 'Nhập phân số', 'Nhập 5', 'Tính kết quả']) {
+      await popup.getByRole('button', { name, exact: true }).click();
+    }
+    await expect(popup.getByRole('textbox', { name: 'Phép tính', exact: true })).toHaveValue('1/3+2/5');
+    await expect(popup.getByLabel('11 phần 15', { exact: true })).toBeVisible();
+    await popup.getByRole('button', { name: 'Xóa phép tính', exact: true }).click();
+    for (const name of ['Nhập 1', 'Chia', 'Nhập 0', 'Tính kết quả']) {
+      await popup.getByRole('button', { name, exact: true }).click();
+    }
+    await expect(popup.getByRole('alert')).toContainText('Không thể chia cho 0');
+    await popup.getByRole('button', { name: 'Xóa chữ số cuối', exact: true }).click();
+    await popup.getByRole('button', { name: 'Nhập 2', exact: true }).click();
+    await popup.getByRole('button', { name: 'Tính kết quả', exact: true }).click();
+    await expect(popup.getByRole('alert')).toHaveCount(0);
+    await expect(popup.getByRole('textbox', { name: 'Phép tính', exact: true })).toHaveValue('1÷2');
+    await popup.getByRole('button', { name: 'Tính kết quả', exact: true }).scrollIntoViewIfNeeded();
+    await testInfo.attach(`calculator-compact-${viewport.width}x${viewport.height}`, { body: await page.screenshot(), contentType: 'image/png' });
+    await popup.getByRole('button', { name: 'Đóng máy tính', exact: true }).click();
+    await expect(popup).toHaveCount(0);
+  });
+}

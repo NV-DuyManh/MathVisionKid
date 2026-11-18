@@ -23,6 +23,8 @@ import { recognitionDraftStore, resolveFlowDomain, logFlowDomain } from '../feat
 import { ensureFileUri, logStageDiagnostic, inspectReadableImage } from '../features/recognition/image/imagePipeline';
 import { usePrivacyImage } from '../features/recognition/image/usePrivacyImage';
 import { rasterizePrivacyMasks } from '../features/recognition/image/rasterizePrivacyMasks';
+import { imageDraftPersistence } from '../features/recognition/state/imageDraftPersistence';
+import { DraftImagePicker } from '../features/recognition/components/DraftImagePicker';
 import {
   calculateMaskMove,
   calculateMaskResizeBR,
@@ -466,6 +468,9 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
           masks: [], privacyConfirmed: true, isMasked: false, mode: postPrivacyMode,
           ...(sourceSize?.uri === activeUri ? { width: sourceSize.width, height: sourceSize.height } : {}),
         });
+        const approved = recognitionDraftStore.getDraft();
+        if (approved) await imageDraftPersistence.confirm(approved, 'crop');
+        if (!image.isCurrent()) return;
         logStageDiagnostic('PRIVACY_OUTPUT', {
           uri: activeUri,
           width: draft?.width,
@@ -510,6 +515,9 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
           privacyConfirmed: true,
           mode: postPrivacyMode,
         });
+        const approved = recognitionDraftStore.getDraft();
+        if (approved) await imageDraftPersistence.confirm(approved, 'crop');
+        if (!image.isCurrent()) return;
 
         logStageDiagnostic('PRIVACY_OUTPUT', {
           uri: finalMaskedUri,
@@ -540,7 +548,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyText}>Chưa có ảnh bài tập</Text>
-        <AppButton title="Quay lại" onPress={() => router.back()} />
+        {Platform.OS === 'web' ? <DraftImagePicker showReason /> : <AppButton title="Quay lại" onPress={() => router.back()} />}
       </View>
     );
   }
@@ -659,9 +667,9 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
                       <TouchableOpacity style={styles.retryButton} accessibilityRole="button" accessibilityLabel="Thử tải lại ảnh" onPress={image.retry}>
                         <Text style={styles.retryButtonText}>Thử tải lại ảnh</Text>
                       </TouchableOpacity>
-                      <TouchableOpacity style={styles.retryButton} onPress={() => router.back()}>
+                      {Platform.OS === 'web' ? <DraftImagePicker /> : <TouchableOpacity style={styles.retryButton} onPress={() => router.back()}>
                         <Text style={styles.retryButtonText}>Quay lại chụp ảnh</Text>
-                      </TouchableOpacity>
+                      </TouchableOpacity>}
                     </View>
                   )}
 

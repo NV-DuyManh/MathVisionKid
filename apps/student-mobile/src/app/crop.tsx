@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { View, Text, StyleSheet, Image, Alert, Platform, Pressable, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -13,6 +13,8 @@ import { ImageDraft, recognitionDraftStore, resolveFlowDomain } from '../feature
 import { normalizeLocalFileUri, resolveSafeCropImage } from '../features/recognition/image/imagePipeline';
 import { Rect, CropHandle, MIN_CROP_SIZE, calculateDrag, calculateResize, cropHandlePoint, closestCropHandle } from '../utils/cropGeometry';
 import { exportCropImage, normalizeRotation, rotatedFrame } from '../utils/cropRotation';
+import { imageDraftPersistence } from '../features/recognition/state/imageDraftPersistence';
+import { DraftImagePicker } from '../features/recognition/components/DraftImagePicker';
 
 const CORNERS = ['tl', 'tr', 'bl', 'br'] as const;
 const EDGES = ['top', 'right', 'bottom', 'left'] as const;
@@ -40,7 +42,7 @@ function WebCropControls({ disabled, onAdjust }: { disabled: boolean; onAdjust: 
 }
 
 /** The ruler and image move on the UI thread; no image export during interaction. */
-function StraightenRuler({ angle, disabled }: { angle: SharedValue<number>; disabled: boolean }) {
+function StraightenRuler({ angle, disabled, onChange }: { angle: SharedValue<number>; disabled: boolean; onChange?: (angle: number) => void }) {
   const width = useSharedValue(1);
   const [label, setLabel] = useState(0);
   useAnimatedReaction(() => Math.round(angle.get() * 10) / 10, value => runOnJS(setLabel)(value));
@@ -55,7 +57,7 @@ function StraightenRuler({ angle, disabled }: { angle: SharedValue<number>; disa
       <Text style={styles.angleLabel}>{label > 0 ? '+' : ''}{label.toFixed(1).replace('.', ',')}°</Text></View>
     {Platform.OS === 'web' ? <input type="range" min={-45} max={45} step={0.1} value={label}
       aria-label="Góc căn thẳng ảnh" aria-valuetext={`${label.toFixed(1).replace('.', ',')} độ`} disabled={disabled}
-      onChange={event => angle.set(event.currentTarget.valueAsNumber)}
+      onChange={event => { const value = event.currentTarget.valueAsNumber; onChange?.(value); angle.set(value); }}
       style={{ width: '100%', height: 44, margin: 0, accentColor: COLORS.primaryDark }} />
     : <GestureDetector gesture={pan}><Animated.View style={styles.ruler} onLayout={e => { width.set(e.nativeEvent.layout.width); }}
       accessible accessibilityRole="adjustable" accessibilityLabel="Góc căn thẳng ảnh"
@@ -71,10 +73,10 @@ function StraightenRuler({ angle, disabled }: { angle: SharedValue<number>; disa
 
 export default function CropScreen() {
   const params = useLocalSearchParams<{ uri?: string; retrySubmissionId?: string; originalImageUri?: string }>();
-  const draft = recognitionDraftStore.getDraft();
+  const draft = useSyncExternalStore(recognitionDraftStore.subscribe, recognitionDraftStore.getSnapshot, recognitionDraftStore.getSnapshot);
   const one = (value?: string | string[]) => Array.isArray(value) ? value[0] : value;
   const original = one(params.originalImageUri) || draft?.originalImageUri || draft?.originalUri || draft?.sourceImageUri || draft?.rawUri || one(params.uri) || '';
-  const source = draft?.privacyImageUri || original;
+  const source = Platform.OS === 'web' && !draft?.privacyConfirmed ? '' : draft?.privacyImageUri || original;
   return <CropEditor key={`${source}:${draft?.imageSessionId}`} draft={draft} source={source} original={original}
     retrySubmissionId={draft?.retrySubmissionId || one(params.retrySubmissionId)} />;
 }
@@ -86,10 +88,12 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
   const [image, setImage] = useState<{ uri: string; width: number; height: number } | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const recovery = useSyncExternalStore(imageDraftPersistence.subscribe, imageDraftPersistence.getSnapshot, imageDraftPersistence.getSnapshot);
   const mounted = useRef(true), lock = useRef(false);
   const viewport = useSharedValue({ w: 0, h: 0 });
   const size = useSharedValue({ w: 0, h: 0 });
-  const fine = useSharedValue(0), turns = useSharedValue(0);
+  const fine = useSharedValue(draft?.cropEdit?.fine ?? 0), turns = useSharedValue(draft?.cropEdit?.turns ?? 0);
+  const remembered = useSharedValue(draft?.cropEdit?.selection ?? INSET);
   const crop = useSharedValue<Rect>({ x: 0, y: 0, w: 0, h: 0 });
   const start = useSharedValue<Rect>({ x: 0, y: 0, w: 0, h: 0 });
   const dragHandle = useSharedValue<CropHandle | null>(null);
@@ -121,7 +125,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
     const selection = previous?.w && previous?.h && crop.get().w ? {
       x: (crop.get().x - previous.x) / previous.w, y: (crop.get().y - previous.y) / previous.h,
       w: crop.get().w / previous.w, h: crop.get().h / previous.h,
-    } : INSET;
+    } : remembered.get();
     crop.set({ x: next.x + next.w * selection.x, y: next.y + next.h * selection.y, w: next.w * selection.w, h: next.h * selection.h });
   });
   const imageStyle = useAnimatedStyle(() => ({
@@ -137,6 +141,18 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
   const bottomShade = useAnimatedStyle(() => ({ top: crop.get().y + crop.get().h, left: 0, width: viewport.get().w, height: Math.max(0, viewport.get().h - crop.get().y - crop.get().h) }));
   const leftShade = useAnimatedStyle(() => ({ left: 0, top: crop.get().y, width: Math.max(0, crop.get().x), height: crop.get().h }));
   const rightShade = useAnimatedStyle(() => ({ left: crop.get().x + crop.get().w, top: crop.get().y, width: Math.max(0, viewport.get().w - crop.get().x - crop.get().w), height: crop.get().h }));
+  const remember = (rotation: { turns?: number; fine?: number } = {}, selection?: Rect) => {
+    if (Platform.OS !== 'web' || !draft) return;
+    const f = frame.get(), c = crop.get();
+    if (!f.w || !f.h || !c.w || !c.h) return;
+    const edit = { turns: rotation.turns ?? turns.get(), fine: rotation.fine ?? fine.get(), selection: selection || {
+      x: Math.max(0, (c.x - f.x) / f.w), y: Math.max(0, (c.y - f.y) / f.h),
+      w: Math.min(1, c.w / f.w), h: Math.min(1, c.h / f.h),
+    } };
+    remembered.set(edit.selection);
+    recognitionDraftStore.updateDraft({ cropEdit: edit });
+    imageDraftPersistence.saveCrop(draft, edit);
+  };
   const gesture = (handle: CropHandle | null = null) => Gesture.Pan().enabled(!disabled).maxPointers(1).minDistance(1)
     .onBegin(e => {
       const box = crop.get();
@@ -155,10 +171,11 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
       const dx = e.absoluteX - pointerStart.get().x, dy = e.absoluteY - pointerStart.get().y;
       crop.set(handle ? calculateResize(handle, dx, dy, start.get(), bounds)
         : calculateDrag(dx, dy, start.get(), bounds));
-    });
+    }).onEnd(() => { if (Platform.OS === 'web') runOnJS(remember)(); });
   const select = (full = false) => {
     const f = frame.get(), s = full ? { x: 0, y: 0, w: 1, h: 1 } : INSET;
     crop.set({ x: f.x + f.w * s.x, y: f.y + f.h * s.y, w: f.w * s.w, h: f.h * s.h });
+    remember({}, s);
   };
   const adjustEdge = (edge: Edge, inward: boolean) => {
     if (disabled) return;
@@ -170,8 +187,9 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
     const delta = edge === 'left' || edge === 'top' ? amount : -amount;
     crop.set(calculateResize(edge, horizontal ? delta : 0, horizontal ? 0 : delta, box,
       { minX: f.x, minY: f.y, maxX: f.x + f.w, maxY: f.y + f.h }));
+    remember();
   };
-  const reset = () => { turns.set(0); fine.set(0); select(); };
+  const reset = () => { remember({ turns: 0, fine: 0 }, INSET); turns.set(0); fine.set(0); select(); };
   const done = async () => {
     if (disabled || lock.current || !image) return;
     const f = frame.get(), c = crop.get();
@@ -181,10 +199,16 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
       const result = await exportCropImage(image.uri, totalAngle.get(), {
         x: (c.x - f.x) / f.w, y: (c.y - f.y) / f.h, w: c.w / f.w, h: c.h / f.h,
       });
-      if (!mounted.current || recognitionDraftStore.getDraft()?.imageSessionId !== draft?.imageSessionId) return;
-      recognitionDraftStore.updateDraft({ croppedImageUri: normalizeLocalFileUri(result.uri), uri: normalizeLocalFileUri(result.uri), width: result.width, height: result.height });
+      if (!mounted.current || recognitionDraftStore.getDraft()?.imageSessionId !== draft?.imageSessionId) {
+        imageDraftPersistence.releaseUrl(result.uri); return;
+      }
+      recognitionDraftStore.updateDraft({ croppedImageUri: normalizeLocalFileUri(result.uri), uri: normalizeLocalFileUri(result.uri), width: result.width, height: result.height,
+        arithmeticSubmissionId: undefined, processingStarted: false, recoveredAfterReload: false });
       const mode = resolveFlowDomain(null, draft?.mode);
       const path = mode === 'MATH_TUTOR' ? '/learning/math-guide' : mode === 'ARITHMETIC' ? '/preview' : mode === 'OCR_PILOT' ? '/recognition/line-crop' : '/recognition/multiline-review';
+      const saved = recognitionDraftStore.getDraft();
+      if (saved) await imageDraftPersistence.confirm(saved, path);
+      if (!mounted.current || recognitionDraftStore.getDraft()?.imageSessionId !== draft?.imageSessionId) return;
       router.push({ pathname: path as any, params: { retrySubmissionId, originalImageUri: original } });
     } catch {
       if (mounted.current) Alert.alert('Chưa cắt được ảnh', 'Ảnh của em vẫn được giữ. Em chọn vùng lớn hơn hoặc thử lại nhé.');
@@ -212,20 +236,24 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
           </Animated.View>
         </> : null}
         {!image && !loadError ? <View style={styles.loading}><ActivityRail label="Đang mở ảnh" /></View> : null}
-        {loadError ? <View style={styles.loading}><Ionicons name="image-outline" size={40} color="white" /><Text style={styles.lightText}>Chưa mở được ảnh bài tập</Text><AppButton title="Chọn lại ảnh" onPress={() => router.back()} /></View> : null}
+        {loadError ? <View style={styles.loading}><Ionicons name="image-outline" size={40} color="white" /><Text style={styles.lightText}>Chưa mở được ảnh bài tập</Text>{Platform.OS === 'web' ? <DraftImagePicker showReason /> : <AppButton title="Chọn lại ảnh" onPress={() => router.back()} />}</View> : null}
       </View>
       <View style={[styles.footer, landscape && styles.landscapeFooter]}>
         <View style={styles.controls}>
-          <Pressable accessibilityRole="button" accessibilityLabel="Xoay ảnh 90 độ" disabled={disabled} onPress={() => { turns.set((turns.get() + 1) % 4); }} style={({ pressed }) => [styles.rotateButton, pressed && styles.pressed, disabled && styles.disabled]}>
+          <Pressable accessibilityRole="button" accessibilityLabel="Xoay ảnh 90 độ" disabled={disabled} onPress={() => { const next = (turns.get() + 1) % 4; remember({ turns: next }); turns.set(next); }} style={({ pressed }) => [styles.rotateButton, pressed && styles.pressed, disabled && styles.disabled]}>
             <Ionicons name="refresh-outline" size={24} color={COLORS.primaryDark} /><Text style={styles.rotateLabel}>Xoay 90°</Text>
           </Pressable>
-          <StraightenRuler angle={fine} disabled={disabled} />
+          <StraightenRuler angle={fine} disabled={disabled} onChange={value => remember({ fine: value })} />
         </View>
         {Platform.OS === 'web' && <WebCropControls disabled={disabled} onAdjust={adjustEdge} />}
         <View style={styles.secondaryRow}>
           <Pressable accessibilityRole="button" accessibilityLabel="Đặt lại ảnh và khung cắt" disabled={disabled} style={styles.secondary} onPress={reset}><Ionicons name="refresh" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Đặt lại</Text></Pressable>
           <Pressable accessibilityRole="button" accessibilityLabel="Dùng toàn ảnh" disabled={disabled} style={styles.secondary} onPress={() => select(true)}><Ionicons name="expand" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Toàn ảnh</Text></Pressable>
         </View>
+        {Platform.OS === 'web' ? <>
+          {recovery.issue === 'unavailable' && image ? <Text role="alert">Chưa lưu được ảnh trên thiết bị. Em vẫn có thể làm tiếp; tải lại trang có thể làm mất ảnh.</Text> : null}
+          {image && !loadError ? <DraftImagePicker title="Chọn ảnh khác" disabled={processing} /> : null}
+        </> : null}
         <AppButton title="Dùng ảnh này" loadingTitle="Đang lưu ảnh…" accessibilityLabel="Xác nhận cắt ảnh" onPress={done} disabled={disabled} loading={processing} />
       </View>
     </View>;

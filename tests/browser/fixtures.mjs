@@ -77,7 +77,7 @@ export const test = base.extend({
       if (state.realStudent && path.startsWith('/student/profile')) {
         state.studentProfile ??= {
         displayName: 'Kiểm thử STUDENT', gradeLevel: 5, joinedAt: null, classrooms: [],
-        avatar: 'star', leaderboardVisible: false, publicAlias: '', selectedTitle: null,
+        avatar: 'star', leaderboardVisible: false, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null,
         stars: 1, rank: { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 },
         highestRank: 'Đồng III', position: null,
         stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
@@ -96,7 +96,7 @@ export const test = base.extend({
         }
         return json(state.studentProfile);
       }
-      if (state.realStudent && path === '/student/leaderboard') return json({ entries: [], ownPosition: null });
+      if (state.realStudent && path === '/student/leaderboard') return json({ entries: [], ownPosition: null, gradeLevel: state.studentProfile?.gradeLevel ?? 5 });
       if (state.realStudent && path === '/student/quizzes/pending-count') return json({ pendingCount: 0, totalStars: 0 });
       if (state.realStudent && path === '/student/quizzes') return json({ items: [], page: 0, totalPages: 0, totalElements: 0 });
       if (path.startsWith('/teacher/') && role !== 'TEACHER') return reject(403);

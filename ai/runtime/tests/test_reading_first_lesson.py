@@ -123,7 +123,18 @@ async def test_failed_review_never_completes_reading_or_publishes_math(pending_l
     for _ in range(2):lesson.answer_lesson(turn(response,session))
     last=turn(response,session)
     await lesson.ready_for_answer(last)
-    assert lesson.answer_lesson(last).status=='RETRYABLE'
+    failed = lesson.answer_lesson(last)
+    assert failed.status=='RETRYABLE'
+    assert 1 <= failed.retryAfterSeconds <= 5
+    task = session.preparation_task
+    retry = lesson.PreparationRequest(owner=session.owner, sessionId=response.sessionId, revision=3, retry=True)
+    assert lesson.lesson_preparation(retry).retryAfterSeconds > 0
+    assert session.preparation_task is task and session.preparation_attempts == 1
+    session.preparation_retry_at = 0
+    restarted = lesson.lesson_preparation(retry)
+    assert restarted.status == 'PREPARING' and restarted.retryAfterSeconds == 0
+    assert session.preparation_attempts == 2
+    assert await session.preparation_task is False
     assert isinstance(session.plan,lesson.ReadingPlan) and session.revision==3
     assert all(s.kind=='UNDERSTAND' for s in session.plan.steps)
 

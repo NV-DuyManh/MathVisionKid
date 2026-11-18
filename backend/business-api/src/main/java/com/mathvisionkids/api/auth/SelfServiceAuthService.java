@@ -2,6 +2,7 @@ package com.mathvisionkids.api.auth;
 
 import com.mathvisionkids.api.common.ApiException;
 import com.mathvisionkids.api.user.*;
+import com.mathvisionkids.api.studentprofile.StudentProfileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,6 +24,7 @@ public class SelfServiceAuthService {
     private final UserRepository users;
     private final StudentRepository students;
     private final TeacherRepository teachers;
+    private final StudentProfileService profiles;
     private final PasswordResetCodeRepository codes;
     private final PasswordEncoder encoder;
     private final RefreshTokenService refreshTokens;
@@ -36,7 +38,7 @@ public class SelfServiceAuthService {
     private final boolean smtpAuth;
     private final boolean smtpStartTls;
 
-    public SelfServiceAuthService(UserRepository users, StudentRepository students, TeacherRepository teachers,
+    public SelfServiceAuthService(UserRepository users, StudentRepository students, TeacherRepository teachers, StudentProfileService profiles,
                                   PasswordResetCodeRepository codes, PasswordEncoder encoder, RefreshTokenService refreshTokens, JavaMailSender mailSender,
                                   @Value("${app.auth.email.enabled:false}") boolean emailEnabled,
                                   @Value("${app.auth.email.from:}") String fromAddress,
@@ -46,7 +48,7 @@ public class SelfServiceAuthService {
                                   @Value("${spring.mail.password:}") String smtpPassword,
                                   @Value("${spring.mail.properties.mail.smtp.auth:false}") boolean smtpAuth,
                                   @Value("${spring.mail.properties.mail.smtp.starttls.enable:false}") boolean smtpStartTls) {
-        this.users = users; this.students = students; this.teachers = teachers; this.codes = codes;
+        this.users = users; this.students = students; this.teachers = teachers; this.profiles = profiles; this.codes = codes;
         this.encoder = encoder; this.refreshTokens = refreshTokens; this.mailSender = mailSender; this.emailEnabled = emailEnabled; this.fromAddress = fromAddress;
         this.smtpHost = smtpHost; this.smtpPort = smtpPort; this.smtpUsername = smtpUsername;
         this.smtpPassword = smtpPassword; this.smtpAuth = smtpAuth; this.smtpStartTls = smtpStartTls;
@@ -85,7 +87,10 @@ public class SelfServiceAuthService {
         user.setPhoneNumber(request.getPhoneNumber() == null || request.getPhoneNumber().isBlank() ? null : request.getPhoneNumber().trim());
         user.setActive(true);
         if (user instanceof Student student) student.setGradeLevel(request.getGradeLevel());
-        if (user instanceof Student student) students.save(student); else teachers.save((Teacher) user);
+        if (user instanceof Student student) {
+            students.saveAndFlush(student);
+            profiles.initialize(student.getId());
+        } else teachers.save((Teacher) user);
     }
 
     @Transactional

@@ -240,7 +240,7 @@ export default function LoginScreen() {
           <BrandLockup compact />
           {wide ? <>
             <Text style={styles.welcomeTitle}>Mỗi bài toán,<Text style={{ color: '#7548EA' }}> một khám phá.</Text></Text>
-            <Text style={styles.welcomeCopy}>Cùng Sao nhỏ hiểu đề, thử cách làm và tự tin tìm lời giải.</Text>
+            <Text style={styles.welcomeCopy}>Cùng hiểu đề, thử cách làm và tự tin tìm lời giải.</Text>
           </> : null}
         </View>
         <View style={styles.formColumn}>

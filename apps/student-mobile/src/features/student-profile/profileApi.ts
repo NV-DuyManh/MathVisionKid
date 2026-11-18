@@ -13,6 +13,7 @@ export type StudentProfile = {
   avatarPhoto?: string | null;
   passwordLoginAvailable?: boolean;
   leaderboardVisible: boolean;
+  leaderboardNameHidden?: boolean;
   publicAlias: string;
   selectedTitle: string | null;
   stars: number;
@@ -23,8 +24,9 @@ export type StudentProfile = {
   titles: StudentTitle[];
   history: { source: 'LESSON' | 'QUIZ' | 'GAME'; completedAt: string; stars: number }[];
 };
-export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'leaderboardVisible' | 'selectedTitle'> & { removePhoto?: boolean };
+export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'leaderboardVisible' | 'leaderboardNameHidden' | 'selectedTitle'> & { removePhoto?: boolean };
 export type Leaderboard = {
+  gradeLevel?: number | null;
   ownPosition: number | null;
   entries: { position: number; alias: string; avatar: string; stars: number; rank: Rank; self: boolean }[];
 };
@@ -41,7 +43,14 @@ export const profileApi = {
   },
   async update(edit: ProfileEdit, signal: AbortSignal) {
     const config = { signal, _identity: await tokenStorage.getSessionId() };
-    return (await apiClient.put<StudentProfile>(root + '/profile', edit, config)).data;
+    let next = (await apiClient.put<StudentProfile>(root + '/profile', edit, config)).data;
+    const matchesPrivacy = (value: StudentProfile) => value?.leaderboardVisible === edit.leaderboardVisible
+      && (edit.leaderboardNameHidden === undefined || value?.leaderboardNameHidden === edit.leaderboardNameHidden);
+    // Some older update responses omit privacy fields. Confirm stored settings
+    // before accepting them; never turn an explicit false into a default true.
+    if (!matchesPrivacy(next)) next = (await apiClient.get<StudentProfile>(root + '/profile', config)).data;
+    if (!matchesPrivacy(next)) throw Object.assign(new Error('Chưa xác nhận được quyền riêng tư đã lưu.'), { code: 'PROFILE_PRIVACY_UNCONFIRMED' });
+    return next;
   },
   async uploadPhoto(uri: string, signal: AbortSignal, expectedSession?: string | null) {
     const identity = expectedSession === undefined ? await tokenStorage.getSessionId() : expectedSession;

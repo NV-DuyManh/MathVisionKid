@@ -38,6 +38,8 @@ class SelfServiceAuthIntegrationTest {
     @Autowired SelfServiceAuthService service;
     @Autowired JwtUtil jwt;
     @Autowired RefreshTokenService sessions;
+    @Autowired org.springframework.jdbc.core.JdbcTemplate db;
+    @Autowired com.mathvisionkids.api.studentprofile.StudentProfileService profiles;
     @MockBean JavaMailSender mail;
     User pupil;
     @BeforeEach void createPupil() {
@@ -68,6 +70,14 @@ class SelfServiceAuthIntegrationTest {
         var body=registration("STUDENT"); submitRegistration(body,201);
         var saved=users.findByEmail((String)body.get("email")).orElseThrow();
         assertEquals("STUDENT",saved.getRole()); assertTrue(encoder.matches("test-password",saved.getPasswordHash()));
+        String avatar = db.queryForObject("SELECT avatar FROM student_profile_preferences WHERE student_id = ?", String.class, saved.getId());
+        assertTrue(java.util.Set.of("star", "planet", "leaf", "rocket", "moon", "sun").contains(avatar));
+        profiles.get(saved.getEmail());
+        assertEquals(avatar, db.queryForObject("SELECT avatar FROM student_profile_preferences WHERE student_id = ?", String.class, saved.getId()));
+        profiles.initialize(saved.getId());
+        profiles.get(saved.getEmail());
+        assertEquals(avatar, db.queryForObject("SELECT avatar FROM student_profile_preferences WHERE student_id = ?", String.class, saved.getId()));
+        assertEquals(1, db.queryForObject("SELECT COUNT(*) FROM student_profile_preferences WHERE student_id = ?", Integer.class, saved.getId()));
         submitRegistration(registration("ADMIN"),400);
     }
     @Test void studentGradeAndTeacherGradeAreValidated() throws Exception {

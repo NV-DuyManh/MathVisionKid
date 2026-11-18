@@ -1,178 +1,165 @@
-import React, { useCallback, useState } from 'react';
-import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { AccessibilityInfo, Animated, AppState, Easing, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { COLORS, FONTS, IS_STUDENT_WEB, WEB_DESIGN } from '../../constants/theme';
-import { AppButton } from '../ui/AppButton';
+import { COLORS, FONTS, IS_STUDENT_WEB } from '../../constants/theme';
 import { AppIllustration as Image } from '../ui/AppIllustration';
-import { StudentPageHeader } from '../ui/StudentPageHeader';
-import { recognitionAnalyticsStore } from '../../features/recognition/analytics/recognitionAnalyticsStore';
-import { buildLearningActivity } from '../../features/home/learningActivity';
-import { loadLessons } from '../../features/tutoring/learningHistory';
+import { buildCompletedLearningActivity } from '../../features/home/learningActivity';
 import { PocketCalculator } from '../../features/calculator/PocketCalculator';
 import { LearningJourney } from './LearningJourney';
 import { ResumeLessonCard } from '../../features/tutoring/ResumeLessonCard';
+import { AuthContext } from '../../context/AuthContext';
+import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
+import { RecoveryNotice } from '../ui/RecoveryNotice';
+import { useStudentProfile } from '../../features/student-profile/useStudentProfile';
+import { StudentAvatar } from '../../features/student-profile/ProfileCards';
+import { LessonSheet } from '../../features/tutoring/LessonSheet';
+import { getLessonArtwork } from '../../features/lesson-artwork/lessonArtwork';
 
 const ART = {
-  mascot: IS_STUDENT_WEB ? require('../../../assets/illustrations/web/mathvision-star.webp') : require('../../../assets/illustrations/mathvision-star.png'), saved: require('../../../assets/illustrations/approved/saved.webp'),
-  practice: require('../../../assets/illustrations/approved/practice.webp'), progress: require('../../../assets/illustrations/approved/progress.webp'),
-  bars: IS_STUDENT_WEB ? require('../../../assets/illustrations/web/progress-bars.webp') : require('../../../assets/illustrations/progress-bars.png'), calculator: require('../../../assets/illustrations/approved/calculator.webp'),
-  crown: IS_STUDENT_WEB ? require('../../../assets/illustrations/web/encouragement-crown.webp') : require('../../../assets/illustrations/encouragement-crown.png'), flame: IS_STUDENT_WEB ? require('../../../assets/illustrations/web/streak-flame.webp') : require('../../../assets/illustrations/streak-flame.png'), star: require('../../../assets/illustrations/reward-star.png'),
+  mascot: IS_STUDENT_WEB ? require('../../../assets/illustrations/web/robot-mascot.webp') : require('../../../assets/illustrations/robot-mascot.png'),
+  saved: require('../../../assets/illustrations/approved/saved.webp'), practice: require('../../../assets/illustrations/approved/practice.webp'),
+  progress: require('../../../assets/illustrations/approved/progress.webp'), calculator: require('../../../assets/illustrations/approved/calculator.webp'),
+  crown: require('../../../assets/illustrations/encouragement-crown.png'), flame: require('../../../assets/illustrations/streak-flame.png'),
+  rewardStar: require('../../../assets/illustrations/reward-star.png'),
 };
-type Props = { userName: string; userKey?: string; onAcquire: () => void; onArithmetic: () => void; onPractice: (grade?: 1 | 2 | 3 | 4 | 5) => void; onTips: () => void; onPrivacy: () => void };
+type Props = { userName: string; userKey?: string; heroVisible?: boolean; onAcquire: () => void; onArithmetic: () => void; onPractice: (grade?: 1 | 2 | 3 | 4 | 5) => void; onTips: () => void; onPrivacy: () => void };
 
-export function HomeDashboard({ userName, userKey, onAcquire, onArithmetic, onPractice, onTips, onPrivacy }: Props) {
+function HomeMascot({ style, visible }: { style: StyleProp<ViewStyle>; visible: boolean }) {
+  const [offset] = useState(() => new Animated.Value(0));
+  const [reducedMotion, setReducedMotion] = useState(true);
+  const [focused, setFocused] = useState(false);
+  const [active, setActive] = useState(AppState.currentState !== 'background');
+  useFocusEffect(useCallback(() => { setFocused(true); return () => setFocused(false); }, []));
+  useEffect(() => {
+    let mounted = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then(value => { if (mounted) setReducedMotion(value); });
+    const preference = AccessibilityInfo.addEventListener('reduceMotionChanged', setReducedMotion);
+    const app = AppState.addEventListener('change', value => setActive(value === 'active'));
+    return () => { mounted = false; preference.remove(); app.remove(); };
+  }, []);
+  useEffect(() => {
+    if (!visible || !focused || !active || reducedMotion) { offset.setValue(0); return; }
+    const movement = Animated.sequence([
+      Animated.timing(offset, { toValue: -5, duration: 1450, easing: Easing.inOut(Easing.sin), useNativeDriver: Platform.OS !== 'web' }),
+      Animated.timing(offset, { toValue: 0, duration: 1450, easing: Easing.inOut(Easing.sin), useNativeDriver: Platform.OS !== 'web' }),
+    ]);
+    const animation = IS_STUDENT_WEB ? movement : Animated.loop(movement);
+    animation.start();
+    return () => animation.stop();
+  }, [offset, visible, focused, active, reducedMotion]);
+  return <Animated.View pointerEvents="none" style={[style, { transform: [{ translateY: offset }] }]}>
+    <Image highResolution source={ART.mascot} style={{ width: '100%', height: '100%' }} accessible={false} />
+  </Animated.View>;
+}
+
+export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire, onPractice, onTips, onPrivacy }: Props) {
   const router = useRouter();
-  const { width, height, fontScale } = useWindowDimensions();
+  const auth = useContext(AuthContext);
+  const { width, fontScale } = useWindowDimensions();
   const [availableWidth, setAvailableWidth] = useState(width);
-  const desktop = availableWidth >= 900 && fontScale <= 1.3;
-  const wide = availableWidth >= 580 && fontScale <= 1.3;
-  const roomy = availableWidth < 350 || fontScale > 1.3;
-  const largeText = fontScale > 1.3;
-  const [activity, setActivity] = useState<ReturnType<typeof buildLearningActivity> | null>(null);
-  const [historyUnavailable, setHistoryUnavailable] = useState(false);
+  const wide = availableWidth >= 680;
   const [calculatorOpen, setCalculatorOpen] = useState(false);
-  useFocusEffect(useCallback(() => {
-    let active = true;
-    setActivity(null); setHistoryUnavailable(false);
-    Promise.all([recognitionAnalyticsStore.init(), loadLessons(userKey)]).then(([, lessons]) => {
-      if (active) setActivity(buildLearningActivity([...recognitionAnalyticsStore.getSessions(), ...lessons.map(item => ({ sessionId: item.id, timestamp: item.timestamp }))]));
-    }).catch(() => { if (active) setHistoryUnavailable(true); });
-    return () => { active = false; };
-  }, [userKey]));
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const profile = useStudentProfile(userKey);
+  const activity = buildCompletedLearningActivity(profile.value?.history ?? []);
+  const streak = profile.value?.stats.streak ?? 0;
+  const profileName = profile.value?.displayName || userName;
+  const displayName = profileName.includes('@') ? 'Bạn nhỏ' : profileName;
+  const registeredGrade = Number(profile.value?.gradeLevel ?? auth?.user?.gradeLevel ?? auth?.user?.grade);
+  const hasRegisteredGrade = Number.isInteger(registeredGrade) && registeredGrade >= 1 && registeredGrade <= 5;
+  const gradeLessons = hasRegisteredGrade ? getProblemsByGrade(registeredGrade as 1 | 2 | 3 | 4 | 5) : [];
   const quickActions = [
-    { title: 'Bài đã lưu', description: 'Xem lại bài làm của em', short:'Xem bài cũ',image: ART.saved, background: '#FFF0F1', onPress: () => router.push('/(tabs)/profile') },
-    { title: 'Luyện tập', description: 'Làm bài theo chủ đề',short:'Theo chủ đề', image: ART.practice, background: '#EAF6FF', onPress: () => router.push('/(tabs)/lessons') },
-    { title: 'Tiến bộ', description: 'Xem hành trình học tập',short:'Hành trình học', image: wide ? ART.bars : ART.progress, background: '#ECF8EE', onPress: () => router.push('/(tabs)/achievements') },
-    { title: 'Máy tính', description: 'Số thường, phân số, chia có dư',short:'Cùng tính nhé', image: ART.calculator, background: '#F0EBFD', onPress: () => setCalculatorOpen(true) },
+    { title: 'Bài đã lưu', label: 'Bài đã lưu. Xem lại bài làm của em', image: ART.saved, color: '#FDE7F2', action: () => router.push('/(tabs)/profile') },
+    { title: 'Luyện tập', label: 'Luyện tập. Làm bài theo chủ đề', image: ART.practice, color: '#E2F3FF', action: () => router.push('/(tabs)/lessons') },
+    { title: 'Tiến bộ', label: 'Tiến bộ. Xem hành trình học tập', image: ART.progress, color: '#DEF6EE', action: () => router.push('/(tabs)/achievements') },
+    { title: 'Máy tính', label: 'Mở máy tính bỏ túi', image: ART.calculator, color: '#EFE6FC', action: () => setCalculatorOpen(true) },
   ];
-  const streak = <View style={[styles.activity, desktop && styles.activityDesktop, IS_STUDENT_WEB && styles.paperPanel]}>
-    <Image source={ART.crown} style={styles.crown} accessible={false} />
-    <View style={styles.row}><Image source={ART.flame} style={styles.flame} accessible={false} /><Text style={styles.activityHeading}>Chuỗi học tập</Text></View>
-    <View style={styles.streakRow}><Ionicons name="star" size={16} color="#F2BE46" accessible={false} /><Text style={[styles.streak, IS_STUDENT_WEB && styles.webStreak]}>{activity?.streak ? `${activity.streak} ngày liên tiếp!` : 'Bắt đầu hôm nay!'}</Text></View>
-    <Text style={styles.activityCaption}>{historyUnavailable ? 'Chưa tải được lịch sử. Em vẫn có thể bắt đầu bài mới.' : activity?.completedToday ? 'Giỏi lắm! Mỗi ngày mình cùng học một chút nhé.' : 'Lưu một bài hôm nay để bắt đầu chuỗi học tập nhé.'}</Text>
-    <View style={styles.week}>{(activity?.days || ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map(label => ({ label, completed: false, date: '' }))).map(day =>
-      <View key={day.label} style={styles.day} accessible accessibilityLabel={`${day.label}: ${day.completed ? 'đã lưu bài' : 'chưa lưu bài'}`}>
-        <View style={[styles.dayCircle, day.completed && styles.dayDone]}><Ionicons name="star" size={18} color={day.completed ? '#EDB044' : '#C7C1D7'} accessible={false} /></View>
-        <Text style={styles.dayLabel}>{day.label}</Text>
-      </View>)}</View>
-    <Text style={styles.historyNote}>Theo bài đã lưu trên thiết bị này.</Text>
-  </View>;
-  return <View onLayout={event => setAvailableWidth(event.nativeEvent.layout.width)} style={{ minHeight: Math.max(0, height - (wide ? 48 : 110)) }}>
-    <StudentPageHeader title={IS_STUDENT_WEB ? 'Trang học của em' : undefined} subtitle={IS_STUDENT_WEB ? undefined : 'Toán học thật dễ, thật vui!'} onHelp={onTips} onAvatar={() => router.push('/account')} />
-    <View style={[styles.overview, desktop && styles.overviewDesktop]}>
-      {IS_STUDENT_WEB ? <View style={[styles.webHero, desktop && styles.heroDesktop, wide && styles.webHeroWide]} {...{ dataSet: { studentPaper: 'true' } }}>
-        <View style={[styles.webHeroCopy, wide && styles.webHeroCopyWide]}>
-          <Text style={[styles.webGreeting, wide && styles.webGreetingWide]} accessibilityRole="header">Cùng Sao học toán!</Text>
-          <Text style={styles.webDescription}>Chụp một bài toán để xem lại bài làm hoặc tìm cách giải cùng Sao.</Text>
-          <View style={styles.webHeroActions}>
-            <AppButton title="Chụp bài toán" onPress={onAcquire} icon={<Ionicons name="camera-outline" size={22} color="#FFF" accessible={false} />} />
-            <AppButton title="Mở câu đố" variant="secondary" onPress={() => router.push('/quiz')}
-              icon={<Ionicons name="extension-puzzle-outline" size={20} color={COLORS.primary} accessible={false} />} />
-          </View>
-        </View>
-        {!largeText ? <Image source={ART.mascot} style={[styles.webMascot, wide && styles.webMascotWide, roomy && styles.webMascotRoomy]} accessible={false} /> : null}
-      </View> : <LinearGradient colors={['#F7F2FF', '#ECE5FD']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.hero, wide && styles.heroWide, desktop && styles.heroDesktop, roomy && styles.heroRoomy]}>
-        <View style={styles.orbit} accessible={false} /><View style={styles.mint} accessible={false} />{wide ? <View style={styles.peach} accessible={false} /> : null}
-        <Text style={styles.plus} accessible={false}>+</Text><Text style={styles.division} accessible={false}>÷</Text>
-        {!largeText ? <Image highResolution source={ART.mascot} style={[styles.mascot, wide && styles.mascotWide, desktop && styles.mascotDesktop, roomy && styles.mascotRoomy]} accessible={false} /> : null}
-        <View style={styles.heroCopy}>
-          <Text style={[styles.greeting, wide && styles.greetingWide]} accessibilityRole="header" accessibilityLabel={`Chào ${userName}!`}>Chào em!<Text style={styles.spark}> ✦</Text></Text>
-          <Text style={[styles.description, wide && styles.descriptionWide, largeText && { width: '100%', maxWidth: '100%' }]}>Cùng MathVisionKid khám phá Toán học theo cách thật thú vị nhé!</Text>
-          <Pressable accessibilityRole="button" accessibilityLabel="Chụp bài toán" accessibilityHint="Mở máy ảnh để chụp đề hoặc bài em đã làm" onPress={onAcquire}
-            style={({ pressed }) => [styles.capture, wide && styles.captureWide, pressed && styles.pressed]}>
-            <LinearGradient colors={['#8C5BFF', '#6534F4']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} pointerEvents="none" />
-            <Ionicons name="camera" size={22} color="#FFF" accessible={false} /><Text style={[styles.captureLabel, wide && { fontSize: 18 }]}>Chụp bài toán</Text><Ionicons name="chevron-forward" size={18} color="#FFF" accessible={false} />
-          </Pressable>
-        </View>
-      </LinearGradient>}
-      {desktop ? streak : null}
+  return <View onLayout={event => setAvailableWidth(event.nativeEvent.layout.width)}>
+    <Text style={styles.pageTitle} accessibilityRole="header">Trang chủ</Text>
+    <View style={styles.header}>
+      <Pressable accessibilityRole="button" accessibilityLabel="Trang cá nhân của em" onPress={() => router.push('/account')} style={styles.avatar}>
+        <StudentAvatar id={profile.value?.avatar ?? 'rocket'} photo={profile.value?.avatarPhoto} size={44} />
+      </Pressable>
+      <View style={styles.headerCopy}><Text style={styles.welcome}>Chào mừng trở lại,</Text><Text style={styles.name}>{`${displayName}!`}</Text></View>
+      <Pressable accessibilityRole="button" accessibilityLabel="Thông báo học tập" onPress={() => setNotificationsOpen(true)} style={styles.iconButton}>
+        <Ionicons name="notifications-outline" size={26} color={COLORS.primaryDark} accessible={false} />
+      </Pressable>
     </View>
-    <ResumeLessonCard key={userKey} owner={userKey}/>
-    {desktop ? <LearningJourney desktop onPractice={() => onPractice()} onAcquire={onAcquire} /> : null}
-    <View style={styles.sectionHeading}><Text style={styles.sectionTitle} accessibilityRole="header">Tiện ích nhanh</Text>
-      <Pressable accessibilityRole="button" accessibilityLabel="Xem tất cả bài luyện tập lớp 1 đến lớp 5" onPress={() => router.push('/(tabs)/lessons')} style={styles.sectionLink}><Text style={styles.link}>Xem tất cả</Text><Ionicons name="chevron-forward" size={14} color={COLORS.primaryDark} /></Pressable>
-    </View>
-    <View style={[styles.quickGrid, wide && styles.quickGridWide, largeText && { flexDirection: 'column' }, IS_STUDENT_WEB && styles.webQuickGrid]}>
-      {(wide || IS_STUDENT_WEB ? quickActions : quickActions.slice(0, 3)).map(action => <Pressable key={action.title} onPress={action.onPress} accessibilityRole="button"
-        accessibilityLabel={action.title === 'Máy tính' ? 'Mở máy tính bỏ túi' : `${action.title}. ${action.description}`}
-        style={state => [styles.quickCard, { backgroundColor: action.background }, wide && styles.quickCardWide, roomy && styles.quickCardRoomy,largeText&&{flexDirection:'row',alignItems:'center',gap:12,minHeight:96,flex:0},
-          IS_STUDENT_WEB && styles.webQuickCard, IS_STUDENT_WEB && wide && styles.webQuickCardWide, IS_STUDENT_WEB && 'hovered' in state && state.hovered === true && styles.webQuickHovered, state.pressed && styles.pressed]}>
-        <Image source={action.image} style={[styles.quickArt, wide && styles.quickArtWide, largeText&&{width:52,height:58,marginBottom:0}, IS_STUDENT_WEB && styles.webQuickArt]} accessible={false} />
-        <View style={(largeText || IS_STUDENT_WEB) && styles.flex}><View style={styles.quickHeading}><Text style={[styles.quickTitle, wide && styles.quickTitleWide, roomy && !largeText&&{ fontSize: 12 }, IS_STUDENT_WEB && styles.webQuickTitle]}>{action.title}</Text>{!roomy ? <View style={styles.quickArrow}><Ionicons name="chevron-forward" size={13} color={COLORS.primaryDark} accessible={false} /></View> : null}</View><Text style={[styles.quickDescription, wide && styles.quickDescriptionWide, IS_STUDENT_WEB && styles.webQuickDescription]}>{availableWidth<350&&!largeText&&!IS_STUDENT_WEB?action.short:action.description}</Text></View>
+    <LinearGradient colors={['#343DDC', '#5430CB', '#9848E6']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.hero, wide && styles.heroWide]} testID="home-hero">
+      <View pointerEvents="none" style={styles.orbit} />
+      <View style={[styles.heroCopy, fontScale > 1.3 && { width: '100%' }]}>
+        <Text style={[styles.heroTitle, wide && styles.heroTitleWide]} accessibilityRole="header">Cùng <Text style={styles.yellow}>MathVisionKid</Text>{'\n'}khám phá Toán học nhé!</Text>
+        <Pressable accessibilityRole="button" accessibilityLabel="Chụp bài toán" accessibilityHint="Mở máy ảnh để chụp đề hoặc chọn ảnh bài toán" onPress={onAcquire}
+          style={({ pressed }) => [styles.capture, pressed && styles.pressed]}><Text style={styles.captureText}>Chụp bài toán</Text></Pressable>
+      </View>
+      {fontScale <= 1.3 ? <HomeMascot visible={heroVisible} style={[styles.mascot, wide && styles.mascotWide]} /> : null}
+    </LinearGradient>
+    <View style={styles.headingRow}><Ionicons name="bulb-outline" size={24} color={COLORS.primaryDark} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Tiện ích nhanh</Text></View>
+    <View style={styles.quickGrid} testID="quick-actions-grid">
+      {quickActions.map(item => <Pressable key={item.title} accessibilityRole="button" accessibilityLabel={item.label} onPress={item.action}
+        style={({ pressed }) => [styles.quickCard, { backgroundColor: item.color }, wide && styles.quickCardWide, pressed && styles.pressed]}>
+        <Image source={item.image} style={[styles.quickArt, wide && styles.quickArtWide]} accessible={false} />
+        <Text style={[styles.quickTitle, wide && styles.quickTitleWide]}>{item.title}</Text>
       </Pressable>)}
     </View>
-    {!desktop ? <View style={styles.streakBelow}>{streak}</View> : null}
-    {wide && !desktop ? <LearningJourney desktop={false} onPractice={() => onPractice()} onAcquire={onAcquire} /> : null}
-    <View style={[styles.lower, desktop && styles.lowerDesktop]}>
-      <View style={styles.flex}>
-        <View style={styles.sectionHeading}><Text style={styles.sectionTitle} accessibilityRole="header">Bài học gợi ý cho em</Text><Pressable accessibilityRole="button" accessibilityLabel="Xem thêm bài học gợi ý" onPress={() => onPractice()} style={styles.sectionLink}><Text style={styles.link}>Xem thêm</Text><Ionicons name="chevron-forward" size={14} color={COLORS.primaryDark} /></Pressable></View>
-        <View style={[styles.recommendations, !roomy && styles.recommendationsDesktop]}>
-          {[
-            { title: 'Phép cộng đến 100', description: 'Lớp 1 · Đọc đề và thử giải', icon: 'star-outline' as const, label: 'Luyện phép cộng và trừ trong phạm vi 100, lớp 1', onPress: () => onPractice(1) },
-            { title: 'Đọc phép tính', description: 'Cộng, trừ đặt dọc', icon: 'calculator-outline' as const, label: 'Đọc phép tính. Kiểm tra phép cộng và trừ đặt dọc', onPress: onArithmetic },
-          ].map((item, index) => <Pressable key={item.title} onPress={item.onPress} accessibilityRole="button" accessibilityLabel={item.label}
-            style={({ pressed }) => [styles.lesson, index === 1 && { backgroundColor: '#EDF7EE' }, !roomy && styles.lessonDesktop, pressed && styles.pressed]}>
-            <View style={styles.lessonHeading}><Text style={styles.lessonTitle}>{item.title}</Text>
-              <View style={[styles.lessonIcon, index === 1 && { backgroundColor: '#6B9FE2' }]}><Ionicons name={item.icon} size={15} color="#FFF" accessible={false} /></View></View>
-            <Text style={styles.lessonDetail}>{item.description}</Text>
-          </Pressable>)}
+    <LearningJourney desktop={wide} onPractice={() => onPractice()} onAcquire={onAcquire} />
+    <View style={styles.headingRow}><Ionicons name="star" size={22} color="#F0BB42" accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Bài học gợi ý cho em</Text></View>
+    {auth?.user && !hasRegisteredGrade ? <RecoveryNotice title="Chưa tải được lớp của em" message="Em tải lại hồ sơ để xem đúng bài học nhé."
+      actions={[{ label: 'Tải lại hồ sơ', onPress: () => { profile.retry(); void auth.refreshUser?.(); } }]} /> : <View style={[styles.recommendations, wide && styles.recommendationsWide]}>
+      {(hasRegisteredGrade ? gradeLessons.slice(0, 1).map(problem => ({ title: problem.title, artwork: getLessonArtwork(problem.id), description: `Lớp ${registeredGrade} · ${problem.topic}`,
+        label: `Học bài ${problem.title}`, action: () => router.push({ pathname: '/learning/math-guide', params: { problemText: problem.problemText } }) })) : [
+        { title: 'Phép cộng đến 100', artwork: getLessonArtwork('grade1_prob1'), description: 'Lớp 1 · Đọc đề và thử giải', label: 'Luyện phép cộng và trừ trong phạm vi 100, lớp 1', action: () => onPractice(1) },
+      ]).map(item => <Pressable key={item.title} accessibilityRole="button" accessibilityLabel={item.label} onPress={item.action} style={({ pressed }) => [styles.lesson, pressed && styles.pressed]}>
+        <Image source={item.artwork.source} style={styles.lessonArt} accessible={false} /><View style={styles.headerCopy}><Text style={styles.lessonTitle}>{item.title}</Text><Text style={styles.lessonDescription}>{item.description}</Text></View>
+        <Ionicons name="play-circle" size={28} color="#FFFFFF" accessible={false} />
+      </Pressable>)}
+    </View>}
+    <ResumeLessonCard key={userKey} owner={userKey} />
+    <View style={styles.streakCard} testID="learning-streak">
+      <Image source={ART.crown} style={styles.crown} accessible={false} />
+      <View style={styles.headingRow}><Image source={ART.flame} style={styles.flame} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Chuỗi học tập</Text></View>
+      <Text style={styles.streak}>{!profile.value ? profile.failed ? 'Chưa tải được chuỗi học tập' : 'Đang tải chuỗi học tập…' : streak ? `Em đã học liên tiếp ${streak} ngày!` : 'Bắt đầu hôm nay!'}</Text>
+      <Text style={styles.caption}>{profile.failed ? 'Em thử tải lại để xem hoạt động đã hoàn thành.' : profile.value?.stats.today ? 'Giỏi lắm! Hôm nay em đã hoàn thành hoạt động học.' : streak ? 'Hãy tiếp tục học hôm nay để duy trì chuỗi nhé!' : 'Hoàn thành một bài học để bắt đầu chuỗi học tập của em.'}</Text>
+      <View style={styles.week}>{activity.days.map(day => <View key={day.label} style={styles.day} accessible accessibilityLabel={`${day.label}: ${day.completed ? 'đã học' : 'chưa có hoạt động hoàn thành'}${day.today ? ', hôm nay' : ''}`}>
+        <View style={[styles.dayCircle, day.completed && styles.dayCompleted]}>
+          {day.completed ? <>
+            <Image source={ART.rewardStar} style={styles.dayRewardStar} accessible={false} />
+            <Ionicons name="sparkles" size={13} color="#E6A418" style={styles.daySparkles} accessible={false} testID="completed-day-sparkles" />
+          </> : <Ionicons name="star" size={18} color="#C9C1D7" accessible={false} />}
         </View>
-      </View>
-      {wide ? <View style={[styles.gradePicker, desktop && styles.gradeDesktop]}><Text style={styles.gradeTitle}>Luyện tập theo lớp</Text><View style={styles.gradeChoices}>
-        {([1, 2, 3, 4, 5] as const).map(grade => <Pressable key={grade} accessibilityRole="button" accessibilityLabel={`Luyện tập lớp ${grade}`} onPress={() => onPractice(grade)} style={({ pressed }) => [styles.gradeChoice, pressed && styles.pressed]}><Text style={styles.gradeLabel}>Lớp {grade}</Text></Pressable>)}
-      </View></View> : null}
+        <Text style={[styles.dayLabel, day.today && styles.todayLabel]}>{day.label}</Text>
+      </View>)}</View>
+      <Text style={styles.historyNote}>Theo hoạt động đã hoàn thành · Giờ Việt Nam.</Text>
+      {profile.failed ? <Pressable accessibilityRole="button" accessibilityLabel="Tải lại chuỗi học tập" onPress={profile.retry} style={styles.textButton}><Text style={styles.link}>Tải lại</Text></Pressable> : null}
     </View>
-    {!wide && !IS_STUDENT_WEB ? <Pressable accessibilityRole="button" accessibilityLabel="Mở máy tính bỏ túi" onPress={() => setCalculatorOpen(true)} style={({ pressed }) => [styles.calculator, pressed && styles.pressed]}>
-      <Image source={ART.calculator} style={styles.calculatorArt} accessible={false} /><View style={styles.flex}><Text style={styles.calculatorTitle}>Máy tính bỏ túi</Text><Text style={styles.detail}>Số thường · Phân số · Chia có dư</Text></View><Ionicons name="chevron-forward" size={21} color={COLORS.primaryDark} />
-    </Pressable> : null}
-    <Pressable onPress={onPrivacy} accessibilityRole="button" accessibilityLabel="Bảo vệ thông tin riêng tư của em" style={styles.privacy}><Ionicons name="shield-checkmark-outline" size={17} color={COLORS.primaryDark} accessible={false} /><Text style={styles.privacyText}>Bảo vệ thông tin riêng tư của em</Text><Ionicons name="chevron-forward" size={15} color={COLORS.primaryDark} accessible={false} /></Pressable>
+    <View style={styles.footer}><Pressable accessibilityRole="button" accessibilityLabel="Mẹo chụp bài rõ nét" onPress={onTips} style={styles.textButton}><Text style={styles.link}>Mẹo chụp bài</Text></Pressable>
+      <Pressable accessibilityRole="button" accessibilityLabel="Bảo vệ thông tin riêng tư của em" onPress={onPrivacy} style={styles.textButton}><Text style={styles.link}>Bảo vệ thông tin riêng tư của em</Text></Pressable></View>
     <PocketCalculator visible={calculatorOpen} onClose={() => setCalculatorOpen(false)} />
+    {notificationsOpen ? <LessonSheet title="Thông báo học tập" compact onClose={() => setNotificationsOpen(false)}>
+      <Text style={styles.caption}>Chưa có thông báo mới. Em có thể mở lại bài đang học hoặc chọn một bài trong chương trình của mình.</Text>
+      <Pressable accessibilityRole="button" accessibilityLabel="Mở lại giới thiệu MathVisionKid" onPress={() => { setNotificationsOpen(false); router.push('/onboarding'); }} style={styles.textButton}><Text style={styles.link}>Xem giới thiệu MathVisionKid</Text></Pressable>
+    </LessonSheet> : null}
   </View>;
 }
 const styles = StyleSheet.create({
-  webHero: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', minWidth: 0, gap: 8, padding: 20,
-    borderWidth: 1, borderColor: WEB_DESIGN.components.notebook.borderColor, borderRadius: WEB_DESIGN.components.notebook.radius,
-    backgroundColor: '#FFF3CB' },
-  webHeroWide: { gap: 16, padding: 28, minHeight: 248 },
-  webHeroCopy: { flex: 1, minWidth: 176, gap: 12, zIndex: 1 },
-  webHeroCopyWide: { gap: 14 },
-  webGreeting: { fontFamily: FONTS.black, fontSize: 28, lineHeight: 34, letterSpacing: -.5, color: WEB_DESIGN.colors.ink },
-  webGreetingWide: { fontSize: WEB_DESIGN.typography.sizes.display, lineHeight: 46 },
-  webDescription: { maxWidth: 340, fontFamily: FONTS.regular, fontSize: WEB_DESIGN.typography.sizes.body, lineHeight: 24, color: WEB_DESIGN.colors.ink },
-  webHeroActions: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 10 },
-  webMascot: { width: 100, height: 108, alignSelf: 'flex-end', marginLeft: 'auto' },
-  webMascotWide: { width: '32%', maxWidth: 220, height: 200, alignSelf: 'center' },
-  webMascotRoomy: { width: 56, height: 66 },
-  paperPanel: { borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.components.notebook.radius, shadowOpacity: 0, elevation: 0 },
-  webStreak: { color: WEB_DESIGN.colors.blue },
-  webQuickGrid: { flexWrap: 'wrap', marginBottom: 24, gap: 10 },
-  webQuickCard: { flex: 1, flexBasis: '100%', flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 74,
-    paddingHorizontal: 12, paddingVertical: 10, borderWidth: 1, borderColor: 'transparent', borderRadius: WEB_DESIGN.components.action.radius },
-  webQuickCardWide: { flexBasis: '47%' },
-  webQuickHovered: { borderColor: WEB_DESIGN.focus.color },
-  webQuickArt: { width: 52, height: 52, marginBottom: 0 },
-  webQuickTitle: { fontSize: WEB_DESIGN.typography.sizes.body, lineHeight: 22 },
-  webQuickDescription: { fontSize: WEB_DESIGN.typography.sizes.caption, lineHeight: 20, color: WEB_DESIGN.colors.mutedInk },
-  flex: { flex: 1, minWidth: 0 }, row: { flexDirection: 'row', alignItems: 'center', gap: 6 }, overview: { marginBottom: 17, gap: 18 }, overviewDesktop: { flexDirection: 'row', alignItems: 'stretch' },
-  hero: { minHeight: 196, padding: 18, borderRadius: 25, position: 'relative', overflow: 'hidden' }, heroWide: { minHeight: 232, padding: 25 }, heroDesktop: { flex: 1.85, minHeight: 256 }, heroRoomy: { minHeight: 210, paddingHorizontal: 16 },
-  heroCopy: { zIndex: 2, alignItems: 'flex-start' }, greeting: { fontFamily: FONTS.black, fontSize: 31, lineHeight: 39, color: '#171345', letterSpacing: -.9, marginBottom: 6 }, greetingWide: { fontSize: 38, lineHeight: 48 },
-  spark: { color: '#F1B744', fontSize: 21 }, description: { fontFamily: FONTS.regular, color: '#63577E', fontSize: 13, lineHeight: 19, width: '54%', maxWidth: 225, marginBottom: 13 }, descriptionWide: { fontSize: 16, lineHeight: 24, maxWidth: 320, width: '63%', marginBottom: 19 },
-  orbit: { position: 'absolute', right: -90, top: 16, width: 270, height: 230, borderRadius: 160, backgroundColor: '#DACCF85C' }, mint: { position: 'absolute', right: 100, bottom: -32, width: 130, height: 70, borderRadius: 70, backgroundColor: '#B7DBC7AA', transform: [{ rotate: '-15deg' }] }, peach: { position: 'absolute', right: -25, bottom: -20, width: 100, height: 70, borderRadius: 60, backgroundColor: '#F9D6A3AA' },
-  plus: { position: 'absolute', right: 117, top: 55, color: '#EAA0B8', fontSize: 25 }, division: { position: 'absolute', right: 24, top: 12, color: '#B9A1EF', fontSize: 19 },
-  mascot: { position: 'absolute', width: '50%' as const, height: 186, right: -3, bottom: 4 }, mascotWide: { width: '43%' as const, height: 234, right: 4, bottom: 0 }, mascotDesktop: { width: '44%' as const, height: 248 }, mascotRoomy: { width: '47%' as const, height: 174 },
-  capture: { borderRadius: 28, overflow: 'hidden', flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 48, paddingVertical: 10, paddingHorizontal: 16, borderWidth: 1, borderColor: '#AE8FFF', shadowColor: '#7F53E4', shadowOpacity: .15, shadowRadius: 7, shadowOffset: { width: 0, height: 3 }, elevation: 3 }, captureWide: { minHeight: 52, paddingHorizontal: 22 }, captureLabel: { fontFamily: FONTS.extraBold, color: '#FFF', fontSize: 15 },
-  sectionHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 10 }, sectionTitle: { flex: 1, fontFamily: FONTS.extraBold, color: COLORS.textPrimary, fontSize: 19, lineHeight: 26, letterSpacing: -.3 }, sectionLink: { minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 4 }, link: { fontFamily: FONTS.bold, color: COLORS.primaryDark, fontSize: 12 },
-  quickGrid: { flexDirection: 'row', gap: 8, marginBottom: 16 }, quickGridWide: { gap: 12, marginBottom: 22 }, quickCard: { flex: 1, minWidth: 0, minHeight: 148, borderRadius: 20, paddingHorizontal: 10, paddingTop: 12, paddingBottom: 12 }, quickCardWide: { minHeight: 178, paddingHorizontal: 16, paddingTop: 16, paddingBottom: 16, borderRadius: 22 }, quickCardRoomy: { paddingHorizontal: 8 },
-  quickArt: { width: '100%', height: 60, marginBottom: 8 }, quickArtWide: { height: 80, marginBottom: 10 }, quickHeading: { flexDirection: 'row', alignItems: 'center', gap: 3, marginBottom: 5 }, quickArrow: { width: 17, height: 17, borderRadius: 9, backgroundColor: '#FFFFFFD9', alignItems: 'center', justifyContent: 'center' }, quickTitle: { flex: 1, fontFamily: FONTS.extraBold, fontSize: 13, lineHeight: 18, color: COLORS.textPrimary }, quickTitleWide: { fontSize: 16, lineHeight: 22 }, quickDescription: { fontFamily: FONTS.regular, color: '#6F6588', fontSize: 11, lineHeight: 16 }, quickDescriptionWide: { fontSize: 12, lineHeight: 18 },
-  calculator: { flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 20, padding: 13, minHeight: 76, backgroundColor: '#EFE9FC', marginTop: 18 }, calculatorArt: { width: 46, height: 50 }, calculatorTitle: { fontFamily: FONTS.extraBold, color: COLORS.textPrimary, fontSize: 16, marginBottom: 2 }, detail: { fontFamily: FONTS.regular, color: '#6B6388', fontSize: 11, lineHeight: 17, marginTop: 3 },
-  activity: { position: 'relative', borderRadius: 24, padding: 18, borderWidth: 1, borderColor: '#E8E0F8', backgroundColor: '#FFF', minWidth: 0, shadowColor: '#49386E', shadowOffset: { width: 0, height: 3 }, shadowOpacity: .07, shadowRadius: 9, elevation: 2 }, activityDesktop: { flex: 1 }, activityHeading: { fontFamily: FONTS.extraBold, fontSize: 17, lineHeight: 23, color: COLORS.textPrimary }, flame: { width: 20, height: 22 }, crown: { position: 'absolute', right: 10, top: 12, width: 57, height: 55 }, streakRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 5, paddingRight: 22 }, streak: { flex: 1, fontFamily: FONTS.extraBold, color: '#6C3FE4', fontSize: 20, lineHeight: 27 }, week: { flexDirection: 'row', gap: 3, justifyContent: 'space-between', marginTop: 12 }, day: { alignItems: 'center', gap: 5, flex: 1 }, dayCircle: { width: 29, height: 29, borderRadius: 15, backgroundColor: '#F1EDF7', alignItems: 'center', justifyContent: 'center' }, dayDone: { backgroundColor: '#FFF0BA' }, dayLabel: { fontFamily: FONTS.semiBold, fontSize: 11, lineHeight: 15, color: '#78678C' }, activityCaption: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 18, color: '#746A8B', marginTop: 7 }, historyNote: { fontFamily: FONTS.regular, fontSize: 10, lineHeight: 15, color: '#7B6E8A', marginTop: 8 }, streakBelow: { marginBottom: 20 },
-  lower: { gap: 18 }, lowerDesktop: { flexDirection: 'row', alignItems: 'stretch', gap: 20 }, recommendations: { gap: 10 }, recommendationsDesktop: { flexDirection: 'row' },
-  lesson: { justifyContent: 'center', gap: 5, padding: 10, borderRadius: 15, backgroundColor: '#EEE7FF', minHeight: 76 }, lessonDesktop: { flex: 1, minWidth: 0 },
-  lessonHeading: { flexDirection: 'row', alignItems: 'center', gap: 6 }, lessonIcon: { width: 22, height: 22, borderRadius: 8, backgroundColor: '#9B72ED', alignItems: 'center', justifyContent: 'center' },
-  lessonTitle: { flex: 1, minWidth: 0, fontFamily: FONTS.extraBold, fontSize: 13, lineHeight: 18, color: COLORS.textPrimary },
-  lessonDetail: { fontFamily: FONTS.regular, color: COLORS.textSecondary, fontSize: 11, lineHeight: 16 },
-  gradePicker: { padding: 20, borderRadius: 23, backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#ECE5F8', gap: 15 }, gradeDesktop: { width: 260 }, gradeTitle: { fontFamily: FONTS.extraBold, fontSize: 17, color: COLORS.textPrimary }, gradeChoices: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 }, gradeChoice: { minHeight: 44, minWidth: 54, paddingHorizontal: 10, justifyContent: 'center', alignItems: 'center', borderRadius: 12, backgroundColor: '#F3EEFF' }, gradeLabel: { fontFamily: FONTS.bold, fontSize: 12, color: COLORS.primaryDark },
-  privacy: { minHeight: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 22 }, privacyText: { fontFamily: FONTS.semiBold, fontSize: 12, color: '#74658F' }, pressed: { opacity: .73 },
+  pageTitle: { fontFamily: FONTS.extraBold, fontSize: 25, color: COLORS.textPrimary, marginBottom: 16 },
+  header: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 20 }, avatar: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FDE7F1', overflow: 'hidden' },
+  headerCopy: { flex: 1, minWidth: 0 }, welcome: { fontFamily: FONTS.regular, fontSize: 12, color: COLORS.textSecondary }, name: { fontFamily: FONTS.extraBold, fontSize: 17, lineHeight: 24, color: COLORS.textPrimary },
+  iconButton: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
+  hero: { borderRadius: 24, padding: 17, minHeight: 184, justifyContent: 'center', overflow: 'hidden', marginBottom: 18 }, heroWide: { minHeight: 228, padding: 28 }, heroCopy: { width: '68%', zIndex: 1, alignItems: 'flex-start', gap: 13 },
+  heroTitle: { fontFamily: FONTS.black, fontSize: 19, lineHeight: 25, color: '#FFFFFF', letterSpacing: -.35 }, heroTitleWide: { fontSize: 29, lineHeight: 38 }, yellow: { color: '#FFDE54' },
+  capture: { minHeight: 44, backgroundColor: '#FFDC50', borderRadius: 26, paddingHorizontal: 16, paddingVertical: 11, justifyContent: 'center' }, captureText: { fontFamily: FONTS.extraBold, fontSize: 13, lineHeight: 19, color: '#20143F' },
+  mascot: { position: 'absolute', right: 0, bottom: 9, width: '36%', height: 155 }, mascotWide: { right: 20, bottom: 4, height: 218, width: '34%' }, orbit: { position: 'absolute', width: '90%', height: 90, borderWidth: 2, borderColor: '#AD78EA', bottom: -60, right: -30, borderRadius: 80, transform: [{ rotate: '-15deg' }] },
+  headingRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 13 }, heading: { flex: 1, fontFamily: FONTS.extraBold, fontSize: 20, lineHeight: 27, color: COLORS.textPrimary },
+  quickGrid: { flexDirection: 'row', gap: 7, marginBottom: 24 }, quickCard: { flex: 1, minWidth: 0, borderRadius: 18, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3, paddingVertical: 12, minHeight: 90 }, quickCardWide: { minHeight: 138 },
+  quickArt: { width: '90%', height: 40, marginBottom: 8 }, quickArtWide: { height: 70 }, quickTitle: { fontFamily: FONTS.extraBold, fontSize: 10, lineHeight: 15, textAlign: 'center', color: COLORS.textPrimary }, quickTitleWide: { fontSize: 15, lineHeight: 22 },
+  recommendations: { gap: 10, marginBottom: 2 }, recommendationsWide: { flexDirection: 'row' }, lesson: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', padding: 14, gap: 10, backgroundColor: '#EFE5FC', borderRadius: 22, minHeight: 84 }, lessonArt: { width: 44, height: 50 }, lessonTitle: { fontFamily: FONTS.extraBold, fontSize: 14, lineHeight: 20, color: COLORS.textPrimary }, lessonDescription: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 18, color: COLORS.textSecondary, marginTop: 3 },
+  streakCard: { marginTop: 24, borderRadius: 24, padding: 18, borderWidth: 1, borderColor: '#E8E0F8', backgroundColor: '#FFFFFF' }, crown: { position: 'absolute', right: 12, top: 10, width: 48, height: 44 }, flame: { width: 20, height: 24 }, streak: { fontFamily: FONTS.extraBold, fontSize: 20, lineHeight: 28, color: COLORS.primaryDark, paddingRight: 15 }, caption: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: COLORS.textSecondary, marginTop: 7 },
+  week: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 14 }, day: { alignItems: 'center', gap: 6 }, dayCircle: { width: 30, height: 30, borderRadius: 16, backgroundColor: '#F1EDF7', alignItems: 'center', justifyContent: 'center' }, dayCompleted: { backgroundColor: '#FFF0BA' }, dayLabel: { fontFamily: FONTS.semiBold, fontSize: 11, color: COLORS.textSecondary }, todayLabel: { color: COLORS.primaryDark, fontFamily: FONTS.extraBold }, historyNote: { fontFamily: FONTS.regular, fontSize: 10, lineHeight: 16, color: COLORS.textSecondary, marginTop: 10 },
+  dayRewardStar: { width: 40, height: 40 },
+  daySparkles: { position: 'absolute', right: -5, top: -5 },
+  footer: { marginTop: 16, flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }, textButton: { minHeight: 44, justifyContent: 'center', alignItems: 'center' }, link: { fontFamily: FONTS.bold, fontSize: 12, color: COLORS.primaryDark }, pressed: { opacity: .75 },
 });

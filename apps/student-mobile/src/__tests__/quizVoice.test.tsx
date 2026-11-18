@@ -25,14 +25,14 @@ it('uses the shared player and requests only the owned Quiz content with the sav
   expect(quizApi.audio).toHaveBeenCalledTimes(1);
   expect(quizApi.audio).toHaveBeenCalledWith('quiz-one', 'vi-VN-HoaiMyNeural', expect.any(AbortSignal), 'QUESTION');
   expect(view.root.findAllByType('AudioPlayback' as any)).toHaveLength(1);
-  expect(button('Giọng nam')).toBeDefined(); expect(button('Giọng nữ')).toBeDefined(); expect(button('Giọng có sẵn')).toBeDefined();
+  expect(button('Giọng nam')).toBeDefined(); expect(button('Giọng nữ')).toBeDefined(); expect(button('Giọng thiết bị')).toBeDefined();
 });
 it('cancels cloud generation on device selection and keeps the same transcript', async () => {
   let finish!: (bytes: Uint8Array) => void;
   (quizApi.audio as jest.Mock).mockImplementation(() => new Promise(resolve => { finish=resolve; }));
   await act(async () => { view = TestRenderer.create(<QuizVoice quizId="quiz-one" paragraphs={['Đáp số là 68.']}/>); });
   const signal=(quizApi.audio as jest.Mock).mock.calls[0][2];
-  await act(async () => button('Giọng có sẵn').props.onPress());
+  await act(async () => button('Giọng thiết bị').props.onPress());
   expect(signal.aborted).toBe(true);
   expect(view.root.findByType('DeviceNarration' as any).props.paragraphs).toEqual(['Đáp số là 68.']);
   await act(async () => finish(new Uint8Array(50)));

@@ -34,16 +34,17 @@ public class FacebookAuthService {
     private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokens;
     private final boolean enabled;
+    private final com.mathvisionkids.api.studentprofile.StudentProfileService profiles;
     private final String projectId;
     private FirebaseAuth firebaseAuth;
 
     public FacebookAuthService(UserRepository users, StudentRepository students, TeacherRepository teachers,
-                               PasswordEncoder passwordEncoder, JwtUtil jwtUtil, RefreshTokenService refreshTokens,
+                               PasswordEncoder passwordEncoder, JwtUtil jwtUtil, RefreshTokenService refreshTokens, com.mathvisionkids.api.studentprofile.StudentProfileService profiles,
                                @Value("${app.auth.facebook.enabled:false}") boolean enabled,
                                @Value("${app.auth.facebook.firebase-project-id:}") String projectId) {
         this.users = users; this.students = students; this.teachers = teachers;
         this.passwordEncoder = passwordEncoder; this.jwtUtil = jwtUtil; this.refreshTokens = refreshTokens;
-        this.enabled = enabled; this.projectId = projectId;
+        this.enabled = enabled; this.projectId = projectId; this.profiles = profiles;
     }
 
     @PostConstruct
@@ -121,6 +122,11 @@ public class FacebookAuthService {
         user.setGender("PREFER_NOT_TO_SAY");
         user.setActive(true);
         if (user instanceof Student student) student.setGradeLevel(request.getGradeLevel());
-        return user instanceof Student student ? students.save(student) : teachers.save((Teacher) user);
+        if (user instanceof Student student) {
+            students.saveAndFlush(student);
+            profiles.initialize(student.getId());
+            return student;
+        }
+        return teachers.save((Teacher) user);
     }
 }

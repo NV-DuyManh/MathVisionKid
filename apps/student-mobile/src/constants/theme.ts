@@ -12,7 +12,7 @@ export const MATHVISION_COLORS = {
   secondaryDark: '#D97706',
   secondaryLight: '#FEF3C7',
   accent: '#10B981',
-  background: '#F8F7FE',
+  background: '#F5F4FC',
   surface: '#FFFFFF',
   surfaceSubdued: '#F0EDFF',
   textPrimary: '#18164C',
@@ -27,7 +27,7 @@ export const MATHVISION_COLORS = {
   errorText: '#B91C1C',
   review: '#7C3AED',
   reviewLight: '#EDE9FE',
-  border: '#E2E8F0',
+  border: '#E3DDF2',
   borderFocus: '#7055F6',
   pastelBlue: '#EFF6FF',
   pastelGreen: '#F0FDF4',
@@ -54,17 +54,7 @@ export const MATHVISION_COLORS = {
 
 export const COLORS = IS_STUDENT_WEB ? {
   ...MATHVISION_COLORS,
-  primary: WEB_DESIGN.roles.student.action,
-  primaryDark: WEB_DESIGN.roles.student.action,
-  primaryLight: WEB_DESIGN.roles.student.tint,
   secondary: WEB_DESIGN.colors.star,
-  background: WEB_DESIGN.colors.paper,
-  surface: WEB_DESIGN.colors.white,
-  surfaceSubdued: WEB_DESIGN.colors.blueLight,
-  textPrimary: WEB_DESIGN.colors.ink,
-  textSecondary: WEB_DESIGN.colors.mutedInk,
-  border: WEB_DESIGN.colors.line,
-  borderFocus: WEB_DESIGN.focus.color,
 } : MATHVISION_COLORS;
 export function getThemeColors() { return COLORS; }
 

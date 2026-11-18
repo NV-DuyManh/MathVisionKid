@@ -32,8 +32,12 @@ export type WorkReviewRequest = { sourceId: string; problemText: string; workTex
 export type WorkReviewRow = { lineIndex: number; sourceText: string; status: 'OK' | 'FIX' | 'UNSURE'; feedback: string; hints: string[];
   errorKind?: 'NONE' | 'CALCULATION' | 'OPERAND' | 'DEPENDENT' | 'EXPLANATION' | 'UNIT';
   rowKind?: 'HEADING' | 'EXPLANATION' | 'CALCULATION' | 'ANSWER' | 'UNVERIFIABLE' | null; arithmeticCorrect?: boolean | null };
+export type MissingWorkPart = { type: 'MISSING_CALCULATION' | 'MISSING_INTERMEDIATE' | 'MISSING_ANSWER' | 'NOT_STARTED';
+  target: string; description: string; hint: string; requirementIndex: number; relatedLineIndices: number[];
+  evidence: 'DUAL_REVIEW' | 'DETERMINISTIC' };
 export type WorkReview = { sourceId: string; status: 'CORRECT' | 'NEEDS_REVISION' | 'NEEDS_REVIEW'; summary: string; praise: string;
-  rows: WorkReviewRow[]; nextAction: string; alternative: string; complete?: boolean | null; missingPart?: string; arithmeticVerified?: boolean | null };
+  rows: WorkReviewRow[]; nextAction: string; alternative: string; complete?: boolean | null; missingPart?: string; arithmeticVerified?: boolean | null;
+  missingParts?: MissingWorkPart[]; completionVersion?: 2 };
 /** Same physical line separators as Python splitlines; blank rows do not get review indexes. */
 export function trimWorkReviewLine(text: string): string {
   return text.replace(/^[\u0009-\u000D\u001C-\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+|[\u0009-\u000D\u001C-\u0020\u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+$/g, '');
@@ -65,7 +69,7 @@ const TIMEOUT = 45000;
 const INVALID_RESPONSE = 'Chưa đọc được hướng dẫn. Em hãy thử lại nhé.';
 
 export type CompletedLessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string; expression: string; answer: string; unit: string; explanation: string; solutionSentence?: string; calculationDetails?: string[]; guidance?: string[]; question?: string; choices?: string[] };
-export type LessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string; explanation: string; question: string; choices: string[]; expression: string; unit: string; workExcerpt: string; solutionSentence?: string; guidance?: string[]; choiceChecks?: boolean[] };
+export type LessonStep = { kind?: 'MATH' | 'UNDERSTAND'; title: string; explanation: string; question: string; choices: string[]; expression: string; unit: string; workExcerpt: string; solutionSentence?: string; guidance?: string[]; choiceChecks?: boolean[]; answerFormat?: 'INTEGER' | 'DECIMAL' | 'FRACTION' | null };
 export type LessonSummary = { givens: string[]; question: string };
 export type LessonReply = { answer: string; spokenExplanation: string; followUp: string; guarded: boolean };
 export type LearningCheck = {expression:string;question:string;checked:boolean;correct:boolean;feedback:string};
@@ -74,6 +78,9 @@ export type LessonResponse = {
   step: LessonStep | null; completed: CompletedLessonStep[];
   status: 'READY' | 'HINT' | 'TRY_AGAIN' | 'CORRECT' | 'COMPLETE' | 'PREPARING' | 'RETRYABLE' | 'UNAVAILABLE'; feedback: string; conclusion?: string; understandingSteps?: 0 | 3; preparingMath?: boolean;
   summary?: LessonSummary | null;
+  retryAfterSeconds?: number;
+  hintLevel?: number; hintCount?: number;
+  revealedHints?: string[] | null;
   review?:{question:string;choices:string[];studentAnswer:string}|null;
 };
 function lessonResponse(value: any): LessonResponse {
@@ -100,6 +107,7 @@ function lessonResponse(value: any): LessonResponse {
     && bounded(summary.question, 100) && summary.question.trim());
   const stepValid = (s: any) => s && bounded(s.title, 100) && bounded(s.explanation, 500) && bounded(s.question, 220)
     && Array.isArray(s.choices) && s.choices.length <= 4 && s.choices.every((c: any) => bounded(c, 100))
+    && (s.answerFormat == null || (s.kind !== 'UNDERSTAND' && s.choices.length === 0 && ['INTEGER', 'DECIMAL', 'FRACTION'].includes(s.answerFormat)))
     && (s.choiceChecks === undefined || (Array.isArray(s.choiceChecks) && (s.choiceChecks.length === 0
       || (s.choiceChecks.length === s.choices.length && s.choiceChecks.every((check: unknown) => typeof check === 'boolean')
         && s.choiceChecks.filter(Boolean).length === 1 && new Set(s.choices).size === s.choices.length))))
@@ -108,6 +116,15 @@ function lessonResponse(value: any): LessonResponse {
   if (!value || !summaryValid || ![0, 3].includes(understanding) || !bounded(value.sessionId, 100) || value.sessionId.length < 20 || !Number.isInteger(value.revision) || value.revision < 0
       || !bounded(value.topic, 120) || !bounded(value.goal, 220) || !bounded(value.feedback, 500)
       || (value.preparingMath !== undefined && typeof value.preparingMath !== 'boolean')
+      || (value.retryAfterSeconds !== undefined && (!Number.isInteger(value.retryAfterSeconds) || value.retryAfterSeconds < 0 || value.retryAfterSeconds > 60
+        || value.retryAfterSeconds > 0 && (!preparing || !['RETRYABLE', 'UNAVAILABLE'].includes(value.status))))
+      || (value.hintLevel !== undefined && (!Number.isInteger(value.hintLevel) || value.hintLevel < 0 || value.hintLevel > 3))
+      || (value.hintCount !== undefined && (!Number.isInteger(value.hintCount) || value.hintCount < 0 || value.hintCount > 3))
+      || (value.hintLevel !== undefined && value.hintCount !== undefined && value.hintLevel > value.hintCount)
+      || (value.revealedHints != null && (!Array.isArray(value.revealedHints) || value.revealedHints.length !== value.hintLevel
+        || value.revealedHints.length > 3 || new Set(value.revealedHints).size !== value.revealedHints.length
+        || !value.revealedHints.every((hint: unknown) => typeof hint === 'string' && hint.trim() && hint.length <= 500)
+        || ((value.hintLevel ?? 0) < 2 && !!value.step?.expression)))
       || !Array.isArray(value.outline) || (preparing ? understanding !== 3 || value.outline.length !== 3 : value.outline.length - understanding < 1 || value.outline.length - understanding > 6) || !value.outline.every((t: any) => bounded(t, 100))
       || !Array.isArray(value.completed) || value.completed.length > value.outline.length
       || !value.completed.every((s: any, index: number) => phaseValid(s, index) && bounded(s.title, 100) && bounded(s.expression, 220) && bounded(s.answer, 100) && bounded(s.unit, 20) && bounded(s.explanation, 500)
@@ -197,6 +214,17 @@ export const TutorService = {
       || (data.arithmeticVerified != null && typeof data.arithmeticVerified !== 'boolean')
       || (data.missingPart !== undefined && !bounded(data.missingPart, 500, true))
       || (data.missingPart?.trim() && data.complete !== false)
+      || (data.completionVersion != null && data.completionVersion !== 2)
+      || (data.missingParts !== undefined && (!Array.isArray(data.missingParts) || data.missingParts.length > 8
+        || (data.missingParts.length > 0 && data.complete !== false)
+        || data.missingParts.some((part: MissingWorkPart) => !part
+          || !['MISSING_CALCULATION', 'MISSING_INTERMEDIATE', 'MISSING_ANSWER', 'NOT_STARTED'].includes(part.type)
+          || !bounded(part.target, 160) || !bounded(part.description, 240) || !bounded(part.hint, 300)
+          || !Number.isInteger(part.requirementIndex) || part.requirementIndex < 0 || part.requirementIndex > 7
+          || !['DUAL_REVIEW', 'DETERMINISTIC'].includes(part.evidence)
+          || !Array.isArray(part.relatedLineIndices) || part.relatedLineIndices.length > 35
+          || part.relatedLineIndices.some(index => !Number.isInteger(index) || index < 0 || index >= source.length
+            || data.rows[index]?.status !== 'OK' || data.rows[index]?.arithmeticCorrect !== true))))
       || (data.status === 'CORRECT' && data.complete === false)
       || data.rows.some((row: any, index: number) => !row || row.lineIndex !== index || row.sourceText !== source[index]
         || !['OK', 'FIX', 'UNSURE'].includes(row.status) || !bounded(row.feedback, 400)
