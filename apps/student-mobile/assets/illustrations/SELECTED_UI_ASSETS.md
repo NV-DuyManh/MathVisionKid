@@ -1,4 +1,12 @@
-# Selected Student UI assets — 21 October 2026
+# Selected Student UI assets
+
+## Robot mascot — 16 November 2026
+
+The owner confirmed the robot identity used in Figma. The original `assets/robot-mascot-transparent.png` from `MathVisionKid_Complete_UI_References.zip` is copied byte-for-byte as `robot-mascot.png`, 480 × 439 RGBA. SHA-256 `5d7f2e3e3b3dbaf23c2fdca1d0b84be3d6a1ab75984ade60ebc584b5cd974bfa`.
+
+`web/robot-mascot.webp` preserves the original pixels with lossless encoding. App icons place the full original robot on the existing purple background, with a separate transparent mask-safe Android foreground. Active mascot and startup consumers use these robot assets.
+
+## Asset history — 21 October 2026
 
 Generated with the built-in `image_gen` tool, transparent background. Originals retained under `C:/Users/Admin/.codex/generated_images/01a0fc52-cdd5-7b42-9da4-a52951ff8018/` and copied into the project. Existing assets were preserved.
 

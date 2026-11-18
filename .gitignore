@@ -101,6 +101,7 @@ __pycache__/
 *$py.class
 .pytest_cache/
 .venv/
+ai/runtime/.venv-backup-*/
 venv/
 
 # Scratch & temporary artifacts

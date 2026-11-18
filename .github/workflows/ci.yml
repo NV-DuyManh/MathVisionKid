@@ -233,6 +233,7 @@ jobs:
           ./scripts/test/local-env.test.ps1
           ./scripts/test/test_service_runtime_identity.ps1
           ./scripts/test/test_setup_local.ps1
+          ./scripts/test/test_toolchain.ps1
           ./scripts/test/test_minio_launcher_guard.ps1
       - name: Windows PowerShell 5.1 launcher compatibility
         shell: powershell
@@ -240,6 +241,7 @@ jobs:
           ./scripts/test/local-env.test.ps1
           ./scripts/test/test_service_runtime_identity.ps1
           ./scripts/test/test_setup_local.ps1
+          ./scripts/test/test_toolchain.ps1
           ./scripts/test/test_minio_launcher_guard.ps1
       - run: node scripts/test/test_student_qr.cjs
       - run: node scripts/test/test_student_metro_config.cjs

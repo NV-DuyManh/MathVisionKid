@@ -19,7 +19,6 @@ type Result = ReturnType<typeof calculateExpression>;
 export function PocketCalculator({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const [expression, setExpression] = useState('');
   const [mode, setMode] = useState<'calculate' | 'convert'>('calculate');
-  const [mixed, setMixed] = useState<{ whole: string; numerator: string; denominator: string } | null>(null);
   const [output, setOutput] = useState<Result | null>(null);
   const [error, setError] = useState('');
   const [panel, setPanel] = useState<'steps' | 'history' | null>(null);
@@ -69,19 +68,6 @@ export function PocketCalculator({ visible, onClose }: { visible: boolean; onClo
         : <Text style={[styles.keyText, key === '=' && styles.white]}>{key}</Text>}
   </Pressable>;
   const activeResult = remainder && output?.remainder ? output.remainder : output;
-  const insertMixed = () => {
-    if (!mixed) return;
-    try {
-      if (![mixed.whole, mixed.numerator, mixed.denominator].every(value => /^\d{1,6}$/.test(value)))
-        throw new Error('Em điền đủ phần nguyên, tử số và mẫu số nhé.');
-      const value = `${mixed.whole} ${mixed.numerator}/${mixed.denominator}`;
-      calculateExpression(value);
-      const prefix = output ? '' : expression;
-      if (prefix && !/[+−×÷(]$/.test(prefix)) throw new Error('Em chọn dấu phép tính trước khi thêm hỗn số nhé.');
-      if ((prefix + value).length > 120) throw new Error('Phép tính đã dài. Em tính kết quả trước nhé.');
-      update(prefix + value); setMixed(null); Keyboard.dismiss();
-    } catch (failure) { setError((failure as Error).message); }
-  };
   return <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}
     onShow={() => { if (mode === 'calculate') input.current?.focus(); }} statusBarTranslucent>
     <SafeAreaView style={styles.overlay} edges={['top', 'bottom', 'left', 'right']}>
@@ -108,12 +94,11 @@ export function PocketCalculator({ visible, onClose }: { visible: boolean; onClo
           {mode === 'calculate' ? <>
           <View style={styles.display}>
             <TextInput ref={input} accessibilityLabel="Phép tính" accessibilityHint="Nhập bằng bàn phím bên dưới. Phím phân số nối tử số với mẫu số."
-              value={expression} placeholder="0" maxLength={120} showSoftInputOnFocus={false} multiline
+              value={expression} maxLength={120} showSoftInputOnFocus={false} multiline
               onChangeText={update} onSubmitEditing={run} style={[styles.expressionInput, expression.includes('/') && styles.fractionInput]} />
             {expression.includes('/') ? <View style={styles.result}><MathText style={styles.fractionPreview}>{expression}</MathText></View> : null}
             {output ? <View style={styles.result} accessibilityLiveRegion="polite"><MathText style={styles.answer}>{activeResult!.result}</MathText></View>
               : <Text style={styles.caption}>Chọn số và phép tính, rồi chạm =</Text>}
-            {output?.mixedResult && !remainder ? <MathText style={styles.caption}>{`Hỗn số: ${output.mixedResult}`}</MathText> : null}
             {error ? <Text accessibilityRole="alert" style={styles.error}>{error}</Text> : null}
           </View>
           <View style={styles.toolbar}>
@@ -130,24 +115,6 @@ export function PocketCalculator({ visible, onClose }: { visible: boolean; onClo
               <Ionicons name={extras ? 'chevron-up' : 'chevron-down'} size={20} color={COLORS.primaryDark} accessible={false} /><Text style={styles.toolText}>Thêm</Text>
             </Pressable>
           </View>
-          <Pressable accessibilityRole="button" accessibilityLabel="Nhập hỗn số" accessibilityState={{ expanded: !!mixed }}
-            onPress={() => { setMixed(value => value ? null : { whole: '', numerator: '', denominator: '' }); setError(''); }}
-            style={({ pressed }) => [styles.mixedToggle, pressed && styles.pressed]}>
-            <Text style={styles.mixedSymbol}>2 ½</Text><Text style={styles.toolText}>Nhập hỗn số</Text>
-            <Ionicons name={mixed ? 'chevron-up' : 'add-circle-outline'} size={20} color={COLORS.primaryDark} accessible={false} />
-          </Pressable>
-          {mixed ? <View style={styles.mixedForm}>
-            <View style={styles.row}>
-              {(['whole', 'numerator', 'denominator'] as const).map((part, index) => <View key={part} style={styles.mixedField}>
-                <Text style={styles.toolText}>{['Phần nguyên', 'Tử số', 'Mẫu số'][index]}</Text>
-                <TextInput accessibilityLabel={['Phần nguyên hỗn số', 'Tử số hỗn số', 'Mẫu số hỗn số'][index]}
-                  value={mixed[part]} placeholder={['2', '1', '4'][index]} maxLength={6} keyboardType="number-pad"
-                  onChangeText={value => { setMixed({ ...mixed, [part]: value }); setError(''); }} style={styles.mixedInput} />
-              </View>)}
-            </View>
-            <Pressable accessibilityRole="button" accessibilityLabel="Thêm hỗn số vào phép tính" onPress={insertMixed}
-              style={({ pressed }) => [styles.mixedInsert, pressed && styles.pressed]}><Text style={[styles.toolText, styles.white]}>Thêm vào phép tính</Text></Pressable>
-          </View> : null}
           {extras ? <View style={styles.row}>{['(', ')', '±'].map(keyButton)}</View> : null}
           {output?.remainder ? <Pressable accessibilityRole="button" accessibilityLabel="Xem thương và số dư" accessibilityState={{ selected: remainder }}
             onPress={() => { setRemainder(value => !value); setPanel('steps'); }} style={({ pressed }) => [styles.remainder, pressed && styles.pressed]}>
@@ -188,10 +155,6 @@ const styles = StyleSheet.create({
   modes: { flexDirection: 'row', backgroundColor: COLORS.background, padding: 4, borderRadius: 16, gap: 4 },
   mode: { flex: 1, minHeight: 48, flexDirection: 'row', gap: 8, alignItems: 'center', justifyContent: 'center', borderRadius: 12, paddingHorizontal: 8 },
   modeSelected: { backgroundColor: COLORS.primaryLight },
-  mixedToggle: { minHeight: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderRadius: 12, backgroundColor: COLORS.background },
-  mixedSymbol: { fontFamily: FONTS.extraBold, fontSize: 20, color: COLORS.primaryDark }, mixedForm: { padding: 12, gap: 12, backgroundColor: COLORS.background, borderRadius: 16 },
-  mixedField: { flex: 1, gap: 6 }, mixedInput: { minHeight: 48, borderWidth: 1, borderColor: COLORS.border, borderRadius: 12, padding: 8, fontFamily: FONTS.bold, color: COLORS.textPrimary, fontSize: 18, backgroundColor: COLORS.surface },
-  mixedInsert: { minHeight: 48, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.primaryDark, borderRadius: 12 },
   expressionInput: { fontFamily: FONTS.bold, fontSize: 28, textAlign: 'right', color: COLORS.textPrimary, minHeight: 48, borderRadius: 8 },
   fractionInput: { fontSize: 14, color: COLORS.textMuted, minHeight: 32 },
   fractionPreview: { fontFamily: FONTS.bold, fontSize: 26, color: COLORS.textPrimary },

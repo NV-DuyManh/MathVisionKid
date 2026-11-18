@@ -76,9 +76,9 @@ function Library() {
         <Text style={l.body}>Hoàn tất bài học hoặc phần nhận xét, rồi chọn làm ngay hay để sau. Câu đố có dữ kiện mới để em thử lại cách làm.</Text>
         <Text style={l.body}>Chỉ những dạng bài được hỗ trợ mới có câu đố. Bài đang dở và kết quả sẽ được lưu trong tài khoản của em.</Text></View> : null}
       <View style={[l.intro, IS_STUDENT_WEB && l.webIntro]}>
-        <View style={l.introCopy}><Text accessibilityRole="header" style={l.heading}>Cùng Sao thử sức</Text><Text style={l.body}>Ôn lại từ những bài em đã học.</Text>
+        <View style={l.introCopy}><Text accessibilityRole="header" style={l.heading}>Cùng thử sức</Text><Text style={l.body}>Ôn lại từ những bài em đã học.</Text>
           {totalStars !== null && totalStars > 0 ? <View style={l.starPill}><Ionicons name="star" size={13} color="#936315" accessible={false} /><Text style={l.starText}>{totalStars} sao đã nhận</Text></View> : null}</View>
-        <Image source={require('../../../assets/illustrations/mathvision-star.png')} style={l.introMascot} accessible={false} />
+        <Image source={require('../../../assets/illustrations/robot-mascot.png')} style={l.introMascot} accessible={false} />
       </View>
       <View style={[l.groups, IS_STUDENT_WEB && l.webGroups]}>{GROUPS.map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.title}
         accessibilityState={{ selected: group === item.id }} onPress={() => selectGroup(item.id)}
@@ -87,7 +87,7 @@ function Library() {
         <ActivityIndicator color={COLORS.primaryDark} /><Text style={l.body}>Đang tải câu đố…</Text></View> : null}
       {error ? <View style={l.help}><Text accessibilityRole="alert" style={l.error}>{error}</Text><AppButton title="Thử lại" variant="secondary" onPress={() => result ? void more() : setRetry(value => value + 1)} /></View> : null}
       {result && !result.items.length ? <View style={l.empty}>
-        <View style={l.emptyArt}><Image source={require('../../../assets/illustrations/mathvision-star.png')} style={l.emptyMascot} accessible={false} /></View>
+        <View style={l.emptyArt}><Image source={require('../../../assets/illustrations/robot-mascot.png')} style={l.emptyMascot} accessible={false} /></View>
         <Text accessibilityRole="header" style={l.emptyTitle}>{empty.title}</Text><Text style={l.emptyBody}>{empty.body}</Text>
         <View style={l.emptyAction}><AppButton title={empty.action} variant="secondary" onPress={() => group === 'PENDING' ? router.replace('/(tabs)/lessons') : selectGroup('PENDING')} /></View>
       </View> : null}

@@ -8,11 +8,13 @@ Hướng dẫn này dành cho Windows. Thực hiện các lệnh trong PowerShel
 
 | Công cụ | Yêu cầu |
 | :--- | :--- |
-| Node.js | Nhánh 22 từ 22.13, nhánh 24 từ 24.3, hoặc nhánh 26 trở lên; dùng bản chẵn được hỗ trợ |
-| Python | 3.12 |
+| Windows | Windows 10/11 x64 tương thích Docker Desktop, có ảo hóa và WSL 2 |
+| Node.js | Bản x64 thuộc nhánh 22 từ 22.13, nhánh 24 từ 24.3 hoặc nhánh 26 |
+| Python | 3.12 x64 |
 | Java | JDK 21 |
 | Docker Desktop | Đã mở, engine chạy, có Docker Compose |
 | Git | Có thể gọi trong terminal |
+| Ổ đĩa | Dành ít nhất 8 GB trống ở ổ chứa thư mục clone. Cần thêm chỗ cho bộ nhớ đệm và Docker images |
 | Điện thoại, nếu test | Expo Go tương thích SDK 58, cùng Wi-Fi với máy tính |
 
 Không cần cài Gradle riêng. Lần cài đầu cần mạng để tải thư viện và Docker images. Student app dùng Expo SDK 58 và React Native 0.88; tham khảo [tài liệu đúng phiên bản](https://docs.expo.dev/versions/v58.0.0/).
@@ -29,7 +31,11 @@ Hoặc mở thư mục vừa clone và nháy đúp **SETUP_MATHVISION.bat**. Fil
 
 Chờ tới dòng **Dependency setup completed**, mở Docker Desktop rồi chạy **RUN_MATHVISION.bat**. Lần chạy app đầu có thể tải thêm Docker images. API key và model riêng được cấu hình ở mục 2 bên dưới. Nếu chạy lại setup trên máy đang dùng, dừng các dịch vụ dự án trước. Script giữ lại `.env`, model và dữ liệu đã lưu, dừng và báo lỗi nếu một bước cài đặt thất bại.
 
-Tùy chọn `SETUP_MATHVISION.bat -CheckOnly` chỉ kiểm tra công cụ. Nếu muốn cài thư viện bằng tay sau khi đã chuẩn bị các công cụ:
+Bộ cài tự tìm các bản Node, Python và JDK phù hợp, kể cả khi bản khác đứng trước trong `PATH`. Nếu thiếu Visual C++ x64, bộ cài dùng WinGet để cài. Nếu môi trường Python cũ bị hỏng hoặc sai phiên bản, bộ cài giữ nó trong `ai/runtime/.venv-backup-*` rồi tạo lại.
+
+Chạy `SETUP_MATHVISION.bat -CheckOnly` để kiểm tra công cụ và dung lượng trước khi cài. Nếu cài lỗi, giữ thông báo lỗi đầu tiên và gửi cùng `.local-artifacts/setup/last-failure.json` để xác định bước bị lỗi. Tệp này không chứa giá trị `.env` hay khóa API.
+
+Nếu cần cài thư viện bằng tay sau khi đã chuẩn bị công cụ, dùng các lệnh sau.
 
 ```powershell
 npm ci

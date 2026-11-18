@@ -52,14 +52,19 @@ test('invalid profile gives an explicit reason and a truthful blocked button lab
   expect(push).not.toHaveBeenCalled();
 });
 
-test('development mock has five working trial buttons, explicitly separate from student achievements', async () => {
+test.each(TRAINING_CATALOG)('development mock opens $id in trial, separate from student achievements', async game => {
   await update({ ...auth, user: { role: 'STUDENT', userId: 'mock_student_fixture' } });
   expect(text()).toContain('Chơi thử không lưu thành tích');
-  for (const game of TRAINING_CATALOG) {
-    const play = button(game.id); expect(play.props.disabled).toBe(false);
-    act(() => play.props.onPress());
-    expect(push).toHaveBeenLastCalledWith({ pathname: '/games/[gameId]', params: { gameId: game.id, playMode: 'trial' } });
-  }
+  const play = button(game.id); expect(play.props.disabled).toBe(false);
+  act(() => play.props.onPress());
+  expect(push).toHaveBeenCalledWith({ pathname: '/games/[gameId]', params: { gameId: game.id, playMode: 'trial' } });
+});
+
+test('repeated taps only open one game until the catalog is focused again', async () => {
+  await update(auth);
+  act(() => { button('race-to-finish').props.onPress(); button('race-to-finish').props.onPress(); button('terrain-racing').props.onPress(); });
+  expect(push).toHaveBeenCalledTimes(1);
+  expect(push).toHaveBeenCalledWith({ pathname: '/games/[gameId]', params: { gameId: 'race-to-finish' } });
 });
 
 test('native touch structure: ordinary Pressable targets outside decorative artwork, no responder capture', async () => {

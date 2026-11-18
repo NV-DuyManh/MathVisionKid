@@ -51,6 +51,21 @@ class StudentProfileIntegrationTest {
         return students.saveAndFlush(s);
     }
 
+    @Test void initialAvatarIsPersistedOnceAndExistingChoicesArePreserved() {
+        profiles.initialize(pupil.getId());
+        String initial = profiles.get(pupil.getEmail()).avatar();
+        assertTrue(StudentProfileService.AVATARS.contains(initial));
+        for (int i = 0; i < 3; i++) {
+            profiles.initialize(pupil.getId());
+            assertEquals(initial, profiles.get(pupil.getEmail()).avatar());
+        }
+        String chosen = initial.equals("moon") ? "planet" : "moon";
+        profiles.update(pupil.getEmail(), new Edit("Học Sinh", chosen, false, null));
+        profiles.initialize(pupil.getId());
+        assertEquals(chosen, profiles.get(pupil.getEmail()).avatar());
+        assertEquals(1, db.queryForObject("SELECT COUNT(*) FROM student_profile_preferences WHERE student_id = ?", Integer.class, pupil.getId()));
+    }
+
     @Test void onlyVerifiedInteractiveCompletionIsCountedAndCannotBeFarmed() {
         String email = pupil.getEmail();
         lessons.record(email, "LESSON", "read", "2 + 2", false);
@@ -292,6 +307,76 @@ class StudentProfileIntegrationTest {
         assertEquals(201L, profiles.get(pupil.getEmail()).position());
         assertEquals("Chiến Tướng", profiles.get(pupil.getEmail()).rank().name());
         assertEquals("Thách Đấu", profiles.get(pupil.getEmail()).highestRank());
+    }
+
+    @Test void explicitVisibleNameSurvivesHttpSaveAndSubsequentProfileReads() throws Exception {
+        String body = "{\"displayName\":\"Minh Anh\",\"avatar\":\"moon\",\"leaderboardVisible\":true,\"leaderboardNameHidden\":false,\"selectedTitle\":null}";
+        for (int i = 0; i < 2; i++) {
+            mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")).contentType("application/json").content(body))
+                    .andExpect(status().isOk()).andExpect(jsonPath("$.leaderboardVisible").value(true))
+                    .andExpect(jsonPath("$.leaderboardNameHidden").value(false));
+            mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
+                    .andExpect(status().isOk()).andExpect(jsonPath("$.leaderboardNameHidden").value(false));
+        }
+        assertFalse(db.queryForObject("SELECT leaderboard_name_hidden FROM student_profile_preferences WHERE student_id = ?", Boolean.class, pupil.getId()));
+    }
+
+    @Test void namePrivacyDoesNotRemoveEntryAndBoardUsesRegisteredGrade() {
+        pupil.setGradeLevel(5);
+        other.setGradeLevel(5);
+        students.saveAndFlush(pupil);
+        students.saveAndFlush(other);
+        rewards.record(pupil.getId(), StudentRewards.Source.LESSON, "private", "private-content");
+        var privateProfile = profiles.update(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null));
+        assertTrue(privateProfile.leaderboardNameHidden());
+        assertTrue(StudentAnimalAliases.ANIMALS.contains(privateProfile.publicAlias())
+                || privateProfile.publicAlias().matches(".+ \\d+"));
+        var board = profiles.leaderboard(other.getEmail(), null);
+        assertEquals(5, board.gradeLevel());
+        assertTrue(board.entries().stream().anyMatch(entry -> entry.alias().equals(privateProfile.publicAlias())));
+        profiles.update(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null, false, false));
+        assertTrue(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(entry -> entry.alias().equals("Minh Anh")));
+        assertFalse(profiles.update(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null)).leaderboardNameHidden());
+        assertEquals(privateProfile.publicAlias(), profiles.get(pupil.getEmail()).publicAlias());
+        db.update("UPDATE users SET display_name = ? WHERE id = ?", "old-account@example.com", pupil.getId());
+        assertTrue(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(entry -> entry.alias().equals(privateProfile.publicAlias())));
+        other.setGradeLevel(4);
+        students.saveAndFlush(other);
+        assertEquals(4, profiles.leaderboard(other.getEmail(), null).gradeLevel());
+        assertFalse(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(entry -> entry.alias().equals("Minh Anh")));
+    }
+
+    @Test void legacyAliasesAreReplacedOnFirstProfileReadAndConcurrentReadsKeepOneAlias() throws Exception {
+        db.update("INSERT INTO student_profile_preferences(student_id, public_alias) VALUES (?, ?)", pupil.getId(), "Sao abcdef123456");
+        String alias = profiles.get(pupil.getEmail()).publicAlias();
+        assertFalse(alias.startsWith("Sao abcdef"));
+        try (var pool = Executors.newFixedThreadPool(4)) {
+            var gate = new CountDownLatch(1);
+            var responses = new java.util.ArrayList<Future<String>>();
+            for (int i = 0; i < 4; i++) responses.add(pool.submit(() -> {
+                gate.await();
+                return profiles.get(other.getEmail()).publicAlias();
+            }));
+            gate.countDown();
+            String otherAlias = responses.getFirst().get(15, TimeUnit.SECONDS);
+            assertNotEquals(alias, otherAlias);
+            for (var response : responses) assertEquals(otherAlias, response.get(15, TimeUnit.SECONDS));
+        }
+    }
+
+    @Test void concurrentNewProfilesAllocateDifferentAnimalNames() throws Exception {
+        var emails = new java.util.ArrayList<String>();
+        for (int i = 0; i < 6; i++) emails.add(createStudent("@alias.profile.test").getEmail());
+        try (var pool = Executors.newFixedThreadPool(6)) {
+            var gate = new CountDownLatch(1);
+            var responses = emails.stream().map(email -> pool.submit(() -> {
+                gate.await();
+                return profiles.get(email).publicAlias();
+            })).toList();
+            gate.countDown();
+            var aliases = new java.util.HashSet<String>();
+            for (var response : responses) assertTrue(aliases.add(response.get(15, TimeUnit.SECONDS)));
+        }
     }
 
     @Test void developmentAccountNeverEarnsStarsOrStartsRankedGame() {

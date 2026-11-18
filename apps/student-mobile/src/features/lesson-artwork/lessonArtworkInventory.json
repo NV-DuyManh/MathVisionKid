@@ -1,0 +1,902 @@
+{
+  "grade1_prob1": {
+    "title": "Bài toán thêm hoa vào lọ",
+    "description": "A vase of pastel flowers, a hand adding one more flower",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob1.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-6deb547c-65f3-4bcc-a024-20ba084903e2.png"
+  },
+  "grade1_prob2": {
+    "title": "Bài toán cho bớt viên bi",
+    "description": "A glass bowl of marbles, a few marbles rolling away",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob2.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-03be1050-1d17-430a-a5ab-7eb5644838e6.png"
+  },
+  "grade1_prob3": {
+    "title": "Bút chì trong hộp",
+    "description": "Colored pencils standing in a small open pencil box",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob3.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-2b03a03f-5416-460c-ae93-6429c4f65d4d.png"
+  },
+  "grade1_prob4": {
+    "title": "Những quả cam còn lại",
+    "description": "A basket of oranges with a few oranges removed onto a table",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob4.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-30115635-6c9d-4b1b-a51e-b3e2bae787b7.png"
+  },
+  "grade1_prob5": {
+    "title": "Chim trên cành",
+    "description": "A leafy tree branch with small friendly birds perched on it",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob5.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-12de3a12-313e-4b03-bdf3-51155986d832.png"
+  },
+  "grade1_prob6": {
+    "title": "Hoa trong vườn",
+    "description": "A little flower garden with two groups of blooming flowers",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob6.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-bdec3b02-374c-48f5-81ed-b4d0985ecd8b.png"
+  },
+  "grade1_prob7": {
+    "title": "Hai hàng ghế",
+    "description": "Two neat parallel rows of small pastel classroom chairs",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob7.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-43b3cc00-85cc-490e-85c6-05ff470aba37.png"
+  },
+  "grade1_prob8": {
+    "title": "Bóng trong giỏ",
+    "description": "A turquoise basket filled with colorful toy balls",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob8.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-8726b9d2-f1b3-4b81-a647-cc2bb3f15111.png"
+  },
+  "grade1_prob9": {
+    "title": "Vở chưa phát",
+    "description": "A stack of notebooks on teacher desk, some handed out",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob9.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-da5643ad-e7aa-443a-9af5-105978de146e.png"
+  },
+  "grade1_prob10": {
+    "title": "Gộp các chục",
+    "description": "Two bundles of ten counting sticks joining together",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob10.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-ee2c7a7b-a209-4463-9c39-6408d86bc706.png"
+  },
+  "grade1_prob11": {
+    "title": "Tủ sách nhỏ",
+    "description": "A small lavender bookshelf containing colorful books",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob11.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-5493294e-207e-440d-8c0d-1eecef188b78.png"
+  },
+  "grade1_prob12": {
+    "title": "Số nhãn vở còn lại",
+    "description": "Cute blank notebook sticker sheets with a few peeled off",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob12.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-4c8bc795-11ff-4244-9a47-2c2c1d82092d.png"
+  },
+  "grade1_prob13": {
+    "title": "Bán bớt quả táo",
+    "description": "A market crate of red apples with apples moved to shopping basket",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob13.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-03c87cf3-dd5f-4723-b025-107b93f17a7d.png"
+  },
+  "grade1_prob14": {
+    "title": "Thêm viên kẹo",
+    "description": "A bowl of colorful wrapped candies with a hand adding candy",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob14.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-72c88072-bac6-411c-b7cd-68f0fa2d01d3.png"
+  },
+  "grade1_prob15": {
+    "title": "Độ dài hai băng giấy",
+    "description": "Two paper ribbons of different lengths beside a ruler",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob15.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-d50a8a8f-4622-4480-b279-2ad79a98f7b4.png"
+  },
+  "grade1_prob16": {
+    "title": "Giờ học và giờ nghỉ",
+    "description": "A toy clock next to schoolbook and small playground ball, study and break time",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob16.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-1e584f3c-6bdf-461c-a97e-f999ab8c367c.png"
+  },
+  "grade1_prob17": {
+    "title": "Ngày đi thư viện",
+    "description": "A tiny library with books and a blank weekly calendar with one day highlighted",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob17.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-a6063637-41db-4402-9fe5-3209d51f54be.png"
+  },
+  "grade1_prob18": {
+    "title": "Các hình trên bàn",
+    "description": "Colorful geometric solids cube sphere cone and cylinder on a classroom table",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob18.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-e85d9be1-c996-4172-aafa-916c74c25903.png"
+  },
+  "grade1_prob19": {
+    "title": "Đếm thêm một chục",
+    "description": "Counting rods arranged as one bundle of ten beside loose counting sticks",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob19.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-46b573c5-0867-4e39-ad61-bb9d0bbea3f7.png"
+  },
+  "grade1_prob20": {
+    "title": "Đoạn đường còn lại",
+    "description": "A curved toy road from small school to house with a marker partway along",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade1_prob20.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-7eb507b6-6cff-4558-8e1c-0f765ab17dcb.png"
+  },
+  "grade2_prob1": {
+    "title": "Số học sinh nam lớp 2A",
+    "description": "Two groups of friendly schoolchildren standing beside a small classroom",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob1.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-affe9148-40b5-40ad-a040-09e01577a313.png"
+  },
+  "grade2_prob2": {
+    "title": "Độ dài đoạn thẳng CD",
+    "description": "A single turquoise straight line segment with round endpoints on mat beside ruler",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob2.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-002129c9-7061-410c-a97c-af52bf0687a0.png"
+  },
+  "grade2_prob3": {
+    "title": "Bốn đôi tất",
+    "description": "Exactly four pairs of colorful socks neatly grouped in pairs",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob3.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-928cf837-9baa-41e8-a327-f4f49a264702.png"
+  },
+  "grade2_prob4": {
+    "title": "Sáu túi kẹo",
+    "description": "Exactly six small clear bags of colorful candy",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob4.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-753f584f-348a-478b-9589-d98e8367ea91.png"
+  },
+  "grade2_prob5": {
+    "title": "Chia bút vào hộp",
+    "description": "Colored pencils being shared evenly into three small open boxes",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob5.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-692c3f13-9494-4034-9f70-a10e67b40348.png"
+  },
+  "grade2_prob6": {
+    "title": "Hai nhóm học sinh",
+    "description": "Two groups of cheerful schoolchildren on lavender playground",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob6.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-4d1db66f-2044-4e9a-8055-364df715e180.png"
+  },
+  "grade2_prob7": {
+    "title": "Góp sách cho lớp",
+    "description": "Children donating books to a small classroom shelf",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob7.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-9f2568cc-9343-4e84-adf1-464ae14dfee2.png"
+  },
+  "grade2_prob8": {
+    "title": "Vở còn trong cửa hàng",
+    "description": "A shop shelf of notebooks with several sold notebooks on counter",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob8.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-431ccfe0-0bdd-4280-bbf2-9901b077d34a.png"
+  },
+  "grade2_prob9": {
+    "title": "Hai vườn cây",
+    "description": "Two tiny fenced orchards of green fruit trees side by side",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob9.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-b7607537-8ea0-49f4-a484-58b4c074a506.png"
+  },
+  "grade2_prob10": {
+    "title": "Số gạch còn lại",
+    "description": "A pile of toy building bricks with some removed beside it",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob10.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-8aeae766-0577-434f-8b39-b66729dcbc49.png"
+  },
+  "grade2_prob11": {
+    "title": "Hai đoạn dây",
+    "description": "Two lengths of colorful rope stretched straight beside a ruler",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob11.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-7fed33a7-d3ed-42f9-89a1-a5d63ad2e4ff.png"
+  },
+  "grade2_prob12": {
+    "title": "Gạo còn trong túi",
+    "description": "An open rice sack with scoop of rice and some rice in bowl",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob12.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-9f7dec2e-e858-4bb1-bd0f-a9cde7a2cf76.png"
+  },
+  "grade2_prob13": {
+    "title": "Rót thêm nước",
+    "description": "A jug pouring water into a clear turquoise graduated container, no labels",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob13.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-9d363c16-4658-4265-9219-7536cbbfdd80.png"
+  },
+  "grade2_prob14": {
+    "title": "Thời gian đọc sách",
+    "description": "An open story book next to a toy clock, reading time",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob14.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-70dc1776-901a-4c11-9282-c00616a7ace6.png"
+  },
+  "grade2_prob15": {
+    "title": "Gộp tiền tiết kiệm",
+    "description": "Two small piggy banks and piles of blank toy coins joining together",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob15.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-e1bf4c90-94cb-4713-a3b6-c84260524036.png"
+  },
+  "grade2_prob16": {
+    "title": "Khảo sát trái cây",
+    "description": "Three fruit groups apple orange banana beside a simple unlabeled bar chart",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob16.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-9122c800-0027-474e-8093-3f7ad3848a9c.png"
+  },
+  "grade2_prob17": {
+    "title": "Đường gấp khúc ba đoạn",
+    "description": "A clearly connected zigzag path made of exactly three straight segments, ruler nearby",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob17.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-0f36e21e-520a-451d-b7d6-329f17346fd4.png"
+  },
+  "grade2_prob18": {
+    "title": "Chín đôi đũa",
+    "description": "Exactly nine pairs of chopsticks arranged in neat three by three groups",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob18.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-627186c0-a13e-4c2f-96cb-e5f0d2bafbd7.png"
+  },
+  "grade2_prob19": {
+    "title": "Bảy bông hoa năm cánh",
+    "description": "Exactly seven flowers each with five petals, simple clear top view",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob19.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-b5831b15-6863-4731-857c-a33e339f9f0d.png"
+  },
+  "grade2_prob20": {
+    "title": "Quãng đường dài hơn",
+    "description": "Two toy roads of different lengths from houses to school, tiny vehicle on each",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade2_prob20.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-6bae-71f0-b3ba-653f983cc714\\exec-44b86735-dee8-4fc6-b3ba-95bfa74c8da9.png"
+  },
+  "grade3_prob1": {
+    "title": "Cửa hàng bán gạo cả ngày",
+    "description": "rice shop with sacks of white rice morning and afternoon selling baskets",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob1.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-af829ab6-8ee6-4799-8315-bab9d992e108.png"
+  },
+  "grade3_prob2": {
+    "title": "Số vở trong hai thùng",
+    "description": "two wooden cartons with taller and shorter neatly stacked notebooks",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob2.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-05cf88a3-3246-4541-a5da-c8541c940368.png"
+  },
+  "grade3_prob3": {
+    "title": "Bảy hộp màu",
+    "description": "six open art boxes filled with colorful pencils",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob3.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-340dbf60-37d5-4747-87c6-b67aeefe2210.png"
+  },
+  "grade3_prob4": {
+    "title": "Chia bánh cho bạn",
+    "description": "eight children around a circular picnic table sharing cookies equally",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob4.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-847a1c73-ff40-4157-96df-2dd0f693e6b7.png"
+  },
+  "grade3_prob5": {
+    "title": "Gấp số nhãn vở",
+    "description": "two children comparing small and large collections of notebook stickers",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob5.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-6d011195-c3bd-4a47-91d9-65b0854a870f.png"
+  },
+  "grade3_prob6": {
+    "title": "Giảm số viên bi",
+    "description": "two bowls with large and small collections of colorful marbles",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob6.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-adb1ab71-3573-41a0-9bf9-b691bb1fafb3.png"
+  },
+  "grade3_prob7": {
+    "title": "Đặt tính phép nhân",
+    "description": "robot using three identical base ten block bundles to illustrate multiplication",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob7.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-b9dc78af-2ad4-49a1-8482-aa4325a6bfc9.png"
+  },
+  "grade3_prob8": {
+    "title": "Chia vở cho các lớp",
+    "description": "three classrooms each receiving identical stacks of notebooks",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob8.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-ee07e874-9752-4753-a881-9369a27cc763.png"
+  },
+  "grade3_prob9": {
+    "title": "Tính giá trị biểu thức",
+    "description": "single collection of blocks beside six groups of four blocks, operation order visual",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob9.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-64354fcf-6d1b-4f4c-be87-8043e146df0d.png"
+  },
+  "grade3_prob10": {
+    "title": "Biểu thức có dấu ngoặc",
+    "description": "four trays each holding same two groups of toy blocks, parentheses grouping visual",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob10.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-3ed0e9fc-7acd-4ea7-907c-51ecae5b486f.png"
+  },
+  "grade3_prob11": {
+    "title": "Chu vi sân hình chữ nhật",
+    "description": "rectangular school playground with glowing ribbon around perimeter",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob11.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-bed3efde-5695-4ec7-b491-24d4d9ee47c0.png"
+  },
+  "grade3_prob12": {
+    "title": "Diện tích tấm bìa",
+    "description": "rectangular craft cardboard tiled with little square units",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob12.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-29f39868-2d8c-4777-adb4-5721516fb93e.png"
+  },
+  "grade3_prob13": {
+    "title": "Diện tích hình vuông",
+    "description": "square mosaic composed of equal square tiles",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob13.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-94cc80b4-bf82-433f-8692-d6884e462260.png"
+  },
+  "grade3_prob14": {
+    "title": "Đổi mét sang xăng-ti-mét",
+    "description": "long measuring tape unrolled beside four identical meter rods",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob14.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-c819f238-90e4-4d45-be2b-e79ba699d4c6.png"
+  },
+  "grade3_prob15": {
+    "title": "Một phần của túi kẹo",
+    "description": "bag of candies separated into three equal small bowls",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob15.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-599a82a0-1cf6-4118-a2e7-886c955312ed.png"
+  },
+  "grade3_prob16": {
+    "title": "Số bút cả lớp",
+    "description": "four school desks each with pencils plus extra pencil cup",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob16.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-7815b100-77b0-4dcf-8773-6363bc15b5d2.png"
+  },
+  "grade3_prob17": {
+    "title": "Tiền mua vở",
+    "description": "three notebooks in small school supply shop with payment coins",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob17.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-2a8724b3-a9bb-4478-aafa-c8a353a45742.png"
+  },
+  "grade3_prob18": {
+    "title": "Thời gian tập thể dục",
+    "description": "child exercising outdoors between two clock faces",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob18.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-800159fd-e9f4-4aaa-b5bb-7de2421b7f28.png"
+  },
+  "grade3_prob19": {
+    "title": "Bảng số sách đọc",
+    "description": "three reading teams with three different book stacks",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob19.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-c2db997a-1149-439f-b233-99cf6324657a.png"
+  },
+  "grade3_prob20": {
+    "title": "So sánh hai số lượng",
+    "description": "large basket and small basket filled with oranges",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade3_prob20.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-403df03b-c3eb-498f-8818-10e19a8c02a2.png"
+  },
+  "grade4_prob1": {
+    "title": "Diện tích mảnh vườn hình chữ nhật",
+    "description": "rectangular vegetable garden viewed obliquely with long and short edges indicated by measuring ribbons",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob1.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-53a4c16f-42c6-4620-a2c9-8e6055efaa52.png"
+  },
+  "grade4_prob2": {
+    "title": "Đặt tính phép cộng ba chữ số",
+    "description": "robot combining two stacks of place-value wooden counting blocks",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob2.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-9c20a5be-9a11-41a2-b267-3670d9123874.png"
+  },
+  "grade4_prob3": {
+    "title": "Cộng số nhiều chữ số",
+    "description": "two multicolored abacuses combining into one large place value display",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob3.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-493fc144-db57-4a77-8736-e01e824425d6.png"
+  },
+  "grade4_prob4": {
+    "title": "Trừ số nhiều chữ số",
+    "description": "robot removing a bundle from a large collection of place value blocks",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob4.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-316b039f-ebe5-44ca-abeb-c4caa0d67d76.png"
+  },
+  "grade4_prob5": {
+    "title": "Nhân với số có hai chữ số",
+    "description": "rectangular organized array of grouped counting cubes multiplication concept",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob5.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-8bc4db67-0a8a-4e67-bad9-dbac8b2551dd.png"
+  },
+  "grade4_prob6": {
+    "title": "Chia cho số có hai chữ số",
+    "description": "robot dividing large collection of cubes into equal storage trays",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob6.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-614c66ad-eff2-4ecb-a456-8d0d139ef018.png"
+  },
+  "grade4_prob7": {
+    "title": "Trung bình số cây",
+    "description": "three gardening teams with saplings and central equal-sized groups",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob7.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-806d1b9c-0331-48e3-aa14-9ea5e640a4f2.png"
+  },
+  "grade4_prob8": {
+    "title": "Hai số biết tổng và hiệu",
+    "description": "two unequal colored bars joined together over counting blocks total and difference visual",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob8.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-258b05d5-af5d-4b10-b4af-71ca9f8664d8.png"
+  },
+  "grade4_prob9": {
+    "title": "Cộng phân số cùng mẫu",
+    "description": "two matching seven-piece fraction strips with two and three pieces colored",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob9.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-91410baf-390d-42f2-ae83-9b40f3187c96.png"
+  },
+  "grade4_prob10": {
+    "title": "Trừ phân số cùng mẫu",
+    "description": "nine-piece fraction strip with eight colored pieces and two being removed",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob10.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-17030ced-5c8c-42f8-b1ca-b1b5164f4622.png"
+  },
+  "grade4_prob11": {
+    "title": "Cộng phân số khác mẫu",
+    "description": "two same-size fraction strips divided into thirds and sixths beside each other",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob11.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-7927f2e8-a042-4302-8980-9758ef4c76fe.png"
+  },
+  "grade4_prob12": {
+    "title": "Nhân hai phân số",
+    "description": "transparent thirds strip overlapping transparent fifths grid",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob12.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-3272d01d-11c5-4083-85c3-5967a0f9bd3b.png"
+  },
+  "grade4_prob13": {
+    "title": "Chia hai phân số",
+    "description": "robot sharing three-quarter circular pie portions with smaller fifth-size pieces",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob13.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-5df2c83f-173c-4b0d-9fd8-a3e4b3aba007.png"
+  },
+  "grade4_prob14": {
+    "title": "Phân số của số cây",
+    "description": "orchard of orange trees with five clearly separated planting plots and three highlighted",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob14.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-6ae93086-0f78-41eb-a4fe-6d56d9d9baea.png"
+  },
+  "grade4_prob15": {
+    "title": "Diện tích hình bình hành",
+    "description": "slanted parallelogram tile beside perpendicular height ruler and base measuring ribbon",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob15.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-1e1ba012-d72a-44ad-af35-3611e176a947.png"
+  },
+  "grade4_prob16": {
+    "title": "Đổi ki-lô-gam thành gam",
+    "description": "balance scale with large weight and several identical smaller weights",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob16.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-4e50a5a6-a223-4949-9d8c-ea5205d12da1.png"
+  },
+  "grade4_prob17": {
+    "title": "Tổng số sách hai tháng",
+    "description": "two month reading displays with two book stacks and small unlabeled bar chart",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob17.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-1cc4a4ee-1b6f-49c4-8845-8e705aaedc75.png"
+  },
+  "grade4_prob18": {
+    "title": "Số tiền mua bút",
+    "description": "school stationery shop with four pencils and a second group of seven pencils",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob18.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-b8eeccea-34d1-4a73-bfb5-1ad677a739b7.png"
+  },
+  "grade4_prob19": {
+    "title": "Diện tích sân hình chữ nhật",
+    "description": "rectangular sports court viewed from above with square unit grid",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob19.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-be65317a-d961-44bc-9e36-c0797503be35.png"
+  },
+  "grade4_prob20": {
+    "title": "Trung bình lượng nước",
+    "description": "four graduated water containers of different heights beside four equal cups",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade4_prob20.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-9957-7291-95fd-7b85237c0007\\exec-a779aaee-f6ce-4543-8b1d-96e8a5bea2c8.png"
+  },
+  "grade5_prob1": {
+    "title": "Diện tích tam giác có đáy và chiều cao thập phân",
+    "description": "Tam giác với đường cao và thước đo",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/triangle-area.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:/Users/Admin/.codex/generated_images/01a1e8e8-6bae-71f0-b3ba-653f983cc714/exec-69cda338-3a1e-48c7-9c36-72dd21f49075.png"
+  },
+  "grade5_prob2": {
+    "title": "Vận tốc người đi xe máy",
+    "description": "Xe máy trên đường với đồng hồ và đồng hồ tốc độ",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob2.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-6b1b93bf-9a3a-4e48-91f4-b3ec0a70f93f.png"
+  },
+  "grade5_prob3": {
+    "title": "Cộng số thập phân",
+    "description": "Hai nhóm khối giá trị hàng và dấu cộng",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob3.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-d15dfab5-dce5-4ab7-a02e-8e0e66b0039f.png"
+  },
+  "grade5_prob4": {
+    "title": "Trừ số thập phân",
+    "description": "Khối giá trị hàng được lấy bớt khỏi khay",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob4.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-10e28b4e-6261-459f-a7ca-00d3ac11b188.png"
+  },
+  "grade5_prob5": {
+    "title": "Nhân số thập phân",
+    "description": "Vườn ô vuông theo hàng cột và dấu nhân",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob5.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-a40ef7ed-ba15-4643-9f49-e313e2c910e5.png"
+  },
+  "grade5_prob6": {
+    "title": "Chia số thập phân",
+    "description": "Dải đo được chia đều vào ba khay",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob6.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-2d0f4a9f-204e-415e-9df9-10e7d2dccc3e.png"
+  },
+  "grade5_prob7": {
+    "title": "Chia cho số thập phân",
+    "description": "Bình chia nước vào các cốc đo nhỏ",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob7.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-ec914f26-ee75-4d2e-aa86-a46e0d8e8235.png"
+  },
+  "grade5_prob8": {
+    "title": "Tỉ số phần trăm",
+    "description": "Nhóm học sinh bóng rổ và biểu tượng phần trăm",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob8.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-ccc3deb2-d043-41c2-922b-f2a13eab7398.png"
+  },
+  "grade5_prob9": {
+    "title": "Giảm giá chiếc cặp",
+    "description": "Cặp sách và thẻ giảm giá phần trăm",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob9.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-b860aa7a-52b5-4673-bf60-2b0f89f0e8a6.png"
+  },
+  "grade5_prob10": {
+    "title": "Giá sau khi giảm",
+    "description": "Áo trẻ em và thẻ giảm giá phần trăm",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob10.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-9e20e5a2-58dc-46e9-bc3a-e97c86e04b77.png"
+  },
+  "grade5_prob11": {
+    "title": "Diện tích hình thang",
+    "description": "Hình thang với hai đáy và đường cao",
+    "color": "#E2F4F1",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/trapezoid-area.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:/Users/Admin/.codex/generated_images/01a1e8e8-6bae-71f0-b3ba-653f983cc714/exec-8be3d21e-5982-43e5-8bc5-b17c228e3235.png"
+  },
+  "grade5_prob12": {
+    "title": "Chu vi hình tròn",
+    "description": "Vành bánh xe và thước đo chu vi",
+    "color": "#F0E8FA",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/circle-perimeter.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:/Users/Admin/.codex/generated_images/01a1e8e8-6bae-71f0-b3ba-653f983cc714/exec-a7e1535a-a690-4f78-b444-8814b71331bd.png"
+  },
+  "grade5_prob13": {
+    "title": "Diện tích hình tròn",
+    "description": "Đĩa tròn chia hình quạt và thước bán kính",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob13.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-21349e7d-da56-4da3-94f3-534cb68aac73.png"
+  },
+  "grade5_prob14": {
+    "title": "Thể tích hộp",
+    "description": "Hộp chứa các khối lập phương đơn vị",
+    "color": "#E2F4F1",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/box-volume.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:/Users/Admin/.codex/generated_images/01a1e8e8-6bae-71f0-b3ba-653f983cc714/exec-39e006a2-8262-4e7b-8cfd-94f43320bb90.png"
+  },
+  "grade5_prob15": {
+    "title": "Thể tích khối lập phương",
+    "description": "Khối lập phương chứa các khối đơn vị",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob15.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-a754c092-c194-4a1c-9310-3ca108d4674b.png"
+  },
+  "grade5_prob16": {
+    "title": "Quãng đường xe đạp",
+    "description": "Xe đạp trên đường cùng đồng hồ và thước dây",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob16.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-6e9420a1-0e22-461f-b0f8-abc070eafa2d.png"
+  },
+  "grade5_prob17": {
+    "title": "Thời gian đi ô tô",
+    "description": "Ô tô trên đường với đồng hồ và đồng hồ tốc độ",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob17.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-8c68bb72-9d60-4019-b5d8-006181242539.png"
+  },
+  "grade5_prob18": {
+    "title": "Đổi diện tích",
+    "description": "Khu đất chia ô vuông và dụng cụ đo diện tích",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob18.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-eb231055-40ba-4c57-bb09-d9e00aa17c12.png"
+  },
+  "grade5_prob19": {
+    "title": "Trung bình lượng mưa",
+    "description": "Ba ống đo mưa với mực nước khác nhau",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob19.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-7760b4da-fb60-4ca6-ac02-cd1fd0ae9674.png"
+  },
+  "grade5_prob20": {
+    "title": "Cộng hai phân số",
+    "description": "Hai phần năm cộng ba phần mười bằng mô hình hình tròn",
+    "color": "#EEE7FC",
+    "status": "GENERATED_REVIEWED",
+    "assetPath": "apps/student-mobile/assets/illustrations/lessons/grade5_prob20.webp",
+    "source": "built-in image_gen",
+    "generatedSource": "C:\\Users\\Admin\\.codex\\generated_images\\01a1e8e8-3ec4-7941-b599-85bd1f5e5c8a\\exec-eb296f7b-cb42-422c-af6a-950812bacf3f.png"
+  }
+}

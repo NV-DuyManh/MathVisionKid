@@ -151,15 +151,12 @@ export const PortalLayout: React.FC = () => {
             >
               <Box
                 component="img"
-                src="/ui/mathvision-star.webp"
-                alt="Biểu trưng Ngôi sao MathVision Kids"
+                src="/ui/robot-mascot.webp"
+                alt="Robot MathVisionKid"
                 sx={{
                   width: { xs: 32, sm: 42 },
                   height: { xs: 32, sm: 42 },
                   objectFit: 'contain',
-                }}
-                onError={(e: any) => {
-                  e.currentTarget.src = '/logo.svg';
                 }}
               />
               <Box>
@@ -429,12 +426,9 @@ export const PortalLayout: React.FC = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.2, mb: 1.5 }}>
                 <Box
                   component="img"
-                  src="/ui/mathvision-star.webp"
-                  alt="Biểu trưng Ngôi sao MathVision Kids"
+                  src="/ui/robot-mascot.webp"
+                  alt="Robot MathVisionKid"
                   sx={{ width: 36, height: 36 }}
-                  onError={(e: any) => {
-                    e.currentTarget.src = '/logo.svg';
-                  }}
                 />
                 <Typography variant="h6" sx={{ fontWeight: 900, color: '#0F172A', fontSize: '1.25rem', letterSpacing: '-0.02em' }}>
                   MathVision<span style={{ color: '#2563EB' }}>Kids</span>

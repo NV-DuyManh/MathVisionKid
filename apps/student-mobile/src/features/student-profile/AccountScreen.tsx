@@ -11,7 +11,7 @@ import { AppButton } from '../../components/ui/AppButton';
 import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { LessonSheet } from '../tutoring/LessonSheet';
 import { COLORS, FONTS } from '../../constants/theme';
-import { StudentAvatar, avatars } from './ProfileCards';
+import { StudentAvatar } from './ProfileCards';
 import { useStudentProfile } from './useStudentProfile';
 import { profileApi, type ProfileEdit, type StudentProfile } from './profileApi';
 import { tokenStorage } from '../../services/auth/tokenStorage';
@@ -33,15 +33,8 @@ export function AccountScreen({ owner }: { owner: string }) {
         <StudentPageHeader compact title="Hồ sơ của em" showAvatar={false} backLabel="Quay lại" onBack={() => router.canGoBack() ? router.back() : router.replace('/(tabs)')} />
         {profile.value ? <View style={[s.columns, width >= 900 && s.wide]}>
           <AccountEditor profile={profile.value} onSave={profile.accept} />
-          <View style={[s.side, width >= 900 && { maxWidth: 320 }]}>
+          <View style={[s.side, width >= 900 && { flex: 1, maxWidth: 320 }]}>
             <PasswordCard available={profile.value.passwordLoginAvailable !== false} />
-            <View style={s.card}>
-              <View style={s.sectionTitle}><Ionicons accessible={false} aria-hidden name="school-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={s.heading}>Góc học tập</Text></View>
-              <Text style={s.body}>{profile.value.gradeLevel ? `Khối ${profile.value.gradeLevel}` : 'Chưa có thông tin khối lớp'}</Text>
-              {profile.value.classrooms.map(item => <Text style={s.body} key={item.id}>{item.name}</Text>)}
-              <Text style={s.hint}>Giáo viên quản lý lớp học và khối lớp của em.</Text>
-              <AppButton title="Xem thành tích" variant="secondary" onPress={() => router.push('/(tabs)/achievements')} />
-            </View>
             <AppButton title="Đăng xuất" variant="ghost" icon={<Ionicons accessible={false} aria-hidden name="log-out-outline" color={COLORS.textSecondary} size={20} />} onPress={() => setConfirmLogout(true)} />
           </View>
         </View> : !profile.failed && <ActivityIndicator accessibilityLabel="Đang tải hồ sơ" />}
@@ -62,14 +55,16 @@ export function AccountScreen({ owner }: { owner: string }) {
 function AccountEditor({ profile, onSave }: { profile: StudentProfile; onSave: (value: StudentProfile) => void }) {
   const auth = useContext(AuthContext);
   const { width } = useWindowDimensions();
+  const compact = width < 480;
   const [edit, setEdit] = useState<ProfileEdit>({ displayName: profile.displayName, avatar: profile.avatar,
-    leaderboardVisible: profile.leaderboardVisible, selectedTitle: profile.selectedTitle });
-  const [photoSelected, setPhotoSelected] = useState(Boolean(profile.avatarPhoto));
+    leaderboardVisible: profile.leaderboardVisible, leaderboardNameHidden: profile.leaderboardNameHidden ?? true, selectedTitle: profile.selectedTitle });
+  const [editingName, setEditingName] = useState(false);
+  const [avatarHovered, setAvatarHovered] = useState(false), [avatarFocused, setAvatarFocused] = useState(false);
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState('');
   const lifetime = useRef(new AbortController()), lock = useRef(false);
   useEffect(() => { const controller = new AbortController(); lifetime.current = controller; return () => controller.abort(); }, []);
   const dirty = edit.displayName !== profile.displayName || edit.avatar !== profile.avatar || edit.selectedTitle !== profile.selectedTitle
-    || edit.leaderboardVisible !== profile.leaderboardVisible || photoSelected !== Boolean(profile.avatarPhoto);
+    || edit.leaderboardVisible !== profile.leaderboardVisible || edit.leaderboardNameHidden !== (profile.leaderboardNameHidden ?? true);
   const save = async () => {
     const signal = lifetime.current.signal;
     if (lock.current) return;
@@ -77,12 +72,16 @@ function AccountEditor({ profile, onSave }: { profile: StudentProfile; onSave: (
     if (!/^[\p{L}\p{M}][\p{L}\p{M} .’'-]{0,39}$/u.test(displayName)) { setError('Em nhập tên gồm chữ cái, dài tối đa 40 ký tự nhé.'); return; }
     lock.current = true; setBusy(true); setError(''); setNotice('');
     try {
-      const next = await profileApi.update({ ...edit, displayName, removePhoto: !photoSelected }, signal);
+      const next = await profileApi.update({ ...edit, displayName, removePhoto: false }, signal);
       if (!signal.aborted) {
-        onSave(next); setEdit({ ...edit, displayName: next.displayName }); setNotice('Đã lưu hồ sơ của em.');
+        onSave(next); setEdit({ ...edit, displayName: next.displayName, leaderboardNameHidden: next.leaderboardNameHidden ?? edit.leaderboardNameHidden }); setNotice('Đã lưu hồ sơ của em.'); setEditingName(false);
         void auth?.refreshUser?.().catch(() => {});
       }
-    } catch { if (!signal.aborted) setError('Chưa lưu được hồ sơ. Em kiểm tra kết nối rồi thử lại nhé.'); }
+    } catch (failure) {
+      if (!signal.aborted) setError((failure as { code?: string })?.code === 'PROFILE_PRIVACY_UNCONFIRMED'
+        ? 'Chưa xác nhận được lựa chọn quyền riêng tư đã lưu. Lựa chọn của em vẫn được giữ; em thử lại sau nhé.'
+        : 'Chưa lưu được hồ sơ. Em kiểm tra kết nối rồi thử lại nhé.');
+    }
     finally { lock.current = false; if (!signal.aborted) setBusy(false); }
   };
   const choosePhoto = async () => {
@@ -103,27 +102,25 @@ function AccountEditor({ profile, onSave }: { profile: StudentProfile; onSave: (
       const file = await image.saveAsync({ format: SaveFormat.PNG });
       if (signal.aborted) return;
       const next = await profileApi.uploadPhoto(file.uri, signal, await session);
-      if (!signal.aborted) { onSave(next); setPhotoSelected(true); setNotice('Đã cập nhật ảnh đại diện.'); }
+      if (!signal.aborted) { onSave(next); setNotice('Đã cập nhật ảnh đại diện.'); }
     } catch { if (!signal.aborted) setError('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.'); }
     finally { lock.current = false; if (!signal.aborted) setBusy(false); }
   };
-  return <View style={[s.card, s.editor]}>
-    <View style={s.identity}>
-      <View style={s.avatarRing}><StudentAvatar id={edit.avatar} photo={photoSelected ? profile.avatarPhoto : null} size={88} /></View>
-      <View style={{ flex: 1, gap: 5 }}><Text accessibilityRole="header" style={s.name}>{profile.displayName}</Text><Text style={s.hint}>Ảnh và tên hiển thị của em</Text></View>
+  return <View testID="account-profile-editor" style={[s.card, s.editor, width >= 900 && s.editorWide]}>
+    <View style={[s.identity, compact && { gap: 12 }]}>
+      <Pressable accessibilityRole="button" accessibilityLabel="Thay ảnh đại diện" accessibilityHint="Chọn một ảnh từ thiết bị của em" disabled={busy}
+        onHoverIn={() => setAvatarHovered(true)} onHoverOut={() => setAvatarHovered(false)} onFocus={() => setAvatarFocused(true)} onBlur={() => setAvatarFocused(false)}
+        onPress={() => { void choosePhoto(); }} style={[s.avatarRing, avatarFocused && s.avatarFocus]}>
+        <StudentAvatar id={edit.avatar} photo={profile.avatarPhoto} size={compact ? 64 : 88} />
+        <View pointerEvents="none" accessible={false} aria-hidden testID="avatar-change-overlay" style={[s.avatarOverlay, { opacity: avatarHovered || avatarFocused ? 1 : 0 }]}><Ionicons name="camera-outline" size={23} color="#FFF" accessible={false} /><Text style={s.avatarOverlayText}>Thay ảnh</Text></View>
+        <View pointerEvents="none" style={s.cameraBadge}><Ionicons name="camera" size={14} color={COLORS.primaryDark} accessible={false} /></View>
+      </Pressable>
+      <View style={s.nameRow}><Text accessibilityRole="header" numberOfLines={2} style={[s.name, s.nameCopy, compact && { fontSize: 18, lineHeight: 25 }]}>{profile.displayName}</Text>
+        <Pressable accessibilityRole="button" accessibilityLabel="Đổi tên hiển thị" disabled={busy} onPress={() => { setEditingName(true); setError(''); }} style={s.editName}>
+          <Ionicons name="create-outline" size={22} color={COLORS.primaryDark} accessible={false} />
+        </Pressable>
+      </View>
     </View>
-    <AppButton title="Chọn ảnh từ thiết bị" variant="secondary" disabled={busy} icon={<Ionicons accessible={false} aria-hidden name="image-outline" size={20} color={COLORS.primaryDark} />} onPress={() => { void choosePhoto(); }} />
-    <Text style={s.hint}>Hoặc chọn một người bạn nhỏ:</Text>
-    <View style={[s.avatars, width < 600 && s.phoneAvatars]}>{avatars.map(avatar => <Pressable key={avatar.id} accessibilityRole="button" accessibilityLabel={`Chọn hình ${avatar.name}`}
-      accessibilityState={{ selected: !photoSelected && edit.avatar === avatar.id, disabled: busy }} disabled={busy}
-      onPress={() => { setPhotoSelected(false); setEdit(value => ({ ...value, avatar: avatar.id })); setNotice(''); }}
-      style={[s.avatarChoice, !photoSelected && edit.avatar === avatar.id && s.chosen]}><StudentAvatar id={avatar.id} size={40} /></Pressable>)}</View>
-    {profile.avatarPhoto && !photoSelected && <Pressable accessibilityRole="button" accessibilityLabel="Giữ ảnh đã tải lên" disabled={busy} onPress={() => setPhotoSelected(true)}><Text style={s.link}>Giữ ảnh đã tải lên</Text></Pressable>}
-    <View style={s.divider} />
-    <Text nativeID="account-name-label" style={s.label}>Tên hiển thị</Text>
-    <TextInput accessibilityLabel="Tên hiển thị" aria-labelledby="account-name-label" aria-describedby="account-name-help account-editor-error" aria-invalid={Boolean(error) && !/^[\p{L}\p{M}][\p{L}\p{M} .’'-]{0,39}$/u.test(edit.displayName.trim())} style={s.input}
-      value={edit.displayName} maxLength={40} autoComplete="name" editable={!busy} onChangeText={displayName => { setEdit(value => ({ ...value, displayName })); setNotice(''); }} />
-    <Text nativeID="account-name-help" style={s.hint}>Tên em muốn thầy cô và bạn bè gọi. Tối đa 40 ký tự.</Text>
     {profile.titles.some(title => title.unlocked) && <>
       <Text style={s.label}>Danh hiệu yêu thích</Text>
       <View style={s.avatars}>{[{ id: null, name: 'Chưa chọn' }, ...profile.titles.filter(title => title.unlocked)].map(title => <Pressable key={title.id ?? 'none'}
@@ -132,13 +129,23 @@ function AccountEditor({ profile, onSave }: { profile: StudentProfile; onSave: (
     </>}
     <View style={s.divider} />
     <View style={s.privacy}><Ionicons accessible={false} aria-hidden name="shield-checkmark-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={[s.label, { flex: 1 }]}>Quyền riêng tư</Text></View>
-    <View style={s.privacy}><Text style={[s.body, { flex: 1 }]}>Tham gia bảng xếp hạng bằng bí danh</Text><Switch accessibilityLabel="Tham gia bảng xếp hạng bằng bí danh" disabled={busy}
+    <View style={s.privacy}><Text style={[s.body, { flex: 1 }]}>Tham gia bảng xếp hạng</Text><Switch accessibilityLabel="Tham gia bảng xếp hạng" disabled={busy}
       value={edit.leaderboardVisible} onValueChange={leaderboardVisible => setEdit(value => ({ ...value, leaderboardVisible }))} /></View>
-    <Text style={s.hint}>Ảnh tải lên chỉ hiện trong tài khoản của em. Bảng xếp hạng dùng bí danh và hình có sẵn, không hiển thị tên hay ảnh cá nhân.</Text>
-    {error !== '' && <Text nativeID="account-editor-error" accessibilityRole="alert" style={s.error}>{error}</Text>}
+    <View style={s.privacy}><Text style={[s.body, { flex: 1 }]}>Ẩn tên trên bảng xếp hạng</Text><Switch accessibilityLabel="Ẩn tên trên bảng xếp hạng" disabled={busy}
+      value={edit.leaderboardNameHidden ?? true} onValueChange={leaderboardNameHidden => setEdit(value => ({ ...value, leaderboardNameHidden }))} /></View>
+    <Text style={s.hint}>{Platform.OS === 'web' && !edit.leaderboardVisible ? 'Em đang ẩn khỏi bảng xếp hạng. Thành tích vẫn được lưu trong tài khoản của em.'
+      : edit.leaderboardNameHidden ? `Bạn bè sẽ thấy bí danh ${profile.publicAlias || 'động vật của em'}.` : 'Bạn bè sẽ thấy tên hiển thị của em trên bảng xếp hạng.'} Ảnh tải lên chỉ hiện trong tài khoản của em.</Text>
+    {error !== '' && !editingName && <Text nativeID="account-editor-error" accessibilityRole="alert" style={s.error}>{error}</Text>}
     {notice !== '' && <Text accessibilityLiveRegion="polite" style={s.success}>{notice}</Text>}
     <AppButton title="Lưu thay đổi" loading={busy} loadingTitle="Đang cập nhật…" disabled={!dirty} onPress={() => { void save(); }} />
     {!dirty && !notice && <Text style={s.hint}>Thông tin của em đã được lưu.</Text>}
+    {editingName ? <LessonSheet title="Đổi tên của em" compact onClose={() => { if (!busy) { setEdit(value => ({ ...value, displayName: profile.displayName })); setEditingName(false); setError(''); } }}>
+      <TextInput accessibilityLabel="Tên hiển thị" aria-describedby="account-name-help" aria-invalid={Boolean(error) && !/^[\p{L}\p{M}][\p{L}\p{M} .’'-]{0,39}$/u.test(edit.displayName.trim())} autoFocus autoComplete="name" maxLength={40} style={s.input} editable={!busy}
+        value={edit.displayName} onChangeText={displayName => { setEdit(value => ({ ...value, displayName })); setError(''); setNotice(''); }} />
+      <Text nativeID="account-name-help" style={s.hint}>Tên gồm chữ cái, tối đa 40 ký tự.</Text>
+      {error ? <Text accessibilityRole="alert" style={s.error}>{error}</Text> : null}
+      <AppButton title="Lưu tên" loading={busy} onPress={() => { void save(); }} />
+    </LessonSheet> : null}
   </View>;
 }
 
@@ -199,15 +206,18 @@ function PasswordCard({ available }: { available: boolean }) {
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: 20, paddingBottom: 36, width: '100%', maxWidth: 1040, alignSelf: 'center', gap: 12 },
-  columns: { gap: 18 }, wide: { flexDirection: 'row', alignItems: 'flex-start' }, side: { flex: 1, gap: 18, minWidth: 0 }, editor: { flex: 1.5, minWidth: 0 },
+  columns: { gap: 18 }, wide: { flexDirection: 'row', alignItems: 'flex-start' }, side: { gap: 18, minWidth: 0 }, editor: { minWidth: 0, flexShrink: 0 }, editorWide: { flex: 1.5 },
   card: { padding: 22, borderRadius: 24, backgroundColor: COLORS.surface, borderWidth: 1, borderColor: COLORS.border, gap: 14 },
   identity: { flexDirection: 'row', alignItems: 'center', gap: 18 }, avatarRing: { padding: 6, borderRadius: 54, backgroundColor: COLORS.primaryLight },
+  avatarFocus: { outlineStyle: 'solid', outlineColor: COLORS.primaryDark, outlineWidth: 2, outlineOffset: 3 },
+  avatarOverlay: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, borderRadius: 54, backgroundColor: '#171044A6', alignItems: 'center', justifyContent: 'center', gap: 3 },
+  avatarOverlayText: { fontFamily: FONTS.bold, fontSize: 11, color: '#FFF' }, cameraBadge: { position: 'absolute', right: 1, bottom: 1, width: 25, height: 25, borderRadius: 13, backgroundColor: COLORS.surface, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: COLORS.border },
+  nameRow: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 4 }, nameCopy: { flex: 1, minWidth: 0 }, editName: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
   name: { fontFamily: FONTS.extraBold, fontSize: 23, lineHeight: 30, color: COLORS.textPrimary }, heading: { fontFamily: FONTS.bold, fontSize: 18, color: COLORS.textPrimary, flexShrink: 1 },
   sectionTitle: { flexDirection: 'row', alignItems: 'center', gap: 10 }, label: { fontFamily: FONTS.bold, fontSize: 14, color: COLORS.textPrimary },
   body: { fontFamily: FONTS.regular, fontSize: 15, lineHeight: 23, color: COLORS.textSecondary }, hint: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 20, color: COLORS.textSecondary },
   input: { minHeight: 50, paddingHorizontal: 14, paddingVertical: 12, borderRadius: 14, borderWidth: 1, borderColor: COLORS.border, backgroundColor: COLORS.background, fontFamily: FONTS.semiBold, fontSize: 16, color: COLORS.textPrimary },
-  avatars: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 }, avatarChoice: { padding: 5, borderRadius: 30, borderWidth: 2, borderColor: 'transparent' },
-  phoneAvatars: { width: '100%', maxWidth: 220, alignSelf: 'center', justifyContent: 'space-between' },
+  avatars: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   titleChoice: { paddingVertical: 10, paddingHorizontal: 12, borderRadius: 12, borderWidth: 2, borderColor: COLORS.border }, chosen: { borderColor: COLORS.primary, backgroundColor: COLORS.primaryLight },
   divider: { height: 1, backgroundColor: COLORS.border, marginVertical: 3 }, privacy: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   link: { fontFamily: FONTS.bold, fontSize: 14, color: COLORS.primaryDark }, passwordToggle: { minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 },

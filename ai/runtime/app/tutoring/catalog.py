@@ -17,7 +17,7 @@ PUBLIC_CATALOG = Path(__file__).with_name('data') / 'verified_exercises.json'
 def policy(kind):
     folder=Path(__file__).resolve().parent
     names=['lesson.py','service.py'] if kind=='plan' else ['speech_render.py','narration.py','audio_cues.py','azure_speech.py']
-    if kind=='plan':names+=['digit_append.py','fraction_remainder.py','mass_fraction.py','short_math.py','elementary_choices.py','number_tasks.py','area_tasks.py','choice_source.py','math_knowledge.py','source_clarification.py']
+    if kind=='plan':names+=['digit_append.py','fraction_remainder.py','mass_fraction.py','short_math.py','elementary_choices.py','number_tasks.py','area_tasks.py','choice_source.py','math_knowledge.py','source_clarification.py','curriculum.py','data/primary_math_curriculum.json']
     # Git checkouts on Windows/Linux must derive the same validation version.
     content=b'catalog-v1'+b''.join((folder/name).read_bytes().replace(b'\r\n', b'\n') for name in names if (folder/name).is_file())
     return sha256(content).hexdigest()

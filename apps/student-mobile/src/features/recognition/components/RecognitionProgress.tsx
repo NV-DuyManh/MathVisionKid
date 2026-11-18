@@ -6,7 +6,7 @@ import { COLORS, FONTS, SHADOWS } from '../../../constants/theme';
 import { TaskProgress, TaskProgressProps } from '../../../components/ui/TaskProgress';
 
 type Props = { title: string; description: string; imageUri?: string; onCancel?: () => void; cancelLabel?: string } & Partial<TaskProgressProps>;
-const MASCOT = require('../../../../assets/illustrations/mathvision-star.png');
+const MASCOT = require('../../../../assets/illustrations/robot-mascot.png');
 
 export function RecognitionProgress({ title, description, imageUri, onCancel, cancelLabel = 'Quay lại', steps, activeStep, complete, percent, detail, timeoutSeconds, onTimeout, onComplete }: Props) {
   const [motion] = useState(() => new Animated.Value(0));

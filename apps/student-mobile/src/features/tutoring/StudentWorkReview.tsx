@@ -272,7 +272,7 @@ function ReviewSession({
         <Text style={styles.label}>{`Dòng ${row.lineIndex + 1}`}</Text>
         <MathText style={styles.body}>{row.sourceText}</MathText>
         {row.arithmeticCorrect === true && !arithmeticOnly ? <Text style={styles.caption}>Phép tính ở dòng này đúng.</Text> : null}
-        <Text style={styles.caption}>{row.feedback}</Text>
+        <MathText style={styles.caption}>{row.feedback}</MathText>
       </View>)}
       {(hasCorrections || incompleteInfo?.isIncomplete) && result.status === 'NEEDS_REVIEW' && result.complete !== false ? <AppButton
         title="Thử nhận xét lại" variant="secondary" disabled={disabledNow || busy} onPress={() => void review()} /> : null}

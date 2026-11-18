@@ -1,7 +1,14 @@
 # Run diagnostics with the same scoped internal credential as the core launcher.
+param([switch]$ShowStudentQr)
+
 $ErrorActionPreference = 'Stop'
 $RepoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 . (Join-Path $PSScriptRoot 'local-env.ps1')
+
+if ($ShowStudentQr) {
+    & node (Join-Path $RepoRoot 'scripts/dev/show-student-qr.cjs')
+    exit $LASTEXITCODE
+}
 
 $python = Join-Path $RepoRoot 'ai/runtime/.venv/Scripts/python.exe'
 if (-not (Test-Path -LiteralPath $python)) { $python = 'python' }

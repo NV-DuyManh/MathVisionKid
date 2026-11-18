@@ -82,7 +82,7 @@ export default function Sidebar({ open, onClose, collapsed, onToggle }: SidebarP
         display: 'flex', alignItems: 'center', justifyContent: compact ? 'center' : 'flex-start', gap: 1 }}>
         <Box
           component="img"
-          src="/ui/mathvision-star.png"
+          src="/ui/robot-mascot.webp"
           alt={compact ? 'MathVision Kids' : ''}
           width={36}
           height={36}

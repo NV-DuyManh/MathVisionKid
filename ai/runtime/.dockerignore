@@ -22,6 +22,7 @@ scripts
 *.jpeg
 *.png
 *.zip
+!app/tutoring/data/curriculum_audio/public_speech_*.zip
 *.pt
 *.pth
 *.onnx

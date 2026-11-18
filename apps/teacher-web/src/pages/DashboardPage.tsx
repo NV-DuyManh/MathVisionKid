@@ -70,7 +70,7 @@ export default function DashboardPage() {
   return (
     <Box>
       <Box component="header" className="teacher-dashboard-welcome">
-        <Box component="img" src="/ui/mathvision-star.png" alt="" width={72} height={72} className="teacher-dashboard-star" />
+        <Box component="img" src="/ui/robot-mascot.webp" alt="" width={72} height={72} className="teacher-dashboard-star" />
         <Box sx={{ minWidth: 0 }}>
           <Typography variant="h2" component="h1" sx={{ fontSize: { xs: '1.5rem', sm: '2rem' }, overflowWrap: 'anywhere' }}>
             Xin chào, {displayName}

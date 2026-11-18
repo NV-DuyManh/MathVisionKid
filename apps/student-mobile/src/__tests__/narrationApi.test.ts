@@ -98,16 +98,27 @@ it.each([{code:'ERR_NETWORK'},{response:{status:502}},{response:{status:503}}])(
   expect(listener).toHaveBeenCalledWith(expect.objectContaining({retrying:true}));
 });
 
-it('bounds repeated preparation failures to three attempts and cancels retry delays immediately', async()=>{
+it('bounds repeated preparation failures to six backed-off attempts and cancels retry delays immediately', async()=>{
   jest.useFakeTimers();(apiClient.post as jest.Mock).mockRejectedValue({code:'ERR_NETWORK'});
   const pending=downloadNarration(source,['Em đọc lại nhé.'],new AbortController().signal);
   const failed=expect(pending).rejects.toMatchObject({code:'ERR_NETWORK'});
-  await jest.advanceTimersByTimeAsync(5000);await failed;expect(apiClient.post).toHaveBeenCalledTimes(3);
+  await jest.advanceTimersByTimeAsync(15000);await failed;expect(apiClient.post).toHaveBeenCalledTimes(6);
   (apiClient.post as jest.Mock).mockClear();const control=new AbortController();
   const cancelled=downloadNarration(source,['Em đọc lại nhé.'],control.signal);
   const stopped=expect(cancelled).rejects.toThrow('Đã dừng');
   await jest.advanceTimersByTimeAsync(0);control.abort();await stopped;
   await jest.advanceTimersByTimeAsync(5000);expect(apiClient.post).toHaveBeenCalledTimes(1);expect(jest.getTimerCount()).toBe(0);
+});
+
+it('recovers several short preparation outages without requiring manual retries or changing voice', async () => {
+  jest.useFakeTimers(); let prepares = 0;
+  (apiClient.post as jest.Mock).mockImplementation((url: string) => url.endsWith('/prepare') && ++prepares < 5
+    ? Promise.reject({ response: { status: 503 } }) : respond(url));
+  const pending = downloadNarration(source, ['Em đọc lại nhé.'], new AbortController().signal, 'vi-VN-HoaiMyNeural');
+  await jest.advanceTimersByTimeAsync(11000);
+  await expect(pending).resolves.toEqual(wav);
+  expect(prepares).toBe(5);
+  expect((apiClient.post as jest.Mock).mock.calls.every(call => call[1].voice === 'vi-VN-HoaiMyNeural' && call[1].sessionId === source.sessionId)).toBe(true);
 });
 
 it('keeps all ready-file retries inside the original sixty-second deadline',async()=>{

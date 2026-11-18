@@ -3,6 +3,7 @@ import ast
 import asyncio
 import json
 import logging
+import math
 import operator
 import re
 import secrets
@@ -17,7 +18,7 @@ from typing import Annotated, Literal
 
 from pydantic import Field, StrictBool, ValidationError, field_validator, model_validator
 
-from app.tutoring.service import TutorModel, TutorUnavailable, _fold, _generate
+from app.tutoring.service import TutorModel, TutorUnavailable, _fold, _generate, _NUMBER_VALUES
 from app.tutoring.choice_source import split_choices
 from app.tutoring import math_knowledge, validation_audit
 from app.tutoring.math_knowledge import unit_conversions, formula_constants
@@ -73,6 +74,7 @@ class Step(TutorModel):
     hints: list[str] = Field(default_factory=list, max_length=3)
     fractionNotation: StrictBool = False
     solutionSentence: str = Field(default="", max_length=220)
+    intro: str = Field(default="", max_length=500)
     guidance: list[str] = Field(default_factory=list, max_length=6)
     # None keeps legacy Plan-shaped guidance. An explicit list, including [],
     # preserves the planner's initial/private boundary without serializing it.
@@ -168,8 +170,9 @@ class PublicStep(TutorModel):
     workExcerpt: str
     solutionSentence: str = ""
     guidance: list[str] = Field(default_factory=list)
-    # Current-choice teaching feedback only. Progress remains server checked.
+    # Legacy field retained for older clients; answer keys stay server-side.
     choiceChecks: list[bool] = Field(default_factory=list)
+    answerFormat: Literal['INTEGER', 'DECIMAL', 'FRACTION'] | None = None
 
 
 class CompletedStep(TutorModel):
@@ -212,7 +215,11 @@ class LessonResponse(TutorModel):
     understandingSteps: Literal[0, 3] = 0
     summary: LessonSummary | None = None
     preparingMath: bool = False
+    retryAfterSeconds: int = Field(default=0, ge=0, le=60)
     review: dict | None = None
+    hintLevel: int = Field(default=0, ge=0, le=3)
+    hintCount: int = Field(default=0, ge=0, le=3)
+    revealedHints: list[str] = Field(default_factory=list, max_length=3)
 
 
 class LessonExpired(ValueError):
@@ -327,11 +334,14 @@ def checked_written_calculation(excerpt: str) -> tuple[bool, Fraction] | None:
     return (consistent, values[-1]) if values else None
 
 
-def expression_at(step: Step, answers: list[str]) -> str:
-    expression = step.expression
+def expression_at(step: Step, answers: list[str], *, for_display=False) -> str:
+    expression = display_expression(step.expression, step.fractionNotation) if for_display else step.expression
     for index, answer in enumerate(answers):
         if re.fullmatch(r"-?\d+(?:\.\d+)?(?:/\d+)?", answer):
-            expression = expression.replace("{s" + str(index) + "}", f"({answer})" if "/" in answer or answer.startswith('-') else answer)
+            # Render the authored operators before substituting checked values.
+            # A slash inside a checked value always represents one fraction.
+            value = answer if for_display else f"({answer})" if "/" in answer or answer.startswith('-') else answer
+            expression = expression.replace("{s" + str(index) + "}", value)
             checked = Fraction(answer)
             for part in ("numerator", "denominator"):
                 expression = expression.replace("{s" + str(index) + "_" + part + "}", str(getattr(checked, part)))
@@ -415,6 +425,7 @@ chữ số hoặc phép tính. Các dữ kiện số nằm trong lời hướng 
 Nói như đang cùng một em nhỏ đọc đề. Mỗi câu một ý, từ quen thuộc, gọi tên đồ
 vật trong đề. Chia thao tác thành việc nhỏ em làm được ngay; không nhồi nhiều
 quy tắc trong một câu. Giữ đủ ý nghĩa, VÌ SAO và CÁCH LÀM, không rút thành khẩu quyết.
+Gọi đúng tên đối tượng trong title, question, explanation, solutionSentence, guidance và hints (ví dụ vận tốc xe máy, diện tích hình tam giác). Các câu phải tự hiểu được khi đọc riêng. intro là câu ngắn nêu mục tiêu và dữ kiện liên quan bằng lời, chưa nêu phép tính hay cách làm. Phần giảng nêu dữ kiện liên quan, lý do chọn phép tính và ý nghĩa kết quả. Không lặp câu hỏi làm lời giải thích. Gợi ý đầu nêu mối liên hệ giữa các dữ kiện; gợi ý sau giải thích vì sao dùng phương pháp và em cần làm gì tiếp theo.
 initialGuidance là MẢNG 3 mục ngắn, mỗi mục 60-220 ký tự, theo thứ tự:
 1. Dữ kiện nào liên quan, mỗi lượng nghĩa là gì, cần tìm lượng gì.
 2. Vì sao dùng phép toán này và vì sao tìm lượng này trước lượng khác.
@@ -423,11 +434,12 @@ phần. BA đoạn đầu chỉ dùng số đề cho, hằng số được phép
 không có giá trị vừa tính, mẫu số vừa tìm, thương/dư vừa tính hoặc phép tính mẫu.
 Mỗi mục nói một ý khác nhau, không nhắc lại cùng lý do. Gọi đúng đại lượng,
 số và đơn vị của bài này; không dùng đoạn giảng chung cho mọi bài.
-guidance là MẢNG 1-3 mục trợ giúp sâu RIÊNG TƯ, câu ngắn: dạy từng thao tác tính của CHÍNH bước này, kèm kết quả
+guidance là MẢNG 1-3 mục lời giải RIÊNG TƯ, câu ngắn: dạy từng thao tác tính của CHÍNH bước này, kèm kết quả
 và cách ghi câu lời giải/phép tính/đơn vị. Không kể kết quả của bất kỳ bước SAU
-nào. Đoạn này chỉ được mở khi xin gợi ý sâu hoặc đã làm xong.
-hints là hai chuỗi khác nhau: đầu chỉ thao tác bắt đầu, sau dạy kỹ cách tính
-của chính bước này. Mỗi chuỗi <=450 ký tự, không có kết quả bước SAU.
+nào. Đoạn này chỉ được mở SAU khi học sinh đã làm đúng bước đó.
+hints là 2-3 chuỗi gợi mở khác nhau: hướng suy nghĩ, cách lập phép tính, rồi
+một thao tác trung gian. Mỗi chuỗi <=450 ký tự. KHÔNG có kết quả hiện tại,
+đáp án bằng chữ, chuỗi phép tính đã hoàn tất hoặc kết quả bước SAU ở bất kỳ cấp nào.
 
 Với phân số: giải thích các phần bằng nhau, tại sao chia nhỏ không đổi lượng,
 vì sao cộng/trừ phải cùng cỡ phần. Muốn tìm toàn bộ từ một phần, giải thích
@@ -491,8 +503,8 @@ a numeric answer of a later calculation is not.
 initialTeaching is the exact teaching shown BEFORE deep help. Check that view
 for premature answers. workedTeaching holds the remaining PRIVATE paragraphs
 for the corresponding step. Review ALL paragraphs in these two arrays; guidance
-is omitted from candidate.steps to avoid duplicating them. The second hint is
-also PRIVATE worked help; do NOT reject correct current-step answers there.
+is omitted from candidate.steps to avoid duplicating them. Hints at EVERY level
+must remain answer-free, including answers written as words.
 Do not mistake an earlier, already checked result for a current-step answer.
 Check teaching: each step explains WHY this quantity/operation/order, gives small
 concrete HOW actions suitable for a primary pupil, and has a proper classroom
@@ -500,9 +512,9 @@ solution sentence. Reject circular, misleading, generic-only or insufficient
 explanations, long abstract sentences, or stacked rules without small actions.
 Prefer short everyday sentences while keeping all quantity/WHY/HOW detail.
 Automatic explanation/question/choices and the initial teaching must not reveal
-current or future answers. Private worked paragraphs and the second hint MAY show
-a correct worked calculation for THIS step: they are opened only on explicit
-deep-help requests or after the pupil solves it. They must never reveal future
+current or future answers. Private worked paragraphs MAY show a correct worked
+calculation for THIS step only after the pupil solves it. Hints are progressive
+help, not permission to show the answer. They must never reveal future
 steps. Check the full worked calculations as well as the private answer formula;
 wrong quotients, remainders or other intermediate workings must be rejected.
 Reject a method with wrong vocabulary (e.g. 'bring down' for subtraction), or
@@ -653,6 +665,9 @@ def source_parts(source: str) -> tuple[list[str], str]:
         raise UnderstandingUnsupported("Separate the given facts and one explicit source question")
     boundary = questions[0].start(1)
     question = source[boundary:].strip()
+    # Preserve the confirmed source itself; do not teach a worksheet score as
+    # part of the question or use it as a population/measurement quantity.
+    question = re.sub(r'\s*\(\s*\d+(?:[.,]\d+)?\s*điểm\s*\)\s*\.?\s*$', '', question, flags=re.I)
     facts = source[:boundary].strip()
     if '?' in facts:
         raise UnderstandingUnsupported("A question cannot be treated as a confirmed given fact")
@@ -671,8 +686,12 @@ def source_parts(source: str) -> tuple[list[str], str]:
 
 
 def source_summary(source: str) -> LessonSummary | None:
+    from app.tutoring.fraction_remainder import verified_summary
     clauses, question = source_parts(source)
     try:
+        contextual = verified_summary(source)
+        if contextual is not None:
+            return LessonSummary.model_validate(contextual)
         return LessonSummary(givens=clauses, question=question)
     except ValidationError:
         # Never label a truncated list as the complete source summary.
@@ -689,8 +708,8 @@ def source_understanding(source: str) -> list[Step]:
     secrets.SystemRandom().shuffle(fact_choices)
     secrets.SystemRandom().shuffle(question_choices)
     quote, truth = secrets.choice(((fact, "Đúng"), (question, "Sai")))
-    teaching = [f'Đề cho biết: «{fact}». Em chọn câu đúng với thông tin này.',
-                f'Cuối đề có câu hỏi: «{question}». Em phân biệt điều cần tìm với thông tin đã biết.']
+    teaching = ['Dữ kiện là thông tin đề đã nói rõ. Em phân biệt dữ kiện với câu đang yêu cầu tìm một lượng chưa biết.',
+                'Câu hỏi của đề nêu điều cần tìm. Em tìm các từ hỏi và phân biệt chúng với những thông tin đã biết.']
     hints = [f'Em đối chiếu từng lựa chọn với câu «{fact}» trong đề, chưa cần thực hiện phép tính.',
              f'Câu «{question}» hỏi điều cần tìm. Em phân biệt câu hỏi này với các dữ kiện đã cho.']
     return [
@@ -699,7 +718,7 @@ def source_understanding(source: str) -> list[Step]:
              guidance=teaching[:1], hints=hints),
         Step(kind="UNDERSTAND", title="Nhận biết câu hỏi", explanation=teaching[1],
              question="Đề yêu cầu em tìm điều gì?", choices=question_choices, correctChoice=question,
-             guidance=[f'Em đọc lại: «{question}». Câu này cho biết bài muốn em tìm điều gì.',
+             guidance=['Em đọc lại nguyên đề và tìm câu yêu cầu tìm một lượng chưa biết.',
                        'Chọn câu nêu điều cần tìm; chưa tính đáp số ở bước này.'], hints=hints),
         Step(kind="UNDERSTAND", title="Đối chiếu với đề", explanation="Đọc câu trích từ đề rồi kiểm tra điều câu ấy nói.",
              question=f'Đúng hay sai: «{quote}» là điều đề đã cho biết?', choices=["Đúng", "Sai"],
@@ -743,9 +762,9 @@ def labelled_understanding(source: str) -> list[Step]:
     choices = [questions[1][0], steps[0].correctChoice]
     secrets.SystemRandom().shuffle(choices)
     steps[2] = Step(kind='UNDERSTAND', title='Nhận biết câu hỏi còn lại',
-        explanation=f'Ở ý b, đề hỏi: «{questions[1][0]}». Em đọc đúng điều cần tìm ở ý này.',
+        explanation='Đọc riêng ý b, tìm câu nêu điều cần tìm và phân biệt với các dữ kiện đã biết.',
         question='Ý b của đề yêu cầu em tìm điều gì?', choices=choices, correctChoice=questions[1][0],
-        guidance=[f'Đọc câu «{questions[1][0]}» ở ý b. Câu này nêu một điều cần tìm khác với ý a.',
+        guidance=['Đọc phần sau dấu b) để nhận ra điều cần tìm khác với ý a.',
                   'Chọn nguyên câu hỏi của ý b; phân biệt điều cần tìm với các dữ kiện đã cho.'],
         hints=['Đọc phần sau dấu b) trong đề và tìm câu hỏi của phần ấy.',
                'Câu hỏi nói điều cần tìm. Dữ kiện nói điều đã biết; em đối chiếu từng lựa chọn nhé.'])
@@ -899,21 +918,69 @@ def completed_step(step: Step, session: Session, answer: str) -> CompletedStep:
             scaled = abs(value.numerator) * 10 ** places // value.denominator
             digits = str(scaled).zfill(places + 1)
             shown = ('-' if value < 0 else '') + (digits[:-places] + ',' + digits[-places:] if places else digits)
-    return CompletedStep(kind=step.kind, title=step.title, expression=display_expression(expression, step.fractionNotation),
+    return CompletedStep(kind=step.kind, title=step.title, expression=expression_at(step, session.answers, for_display=True),
         answer=shown, unit=step.unit, explanation=step.explanation, solutionSentence=solution_sentence(step),
         calculationDetails=fraction_working(expression, solved=True) if step.expression and step.fractionNotation else [],
         guidance=guidance_at(step, session.answers), question=step.question, choices=list(step.choices))
 
 
+def answer_format(step: Step, answers: list[str]) -> Literal['INTEGER', 'DECIMAL', 'FRACTION'] | None:
+    if not step.expression or step.choices:
+        return None
+    denominator = calculate_exact(expression_at(step, answers)).denominator
+    question = _fold(step.question)
+    if step.unit == 'phần' or re.search(r'\b(?:phan so chi|may phan|phan so nao)\b', question):
+        return 'FRACTION'
+    if 'dang so thap phan' in question:
+        return 'DECIMAL'
+    if denominator == 1:
+        return 'INTEGER'
+    if step.fractionNotation:
+        return 'FRACTION'
+    for factor in (2, 5):
+        while denominator % factor == 0:
+            denominator //= factor
+    return 'DECIMAL' if denominator == 1 else 'FRACTION'
+
+
+def unsolved_label(step: Step, text: str, fallback: str) -> str:
+    if step.kind == 'MATH' and re.search(r'=|[\d)]\s*[+×*÷:−-]\s*[(\d]', text):
+        return fallback
+    return text
+
+
+def source_teaching(step: Step, session: Session) -> dict:
+    if step.kind != 'MATH' or not step.fractionNotation:
+        return {}
+    from app.tutoring.fraction_remainder import verified_plan
+    plan = verified_plan(session.problem_text)
+    if plan:
+        for candidate in plan['steps']:
+            expression = re.sub(r'\{s\d+\}', '{previous}', step.expression)
+            expected = candidate['expression'].replace('{s0}', '{previous}')
+            if step.title == candidate['title'] and expression == expected:
+                return candidate
+    return {}
+
+
 def present(key: str, session: Session, status="READY", feedback="") -> LessonResponse:
     index = len(session.answers)
     step = session.plan.steps[index] if index < len(session.plan.steps) else None
-    public = None if step is None else PublicStep(kind=step.kind, title=step.title, explanation=step.explanation,
-        question=step.question, choices=step.choices, expression=display_expression(expression_at(step, session.answers), step.fractionNotation),
-        unit=step.unit, workExcerpt=step.workExcerpt, solutionSentence=solution_sentence(step),
-        guidance=guidance_at(step, session.answers, session.givens, reveal_work=session.hint_count >= 2),
-        choiceChecks=[choice == step.correctChoice for choice in step.choices]
-            if step.choices and len(set(step.choices)) == len(step.choices) else [])
+    teaching = source_teaching(step, session) if step else {}
+    hints = (teaching.get('hints') or progressive_hints(step, session.answers)) if step else []
+    revealed = hints[:session.hint_count]
+    answer_kind = answer_format(step, session.answers) if step else None
+    intro = {'FRACTION': 'Em nhập phân số biểu thị phần cần tìm.',
+             'DECIMAL': 'Em viết giá trị cần tìm bằng số thập phân.'}.get(answer_kind, 'Em xác định đại lượng cần tìm rồi nhập kết quả của bước này.')
+    if step and step.intro and safe_teaching_prose(step.intro) and not re.search(
+        r'\b(cong|tru|nhan|chia|quy dong|dao nguoc|phep tinh)\b', _fold(step.intro)
+    ):
+        intro = step.intro
+    public = None if step is None else PublicStep(kind=step.kind, title=unsolved_label(step, step.title, 'Tìm giá trị cần biết'),
+        explanation=step.explanation if step.kind == 'UNDERSTAND' else teaching.get('intro', intro),
+        question=unsolved_label(step, step.question, 'Em tìm được kết quả bao nhiêu?'), choices=step.choices,
+        expression=expression_at(step, session.answers, for_display=True) if len(revealed) >= 2 else '',
+        unit=step.unit, workExcerpt='', answerFormat=answer_kind)
     conclusion = ""
     waiting = isinstance(session.plan, ReadingPlan) and step is None
     if waiting:
@@ -923,12 +990,16 @@ def present(key: str, session: Session, status="READY", feedback="") -> LessonRe
         final = session.completed[session.plan.finalAnswerStep]
         conclusion = f"Đáp số: {final.answer}" + (f" {final.unit}" if final.unit else "") + "."
     response = LessonResponse(sessionId=key, revision=session.revision, topic=session.plan.topic,
-        goal=session.plan.goal, outline=[s.title for s in session.plan.steps], stepIndex=index,
+        goal=session.plan.goal, outline=[unsolved_label(s, s.title, 'Tìm giá trị cần biết') for s in session.plan.steps], stepIndex=index,
         step=public, completed=session.completed, status="COMPLETE" if step is None and not waiting else status, feedback=feedback, conclusion=conclusion,
         understandingSteps=sum(item.kind == "UNDERSTAND" for item in session.plan.steps),
         summary=session.summary if index >= 2 and session.plan.steps[0].kind == "UNDERSTAND" else None,
-        preparingMath=isinstance(session.plan, ReadingPlan))
-    texts = [feedback]
+        preparingMath=isinstance(session.plan, ReadingPlan),
+        retryAfterSeconds=min(60, max(0, math.ceil(session.preparation_retry_at-time.monotonic()))) if waiting and session.preparation_failure else 0,
+        hintLevel=len(revealed), hintCount=len(hints), revealedHints=revealed)
+    texts = [feedback, *revealed]
+    if response.summary:
+        texts += ['Đề bài đã cho.', *response.summary.givens, 'Điều cần tìm.', response.summary.question]
     if public:
         texts += [public.explanation, *public.guidance, public.question]
     for item in session.completed:
@@ -954,6 +1025,14 @@ def fraction_working(expression: str, solved=False) -> list[str]:
         return []
     left, right = pair(node.left), pair(node.right)
     if not left or not right:
+        if solved and any(isinstance(term, ast.BinOp) and pair(term) is None for term in (node.left, node.right)):
+            details = [detail for term in (node.left, node.right) if isinstance(term, ast.BinOp)
+                       for detail in fraction_working(ast.unparse(term), solved=True)]
+            a, b = calculate_exact(ast.unparse(node.left)), calculate_exact(ast.unparse(node.right))
+            symbol = {ast.Add: '+', ast.Sub: '-', ast.Mult: '*', ast.Div: '/'}[type(node.op)]
+            reduced = f'({a}) {symbol} ({b})'
+            return details + (fraction_working(reduced, solved=True) or
+                              [f'{display_expression(reduced, True)} = {calculate_exact(expression)}'])
         return []
     a, b = left; c, d = right
     if isinstance(node.op, (ast.Add, ast.Sub)) and (b != 1 or d != 1):
@@ -1005,6 +1084,114 @@ def calculation_hints(step: Step, answers: list[str]) -> list[str]:
             f"{step.explanation} Làm trong ngoặc trước; nhân, chia trước cộng, trừ. Nếu có phân số, giữ nguyên phân số để tránh làm tròn. Điền kết quả cho câu hỏi: {step.question}"[:500]]
 
 
+def safe_teaching_prose(text: str) -> bool:
+    return not (_NUMBER_VALUES.search(text) or re.search(r'[\d={}×÷]', text)
+                or re.search(r'\b(khong|dap an|dap so|ket qua la)\b', _fold(text)))
+
+
+def progressive_hints(step: Step, answers: list[str]) -> list[str]:
+    """Derive unresolved arithmetic help from checked operands, never worked prose.
+
+    A provider's second hint used to be private worked help and can contain the
+    entire answer, even written as words. Reusing that text cannot be made safe
+    by removing a result-looking number: that number may also be a given.
+    """
+    if step.choices:
+        if step.kind == 'UNDERSTAND':
+            return ['Đọc lại đề. Em đang tìm điều đã biết hay điều đề yêu cầu tìm?',
+                    'Đối chiếu từng lựa chọn với nguyên đề. Các từ như “hỏi” và “bao nhiêu” giúp em nhận ra điều cần tìm.']
+        return ['Em xem câu hỏi nhờ mình tìm đại lượng nào.',
+                'Đối chiếu ý nghĩa từng lựa chọn với dữ kiện, rồi tự nói lý do trước khi chọn.']
+    # Model and catalog hints can be reused when both are explanatory and
+    # contain no numerical values, equations or unresolved references.
+    if len(step.hints) >= 2 and len(set(map(_fold, step.hints[:2]))) == 2 and all(
+        len(hint) >= 45 and re.search(r'\b(vi|de|nen|khi|neu)\b', _fold(hint))
+        and safe_teaching_prose(hint)
+        for hint in step.hints[:2]
+    ):
+        return step.hints[:2]
+    expression = expression_at(step, answers)
+    node = ast.parse(expression.translate(_SYMBOLS), mode='eval').body
+    fractional = any(isinstance(item, ast.BinOp) and isinstance(item.op, (ast.Add, ast.Sub))
+        and any(calculate_exact(ast.unparse(term)).denominator != 1 for term in (item.left, item.right))
+        for item in ast.walk(node))
+    method = 'Em làm trong ngoặc trước, rồi nhân hoặc chia trước cộng hoặc trừ. Hãy tự tính kết quả.'
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Sub):
+        meaning = ('Coi toàn bộ là một đơn vị. Phần còn lại ghép với các phần đã biết vừa đủ toàn bộ, nên cần bớt các phần đã biết.'
+                   if step.fractionNotation and calculate_exact(ast.unparse(node.left)) == 1 else
+                   'Phép trừ tìm phần còn lại hoặc phần chênh lệch. Xác định lượng ban đầu và lượng cần bớt trước khi tính.')
+    elif isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+        meaning = 'Phép cộng gộp các lượng cùng loại. Kiểm tra xem mỗi số hoặc phân số đang chỉ phần nào trong đề.'
+    elif isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
+        if calculate_exact(ast.unparse(node.right)).denominator != 1:
+            meaning = 'Em biết số lượng của một phần. Hãy nghĩ xem từ phần đó có thể suy ra toàn bộ thế nào.'
+            method = 'Khi chia cho phân số, em đổi phép chia thành phép nhân với phân số đảo ngược. Em tự thực hiện phép tính nhé.'
+        else:
+            meaning = 'Xác định lượng cần chia đều và kích thước mỗi nhóm hoặc số nhóm.'
+    else:
+        meaning = 'Phép nhân gộp các nhóm bằng nhau. Đọc lại lượng trong mỗi nhóm và số nhóm trước khi tính.'
+    if fractional:
+        method = 'Em quy đồng để các phân số có cùng mẫu. Làm phần trong ngoặc trước nếu có, rồi tự tính các tử số theo dấu phép tính.'
+    return [meaning, method]
+
+
+def answer_feedback(step: Step, session: Session, answer: str, correct: bool) -> str:
+    """Explain the submitted choice/calculation without disclosing another answer."""
+    if step.kind == 'UNDERSTAND':
+        quote_match = re.search(r'«([^»]+)»', step.question)
+        if quote_match and set(step.choices) == {'Đúng', 'Sai'}:
+            quote = quote_match[1]
+            is_given = step.correctChoice == 'Đúng'
+            reason = (f'Câu «{quote}» nêu trực tiếp thông tin đề đã cho. Đây là dữ kiện đã biết, chưa phải câu yêu cầu tính.'
+                      if is_given else
+                      f'Câu «{quote}» đang yêu cầu tìm một lượng chưa biết. Nó thuộc phần cần tìm, chưa cung cấp dữ kiện để dùng ngay.')
+            return ('Em phân biệt đúng rồi. ' if correct else 'Em đang nhầm dữ kiện với câu hỏi. ') + reason + (
+                '' if correct else ' Em đọc lại nguyên đề rồi thử chọn lại nhé.')
+        wants_question = bool(re.search(r'yeu cau|tim dieu gi|cau hoi', _fold(step.question)))
+        if correct:
+            return (f'Em xác định đúng điều cần tìm: «{answer}». Câu này hỏi một lượng chưa biết mà bài toán cần trả lời.'
+                    if wants_question else
+                    f'Đề cho biết trực tiếp: «{answer}». Đây là dữ kiện đã biết mà em có thể dùng để giải bài toán.')
+        if answer not in step.choices:
+            return f'Em chọn một trong các câu đang hiện, rồi đối chiếu với yêu cầu: {step.question}'
+        return (f'Câu «{answer}» đang nêu thông tin đã biết. Em cần nhận ra câu yêu cầu tìm một lượng chưa biết; đọc các từ hỏi trong nguyên đề rồi thử lại.'
+                if wants_question else
+                f'Câu «{answer}» đang hỏi điều cần tìm, chưa cung cấp một lượng đã biết. Em đọc lại nguyên đề, tìm thông tin được nói rõ rồi thử lại.')
+    if step.choices:
+        if answer not in step.choices:
+            return f'Em chọn một trong các phương án đang hiện, rồi đối chiếu với yêu cầu: {step.question}'
+        return (f'Em chọn «{answer}» phù hợp với yêu cầu «{step.question}». {step.explanation}'
+                if correct else
+                f'Em chọn «{answer}». Đối chiếu lựa chọn với dữ kiện và điều câu hỏi yêu cầu, rồi thử lại nhé.')[:500]
+    expression = expression_at(step, session.answers)
+    if correct:
+        return (f'Đúng bước này rồi! {solution_sentence(step)} {expression_at(step, session.answers, for_display=True)} = {answer}'
+                + (f' ({step.unit})' if step.unit else '') + f'. {step.explanation}')[:420]
+    numeric = answer.replace(',', '.')
+    denominator = re.search(r'/\s*([+-]?\d+)\s*$', numeric)
+    if denominator and int(denominator[1]) == 0:
+        return 'Mẫu số không thể bằng 0 vì không thể chia một lượng thành không phần. Em giữ tử số và nhập mẫu số khác 0 rồi kiểm tra lại.'
+    question = unsolved_label(step, step.question, 'Em tìm được kết quả bao nhiêu?')
+    if not re.fullmatch(r'-?\d{1,12}(?:\.\d{1,8})?(?:\s*/\s*\d{1,12})?', numeric):
+        return ('Em nhập một số hoặc một phân số ở ô trả lời; không chép cả dấu bằng, phép tính hay đơn vị. '
+                f'Câu hỏi đang cần em tìm: {question}')
+    if session.hint_count < 2:
+        return (f'Chưa khớp câu hỏi «{question}». Em kiểm tra lại các dữ kiện và đơn vị, rồi thử một kết quả khác. '
+                'Nếu cần, em có thể mở gợi ý.')[:500]
+    node = ast.parse(expression.translate(_SYMBOLS), mode='eval').body
+    if any(isinstance(item, ast.BinOp) and isinstance(item.op, (ast.Add, ast.Sub))
+           and any(calculate_exact(ast.unparse(term)).denominator != 1 for term in (item.left, item.right))
+           for item in ast.walk(node)):
+        return (f'Chưa khớp câu hỏi «{step.question}». Em kiểm tra các phân số đã cùng mẫu số chưa. Khi cộng hoặc trừ phân số khác mẫu, '
+                'phải đổi cả tử và mẫu để các phần cùng kích thước, rồi chỉ cộng hoặc trừ các tử số. Em thử lại với phân số chính xác, không làm tròn.')
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div) and calculate_exact(ast.unparse(node.right)).denominator != 1:
+        return (f'Chưa khớp câu hỏi «{step.question}». Số lượng đã biết chỉ ứng với một phần của toàn bộ. Em kiểm tra phép chia cho phân số: '
+                'tìm lượng trong một phần nhỏ rồi gộp đủ số phần. Em tính lại, giữ phân số chính xác thay vì làm tròn.')
+    return (f'Chưa khớp yêu cầu: {step.question} Em đối chiếu các số trong biểu thức '
+            f'{expression_at(step, session.answers, for_display=True)}, làm trong ngoặc trước và nhân, chia trước cộng, trừ. '
+            'Em có thể nhập phân số chính xác nếu số thập phân không viết hết.')[:500]
+
+
 _GUIDANCE_REFERENCE = re.compile(r"\{s(\d+)(?:_(numerator|denominator))?\}")
 
 
@@ -1022,7 +1209,7 @@ def teaching_at(text: str, answers: list[str]) -> str:
 
 
 def guidance_at(step: Step, answers: list[str], givens=None, *, reveal_work=True) -> list[str]:
-    """Resolve checked dependencies; keep worked paragraphs behind deep help."""
+    """Resolve checked dependencies; worked paragraphs require a solved step."""
     items = step.guidance or step.initialGuidance or [
         f"Đọc điều cần tìm: {step.question} Nhìn lại đề để biết mỗi số đang nói về lượng nào và đơn vị gì.",
         *(step.hints or calculation_hints(step, answers)),
@@ -1141,11 +1328,17 @@ async def generate_plan(request: LessonRequest) -> Plan:
             separate_worked_teaching(plan, request, constants)
             validate_plan(plan, request, constants)
             for index, step in enumerate(plan.steps):
+                vague = {'tim phan con lai', 'tim so luong toan bo', 'tim dai luong can tim',
+                         'nhom con lai chiem may phan cua toan bo', 'toan bo co tat ca bao nhieu',
+                         'phan so chi nhom con lai la', 'so luong trong toan bo la'}
+                labels = [_fold(value).strip(' .:?') for value in (step.title, step.question, step.solutionSentence)]
+                if any(label in vague for label in labels) or labels[1] == _fold(step.explanation).strip(' .:?'):
+                    raise ValueError(f"Step {index}: name the quantity and object from the source, and explain why instead of repeating the question")
                 teaching = [*(step.initialGuidance or []), *step.guidance]
                 if len(teaching) < 3 or sum(map(len, teaching)) < 180:
                     raise ValueError(f"Step {index} ({step.title}): need at least 3 short teaching items, >=180 characters. Keep quantity, why operation/order, small calculation actions, and classroom solution.")
                 if len(step.hints) < 2:
-                    raise ValueError(f"Step {index} ({step.title}): provide two distinct hints, first action then deeper worked help.")
+                    raise ValueError(f"Step {index} ({step.title}): provide at least two distinct hints without the current or future answer.")
                 if step.expression and not step.solutionSentence.endswith("là:"):
                     raise ValueError(f"Step {index} ({step.title}): classroom solution sentence must name the quantity and end with là:")
             # Arithmetic is checked locally. The second model call independently checks
@@ -1228,6 +1421,12 @@ async def generate_plan(request: LessonRequest) -> Plan:
 async def checked_plan(request):
     from app.tutoring.source_clarification import require_clear_source
     require_clear_source(request.problemText)
+    from app.tutoring.curriculum import verified_plan as curriculum_plan
+    prepared = curriculum_plan(request.problemText) if not request.workText.strip() else None
+    if prepared is not None:
+        # Authored public plans take precedence over older private copies, so
+        # their prepared teaching and audio stay identical on every account.
+        return Plan.model_validate(prepared)
     # Both background preparation and confirmed lessons use the same checked
     # solvers. Work review failures may fall back to math without claiming that
     # the pupil's written work was reviewed.
@@ -1239,7 +1438,7 @@ async def checked_plan(request):
         from app.tutoring.digit_append import verified_plan as digit_plan
         from app.tutoring.mass_fraction import verified_plan as mass_plan
         from app.tutoring.short_math import verified_plan as short_plan
-        exact = short_plan(request.problemText) or fraction_plan(request.problemText) or digit_plan(request.problemText) or mass_plan(request.problemText)
+        exact = curriculum_plan(request.problemText) or short_plan(request.problemText) or fraction_plan(request.problemText) or digit_plan(request.problemText) or mass_plan(request.problemText)
         if exact is not None and not request.workText:
             plan = Plan.model_validate(exact)
         else:
@@ -1412,15 +1611,10 @@ def answer_lesson(request: TurnRequest) -> LessonResponse:
         return present(request.sessionId, session)
     step = session.plan.steps[len(session.answers)]
     if request.hint:
-        hints = step.hints or calculation_hints(step, session.answers)
-        hint = teaching_at(hints[min(session.hint_count, len(hints)-1)], session.answers)
-        if session.hint_count == 0 and (not numeric_values(hint).issubset(set(session.givens) | numeric_values(" ".join(session.answers)))
-                or re.search(r"\d\s*=\s*\d", hint)):
-            hint = calculation_hints(step, session.answers)[0]
-        if session.hint_count > 0 and step.fractionNotation and step.expression:
-            details = fraction_working(expression_at(step, session.answers))
-            if details:
-                hint = (details[0] + "\n" + hint)[:500]
+        hints = source_teaching(step, session).get('hints') or progressive_hints(step, session.answers)
+        if session.hint_count >= len(hints):
+            return present(request.sessionId, session, 'HINT', 'Em đã xem hết gợi ý. Giờ em thử tự tính hoặc chọn câu trả lời nhé.')
+        hint = hints[session.hint_count]
         session.hint_count += 1
         return present(request.sessionId, session, "HINT", hint)
     expression = expression_at(step, session.answers)
@@ -1440,11 +1634,8 @@ def answer_lesson(request: TurnRequest) -> LessonResponse:
             except (ValueError, InvalidOperation, ArithmeticError):
                 pass
     if not correct:
-        return present(request.sessionId, session, "TRY_AGAIN",
-            "Em đọc lại nguyên đề và yêu cầu của bước này rồi chọn lại nhé." if step.kind == "UNDERSTAND" else
-            "Em xem lại đại lượng cần tìm và thử chọn lại nhé." if step.choices else
-            "Chưa khớp. Với kết quả phân số, em nhập tử số/mẫu số, không làm tròn số thập phân. Chọn gợi ý để xem cách làm nhé." if step.fractionNotation else
-            "Chưa khớp phép tính này. Em tính lại; nếu kết quả không viết được chính xác bằng số thập phân, em có thể nhập phân số, không làm tròn nhé.")
+        return present(request.sessionId, session, "TRY_AGAIN", answer_feedback(step, session, answer, False))
+    feedback = answer_feedback(step, session, answer, True)
     session.completed.append(completed_step(step, session, answer))
     session.answers.append(answer)
     session.revision += 1
@@ -1452,8 +1643,8 @@ def answer_lesson(request: TurnRequest) -> LessonResponse:
     session.expires = time.monotonic() + TTL
     logger.info('Tutor answer accepted session=%s revision=%d step=%d phase=%s preparing=%s',
                 request.sessionId[:8], session.revision, len(session.answers), step.kind, isinstance(session.plan, ReadingPlan))
-    feedback = ("Em đã hoàn thành các bước! Xem lại cách làm để ghi nhớ nhé."
-        if len(session.answers) == len(session.plan.steps) else "Đúng bước này rồi! Mình cùng tiếp tục nhé.")
+    if len(session.answers) == len(session.plan.steps):
+        feedback += ' Em đã hoàn thành các bước! Xem lại cách làm để ghi nhớ nhé.'
     if step.workExcerpt and step.expression:
         checked = checked_written_calculation(step.workExcerpt)
         if checked:

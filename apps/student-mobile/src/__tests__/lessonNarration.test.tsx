@@ -33,11 +33,17 @@ beforeEach(() => {
 });
 afterEach(() => { act(() => view?.unmount()); jest.restoreAllMocks(); jest.useRealTimers(); });
 
+it('opens prepared curriculum speech with an explicit Vietnamese fallback label', async () => {
+  await render({ preparedFallback: true });
+  expect(downloadNarration).toHaveBeenCalledWith({ ...source, useFallback: true }, paragraphs, expect.any(AbortSignal), 'vi-VN-NamMinhNeural', expect.any(Function));
+  expect(text()).toContain('Đang dùng giọng Việt dự phòng.');
+});
+
 it('opens the persisted device voice directly without cloud requests or autoplay', async () => {
   await saveNarrationVoice('device');
   try {
     await render();
-    expect(button('Giọng có sẵn').props.accessibilityState.checked).toBe(true);
+    expect(button('Giọng thiết bị').props.accessibilityState.checked).toBe(true);
     expect(downloadNarration).not.toHaveBeenCalled();
     expect(view.root.findByType(DeviceNarration).props.paragraphs).toEqual(paragraphs);
     expect(view.root.findAllByType(AudioPlayback)).toHaveLength(0);
@@ -206,7 +212,8 @@ it('clears the old decoded file and completion state before retrying the selecte
 
 it('offers the two cloud voices plus a local device choice and replaces the current file without autoplay on switching', async () => {
   await render();
-  expect(view.root.findAll(node => node.props.accessibilityRole === 'radio' && node.props.onPress)).toHaveLength(3);
+  expect(view.root.findAll(node => node.props.accessibilityRole === 'radio' && node.props.onPress).map(node => node.props.accessibilityLabel)).toEqual(['Giọng thiết bị', 'Giọng nam', 'Giọng nữ']);
+  expect(text().replace(/\s+/g, ' ')).toContain('Chuẩn bị khoảng 5–15 giây');
   expect(button('Giọng nam').props.accessibilityState.checked).toBe(true);
   const firstSignal = (downloadNarration as jest.Mock).mock.calls[0][2];
   await act(async () => button('Giọng nữ').props.onPress());

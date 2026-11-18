@@ -82,7 +82,7 @@ echo  - Deploy Web:      DEPLOY_WEB.bat
 echo ============================================================
 echo.
 
-node "%SCRIPT_DIR%scripts\dev\show-student-qr.cjs"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT_DIR%scripts\dev\check-runtime.ps1" -ShowStudentQr
 if errorlevel 1 (
     set "FAIL_REASON=Could not read the Student Mobile connection for Expo Go"
     goto :launcher_failed

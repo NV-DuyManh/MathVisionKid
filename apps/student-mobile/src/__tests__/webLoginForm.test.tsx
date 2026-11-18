@@ -1,0 +1,75 @@
+import React from 'react';
+import { act, create } from 'react-test-renderer';
+import { Platform, TextInput } from 'react-native';
+import LoginScreen from '../components/auth/StudentLoginForm';
+import { AuthContext } from '../context/AuthContext';
+import { authApi } from '../services/api/authApi';
+
+jest.mock('../context/AuthContext', () => ({ AuthContext: require('react').createContext(undefined) }));
+jest.mock('../components/ui/BrandLockup', () => ({ BrandLockup: () => null }));
+jest.mock('@expo/vector-icons', () => ({ Ionicons: () => null }));
+jest.mock('../components/ui/AppButton', () => ({ AppButton: (props: any) => require('react').createElement('button', props) }));
+jest.mock('../services/api/authApi', () => ({ authApi: { requestPasswordReset: jest.fn() } }));
+
+let view: ReturnType<typeof create>;
+const login = jest.fn();
+const button = (label: string) => view.root.findAll(node => node.props.onPress && node.props.children?.props?.children === label)[0];
+
+beforeEach(async () => {
+  jest.replaceProperty(Platform, 'OS', 'web');
+  await act(async () => {
+    view = create(<AuthContext.Provider value={{ user: null, isAuthenticated: false, isLoading: false, login, logout: jest.fn() }}><LoginScreen /></AuthContext.Provider>);
+  });
+});
+
+afterEach(async () => {
+  await act(async () => view.unmount());
+  jest.restoreAllMocks();
+  jest.clearAllMocks();
+});
+
+test('Enter submits the web login once and connects errors to the fields', async () => {
+  let rejectLogin: (reason: unknown) => void = () => {};
+  login.mockImplementation(() => new Promise((_, reject) => { rejectLogin = reject; }));
+  const inputs = view.root.findAllByType(TextInput);
+  await act(async () => {
+    inputs[0].props.onChangeText('student@example.test');
+    inputs[1].props.onChangeText('synthetic-password');
+  });
+  let pending: Promise<void>;
+  await act(async () => {
+    pending = inputs[1].props.onSubmitEditing();
+    await inputs[1].props.onSubmitEditing();
+  });
+  expect(login).toHaveBeenCalledTimes(1);
+  expect(inputs[0].props.editable).toBe(false);
+  act(() => button('Quên mật khẩu?').props.onPress());
+  expect(view.root.findAllByType(TextInput)).toHaveLength(2);
+  await act(async () => {
+    rejectLogin({ response: { status: 401 } });
+    await pending;
+  });
+  expect(inputs[0].props['aria-describedby']).toBe('student-auth-error');
+  expect(inputs[1].props['aria-required']).toBe(true);
+  expect(inputs[1].props.value).toBe('');
+});
+
+test('mail delivery failure uses student-friendly copy and a duplicate Enter sends one request', async () => {
+  act(() => button('Quên mật khẩu?').props.onPress());
+  const input = view.root.findByType(TextInput);
+  act(() => input.props.onChangeText('student@example.test'));
+  let rejectReset: (reason: unknown) => void = () => {};
+  jest.mocked(authApi.requestPasswordReset).mockImplementation(() => new Promise((_, reject) => { rejectReset = reject; }));
+  let pending: Promise<void>;
+  await act(async () => {
+    pending = input.props.onSubmitEditing();
+    await input.props.onSubmitEditing();
+  });
+  expect(authApi.requestPasswordReset).toHaveBeenCalledTimes(1);
+  await act(async () => {
+    rejectReset({ response: { status: 503, data: { error: { code: 'EMAIL_DELIVERY_FAILED' } } } });
+    await pending;
+  });
+  expect(JSON.stringify(view.toJSON())).toContain('nhờ thầy cô hỗ trợ');
+  expect(JSON.stringify(view.toJSON())).not.toMatch(/SMTP|cấu hình|quản trị viên/);
+});

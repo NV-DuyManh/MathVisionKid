@@ -356,10 +356,10 @@ export const LoginPage: React.FC = () => {
         >
         <Box sx={{ bgcolor: '#E9F1FF', p: { xs: 2, sm: 3, md: 4 }, display: 'flex', flexDirection: { xs: 'row', md: 'column' }, alignItems: { xs: 'center', md: 'stretch' }, justifyContent: 'space-between', flexWrap: 'wrap', gap: { xs: 0.5, md: 3 } }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0 }}>
-            <Box component="img" src="/logo.svg" alt="" width={32} height={32} />
+            <Box component="img" src="/ui/robot-mascot.webp" alt="" width={32} height={32} />
             <Typography sx={{ fontWeight: 900, color: '#143368' }}>MathVision Kids</Typography>
           </Box>
-          <Box component="img" src="/ui/mathvision-star.png" alt="" sx={{ display: { xs: 'none', md: 'block' }, width: '100%', maxWidth: 240, alignSelf: 'center' }} />
+          <Box component="img" src="/ui/robot-mascot.webp" alt="" sx={{ display: { xs: 'none', md: 'block' }, width: '100%', maxWidth: 240, alignSelf: 'center' }} />
           <Button component={RouterLink} to="/" startIcon={<ArrowBack />} sx={{ alignSelf: { md: 'flex-start' }, minHeight: 44, minWidth: 0, textTransform: 'none', px: 1 }}>
             Trang chủ
           </Button>

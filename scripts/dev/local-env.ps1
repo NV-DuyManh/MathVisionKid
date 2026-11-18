@@ -1,4 +1,10 @@
 # Literal dotenv loading for a single child-service launch. Never evaluates file contents.
+# The same tool selection is applied again in every new launcher process.
+$toolchainScript = Join-Path $PSScriptRoot 'toolchain.ps1'
+if (Test-Path -LiteralPath $toolchainScript) {
+    . $toolchainScript
+    Use-MathVisionToolchain
+}
 function Invoke-WithLocalSpeechTools {
     param([scriptblock]$Action)
     $speechTools = Join-Path $PSScriptRoot '../../infra/local-runtime/tools/ffmpeg/bin'

@@ -85,7 +85,7 @@ export function DashboardPage() {
             </Button>
           }
         />
-          <Box component="img" src="/ui/mathvision-star.png" alt="" width={86} height={86} className="hero-illustration" />
+          <Box component="img" src="/ui/robot-mascot.webp" alt="" width={86} height={86} className="hero-illustration" />
         </Box>
 
         <RequestError

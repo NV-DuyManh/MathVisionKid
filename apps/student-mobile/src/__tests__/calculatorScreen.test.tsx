@@ -13,6 +13,8 @@ beforeEach(() => { act(() => { view = TestRenderer.create(<PocketCalculator visi
 afterEach(() => act(() => view.unmount()));
 
 it('uses one compact popup keypad, with extra keys hidden until requested', () => {
+  expect(field().props.value).toBe('');
+  expect(field().props.placeholder).toBeUndefined();
   expect(view.root.findByType(Modal).props.transparent).toBe(true);
   expect(button('Số thường')).toBeUndefined(); expect(button('Phân số')).toBeUndefined();
   expect(button('Mở ngoặc')).toBeUndefined();
@@ -29,19 +31,22 @@ it('uses one compact popup keypad, with extra keys hidden until requested', () =
   press('Đổi dấu số'); expect(field().props.value).toBe('(-7)');
   press('Đổi dấu số'); expect(field().props.value).toBe('7');
 });
-it('inserts mixed numbers through three labelled fields and shows their equivalent result', () => {
-  const fill = (label: string, value: string) => act(() => view.root.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onChangeText === 'function')[0].props.onChangeText(value));
-  press('Nhập hỗn số');
-  fill('Phần nguyên hỗn số', '2'); fill('Tử số hỗn số', '1'); fill('Mẫu số hỗn số', '4');
-  press('Thêm hỗn số vào phép tính');
-  expect(field().props.value).toBe('2 1/4');
-  press('Cộng'); press('Nhập phân số');
-  // An incomplete expression is retained rather than silently corrected.
+it('omits the mixed-number form while preserving fraction keys, correction and history', () => {
+  expect(button('Nhập hỗn số')).toBeUndefined();
+  expect(text()).not.toContain('2 ½');
+  press('Nhập 3'); press('Nhập phân số'); press('Nhập 4');
+  press('Cộng'); press('Nhập 1'); press('Nhập phân số'); press('Nhập 2');
+  press('Tính kết quả');
+  expect(field().props.value).toBe('3/4+1/2');
+  expect(text()).not.toContain('Hỗn số:');
+  expect(view.root.findAll(node => node.props.testID === 'stacked-fraction').length).toBeGreaterThan(0);
+  press('Lịch sử phép tính'); press('Sửa phép tính 3/4+1/2');
+  expect(field().props.value).toBe('3/4+1/2');
+  press('Xóa chữ số cuối'); expect(field().props.value).toBe('3/4+1/');
   press('Tính kết quả'); expect(text()).toContain('Phép tính chưa đủ');
-  enter('2 1/4+1/4'); press('Tính kết quả');
-  expect(text()).toContain('Đổi hỗn số'); expect(text()).toContain('Hỗn số: 2');
-  press('Nhập hỗn số'); fill('Phần nguyên hỗn số', '2'); fill('Tử số hỗn số', '4'); fill('Mẫu số hỗn số', '0');
-  press('Thêm hỗn số vào phép tính'); expect(text()).toContain('mẫu khác 0');
+  press('Nhập 4'); press('Tính kết quả'); expect(text()).toContain('1');
+  press('Xóa phép tính'); expect(field().props.value).toBe('');
+  enter('1÷0'); press('Tính kết quả'); expect(text()).toContain('Không thể chia cho 0');
 });
 
 it('converts compound measurements, clears stale results, and preserves each calculator mode', () => {

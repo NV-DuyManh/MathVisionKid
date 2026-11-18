@@ -16,7 +16,7 @@ export function StudentResultShell({ title, success = false, children }: { title
       <ScrollView contentContainerStyle={[styles.webContent, wide && styles.webWide]}>
         <View style={[styles.result, styles.webResult]}>{children}</View>
         {success && wide && <AppIllustration
-          source={require('../../../assets/illustrations/web/mathvision-star.webp')}
+          source={require('../../../assets/illustrations/web/robot-mascot.webp')}
           style={styles.webArt} accessible={false} />}
       </ScrollView>
     </SafeAreaView>;
@@ -25,8 +25,8 @@ export function StudentResultShell({ title, success = false, children }: { title
     <View style={styles.header}><AppHeader title={title} showBack /></View>
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { minHeight: Math.max(0, height - 90) }, wide && styles.wide]}>
       <LinearGradient colors={success ? ['#F1EBFF', '#F8F2E7'] : ['#F0EAFC', '#F8F5FE']} style={[styles.hero, wide && styles.heroWide]}>
-        <AppIllustration highResolution source={success ? require('../../../assets/illustrations/mathvision-star.png') : require('../../../assets/illustrations/approved/practice.webp')} style={[styles.art, wide && styles.artWide]} accessible={false} />
-        <View style={styles.heroCopy}><Text style={styles.eyebrow}>CÙNG SAO NHỎ</Text><Text style={styles.title}>{success ? 'Thêm một bước tiến!' : 'Cùng nhìn lại nhé'}</Text><Text style={styles.copy}>{success ? 'Giữ lại cách em đã nghĩ và thử thêm một bài mới.' : 'Đọc từng ý, đối chiếu với bài rồi chọn điều em muốn làm tiếp.'}</Text></View>
+        <AppIllustration highResolution source={success ? require('../../../assets/illustrations/robot-mascot.png') : require('../../../assets/illustrations/approved/practice.webp')} style={[styles.art, wide && styles.artWide]} accessible={false} />
+        <View style={styles.heroCopy}><Text style={styles.eyebrow}>CÙNG EM HỌC TOÁN</Text><Text style={styles.title}>{success ? 'Thêm một bước tiến!' : 'Cùng nhìn lại nhé'}</Text><Text style={styles.copy}>{success ? 'Giữ lại cách em đã nghĩ và thử thêm một bài mới.' : 'Đọc từng ý, đối chiếu với bài rồi chọn điều em muốn làm tiếp.'}</Text></View>
       </LinearGradient>
       <View style={[styles.result, wide && styles.resultWide]}>{children}</View>
     </ScrollView>

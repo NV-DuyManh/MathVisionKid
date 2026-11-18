@@ -1,30 +1,20 @@
-import type { RecognitionSession } from '../recognition/analytics/recognitionAnalyticsStore';
+import type { StudentProfile } from '../student-profile/profileApi';
 
-type SavedSession = Pick<RecognitionSession, 'sessionId' | 'timestamp' | 'isSampleData'>;
-
-function dayKey(date: Date) {
-  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-}
-
-/** Local confirmed history only; sample benchmarks never count as learning. */
-export function buildLearningActivity(sessions: SavedSession[], now = new Date()) {
-  const completed = new Set(sessions
-    .filter(session => !session.isSampleData && !session.sessionId.startsWith('session_benchmark_')
-      && Number.isFinite(session.timestamp) && session.timestamp <= now.getTime())
-    .map(session => dayKey(new Date(session.timestamp))));
-  const cursor = new Date(now);
-  if (!completed.has(dayKey(cursor))) cursor.setDate(cursor.getDate() - 1);
-  let streak = 0;
-  while (completed.has(dayKey(cursor))) {
-    streak += 1;
-    cursor.setDate(cursor.getDate() - 1);
-  }
-  const monday = new Date(now);
-  monday.setDate(monday.getDate() - (monday.getDay() + 6) % 7);
-  const days = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map((label, index) => {
-    const date = new Date(monday);
-    date.setDate(monday.getDate() + index);
-    return { label, date: date.toLocaleDateString('vi-VN'), completed: completed.has(dayKey(date)) };
-  });
-  return { streak, days, completedToday: completed.has(dayKey(now)) };
+/** Backend-confirmed completions grouped in the same Vietnam time zone as profile statistics. */
+export function buildCompletedLearningActivity(history: StudentProfile['history'], now = new Date()) {
+  const vietnamDate = (instant: Date) => new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(instant);
+  const today = vietnamDate(now);
+  const calendar = new Date(`${today}T00:00:00Z`);
+  const completed = new Set(history.filter(row => ['LESSON', 'QUIZ', 'GAME'].includes(row.source)
+    && Number.isFinite(Date.parse(row.completedAt)) && Date.parse(row.completedAt) <= now.getTime())
+    .map(row => vietnamDate(new Date(row.completedAt))));
+  calendar.setUTCDate(calendar.getUTCDate() - (calendar.getUTCDay() + 6) % 7);
+  return { days: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map((label, index) => {
+    const day = new Date(calendar);
+    day.setUTCDate(day.getUTCDate() + index);
+    const key = day.toISOString().slice(0, 10);
+    return { label, today: key === today, completed: completed.has(key) };
+  }) };
 }

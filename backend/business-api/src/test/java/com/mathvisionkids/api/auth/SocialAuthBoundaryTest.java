@@ -19,7 +19,8 @@ class SocialAuthBoundaryTest {
     JwtUtil jwt=mock(JwtUtil.class);
     RefreshTokenService refresh=mock(RefreshTokenService.class);
     GoogleIdTokenVerifier verifier=mock(GoogleIdTokenVerifier.class);
-    GoogleAuthService google=new GoogleAuthService(users,students,teachers,encoder,jwt,refresh,true,"configured-test-audience");
+    com.mathvisionkids.api.studentprofile.StudentProfileService profiles=mock(com.mathvisionkids.api.studentprofile.StudentProfileService.class);
+    GoogleAuthService google=new GoogleAuthService(users,students,teachers,encoder,jwt,refresh,profiles,true,"configured-test-audience");
     GoogleLoginRequest googleRequest() {
         var request=new GoogleLoginRequest();request.setCredential("test-credential");request.setRole("TEACHER");return request;
     }
@@ -38,6 +39,37 @@ class SocialAuthBoundaryTest {
         ReflectionTestUtils.setField(google,"verifier",verifier);
         assertThrows(ApiException.class,()->google.login(googleRequest()));verifyNoInteractions(users,jwt,refresh);
     }
+    @Test void firstGoogleStudentSignupInitializesAvatarOnceAndLaterLoginsPreserveIt() throws Exception {
+        googlePayload("newpupil@gmail.com",true);
+        var request=googleRequest(); request.setRole("STUDENT"); request.setGradeLevel(3);
+        UUID id=UUID.randomUUID();
+        when(students.saveAndFlush(any(Student.class))).thenAnswer(invocation -> {
+            Student created=invocation.getArgument(0); created.setId(id); return created;
+        });
+        google.login(request);
+        verify(profiles).initialize(id);
+        var existing=new Student(); existing.setId(id); existing.setEmail("newpupil@gmail.com"); existing.setRole("STUDENT"); existing.setActive(true);
+        when(users.findByGoogleSubject("verified-subject")).thenReturn(Optional.of(existing));
+        google.login(request);
+        verify(profiles,times(1)).initialize(id);
+        verify(students,times(1)).saveAndFlush(any(Student.class));
+    }
+
+    @Test void firstFacebookStudentSignupInitializesAvatarOnce() throws Exception {
+        var firebase=mock(FirebaseAuth.class); var token=mock(FirebaseToken.class);
+        var service=new FacebookAuthService(users,students,teachers,encoder,jwt,refresh,profiles,true,"test-project");
+        ReflectionTestUtils.setField(service,"firebaseAuth",firebase);
+        var request=new FacebookLoginRequest(); request.setCredential("test-credential"); request.setRole("STUDENT"); request.setGradeLevel(3);
+        when(firebase.verifyIdToken("test-credential",true)).thenReturn(token);
+        when(token.getClaims()).thenReturn(Map.of("firebase",Map.of("sign_in_provider","facebook.com")));
+        when(token.getUid()).thenReturn("new-facebook-subject"); when(token.getEmail()).thenReturn("newpupil@example.test"); when(token.isEmailVerified()).thenReturn(true);
+        UUID id=UUID.randomUUID();
+        when(students.saveAndFlush(any(Student.class))).thenAnswer(invocation -> {
+            Student created=invocation.getArgument(0); created.setId(id); return created;
+        });
+        service.login(request);
+        verify(profiles).initialize(id);
+    }
     @Test void requestedTeacherRoleCannotPromoteAnExistingStudent() throws Exception {
         googlePayload("known@gmail.com",true);
         var pupil=new Student();pupil.setId(UUID.randomUUID());pupil.setEmail("known@gmail.com");pupil.setRole("STUDENT");pupil.setActive(true);
@@ -52,7 +84,7 @@ class SocialAuthBoundaryTest {
     }
     @Test void facebookRejectsOtherProvidersAndUnverifiedNewEmailsWithoutLinkingByEmail() throws Exception {
         var firebase=mock(FirebaseAuth.class);var token=mock(FirebaseToken.class);
-        var service=new FacebookAuthService(users,students,teachers,encoder,jwt,refresh,true,"test-project");
+        var service=new FacebookAuthService(users,students,teachers,encoder,jwt,refresh,profiles,true,"test-project");
         ReflectionTestUtils.setField(service,"firebaseAuth",firebase);
         var request=new FacebookLoginRequest();request.setCredential("test-credential");request.setRole("STUDENT");request.setGradeLevel(3);
         when(firebase.verifyIdToken("test-credential",true)).thenReturn(token);

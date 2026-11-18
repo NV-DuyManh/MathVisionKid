@@ -10,14 +10,14 @@ import { TaskProgress } from '../../components/ui/TaskProgress';
 import { useNarrationPreparation } from './NarrationPreparation';
 
 type Props = { scope: string; sessionId: string; revision: number; stepIndex: number;
-  step?: Pick<LessonStep, 'kind' | 'title' | 'expression'> | null; paragraphs: string[]; onReturn: () => void };
+  step?: Pick<LessonStep, 'kind' | 'title' | 'expression'> | null; paragraphs: string[]; onReturn: () => void; preparedFallback?: boolean };
 
 export function LessonListening(props: Props) {
   // Scope includes owner, opened step and revision; stale audio or replies cannot cross lessons.
   return <ListeningStep key={JSON.stringify([props.scope, props.revision, props.stepIndex, props.paragraphs])} {...props} />;
 }
 
-function ListeningStep({ scope, sessionId, revision, stepIndex, step, paragraphs, onReturn }: Props) {
+function ListeningStep({ scope, sessionId, revision, stepIndex, step, paragraphs, onReturn, preparedFallback = false }: Props) {
   const [ready, setReady] = useState(false), [choosing, setChoosing] = useState(false);
   const [reply, setReply] = useState<LessonReply | null>(null), [selected, setSelected] = useState('');
   useNarrationPreparation(reply ? { sessionId, revision } : null, reply ? [reply.spokenExplanation, reply.followUp] : [], { wholeLesson: false });
@@ -67,7 +67,7 @@ function ListeningStep({ scope, sessionId, revision, stepIndex, step, paragraphs
     {!choosing ? <>
       {reply ? <View style={styles.explanation} accessibilityLiveRegion="polite"><Text style={styles.eyebrow}>CHỖ EM ĐANG HỎI</Text><Text style={styles.title}>{selected}</Text>
         <MathText style={styles.body}>{reply.answer}</MathText>{reply.followUp ? <MathText style={styles.followUp}>{reply.followUp}</MathText> : null}</View> : null}
-      <LessonNarration key={reply ? selected : 'original'} scope={`${scope}:${selected}`} source={{ sessionId, revision }} paragraphs={reply ? [reply.spokenExplanation, reply.followUp] : paragraphs} onFinished={() => setReady(true)} />
+      <LessonNarration key={reply ? selected : 'original'} scope={`${scope}:${selected}`} source={{ sessionId, revision }} paragraphs={reply ? [reply.spokenExplanation, reply.followUp] : paragraphs} preparedFallback={!reply && preparedFallback} onFinished={() => setReady(true)} />
       {ready ? <View style={styles.checkIn} accessibilityLiveRegion="polite">
         <Pressable accessibilityRole="button" accessibilityLabel="Em đã hiểu" onPress={onReturn} style={({ pressed }) => [styles.understood, pressed && { opacity: .7 }]}>
           <Ionicons name="checkmark-circle" size={20} color="#236747" accessible={false} /><Text style={styles.understoodText}>Đã hiểu</Text>
