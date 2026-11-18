@@ -7,6 +7,8 @@ import { AuthProvider } from '../context/AuthContext';
 import { WebAlerts } from '../components/ui/WebAlerts.web';
 import { COLORS } from '../constants/theme';
 import { observeLearningPerformance } from '../features/tutoring/webPerformance.web';
+import { StudentUsageTracker } from '../features/student-profile/studentUsage';
+import { StudentDailyLimit } from '../features/student-profile/StudentDailyLimit';
 
 export default function StudentWebLayout() {
   useEffect(observeLearningPerformance, []);
@@ -22,7 +24,11 @@ export default function StudentWebLayout() {
     <Head><title>MathVisionKid — Cùng em học toán</title></Head>
     <WebAlerts />
     <View style={{ flex: 1, width: '100%', minWidth: 0 }}>
-      <AuthProvider><Stack screenOptions={{ headerShown: false }} /></AuthProvider>
+      <AuthProvider>
+        <StudentUsageTracker />
+        <Stack screenOptions={{ headerShown: false }} />
+        <StudentDailyLimit />
+      </AuthProvider>
     </View>
   </View>;
 }

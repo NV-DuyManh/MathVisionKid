@@ -10,6 +10,8 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { prepareIllustrations } from '../components/ui/AppIllustration';
 import { COLORS, FONTS } from '../constants/theme';
+import { StudentUsageTracker } from '../features/student-profile/studentUsage';
+import { StudentDailyLimit } from '../features/student-profile/StudentDailyLimit';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -68,8 +70,10 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
+      <StudentUsageTracker />
       <StatusBar style="dark" hidden={false} />
       <StudentNavigator />
+      <StudentDailyLimit />
     </AuthProvider>
   );
 }
@@ -86,6 +90,7 @@ function StudentNavigator() {
     <Stack.Protected guard={auth?.isAuthenticated === true && auth.user?.role === 'STUDENT' && auth.user?.active === true}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="account" />
+      <Stack.Screen name="parent-mode" />
       <Stack.Screen name="learning" />
       <Stack.Screen name="quiz" />
       <Stack.Screen name="recognition" />

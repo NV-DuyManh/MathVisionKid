@@ -35,6 +35,7 @@ export function AccountScreen({ owner }: { owner: string }) {
           <AccountEditor profile={profile.value} onSave={profile.accept} />
           <View style={[s.side, width >= 900 && { flex: 1, maxWidth: 320 }]}>
             <PasswordCard available={profile.value.passwordLoginAvailable !== false} />
+            <AppButton title="Góc phụ huynh" variant="secondary" icon={<Ionicons accessible={false} aria-hidden name="shield-checkmark-outline" color={COLORS.primaryDark} size={20} />} onPress={() => router.push('/parent-mode')} />
             <AppButton title="Đăng xuất" variant="ghost" icon={<Ionicons accessible={false} aria-hidden name="log-out-outline" color={COLORS.textSecondary} size={20} />} onPress={() => setConfirmLogout(true)} />
           </View>
         </View> : !profile.failed && <ActivityIndicator accessibilityLabel="Đang tải hồ sơ" />}

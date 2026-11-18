@@ -4,11 +4,18 @@ import StudentWebLayout from '../app/_layout.web';
 import {observeLearningPerformance} from '../features/tutoring/webPerformance.web';
 import {prepareIllustrations} from '../components/ui/AppIllustration';
 
-jest.mock('expo-router',()=>({Stack:'Stack'}));
+jest.mock('expo-router', () => ({
+  Stack: 'Stack',
+  usePathname: () => '/',
+  useRouter: () => ({ push: jest.fn() }),
+}));
 jest.mock('expo-router/head',()=>({__esModule:true,default:({children}:any)=>children}));
 jest.mock('expo-font',()=>({useFonts:()=>[true,null]}));
 jest.mock('../components/ui/AppIllustration',()=>({prepareIllustrations:jest.fn(() => new Promise<void>(() => {}))}));
-jest.mock('../context/AuthContext',()=>({AuthProvider:({children}:any)=>children}));
+jest.mock('../context/AuthContext', () => ({
+  AuthContext: require('react').createContext(null),
+  AuthProvider: ({ children }: any) => children,
+}));
 jest.mock('../components/ui/WebAlerts.web',()=>({WebAlerts:()=>null}));
 jest.mock('../features/tutoring/webPerformance.web',()=>({observeLearningPerformance:jest.fn()}));
 
