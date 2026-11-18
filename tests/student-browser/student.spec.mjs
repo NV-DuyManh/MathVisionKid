@@ -723,7 +723,9 @@ test('camera fallback opens the rear capture picker and sends the selected image
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/camera`);
   await expect(page.getByText(/Chưa mở được máy ảnh/)).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Chụp ảnh bài toán' })).toBeDisabled();
+  const shutter = page.getByRole('button', { name: 'Chụp ảnh bài toán' });
+  if (page.viewportSize().width >= 780) await expect(shutter).toHaveCount(0);
+  else await expect(shutter).toBeDisabled();
   const [picker] = await Promise.all([
     page.waitForEvent('filechooser'),
     page.getByRole('button', { name: 'Chụp bằng máy ảnh điện thoại' }).click(),

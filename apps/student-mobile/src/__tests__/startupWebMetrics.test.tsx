@@ -5,6 +5,7 @@ import {observeLearningPerformance} from '../features/tutoring/webPerformance.we
 import {prepareIllustrations} from '../components/ui/AppIllustration';
 
 jest.mock('expo-router',()=>({Stack:'Stack'}));
+jest.mock('../components/ui/StudentWebWorkspace.web',()=>({StudentWebWorkspace:({children}:React.PropsWithChildren)=>children}));
 jest.mock('expo-router/head',()=>({__esModule:true,default:({children}:any)=>children}));
 jest.mock('expo-font',()=>({useFonts:()=>[true,null]}));
 jest.mock('../components/ui/AppIllustration',()=>({prepareIllustrations:jest.fn(() => new Promise<void>(() => {}))}));

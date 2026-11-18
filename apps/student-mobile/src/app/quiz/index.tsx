@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useRef, useState } from 'react';
-import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { AuthContext } from '../../context/AuthContext';
@@ -10,6 +11,9 @@ import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS, IS_STUDENT_WEB, WEB_DESIGN } from '../../constants/theme';
 import { quizApi, Quiz, QuizGroup, QuizLibrary, quizError } from '../../features/quiz/quizApi';
 import { quizStyles as s } from '../../features/quiz/quizStyles';
+import { AppIllustration } from '../../components/ui/AppIllustration';
+import { STUDENT_WEB } from '../../constants/studentWebDesign';
+import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
 
 const GROUPS: { id: QuizGroup; title: string }[] = [{ id: 'PENDING', title: 'Chờ làm' }, { id: 'IN_PROGRESS', title: 'Đang làm' }, { id: 'COMPLETED', title: 'Đã xong' }];
 const EMPTY = {
@@ -24,9 +28,14 @@ export default function QuizLibraryScreen() {
 }
 function Library() {
   const router = useRouter();
+  const auth = useContext(AuthContext);
+  const { width } = useWindowDimensions();
+  const desktop = IS_STUDENT_WEB && width >= 1180;
+  const Columns = IS_STUDENT_WEB ? View : React.Fragment;
   const [group, setGroup] = useState<QuizGroup>('PENDING'), [result, setResult] = useState<QuizLibrary | null>(null);
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [retry, setRetry] = useState(0);
   const [totalStars, setTotalStars] = useState<number | null>(null);
+  const [unfinishedCount, setUnfinishedCount] = useState<number | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const controller = useRef<AbortController | null>(null), active = useRef(false);
   const chooseInitialGroup = useRef(true);
@@ -34,7 +43,7 @@ function Library() {
     void retry;
     active.current = true;
     const abort = new AbortController(); controller.current = abort;
-    setBusy(true); setError(''); setResult(null); setTotalStars(null);
+    setBusy(true); setError(''); setResult(null); setTotalStars(null); setUnfinishedCount(null);
     let firstPage: QuizLibrary | null = null, unfinished: number | null = null;
     const openUnfinished = () => {
       if (!chooseInitialGroup.current || !firstPage || unfinished === null || abort.signal.aborted || !active.current) return;
@@ -44,7 +53,11 @@ function Library() {
     void quizApi.list(group, 0, abort.signal).then(data => { if (active.current && !abort.signal.aborted) { setResult(data); firstPage = data; openUnfinished(); } })
       .catch(failure => { if (active.current && !abort.signal.aborted) setError(quizError(failure)); })
       .finally(() => { if (active.current && !abort.signal.aborted) { setBusy(false); controller.current = null; } });
-    void quizApi.count(abort.signal).then(data => { if (active.current && !abort.signal.aborted) { setTotalStars(data.totalStars); unfinished = data.pendingCount; openUnfinished(); } }).catch(() => {});
+    void quizApi.count(abort.signal).then(data => {
+      if (active.current && !abort.signal.aborted) {
+        setTotalStars(data.totalStars); setUnfinishedCount(data.pendingCount); unfinished = data.pendingCount; openUnfinished();
+      }
+    }).catch(() => {});
     return () => { active.current = false; abort.abort(); controller.current?.abort(); controller.current = null; };
   }, [group, retry]));
   const more = async () => {
@@ -68,18 +81,37 @@ function Library() {
     return quiz.status === 'IN_PROGRESS' ? 'Đang làm dở' : 'Sẵn sàng để thử';
   };
   const empty = EMPTY[group];
+  const grade = Number(auth?.user?.gradeLevel);
+  const topics = IS_STUDENT_WEB && Number.isInteger(grade) && grade >= 1 && grade <= 5
+    ? [...new Set(getProblemsByGrade(grade as 1 | 2 | 3 | 4 | 5).map(problem => problem.section))].slice(0, 3) : [];
   return <SafeAreaView style={s.screen} edges={['top', 'bottom']}>
     <AppHeader title="Câu đố của em" showBack rightIcon="help-circle-outline" onRightPress={() => setShowHelp(value => !value)}
       rightAccessibilityLabel="Câu đố hoạt động thế nào?" rightAccessibilityState={{ expanded: showHelp }} />
-    <ScrollView style={s.scroll} contentContainerStyle={l.content}>
+    <ScrollView style={s.scroll} contentContainerStyle={[l.content, IS_STUDENT_WEB && l.webContent]}>
+      <Columns {...(IS_STUDENT_WEB ? { style: desktop ? l.webLayout : undefined } : {})}>
+      <Columns {...(IS_STUDENT_WEB ? { style: [l.column, desktop && l.webMain] } : {})}>
       {showHelp ? <View style={l.help}><Text accessibilityRole="header" style={l.topic}>Luyện thêm từ bài em đã học</Text>
         <Text style={l.body}>Hoàn tất bài học hoặc phần nhận xét, rồi chọn làm ngay hay để sau. Câu đố có dữ kiện mới để em thử lại cách làm.</Text>
         <Text style={l.body}>Chỉ những dạng bài được hỗ trợ mới có câu đố. Bài đang dở và kết quả sẽ được lưu trong tài khoản của em.</Text></View> : null}
-      <View style={[l.intro, IS_STUDENT_WEB && l.webIntro]}>
+      {IS_STUDENT_WEB ? <LinearGradient colors={['#4431BF', '#7949F3']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={l.webHero}>
+        <View style={l.introCopy}>
+          <Text accessibilityRole="header" style={l.webHeroTitle}>Học qua câu đố, nhớ thật lâu!</Text>
+          <Text style={l.webHeroCopy}>Ôn lại cách làm từ những bài em đã học.</Text>
+          <Pressable accessibilityRole="button" style={l.webHeroAction} onPress={() => {
+            const next = result?.items.find(item => item.status !== 'COMPLETED');
+            if (next) router.push(`/quiz/${next.quizId}` as never);
+            else if (group !== 'PENDING') selectGroup('PENDING');
+            else router.push('/(tabs)/lessons');
+          }} disabled={busy && !result} accessibilityState={{ disabled: busy && !result }}>
+            <Ionicons name="play" size={15} color={STUDENT_WEB.ink} accessible={false} /><Text style={l.webHeroActionText}>Thử sức ngay</Text>
+          </Pressable>
+        </View>
+        <AppIllustration source={require('../../../assets/illustrations/web/robot-mascot.webp')} style={l.heroMascot} accessible={false} />
+      </LinearGradient> : <View style={l.intro}>
         <View style={l.introCopy}><Text accessibilityRole="header" style={l.heading}>Cùng thử sức</Text><Text style={l.body}>Ôn lại từ những bài em đã học.</Text>
           {totalStars !== null && totalStars > 0 ? <View style={l.starPill}><Ionicons name="star" size={13} color="#936315" accessible={false} /><Text style={l.starText}>{totalStars} sao đã nhận</Text></View> : null}</View>
         <Image source={require('../../../assets/illustrations/robot-mascot.png')} style={l.introMascot} accessible={false} />
-      </View>
+      </View>}
       <View style={[l.groups, IS_STUDENT_WEB && l.webGroups]}>{GROUPS.map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.title}
         accessibilityState={{ selected: group === item.id }} onPress={() => selectGroup(item.id)}
         style={({ pressed }) => [l.group, group === item.id && l.selected, pressed && l.pressed]}><Text style={[l.groupText, group === item.id && l.selectedText]}>{item.title}</Text></Pressable>)}</View>
@@ -101,15 +133,59 @@ function Library() {
           <Text style={l.actionText}>{quiz.status === 'COMPLETED' ? 'Xem lại' : quiz.status === 'IN_PROGRESS' ? 'Tiếp tục' : 'Bắt đầu'}</Text><Ionicons name="arrow-forward" size={15} color={COLORS.primaryDark} accessible={false} /></View></View>
       </Pressable>)}
       {result && result.page + 1 < result.totalPages ? <AppButton title="Xem thêm câu đố" loadingTitle="Đang tải thêm câu đố…" variant="secondary" disabled={busy} loading={busy} onPress={() => void more()} /> : null}
+      </Columns>
+      {IS_STUDENT_WEB && <View style={[l.column, desktop && l.webAside]}>
+        <View style={l.dashboardCard}>
+          <Text accessibilityRole="header" style={l.topic}>Tiến độ câu đố</Text>
+          {unfinishedCount !== null && <View style={l.dashboardMetric}>
+            <Text style={l.dashboardNumber}>{unfinishedCount}</Text><Text style={l.body}>Câu chưa hoàn thành</Text>
+          </View>}
+          {unfinishedCount === null && totalStars === null && <Text style={l.body}>{busy ? 'Đang tải tiến độ…' : 'Chưa xem được tiến độ lúc này.'}</Text>}
+        </View>
+        <View style={l.dashboardCard}>
+          <Text accessibilityRole="header" style={l.topic}>Sao đã nhận được</Text>
+          {totalStars !== null && <View style={[l.dashboardMetric, l.starsMetric]}>
+            <Ionicons name="star" size={22} color="#945F08" accessible={false} />
+            <Text style={l.dashboardNumber}>{totalStars}</Text><Text style={l.body}>sao từ câu đố</Text>
+          </View>}
+          <AppButton title="Xem thành tích học tập" variant="secondary" onPress={() => router.push('/(tabs)/achievements')} />
+        </View>
+        {topics.length > 0 && <View style={l.dashboardCard}>
+          <Text accessibilityRole="header" style={l.topic}>Gợi ý chủ đề luyện tập</Text>
+          {topics.map(section => <Pressable key={section} accessibilityRole="button" style={l.suggestedTopic}
+            onPress={() => router.push({ pathname: '/(tabs)/lessons', params: { section } })}>
+            <Ionicons name="book-outline" size={18} color={STUDENT_WEB.primary} accessible={false} />
+            <Text style={l.suggestedTitle}>{section}</Text>
+            <Ionicons name="chevron-forward" size={17} color={STUDENT_WEB.primary} accessible={false} />
+          </Pressable>)}
+        </View>}
+      </View>}
+      </Columns>
     </ScrollView>
   </SafeAreaView>;
 }
 
 const l = StyleSheet.create({
   content: { flexGrow: 1, width: '100%', maxWidth: 840, alignSelf: 'center', paddingHorizontal: 20, paddingTop: 6, paddingBottom: 24, gap: 16 },
+  webContent: { maxWidth: 1420, paddingTop: 12, paddingHorizontal: 24 },
+  webLayout: { flexDirection: 'row', gap: 20, alignItems: 'flex-start' },
+  column: { minWidth: 0, gap: 16, marginBottom: 16 },
+  webMain: { flex: 1 },
+  webAside: { width: 326 },
+  webHero: { flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 194, borderRadius: 22, padding: 20 },
+  heroMascot: { width: '30%', maxWidth: 180, height: 130 },
+  webHeroTitle: { color: '#FFF', fontFamily: FONTS.black, fontSize: 27, lineHeight: 34 },
+  webHeroCopy: { color: '#F5EEFF', fontFamily: FONTS.semiBold, fontSize: 14, lineHeight: 21 },
+  webHeroAction: { flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', justifyContent: 'center', minHeight: 44, backgroundColor: STUDENT_WEB.gold, marginTop: 7, borderRadius: 12, paddingHorizontal: 15, gap: 7 },
+  webHeroActionText: { color: STUDENT_WEB.ink, fontFamily: FONTS.extraBold, fontSize: 14 },
+  dashboardCard: { borderRadius: 20, borderWidth: 1, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.surface, gap: 12, padding: 18 },
+  dashboardMetric: { flexDirection: 'row', alignItems: 'baseline', gap: 9 },
+  dashboardNumber: { color: STUDENT_WEB.primary, fontFamily: FONTS.black, fontSize: 23 },
+  starsMetric: { alignItems: 'center', backgroundColor: '#FFF4D3', minHeight: 53, borderRadius: 14, paddingHorizontal: 12 },
+  suggestedTopic: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 14, paddingHorizontal: 11, minHeight: 45, backgroundColor: STUDENT_WEB.soft },
+  suggestedTitle: { flex: 1, minWidth: 0, color: STUDENT_WEB.ink, fontFamily: FONTS.bold, fontSize: 13 },
   intro: { flexDirection: 'row', alignItems: 'center', gap: 16, paddingVertical: 8 },
-  webIntro: { padding: 16, borderWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook, backgroundColor: COLORS.surface },
-  webGroups: { backgroundColor: WEB_DESIGN.colors.blueLight, borderRadius: WEB_DESIGN.radii.control },
+  webGroups: { backgroundColor: STUDENT_WEB.soft, borderRadius: WEB_DESIGN.radii.control },
   webCard: { borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook },
   introCopy: { flex: 1, minWidth: 0, gap: 5 }, introMascot: { width: 72, height: 78, resizeMode: 'contain' },
   heading: { fontFamily: FONTS.extraBold, fontSize: 21, lineHeight: 29, color: COLORS.textPrimary },

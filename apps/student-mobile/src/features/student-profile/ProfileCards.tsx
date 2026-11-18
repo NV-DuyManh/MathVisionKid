@@ -1,7 +1,9 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, FONTS } from '../../constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import { COLORS, FONTS, IS_STUDENT_WEB } from '../../constants/theme';
+import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import type { StudentProfile } from './profileApi';
 import { RankEmblem } from './RankEmblem';
 
@@ -26,32 +28,37 @@ export function ProfileRankCard({ profile }: { profile: StudentProfile }) {
   const { rank, stars, highestRank, position } = profile;
   const next = rank.goal > 0 ? rank.goal - rank.progress : 0;
   const title = profile.titles.find(t => t.id === profile.selectedTitle);
-  return <View style={styles.rankCard}>
-    <View style={styles.heroRow}>
-      <RankEmblem name={rank.name} />
-      <View style={styles.grow}>
-        <Text style={styles.rankCaption}>HẠNG CỦA EM</Text>
-        <Text accessibilityRole="header" style={styles.rank}>{rank.name}</Text>
-        {title && <Text style={styles.light}>{title.name}</Text>}
-        <Text style={styles.stars}>{stars} sao</Text>
-      </View>
+  const identity = <View style={styles.heroRow}>
+    <RankEmblem name={rank.name} />
+    <View style={styles.grow}>
+      <Text style={styles.rankCaption}>HẠNG CỦA EM</Text>
+      <Text accessibilityRole="header" style={styles.rank}>{rank.name}</Text>
+      {title && <Text style={styles.light}>{title.name}</Text>}
+      <Text style={styles.stars}>{stars} sao</Text>
     </View>
+  </View>;
+  const progress = <>
     {rank.goal > 0 ? <>
       <View accessibilityRole="progressbar" accessibilityLabel="Tiến độ lên hạng" accessibilityValue={{ min: 0, max: rank.goal, now: rank.progress }}
         aria-valuemin={0} aria-valuemax={rank.goal} aria-valuenow={rank.progress}
-        style={styles.track}><View style={[styles.bar, { width: `${100 * rank.progress / rank.goal}%` }]} /></View>
+        style={styles.track}><View style={[styles.bar, { width: (100 * rank.progress / rank.goal) + '%' }]} /></View>
       <Text style={styles.light}>Còn {next} sao để lên bậc tiếp theo</Text>
     </> : <Text style={styles.light}>{rank.name === 'Thách Đấu'
       ? 'Em đang ở bậc Thách Đấu.'
       : 'Đạt Top 200 toàn hệ thống để lên Thách Đấu.'}</Text>}
     <Text style={styles.light}>Hạng cao nhất · {highestRank}</Text>
     {position !== null && <Text style={styles.light}>Vị trí khối {profile.gradeLevel} · #{position}</Text>}
-  </View>;
+  </>;
+  return IS_STUDENT_WEB ? <LinearGradient colors={['#37216D', '#5736AB']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+    style={[styles.rankCard, styles.webRankCard]}>
+    <View style={styles.webRankIdentity}>{identity}</View>
+    <View style={styles.webRankProgress}>{progress}</View>
+  </LinearGradient> : <View style={styles.rankCard}>{identity}{progress}</View>;
 }
 
 export function ProfileStats({ profile }: { profile: StudentProfile }) {
   const s = profile.stats;
-  return <View style={styles.card}>
+  return <View style={[styles.card, IS_STUDENT_WEB && styles.webStatsCard]}>
     <Text accessibilityRole="header" style={styles.heading}>Tiến độ của em</Text>
     <View style={styles.metrics}>{[
       [s.lessons, 'Bài đã hoàn thành'], [s.quizzes, 'Quiz giải đúng'], [s.games, 'Lượt chơi đạt yêu cầu'],
@@ -81,6 +88,10 @@ export const profileStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   ...profileStyles,
   avatar: { alignItems: 'center', justifyContent: 'center', borderRadius: 50 },
+  webRankCard: { padding: 22, gap: 16, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' },
+  webRankIdentity: { flexGrow: 1, flexBasis: 220, minWidth: 0 },
+  webRankProgress: { flexGrow: 1, flexBasis: 168, minWidth: 0, gap: 7 },
+  webStatsCard: { borderRadius: STUDENT_WEB.radius, borderColor: STUDENT_WEB.border, padding: 20 },
   rankCard: { gap: 10, borderRadius: 24, padding: 20, backgroundColor: '#412874' },
   heroRow: { flexDirection: 'row', alignItems: 'center', gap: 12, flexWrap: 'wrap' },
   grow: { flex: 1, minWidth: 135, gap: 2 },

@@ -3,7 +3,7 @@ import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 const curriculum = JSON.parse(readFileSync(new URL('../../apps/student-mobile/src/data/primaryMathCurriculumData.json', import.meta.url), 'utf8'));
 const gradeFive = curriculum.filter(problem => problem.grade === 5);
-const widths = [360, 390, 430, 768, 1024, 1280, 1440];
+const widths = [360, 375, 390, 430, 768, 1024, 1280, 1440, 1920];
 const home = `${sites.portal.origin}/study/`;
 
 async function noPageOverflow(page) {
@@ -42,23 +42,23 @@ for (const width of widths) {
     await page.setViewportSize({ width, height: 900 });
     await login(page, 'STUDENT');
     await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
-    const homeRobot = page.locator('img[src*="robot-mascot"]');
+    const homeRobot = page.getByTestId('home-hero').locator('img[src*="robot-mascot"]');
     expect(await homeRobot.count()).toBeGreaterThan(0);
     await expect.poll(() => homeRobot.evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0))).toBe(true);
     await expect(page.locator('img[src*="mathvision-star"], img[src*="mathvision-icon-v2"]')).toHaveCount(0);
     await noPageOverflow(page);
     const quickCards = page.getByTestId('quick-actions-grid').getByRole('button');
-    await expect(quickCards).toHaveCount(4);
+    await expect(quickCards).toHaveCount(5);
     const bounds = await quickCards.evaluateAll(cards => cards.map(card => {
       const rect = card.getBoundingClientRect(); return { x: rect.x, y: rect.y, width: rect.width };
     }));
     expect(Math.max(...bounds.map(card => card.y)) - Math.min(...bounds.map(card => card.y))).toBeLessThanOrEqual(1);
     expect(Math.max(...bounds.map(card => card.width)) - Math.min(...bounds.map(card => card.width))).toBeLessThanOrEqual(1);
     await expect(page.getByRole('button', { name: 'Tiện ích tiếp theo', exact: true })).toHaveCount(0);
-    await expect(page.getByRole('heading', { name: 'Trang chủ', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Hôm nay em học gì?', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Thông báo học tập', exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Hành trình học tập', exact: true })).toBeVisible();
-    await expect(page.getByTestId('learning-journey').getByRole('button')).toHaveCount(3);
+    await expect(page.getByTestId('learning-journey').getByRole('button')).toHaveCount(4);
     await expect(page.getByRole('heading', { name: 'Bài học gợi ý cho em', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: /^Luyện tập lớp \d$/ })).toHaveCount(0);
     await page.getByRole('button', { name: 'Chụp bài toán', exact: true }).scrollIntoViewIfNeeded();
@@ -85,7 +85,7 @@ for (const width of widths) {
     await expect(page.getByText('Bảo vệ thông tin cá nhân', { exact: true })).toBeVisible();
     await page.getByRole('button', { name: 'Đóng thông tin bảo mật', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Chương trình Toán lớp 5', exact: true })).toHaveCount(0);
-    await expect(page.getByRole('button', { name: /^Học bài / })).toHaveCount(1);
+    await expect(page.getByRole('button', { name: /^Học bài / })).toHaveCount(3);
     await page.getByRole('button', { name: 'Luyện tập. Làm bài theo chủ đề', exact: true }).first().click();
     await expect(page).toHaveURL(/\/study\/lessons/);
     await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
@@ -96,7 +96,7 @@ for (const width of widths) {
     for (const problem of gradeFive) await expect(page.getByRole('button', { name: `Mở bài: ${problem.title}`, exact: true })).toHaveCount(1);
     await expect(page.getByRole('button', { name: /^Chọn Lớp / })).toHaveCount(0);
     await expect(page.getByRole('button', { name: /^Câu đố của em/ })).toHaveCount(0);
-    await expect(page.getByText('Hôm nay em học gì?', { exact: true })).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: 'Hôm nay em học gì?', exact: true })).toHaveCount(0);
     await noPageOverflow(page);
     await testInfo.attach(`library-${width}`, { body: await page.screenshot(), contentType: 'image/png' });
 
@@ -168,7 +168,9 @@ test('library remains usable by keyboard in landscape with reduced motion and en
   await page.setViewportSize({ width: 844, height: 390 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await login(page, 'STUDENT');
+  await expect(page.getByRole('heading', { name: 'Hôm nay em học gì?', exact: true })).toBeVisible();
   await page.getByRole('tab', { name: 'Bài học', exact: true }).click();
+  await expect(page).toHaveURL(/\/study\/lessons/);
   await page.evaluate(() => { document.documentElement.style.zoom = '1.5'; });
   const search = page.getByRole('textbox', { name: 'Tìm bài học', exact: true });
   await search.focus();
@@ -182,4 +184,18 @@ test('library remains usable by keyboard in landscape with reduced motion and en
   await expect(page.getByRole('button', { name: 'Học từng bước: Cộng số thập phân', exact: true })).toBeVisible();
   await noPageOverflow(page);
   await testInfo.attach('library-landscape-keyboard-150-percent', { body: await page.screenshot(), contentType: 'image/png' });
+});
+
+test('Student Web keeps four destinations and opens existing Quiz from the Home side column', async ({ page, app }) => {
+  app.realStudent = true;
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await login(page, 'STUDENT');
+  await expect(page.getByRole('heading', { name: 'Tiện ích nhanh' })).toBeVisible();
+  const hero = page.getByTestId('home-hero');
+  const streak = page.getByTestId('learning-streak');
+  const [main, aside] = await Promise.all([hero.boundingBox(), streak.boundingBox()]);
+  expect(aside.x).toBeGreaterThanOrEqual(main.x + main.width);
+  await expect(page.getByRole('tablist').getByRole('tab')).toHaveCount(4);
+  await page.getByRole('button', { name: /^Câu đố của em/ }).click();
+  await expect(page).toHaveURL(/\/study\/quiz/);
 });

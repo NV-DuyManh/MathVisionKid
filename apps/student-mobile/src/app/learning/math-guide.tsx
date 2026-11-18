@@ -9,6 +9,8 @@ import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
 import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
+import { STUDENT_WEB } from '../../constants/studentWebDesign';
+import { getLessonArtwork } from '../../features/lesson-artwork/lessonArtwork';
 import { ImageDraft, recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
 import { imageDraftPersistence } from '../../features/recognition/state/imageDraftPersistence';
 import { RecognitionProgress } from '../../features/recognition/components/RecognitionProgress';
@@ -102,7 +104,10 @@ export default function MathGuideScreen() {
 function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; params: GuideParams; sourceDraft: ImageDraft | null }) {
   const router = useRouter();
   const { width, height, fontScale } = useWindowDimensions();
-  const spacious = width >= 1100 && fontScale <= 1.3;
+  const web = Platform.OS === 'web';
+  const [pageWidth, setPageWidth] = useState(0);
+  const spacious = (web ? (pageWidth || width) >= 940 : width >= 1100) && fontScale <= 1.3;
+  const webWide = web && spacious;
   const supplied = typeof params.problemText === 'string' ? params.problemText.slice(0, 4000) : '';
   const suppliedWork = typeof params.workText === 'string' ? params.workText.slice(0, 6000) : '';
   const draft = supplied || suppliedWork ? null : sourceDraft;
@@ -284,7 +289,9 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const narrationParts = summaryVisible && lesson?.summary ? ['Đề bài đã cho.', ...lesson.summary.givens, 'Điều cần tìm.', lesson.summary.question]
     : displayedReview ? completedNarration([displayedReview]) : step ? stepNarration(step, visibleHint)
     : lesson ? completedNarration(lesson.completed.filter(item => item.kind !== 'UNDERSTAND')) : [];
-  const preparedCurriculumSpeech = !!getCurriculumProblem(problem);
+  const curriculumProblem = getCurriculumProblem(problem);
+  const preparedCurriculumSpeech = !!curriculumProblem;
+  const curriculumArtwork = web && curriculumProblem ? getLessonArtwork(curriculumProblem.id) : null;
   useNarrationPreparation(owner && lesson ? { sessionId: lesson.sessionId, revision: lesson.revision,
     ...(preparedCurriculumSpeech ? { useFallback: true } : {}) } : null, narrationParts);
   useEffect(() => {
@@ -452,7 +459,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         if (result.problemText) setProblemImage(imageUri);
       }
     });
-  }, [photoAllowed, imageUri, context?.purpose, draft, run]);
+  }, [photoAllowed, imageUri, context?.purpose, draft, run, setError, setWorkConfirmed]);
 
   useFocusEffect(useCallback(() => {
     active.current = true;
@@ -589,29 +596,43 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     </View>
   </SafeAreaView>;
 
-  return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
-    <View style={[styles.header, spacious && styles.headerWide]}><AppHeader title={reviewFocused ? 'Bài làm của em' : lesson ? 'Bài học' : division ? 'Kiểm tra phép chia' : work ? 'Cùng xem bài làm' : 'Cùng em tìm cách giải'} showBack
-      rightIcon="calculator-outline" rightAccessibilityLabel="Mở máy tính bỏ túi" onRightPress={() => setCalculatorOpen(true)} /></View>
-    <PocketCalculator visible={calculatorOpen} onClose={() => setCalculatorOpen(false)} />
-    <View style={[styles.learningBody, spacious && styles.learningBodyWide]}>
-    {spacious && lesson ? <ScrollView style={styles.lessonSidebar} contentContainerStyle={styles.lessonSidebarContent} showsVerticalScrollIndicator={false}>
-      <Text style={styles.sidebarEyebrow}>HÀNH TRÌNH CỦA EM</Text><Text style={styles.sidebarTitle}>Hiểu từng bước</Text>
+  const lessonSidebar = spacious && lesson ? <ScrollView style={[styles.lessonSidebar, webWide && styles.webSidebar]} contentContainerStyle={styles.lessonSidebarContent} showsVerticalScrollIndicator={false}>
+      {!web ? <Text style={styles.sidebarEyebrow}>HÀNH TRÌNH CỦA EM</Text> : null}
+      <Text accessibilityRole={web ? 'header' : undefined} style={[styles.sidebarTitle, webWide && styles.webSidebarTitle]}>{web ? 'Tiến trình bài học' : 'Hiểu từng bước'}</Text>
       {lesson.outline.map((title, index) => <View key={`${index}:${title}`} style={[styles.outlineRow, index === visibleStepIndex && styles.outlineCurrent]} accessible
         accessibilityLabel={`Bước ${index + 1}: ${title}. ${viewingHistory && index === visibleStepIndex ? 'Đang xem lại' : index < lesson.stepIndex ? 'Đã hoàn thành' : index === lesson.stepIndex ? 'Đang học' : 'Sắp tới'}`}>
         <View style={[styles.outlineNumber, index <= lesson.stepIndex && styles.outlineNumberActive]}>{index < lesson.stepIndex ? <Ionicons name="checkmark" size={16} color="#FFF" /> : <Text style={[styles.outlineNumberText, index === visibleStepIndex && { color: '#FFF' }]}>{index + 1}</Text>}</View>
         <Text style={[styles.outlineText, index === visibleStepIndex && { color: COLORS.primaryDark }]}>{title}</Text>
       </View>)}
       <AppIllustration source={MASCOT} style={styles.sidebarMascot} accessible={false} /><Text style={styles.sidebarCaption}>Cứ thử từng ý nhỏ. Robot luôn ở đây cùng em.</Text>
-    </ScrollView> : null}
-    <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      {lesson && !editing && problem ? <View style={[styles.reference, spacious && styles.referenceWide]}>
+    </ScrollView> : null;
+  return <SafeAreaView style={[styles.screen, web && styles.webScreen]} edges={['top', 'bottom']}>
+    <View style={[styles.header, spacious && styles.headerWide, webWide && styles.webHeaderWide]}><AppHeader title={reviewFocused ? 'Bài làm của em' : lesson ? 'Bài học' : division ? 'Kiểm tra phép chia' : work ? 'Cùng xem bài làm' : 'Cùng em tìm cách giải'} showBack
+      rightIcon="calculator-outline" rightAccessibilityLabel="Mở máy tính bỏ túi" onRightPress={() => setCalculatorOpen(true)} /></View>
+    <PocketCalculator visible={calculatorOpen} onClose={() => setCalculatorOpen(false)} />
+    <View style={[styles.learningBody, spacious && styles.learningBodyWide, webWide && styles.webLearningBody]}
+      onLayout={web ? event => setPageWidth(event.nativeEvent.layout.width) : undefined}>
+    {!web ? lessonSidebar : null}
+    <KeyboardAvoidingView style={[styles.flex, web && styles.webWorkspace]} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      {lesson && !editing && problem ? <View style={[styles.reference, spacious && styles.referenceWide, webWide && styles.webColumnWide]}>
         <LessonProblem key={lesson.sessionId} problem={problem} imageUri={problemImage} onEdit={() => { setTool(null); edit('problem'); }} />
       </View> : null}
-      <ScrollView ref={scroll} testID="lesson-working-area" contentContainerStyle={[styles.content, Platform.OS === 'web' && styles.webContent, spacious && styles.contentWide]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+      <ScrollView ref={scroll} testID="lesson-working-area" contentContainerStyle={[styles.content, Platform.OS === 'web' && styles.webContent, spacious && styles.contentWide, webWide && styles.webColumnWide]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         {restoring?<Text accessibilityLiveRegion="polite" style={styles.caption}>Đang kiểm tra bài đang học…</Text>:progressNotice?<Text accessibilityLiveRegion="polite" style={styles.caption}>{progressNotice}</Text>:null}
         {reviewFocused && !lesson ? <Pressable accessibilityRole="button" accessibilityLabel="Xem lại đề và bài làm" style={styles.reviewBack} onPress={() => setReviewFocused(false)}>
           <Ionicons name="chevron-back" size={18} color={COLORS.primaryDark} /><Text style={styles.link}>Xem lại đề và bài làm</Text></Pressable> : null}
-        {!lesson && !reviewFocused && !reviewStarted ? <LinearGradient colors={['#EEE7FF', '#F5F0FF']} style={styles.hero}>
+        {!lesson && curriculumProblem && curriculumArtwork && !reviewFocused && !reviewStarted ? (
+          <LinearGradient colors={['#E9DEFF', '#F9F6FF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.hero, styles.webHero]}>
+            <View style={styles.webHeroCopy}>
+              <Text style={styles.eyebrow}>{curriculumProblem.section}</Text>
+              <Text accessibilityRole="header" style={[styles.title, webWide && styles.webHeroTitle]}>{curriculumProblem.title}</Text>
+              <Text style={styles.body}>{curriculumProblem.bookSeries} · {curriculumProblem.difficulty}</Text>
+            </View>
+            <View style={[styles.webHeroArt, { backgroundColor: curriculumArtwork.color }]}>
+              <Image source={curriculumArtwork.source} style={[styles.webHeroImage, webWide && styles.webHeroLargeImage]} resizeMode="contain" accessible={false} />
+            </View>
+          </LinearGradient>
+        ) : !lesson && !reviewFocused && !reviewStarted ? <LinearGradient colors={['#EEE7FF', '#F5F0FF']} style={styles.hero}>
           <View style={styles.flex}><Text style={styles.eyebrow}>HỌC CÙNG MATHVISIONKID</Text>
             <Text style={styles.title}>{division ? 'Cùng kiểm tra phép chia' : !problem && work ? 'Thêm đề, hiểu trọn bài' : work ? 'Cùng nhìn lại bài em làm' : 'Hiểu cách làm, tự tìm lời giải'}</Text>
             <Text style={styles.body}>{division ? 'Đối chiếu với ảnh → kiểm tra → tự sửa chỗ chưa đúng.' : !problem && work ? 'Mình giữ bài em đã viết. Có đề gốc, mình mới đối chiếu được cách làm.' : work ? 'Đọc đúng đề và bài làm → nhận xét từng dòng → em tự sửa và kiểm tra lại.' : 'Hiểu đề → chọn cách làm → tự tính → kiểm tra lại.'}</Text></View>
@@ -821,7 +842,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
               return <Pressable key={choice} accessibilityRole="button" accessibilityLabel={choice} disabled
                 accessibilityHint={selected ? 'Em đã chọn đáp án này và đã được kiểm tra đúng.' : undefined}
                 aria-pressed={selected} accessibilityState={{ selected, disabled: true }} style={[styles.choice, selected && styles.choiceCorrect]}>
-                <View style={[styles.flex, { marginRight: 8 }]}><MathText style={styles.choiceText}>{choice}</MathText>
+                <View style={[styles.flex, { marginRight: 8 }]}><MathText style={[styles.choiceText, web && styles.webChoiceText]}>{choice}</MathText>
                   {selected ? <Text style={styles.chosenCorrect}>Em đã chọn · Đúng</Text> : null}</View>
                 <Ionicons name={selected ? 'checkmark-circle' : 'ellipse-outline'} size={20} color={selected ? '#24794E' : '#B6A9CD'} accessible={false} />
               </Pressable>;
@@ -839,13 +860,13 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
               if (viewingHistory) { showHistory(visibleStepIndex + 1 < currentViewIndex ? visibleStepIndex + 1 : null); return; }
               setReviewedStep(null); setAttempt(''); setAnswerEdited(false); scroll.current?.scrollTo({ y: 0, animated: false });
             }} />
-          </View> : step ? <View style={[styles.card, styles.activeStep]} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
+          </View> : step ? <View style={[styles.card, styles.activeStep, web && styles.webPracticeCard]} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
             <Text style={styles.eyebrow}>{step.kind === 'UNDERSTAND' ? 'HIỂU ĐỀ' : 'CÙNG GIẢI'} · BƯỚC {step.kind === 'UNDERSTAND' ? lesson.stepIndex + 1 : lesson.stepIndex + 1 - (lesson.understandingSteps || 0)} / {step.kind === 'UNDERSTAND' ? lesson.understandingSteps : lesson.outline.length - (lesson.understandingSteps || 0)}</Text>
-            <View style={styles.stepPrompt}><View ref={stepHeading} tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel={step.title}><Text style={styles.heading}>{step.title}</Text></View>
+            <View style={[styles.stepPrompt, web && styles.webStepPrompt]}><View ref={stepHeading} tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel={step.title}><Text style={[styles.heading, web && styles.webStepTitle]}>{step.title}</Text></View>
             {step.kind === 'UNDERSTAND' ? <Text style={styles.stepCaption}>Hiểu đề trước khi tính</Text>
               : lesson.outline.length === 1 ? <Text style={styles.stepCaption}>Làm xong, em kiểm tra lại kết quả nhé!</Text> : null}</View>
             {step.kind === 'UNDERSTAND' && !visibleHint ? <MathText style={styles.body}>{step.explanation}</MathText> : null}
-            <MathText style={styles.question}>{step.question}</MathText>
+            <MathText style={[styles.question, web && styles.webQuestion]}>{step.question}</MathText>
             {showCalculation ? <View onLayout={event => { calculationPosition.current = event.nativeEvent.layout.y; }}>
               <LessonCalculation expression={step.expression} />
             </View> : null}
@@ -860,7 +881,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
               aria-pressed={attempt === choice} accessibilityState={Platform.OS === 'web' ? { disabled: !!busy || expired } : { selected: attempt === choice, disabled: !!busy || expired }}
               accessibilityHint={attempt === choice && lesson.status === 'TRY_AGAIN' && !answerEdited ? 'Em vừa chọn đáp án này. Chưa đúng, em có thể chọn lại.' : undefined}
               onFocus={() => setFocusedChoice(choice)} onBlur={() => setFocusedChoice(null)}
-              style={[styles.choice, attempt === choice && styles.choiceSelected,
+              style={[styles.choice, web && styles.webChoice, attempt === choice && styles.choiceSelected,
                 attempt === choice && lesson.status === 'TRY_AGAIN' && !answerEdited && styles.choiceIncorrect,
                 focusedChoice === choice && styles.choiceFocused]} onPress={() => {
                 if (running.current || expired) return;
@@ -868,7 +889,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
                 // Every choice is checked by the authority that also explains it.
                 answer(choice);
               }}>
-              <View style={[styles.flex, { marginRight: 8 }]}><MathText style={styles.choiceText}>{choice}</MathText>
+              <View style={[styles.flex, { marginRight: 8 }]}><MathText style={[styles.choiceText, web && styles.webChoiceText]}>{choice}</MathText>
                 {attempt === choice ? <Text accessibilityLiveRegion="polite" style={styles.caption}>{busy === 'answer' ? 'Đang kiểm tra đáp án này…' : `Em vừa chọn${lesson.status === 'TRY_AGAIN' && !answerEdited ? ' · Chưa đúng' : ''}`}</Text> : null}</View>
               {attempt === choice && busy === 'answer' ? <ActivityIndicator size="small" color={COLORS.primaryDark} accessibilityLabel="Đang kiểm tra đáp án đã chọn" />
                 : attempt === choice ? <Ionicons name={lesson.status === 'TRY_AGAIN' && !answerEdited ? 'close-circle' : 'radio-button-on'} size={18} color={lesson.status === 'TRY_AGAIN' && !answerEdited ? '#AC4936' : COLORS.primaryDark} accessible={false} /> : null}
@@ -915,7 +936,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         {solutionVisible && lesson ? <QuizAfterLearningButton sourceType="LESSON" sourceId={lesson.sessionId} /> : null}
         {solutionVisible ? <AppButton title="Về trang chủ" variant="outlined" onPress={() => router.replace('/(tabs)')} /> : null}
       </ScrollView>
-      {lesson && !editing && !keyboardVisible ? <View style={[styles.toolsDock, spacious && styles.toolsDockWide]} testID="lesson-fixed-tools">
+      {lesson && !editing && !keyboardVisible ? <View style={[styles.toolsDock, spacious && styles.toolsDockWide, webWide && styles.webColumnWide]} testID="lesson-fixed-tools">
         <View style={styles.tools}>
           {([['audio', 'volume-high-outline', 'Nghe giảng'], ['ask', 'mic-outline', 'Hỏi bài'], ['menu', 'ellipsis-horizontal', 'Xem thêm']] as const).map(([value, icon, label]) => <Pressable
             key={value} accessibilityRole="button" accessibilityLabel={label} disabled={expired} accessibilityState={{ disabled: expired }} style={({ pressed }) => [styles.tool, pressed && { backgroundColor: '#F0E8FF' }, expired && { opacity: .5 }]} onPress={() => setTool(value)}>
@@ -923,7 +944,24 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
           </Pressable>)}
         </View>
       </View> : null}
-    </KeyboardAvoidingView></View>
+    </KeyboardAvoidingView>
+    {web ? lessonSidebar : null}
+    {webWide && curriculumProblem && !lesson && !reviewFocused && !reviewStarted ? <View style={styles.webDetailAside}>
+      <Text accessibilityRole="header" style={styles.webSidebarTitle}>Cách học bài này</Text>
+      <View style={styles.webDetailStep}>
+        <Ionicons name="document-text-outline" color={STUDENT_WEB.primary} size={19} accessible={false} />
+        <Text style={[styles.body, styles.flex]}>Đối chiếu đề bài và các số.</Text>
+      </View>
+      <View style={styles.webDetailStep}>
+        <Ionicons name="create-outline" color={STUDENT_WEB.primary} size={19} accessible={false} />
+        <Text style={[styles.body, styles.flex]}>Tự làm theo hướng dẫn từng bước.</Text>
+      </View>
+      <View style={styles.webDetailStep}>
+        <Ionicons name="checkmark-circle-outline" color={STUDENT_WEB.primary} size={19} accessible={false} />
+        <Text style={[styles.body, styles.flex]}>Kiểm tra câu trả lời và xem lại bài giải.</Text>
+      </View>
+    </View> : null}
+    </View>
     {workOptionsOpen ? <LessonSheet title="Thêm bài em đã làm" compact onClose={() => setWorkOptionsOpen(false)}>
       <Text style={styles.body}>Mình chưa có phần bài làm của em. Em chụp thêm hoặc nhập những bước đã viết nhé.</Text>
       <AppButton title="Chụp thêm bài làm" onPress={() => { setWorkOptionsOpen(false); capture('ADD_WORK'); }} />
@@ -960,6 +998,28 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
 }
 
 const styles = StyleSheet.create({
+  webScreen: { backgroundColor: STUDENT_WEB.background },
+  webHeaderWide: { maxWidth: 1400 },
+  webLearningBody: { maxWidth: 1420, paddingHorizontal: 18, gap: 18 },
+  webWorkspace: { minWidth: 0 },
+  webColumnWide: { maxWidth: 1060, paddingHorizontal: 12 },
+  webSidebar: { width: 275, backgroundColor: STUDENT_WEB.surface, borderColor: STUDENT_WEB.border, marginVertical: 12 },
+  webSidebarTitle: { marginTop: 0, marginBottom: 12, fontSize: 19, color: STUDENT_WEB.ink, fontFamily: FONTS.extraBold },
+  webDetailAside: { width: 282, flexShrink: 0, alignSelf: 'flex-start', marginTop: 16, padding: 20, gap: 10,
+    backgroundColor: STUDENT_WEB.surface, borderWidth: 1, borderColor: STUDENT_WEB.border, borderRadius: STUDENT_WEB.radius },
+  webDetailStep: { flexDirection: 'row', alignItems: 'flex-start', gap: 9 },
+  webHero: { minHeight: 140, gap: 14 },
+  webHeroCopy: { flex: 1, minWidth: 0 },
+  webHeroTitle: { fontSize: 32, lineHeight: 39 },
+  webHeroArt: { borderRadius: 20, padding: 8 },
+  webHeroImage: { width: 78, height: 84 },
+  webHeroLargeImage: { width: 148, height: 127 },
+  webPracticeCard: { borderRadius: STUDENT_WEB.radius, padding: 20, gap: 14, borderColor: STUDENT_WEB.border },
+  webStepPrompt: { borderRadius: 16, padding: 14, backgroundColor: STUDENT_WEB.soft },
+  webStepTitle: { fontSize: 21, lineHeight: 28 },
+  webQuestion: { fontSize: 20, lineHeight: 28, color: STUDENT_WEB.ink },
+  webChoice: { minHeight: 56, borderRadius: 14, paddingHorizontal: 14 },
+  webChoiceText: { fontSize: 16, lineHeight: 23 },
   hidden: { display: 'none' },
   preparing: { flex: 1, justifyContent: 'center', padding: 20 },
   header: { width: '100%', maxWidth: 740, alignSelf: 'center' }, headerWide: { maxWidth: 1180 },
