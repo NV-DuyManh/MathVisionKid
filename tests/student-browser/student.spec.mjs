@@ -214,7 +214,8 @@ test('Student previews and crops a local worksheet without sending it', async ({
   })).toBe(Math.round(sourceHeight * 0.7));
   await expect(page.getByRole('button', { name: 'Chỉnh lại vùng bài toán' })).toBeVisible();
   await testInfo.attach('Student worksheet preview fixture', { body: await page.screenshot(), contentType: 'image/png' });
-  expect(app.requests.filter(({ method }) => method === 'POST').map(({ path }) => path)).toEqual(['/auth/login']);
+  expect(app.requests.filter(({ method, path }) => method === 'POST' && path !== '/student/app-usage/heartbeat')
+    .map(({ path }) => path)).toEqual(['/auth/login']);
 });
 
 const arithmeticOutcomes = [
@@ -262,7 +263,8 @@ for (const { route, title, action, next, ...response } of arithmeticOutcomes) {
     await nextAction.focus();
     await nextAction.press('Enter');
     await expect(page).toHaveURL(next);
-    expect(app.requests.filter(request => request.method === 'POST').map(request => request.path)).toEqual(['/auth/login', '/student/submissions']);
+    expect(app.requests.filter(request => request.method === 'POST' && request.path !== '/student/app-usage/heartbeat')
+      .map(request => request.path)).toEqual(['/auth/login', '/student/submissions']);
   });
 }
 

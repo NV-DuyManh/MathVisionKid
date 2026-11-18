@@ -60,7 +60,8 @@ test('F5 restores the approved photo and both baked privacy masks', async ({ pag
   await expect(page.getByLabel('Ảnh bài tập đang căn chỉnh')).toBeVisible();
   expect((await maskedPixels(page)).flat().every(channel => channel < 24)).toBe(true);
   await page.screenshot({ path: testInfo.outputPath('after-refresh.png') });
-  expect(app.requests.filter(request => request.method === 'POST').map(request => request.path)).toEqual(['/auth/login']);
+  expect(app.requests.filter(request => request.method === 'POST' && request.path !== '/student/app-usage/heartbeat')
+    .map(request => request.path)).toEqual(['/auth/login']);
 });
 
 test('An empty crop opens a real image picker instead of navigating back', async ({ page, app }) => {

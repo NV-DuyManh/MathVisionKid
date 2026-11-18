@@ -104,8 +104,12 @@ export const test = base.extend({
       if (respond) return respond({ body, json, reject, route });
       if (role === 'STUDENT' && path === '/student/parent-control/status' && method === 'GET')
         return json({ pinConfigured: false, dailyLimitReached: false, dailyLimitConfigured: false, activityVerified: true });
-      if (role === 'STUDENT' && path === '/student/app-usage/heartbeat' && method === 'POST')
+      if (role === 'STUDENT' && path === '/student/app-usage/heartbeat' && method === 'POST') {
+        expect(Object.keys(body ?? {}).sort()).toEqual(['active', 'connectionId']);
+        expect(typeof body.active).toBe('boolean');
+        expect(body.connectionId).toMatch(/^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i);
         return route.fulfill({ status: 204, headers: { 'access-control-allow-origin': '*' } });
+      }
       if (path === '/teacher/dashboard') return json({ todayTotal: 0, processedCount: 0, reviewRequiredCount: 0, recentBatches: [] });
       if (path === '/teacher/classes') return state.classesDown ? reject(503) : json([{ classId: 'class-5a', name: '5A', studentCount: 2 }]);
       if (path === '/teacher/assignments' && method === 'POST') {
