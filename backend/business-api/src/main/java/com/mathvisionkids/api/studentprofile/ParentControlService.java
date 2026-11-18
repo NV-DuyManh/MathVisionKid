@@ -28,17 +28,22 @@ public class ParentControlService {
 
     @Transactional(readOnly = true)
     public Status status(String principal) {
-        var today = LocalDate.now(StudentRewards.ZONE);
+        var now = Instant.now();
+        var today = LocalDate.ofInstant(now, StudentRewards.ZONE);
         return db.query("""
-                SELECT c.daily_minutes, COALESCE(d.elapsed_millis, 0)
+                SELECT c.daily_minutes, COALESCE(d.elapsed_millis, 0),
+                    EXISTS(SELECT 1 FROM student_usage_connection a
+                        WHERE a.student_id = c.student_id AND a.last_seen_at >= ?)
                 FROM student_parent_control c
                 JOIN users u ON u.id = c.student_id
                 LEFT JOIN student_usage_day d ON d.student_id = c.student_id AND d.usage_day = ?
                 WHERE u.email = ?
                 """, (row, index) -> {
             var minutes = row.getObject(1, Integer.class);
-            return new Status(true, minutes != null && row.getLong(2) >= minutes * 60_000L);
-        }, today, principal).stream().findFirst().orElse(new Status(false, false));
+            return new Status(true, minutes != null && row.getLong(2) >= minutes * 60_000L,
+                    minutes != null, minutes == null || row.getBoolean(3));
+        }, Timestamp.from(now.minus(StudentUsageService.MAX_HEARTBEAT_GAP)), today, principal)
+                .stream().findFirst().orElse(new Status(false, false, false, true));
     }
 
     @Transactional
@@ -108,7 +113,7 @@ public class ParentControlService {
         }, student).stream().findFirst().orElse(null);
     }
 
-    public record Status(boolean pinConfigured, boolean dailyLimitReached) {}
+    public record Status(boolean pinConfigured, boolean dailyLimitReached, boolean dailyLimitConfigured, boolean activityVerified) {}
     public record Settings(Integer dailyMinutes) {}
     private record Control(String hash, Integer dailyMinutes, int failedAttempts, Instant lockedUntil) {}
 }

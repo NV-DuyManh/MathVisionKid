@@ -1,35 +1,45 @@
 import { usePathname, useRouter } from 'expo-router';
-import { useContext, useEffect, useState } from 'react';
-import { AppState, Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { createContext, useContext, useEffect, useState, type PropsWithChildren } from 'react';
+import { AppState, Modal, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AppButton } from '../../components/ui/AppButton';
 import { AppIllustration } from '../../components/ui/AppIllustration';
 import { COLORS, FONTS } from '../../constants/theme';
 import { AuthContext } from '../../context/AuthContext';
 import { readParentControlStatus } from './parentControlApi';
 
-export function StudentDailyLimit() {
+export const StudentGameAccess = createContext(true);
+
+export function StudentDailyLimit({ children }: PropsWithChildren) {
   const auth = useContext(AuthContext);
   const owner = auth?.user?.id ?? auth?.user?.userId;
   const pathname = usePathname();
   const router = useRouter();
   const inParentMode = pathname === '/parent-mode';
-  const [blockedOwner, setBlockedOwner] = useState<string>();
+  const [decision, setDecision] = useState<{ owner: string; blocked: boolean; verified: boolean }>();
 
   useEffect(() => {
     if (!auth?.isAuthenticated || !owner) {
-      setBlockedOwner(undefined);
+      setDecision(undefined);
       return;
     }
     const lifetime = new AbortController();
     let checking = false;
+    function markUnverified() {
+      setDecision(previous => ({
+        owner, blocked: previous !== undefined && previous.owner === owner && previous.blocked, verified: false,
+      }));
+    }
     async function check() {
       if (checking || lifetime.signal.aborted) return;
       checking = true;
       try {
         const status = await readParentControlStatus(lifetime.signal);
-        if (!lifetime.signal.aborted) setBlockedOwner(status.dailyLimitReached ? owner : undefined);
+        if (!lifetime.signal.aborted) {
+          const online = Platform.OS !== 'web' || navigator.onLine;
+          setDecision({ owner, blocked: status.dailyLimitReached, verified: online && status.activityVerified });
+        }
       } catch {
-        // Retain the most recent confirmed decision when the network drops.
+        if (!lifetime.signal.aborted) markUnverified();
       } finally {
         checking = false;
       }
@@ -37,15 +47,27 @@ export function StudentDailyLimit() {
     void check();
     const timer = setInterval(() => { if (AppState.currentState !== 'background') void check(); }, 5_000);
     const appState = AppState.addEventListener('change', state => { if (state === 'active') void check(); });
+    if (Platform.OS === 'web') {
+      window.addEventListener('offline', markUnverified);
+      window.addEventListener('online', check);
+    }
     return () => {
       lifetime.abort();
       clearInterval(timer);
       appState.remove();
+      if (Platform.OS === 'web') {
+        window.removeEventListener('offline', markUnverified);
+        window.removeEventListener('online', check);
+      }
     };
   }, [auth?.isAuthenticated, owner, inParentMode]);
 
-  if (!owner || blockedOwner !== owner || inParentMode) return null;
-  return <Modal visible animationType="none" onRequestClose={() => {}}>
+  const current = owner && decision?.owner === owner ? decision : undefined;
+  const blocked = auth?.isAuthenticated === true && current?.blocked === true;
+  const mayPlay = !auth?.isAuthenticated || (current?.verified === true && !blocked);
+  return <StudentGameAccess.Provider value={mayPlay}>
+    {children}
+    {blocked && !inParentMode && <Modal visible animationType="none" onRequestClose={() => {}}>
     <ScrollView style={styles.screen} contentContainerStyle={styles.center}>
       <View style={styles.card} accessibilityViewIsModal>
         <View style={styles.artWell}>
@@ -57,7 +79,8 @@ export function StudentDailyLimit() {
         <AppButton title="Đăng xuất" variant="ghost" onPress={() => { void auth?.logout(); }} />
       </View>
     </ScrollView>
-  </Modal>;
+    </Modal>}
+  </StudentGameAccess.Provider>;
 }
 
 const styles = StyleSheet.create({

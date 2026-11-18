@@ -56,13 +56,16 @@ export function StudentUsageTracker() {
     };
 
     if (Platform.OS === 'web') {
-      start();
+      const updateVisibility = () => { if (document.visibilityState === 'visible') start(); else stop(); };
+      updateVisibility();
+      document.addEventListener('visibilitychange', updateVisibility);
       window.addEventListener('pagehide', stop);
-      window.addEventListener('pageshow', start);
+      window.addEventListener('pageshow', updateVisibility);
       return () => {
         mounted = false;
+        document.removeEventListener('visibilitychange', updateVisibility);
         window.removeEventListener('pagehide', stop);
-        window.removeEventListener('pageshow', start);
+        window.removeEventListener('pageshow', updateVisibility);
         stop();
       };
     }

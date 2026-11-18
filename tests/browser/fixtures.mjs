@@ -102,6 +102,10 @@ export const test = base.extend({
       if (path.startsWith('/teacher/') && role !== 'TEACHER') return reject(403);
       if (path.startsWith('/admin/') && role !== 'ADMIN') return reject(403);
       if (respond) return respond({ body, json, reject, route });
+      if (role === 'STUDENT' && path === '/student/parent-control/status' && method === 'GET')
+        return json({ pinConfigured: false, dailyLimitReached: false, dailyLimitConfigured: false, activityVerified: true });
+      if (role === 'STUDENT' && path === '/student/app-usage/heartbeat' && method === 'POST')
+        return route.fulfill({ status: 204, headers: { 'access-control-allow-origin': '*' } });
       if (path === '/teacher/dashboard') return json({ todayTotal: 0, processedCount: 0, reviewRequiredCount: 0, recentBatches: [] });
       if (path === '/teacher/classes') return state.classesDown ? reject(503) : json([{ classId: 'class-5a', name: '5A', studentCount: 2 }]);
       if (path === '/teacher/assignments' && method === 'POST') {

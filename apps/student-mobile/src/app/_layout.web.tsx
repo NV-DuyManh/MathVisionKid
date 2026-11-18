@@ -26,8 +26,7 @@ export default function StudentWebLayout() {
     <View style={{ flex: 1, width: '100%', minWidth: 0 }}>
       <AuthProvider>
         <StudentUsageTracker />
-        <Stack screenOptions={{ headerShown: false }} />
-        <StudentDailyLimit />
+        <StudentDailyLimit><Stack screenOptions={{ headerShown: false }} /></StudentDailyLimit>
       </AuthProvider>
     </View>
   </View>;

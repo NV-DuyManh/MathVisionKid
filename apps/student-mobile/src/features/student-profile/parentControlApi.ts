@@ -2,7 +2,7 @@ import { isAxiosError } from 'axios';
 import apiClient from '../../services/api/apiClient';
 
 const CONTROL = '/student/parent-control';
-export type ParentControlStatus = { pinConfigured: boolean; dailyLimitReached: boolean };
+export type ParentControlStatus = { pinConfigured: boolean; dailyLimitReached: boolean; activityVerified: boolean };
 export type ParentSettings = { dailyMinutes: number | null };
 
 export async function readParentControlStatus(signal?: AbortSignal) {

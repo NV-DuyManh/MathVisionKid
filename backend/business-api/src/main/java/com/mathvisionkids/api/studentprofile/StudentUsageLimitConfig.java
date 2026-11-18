@@ -12,9 +12,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 class StudentUsageLimitConfig implements WebMvcConfigurer {
     private final ParentControlService controls;
+    private final StudentUsageService usage;
 
-    StudentUsageLimitConfig(ParentControlService controls) {
+    StudentUsageLimitConfig(ParentControlService controls, StudentUsageService usage) {
         this.controls = controls;
+        this.usage = usage;
     }
 
     @Override
@@ -23,8 +25,18 @@ class StudentUsageLimitConfig implements WebMvcConfigurer {
             @Override
             public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
                 var principal = request.getUserPrincipal();
-                if (principal != null && request.isUserInRole("STUDENT") && controls.status(principal.getName()).dailyLimitReached()) {
-                    throw new ApiException("STUDENT_DAILY_LIMIT", "Hôm nay em đã dùng hết thời gian.", HttpStatus.TOO_MANY_REQUESTS);
+                if (principal != null && request.isUserInRole("STUDENT")) {
+                    var name = principal.getName();
+                    var limit = controls.status(name);
+                    if (limit.dailyLimitConfigured()) {
+                        boolean connected = !limit.dailyLimitReached() && usage.recordProtectedActivity(name);
+                        if (controls.status(name).dailyLimitReached()) {
+                            throw new ApiException("STUDENT_DAILY_LIMIT", "Hôm nay em đã dùng hết thời gian.", HttpStatus.TOO_MANY_REQUESTS);
+                        }
+                        if (!connected) {
+                            throw new ApiException("STUDENT_ACTIVITY_REQUIRED", "Chưa xác minh được thời gian sử dụng. Em thử lại nhé.", HttpStatus.SERVICE_UNAVAILABLE);
+                        }
+                    }
                 }
                 return true;
             }

@@ -91,9 +91,23 @@ class StudentProfileIntegrationTest {
                 .andExpect(status().isForbidden());
         mvc.perform(put(base + "/daily-limit").with(account).contentType("application/json").content(cap))
                 .andExpect(status().isOk());
+        mvc.perform(post("/api/v1/student/game-runs").with(account))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.error.code").value("STUDENT_ACTIVITY_REQUIRED"));
+        UUID connection = UUID.randomUUID();
+        mvc.perform(post("/api/v1/student/app-usage/heartbeat").with(account).contentType("application/json")
+                        .content("{\"connectionId\":\"" + connection + "\",\"active\":true}"))
+                .andExpect(status().isNoContent());
+        mvc.perform(post("/api/v1/student/game-runs").with(account)).andExpect(status().isOk());
+        db.update("UPDATE student_usage_connection SET last_seen_at = ? WHERE student_id = ?",
+                java.sql.Timestamp.from(java.time.Instant.now().minusSeconds(60)), pupil.getId());
+        mvc.perform(post("/api/v1/student/game-runs").with(account))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.error.code").value("STUDENT_ACTIVITY_REQUIRED"));
         String stored = db.queryForObject("SELECT pin_hash FROM student_parent_control WHERE student_id = ?", String.class, pupil.getId());
         assertNotEquals("716025", stored);
         var day = java.time.LocalDate.now(StudentRewards.ZONE);
+        db.update("DELETE FROM student_usage_day WHERE student_id = ?", pupil.getId());
         db.update("INSERT INTO student_usage_day (student_id, usage_day, elapsed_millis) VALUES (?, ?, 59999)", pupil.getId(), day);
         mvc.perform(get(base + "/status").with(account)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.dailyLimitReached").value(false));

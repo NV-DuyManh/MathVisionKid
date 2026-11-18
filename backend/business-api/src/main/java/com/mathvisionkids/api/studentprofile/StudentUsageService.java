@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 
 @Service
 public class StudentUsageService {
-    private static final Duration MAX_HEARTBEAT_GAP = Duration.ofSeconds(30);
+    static final Duration MAX_HEARTBEAT_GAP = Duration.ofSeconds(30);
     private final JdbcTemplate db;
     private final StudentProfileService profiles;
 
@@ -29,6 +29,20 @@ public class StudentUsageService {
         var student = profiles.student(principal).getId();
         profiles.lockStudent(student);
         observeLocked(student, connection, active, Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS));
+    }
+
+    @Transactional
+    public boolean recordProtectedActivity(String principal) {
+        var student = profiles.student(principal).getId();
+        profiles.lockStudent(student);
+        var now = Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS);
+        var lastSeen = db.queryForObject("""
+                SELECT MIN(last_seen_at) FROM student_usage_connection
+                WHERE student_id = ? AND last_seen_at >= ?
+                """, Timestamp.class, student, Timestamp.from(now.minus(MAX_HEARTBEAT_GAP)));
+        if (lastSeen == null) return false;
+        if (lastSeen.toInstant().isBefore(now)) recordUncoveredTime(student, lastSeen.toInstant(), now);
+        return true;
     }
 
     void observeLocked(UUID student, UUID connection, boolean active, Instant now) {

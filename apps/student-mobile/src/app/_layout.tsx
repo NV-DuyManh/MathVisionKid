@@ -72,8 +72,7 @@ export default function RootLayout() {
     <AuthProvider>
       <StudentUsageTracker />
       <StatusBar style="dark" hidden={false} />
-      <StudentNavigator />
-      <StudentDailyLimit />
+      <StudentDailyLimit><StudentNavigator /></StudentDailyLimit>
     </AuthProvider>
   );
 }
