@@ -119,7 +119,10 @@ test('a verified student opening the mounted login stays in the learning app', a
 for (const authenticated of [false, true]) {
   test(`Skip introduction persists completion for ${authenticated ? 'verified student' : 'anonymous visitor'}`, async ({ page, app }) => {
     app.realStudent = true;
-    if (authenticated) await login(page, 'STUDENT');
+    if (authenticated) {
+      await login(page, 'STUDENT');
+      await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+    }
     await page.goto(`${sites.portal.origin}/study/onboarding`);
     const skip = page.getByRole('button', { name: 'Bỏ qua giới thiệu', exact: true });
     await expect(skip).toBeVisible();
