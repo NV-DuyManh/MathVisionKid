@@ -82,6 +82,6 @@ export function FractionShape({ shape, denominator, whole, selected, onToggle }:
 }
 
 const styles = StyleSheet.create({
-  frame: { width: '100%', maxWidth: 240, aspectRatio: 1, alignSelf: 'center' },
-  bar: { aspectRatio: 2.5 },
+  frame: { width: '100%', maxWidth: 172, aspectRatio: 1, alignSelf: 'center' },
+  bar: { maxWidth: 300, aspectRatio: 2.5 },
 });

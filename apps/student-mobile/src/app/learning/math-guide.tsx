@@ -21,6 +21,8 @@ import { problemPresentation } from '../../components/domain/problemPresentation
 import { AppIllustration } from '../../components/ui/AppIllustration';
 import { PocketCalculator } from '../../features/calculator/PocketCalculator';
 import { HintCheckIn } from '../../features/tutoring/HintCheckIn';
+import { HintSheetContent } from '../../features/tutoring/HintSheetContent';
+import { buildHintVisual } from '../../features/tutoring/hintVisualModel';
 import { ProblemSummary } from '../../features/tutoring/ProblemSummary';
 import { StudentWorkReview } from '../../features/tutoring/StudentWorkReview';
 import { WorkReviewPreparation } from '../../features/tutoring/WorkReviewPreparation';
@@ -702,7 +704,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
               style={({ pressed }) => [styles.problemEdit, pressed && styles.problemPressed]}><Ionicons name="create-outline" size={20} color={COLORS.primaryDark} /><Text style={styles.link}>Chỉnh sửa</Text></Pressable>
           </View>
           <View style={styles.problemContent} nativeID="confirmed-problem-body">
-            <MathText style={styles.body}>{problemPresentation(problem)}</MathText>
+            <MathText style={[styles.body, styles.confirmedProblemText]}>{problemPresentation(problem)}</MathText>
           </View>
           {!lesson ? <>
             {sourceIssue ? <View style={styles.hintCard} accessibilityLiveRegion="polite">
@@ -718,7 +720,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
             </View> : null}
             {sourceNeedsReview && !problemConfirmed ? <Text style={styles.error} accessibilityRole="alert">Có chỗ cần kiểm tra lại với ảnh. Em đối chiếu số, đơn vị và hình; chỉnh lại nếu cần rồi xác nhận nhé.</Text> : null}
             {Platform.OS === 'web' && problem.includes('[?]') ? <Text style={styles.error} accessibilityRole="alert">Có chỗ chưa chắc trong đề. Em chọn chỉnh đề, đối chiếu với ảnh và bỏ dấu [?] sau khi sửa nhé.</Text> : null}
-            <Text style={[styles.body, styles.confirmReminder]}>Em kiểm tra lời văn, các số và đơn vị. Nếu chưa giống ảnh, chọn chỉnh đề trước nhé.</Text>
+            <Text style={styles.body}>Em kiểm tra lời văn, các số và đơn vị. Nếu chưa giống ảnh, chọn chỉnh đề trước nhé.</Text>
             <Pressable accessibilityRole="checkbox" accessibilityLabel="Em đã kiểm tra đề bài và các số"
               aria-checked={problemConfirmed} accessibilityState={{ checked: problemConfirmed, disabled: !!busy || problem.includes('[?]') }}
               disabled={!!busy || problem.includes('[?]')} style={styles.confirm}
@@ -927,11 +929,14 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
       <AppButton title="Chụp thêm bài làm" onPress={() => { setWorkOptionsOpen(false); capture('ADD_WORK'); }} />
       <AppButton title="Nhập bài làm bằng chữ" variant="secondary" onPress={() => { setWorkOptionsOpen(false); edit('work'); }} />
     </LessonSheet> : null}
-    {lesson && tool && !expired && !editing ? <LessonSheet title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', hint: 'Cùng hiểu gợi ý' }[tool]} onClose={() => setTool(null)}>
-      {tool === 'hint' && step ? <><MathText style={styles.body}>{visibleHint}</MathText>
-        <HintCheckIn key={`${lesson.sessionId}:${lesson.stepIndex}:${hintPage}`} expression={showCalculation ? step.expression : ''} reading={step.kind === 'UNDERSTAND'} depth={hintPage + 1}
+    {lesson && tool && !expired && !editing ? <LessonSheet appearance={tool === 'hint' ? 'hint' : undefined} title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', hint: 'Cùng hiểu gợi ý' }[tool]} onClose={() => setTool(null)}>
+      {tool === 'hint' && step ? <HintSheetContent key={`${owner}:${lesson.sessionId}:${lesson.stepIndex}:${hintPage}`}
+        hint={visibleHint} visual={problemConfirmed && showCalculation && step.kind !== 'UNDERSTAND' && !displayedReview
+          ? buildHintVisual(problem, step.expression) : null}>
+        <HintCheckIn expression={showCalculation ? step.expression : ''} reading={step.kind === 'UNDERSTAND'} depth={hintPage + 1}
           hint={visibleHint} stepTitle={step.title} stepQuestion={step.question} unit={step.unit}
-          onReady={() => { setTool(null); if (step.choices.length) firstChoice.current?.focus(); else answerInput.current?.focus(); }} /></> : null}
+          onReady={() => { setTool(null); if (step.choices.length) firstChoice.current?.focus(); else answerInput.current?.focus(); }} />
+      </HintSheetContent> : null}
       {tool === 'audio' ? <LessonListening scope={JSON.stringify([owner, lesson.sessionId, visibleStepIndex, lesson.revision, hintCount, !!displayedReview])}
         sessionId={lesson.sessionId} revision={lesson.revision} stepIndex={summaryVisible ? 2 : Math.min(visibleStepIndex, Math.max(0, lesson.outline.length - 1))}
         step={summaryVisible ? { kind: 'UNDERSTAND', title: 'Tóm tắt bài toán', expression: '' } : displayedReview || step}
@@ -981,7 +986,7 @@ const styles = StyleSheet.create({
   heading: { fontSize: 17, lineHeight: 23, color: COLORS.textPrimary, fontFamily: FONTS.extraBold },
   stepPrompt: { borderRadius: 12, padding: 12, gap: 3, backgroundColor: '#F1EAFF' }, stepCaption: { fontFamily: FONTS.semiBold, fontSize: 12, lineHeight: 18, color: COLORS.textSecondary },
   body: { fontSize: 14, lineHeight: 21, color: COLORS.textSecondary, fontFamily: FONTS.regular },
-  confirmReminder: { fontFamily: FONTS.extraBold, color: COLORS.textPrimary },
+  confirmedProblemText: { fontFamily: FONTS.bold, color: COLORS.textPrimary, fontSize: 16, lineHeight: 24 },
   reviewAction: { backgroundColor: '#EAF2FF', borderColor: '#C9DDF7', borderWidth: 1 },
   actionButtons: { gap: 10 },
   card: { backgroundColor: COLORS.surface, borderRadius: 18, padding: 14, gap: 12, borderWidth: 1, borderColor: '#EAE2F7', ...SHADOWS.small },
