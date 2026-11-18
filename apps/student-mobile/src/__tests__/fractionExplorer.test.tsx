@@ -67,7 +67,7 @@ it.each([
   const feedback = view.root.findAll(node => node.props.accessibilityLiveRegion === 'polite'
     && typeof node.props.children === 'string' && node.props.children.includes(action));
   expect(feedback.length).toBeGreaterThan(0);
-  act(() => regions()[0].props.onPress());
+  act(() => pieces()[0].props.onPress());
   expect(text()).not.toContain(action);
 });
 
@@ -112,6 +112,7 @@ it('keeps fraction exploration local without making tutoring or network requests
   const fetch = jest.spyOn(global, 'fetch').mockImplementation(jest.fn());
   render(2, 3);
   act(() => button('Kiểm tra phần em chọn').props.onPress());
+  act(() => button('Hình tròn').props.onPress());
   act(() => regions()[0].props.onPress());
   act(() => pieces()[2].props.onPress());
   act(() => button('Kiểm tra phần em chọn').props.onPress());
@@ -125,11 +126,11 @@ it('keeps fraction exploration local without making tutoring or network requests
 
 it('changes geometric representations while keeping the selected parts and fraction', () => {
   render(3, 4);
-  expect(button('Hình tròn').props['aria-pressed']).toBe(true);
+  expect(button('Thanh phân số').props['aria-pressed']).toBe(true);
   act(() => pieces()[2].props.onPress());
   act(() => button('Hình vuông').props.onPress());
   expect(button('Hình vuông').props['aria-pressed']).toBe(true);
-  expect(button('Hình tròn').props['aria-pressed']).toBe(false);
+  expect(button('Thanh phân số').props['aria-pressed']).toBe(false);
   expect(selected()).toHaveLength(1);
   expect(pieces()[2].props.accessibilityState.checked).toBe(true);
   act(() => button('Thanh phân số').props.onPress());
@@ -139,15 +140,15 @@ it('changes geometric representations while keeping the selected parts and fract
 
 it.each(['Hình tròn', 'Hình vuông', 'Thanh phân số'])(
   'synchronizes a tap on %s with its numbered checkbox, including a later whole', shape => {
-    render(7, 3);
+    render(13, 6);
     act(() => button(shape).props.onPress());
-    act(() => regions()[5].props.onPress());
+    act(() => regions()[11].props.onPress());
     expect(selected()).toHaveLength(1);
-    expect(pieces()[5].props.accessibilityState.checked).toBe(true);
-    expect(regions()[5].props.fill).toBe(COLORS.primaryDark);
-    act(() => pieces()[5].props.onPress());
+    expect(pieces()[11].props.accessibilityState.checked).toBe(true);
+    expect(regions()[11].props.fill).toBe(COLORS.primaryDark);
+    act(() => pieces()[11].props.onPress());
     expect(selected()).toHaveLength(0);
-    expect(regions()[5].props.fill).toBe(COLORS.surface);
+    expect(regions()[11].props.fill).toBe(COLORS.surface);
   },
 );
 
@@ -250,7 +251,7 @@ it('exposes named checkboxes that grow with text, focus feedback and Space activ
   expect(first.props.accessibilityLabel).toBe('Phần 1 trong 3 phần bằng nhau của hình nguyên 1');
   const before = StyleSheet.flatten(first.props.style({ pressed: false }));
   expect(before.minWidth).toBe(48);
-  expect(before.minHeight).toBe(48);
+  expect(before.minHeight).toBeGreaterThanOrEqual(48);
   expect(before.width).toBeUndefined();
   expect(before.height).toBeUndefined();
   expect(first.findAllByType('Text' as any).every(node => node.props.allowFontScaling !== false)).toBe(true);

@@ -58,6 +58,11 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: source })}`);
+  const problemText = page.locator('#confirmed-problem-body').getByText('Vườn', { exact: true });
+  await expect(problemText).toHaveCSS('font-family', /NunitoBold/);
+  await expect(problemText).toHaveCSS('font-size', '16px');
+  await expect(page.getByText(/^Em kiểm tra lời văn, các số và đơn vị/)).toHaveCSS('font-family', /NunitoRegular/);
+  await expect(page.getByText(/^Em kiểm tra lời văn, các số và đơn vị/)).toHaveCSS('font-size', '14px');
   await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
   await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
   await page.getByRole('button', { name: asked, exact: true }).click();
@@ -121,6 +126,33 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   }
   await expect(page.getByRole('button', { name: 'Gợi ý sau', exact: true })).toHaveCount(0);
   await testInfo.attach('orchard-progressive-hint', { body: await page.screenshot({ path: testInfo.outputPath('orchard-progressive-hint.png') }), contentType: 'image/png' });
+  await page.getByRole('button', { name: 'Em muốn hiểu gợi ý rõ hơn', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Cùng hiểu gợi ý', exact: true })).toBeVisible();
+  const figures = page.getByTestId('given-fraction-visuals');
+  const part = figures.getByRole('checkbox', { name: 'Phần 1 trong 3 phần bằng nhau của hình nguyên 1', exact: true });
+  await expect(figures.getByText('Tô màu 1 phần', { exact: true })).toBeVisible();
+  await expect(part).toBeInViewport();
+  await expect(figures.getByRole('checkbox')).toHaveCount(3);
+  await part.focus();
+  await part.press('Space');
+  await expect(part).toBeChecked();
+  await page.screenshot({ path: testInfo.outputPath('orchard-fraction-explorer.png') });
+  await figures.getByRole('button', { name: 'Kiểm tra phần em chọn' }).click();
+  await expect(figures.getByText(/Đúng rồi, số phần em chọn/)).toBeVisible();
+  await figures.getByRole('button', { name: 'Xem phân số 2 phần 5', exact: true }).click();
+  await expect(figures.getByRole('checkbox')).toHaveCount(5);
+  await expect(figures.getByRole('checkbox', { checked: true })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Xem hai phân số cùng mẫu', exact: true }).click();
+  await expect(page.getByLabel('2 phần 5 bằng 6 phần 15', { exact: true })).toBeVisible();
+  await expect(page.getByLabel(/4 phần 15/)).toHaveCount(0);
+  await page.getByRole('button', { name: 'Thu gọn hình phân số', exact: true }).click();
+  await expect(figures).toHaveCount(0);
+  await page.getByRole('button', { name: 'Nhìn phân số trong đề', exact: true }).click();
+  await expect(figures.getByRole('checkbox')).toHaveCount(3);
+  await page.keyboard.press('Escape');
+  await expect(figures).toHaveCount(0);
+  await expect(page.getByRole('textbox', { name: 'Tử số câu trả lời', exact: true })).toHaveValue('1');
+  await expect(page.getByRole('textbox', { name: 'Mẫu số câu trả lời', exact: true })).toHaveValue('2');
   await page.getByRole('button', { name: 'Thu gọn gợi ý', exact: true }).click();
   const numerator = page.getByRole('textbox', { name: 'Tử số câu trả lời', exact: true });
   const denominator = page.getByRole('textbox', { name: 'Mẫu số câu trả lời', exact: true });
@@ -161,6 +193,127 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   await check.click();
   await page.getByRole('button', { name: 'Xem bài giải', exact: true }).click();
   await expect(page.getByText('Đáp số: 60 cây.', { exact: true })).toBeVisible();
+});
+
+test('centers a short hint, constrains long hints and preserves the other lesson sheets', async ({ page, app }, testInfo) => {
+  test.setTimeout(90000);
+  app.realStudent = true;
+  lessonFixtures(app);
+  const cases = [
+    { name: 'fraction', problem: 'Tính 3/4 − 2/5', expression: '3/4 − 2/5', title: 'Tô màu 3 phần' },
+    { name: 'multiply', problem: 'Tính 5 × 6', expression: '5*6', title: 'Xếp thành các hàng' },
+    { name: 'divide', problem: 'Tính 12 ÷ 3', expression: '12 ÷ 3', title: 'Chia đều vào các nhóm' },
+    { name: 'text-only', problem: 'Tính 10 ÷ 3', expression: '10 ÷ 3' },
+  ];
+  async function captureCenter(name, screenshot = false) {
+    const safe = page.getByTestId('hint-sheet-safe-viewport');
+    const panel = page.getByTestId('hint-sheet-panel');
+    const viewport = await safe.boundingBox();
+    const box = await panel.boundingBox();
+    expect(viewport).toBeTruthy();
+    expect(box).toBeTruthy();
+    const top = box.y - viewport.y;
+    const bottom = viewport.y + viewport.height - box.y - box.height;
+    expect(Math.abs(top - bottom)).toBeLessThanOrEqual(2);
+    expect(Math.abs(box.x + box.width / 2 - viewport.x - viewport.width / 2)).toBeLessThanOrEqual(2);
+    expect(Math.min(top, bottom)).toBeGreaterThanOrEqual(-1);
+    const metrics = { name, safeTop: viewport.y, safeBottom: viewport.y + viewport.height, modalTop: box.y,
+      modalBottom: box.y + box.height, topGap: top, bottomGap: bottom, delta: Math.abs(top - bottom) };
+    await testInfo.attach(name + '-geometry', { body: JSON.stringify(metrics), contentType: 'application/json' });
+    if (screenshot) {
+      await page.evaluate(({ safeTop, safeBottom, modalTop, modalBottom, topGap, bottomGap }) => {
+        const overlay = document.createElement('div');
+        overlay.id = 'hint-measurement-overlay';
+        overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483647;pointer-events:none';
+        const guides = [
+          [safeTop, 'safe top', '#157457'], [safeBottom - 1, 'safe bottom', '#157457'],
+          [modalTop, 'modal top · ' + topGap.toFixed(1) + ' px', '#6534bc'],
+          [modalBottom - 1, 'modal bottom · ' + bottomGap.toFixed(1) + ' px', '#6534bc'],
+        ];
+        guides.forEach(([y, name, color], index) => {
+          const line = document.createElement('div');
+          line.style.cssText = 'position:absolute;left:0;right:0;top:' + y + 'px;border-top:1px dashed ' + color;
+          const label = document.createElement('span');
+          label.style.cssText = 'position:absolute;right:' + (index < 2 ? '0' : '98px') + ';' +
+            (index % 2 === 0 ? 'top:0' : 'bottom:0') + ';font:11px monospace;background:white;color:' + color;
+          label.textContent = name;
+          line.append(label);
+          overlay.append(line);
+        });
+        document.body.append(overlay);
+      }, metrics);
+      await page.screenshot({ path: testInfo.outputPath(name + '.png') });
+      await page.locator('#hint-measurement-overlay').evaluate(node => node.remove());
+    }
+    return box;
+  }
+  await page.setViewportSize({ width: 390, height: 884 });
+  await login(page, 'STUDENT');
+  for (const entry of cases) {
+    let hintLevel = 0;
+    const step = { ...firstStep, answerFormat: 'INTEGER', title: 'Tính kết quả', expression: '' };
+    const lesson = { sessionId: 'lesson-center-' + entry.name + '-00001', revision: 0, topic: 'Tính toán',
+      goal: 'Tính từng bước.', outline: [step.title], stepIndex: 0, completed: [], step,
+      status: 'READY', hintCount: 2, hintLevel: 0, revealedHints: [], feedback: '' };
+    app.responses.set('POST /student/tutor/lesson', ({ json }) => json(lesson));
+    app.responses.set('POST /student/tutor/lesson/answer', ({ json }) => {
+      const hints = ['Em tìm cách làm trước.', 'Dựa vào dữ kiện để tự tính.'];
+      return json({ ...lesson, hintLevel: ++hintLevel, status: 'HINT',
+        step: hintLevel === 2 ? { ...step, expression: entry.expression } : step,
+        revealedHints: hints.slice(0, hintLevel), feedback: hints[hintLevel - 1] });
+    });
+    await page.goto(sites.portal.origin + '/study/learning/math-guide?' + new URLSearchParams({ problemText: entry.problem }));
+    await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
+    await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
+    await page.getByRole('button', { name: 'Gợi ý cách làm bước này', exact: true }).click();
+    await page.getByRole('button', { name: 'Gợi ý sau', exact: true }).click();
+    await page.getByRole('button', { name: 'Em muốn hiểu gợi ý rõ hơn', exact: true }).click();
+    if (entry.title) await expect(page.getByText(entry.title, { exact: true })).toBeVisible();
+    const expanded = await captureCenter(entry.name + '-390', true);
+    if (entry.title) {
+      await page.getByRole('button', { name: /Thu gọn hình/ }).click();
+      const collapsed = await captureCenter(entry.name + '-collapsed', true);
+      expect(collapsed.height).toBeLessThan(expanded.height);
+      await page.getByRole('button', { name: /Nhìn phân số trong đề|Xem hình minh họa/ }).click();
+    } else {
+      expect(expanded.height).toBeLessThan(500);
+      const cta = await page.getByRole('button', { name: 'Em đã hiểu, để em thử' }).boundingBox();
+      expect(expanded.y + expanded.height - cta.y - cta.height).toBeLessThan(28);
+    }
+    if (entry.name === 'multiply') {
+      const add = page.getByRole('button', { name: 'Thêm một hàng' });
+      for (let i = 0; i < 5; i++) await add.click();
+      await expect(add).toBeDisabled();
+      await page.getByRole('button', { name: 'Kiểm tra cách xếp' }).click();
+      await expect(page.getByText(/Đúng số hàng rồi/)).toBeVisible();
+      await captureCenter('multiply-completed', true);
+    }
+    if (entry.name === 'divide') {
+      await expect(page.getByText('Còn 12 chấm chưa chia')).toBeVisible();
+      await page.getByRole('button', { name: 'Nhóm 1, có 0 chấm' }).click();
+      await expect(page.getByText('Còn 11 chấm chưa chia')).toBeVisible();
+      await page.getByRole('button', { name: 'Bỏ lượt cuối' }).click();
+      await expect(page.getByText('Còn 12 chấm chưa chia')).toBeVisible();
+    }
+    if (entry.name === 'fraction') {
+      for (const width of [320, 360, 412]) {
+        await page.setViewportSize({ width, height: 540 });
+        await captureCenter('fraction-' + width, true);
+      }
+      await page.setViewportSize({ width: 320, height: 380 });
+      await captureCenter('fraction-reduced-viewport', true);
+      await expect(page.getByRole('button', { name: 'Đóng Cùng hiểu gợi ý' })).toBeInViewport();
+      await page.setViewportSize({ width: 390, height: 884 });
+    }
+    await page.keyboard.press('Escape');
+    await expect(page.getByTestId('hint-sheet-panel')).toHaveCount(0);
+  }
+  for (const [button, title] of [['Nghe giảng', 'Nghe giảng'], ['Hỏi bài', 'Hỏi bài'], ['Xem thêm', 'Em cần gì thêm?']]) {
+    await page.getByRole('button', { name: button, exact: true }).click();
+    await expect(page.getByRole('heading', { name: title, exact: true })).toBeVisible();
+    await expect(page.getByTestId('hint-sheet-panel')).toHaveCount(0);
+    await page.getByRole('button', { name: 'Đóng ' + title, exact: true }).click();
+  }
 });
 
 function lessonFixtures(app) {
