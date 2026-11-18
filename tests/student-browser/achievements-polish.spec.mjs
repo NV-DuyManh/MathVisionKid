@@ -60,6 +60,7 @@ test('rejects a wrong-grade board and opens the private self row beyond the firs
   await page.route('**/api/v1/student/leaderboard*', route => route.fulfill({ json: { gradeLevel, ownPosition: 12, entries } }));
   await page.setViewportSize({ width: 390, height: 900 });
   await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/achievements`);
   await expect(page.getByText('Bảng xếp hạng chưa đúng khối lớp', { exact: true })).toBeVisible();
   await expect(page.getByTestId('leaderboard-entry')).toHaveCount(0);
