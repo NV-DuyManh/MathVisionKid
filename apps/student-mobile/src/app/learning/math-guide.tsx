@@ -757,6 +757,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
             setWorkConfirmed(true); setUncertainWork(false); setSaved(false);
             requestAnimationFrame(() => scroll.current?.scrollTo({ y: 0, animated: false }));
           }} /></View> : null}
+        {problem && work && reviewStarted && !lesson && !editing && !division && !invalidPhoto ?
+          <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} loadingTitle="Đang lưu bài…" variant="secondary" disabled={saved || saving} loading={saving} onPress={() => void archive()} /> : null}
 
         {lesson && !editing ? <>
           <View style={styles.progressRow}><View style={styles.rail} accessible accessibilityRole="progressbar" accessibilityLabel="Tiến trình bài học"
