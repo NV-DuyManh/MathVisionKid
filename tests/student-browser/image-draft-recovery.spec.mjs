@@ -388,7 +388,7 @@ test('Reloaded crop continues through photo reading and a correct Work Review re
   await start(page); await openCrop(page, { mode: 'MATH_TUTOR' });
   await page.reload();
   await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await expect(page.getByText('Em làm đúng rồi!', { exact: true })).toBeVisible();
   expect(app.requests.filter(request => request.path === '/student/tutor/inspect')).toHaveLength(1);
 });

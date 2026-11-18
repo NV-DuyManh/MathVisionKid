@@ -69,7 +69,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const [access, refresh] = await Promise.all([tokenStorage.getAccessToken(), tokenStorage.getRefreshToken()]);
         if (!active || current !== revision.current) return;
-        if (!access && !refresh) { if (!publicWelcome && !loginRoute) router.replace('/login'); return; }
+        if (!access && !refresh) {
+          if (!publicWelcome && !loginRoute) {
+            if (portal) window.location.replace('/login');
+            else router.replace('/login');
+          }
+          return;
+        }
         const { data } = await apiClient.get('/me', { signal: controller.signal, timeout: 15000 });
         if (!active || current !== revision.current) return;
         if (data.role !== 'STUDENT' || data.active !== true) {

@@ -35,7 +35,7 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
     await expect(page.getByText('Em đang ẩn khỏi bảng xếp hạng. Thành tích vẫn được lưu trong tài khoản của em.', { exact: false })).toBeVisible();
     await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
     await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'Xem thành tích', exact: true }).click();
+    await page.goto(`${sites.portal.origin}/study/achievements`);
     await expect(page.getByRole('heading', { name: 'Em đang ẩn khỏi bảng xếp hạng', exact: true })).toBeVisible();
     await expect(page.getByText('Em chưa tham gia bảng xếp hạng', { exact: true })).toBeVisible();
     // Expo retains the previous, aria-hidden stack screen after opening a fresh tab route.

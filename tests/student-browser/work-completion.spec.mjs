@@ -32,7 +32,7 @@ function reviews(app, { unknown = false, multiple = false } = {}) {
 
 async function openReview(page, work = partial, question = problem) {
   await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: question, workText: work })}`);
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
 }
 
 test('Incomplete work names the unmet quantity, saves and reopens the source, then clears feedback after completion', async ({ page, app }, testInfo) => {
@@ -51,7 +51,7 @@ test('Incomplete work names the unmet quantity, saves and reopens the source, th
   await expect(page.getByRole('button', { name: 'Đã lưu bài của em', exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/profile`);
   await page.getByRole('button', { name: 'Học tiếp: ' + problem.slice(0, 60), exact: true }).click();
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await expect(page.getByText(description, { exact: true })).toBeVisible();
   const opened = app.requests.filter(request => request.path === '/student/tutor/work-review');
   expect(opened).toHaveLength(2);
@@ -61,7 +61,7 @@ test('Incomplete work names the unmet quantity, saves and reopens the source, th
   await page.getByRole('button', { name: 'Chỉnh chỗ chưa đọc đúng', exact: true }).click();
   await page.getByRole('textbox', { name: 'Nội dung bài làm', exact: true }).fill(finished);
   await page.getByRole('button', { name: 'Dùng nội dung này', exact: true }).click();
-  await page.getByRole('button', { name: 'Bài đã có lời giải', exact: true }).click();
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await expect(page.getByText('Em làm đúng rồi!', { exact: true })).toBeVisible();
   await expect(page.getByText(description, { exact: true })).toHaveCount(0);
   const completedImage = testInfo.outputPath('completed-work.png');

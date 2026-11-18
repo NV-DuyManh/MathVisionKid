@@ -300,8 +300,8 @@ test('student web session validates the backend, rejects cached authority, and s
       dom.reconfigure({ url: 'https://mathvision.example/study/lessons' });
       routeReplacements.length = 0;
       await mount();
-      assert.equal(routeReplacements.at(-1), '/login');
-      assert.equal(redirects.length, 0);
+      assert.equal(redirects.at(-1), '/login');
+      assert.equal(routeReplacements.length, 0);
       assert.equal(dom.window.document.body.textContent.includes('Login form'), false);
       await unmount();
       dom.reconfigure({ url: 'https://mathvision.example/login' });

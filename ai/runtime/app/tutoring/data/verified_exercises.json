@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "validationPolicy": "1a10eb7a4a854638a0339b480fed6443b4e8ab81e291ba9b3f0470302a834126",
+  "validationPolicy": "50a6d1aa77668763fff42fc7e061b68e94c9a660f8c87bff78e7fa4800c3bf8e",
   "entries": [
     {
       "id": "owner-reviewed-exams-20261107-001",
@@ -25,6 +25,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
               "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
@@ -64,6 +65,7 @@
             ],
             "fractionNotation": true,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
               "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
@@ -103,6 +105,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần km và phần m sang km. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -142,6 +145,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
               "Từ m² sang ha, em chia với 10000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị ha."
@@ -181,6 +185,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần m² và phần dm² sang m². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -220,6 +225,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
               "Từ ha sang km², em chia với 100. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị km²."
@@ -259,6 +265,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Phần diện tích còn lại là:",
+            "intro": "",
             "guidance": [
               "Coi toàn bộ mảnh đất là một. Phần còn lại ghép với các phần đã dùng vừa đủ toàn bộ.",
               "Viết một thành phân số cùng mẫu thích hợp rồi trừ các phần đã dùng. Phân số kết quả chưa phải diện tích."
@@ -284,6 +291,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Tổng diện tích theo mét vuông là:",
+            "intro": "",
             "guidance": [
               "Đề cho diện tích bằng héc-ta nhưng yêu cầu kết quả bằng mét vuông, nên cần đổi về cùng đơn vị.",
               "Một héc-ta bằng mười nghìn mét vuông. Nhân tổng diện tích với hệ số này; lượng đất không thay đổi."
@@ -309,6 +317,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Diện tích làm hồ điều hòa và khu vui chơi là:",
+            "intro": "",
             "guidance": [
               "Phân số đã tìm chỉ phần còn lại của toàn bộ đất. Nhân diện tích toàn bộ với phân số này để lấy đúng phần cần hỏi.",
               "Lấy tổng diện tích đã đổi nhân phân số còn lại. Giữ chính xác phân số khi tính và ghi đơn vị mét vuông."
@@ -350,6 +359,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Phép cộng gộp hai số lại để tìm kết quả có tất cả.",
               "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
@@ -389,6 +399,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Phép cộng gộp hai số lại để tìm kết quả có tất cả.",
               "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
@@ -428,6 +439,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Phép trừ tìm phần còn lại khi bớt đi một lượng.",
               "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
@@ -467,6 +479,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Phép trừ tìm phần còn lại khi bớt đi một lượng.",
               "Đặt hai dấu phẩy thẳng cột để các chữ số cùng hàng nằm trên nhau. Tính từng cột như với số tự nhiên rồi giữ dấu phẩy đúng cột."
@@ -506,6 +519,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Chiều rộng nền nhà là:",
+            "intro": "",
             "guidance": [
               "Chiều rộng bằng phân số đã cho của chiều dài.",
               "Lấy chiều dài nhân phân số chỉ chiều rộng."
@@ -531,6 +545,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Diện tích nền nhà là:",
+            "intro": "",
             "guidance": [
               "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
               "Nhân chiều dài với chiều rộng vừa tìm."
@@ -556,6 +571,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Diện tích một viên gạch là:",
+            "intro": "",
             "guidance": [
               "Viên gạch hình vuông có diện tích bằng cạnh nhân với cạnh.",
               "Cạnh dùng đề xi mét nên diện tích viên gạch dùng đề xi mét vuông."
@@ -581,6 +597,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Số viên gạch cần mua là:",
+            "intro": "",
             "guidance": [
               "Nền nhà được phủ kín bởi các viên gạch như nhau. Cần dùng cùng đơn vị diện tích để chia.",
               "Đổi diện tích nền từ mét vuông sang đề xi mét vuông, rồi chia cho diện tích một viên."
@@ -606,6 +623,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Số tiền cần trả là:",
+            "intro": "",
             "guidance": [
               "Giá trong đề ứng với một nhóm diện tích, không phải một viên gạch.",
               "Dùng diện tích nền theo mét vuông chia cho diện tích một nhóm rồi nhân giá của nhóm."
@@ -654,6 +672,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Dấu bé hơn ở cả hai phía yêu cầu số cần tìm nằm hẳn giữa hai cận.",
               "Bắt đầu từ số tự nhiên đầu tiên lớn hơn cận dưới, đếm tiếp và dừng trước cận trên. Không lấy hai đầu mút."
@@ -693,6 +712,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
               "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
@@ -737,6 +757,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Xem mẫu số của từng phân số đúng như đề đã viết.",
               "Phân số thập phân có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười."
@@ -781,6 +802,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Chia tử số cho mẫu số để tìm phần nguyên và phần còn lại.",
               "Thương là phần nguyên, số dư là tử số của phần phân số; giữ mẫu số ban đầu."
@@ -825,6 +847,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Đọc phần nguyên, tiếng phẩy, rồi phần thập phân.",
               "Giữ đủ giá trị và vị trí của các chữ số ở phần thập phân."
@@ -869,6 +892,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Xác định hàng cần làm tròn rồi nhìn chữ số ngay bên phải hàng đó.",
               "Nếu chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn; nếu nhỏ hơn năm thì giữ nguyên."
@@ -913,6 +937,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Không so sánh riêng mặt chữ số khi các số đo có dạng hoặc đơn vị khác nhau.",
               "Đổi từng số đo sang ki-lô-gam. Cộng các phần của số đo ghép rồi đối chiếu các giá trị cùng đơn vị."
@@ -957,6 +982,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Hai mảnh đất có tổng và hiệu đã biết. Bớt phần chênh lệch khỏi tổng thì còn hai phần bằng nhau, mỗi phần bằng diện tích mảnh nhỏ.",
               "Đổi tổng diện tích về mét vuông, trừ hiệu rồi chia đôi. Đối chiếu với từng lựa chọn cùng đơn vị."
@@ -1001,6 +1027,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
               "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
@@ -1045,6 +1072,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
               "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
@@ -1089,6 +1117,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
               "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
@@ -1133,6 +1162,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Mỗi cụm trong đề cho số đơn vị thuộc một hàng cụ thể, cần giữ đúng vị trí của chúng.",
               "Viết phần nguyên rồi đặt từng phần mười, phần trăm, phần nghìn vào đúng hàng. Giữ số không ở những hàng còn trống."
@@ -1177,6 +1207,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
               "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
@@ -1221,6 +1252,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Thêm hoặc bỏ chữ số không ở tận cùng bên phải phần thập phân không đổi giá trị của số.",
               "Đối chiếu phần nguyên và từng hàng của phần thập phân. Chữ số không ở hàng khác vẫn có thể làm thay đổi giá trị."
@@ -1265,6 +1297,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Hỗn số bằng phần nguyên cộng với phần phân số.",
               "Mẫu số cho biết cần bao nhiêu hàng thập phân. Giữ các số không chỉ vị trí nếu có."
@@ -1309,6 +1342,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "So sánh từng hàng để xếp các số theo đúng chiều mà đề yêu cầu.",
               "So phần nguyên trước. Nếu phần nguyên bằng nhau, so lần lượt phần mười, phần trăm, phần nghìn."
@@ -1353,6 +1387,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Xác định hàng cần làm tròn rồi nhìn chữ số ngay bên phải hàng đó.",
               "Nếu chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn; nếu nhỏ hơn năm thì giữ nguyên."
@@ -1397,6 +1432,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Giá trị của chữ số phụ thuộc vào hàng mà nó đứng.",
               "Xác định vị trí so với dấu phẩy: phần mười, phần trăm, phần nghìn; không chỉ nhìn mặt chữ số."
@@ -1441,6 +1477,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Số bé hơn một phải có phần nguyên bằng không.",
               "Giữ thẻ không ở phần nguyên. Hoán đổi ba thẻ còn lại ở phần thập phân, mỗi thẻ dùng một lần."
@@ -1480,6 +1517,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần m và phần cm sang m. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -1519,6 +1557,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần tấn và phần kg sang tấn. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -1558,6 +1597,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần m² và phần dm² sang m². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -1597,6 +1637,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
               "Từ ml sang l, em chia với 1000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị l."
@@ -1641,6 +1682,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Mỗi hình nguyên gồm các phần bằng nhau. Gộp những hình tô đủ và phần tô chưa đủ để biểu diễn một lượng.",
               "Đếm số hình tô đủ làm phần nguyên; phần còn lại có tử là số phần tô và mẫu là số phần bằng nhau trong một hình."
@@ -1685,6 +1727,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Giữ phần nguyên và biểu diễn phần thập phân bằng phân số thập phân.",
               "Đếm số hàng sau dấu phẩy để xác định mẫu số. Tử số là phần chữ số sau dấu phẩy."
@@ -1729,6 +1772,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Giá trị của chữ số phụ thuộc vào hàng mà nó đứng.",
               "Xác định vị trí so với dấu phẩy: phần mười, phần trăm, phần nghìn; không chỉ nhìn mặt chữ số."
@@ -1773,6 +1817,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Các nhãn dùng lít và mi li lít, nên phải đổi về cùng đơn vị trước khi so sánh.",
               "Đổi mỗi lượng nước về mi li lít, giữ chính xác phần phân số rồi tìm ca có giá trị nhỏ nhất."
@@ -1817,6 +1862,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần km² và phần ha sang km². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -1856,6 +1902,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Diện tích nền nhà là:",
+            "intro": "",
             "guidance": [
               "Muốn tính tiền lát sàn, trước hết cần biết diện tích hình chữ nhật.",
               "Nhân chiều dài với chiều rộng, cùng dùng đơn vị mét."
@@ -1881,6 +1928,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Số tiền cần trả là:",
+            "intro": "",
             "guidance": [
               "Đơn giá trong đề áp dụng cho một nhóm diện tích, gồm cả vật liệu và tiền công.",
               "Chia diện tích nền cho diện tích của một nhóm, rồi nhân với giá một nhóm."
@@ -1911,6 +1959,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Đối chiếu số tiền vừa tính với các phương án.",
               "Giữ đúng đơn vị đồng khi so sánh."
@@ -1952,6 +2001,7 @@
             ],
             "fractionNotation": true,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
               "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
@@ -1991,6 +2041,7 @@
             ],
             "fractionNotation": true,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
               "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
@@ -2030,6 +2081,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần kg và phần g sang kg. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -2069,6 +2121,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần dm² và phần cm² sang dm². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -2108,6 +2161,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần ha và phần m² sang ha. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -2147,6 +2201,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
               "Từ ha sang km², em chia với 100. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị km²."
@@ -2191,6 +2246,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
               "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
@@ -2235,6 +2291,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Hỗn số bằng phần nguyên cộng với phần phân số.",
               "Mẫu số cho biết cần bao nhiêu hàng thập phân. Giữ các số không chỉ vị trí nếu có."
@@ -2279,6 +2336,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "So sánh phần nguyên trước, rồi từng hàng thập phân từ trái sang phải.",
               "Có thể thêm số không vào cuối phần thập phân để các số có cùng số hàng."
@@ -2323,6 +2381,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần l và phần ml sang l. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -2367,6 +2426,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Hai số đo phải cùng đơn vị thì mới so sánh được.",
               "Đổi các phần của mỗi số đo về đơn vị bên phải, cộng lại nếu cần rồi chọn dấu so sánh."
@@ -2406,6 +2466,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Chiều rộng khu đất là:",
+            "intro": "",
             "guidance": [
               "Chiều rộng là một phần của chiều dài. Chia chiều dài theo mẫu số rồi lấy số phần mà tử số chỉ.",
               "Lấy chiều dài nhân phân số đã cho. Hai kích thước đều phải dùng đơn vị mét."
@@ -2431,6 +2492,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Diện tích khu đất theo mét vuông là:",
+            "intro": "",
             "guidance": [
               "Hình chữ nhật gồm các hàng có cùng chiều rộng. Diện tích bằng chiều dài nhân chiều rộng vừa tìm.",
               "Lấy chiều dài nhân kết quả bước trước. Hai độ dài dùng mét nên diện tích dùng mét vuông."
@@ -2456,6 +2518,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Diện tích khu đất theo héc-ta là:",
+            "intro": "",
             "guidance": [
               "Đề hỏi diện tích bằng héc-ta, còn bước trước tính bằng mét vuông. Cần đổi cách biểu diễn cùng một diện tích.",
               "Mỗi héc-ta bằng mười nghìn mét vuông. Chia diện tích vừa tìm cho mười nghìn rồi ghi đúng đơn vị."
@@ -2486,6 +2549,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Đối chiếu diện tích đã tính theo héc-ta với các phương án của đề.",
               "Giữ cùng đơn vị héc-ta khi đối chiếu kết quả."
@@ -2533,6 +2597,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
               "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
@@ -2563,6 +2628,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
               "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
@@ -2593,6 +2659,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Phân số thập phân cần có mẫu là mười, một trăm, một nghìn hoặc lũy thừa tiếp theo của mười.",
               "Nhân cả tử và mẫu với cùng một số để được mẫu thích hợp. Viết số thập phân theo mẫu mới; giữ số không chỉ vị trí. Chọn cặp phân số và số thập phân cho cùng dòng."
@@ -2639,6 +2706,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "So sánh phần nguyên trước rồi so từng hàng thập phân từ trái sang phải.",
               "Giữ đủ các số của đề, xếp theo đúng chiều được hỏi rồi kiểm tra từng cặp cạnh nhau."
@@ -2683,6 +2751,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Đề chỉ rõ hàng cần làm tròn. Chữ số ngay bên phải quyết định giữ hay tăng hàng đó.",
               "Từ năm trở lên thì tăng hàng cần làm tròn; nhỏ hơn năm thì giữ nguyên, bỏ các hàng ở sau."
@@ -2722,6 +2791,7 @@
             ],
             "fractionNotation": true,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
               "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
@@ -2761,6 +2831,7 @@
             ],
             "fractionNotation": true,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
               "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
@@ -2800,6 +2871,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần l và phần ml sang l. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -2839,6 +2911,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần cm² và phần mm² sang cm². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -2878,6 +2951,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Cần biểu diễn cùng một lượng bằng đơn vị ở bên phải, không thay đổi lượng ban đầu.",
               "Từ mm² sang dm², em chia với 10000. Đây là hệ số đổi giữa hai đơn vị; kết quả dùng đơn vị dm²."
@@ -2917,6 +2991,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần km² và phần ha sang km². Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -2956,6 +3031,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Phần diện tích còn lại là:",
+            "intro": "",
             "guidance": [
               "Coi toàn bộ mảnh đất là một. Phần còn lại ghép với các phần đã dùng vừa đủ toàn bộ.",
               "Viết một thành phân số cùng mẫu thích hợp rồi trừ các phần đã dùng. Phân số kết quả chưa phải diện tích."
@@ -2981,6 +3057,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Tổng diện tích theo mét vuông là:",
+            "intro": "",
             "guidance": [
               "Đề cho diện tích bằng héc-ta nhưng yêu cầu kết quả bằng mét vuông, nên cần đổi về cùng đơn vị.",
               "Một héc-ta bằng mười nghìn mét vuông. Nhân tổng diện tích với hệ số này; lượng đất không thay đổi."
@@ -3006,6 +3083,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Diện tích xây nhà là:",
+            "intro": "",
             "guidance": [
               "Phân số đã tìm chỉ phần còn lại của toàn bộ đất. Nhân diện tích toàn bộ với phân số này để lấy đúng phần cần hỏi.",
               "Lấy tổng diện tích đã đổi nhân phân số còn lại. Giữ chính xác phân số khi tính và ghi đơn vị mét vuông."
@@ -3052,6 +3130,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Cùng một lượng có giá trị số khác nhau khi biểu diễn bằng các đơn vị khác nhau.",
               "Đổi hai phần số đo về từng đơn vị phù hợp rồi cộng lại. Chọn đơn vị cho đúng giá trị số đã in ở vế phải."
@@ -3091,6 +3170,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần tấn và phần kg sang tấn. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -3130,6 +3210,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Hai phần số đo cùng biểu diễn một lượng. Cần đổi từng phần về đơn vị ở vế phải rồi cộng lại.",
               "Đổi riêng phần ha và phần m² sang ha. Giữ đủ các hàng thập phân, không ghép các chữ số theo cảm tính."
@@ -3174,6 +3255,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Cùng một lượng có giá trị số khác nhau khi biểu diễn bằng các đơn vị khác nhau.",
               "Đổi hai phần số đo về từng đơn vị phù hợp rồi cộng lại. Chọn đơn vị cho đúng giá trị số đã in ở vế phải."
@@ -3213,6 +3295,7 @@
             ],
             "fractionNotation": true,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
               "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
@@ -3252,6 +3335,7 @@
             ],
             "fractionNotation": true,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
               "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
@@ -3291,6 +3375,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Chiều rộng mảnh ruộng là:",
+            "intro": "",
             "guidance": [
               "Chiều rộng bằng phân số đã cho của chiều dài.",
               "Lấy chiều dài nhân phân số chỉ chiều rộng."
@@ -3316,6 +3401,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Diện tích mảnh ruộng là:",
+            "intro": "",
             "guidance": [
               "Diện tích hình chữ nhật bằng tích của hai kích thước cùng đơn vị.",
               "Nhân chiều dài với chiều rộng vừa tìm."
@@ -3341,6 +3427,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Khối lượng sắn thu hoạch là:",
+            "intro": "",
             "guidance": [
               "Năng suất cho biết lượng sắn thu được trên một nhóm diện tích.",
               "Chia diện tích ruộng cho diện tích một nhóm rồi nhân lượng sắn của nhóm."
@@ -3366,6 +3453,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Khối lượng sắn tính theo tạ là:",
+            "intro": "",
             "guidance": [
               "Đề yêu cầu trả lời bằng tạ, còn bước trước tính theo ki lô gam.",
               "Một tạ bằng một trăm ki lô gam. Chia khối lượng vừa tính cho một trăm."
@@ -3408,6 +3496,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
               "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
@@ -3447,6 +3536,7 @@
             ],
             "fractionNotation": true,
             "solutionSentence": "Kết quả là:",
+            "intro": "",
             "guidance": [
               "Nhìn dấu phép tính và dấu ngoặc để chọn việc cần làm trước.",
               "Tính trong ngoặc trước, rồi nhân chia trước cộng trừ. Các phép tính cùng mức thực hiện từ trái sang phải."
@@ -3491,6 +3581,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Mỗi dữ kiện chỉ rõ số đơn vị ở một hàng.",
               "Đặt chữ số vào đúng hàng; hàng chưa có dữ kiện được giữ bằng số không, không ghép các số tùy ý."
@@ -3535,6 +3626,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Mỗi hình nguyên gồm các phần bằng nhau. Gộp những hình tô đủ và phần tô chưa đủ để biểu diễn một lượng.",
               "Đếm số hình tô đủ làm phần nguyên; phần còn lại có tử là số phần tô và mẫu là số phần bằng nhau trong một hình."
@@ -3579,6 +3671,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Số cần chọn phải thỏa mãn cả hai dấu so sánh.",
               "So sánh mỗi lựa chọn với cận trên và cận dưới; chỉ giữ số tự nhiên nằm giữa cả hai."
@@ -3623,6 +3716,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "So sánh từng hàng để xếp các số theo đúng chiều mà đề yêu cầu.",
               "So phần nguyên trước. Nếu phần nguyên bằng nhau, so lần lượt phần mười, phần trăm, phần nghìn."
@@ -3667,6 +3761,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Số bé hơn một phải có phần nguyên bằng không.",
               "Giữ thẻ không ở phần nguyên. Hoán đổi ba thẻ còn lại ở phần thập phân, mỗi thẻ dùng một lần."
@@ -3709,6 +3804,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
               "Vế trái đổi được 7,06 cm², vế phải là 7,06 cm². Hai vế bằng nhau nên nhận định đúng.",
@@ -3752,6 +3848,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Xác định hàng cần làm tròn và chữ số ngay bên phải, rồi đối chiếu với số mà câu đã nêu.",
               "Chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn. Nếu nhỏ hơn năm thì giữ nguyên; không tăng theo cảm tính."
@@ -3794,6 +3891,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Cần đổi hai vế về cùng đơn vị trước khi xét xem chúng có biểu diễn cùng một lượng hay không.",
               "Vế trái đổi được 4,045 l, vế phải là 4,45 l. Hai vế khác nhau nên nhận định sai.",
@@ -3837,6 +3935,7 @@
             ],
             "fractionNotation": false,
             "solutionSentence": "",
+            "intro": "",
             "guidance": [
               "Xác định hàng cần làm tròn và chữ số ngay bên phải, rồi đối chiếu với số mà câu đã nêu.",
               "Chữ số bên phải từ năm trở lên thì tăng hàng cần làm tròn. Nếu nhỏ hơn năm thì giữ nguyên; không tăng theo cảm tính."
