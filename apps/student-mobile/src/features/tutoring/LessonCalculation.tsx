@@ -7,6 +7,9 @@ import { FONTS } from '../../constants/theme';
 /** Present the supplied operation only; answers remain checked by the tutor service. */
 export function LessonCalculation({ expression }: { expression: string }) {
   const column = /^(\d{1,6})\s*([+−-])\s*(\d{1,6})$/.exec(expression.trim());
+  const division = /^(\d+)\s*[÷:]\s*([1-9]\d*)$/u.exec(expression.trim());
+  const displayed = division ? `${division[1]}/${division[2]}`
+    : expression.replace(/(?<=[\d)])\s*\*\s*(?=[\d(])/gu, ' × ');
   return <View style={styles.paper} testID="lesson-calculation">
     <Svg width="100%" height="100%" style={StyleSheet.absoluteFill} accessible={Platform.OS === 'web' ? undefined : false} aria-hidden>
       <Defs><Pattern id="lesson-paper-grid" width="22" height="22" patternUnits="userSpaceOnUse"><Path d="M22 0H0V22" fill="none" stroke="#E8E0F4" strokeWidth="1" /></Pattern></Defs>
@@ -15,7 +18,9 @@ export function LessonCalculation({ expression }: { expression: string }) {
     {column ? <View style={styles.operation} accessible accessibilityLabel={expression + ' bằng bao nhiêu?'}>
       <Text style={styles.digits}>{column[1]}</Text><View style={styles.addend}><Text style={styles.sign}>{column[2]}</Text><Text style={styles.digits}>{column[3]}</Text></View>
       <View style={styles.rule} /><Text style={styles.question}>?</Text>
-    </View> : <MathText style={styles.math}>{expression + ' = ?'}</MathText>}
+    </View> : division ? <View accessible accessibilityLabel={`${division[1]} chia ${division[2]} bằng bao nhiêu?`}>
+      <MathText style={styles.math}>{displayed + ' = ?'}</MathText>
+    </View> : <MathText style={styles.math}>{displayed + ' = ?'}</MathText>}
   </View>;
 }
 const styles = StyleSheet.create({

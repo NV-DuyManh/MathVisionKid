@@ -17,3 +17,19 @@ it.each(['1/3 + 2/5', '-8 + 3', '(24 + 6) : 5'])('keeps non-column expressions i
   expect(view.root.findAll(node => node.props.accessibilityLabel === expression + ' bằng bao nhiêu?')).toHaveLength(0);
   act(() => view.unmount());
 });
+
+it.each(['12 ÷ 3', '12 : 3'])('stacks a simple division without showing its answer: %s', expression => {
+  let view!: TestRenderer.ReactTestRenderer;
+  act(() => { view = TestRenderer.create(<LessonCalculation expression={expression} />); });
+  expect(view.root.findAllByProps({ testID: 'stacked-fraction' }).length).toBeGreaterThan(0);
+  expect(view.root.findAllByProps({ accessibilityLabel: '12 chia 3 bằng bao nhiêu?' }).length).toBeGreaterThan(0);
+  act(() => view.unmount());
+});
+
+it('lays out a multiplication horizontally with the elementary-school symbol', () => {
+  let view!: TestRenderer.ReactTestRenderer;
+  act(() => { view = TestRenderer.create(<LessonCalculation expression="5*6" />); });
+  expect(view.root.findAllByProps({ testID: 'stacked-fraction' })).toHaveLength(0);
+  expect(view.root.findAllByType('Text' as any).map(node => node.props.children).join(' ')).toContain('5 × 6 = ?');
+  act(() => view.unmount());
+});
