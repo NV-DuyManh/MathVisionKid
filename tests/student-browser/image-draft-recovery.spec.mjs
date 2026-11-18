@@ -307,7 +307,7 @@ test('Logout removes image data and revisiting crop cannot display it', async ({
   await expect(page).toHaveURL(`${sites.portal.origin}/`);
   await expect.poll(async () => (await storage(page)).imageCount).toBe(0);
   await page.goto(`${sites.portal.origin}/study/crop`);
-  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
   await expect(page.getByLabel('Ảnh bài tập đang căn chỉnh')).toHaveCount(0);
 });
 

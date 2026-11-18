@@ -71,8 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (!active || current !== revision.current) return;
         if (!access && !refresh) {
           if (!publicWelcome && !loginRoute) {
-            if (portal) window.location.replace('/login');
-            else router.replace('/login');
+            router.replace('/login');
           }
           return;
         }
