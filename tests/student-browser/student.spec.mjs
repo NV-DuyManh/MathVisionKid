@@ -385,10 +385,11 @@ test('Avatar account page edits name beside the header, uploads through the avat
   await page.getByLabel('Mật khẩu hiện tại', { exact: true }).fill('CurrentPassword-123');
   await page.getByRole('button', { name: 'Cập nhật mật khẩu', exact: true }).click();
   await expect(page.getByText('Đã đổi mật khẩu. Các phiên đăng nhập khác đã kết thúc.', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Quay lại', exact: true }).click();
-  if (page.viewportSize().width >= 768) {
+  if (desktop) {
+    await workspaceAvatar.click();
     await expect(page).toHaveURL(`${sites.portal.origin}/study/profile`);
   } else {
+    await page.getByRole('button', { name: 'Quay lại', exact: true }).click();
     await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   }
 });
