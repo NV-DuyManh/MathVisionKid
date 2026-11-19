@@ -18,7 +18,7 @@ test('student web session validates the backend, rejects cached authority, and s
   const workspaceEnvironment = { EXPO_PUBLIC_TEACHER_URL: 'https://teacher.mathvision.example', EXPO_PUBLIC_ADMIN_URL: 'https://admin.mathvision.example' };
   const browser = {
     sessionStorage: dom.window.sessionStorage,
-    location: { get pathname() { return dom.window.location.pathname; }, replace: path => redirects.push(path) },
+    location: { get pathname() { return dom.window.location.pathname; }, get search() { return dom.window.location.search; }, replace: path => redirects.push(path) },
     addEventListener: (...args) => dom.window.addEventListener(...args),
     removeEventListener: (...args) => dom.window.removeEventListener(...args),
     performance: dom.window.performance,
@@ -49,9 +49,6 @@ test('student web session validates the backend, rejects cached authority, and s
   const photoOwners = [], photoListeners = new Set();
   let photoRecovery = { restoring: false, issue: 'none' }, recoveryGate;
   const publishRecovery = restoring => { photoRecovery = { restoring, issue: 'none' }; photoListeners.forEach(listener => listener()); };
-  const ssoRequests = [];
-  const ssoCode = 'mvk_sso_' + 'a'.repeat(64);
-  let createTicket = async target => ({ data: { targetApp: target, code: ssoCode, expiresIn: 60 } });
   const api = { defaults: { headers: { common: {} } }, get: path => {
     assert.equal(path, '/me');
     return getProfile();
@@ -71,23 +68,12 @@ test('student web session validates the backend, rejects cached authority, and s
       return () => { expireSession = null; };
     } } },
     '../services/api/apiClient': api,
-    axios: { get: async (url, config) => {
-      assert.equal(url, 'https://api.mathvision.example/api/v1/me');
-      assert.equal(config.headers.Authorization, 'Bearer login-access');
-      assert.equal(await tokenStorage.getAccessToken(), null);
-      return getProfile();
-    }, post: async (url, body, config) => {
-      if (url.endsWith('/auth/sso/ticket')) {
-        ssoRequests.push({ url, body, config });
-        assert.equal(await tokenStorage.getAccessToken(), null);
-        return createTicket(body.targetApp);
-      }
+    axios: { post: async (url, body, config) => {
       logoutCalls++;
       logoutRequests.push({ url, body, config });
       if (logoutError) throw logoutError;
     } },
     '../config/env': { ENV: { API_BASE_URL: 'https://api.mathvision.example/api/v1' } },
-    '../config/workspaceOrigin.web': { workspaceOrigin },
     '../features/recognition/api/RecognitionService': { RecognitionService: { clearCache() {} } },
     '../features/recognition/state/recognitionDraftStore': { recognitionDraftStore: { clearDraft: () => { clearDraftCalls++; } } },
     '../features/recognition/state/imageDraftPersistence': { imageDraftPersistence: {
@@ -254,19 +240,12 @@ test('student web session validates the backend, rejects cached authority, and s
       assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
       await unmount();
     });
-    await t.test('standalone /login renders without tokens and never reloads itself', async () => {
+    await t.test('standalone /login allows its portal redirect to mount without requesting a profile', async () => {
       dom.reconfigure({ url: 'https://mathvision.example/login' });
       redirects.length = 0;
       await tokenStorage.clearTokens();
       await mount();
       assert.equal(currentContext.isLoading, false);
-      assert.equal(dom.window.document.body.textContent, 'Login form');
-      assert.equal(redirects.length, 0);
-      getProfile = async () => ({ data: profile });
-      await act(async () => currentContext.login({ email: 'synthetic-student', password: 'test-only' }));
-      assert.equal(currentContext.user.role, 'STUDENT');
-      assert.equal(dom.window.document.body.textContent, 'Protected Bình Minh');
-      await act(async () => currentContext.logout());
       assert.equal(dom.window.document.body.textContent, 'Login form');
       assert.equal(redirects.length, 0);
       await unmount();
@@ -300,83 +279,24 @@ test('student web session validates the backend, rejects cached authority, and s
       dom.reconfigure({ url: 'https://mathvision.example/study/lessons' });
       routeReplacements.length = 0;
       await mount();
-      assert.equal(routeReplacements.at(-1), '/login');
+      assert.equal(routeReplacements.length, 0);
+      assert.deepEqual(redirects, ['/login']);
       assert.equal(dom.window.document.body.textContent.includes('Login form'), false);
       await unmount();
       dom.reconfigure({ url: 'https://mathvision.example/login' });
     });
-    await t.test('mounted /study/login stays public so the login handoff can render', async () => {
+    await t.test('mounted /study/login hands off to the portal without mounting a second form', async () => {
       await tokenStorage.clearTokens();
       getProfile = async () => { assert.fail('A signed-out login route never requests an authenticated profile'); };
-      dom.reconfigure({ url: 'https://mathvision.example/study/login' });
+      dom.reconfigure({ url: 'https://mathvision.example/study/login?session=expired' });
       redirects.length = 0;
       await mount();
       assert.equal(currentContext.isLoading, false);
       assert.equal(currentContext.isAuthenticated, false);
-      assert.equal(dom.window.document.body.textContent, 'Login form');
-      assert.equal(redirects.length, 0);
+      assert.equal(dom.window.document.body.textContent.includes('Login form'), false);
+      assert.deepEqual(redirects, ['/login?session=expired']);
       await unmount();
       dom.reconfigure({ url: 'https://mathvision.example/login' });
-    });
-    await t.test('Teacher and Admin use a verified one-time handoff without entering or persisting a Student session', async () => {
-      for (const role of ['TEACHER', 'ADMIN']) {
-        redirects.length = 0;
-        await tokenStorage.clearTokens();
-        getProfile = async () => ({ data: { ...profile, role } });
-        await mount();
-        await act(async () => currentContext.login({ email: 'synthetic-workspace', password: 'test-only' }));
-        assert.equal(currentContext.user, null);
-        assert.equal(currentContext.isAuthenticated, false);
-        assert.equal(await tokenStorage.getAccessToken(), null);
-        assert.equal(await tokenStorage.getRefreshToken(), null);
-        assert.equal(await tokenStorage.getUser(), null);
-        assert.equal(redirects.at(-1), `https://${role.toLowerCase()}.mathvision.example/auth/continue#sso=${ssoCode}`);
-        assert.equal(ssoRequests.at(-1).body.targetApp, role);
-        assert.equal(ssoRequests.at(-1).config.headers.Authorization, 'Bearer login-access');
-        assert.equal(redirects.at(-1).includes('login-access'), false);
-        await unmount();
-      }
-    });
-    await t.test('inactive authority, a mismatched SSO ticket and SSO failure never grant access', async () => {
-      for (const scenario of ['inactive', 'mismatched', 'offline']) {
-        redirects.length = 0;
-        await tokenStorage.clearTokens();
-        getProfile = async () => ({ data: { ...profile, role: 'TEACHER', active: scenario !== 'inactive' } });
-        createTicket = async () => {
-          if (scenario === 'offline') throw new Error('offline');
-          return { data: { targetApp: 'ADMIN', code: ssoCode, expiresIn: 60 } };
-        };
-        await mount();
-        await act(async () => { await assert.rejects(currentContext.login({ email: 'synthetic', password: 'test-only' })); });
-        assert.equal(redirects.length, 0);
-        assert.equal(currentContext.user, null);
-        assert.equal(await tokenStorage.getAccessToken(), null);
-        await unmount();
-      }
-    });
-    await t.test('an obsolete Teacher handoff cannot redirect after a newer Student login', async () => {
-      redirects.length = 0;
-      await tokenStorage.clearTokens();
-      let resolveTicket;
-      createTicket = () => new Promise(resolve => { resolveTicket = resolve; });
-      getProfile = async () => ({ data: { ...profile, role: 'TEACHER' } });
-      await mount();
-      let oldLogin;
-      await act(async () => {
-        oldLogin = currentContext.login({ email: 'old-workspace', password: 'test-only' }).catch(error => error);
-        await new Promise(resolve => setTimeout(resolve, 0));
-      });
-      assert.equal(typeof resolveTicket, 'function');
-      getProfile = async () => ({ data: profile });
-      await act(async () => currentContext.login({ email: 'new-student', password: 'test-only' }));
-      await act(async () => {
-        resolveTicket({ data: { targetApp: 'TEACHER', code: ssoCode, expiresIn: 60 } });
-        await oldLogin;
-      });
-      assert.equal(redirects.length, 0);
-      assert.equal(currentContext.user.role, 'STUDENT');
-      assert.equal(await tokenStorage.getAccessToken(), 'login-access');
-      await unmount();
     });
     await t.test('production workspace configuration rejects missing, insecure or injected redirect destinations', () => {
       const valid = workspaceEnvironment.EXPO_PUBLIC_TEACHER_URL;

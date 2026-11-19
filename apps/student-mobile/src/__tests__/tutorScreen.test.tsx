@@ -12,6 +12,7 @@ import { LessonListening } from '../features/tutoring/LessonListening';
 import { LessonQuestion } from '../features/tutoring/LessonQuestion';
 import { ProblemSummary } from '../features/tutoring/ProblemSummary';
 import { LessonCalculation } from '../features/tutoring/LessonCalculation';
+import { saveNarrationVoice } from '../features/tutoring/narrationVoices';
 import { prepareLessonMedia } from '../features/tutoring/narrationApi';
 import { quizApi } from '../features/quiz/quizApi';
 
@@ -39,8 +40,10 @@ jest.mock('../features/tutoring/narrationApi', () => ({
   readNarrationProgress: jest.fn().mockRejectedValue(new Error('Speech progress is mocked in screen tests')),
 }));
 
+const mockNavigation = { addListener: () => () => {} };
 jest.mock('expo-router', () => ({
   useRouter: jest.fn(), useLocalSearchParams: jest.fn(),
+  useNavigation: () => mockNavigation,
   useFocusEffect: (callback: () => void) => require('react').useEffect(callback, [callback]),
 }));
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: 'SafeAreaView' }));
@@ -99,7 +102,8 @@ it('keeps the entire source visible after confirmation without an extra expand a
   expect(input('Nội dung đề bài').props.value).toBe(PROBLEM);
 });
 
-it('opens reading immediately and starts speech preparation before the listening sheet is opened', async () => {
+it('prepares a selected online voice before opening the listening sheet without delaying reading', async () => {
+  await saveNarrationVoice('vi-VN-NamMinhNeural');
   const reading = { ...LESSON, preparingMath: true, understandingSteps: 3, outline: ['Dữ kiện','Câu hỏi','Đối chiếu'],
     step: { ...LESSON.step, kind: 'UNDERSTAND' } };
   (TutorService.startLesson as jest.Mock).mockResolvedValue(reading);
@@ -112,7 +116,8 @@ it('opens reading immediately and starts speech preparation before the listening
   expect(view.root.findAllByProps({ testID: 'lesson-preparation-screen' })).toHaveLength(0);
   expect(readText()).toContain(reading.step.question);
   expect(readText()).toContain('Em đọc đề trước nhé');
-  expect(prepareLessonMedia).toHaveBeenCalledWith({ sessionId: reading.sessionId, revision: 0 }, expect.any(String), expect.anything());
+  expect(prepareLessonMedia).toHaveBeenCalledWith({ sessionId: reading.sessionId, revision: 0 }, 'vi-VN-NamMinhNeural', expect.anything());
+  await act(async () => { await saveNarrationVoice('device'); });
   act(() => button('Xem thêm').props.onPress());
   expect(button('Xem video bài này')).toBeUndefined();
 });

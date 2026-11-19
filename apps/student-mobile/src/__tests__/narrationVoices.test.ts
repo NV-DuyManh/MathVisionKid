@@ -9,6 +9,13 @@ function fresh() {
   return { voicePreferences, ...voices };
 }
 
+it.each([null, '{"voiceId":"unsupported"}', 'broken-json'])('defaults to the device voice for preference %s', async saved => {
+  const { voicePreferences, readNarrationVoice } = fresh();
+  voicePreferences.get.mockResolvedValue(saved);
+  await expect(readNarrationVoice()).resolves.toBe('device');
+  expect(voicePreferences.set).not.toHaveBeenCalled();
+});
+
 it('restores the local voice across lesson and Quiz sheets without accepting it as a cloud voice', async () => {
   const { voicePreferences, readNarrationVoice, isNarrationVoice, saveNarrationVoice } = fresh();
   voicePreferences.get.mockResolvedValue(JSON.stringify({voiceId:'device'}));

@@ -1,12 +1,14 @@
 import React, { useRef } from 'react';
 import { Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { isCompactStudentWeb } from '../../components/ui/useIsCompactStudentWeb';
 import { COLORS, FONTS } from '../../constants/theme';
 import { VOICE_CHOICES, type NarrationChoice } from './narrationVoices';
 
 export function VoicePicker({ value, onChange, disabled = false }: { value: NarrationChoice | null; onChange: (value: NarrationChoice) => void; disabled?: boolean }) {
   const buttons = useRef<(React.ElementRef<typeof View> | null)[]>([]);
   const { width, fontScale } = useWindowDimensions();
+  const waitCaption = Platform.OS === 'web' && !isCompactStudentWeb(width) ? '5–15 giây' : 'Chờ 5–15 giây';
   const stacked = width < 350 || fontScale > 1.3;
   return <View style={styles.stack}>
     <View style={styles.heading}><View style={styles.headingMark} accessible={false}/><Text style={styles.eyebrow}>GIỌNG ĐỒNG HÀNH</Text></View>
@@ -25,7 +27,7 @@ export function VoicePicker({ value, onChange, disabled = false }: { value: Narr
         {option.id==='device'?<View style={[styles.icon,styles.deviceIcon]} accessible={false}>
           <Ionicons name="flash-outline" size={20} color="#286B57"/>
         </View>:null}
-        <View style={[styles.words,option.id!=='device'&&styles.cloudWords]}><Text style={[styles.name,option.id!=='device'&&styles.cloudName]}>{option.name}</Text><Text style={styles.caption}>{option.id==='device'?'Đọc bằng giọng của máy':'Chuẩn bị khoảng\n5–15 giây'}</Text></View>
+        <View style={[styles.words,option.id!=='device'&&styles.cloudWords]}><Text style={[styles.name,option.id!=='device'&&styles.cloudName]}>{option.name}</Text><Text style={styles.caption} numberOfLines={option.id === 'device' ? undefined : 1}>{option.id === 'device' ? 'Đọc bằng giọng của máy' : waitCaption}</Text></View>
         <Ionicons name={value===option.id?'checkmark-circle':'ellipse-outline'} style={option.id!=='device'?styles.cloudCheck:undefined} size={18} color={value===option.id?COLORS.primaryDark:COLORS.textMuted} accessible={false}/>
       </Pressable>)}
     </View>

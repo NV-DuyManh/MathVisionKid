@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { isCompactStudentWeb } from '../ui/useIsCompactStudentWeb';
 import { AccessibilityInfo, Animated, AppState, Easing, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
@@ -6,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS, FONTS, IS_STUDENT_WEB } from '../../constants/theme';
 import { AppIllustration as Image } from '../ui/AppIllustration';
-import { buildCompletedLearningActivity } from '../../features/home/learningActivity';
+import { buildCompletedLearningActivity, WEEKLY_ACTIVITY_GOAL } from '../../features/home/learningActivity';
 import { PocketCalculator } from '../../features/calculator/PocketCalculator';
 import { LearningJourney } from './LearningJourney';
 import { ResumeLessonCard } from '../../features/tutoring/ResumeLessonCard';
@@ -15,8 +16,11 @@ import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
 import { RecoveryNotice } from '../ui/RecoveryNotice';
 import { useStudentProfile } from '../../features/student-profile/useStudentProfile';
 import { StudentAvatar } from '../../features/student-profile/ProfileCards';
+import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { getLessonArtwork } from '../../features/lesson-artwork/lessonArtwork';
+import { profileApi } from '../../features/student-profile/profileApi';
+import type { Leaderboard } from '../../features/student-profile/profileApi';
 
 const ART = {
   mascot: IS_STUDENT_WEB ? require('../../../assets/illustrations/web/robot-mascot.webp') : require('../../../assets/illustrations/robot-mascot.png'),
@@ -59,8 +63,11 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
   const router = useRouter();
   const auth = useContext(AuthContext);
   const { width, fontScale } = useWindowDimensions();
+  const desktopWeb = IS_STUDENT_WEB && !isCompactStudentWeb(width);
   const [availableWidth, setAvailableWidth] = useState(width);
   const wide = availableWidth >= 680;
+  const desktop = desktopWeb && availableWidth >= 930;
+  const PrimaryColumn = desktop ? View : React.Fragment;
   const [calculatorOpen, setCalculatorOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const profile = useStudentProfile(userKey);
@@ -71,54 +78,108 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
   const registeredGrade = Number(profile.value?.gradeLevel ?? auth?.user?.gradeLevel ?? auth?.user?.grade);
   const hasRegisteredGrade = Number.isInteger(registeredGrade) && registeredGrade >= 1 && registeredGrade <= 5;
   const gradeLessons = hasRegisteredGrade ? getProblemsByGrade(registeredGrade as 1 | 2 | 3 | 4 | 5) : [];
+  const [ranking, setRanking] = useState<{ owner: string; grade: number; data: Leaderboard }>();
+  useFocusEffect(useCallback(() => {
+    if (!desktop || !userKey || !hasRegisteredGrade) return;
+    const request = new AbortController();
+    void profileApi.leaderboard(undefined, request.signal).then(data => {
+      if (!request.signal.aborted && (!data.gradeLevel || data.gradeLevel === registeredGrade)) setRanking({ owner: userKey, grade: registeredGrade, data });
+    }).catch(() => {});
+    return () => request.abort();
+  }, [desktop, hasRegisteredGrade, registeredGrade, userKey]));
+  const leaders = ranking?.owner === userKey && ranking?.grade === registeredGrade
+    ? ranking.data.entries.filter(entry => !entry.self || profile.value?.leaderboardVisible === true).slice(0, 3) : undefined;
+  const weeklyProgress = Math.min(profile.value?.stats.week ?? 0, WEEKLY_ACTIVITY_GOAL);
+  const titles = desktopWeb ? profile.value?.titles?.filter(item => item.unlocked).slice(0, 3) ?? [] : [];
   const quickActions = [
-    { title: 'Bài đã lưu', label: 'Bài đã lưu. Xem lại bài làm của em', image: ART.saved, color: '#FDE7F2', action: () => router.push('/(tabs)/profile') },
+    { title: 'Bài đã lưu', label: 'Bài đã lưu. Xem lại bài làm của em', image: ART.saved, color: '#FDE7F2', action: () => router.push(desktopWeb ? '/saved' as never : '/(tabs)/profile') },
     { title: 'Luyện tập', label: 'Luyện tập. Làm bài theo chủ đề', image: ART.practice, color: '#E2F3FF', action: () => router.push('/(tabs)/lessons') },
-    { title: 'Tiến bộ', label: 'Tiến bộ. Xem hành trình học tập', image: ART.progress, color: '#DEF6EE', action: () => router.push('/(tabs)/achievements') },
-    { title: 'Máy tính', label: 'Mở máy tính bỏ túi', image: ART.calculator, color: '#EFE6FC', action: () => setCalculatorOpen(true) },
+    { title: 'Tiến bộ', label: 'Tiến bộ. Xem hành trình học tập', image: ART.progress, color: '#DEF6EE', action: () => router.push(desktopWeb ? '/(tabs)/profile' : '/(tabs)/achievements') },
+    desktopWeb
+      ? { title: 'Thành tích', label: 'Thành tích. Xem danh hiệu của em', image: ART.crown, color: '#FFF2CC', action: () => router.push('/(tabs)/achievements') }
+      : { title: 'Máy tính', label: 'Mở máy tính bỏ túi', image: ART.calculator, color: '#EFE6FC', action: () => setCalculatorOpen(true) },
   ];
+  const accountAction = () => router.push('/account');
+  const reopenIntroduction = () => {
+    setNotificationsOpen(false);
+    if (IS_STUDENT_WEB) {
+      // Reload the introduction so the web auth provider can verify the existing session at that URL.
+      const target = new URL(window.location.href);
+      target.pathname = target.pathname.replace(/\/?$/, '/onboarding');
+      target.search = '';
+      target.hash = '';
+      window.location.assign(target);
+    } else {
+      router.push('/onboarding');
+    }
+  };
   return <View onLayout={event => setAvailableWidth(event.nativeEvent.layout.width)}>
-    <Text style={styles.pageTitle} accessibilityRole="header">Trang chủ</Text>
-    <View style={styles.header}>
-      <Pressable accessibilityRole="button" accessibilityLabel="Trang cá nhân của em" onPress={() => router.push('/account')} style={styles.avatar}>
+    {!desktopWeb && <Text style={styles.pageTitle} accessibilityRole="header">Trang chủ</Text>}
+    {!desktopWeb && <View style={styles.header}>
+      <Pressable accessibilityRole="button" accessibilityLabel="Trang cá nhân của em" onPress={accountAction} style={styles.avatar}>
         <StudentAvatar id={profile.value?.avatar ?? 'rocket'} photo={profile.value?.avatarPhoto} size={44} />
       </Pressable>
-      <View style={styles.headerCopy}><Text style={styles.welcome}>Chào mừng trở lại,</Text><Text style={styles.name}>{`${displayName}!`}</Text></View>
+      <View style={styles.headerCopy}>
+        <Text style={styles.welcome}>Chào mừng trở lại,</Text>
+        <Text style={styles.name}>{`${displayName}!`}</Text>
+      </View>
       <Pressable accessibilityRole="button" accessibilityLabel="Thông báo học tập" onPress={() => setNotificationsOpen(true)} style={styles.iconButton}>
         <Ionicons name="notifications-outline" size={26} color={COLORS.primaryDark} accessible={false} />
       </Pressable>
-    </View>
-    <LinearGradient colors={['#343DDC', '#5430CB', '#9848E6']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.hero, wide && styles.heroWide]} testID="home-hero">
+    </View>}
+    <PrimaryColumn {...(desktop ? { style: styles.desktopGrid } : {})}>
+    <PrimaryColumn {...(desktop ? { style: styles.desktopPrimary } : {})}>
+    <LinearGradient colors={desktopWeb ? [STUDENT_WEB.indigo, '#6543DB', STUDENT_WEB.heroEnd] : ['#343DDC', '#5430CB', '#9848E6']}
+      start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.hero, wide && styles.heroWide, desktop && styles.desktopHero]} testID="home-hero">
       <View pointerEvents="none" style={styles.orbit} />
+      {desktopWeb && <View pointerEvents="none" style={styles.heroClouds}>
+        <View style={styles.cloud} /><View style={[styles.cloud, styles.cloudLower]} /><View style={styles.cloud} />
+      </View>}
       <View style={[styles.heroCopy, fontScale > 1.3 && { width: '100%' }]}>
         <Text style={[styles.heroTitle, wide && styles.heroTitleWide]} accessibilityRole="header">Cùng <Text style={styles.yellow}>MathVisionKid</Text>{'\n'}khám phá Toán học nhé!</Text>
-        <Pressable accessibilityRole="button" accessibilityLabel="Chụp bài toán" accessibilityHint="Mở máy ảnh để chụp đề hoặc chọn ảnh bài toán" onPress={onAcquire}
-          style={({ pressed }) => [styles.capture, pressed && styles.pressed]}><Text style={styles.captureText}>Chụp bài toán</Text></Pressable>
+        {desktopWeb && wide && <Text style={styles.heroSubtitle}>Hiểu đề, tự tìm cách giải và luyện tập theo lớp của em.</Text>}
+        <View style={desktopWeb ? styles.heroActions : undefined}>
+          {desktopWeb ? <Pressable accessibilityRole="button" accessibilityLabel="Học ngay" onPress={() => onPractice()}
+            style={({ pressed }) => [styles.capture, styles.heroButtonIcon, pressed && styles.pressed]}><Ionicons name="play" size={16} color="#20143F" accessible={false} /><Text style={styles.captureText}>Học ngay</Text></Pressable> : null}
+          <Pressable accessibilityRole="button" accessibilityLabel="Chụp bài toán" accessibilityHint="Mở máy ảnh để chụp đề hoặc chọn ảnh bài toán" onPress={onAcquire}
+            style={({ pressed }) => [styles.capture, desktopWeb && styles.webCapture, pressed && styles.pressed]}>{desktopWeb && <Ionicons name="camera-outline" size={19} color="#20143F" accessible={false} />}<Text style={styles.captureText}>{desktopWeb ? 'Chụp bài, hỏi AI' : 'Chụp bài toán'}</Text></Pressable>
+        </View>
       </View>
+      {desktop && fontScale <= 1.3 && <View pointerEvents="none" accessible={false} aria-hidden style={styles.mathCard}>
+        <Text style={styles.mathLabel}>8 + 5 = 13</Text><Ionicons name="shapes-outline" size={34} color="#DBF5FF" />
+      </View>}
       {fontScale <= 1.3 ? <HomeMascot visible={heroVisible} style={[styles.mascot, wide && styles.mascotWide]} /> : null}
     </LinearGradient>
-    <View style={styles.headingRow}><Ionicons name="bulb-outline" size={24} color={COLORS.primaryDark} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Tiện ích nhanh</Text></View>
-    <View style={styles.quickGrid} testID="quick-actions-grid">
+    <View style={styles.headingRow}><Ionicons name="bulb-outline" size={24} color={COLORS.primaryDark} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Tiện ích nhanh</Text>
+      {desktopWeb && <Pressable accessibilityRole="button" accessibilityLabel="Mở máy tính bỏ túi" onPress={() => setCalculatorOpen(true)} style={styles.utility}>
+        <Ionicons name="calculator-outline" size={19} color={COLORS.primaryDark} accessible={false} /><Text style={styles.link}>Máy tính</Text>
+      </Pressable>}
+    </View>
+    <View style={[styles.quickGrid, desktop && styles.desktopQuickGrid]} testID="quick-actions-grid">
       {quickActions.map(item => <Pressable key={item.title} accessibilityRole="button" accessibilityLabel={item.label} onPress={item.action}
-        style={({ pressed }) => [styles.quickCard, { backgroundColor: item.color }, wide && styles.quickCardWide, pressed && styles.pressed]}>
-        <Image source={item.image} style={[styles.quickArt, wide && styles.quickArtWide]} accessible={false} />
-        <Text style={[styles.quickTitle, wide && styles.quickTitleWide]}>{item.title}</Text>
+        style={({ pressed }) => [styles.quickCard, { backgroundColor: item.color }, wide && styles.quickCardWide, desktop && styles.desktopQuickCard, pressed && styles.pressed]}>
+        <Image source={item.image} style={[styles.quickArt, wide && styles.quickArtWide, desktop && styles.desktopQuickArt]} accessible={false} />
+        <Text style={[styles.quickTitle, wide && styles.quickTitleWide, desktop && styles.desktopQuickTitle]}>{item.title}</Text>
       </Pressable>)}
     </View>
-    <LearningJourney desktop={wide} onPractice={() => onPractice()} onAcquire={onAcquire} />
-    <View style={styles.headingRow}><Ionicons name="star" size={22} color="#F0BB42" accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Bài học gợi ý cho em</Text></View>
+    <LearningJourney desktop={wide} onPractice={() => onPractice()} onAcquire={onAcquire} onCheck={desktopWeb ? () => router.push('/quiz') : undefined} />
+    <View style={styles.headingRow}><Ionicons name="star" size={22} color={desktopWeb ? '#A2650D' : '#F0BB42'} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Bài học gợi ý cho em</Text>
+      {desktopWeb && <Pressable accessibilityRole="button" accessibilityLabel="Xem tất cả bài học" onPress={() => onPractice()} style={styles.utility}><Text style={styles.link}>Xem tất cả</Text></Pressable>}
+    </View>
     {auth?.user && !hasRegisteredGrade ? <RecoveryNotice title="Chưa tải được lớp của em" message="Em tải lại hồ sơ để xem đúng bài học nhé."
       actions={[{ label: 'Tải lại hồ sơ', onPress: () => { profile.retry(); void auth.refreshUser?.(); } }]} /> : <View style={[styles.recommendations, wide && styles.recommendationsWide]}>
-      {(hasRegisteredGrade ? gradeLessons.slice(0, 1).map(problem => ({ title: problem.title, artwork: getLessonArtwork(problem.id), description: `Lớp ${registeredGrade} · ${problem.topic}`,
+      {(hasRegisteredGrade ? gradeLessons.slice(0, desktopWeb ? 3 : 1).map(problem => ({ title: problem.title, artwork: getLessonArtwork(problem.id), description: `Lớp ${registeredGrade} · ${problem.topic}`,
         label: `Học bài ${problem.title}`, action: () => router.push({ pathname: '/learning/math-guide', params: { problemText: problem.problemText } }) })) : [
         { title: 'Phép cộng đến 100', artwork: getLessonArtwork('grade1_prob1'), description: 'Lớp 1 · Đọc đề và thử giải', label: 'Luyện phép cộng và trừ trong phạm vi 100, lớp 1', action: () => onPractice(1) },
-      ]).map(item => <Pressable key={item.title} accessibilityRole="button" accessibilityLabel={item.label} onPress={item.action} style={({ pressed }) => [styles.lesson, pressed && styles.pressed]}>
+      ]).map((item, index) => <Pressable key={item.title} accessibilityRole="button" accessibilityLabel={item.label} onPress={item.action} style={({ pressed }) => [styles.lesson, desktopWeb && { backgroundColor: ['#FCE9F3', '#E5F2FF', '#E3F6EE'][index] }, pressed && styles.pressed]}>
         <Image source={item.artwork.source} style={styles.lessonArt} accessible={false} /><View style={styles.headerCopy}><Text style={styles.lessonTitle}>{item.title}</Text><Text style={styles.lessonDescription}>{item.description}</Text></View>
-        <Ionicons name="play-circle" size={28} color="#FFFFFF" accessible={false} />
+        <Ionicons name="play-circle" size={28} color={desktopWeb ? COLORS.primaryDark : '#FFFFFF'} accessible={false} />
       </Pressable>)}
     </View>}
-    <ResumeLessonCard key={userKey} owner={userKey} />
-    <View style={styles.streakCard} testID="learning-streak">
+    </PrimaryColumn>
+    <PrimaryColumn {...(desktop ? { style: [styles.desktopAside, { width: Math.min(340, Math.max(282, availableWidth * .26)) }] } : {})}>
+    {!desktopWeb && <ResumeLessonCard key={userKey} owner={userKey} />}
+    <View style={[styles.streakCard, desktop && styles.desktopStreak]} testID="learning-streak">
       <Image source={ART.crown} style={styles.crown} accessible={false} />
       <View style={styles.headingRow}><Image source={ART.flame} style={styles.flame} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Chuỗi học tập</Text></View>
       <Text style={styles.streak}>{!profile.value ? profile.failed ? 'Chưa tải được chuỗi học tập' : 'Đang tải chuỗi học tập…' : streak ? `Em đã học liên tiếp ${streak} ngày!` : 'Bắt đầu hôm nay!'}</Text>
@@ -135,23 +196,95 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       <Text style={styles.historyNote}>Theo hoạt động đã hoàn thành · Giờ Việt Nam.</Text>
       {profile.failed ? <Pressable accessibilityRole="button" accessibilityLabel="Tải lại chuỗi học tập" onPress={profile.retry} style={styles.textButton}><Text style={styles.link}>Tải lại</Text></Pressable> : null}
     </View>
+    {desktopWeb && profile.value ? <View style={styles.desktopProgress}>
+      <View style={styles.panelTitleRow}><Ionicons name="locate" size={21} color={COLORS.primaryDark} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Mục tiêu tuần</Text></View>
+      <View style={styles.weeklySummary}>
+        <Text style={styles.progressLabel}>Hoạt động trong 7 ngày qua</Text>
+        <Text style={styles.link}>{weeklyProgress}/{WEEKLY_ACTIVITY_GOAL}</Text>
+      </View>
+      <View accessibilityRole="progressbar" accessibilityLabel="Mục tiêu hoạt động trong tuần"
+        accessibilityValue={{ min: 0, now: weeklyProgress, max: WEEKLY_ACTIVITY_GOAL }} style={styles.weeklyTrack}>
+        <View style={[styles.weeklyBar, { width: `${weeklyProgress * 100 / WEEKLY_ACTIVITY_GOAL}%` }]} />
+      </View>
+      <Pressable accessibilityRole="button" onPress={() => router.push('/(tabs)/profile')} style={styles.textButton}>
+        <Text style={styles.link}>Xem tiến bộ</Text>
+      </Pressable>
+    </View> : null}
+    {desktopWeb && profile.value ? <View style={styles.desktopProgress}>
+      <View style={styles.panelTitleRow}><Ionicons name="star" size={20} color="#A76405" accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Danh hiệu của em</Text></View>
+      {titles.length ? <View style={styles.progressMetrics}>{titles.map(item => <View key={item.id} style={styles.titleTile}>
+        <Ionicons name="ribbon" size={24} color={COLORS.primaryDark} accessible={false} /><Text style={styles.progressLabel}>{item.name}</Text>
+      </View>)}</View> : <Text style={styles.caption}>Chưa có danh hiệu.</Text>}
+      <Pressable accessibilityRole="button" onPress={() => router.push('/(tabs)/achievements')} style={styles.textButton}><Text style={styles.link}>Xem danh hiệu</Text></Pressable>
+    </View> : null}
+    {desktopWeb && hasRegisteredGrade ? <View style={[styles.desktopProgress, styles.leaderPanel]}>
+      <LinearGradient colors={['#643BD3', '#814CEB']} start={{ x: 0, y: 0 }} end={{ x: 1, y: .5 }} style={styles.leaderHeading}>
+        <Ionicons name="trophy-outline" size={21} color="#FFE888" accessible={false} />
+        <Text accessibilityRole="header" style={styles.leaderTitle}>Bảng xếp hạng</Text><Text style={styles.leaderGrade}>Khối {registeredGrade}</Text>
+      </LinearGradient>
+      {leaders?.map((entry, index) => <View key={entry.position} style={[styles.leader, index === 0 && styles.leaderTop]}>
+        <Text style={styles.link}>#{entry.position}</Text>
+        <StudentAvatar id={entry.avatar} size={25} />
+        <Text style={styles.leaderName}>{entry.self && profile.value?.leaderboardNameHidden ? profile.value.publicAlias : entry.alias}</Text>
+        <Text style={styles.progressLabel}>{entry.stars} sao</Text>
+      </View>)}
+      <Pressable accessibilityRole="button" onPress={() => router.push('/(tabs)/achievements')} style={styles.textButton}><Text style={styles.link}>Xem bảng xếp hạng</Text></Pressable>
+    </View> : null}
+    {desktopWeb && <ResumeLessonCard key={userKey} owner={userKey} />}
+    </PrimaryColumn>
+    </PrimaryColumn>
     <View style={styles.footer}><Pressable accessibilityRole="button" accessibilityLabel="Mẹo chụp bài rõ nét" onPress={onTips} style={styles.textButton}><Text style={styles.link}>Mẹo chụp bài</Text></Pressable>
       <Pressable accessibilityRole="button" accessibilityLabel="Bảo vệ thông tin riêng tư của em" onPress={onPrivacy} style={styles.textButton}><Text style={styles.link}>Bảo vệ thông tin riêng tư của em</Text></Pressable></View>
     <PocketCalculator visible={calculatorOpen} onClose={() => setCalculatorOpen(false)} />
     {notificationsOpen ? <LessonSheet title="Thông báo học tập" compact onClose={() => setNotificationsOpen(false)}>
       <Text style={styles.caption}>Chưa có thông báo mới. Em có thể mở lại bài đang học hoặc chọn một bài trong chương trình của mình.</Text>
-      <Pressable accessibilityRole="button" accessibilityLabel="Mở lại giới thiệu MathVisionKid" onPress={() => { setNotificationsOpen(false); router.push('/onboarding'); }} style={styles.textButton}><Text style={styles.link}>Xem giới thiệu MathVisionKid</Text></Pressable>
+      {!desktopWeb && <Pressable accessibilityRole="button" accessibilityLabel="Mở lại giới thiệu MathVisionKid" onPress={reopenIntroduction} style={styles.textButton}><Text style={styles.link}>Xem giới thiệu MathVisionKid</Text></Pressable>}
     </LessonSheet> : null}
   </View>;
 }
 const styles = StyleSheet.create({
+  desktopGrid: { flexDirection: 'row', alignItems: 'flex-start', gap: 22 },
+  desktopPrimary: { flex: 1, minWidth: 0 },
+  desktopAside: { flexShrink: 0 },
+  desktopHero: { minHeight: 248, paddingHorizontal: 23, paddingVertical: 20, borderRadius: STUDENT_WEB.radius, marginBottom: 8 },
+  desktopStreak: { marginTop: 0, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.surface },
+  desktopQuickGrid: { marginBottom: 15, gap: 8 },
+  desktopQuickCard: { minHeight: 59, flexDirection: 'row', gap: 6, paddingHorizontal: 6, borderRadius: 14 },
+  desktopQuickArt: { width: 34, height: 34, marginBottom: 0 },
+  desktopQuickTitle: { fontSize: 13, lineHeight: 17, flexShrink: 1 },
+  desktopProgress: { marginTop: 14, paddingHorizontal: 18, paddingTop: 14, borderRadius: STUDENT_WEB.radius,
+    borderWidth: 1, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.surface },
+  progressMetrics: { flexDirection: 'row', gap: 8, marginTop: 12 },
+  panelTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  weeklySummary: { paddingTop: 11, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 6 },
+  weeklyTrack: { height: 8, marginTop: 8, borderRadius: 4, backgroundColor: STUDENT_WEB.soft, overflow: 'hidden' },
+  weeklyBar: { height: '100%', borderRadius: 4, backgroundColor: STUDENT_WEB.brand },
+  progressLabel: { color: STUDENT_WEB.muted, fontFamily: FONTS.semiBold, fontSize: 12 },
+  titleTile: { flex: 1, alignItems: 'center', padding: 8, gap: 5, borderRadius: 12, backgroundColor: STUDENT_WEB.soft },
+  leaderPanel: { paddingHorizontal: 0, paddingTop: 0, overflow: 'hidden' },
+  leaderHeading: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 12 },
+  leaderTitle: { flex: 1, fontFamily: FONTS.extraBold, fontSize: 16, color: '#FFF' },
+  leaderGrade: { color: '#FFF', backgroundColor: '#FFFFFF26', fontFamily: FONTS.bold, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 10, fontSize: 12 },
+  leader: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 40, paddingHorizontal: 12, borderBottomWidth: 1, borderColor: STUDENT_WEB.border },
+  leaderTop: { backgroundColor: '#FFF4D9' },
+  leaderName: { flex: 1, color: STUDENT_WEB.ink, fontFamily: FONTS.bold, fontSize: 13 },
   pageTitle: { fontFamily: FONTS.extraBold, fontSize: 25, color: COLORS.textPrimary, marginBottom: 16 },
   header: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 20 }, avatar: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FDE7F1', overflow: 'hidden' },
   headerCopy: { flex: 1, minWidth: 0 }, welcome: { fontFamily: FONTS.regular, fontSize: 12, color: COLORS.textSecondary }, name: { fontFamily: FONTS.extraBold, fontSize: 17, lineHeight: 24, color: COLORS.textPrimary },
   iconButton: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   hero: { borderRadius: 24, padding: 17, minHeight: 184, justifyContent: 'center', overflow: 'hidden', marginBottom: 18 }, heroWide: { minHeight: 228, padding: 28 }, heroCopy: { width: '68%', zIndex: 1, alignItems: 'flex-start', gap: 13 },
   heroTitle: { fontFamily: FONTS.black, fontSize: 19, lineHeight: 25, color: '#FFFFFF', letterSpacing: -.35 }, heroTitleWide: { fontSize: 29, lineHeight: 38 }, yellow: { color: '#FFDE54' },
+  heroSubtitle: { fontFamily: FONTS.semiBold, fontSize: 14, lineHeight: 21, color: '#F7EEFF' },
+  mathCard: { position: 'absolute', right: '28%', top: 60, width: 102, alignItems: 'center', gap: 5, padding: 7, borderWidth: 1, borderColor: '#8EE5FF99', borderRadius: 16, backgroundColor: '#3D65CD', transform: [{ rotate: '-9deg' }] },
+  mathLabel: { color: '#EAFAFF', fontFamily: FONTS.extraBold, fontSize: 13 },
+  heroClouds: { position: 'absolute', flexDirection: 'row', right: '-5%', bottom: -62, width: '38%', minWidth: 230, justifyContent: 'flex-end' },
+  cloud: { width: 110, height: 110, borderRadius: 55, backgroundColor: '#C9ACFFF2', marginLeft: -25 },
+  cloudLower: { marginTop: 24, backgroundColor: '#D4BEFFF2' },
   capture: { minHeight: 44, backgroundColor: '#FFDC50', borderRadius: 26, paddingHorizontal: 16, paddingVertical: 11, justifyContent: 'center' }, captureText: { fontFamily: FONTS.extraBold, fontSize: 13, lineHeight: 19, color: '#20143F' },
+  heroButtonIcon: { flexDirection: 'row', gap: 7, alignItems: 'center' },
+  webCapture: { backgroundColor: '#F5F2FF', flexDirection: 'row', gap: 8, alignItems: 'center' },
+  heroActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  utility: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingHorizontal: 10, minHeight: 44, borderRadius: 12, backgroundColor: STUDENT_WEB.soft },
   mascot: { position: 'absolute', right: 0, bottom: 9, width: '36%', height: 155 }, mascotWide: { right: 20, bottom: 4, height: 218, width: '34%' }, orbit: { position: 'absolute', width: '90%', height: 90, borderWidth: 2, borderColor: '#AD78EA', bottom: -60, right: -30, borderRadius: 80, transform: [{ rotate: '-15deg' }] },
   headingRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 13 }, heading: { flex: 1, fontFamily: FONTS.extraBold, fontSize: 20, lineHeight: 27, color: COLORS.textPrimary },
   quickGrid: { flexDirection: 'row', gap: 7, marginBottom: 24 }, quickCard: { flex: 1, minWidth: 0, borderRadius: 18, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3, paddingVertical: 12, minHeight: 90 }, quickCardWide: { minHeight: 138 },

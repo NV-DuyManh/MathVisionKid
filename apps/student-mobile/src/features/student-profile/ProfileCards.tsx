@@ -1,9 +1,12 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, FONTS } from '../../constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import { COLORS, FONTS, IS_STUDENT_WEB } from '../../constants/theme';
+import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import type { StudentProfile } from './profileApi';
 import { RankEmblem } from './RankEmblem';
+import { AppIllustration } from '../../components/ui/AppIllustration';
 
 export const avatars = [
   { id: 'star', icon: 'star', name: 'Sao nhỏ', color: '#7A4B00', background: '#FFF0BC' },
@@ -22,36 +25,44 @@ export function StudentAvatar({ id, size = 54, photo }: { id: string; size?: num
   </View>;
 }
 
-export function ProfileRankCard({ profile }: { profile: StudentProfile }) {
+export function ProfileRankCard({ profile, compactWeb = false }: { profile: StudentProfile; compactWeb?: boolean }) {
   const { rank, stars, highestRank, position } = profile;
   const next = rank.goal > 0 ? rank.goal - rank.progress : 0;
+  const progressStars = IS_STUDENT_WEB ? stars : rank.progress;
+  const goalStars = IS_STUDENT_WEB ? stars + next : rank.goal;
   const title = profile.titles.find(t => t.id === profile.selectedTitle);
-  return <View style={styles.rankCard}>
-    <View style={styles.heroRow}>
-      <RankEmblem name={rank.name} />
-      <View style={styles.grow}>
-        <Text style={styles.rankCaption}>HẠNG CỦA EM</Text>
-        <Text accessibilityRole="header" style={styles.rank}>{rank.name}</Text>
-        {title && <Text style={styles.light}>{title.name}</Text>}
-        <Text style={styles.stars}>{stars} sao</Text>
-      </View>
+  const identity = <View style={styles.heroRow}>
+    <RankEmblem name={rank.name} size={IS_STUDENT_WEB && !compactWeb ? 94 : undefined} />
+    <View style={styles.grow}>
+      <Text style={styles.rankCaption}>HẠNG CỦA EM</Text>
+      <Text accessibilityRole="header" style={styles.rank}>{rank.name}</Text>
+      {title && <Text style={styles.light}>{title.name}</Text>}
+      <Text style={styles.stars}>{stars} sao</Text>
     </View>
+  </View>;
+  const progress = <>
     {rank.goal > 0 ? <>
-      <View accessibilityRole="progressbar" accessibilityLabel="Tiến độ lên hạng" accessibilityValue={{ min: 0, max: rank.goal, now: rank.progress }}
-        aria-valuemin={0} aria-valuemax={rank.goal} aria-valuenow={rank.progress}
-        style={styles.track}><View style={[styles.bar, { width: `${100 * rank.progress / rank.goal}%` }]} /></View>
-      <Text style={styles.light}>Còn {next} sao để lên bậc tiếp theo</Text>
+      <View accessibilityRole="progressbar" accessibilityLabel="Tiến độ lên hạng" accessibilityValue={{ min: 0, max: goalStars, now: progressStars }}
+        aria-valuemin={0} aria-valuemax={goalStars} aria-valuenow={progressStars}
+        style={styles.track}><View style={[styles.bar, { width: (100 * progressStars / goalStars) + '%' }]} /></View>
+      <Text style={styles.light}>{IS_STUDENT_WEB && <Text style={styles.webRankProgressCount}>{stars}/{goalStars} sao · </Text>}Còn {next} sao để lên bậc tiếp theo</Text>
     </> : <Text style={styles.light}>{rank.name === 'Thách Đấu'
       ? 'Em đang ở bậc Thách Đấu.'
       : 'Đạt Top 200 toàn hệ thống để lên Thách Đấu.'}</Text>}
     <Text style={styles.light}>Hạng cao nhất · {highestRank}</Text>
     {position !== null && <Text style={styles.light}>Vị trí khối {profile.gradeLevel} · #{position}</Text>}
-  </View>;
+  </>;
+  return IS_STUDENT_WEB && !compactWeb ? <LinearGradient colors={['#4A2DAD', '#6944DD', '#8A4FE9']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+    style={[styles.rankCard, styles.webRankCard]}>
+    <View style={styles.webRankIdentity}>{identity}</View>
+    <View style={styles.webRankProgress}>{progress}</View>
+    <AppIllustration source={require('../../../assets/illustrations/web/robot-mascot.webp')} style={styles.webRankMascot} accessible={false} />
+  </LinearGradient> : <View style={styles.rankCard}>{identity}{progress}</View>;
 }
 
 export function ProfileStats({ profile }: { profile: StudentProfile }) {
   const s = profile.stats;
-  return <View style={styles.card}>
+  return <View style={[styles.card, IS_STUDENT_WEB && styles.webStatsCard]}>
     <Text accessibilityRole="header" style={styles.heading}>Tiến độ của em</Text>
     <View style={styles.metrics}>{[
       [s.lessons, 'Bài đã hoàn thành'], [s.quizzes, 'Quiz giải đúng'], [s.games, 'Lượt chơi đạt yêu cầu'],
@@ -81,6 +92,12 @@ export const profileStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   ...profileStyles,
   avatar: { alignItems: 'center', justifyContent: 'center', borderRadius: 50 },
+  webRankCard: { padding: 20, gap: 11, minHeight: 192, overflow: 'hidden' },
+  webRankIdentity: { width: '76%', minWidth: 0, zIndex: 1 },
+  webRankProgress: { width: '76%', minWidth: 0, gap: 6, zIndex: 1 },
+  webRankProgressCount: { fontFamily: FONTS.extraBold, color: STUDENT_WEB.gold },
+  webRankMascot: { position: 'absolute', right: 9, top: 11, bottom: 10, width: '28%', opacity: .95 },
+  webStatsCard: { borderRadius: STUDENT_WEB.radius, borderColor: STUDENT_WEB.border, padding: 20 },
   rankCard: { gap: 10, borderRadius: 24, padding: 20, backgroundColor: '#412874' },
   heroRow: { flexDirection: 'row', alignItems: 'center', gap: 12, flexWrap: 'wrap' },
   grow: { flex: 1, minWidth: 135, gap: 2 },

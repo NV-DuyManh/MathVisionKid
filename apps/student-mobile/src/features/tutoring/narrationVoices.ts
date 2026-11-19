@@ -8,6 +8,7 @@ export type NarrationVoice = typeof NARRATION_VOICES[number]['id'];
 export const VOICE_CHOICES = [{ id: 'device', name: 'Giọng thiết bị' }, ...NARRATION_VOICES] as const;
 export type NarrationChoice = typeof VOICE_CHOICES[number]['id'];
 export const DEFAULT_NARRATION_VOICE: NarrationVoice = NARRATION_VOICES[0].id;
+const DEFAULT_NARRATION_CHOICE: NarrationChoice = 'device';
 const listeners = new Set<(voice: NarrationChoice) => void>();
 let selectedVoice: NarrationChoice | null = null;
 let loadingVoice: Promise<NarrationChoice> | undefined;
@@ -24,10 +25,10 @@ export async function readNarrationVoice(): Promise<NarrationChoice> {
   if (selectedVoice) return selectedVoice;
   loadingVoice ??= voicePreferences.get().then(saved => {
     const value = saved ? JSON.parse(saved)?.voiceId : null;
-    const restored: NarrationChoice = value === 'device' || isNarrationVoice(value) ? value : DEFAULT_NARRATION_VOICE;
+    const restored: NarrationChoice = value === 'device' || isNarrationVoice(value) ? value : DEFAULT_NARRATION_CHOICE;
     selectedVoice ??= restored;
-    return selectedVoice || DEFAULT_NARRATION_VOICE;
-  }).catch(() => { selectedVoice ||= DEFAULT_NARRATION_VOICE; return selectedVoice; });
+    return selectedVoice;
+  }).catch(() => { selectedVoice ??= DEFAULT_NARRATION_CHOICE; return selectedVoice; });
   return loadingVoice;
 }
 export function saveNarrationVoice(voiceId: NarrationChoice): Promise<void> {
