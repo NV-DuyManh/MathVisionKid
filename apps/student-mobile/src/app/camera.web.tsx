@@ -1,14 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, Alert, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { AppButton } from '../components/ui/AppButton';
 import { COLORS, FONTS, SIZES } from '../constants/theme';
-import { STUDENT_WEB } from '../constants/studentWebDesign';
 import { recognitionDraftStore, resolveFlowDomain } from '../features/recognition/state/recognitionDraftStore';
 import { normalizeImageDraft } from '../features/recognition/image/imagePipeline';
 import type { ViewInstance } from 'react-native';
@@ -21,10 +19,7 @@ export default function WebCameraScreen() {
     // WebKit may reject a passive camera permission query. Keep both pickers available.
     void getPermission().catch(() => {});
   }, [getPermission]);
-  const { width, height } = useWindowDimensions();
-  const compact = height < 500;
-  const desktop = width >= 780;
-  const [desktopPreview, setDesktopPreview] = useState(false);
+  const compact = useWindowDimensions().height < 500;
   const camera = useRef<CameraView>(null);
   const preview = useRef<ViewInstance>(null);
   const [context] = useState(() => recognitionDraftStore.getDraft()?.lessonContext);
@@ -47,7 +42,6 @@ export default function WebCameraScreen() {
       setFocused(false);
       setReady(false);
       setTorch(false);
-      setDesktopPreview(false);
     };
   }, []));
 
@@ -55,7 +49,6 @@ export default function WebCameraScreen() {
     if (permissionLock.current || lock.current) return;
     permissionLock.current = true;
     setAskingPermission(true);
-    if (desktop) setDesktopPreview(true);
     setReady(false);
     setError(false);
     try {
@@ -109,7 +102,7 @@ export default function WebCameraScreen() {
     setTorch(value => !value);
   };
   const unavailable = error || permission?.status === 'denied';
-  const live = focused && permission?.granted && !error && !askingPermission && (!desktop || desktopPreview);
+  const live = focused && permission?.granted && !error && !askingPermission;
   const canCapture = Boolean(live && ready);
   useEffect(() => {
     if (!live || ready) return;
@@ -117,68 +110,6 @@ export default function WebCameraScreen() {
     return () => clearTimeout(deadline);
   }, [live, ready]);
   const label = context?.purpose === 'ADD_WORK' ? 'Chụp bài em đã làm' : context?.purpose === 'ADD_PROBLEM' ? 'Chụp thêm đề bài' : 'Chụp bài toán để cùng học';
-
-  const close = () => router.canGoBack() ? router.back() : router.replace('/(tabs)' as any);
-  if (desktop && !live) return <SafeAreaView style={styles.webScreen} edges={['top', 'bottom']}>
-    <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.webContent}>
-      <View style={styles.webHeading}>
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Đóng máy ảnh, quay lại" onPress={close} style={styles.webBack}>
-          <Ionicons name="arrow-back" size={22} color={STUDENT_WEB.primary} accessible={false} />
-        </TouchableOpacity>
-        <Text accessibilityRole="header" style={styles.webTitle}>{label}</Text>
-      </View>
-      <LinearGradient colors={['#3C2297', '#694AF6', '#8B4FE6']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.webHero}>
-        <View style={styles.webCopy}>
-          <Text style={styles.webHeroTitle}>Cùng nhìn rõ bài toán</Text>
-          <Text style={styles.webHeroBody}>Chọn ảnh hoặc chụp đề để cùng đọc và kiểm tra từng bước.</Text>
-        </View>
-        <Image source={require('../../assets/illustrations/web/robot-mascot.webp')} style={styles.webMascot} resizeMode="contain" accessible={false} />
-      </LinearGradient>
-      <View style={styles.webColumns}>
-        <View style={styles.webUpload}>
-          <View style={styles.webCameraIcon}><Ionicons name="scan-outline" size={34} color={STUDENT_WEB.primary} accessible={false} /></View>
-          <Text accessibilityRole="header" style={styles.webPanelTitle}>Thêm ảnh của em</Text>
-          <Text style={styles.webCenteredText}>Chọn một ảnh có bài toán em muốn đọc.</Text>
-          {unavailable ? <Text accessibilityRole="alert" style={styles.webCenteredText}>Chưa mở được máy ảnh. Em thử lại hoặc chọn ảnh đã chụp nhé.</Text> : null}
-          <View style={styles.webUploadActions}>
-            <AppButton title="Chọn ảnh từ thư viện" onPress={() => void acquire('GALLERY')} disabled={busy}
-              icon={<Ionicons name="images-outline" size={20} color="white" accessible={false} />} />
-            <AppButton title={unavailable ? 'Thử mở lại máy ảnh' : 'Cho phép mở máy ảnh'} variant="secondary"
-              loading={askingPermission} loadingTitle="Đang mở máy ảnh…" disabled={busy} onPress={() => void openCamera()} />
-          </View>
-          <AppButton title="Chụp bằng máy ảnh điện thoại" variant="ghost" disabled={busy} onPress={() => void acquire('CAMERA')} />
-        </View>
-        <View style={styles.webAside}>
-          <View style={styles.webPanel}>
-            <Ionicons name="bulb-outline" size={23} color={STUDENT_WEB.primary} accessible={false} />
-            <Text accessibilityRole="header" style={styles.webPanelTitle}>Đọc ảnh cùng em</Text>
-            <Text style={styles.webPanelText}>Sau khi chọn ảnh, em có thể cắt vùng cần đọc và đối chiếu lại đề trước khi bắt đầu.</Text>
-          </View>
-          <View style={[styles.webPanel, styles.webPrivacy]}>
-            <Ionicons name="shield-checkmark-outline" size={23} color="#21645B" accessible={false} />
-            <Text accessibilityRole="header" style={styles.webPanelTitle}>Giữ thông tin riêng tư</Text>
-            <Text style={styles.webPanelText}>Em có thể che tên, lớp và thông tin cá nhân trước khi gửi ảnh để đọc.</Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.webTips}>
-        <Text accessibilityRole="header" style={styles.webPanelTitle}>Mẹo chụp ảnh rõ</Text>
-        <View style={styles.webTipsRow}>
-          {([
-            ['sunny-outline', 'Đủ ánh sáng', 'Tránh bóng tay hoặc ánh đèn phản chiếu.'],
-            ['hand-left-outline', 'Giữ chắc tay', 'Đợi chữ và các con số hiện rõ rồi chụp.'],
-            ['scan-outline', 'Chụp trọn đề', 'Lấy đủ lời văn, các số và hình vẽ.'],
-          ] as const).map(([icon, title, text]) => <View key={icon} style={styles.webTip}>
-            <Ionicons name={icon} size={20} color={STUDENT_WEB.primary} accessible={false} />
-            <View style={styles.webCopy}>
-              <Text style={styles.webTipTitle}>{title}</Text>
-              <Text style={styles.webPanelText}>{text}</Text>
-            </View>
-          </View>)}
-        </View>
-      </View>
-    </ScrollView>
-  </SafeAreaView>;
   return <View style={styles.screen}>
     <View ref={preview} style={StyleSheet.absoluteFill}>
       {live ? <CameraView ref={camera} style={StyleSheet.absoluteFill} facing="back" autofocus="on" enableTorch={torch}
@@ -187,7 +118,7 @@ export default function WebCameraScreen() {
     <SafeAreaView style={styles.overlay}>
       <View style={[styles.header, compact && styles.compactHeader]}>
         <TouchableOpacity style={styles.iconButton} accessibilityRole="button" accessibilityLabel="Đóng máy ảnh, quay lại"
-          onPress={close}>
+          onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)' as any)}>
           <Ionicons name="close" size={26} color="white" />
         </TouchableOpacity>
         <View style={styles.badge}><Ionicons name="bulb-outline" size={18} color="white" /><Text style={styles.badgeText}>{label}</Text></View>
@@ -228,34 +159,6 @@ export default function WebCameraScreen() {
   </View>;
 }
 const styles = StyleSheet.create({
-  webScreen: { flex: 1, backgroundColor: STUDENT_WEB.background },
-  webContent: { width: '100%', maxWidth: 1300, alignSelf: 'center', padding: 24, gap: 20 },
-  webHeading: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  webBack: { width: 44, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 14,
-    borderWidth: 1, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.surface },
-  webTitle: { flex: 1, fontFamily: FONTS.black, fontSize: 28, lineHeight: 35, color: STUDENT_WEB.ink },
-  webHero: { minHeight: 200, borderRadius: STUDENT_WEB.radius, padding: 24, flexDirection: 'row', alignItems: 'center', gap: 16 },
-  webCopy: { flex: 1, minWidth: 0, gap: 8 },
-  webHeroTitle: { fontFamily: FONTS.black, color: 'white', fontSize: 32, lineHeight: 40 },
-  webHeroBody: { fontFamily: FONTS.semiBold, color: '#F2EAFF', fontSize: 16, lineHeight: 24 },
-  webMascot: { width: 145, height: 145 },
-  webColumns: { flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'wrap', gap: 18 },
-  webUpload: { flexGrow: 3, flexBasis: 410, minHeight: 306, borderWidth: 2, borderStyle: 'dashed', borderColor: '#B6A4F3',
-    borderRadius: STUDENT_WEB.radius, backgroundColor: STUDENT_WEB.surface, padding: 24, alignItems: 'center', justifyContent: 'center', gap: 12 },
-  webCameraIcon: { width: 66, height: 66, borderRadius: 20, backgroundColor: STUDENT_WEB.soft, alignItems: 'center', justifyContent: 'center' },
-  webUploadActions: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10 },
-  webAside: { flexGrow: 1, flexBasis: 245, gap: 14 },
-  webPanel: { gap: 10, padding: 20, borderWidth: 1, borderColor: STUDENT_WEB.border, borderRadius: STUDENT_WEB.radius, backgroundColor: STUDENT_WEB.surface },
-  webPrivacy: { backgroundColor: '#E9F7F1', borderColor: '#C9E7D9' },
-  webPanelTitle: { fontFamily: FONTS.extraBold, fontSize: 19, lineHeight: 25, color: STUDENT_WEB.ink },
-  webPanelText: { fontFamily: FONTS.regular, fontSize: 15, lineHeight: 23, color: STUDENT_WEB.muted },
-  webCenteredText: { fontFamily: FONTS.regular, fontSize: 15, lineHeight: 23, color: STUDENT_WEB.muted, textAlign: 'center' },
-  webTips: { gap: 10 },
-  webTipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
-  webTip: { flexGrow: 1, flexBasis: 210, flexDirection: 'row', alignItems: 'flex-start', gap: 10, padding: 14,
-    backgroundColor: STUDENT_WEB.surface, borderWidth: 1, borderColor: STUDENT_WEB.border, borderRadius: 16 },
-  webTipTitle: { fontFamily: FONTS.extraBold, color: STUDENT_WEB.ink, fontSize: 15 },
-
   screen: { flex: 1, backgroundColor: '#080B16' }, overlay: { flex: 1, width: '100%', maxWidth: 1200, alignSelf: 'center', backgroundColor: 'rgba(15,23,42,0.15)' },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, padding: SIZES.medium },
   iconButton: { width: 48, height: 48, borderRadius: 24, backgroundColor: 'rgba(15,23,42,0.65)', alignItems: 'center', justifyContent: 'center' },

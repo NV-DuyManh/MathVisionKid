@@ -34,7 +34,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const renderedRevision = revision.current;
   const router = useRouter();
   const pathname = usePathname();
-  // Let legacy introduction URLs redirect to login for signed-out visitors.
+  // The shared export is mounted under /study, while the standalone preview
+  // can expose the same public onboarding screen at /welcome or /onboarding.
+  // Keep both entry points public so an anonymous student can reach the real
+  // login handoff without being held by the protected-route guard.
   const publicWelcome = /^(?:\/(?:study|learn))?\/(?:welcome|onboarding)\/?$/.test(pathname);
   const loginRoute = /^(?:\/(?:study|learn))?\/login\/?$/.test(pathname);
   const portal = typeof window !== 'undefined' && /^\/(?:study|learn)(?:\/|$)/.test(window.location.pathname);

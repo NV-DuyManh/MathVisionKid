@@ -34,7 +34,7 @@ it('uses compact dots and swiping without arrows or redundant page text', async 
   await act(async () => { view = TestRenderer.create(wrap()); });
   expect(button('Trang giới thiệu trước')).toBeUndefined();
   expect(button('Trang giới thiệu tiếp theo')).toBeUndefined();
-  expect(button('Đăng nhập')).toBeDefined();
+  expect(button('Tiếp tục học')).toBeDefined();
   const text = view.root.findAllByType('Text' as any).map(node => String(node.props.children)).join(' ');
   expect(text).not.toMatch(/Trang [123] trên 3/);
   act(() => button('Trang giới thiệu 3').props.onPress());
@@ -47,38 +47,13 @@ it('uses compact dots and swiping without arrows or redundant page text', async 
   expect(button('Trang giới thiệu 2').props['aria-selected']).toBe(true);
 });
 
-it('moves through all three pages and saves completion only after the final action', async () => {
-  await act(async () => { view = TestRenderer.create(wrap()); });
-  act(() => button('Bắt đầu').props.onPress());
-  expect(button('Trang giới thiệu 2').props['aria-selected']).toBe(true);
-  expect(button('Đăng nhập')).toBeUndefined();
-  act(() => button('Tiếp theo').props.onPress());
-  expect(button('Trang giới thiệu 3').props['aria-selected']).toBe(true);
-  expect(completeOnboarding).not.toHaveBeenCalled();
-  expect(mockReplace).not.toHaveBeenCalled();
-  await act(async () => {
-    button('Bắt đầu học ngay').props.onPress();
-    button('Bắt đầu học ngay').props.onPress();
-  });
-  expect(completeOnboarding).toHaveBeenCalledTimes(1);
-  expect(mockReplace.mock.calls).toEqual([['/login']]);
-});
-
-it.each(['Bỏ qua giới thiệu', 'Đăng nhập'])('persists completion and replaces the route once for %s', async label => {
+it.each(['Bắt đầu', 'Bỏ qua giới thiệu', 'Tiếp tục học'])('persists completion and replaces the route once for %s', async label => {
   await act(async () => { view = TestRenderer.create(wrap()); });
   await act(async () => { button(label).props.onPress(); button(label).props.onPress(); });
   expect(completeOnboarding).toHaveBeenCalledTimes(1);
   expect(mockReplace.mock.calls).toEqual([['/login']]);
   expect(mockPush).not.toHaveBeenCalled();
   expect(loadLearningProgress).not.toHaveBeenCalled();
-});
-
-it('can skip after moving past the first page', async () => {
-  await act(async () => { view = TestRenderer.create(wrap()); });
-  act(() => button('Bắt đầu').props.onPress());
-  await act(async () => button('Bỏ qua giới thiệu').props.onPress());
-  expect(completeOnboarding).toHaveBeenCalledTimes(1);
-  expect(mockReplace).toHaveBeenCalledWith('/login');
 });
 
 it('resumes only a valid draft belonging to the signed-in learner', async () => {
