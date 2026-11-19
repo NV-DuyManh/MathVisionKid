@@ -5,11 +5,13 @@ import { View } from 'react-native';
 import { useFonts } from 'expo-font';
 import { AuthProvider } from '../context/AuthContext';
 import { WebAlerts } from '../components/ui/WebAlerts.web';
+import { StudentWebWorkspace } from '../components/ui/StudentWebWorkspace.web';
 import { COLORS } from '../constants/theme';
 import { observeLearningPerformance } from '../features/tutoring/webPerformance.web';
 
 export default function StudentWebLayout() {
   useEffect(observeLearningPerformance, []);
+  useEffect(() => { if (typeof document !== 'undefined') document.documentElement.lang = 'vi'; }, []);
   useFonts({
     NunitoRegular: require('../../assets/fonts/Nunito-Regular.ttf'),
     NunitoMedium: require('../../assets/fonts/Nunito-Medium.ttf'),
@@ -20,9 +22,10 @@ export default function StudentWebLayout() {
   });
   return <View style={{ flex: 1, backgroundColor: COLORS.background }}>
     <Head><title>MathVisionKid — Cùng em học toán</title></Head>
+    <style>{`@media (min-width: 1100px) and (hover: hover) and (pointer: fine) { :root { zoom: 1.07; } }`}</style>
     <WebAlerts />
     <View style={{ flex: 1, width: '100%', minWidth: 0 }}>
-      <AuthProvider><Stack screenOptions={{ headerShown: false }} /></AuthProvider>
+      <AuthProvider><StudentWebWorkspace><Stack screenOptions={{ headerShown: false }} /></StudentWebWorkspace></AuthProvider>
     </View>
   </View>;
 }

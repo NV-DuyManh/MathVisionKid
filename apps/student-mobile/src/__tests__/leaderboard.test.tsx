@@ -3,7 +3,7 @@ import TestRenderer, { act } from 'react-test-renderer';
 import AchievementsScreen from '../app/(tabs)/achievements';
 import { AuthContext } from '../context/AuthContext';
 import { profileApi } from '../features/student-profile/profileApi';
-import { Platform } from 'react-native';
+import { Platform, ScrollView, StyleSheet } from 'react-native';
 
 jest.mock('expo-router', () => ({
   useRouter: () => ({ push: jest.fn(), replace: jest.fn() }),
@@ -33,6 +33,9 @@ it('shows registered-grade ranking, keeps public names and handles an empty name
   const words = tree!.root.findAllByType('Text' as any).map(node => String(node.props.children)).join(' ');
   expect(words).toContain('Bảng xếp hạng, khối 5');
   expect(words).toContain('Minh Anh');
+  const scroll = tree!.root.findByType(ScrollView);
+  expect(scroll.props.showsVerticalScrollIndicator).toBe(false);
+  expect(StyleSheet.flatten(scroll.props.contentContainerStyle).paddingTop).toBe(12);
   expect(words).toContain('Bạn chăm học');
   expect(words).toContain('Em');
   expect(words).not.toContain('Toàn hệ thống');

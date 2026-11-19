@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -15,11 +15,15 @@ import { FONTS, COLORS, SIZES, SHADOWS } from '../../constants/theme';
 import { AppButton } from '../ui/AppButton';
 import { AuthContext } from '../../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
-import { BrandLockup } from '../ui/BrandLockup';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AppIllustration } from '../ui/AppIllustration';
 import { authApi } from '../../services/api/authApi';
 
 type Gender = 'MALE' | 'FEMALE' | 'OTHER' | 'PREFER_NOT_TO_SAY';
 type AuthView = 'login' | 'register' | 'request-reset' | 'confirm-reset';
+
+const grades = [1, 2, 3, 4, 5];
 
 const genders: { value: Gender; label: string }[] = [
   { value: 'MALE', label: 'Nam' },
@@ -31,6 +35,7 @@ const genders: { value: Gender; label: string }[] = [
 export default function LoginScreen() {
   const { width } = useWindowDimensions();
   const wide = width >= 1000;
+  const insets = useSafeAreaInsets();
   const [authView, setAuthView] = useState<AuthView>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,17 +54,13 @@ export default function LoginScreen() {
   const [successMessage, setSuccessMessage] = useState('');
   const auth = useContext(AuthContext);
   const submitLock = useRef(false);
-  const errorSummary = useRef<React.ElementRef<typeof View>>(null);
-  useEffect(() => {
-    if (Platform.OS === 'web' && errorMessage) errorSummary.current?.focus();
-  }, [errorMessage]);
   const clearMessages = () => {
     setErrorMessage('');
     setSuccessMessage('');
   };
 
   const openView = (view: AuthView) => {
-    if (Platform.OS === 'web' && submitLock.current) return;
+    if (submitLock.current) return;
     setAuthView(view);
     clearMessages();
   };
@@ -93,7 +94,7 @@ export default function LoginScreen() {
   };
 
   const handleRegister = async () => {
-    if (Platform.OS === 'web' && submitLock.current) return;
+    if (submitLock.current) return;
     const cleanEmail = email.trim();
     const cleanName = displayName.trim();
     const cleanPhone = phoneNumber.trim();
@@ -119,7 +120,7 @@ export default function LoginScreen() {
       return;
     }
 
-    if (Platform.OS === 'web') submitLock.current = true;
+    submitLock.current = true;
     clearMessages();
     setLoading(true);
     try {
@@ -146,19 +147,19 @@ export default function LoginScreen() {
         setErrorMessage('Chưa tạo được tài khoản. Vui lòng thử lại sau.');
       }
     } finally {
-      if (Platform.OS === 'web') submitLock.current = false;
+      submitLock.current = false;
       setLoading(false);
     }
   };
 
   const handleRequestPasswordReset = async () => {
-    if (Platform.OS === 'web' && submitLock.current) return;
+    if (submitLock.current) return;
     const cleanEmail = email.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
       setErrorMessage('Vui lòng nhập email đã đăng ký hợp lệ.');
       return;
     }
-    if (Platform.OS === 'web') submitLock.current = true;
+    submitLock.current = true;
     clearMessages();
     setLoading(true);
     try {
@@ -167,21 +168,17 @@ export default function LoginScreen() {
       setSuccessMessage('Nếu email đã đăng ký, mã xác nhận 6 số sẽ được gửi đến hộp thư đó.');
     } catch (error: any) {
       const errorCode = error.response?.data?.error?.code;
-      setErrorMessage(Platform.OS === 'web' && (errorCode === 'EMAIL_DELIVERY_FAILED' || error.response?.status === 503)
+      setErrorMessage(errorCode === 'EMAIL_DELIVERY_FAILED' || error.response?.status === 503
         ? 'Chưa gửi được mã xác nhận. Em thử lại sau hoặc nhờ thầy cô hỗ trợ nhé.'
-        : errorCode === 'EMAIL_DELIVERY_FAILED'
-        ? 'Dịch vụ email đang từ chối thông tin SMTP. Quản trị viên cần kiểm tra cấu hình gửi email.'
-        : error.response?.status === 503
-          ? 'Dịch vụ gửi email chưa được cấu hình đầy đủ. Hãy liên hệ quản trị viên.'
-          : 'Chưa gửi được mã xác nhận. Hãy kiểm tra kết nối rồi thử lại.');
+        : 'Chưa gửi được mã xác nhận. Hãy kiểm tra kết nối rồi thử lại.');
     } finally {
-      if (Platform.OS === 'web') submitLock.current = false;
+      submitLock.current = false;
       setLoading(false);
     }
   };
 
   const handleConfirmPasswordReset = async () => {
-    if (Platform.OS === 'web' && submitLock.current) return;
+    if (submitLock.current) return;
     if (!/^\d{6}$/.test(resetCode)) {
       setErrorMessage('Mã xác nhận phải gồm đúng 6 chữ số.');
       return;
@@ -194,7 +191,7 @@ export default function LoginScreen() {
       setErrorMessage('Mật khẩu xác nhận chưa khớp.');
       return;
     }
-    if (Platform.OS === 'web') submitLock.current = true;
+    submitLock.current = true;
     clearMessages();
     setLoading(true);
     try {
@@ -210,13 +207,17 @@ export default function LoginScreen() {
         ? 'Mã không đúng, đã hết hạn hoặc đã vượt số lần thử. Hãy yêu cầu mã mới.'
         : 'Chưa đổi được mật khẩu. Hãy thử lại sau.');
     } finally {
-      if (Platform.OS === 'web') submitLock.current = false;
+      submitLock.current = false;
       setLoading(false);
     }
   };
 
   const submitForm = authView === 'login' ? handleLogin : authView === 'register' ? handleRegister
     : authView === 'request-reset' ? handleRequestPasswordReset : handleConfirmPasswordReset;
+
+  const fieldIcon = (name: keyof typeof Ionicons.glyphMap, size = 20) =>
+    <Ionicons name={name} size={size} color="#66568C" accessible={false} />;
+  const actionIcon = <Ionicons name="arrow-forward" size={18} color="#fff" accessible={false} />;
 
   const field = (
     label: string,
@@ -226,14 +227,16 @@ export default function LoginScreen() {
       placeholder: string;
       keyboardType?: 'default' | 'email-address' | 'phone-pad' | 'number-pad';
       secureTextEntry?: boolean;
-      autoComplete?: 'name' | 'email' | 'tel' | 'new-password' | 'username' | 'password';
+      autoComplete?: 'name' | 'email' | 'tel' | 'new-password' | 'username' | 'one-time-code';
       autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
       maxLength?: number;
+      icon?: keyof typeof Ionicons.glyphMap;
     },
   ) => (
     <View style={styles.inputGroup}>
       <Text style={styles.label}>{label}</Text>
-      <View style={styles.inputWrapper}>
+      <View style={[styles.inputWrapper, styles.authInput]}>
+        {fieldIcon(options.icon ?? 'person-outline')}
         <TextInput
           style={styles.input}
           value={value}
@@ -247,171 +250,200 @@ export default function LoginScreen() {
           maxLength={options.maxLength}
           accessibilityLabel={label}
           accessibilityHint="Trường bắt buộc"
-          {...(Platform.OS === 'web' ? {
-            'aria-required': true,
-            'aria-describedby': errorMessage ? 'student-auth-error' : undefined,
-            editable: !loading,
-            onSubmitEditing: submitForm,
-            returnKeyType: 'go' as const,
-          } : {})}
+          editable={!loading}
+          onSubmitEditing={submitForm}
+          returnKeyType="go"
         />
+      </View>
+    </View>
+  );
+
+  const form = (
+    <View style={styles.formColumn}>
+      <View style={[styles.card, SHADOWS.small, styles.authCard]}>
+        <View style={styles.emblem} accessible={false}>
+          {fieldIcon(authView === 'request-reset' || authView === 'confirm-reset' ? 'key-outline' : 'school', 27)}
+        </View>
+        <Text
+          style={[styles.title, styles.authHeading]}
+          accessibilityRole="header"
+        >
+          {authView === 'login' ? 'Đăng nhập'
+            : authView === 'register' ? 'Tạo tài khoản học sinh'
+              : 'Khôi phục mật khẩu'}
+        </Text>
+        <Text style={[styles.subtitle, styles.authHeading]}>
+          {authView === 'login' ? 'Cùng giải và kiểm tra bài toán hôm nay nhé!'
+            : authView === 'register' ? 'Điền thông tin để bắt đầu hành trình học toán.'
+              : authView === 'request-reset' ? 'Nhận mã xác nhận 6 số qua email đã đăng ký.'
+                : 'Nhập mã trong email và đặt mật khẩu mới.'}
+        </Text>
+
+        {errorMessage ? (
+          <View style={styles.errorBanner} accessible accessibilityRole="alert" accessibilityLiveRegion="assertive">
+            <Ionicons name="alert-circle" size={20} color={COLORS.error} />
+            <Text style={styles.errorText}>{errorMessage}</Text>
+          </View>
+        ) : null}
+        {successMessage ? (
+          <View style={styles.successBanner} accessible accessibilityRole="alert" accessibilityLiveRegion="polite">
+            <Ionicons name="checkmark-circle" size={20} color={COLORS.success} />
+            <Text style={styles.successText}>{successMessage}</Text>
+          </View>
+        ) : null}
+
+        <View style={styles.form} accessibilityState={{ busy: loading }}>
+          {authView === 'login' ? <>
+            {field('Email', email, setEmail, { placeholder: 'Nhập email của em', keyboardType: 'email-address', autoComplete: 'username', maxLength: 255 })}
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Mật khẩu</Text>
+              <View style={[styles.inputWrapper, styles.authInput]}>
+                {fieldIcon('lock-closed-outline')}
+                <TextInput
+                  style={[styles.input, styles.passwordInput]}
+                  value={password}
+                  onChangeText={(text) => { setPassword(text); if (errorMessage) setErrorMessage(''); }}
+                  placeholder="Nhập mật khẩu của em"
+                  placeholderTextColor={COLORS.textMuted}
+                  secureTextEntry={!showPassword}
+                  autoCapitalize="none"
+                  autoComplete="password"
+                  textContentType="password"
+                  accessibilityLabel="Mật khẩu"
+                  editable={!loading}
+                  onSubmitEditing={handleLogin}
+                  returnKeyType="go"
+                />
+                <TouchableOpacity style={styles.eyeButton} onPress={() => setShowPassword(!showPassword)} accessibilityRole="button" accessibilityLabel={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+                  <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={22} color={COLORS.textSecondary} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Pressable style={styles.forgotButton} onPress={() => openView('request-reset')} accessibilityRole="button">
+              <Text style={styles.switchText}>Quên mật khẩu?</Text>
+            </Pressable>
+            <AppButton title="Đăng nhập" loadingTitle="Đang đăng nhập…" onPress={handleLogin} loading={loading} disabled={loading} style={styles.authAction} icon={actionIcon} />
+            <Pressable style={styles.switchButton} onPress={() => openView('register')} accessibilityRole="button">
+              <Text style={styles.switchText}>
+                Chưa có tài khoản? Đăng ký
+              </Text>
+            </Pressable>
+          </> : authView === 'register' ? <>
+            {field('Họ và tên', displayName, setDisplayName, { placeholder: 'Tên của em', autoComplete: 'name', maxLength: 255 })}
+            {field('Email đăng nhập', email, setEmail, { placeholder: 'ten@example.com', keyboardType: 'email-address', autoComplete: 'email', maxLength: 255 })}
+            {field('Số điện thoại', phoneNumber, setPhoneNumber, { placeholder: 'Nhập số điện thoại', keyboardType: 'phone-pad', autoComplete: 'tel', maxLength: 32, icon: 'call-outline' })}
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Vai trò</Text>
+              <View style={styles.readOnlyField} accessibilityLabel="Vai trò: Học sinh">
+                <Ionicons name="school-outline" size={20} color={COLORS.textSecondary} />
+                <Text style={styles.readOnlyText}>Học sinh</Text>
+              </View>
+            </View>
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.label} accessibilityRole="text">Khối lớp</Text>
+              <View style={styles.choiceRow} accessibilityLabel="Chọn khối lớp">
+                {grades.map((grade) => (
+                  <Pressable key={grade} style={[styles.choice, gradeLevel === grade && styles.choiceSelected]} onPress={() => setGradeLevel(grade)} accessibilityRole="button" accessibilityLabel={`Lớp ${grade}`} accessibilityState={{ selected: gradeLevel === grade }}>
+                    <Text style={[styles.choiceText, gradeLevel === grade && styles.choiceTextSelected]}>Lớp {grade}</Text>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.label} accessibilityRole="text">Giới tính</Text>
+              <View style={styles.choiceRow} accessibilityLabel="Chọn giới tính">
+                {genders.map((option) => (
+                  <Pressable key={option.value} style={[styles.choice, gender === option.value && styles.choiceSelected]} onPress={() => setGender(option.value)} accessibilityRole="button" accessibilityLabel={option.label} accessibilityState={{ selected: gender === option.value }}>
+                    <Text style={[styles.choiceText, gender === option.value && styles.choiceTextSelected]}>{option.label}</Text>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
+
+            {field('Mật khẩu', registerPassword, setRegisterPassword, { placeholder: 'Từ 8 đến 72 ký tự', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72, icon: 'lock-closed-outline' })}
+            {field('Nhập lại mật khẩu', confirmPassword, setConfirmPassword, { placeholder: 'Nhập lại mật khẩu', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72, icon: 'lock-closed-outline' })}
+            <Text style={styles.helperText}>Mật khẩu cần có ít nhất 8 ký tự.</Text>
+            <AppButton title="Tạo tài khoản" loadingTitle="Đang tạo tài khoản…" onPress={handleRegister} loading={loading} disabled={loading} icon={actionIcon} />
+            <Pressable style={styles.switchButton} onPress={() => openView('login')} accessibilityRole="button">
+              <Text style={styles.switchText}>
+                Đã có tài khoản? Đăng nhập
+              </Text>
+            </Pressable>
+          </> : authView === 'request-reset' ? <>
+            <Text style={styles.helperText}>Nhập email dùng để tạo tài khoản. Mã có hiệu lực trong 10 phút.</Text>
+            {field('Email đăng ký', email, setEmail, { placeholder: 'ten@example.com', keyboardType: 'email-address', autoComplete: 'email', maxLength: 255 })}
+            <AppButton title="Gửi mã xác nhận" loadingTitle="Đang gửi mã…" onPress={handleRequestPasswordReset} loading={loading} disabled={loading} icon={actionIcon} />
+            <Pressable style={styles.switchButton} onPress={() => openView('login')} accessibilityRole="button">
+              <Text style={styles.switchText}>Quay lại đăng nhập</Text>
+            </Pressable>
+          </> : <>
+            {field('Mã xác nhận 6 số', resetCode, setResetCode, { placeholder: '000000', keyboardType: 'number-pad', autoCapitalize: 'none', autoComplete: 'one-time-code', maxLength: 6, icon: 'key-outline' })}
+            {field('Mật khẩu mới', newPassword, setNewPassword, { placeholder: 'Từ 8 đến 72 ký tự', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72, icon: 'lock-closed-outline' })}
+            {field('Nhập lại mật khẩu mới', confirmNewPassword, setConfirmNewPassword, { placeholder: 'Nhập lại mật khẩu mới', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72, icon: 'lock-closed-outline' })}
+            <AppButton title="Xác nhận và đổi mật khẩu" loadingTitle="Đang đổi mật khẩu…" onPress={handleConfirmPasswordReset} loading={loading} disabled={loading} icon={actionIcon} />
+            <Pressable style={styles.switchButton} onPress={() => openView('request-reset')} accessibilityRole="button">
+              <Text style={styles.switchText}>Gửi lại mã</Text>
+            </Pressable>
+            <Pressable style={styles.switchButton} onPress={() => openView('login')} accessibilityRole="button">
+              <Text style={styles.switchText}>Quay lại đăng nhập</Text>
+            </Pressable>
+          </>}
+        </View>
+      </View>
+      <View style={[styles.footerNote, styles.authFooter]}>
+        <Ionicons name="shield-checkmark-outline" size={20} color="#815806" accessible={false} />
+        <Text style={[styles.footerText, styles.authFooterText]}>{authView === 'register' ? 'Thông tin của em được dùng để tạo tài khoản học tập.' : 'Tài khoản được xác minh bằng email và mã bảo mật.'}</Text>
       </View>
     </View>
   );
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <ScrollView contentContainerStyle={[styles.scrollContent, wide && styles.scrollWide]} keyboardShouldPersistTaps="handled">
-        <View style={[styles.brandSection, wide && styles.brandWide]}>
-          <BrandLockup compact />
-          {wide ? <>
-            <Text style={styles.welcomeTitle}>Mỗi bài toán,<Text style={{ color: '#7548EA' }}> một khám phá.</Text></Text>
-            <Text style={styles.welcomeCopy}>Cùng hiểu đề, thử cách làm và tự tin tìm lời giải.</Text>
-          </> : null}
-        </View>
-        <View style={styles.formColumn}>
-          <View style={[styles.card, SHADOWS.small]}>
-            <Text style={styles.title} accessibilityRole="header">
-              {authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản học sinh' : 'Khôi phục mật khẩu'}
-            </Text>
-            <Text style={styles.subtitle}>
-              {authView === 'login' ? 'Cùng giải và kiểm tra bài toán hôm nay nhé!'
-                : authView === 'register' ? 'Điền thông tin để bắt đầu hành trình học toán.'
-                  : authView === 'request-reset' ? 'Nhận mã xác nhận 6 số qua email đã đăng ký.'
-                    : 'Nhập mã trong email và đặt mật khẩu mới.'}
-            </Text>
-
-            {errorMessage ? (
-              <View ref={errorSummary} {...(Platform.OS === 'web' ? { nativeID: 'student-auth-error', tabIndex: -1 } : {})} style={styles.errorBanner} accessible accessibilityRole="alert" accessibilityLiveRegion="assertive">
-                <Ionicons name="alert-circle" size={20} color={COLORS.error} />
-                <Text style={styles.errorText}>{errorMessage}</Text>
-              </View>
-            ) : null}
-            {successMessage ? (
-              <View style={styles.successBanner} accessible accessibilityRole="alert" accessibilityLiveRegion="polite">
-                <Ionicons name="checkmark-circle" size={20} color={COLORS.success} />
-                <Text style={styles.successText}>{successMessage}</Text>
-              </View>
-            ) : null}
-
-            <View style={styles.form} accessibilityState={{ busy: loading }}>
-              {authView === 'login' ? <>
-                {field('Email', email, setEmail, { placeholder: 'Nhập email của em', keyboardType: 'email-address', autoComplete: 'username', maxLength: 255 })}
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Mật khẩu</Text>
-                  <View style={styles.inputWrapper}>
-                    <TextInput
-                      style={[styles.input, styles.passwordInput]}
-                      value={password}
-                      onChangeText={(text) => { setPassword(text); if (errorMessage) setErrorMessage(''); }}
-                      placeholder="Nhập mật khẩu của em"
-                      placeholderTextColor={COLORS.textMuted}
-                      secureTextEntry={!showPassword}
-                      autoCapitalize="none"
-                      autoComplete="password"
-                      textContentType="password"
-                      accessibilityLabel="Mật khẩu"
-                      {...(Platform.OS === 'web' ? {
-                        'aria-required': true,
-                        'aria-describedby': errorMessage ? 'student-auth-error' : undefined,
-                        editable: !loading,
-                        onSubmitEditing: handleLogin,
-                        returnKeyType: 'go' as const,
-                      } : {})}
-                    />
-                    <TouchableOpacity style={styles.eyeButton} onPress={() => setShowPassword(!showPassword)} accessibilityRole="button" accessibilityLabel={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-                      <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={22} color={COLORS.textSecondary} />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <Pressable style={styles.forgotButton} onPress={() => openView('request-reset')} accessibilityRole="button">
-                  <Text style={styles.switchText}>Quên mật khẩu?</Text>
-                </Pressable>
-                <AppButton title="Đăng nhập" loadingTitle="Đang đăng nhập…" onPress={handleLogin} loading={loading} disabled={loading} variant="primary" />
-                <Pressable style={styles.switchButton} onPress={() => openView('register')} accessibilityRole="button">
-                  <Text style={styles.switchText}>Chưa có tài khoản? Đăng ký</Text>
-                </Pressable>
-              </> : authView === 'register' ? <>
-                {field('Họ và tên', displayName, setDisplayName, { placeholder: 'Tên của em', autoComplete: 'name', maxLength: 255 })}
-                {field('Email đăng nhập', email, setEmail, { placeholder: 'ten@example.com', keyboardType: 'email-address', autoComplete: 'email', maxLength: 255 })}
-                {field('Số điện thoại', phoneNumber, setPhoneNumber, { placeholder: 'Nhập số điện thoại', keyboardType: 'phone-pad', autoComplete: 'tel', maxLength: 32 })}
-
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Vai trò</Text>
-                  <View style={styles.readOnlyField} accessibilityLabel="Vai trò: Học sinh">
-                    <Ionicons name="school-outline" size={20} color={COLORS.textSecondary} />
-                    <Text style={styles.readOnlyText}>Học sinh</Text>
-                  </View>
-                </View>
-
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label} accessibilityRole="text">Khối lớp</Text>
-                  <View style={styles.choiceRow} accessibilityLabel="Chọn khối lớp">
-                    {[1, 2, 3, 4, 5].map((grade) => (
-                      <Pressable key={grade} style={[styles.choice, gradeLevel === grade && styles.choiceSelected]} onPress={() => setGradeLevel(grade)} accessibilityRole="button" accessibilityLabel={`Lớp ${grade}`} accessibilityState={{ selected: gradeLevel === grade }}>
-                        <Text style={[styles.choiceText, gradeLevel === grade && styles.choiceTextSelected]}>Lớp {grade}</Text>
-                      </Pressable>
-                    ))}
-                  </View>
-                </View>
-
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label} accessibilityRole="text">Giới tính</Text>
-                  <View style={styles.choiceRow} accessibilityLabel="Chọn giới tính">
-                    {genders.map((option) => (
-                      <Pressable key={option.value} style={[styles.choice, gender === option.value && styles.choiceSelected]} onPress={() => setGender(option.value)} accessibilityRole="button" accessibilityLabel={option.label} accessibilityState={{ selected: gender === option.value }}>
-                        <Text style={[styles.choiceText, gender === option.value && styles.choiceTextSelected]}>{option.label}</Text>
-                      </Pressable>
-                    ))}
-                  </View>
-                </View>
-
-                {field('Mật khẩu', registerPassword, setRegisterPassword, { placeholder: 'Từ 8 đến 72 ký tự', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72 })}
-                {field('Nhập lại mật khẩu', confirmPassword, setConfirmPassword, { placeholder: 'Nhập lại mật khẩu', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72 })}
-                <Text style={styles.helperText}>Mật khẩu cần có ít nhất 8 ký tự.</Text>
-                <AppButton title="Tạo tài khoản" loadingTitle="Đang tạo tài khoản…" onPress={handleRegister} loading={loading} disabled={loading} variant="primary" />
-                <Pressable style={styles.switchButton} onPress={() => openView('login')} accessibilityRole="button">
-                  <Text style={styles.switchText}>Đã có tài khoản? Đăng nhập</Text>
-                </Pressable>
-              </> : authView === 'request-reset' ? <>
-                <Text style={styles.helperText}>Nhập email dùng để tạo tài khoản. Mã có hiệu lực trong 10 phút.</Text>
-                {field('Email đăng ký', email, setEmail, { placeholder: 'ten@example.com', keyboardType: 'email-address', autoComplete: 'email', maxLength: 255 })}
-                <AppButton title="Gửi mã xác nhận" loadingTitle="Đang gửi mã…" onPress={handleRequestPasswordReset} loading={loading} disabled={loading} variant="primary" />
-                <Pressable style={styles.switchButton} onPress={() => openView('login')} accessibilityRole="button">
-                  <Text style={styles.switchText}>Quay lại đăng nhập</Text>
-                </Pressable>
-              </> : <>
-                {field('Mã xác nhận 6 số', resetCode, setResetCode, { placeholder: '000000', keyboardType: 'number-pad', autoCapitalize: 'none', maxLength: 6 })}
-                {field('Mật khẩu mới', newPassword, setNewPassword, { placeholder: 'Từ 8 đến 72 ký tự', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72 })}
-                {field('Nhập lại mật khẩu mới', confirmNewPassword, setConfirmNewPassword, { placeholder: 'Nhập lại mật khẩu mới', secureTextEntry: true, autoComplete: 'new-password', maxLength: 72 })}
-                <AppButton title="Xác nhận và đổi mật khẩu" loadingTitle="Đang đổi mật khẩu…" onPress={handleConfirmPasswordReset} loading={loading} disabled={loading} variant="primary" />
-                <Pressable style={styles.switchButton} onPress={() => openView('request-reset')} accessibilityRole="button">
-                  <Text style={styles.switchText}>Gửi lại mã</Text>
-                </Pressable>
-                <Pressable style={styles.switchButton} onPress={() => openView('login')} accessibilityRole="button">
-                  <Text style={styles.switchText}>Quay lại đăng nhập</Text>
-                </Pressable>
-              </>}
+      <ScrollView contentContainerStyle={[styles.scrollContent, wide && styles.scrollWide,
+        { paddingTop: insets.top + 12, paddingBottom: insets.bottom + 16 }]} keyboardShouldPersistTaps="handled">
+        <LinearGradient testID="student-auth-hero"
+          colors={['#3926AE', '#6247DE', '#8152F2']}
+          start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+          style={[styles.authHero, wide && styles.authHeroWide]}>
+          <View style={styles.authHeroCopy}>
+            <View style={styles.authBrand}>
+              <Ionicons name="planet" size={18} color="#FFE07C" accessible={false} />
+              <Text style={styles.authBrandText}>MathVisionKid</Text>
             </View>
+            <Text style={styles.authSlogan}>Mỗi bài toán,<Text style={styles.authGold}>{'\n'}một khám phá.</Text></Text>
           </View>
-          <View style={styles.footerNote}>
-            <Text style={styles.footerText}>{authView === 'register' ? 'Thông tin của em được dùng để tạo tài khoản học tập.' : 'Tài khoản được xác minh bằng email và mã bảo mật.'}</Text>
-          </View>
-        </View>
+          <AppIllustration highResolution source={require('../../../assets/illustrations/web/robot-mascot.webp')}
+            style={styles.authMascot} accessible={false} />
+        </LinearGradient>
+        {form}
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  emblem: { width: 46, height: 44, borderRadius: 15, alignItems: 'center', alignSelf: 'center', justifyContent: 'center', backgroundColor: '#EEE8FF', marginBottom: 10 },
+  authFooter: { flexDirection: 'row', justifyContent: 'center', gap: 8, backgroundColor: '#FFF5D9', borderRadius: 13, padding: 9, marginTop: 10 },
   container: { flex: 1, backgroundColor: COLORS.background },
   scrollContent: { flexGrow: 1, padding: SIZES.large, justifyContent: 'center', maxWidth: 480, width: '100%', alignSelf: 'center' },
   scrollWide: { maxWidth: 1140, flexDirection: 'row', gap: 60, alignItems: 'center', padding: 44 },
-  brandWide: { flex: 1, padding: 35, paddingVertical: 55, borderRadius: 35, backgroundColor: '#EEE7FC', minHeight: 530, justifyContent: 'center' },
   formColumn: { flex: 1, width: '100%', maxWidth: 460, alignSelf: 'center' },
-  welcomeTitle: { fontFamily: FONTS.black, fontSize: 35, lineHeight: 45, color: COLORS.textPrimary, textAlign: 'center', marginTop: 35 },
-  welcomeCopy: { fontFamily: FONTS.regular, fontSize: 17, lineHeight: 28, color: '#73618D', textAlign: 'center', marginTop: 18 },
-  brandSection: { alignItems: 'center', marginBottom: SIZES.xlarge },
+  authHero: { alignItems: 'center', flexDirection: 'row', gap: 8, borderRadius: 25, padding: 16, marginBottom: 14 },
+  authHeroWide: { flex: 1, minHeight: 330 },
+  authHeroCopy: { flex: 1, minWidth: 0, gap: 9 },
+  authBrand: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  authBrandText: { color: '#FFFFFF', fontFamily: FONTS.extraBold, fontSize: 15, flexShrink: 1 },
+  authSlogan: { color: '#FFFFFF', fontFamily: FONTS.black, fontSize: 21, lineHeight: 26 },
+  authGold: { color: '#FFD044' },
+  authMascot: { width: '31%', maxWidth: 180, aspectRatio: 1 },
+  authCard: { borderRadius: 25, padding: 18 },
+  authHeading: { textAlign: 'center' },
+  authInput: { gap: 10, backgroundColor: '#F1EBFA' },
+  authAction: { backgroundColor: '#6535D5' },
+  authFooterText: { flexShrink: 1 },
   card: { backgroundColor: COLORS.surface, borderRadius: SIZES.cardRadius, padding: SIZES.xlarge, borderWidth: 1, borderColor: COLORS.border },
   title: { fontSize: 22, fontFamily: FONTS.extraBold, color: COLORS.textPrimary, marginBottom: 4 },
   subtitle: { fontFamily: FONTS.regular, fontSize: 14, color: COLORS.textSecondary, marginBottom: SIZES.large },

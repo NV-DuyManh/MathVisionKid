@@ -49,7 +49,7 @@ test('Incomplete work names the unmet quantity, saves and reopens the source, th
   await testInfo.attach('Specific missing quantity and hint — synthetic API', { path: missingImage, contentType: 'image/png' });
   await page.getByRole('button', { name: 'Lưu bài để học tiếp', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Đã lưu bài của em', exact: true })).toBeVisible();
-  await page.goto(`${sites.portal.origin}/study/profile`);
+  await page.goto(`${sites.portal.origin}/study/${page.viewportSize().width >= 768 ? 'saved' : 'profile'}`);
   await page.getByRole('button', { name: 'Học tiếp: ' + problem.slice(0, 60), exact: true }).click();
   await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await expect(page.getByText(description, { exact: true })).toBeVisible();

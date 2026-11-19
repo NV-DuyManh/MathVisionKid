@@ -61,6 +61,8 @@ describe('Student navigation and real saved activity', () => {
     act(() => { renderer = TestRenderer.create(<LessonsScreen />); });
     act(() => press(renderer!, 'Chọn Lớp 5'));
     const problem = getProblemsByGrade(5)[0];
+    expect(text(renderer!)).not.toContain(problem.title);
+    act(() => press(renderer!, `Chủ đề ${problem.section}`));
     expect(text(renderer!)).toContain(problem.title);
     expect(text(renderer!)).not.toContain(getProblemsByGrade(1)[0].title);
     act(() => press(renderer!, `Mở bài: ${problem.title}`));
@@ -83,7 +85,8 @@ describe('Student navigation and real saved activity', () => {
     const auth = { user: { id: 'student', gradeLevel: 5 }, isAuthenticated: true, isLoading: false, login: jest.fn(), logout: jest.fn() };
     let renderer: TestRenderer.ReactTestRenderer;
     act(() => { renderer = TestRenderer.create(<AuthContext.Provider value={auth}><LessonsScreen /></AuthContext.Provider>); });
-    expect(text(renderer!)).toContain(getProblemsByGrade(5)[0].title);
+    expect(text(renderer!)).not.toContain(getProblemsByGrade(5)[0].title);
+    expect(text(renderer!)).toContain(getProblemsByGrade(5)[0].section);
     expect(text(renderer!)).not.toContain(getProblemsByGrade(1)[0].title);
     expect(renderer!.root.findAll(node => String(node.props.accessibilityLabel).startsWith('Chọn Lớp'))).toHaveLength(0);
     act(() => renderer!.unmount());
@@ -104,7 +107,11 @@ describe('Student navigation and real saved activity', () => {
     act(() => input.props.onChangeText('khong-co-bai'));
     expect(text(renderer!)).toContain('Chưa tìm thấy bài phù hợp.');
     act(() => press(renderer!, 'Xem tất cả bài học'));
+    expect(text(renderer!)).not.toContain('Cộng số thập phân');
+    act(() => press(renderer!, 'Chủ đề Số và phép tính'));
     expect(text(renderer!)).toContain('Cộng số thập phân');
+    act(() => press(renderer!, 'Chủ đề Số và phép tính'));
+    expect(text(renderer!)).not.toContain('Cộng số thập phân');
     act(() => renderer!.unmount());
   });
 

@@ -14,7 +14,7 @@ import { recognitionAnalyticsStore } from '../features/recognition/analytics/rec
 import { COLORS, FONTS } from '../constants/theme';
 interface AuthContextType {
   user: any; isAuthenticated: boolean; isLoading: boolean;
-  login: (credentials: any) => Promise<void>; logout: () => Promise<void>;
+  logout: () => Promise<void>;
   refreshUser?: () => Promise<void>;
   changePassword?: (currentPassword: string, newPassword: string, signal?: AbortSignal) => Promise<void>;
 }
@@ -70,8 +70,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const [access, refresh] = await Promise.all([tokenStorage.getAccessToken(), tokenStorage.getRefreshToken()]);
         if (!active || current !== revision.current) return;
         if (!access && !refresh) {
-          if (!publicWelcome && !loginRoute) {
-            router.replace('/login');
+          if (!publicWelcome) {
+            if (portal) window.location.replace(loginRoute ? '/login' + window.location.search : '/login');
+            else if (!loginRoute) router.replace('/login');
           }
           return;
         }
@@ -110,49 +111,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (loginRoute && user) router.replace('/(tabs)');
   }, [loginRoute, user, router]);
-  const login = async (credentials: any) => {
-    const current = ++revision.current;
-    setFailure(null);
-    setSessionUser(null);
-    recognitionDraftStore.clearDraft();
-    await tokenStorage.clearTokens();
-    delete apiClient.defaults.headers.common.Authorization;
-    try {
-      const { data } = await apiClient.post('/auth/login', credentials, { timeout: 15000 });
-      if (current !== revision.current) throw new Error('Phiên đăng nhập đã thay đổi.');
-      if (!data.accessToken || !data.refreshToken) throw new Error('Phản hồi xác thực không hợp lệ.');
-      // Verify fresh credentials without persisting a Teacher/Admin session in Student storage.
-      const authorization = { Authorization: `Bearer ${data.accessToken}` };
-      const { data: verified } = await axios.get(`${ENV.API_BASE_URL}/me`, { headers: authorization, timeout: 15000 });
-      if (current !== revision.current) throw new Error('Phiên đăng nhập đã thay đổi.');
-      if (!['STUDENT', 'TEACHER', 'ADMIN'].includes(verified.role) || verified.active !== true) {
-        if (portal) window.location.replace('/access-denied');
-        throw Object.assign(new Error('Tài khoản chưa được phép học.'), { response: { status: 403 } });
-      }
-      if (verified.role === 'TEACHER' || verified.role === 'ADMIN') {
-        const origin = workspaceOrigin(verified.role);
-        const { data: ticket } = await axios.post(`${ENV.API_BASE_URL}/auth/sso/ticket`, { targetApp: verified.role },
-          { headers: authorization, timeout: 15000 });
-        if (current !== revision.current) throw new Error('Phiên đăng nhập đã thay đổi.');
-        if (ticket?.targetApp !== verified.role || typeof ticket.code !== 'string' ||
-            !/^mvk_sso_[a-f0-9]{64}$/.test(ticket.code) || !(ticket.expiresIn > 0)) {
-          throw Object.assign(new Error('Chưa chuyển được tới không gian làm việc. Vui lòng đăng nhập lại.'), { code: 'VALIDATION_ERROR' });
-        }
-        window.location.replace(`${origin}/auth/continue#sso=${encodeURIComponent(ticket.code)}`);
-        return;
-      }
-      await tokenStorage.saveTokens(data.accessToken, data.refreshToken);
-      if (current !== revision.current) throw new Error('Phiên đăng nhập đã thay đổi.');
-      const profile = studentProfile(verified);
-      await tokenStorage.saveUser(profile);
-      if (current !== revision.current) throw new Error('Phiên đăng nhập đã thay đổi.');
-      setSessionUser(profile);
-      router.replace('/(tabs)' as any);
-    } catch (error) {
-      if (current === revision.current) { await tokenStorage.clearTokens(); delete apiClient.defaults.headers.common.Authorization; }
-      throw error;
-    }
-  };
   const logout = async () => {
     const current = ++revision.current;
     const clearPhoto = setSessionUser(null);
@@ -190,8 +148,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await tokenStorage.saveTokens(data.accessToken, data.refreshToken, session);
     if (current !== revision.current || signal?.aborted || await tokenStorage.getSessionId() !== session) throw new Error('Phiên đăng nhập đã thay đổi.');
   };
-  return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'STUDENT' && user.active === true, isLoading, login, logout, refreshUser, changePassword }}>
-    {(user && (!portal || !loginRoute)) || (!user && !isLoading && (publicWelcome || loginRoute)) ? photoRecovery.restoring ?
+  return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'STUDENT' && user.active === true, isLoading, logout, refreshUser, changePassword }}>
+    {(user && (!portal || !loginRoute)) || (!user && !isLoading && (publicWelcome || (!portal && loginRoute))) ? photoRecovery.restoring ?
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, backgroundColor: COLORS.background }}>
         <ActivityIndicator color={COLORS.primary} /><Text>Đang khôi phục ảnh của em...</Text>
       </View> : children : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 24, backgroundColor: COLORS.background }}>

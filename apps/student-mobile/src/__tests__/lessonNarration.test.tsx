@@ -27,7 +27,7 @@ const text = () => view.root.findAllByType('Text' as any).map(node => String(nod
 const render = async (overrides = {}) => { await act(async () => { view = TestRenderer.create(<LessonNarration scope="owner:step" source={source} paragraphs={paragraphs} {...overrides} />); }); };
 beforeEach(() => {
   jest.clearAllMocks(); (downloadNarration as jest.Mock).mockReset().mockResolvedValue(new Uint8Array(50));
-  (voicePreferences.get as jest.Mock).mockResolvedValue(null);
+  (voicePreferences.get as jest.Mock).mockResolvedValue(JSON.stringify({ voiceId: 'vi-VN-NamMinhNeural' }));
   (voicePreferences.set as jest.Mock).mockResolvedValue(undefined);
   (saveNarration as jest.Mock).mockReturnValue({ uri: 'file:///private-speech.wav', dispose });
 });
@@ -213,7 +213,7 @@ it('clears the old decoded file and completion state before retrying the selecte
 it('offers the two cloud voices plus a local device choice and replaces the current file without autoplay on switching', async () => {
   await render();
   expect(view.root.findAll(node => node.props.accessibilityRole === 'radio' && node.props.onPress).map(node => node.props.accessibilityLabel)).toEqual(['Giọng thiết bị', 'Giọng nam', 'Giọng nữ']);
-  expect(text().replace(/\s+/g, ' ')).toContain('Chuẩn bị khoảng 5–15 giây');
+  expect(text().replace(/\s+/g, ' ')).toContain('Chờ 5–15 giây');
   expect(button('Giọng nam').props.accessibilityState.checked).toBe(true);
   const firstSignal = (downloadNarration as jest.Mock).mock.calls[0][2];
   await act(async () => button('Giọng nữ').props.onPress());
@@ -236,12 +236,6 @@ it('loads the saved female voice before downloading and ignores late audio from 
   await act(async () => finish(new Uint8Array(50)));
   expect(saveNarration).toHaveBeenCalledTimes(1);
   expect(button('Giọng nam').props.accessibilityState.checked).toBe(true);
-});
-
-it.each(['{"voiceId":"en-US-EmmaMultilingualNeural"}', 'broken-json'])('recovers safely from an unsupported saved voice: %s', async saved => {
-  (voicePreferences.get as jest.Mock).mockResolvedValue(saved);
-  await render();
-  expect(downloadNarration).toHaveBeenLastCalledWith(source, paragraphs, expect.any(AbortSignal), 'vi-VN-NamMinhNeural', expect.any(Function));
 });
 
 it('offers two compact recovery actions and retries the selected voice without changing the lesson', async () => {

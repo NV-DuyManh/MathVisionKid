@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Paper,
   Box,
   Typography,
   TextField,
-  MenuItem,
   Button,
   Alert,
   CircularProgress,
@@ -16,17 +14,31 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from '@mui/material';
-import { Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom';
-import ArrowBack from '@mui/icons-material/ArrowBack';
-import LoginIcon from '@mui/icons-material/Login';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import GoogleIcon from '@mui/icons-material/Google';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import { authService } from '../services/authService';
 import { tokenStore } from '../services/apiClient';
 import { appConfig, googleConfigured, showDevTools } from '../config/runtime';
+
+import './studentAuth.css';
+
+const studyIcons = {
+  planet: 62659,
+  school: 62812,
+  'shapes-outline': 62831,
+  'person-outline': 62636,
+  'lock-closed-outline': 62408,
+  'eye-outline': 62186,
+  'eye-off-outline': 62184,
+  'arrow-forward': 61747,
+  'shield-checkmark-outline': 62841,
+} as const;
+
+function StudyIcon({ name, size, color }: { name: keyof typeof studyIcons; size: number; color?: string }) {
+  return <span className="student-auth-icon" style={{ fontSize: size, color }} aria-hidden="true">{String.fromCodePoint(studyIcons[name])}</span>;
+}
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -34,7 +46,6 @@ export const LoginPage: React.FC = () => {
   const [displayName, setDisplayName] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
   const [confirmRegisterPassword, setConfirmRegisterPassword] = useState('');
-  const [role, setRole] = useState<'STUDENT' | 'TEACHER'>('STUDENT');
   const [gender, setGender] = useState<'MALE' | 'FEMALE' | 'OTHER' | 'PREFER_NOT_TO_SAY'>('PREFER_NOT_TO_SAY');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [gradeLevel, setGradeLevel] = useState('1');
@@ -58,7 +69,7 @@ export const LoginPage: React.FC = () => {
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const socialRequestedRole = searchParams.get('role') === 'TEACHER' ? 'TEACHER' : undefined;
+  const requestedRole = searchParams.get('role') === 'TEACHER' ? 'TEACHER' : undefined;
 
   // Display session expired notice if redirected after expiry
   useEffect(() => {
@@ -108,7 +119,7 @@ export const LoginPage: React.FC = () => {
       const { getGoogleCredential } = await import('../services/socialAuth');
       const credential = await getGoogleCredential();
       try {
-        const user = await authService.loginWithGoogle(credential, socialRequestedRole);
+        const user = await authService.loginWithGoogle(credential, requestedRole);
         if (user.role === 'STUDENT') window.location.replace('/study/');
         else if (user.role === 'TEACHER' || user.role === 'ADMIN') {
           const origin = user.role === 'TEACHER' ? appConfig.teacherOrigin : appConfig.adminOrigin;
@@ -258,10 +269,10 @@ export const LoginPage: React.FC = () => {
         email: normalizedEmail,
         displayName: displayName.trim(),
         password: registerPassword,
-        role,
+        role: requestedRole ?? 'STUDENT',
         gender,
         phoneNumber: phoneNumber.trim(),
-        ...(role === 'STUDENT' ? { gradeLevel: Number(gradeLevel) } : {}),
+        ...(!requestedRole ? { gradeLevel: Number(gradeLevel) } : {}),
       });
       setAuthView('login');
       setPassword('');
@@ -345,33 +356,45 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <Box component="main" sx={{ minHeight: '100dvh', bgcolor: '#F3F6FC', p: { xs: 1.5, sm: 3, md: 5 }, display: 'grid', placeItems: 'center' }}>
-        <Paper
-          elevation={0}
-          sx={{
-            width: '100%', maxWidth: 940, display: 'grid', gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 2fr) minmax(0, 3fr)' },
-            borderRadius: { xs: 3, md: 5 }, border: '1px solid #E2E8F0', boxShadow: '0 20px 64px -32px #26427555',
-            overflow: 'hidden',
-          }}
-        >
-        <Box sx={{ bgcolor: '#E9F1FF', p: { xs: 2, sm: 3, md: 4 }, display: 'flex', flexDirection: { xs: 'row', md: 'column' }, alignItems: { xs: 'center', md: 'stretch' }, justifyContent: 'space-between', flexWrap: 'wrap', gap: { xs: 0.5, md: 3 } }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0 }}>
-            <Box component="img" src="/ui/robot-mascot.webp" alt="" width={32} height={32} />
-            <Typography sx={{ fontWeight: 900, color: '#143368' }}>MathVision Kids</Typography>
-          </Box>
-          <Box component="img" src="/ui/robot-mascot.webp" alt="" sx={{ display: { xs: 'none', md: 'block' }, width: '100%', maxWidth: 240, alignSelf: 'center' }} />
-          <Button component={RouterLink} to="/" startIcon={<ArrowBack />} sx={{ alignSelf: { md: 'flex-start' }, minHeight: 44, minWidth: 0, textTransform: 'none', px: 1 }}>
-            Trang chủ
-          </Button>
-        </Box>
-        <Box sx={{ minWidth: 0, p: { xs: 2.25, sm: 4, md: 5 } }}>
-        <Box sx={{ mb: 2.5 }}>
-          <Typography variant="h4" component="h1" sx={{ fontWeight: 900, mb: 0.75, fontSize: { xs: '1.65rem', sm: '2rem' }, lineHeight: 1.2 }}>
-            {authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}
-          </Typography>
-          {authView === 'login' && <Typography color="text.secondary">Dùng tài khoản Học sinh, Giáo viên hoặc Quản trị của bạn.</Typography>}
-          {authView === 'social-student-setup' && <Typography color="text.secondary">Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.</Typography>}
-        </Box>
+    <main className="student-auth">
+      <div className="student-auth-layout">
+        <section className="student-auth-hero" aria-label="Cùng em khám phá Toán học">
+          <div className="student-auth-brand">
+            <StudyIcon name="planet" size={25} color="#FFE07C" />
+            <span>MathVisionKid</span>
+          </div>
+          <div className="student-auth-intro">
+            <p className="student-auth-slogan">Mỗi bài toán,<br /><span>một khám phá.</span></p>
+            <p className="student-auth-description">Cùng MathVisionKid học Toán qua luyện tập, trò chơi và khám phá AI.</p>
+          </div>
+          <div className="student-auth-art" aria-hidden="true">
+            <img src="/ui/robot-mascot.webp" alt="" />
+          </div>
+          <span className="student-auth-math" aria-hidden><b>8 + 5 = 13</b><StudyIcon name="shapes-outline" size={30} color="#D7F6FF" /></span>
+        </section>
+        <div className="student-auth-main">
+          <Box className="student-auth-card" sx={{
+          '& .MuiOutlinedInput-root': { backgroundColor: '#F2EDF9', borderRadius: '17px', minHeight: 46 },
+          '& .MuiOutlinedInput-input': { paddingBlock: '11px', fontSize: 15, color: '#211759' },
+          '& .MuiOutlinedInput-input::placeholder': { color: '#64748B', opacity: 1 },
+          '& .MuiOutlinedInput-root:focus-within': { boxShadow: '0 0 0 3px #7449df33' },
+          '& .MuiOutlinedInput-notchedOutline': { borderColor: '#E4DCFF' },
+          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#713CF7' },
+          '& .MuiFormLabel-root.Mui-focused': { color: '#4D33D1' },
+          '& .MuiFormLabel-asterisk': { display: 'none' },
+          '& .MuiButton-text': { color: '#4D33D1' },
+          '& .MuiButton-contained': {
+            background: 'linear-gradient(105deg, #6034DF, #883EE9)', color: '#fff',
+            borderRadius: '24px', minHeight: 48, fontWeight: 800, boxShadow: 'none', textTransform: 'none',
+          },
+          '& .MuiButton-contained.Mui-disabled': { background: '#E4DCFF', color: '#625A86' },
+          }}>
+        <div className="student-auth-heading">
+          <span className="student-auth-emblem" aria-hidden="true"><StudyIcon name="school" size={27} /></span>
+          <h1>{authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}</h1>
+          {authView === 'login' && <p>Đăng nhập để tiếp tục khám phá kiến thức cùng MathVisionKid.</p>}
+          {authView === 'social-student-setup' && <p>Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.</p>}
+        </div>
 
         {error && (
           <Alert id="auth-error" severity="error" role="alert" sx={{ mb: 2, borderRadius: 2 }}>
@@ -380,26 +403,30 @@ export const LoginPage: React.FC = () => {
         )}
         {success && <Alert severity="success" role="status" sx={{ mb: 3, borderRadius: 2 }}>{success}</Alert>}
 
-        {authView === 'login' && <Box component="form" onSubmit={handleLogin} aria-busy={loading} aria-describedby={error ? 'auth-error' : undefined}>
+        {authView === 'login' && <Box component="form" onSubmit={handleLogin} noValidate aria-busy={loading} aria-describedby={error ? 'auth-error' : undefined}>
+          <label className="student-auth-control-label" htmlFor="email">Email</label>
           <TextField
             required
             fullWidth
             id="email"
-            label="Email"
+            placeholder="Nhập email của em"
             name="email"
             type="email"
             autoComplete="username"
-            slotProps={{ htmlInput: { autoCapitalize: 'none', spellCheck: false } }}
+            slotProps={{
+              htmlInput: { autoCapitalize: 'none', spellCheck: false },
+              input: { startAdornment: <InputAdornment position="start"><StudyIcon name="person-outline" size={18} color="#66568C" /></InputAdornment> },
+            }}
             value={email}
             disabled={loading}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <Box component="label" className="student-auth-control-label" htmlFor="password" sx={{ mt: 1.25 }}>Mật khẩu</Box>
           <TextField
-            sx={{ mt: 2 }}
             required
             fullWidth
             name="password"
-            label="Mật khẩu"
+            placeholder="Nhập mật khẩu của em"
             type={showPassword ? 'text' : 'password'}
             id="password"
             autoComplete="current-password"
@@ -408,6 +435,7 @@ export const LoginPage: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
             slotProps={{
               input: {
+                startAdornment: <InputAdornment position="start"><StudyIcon name="lock-closed-outline" size={18} color="#66568C" /></InputAdornment>,
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
@@ -418,7 +446,7 @@ export const LoginPage: React.FC = () => {
                       edge="end"
                       sx={{ width: 44, height: 44 }}
                     >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                      <StudyIcon name={showPassword ? "eye-off-outline" : "eye-outline"} size={22} color="#66568C" />
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -426,7 +454,7 @@ export const LoginPage: React.FC = () => {
             }}
           />
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', my: 0.5 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1, mb: 1.25 }}>
             <Button data-cy="forgot-password" type="button" disabled={loading} onClick={() => { setAuthView('request-reset'); setError(null); setSuccess(null); }} sx={{ textTransform: 'none', minHeight: 44 }}>
               Quên mật khẩu?
             </Button>
@@ -439,12 +467,12 @@ export const LoginPage: React.FC = () => {
             size="large"
             disabled={loading}
             aria-busy={loading}
-            startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
-            sx={{ minHeight: 48, fontSize: '1rem', borderRadius: 2.5, fontWeight: 800 }}
+            endIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden /> : <StudyIcon name="arrow-forward" size={18} />}
+            sx={{ height: 48, minHeight: 48, px: 2, py: 0, fontSize: '1rem', fontWeight: 800 }}
           >
             {loading ? 'Đang xác thực...' : 'Đăng nhập'}
           </Button>
-          <Typography variant="body2" sx={{ mt: 0.75, textAlign: 'center', color: '#475569' }}>
+          <Typography variant="body2" sx={{ mt: 0.75, mb: 1, textAlign: 'center', color: '#475569' }}>
             Chưa có tài khoản?{' '}
             <Button
               data-cy="open-register"
@@ -453,7 +481,7 @@ export const LoginPage: React.FC = () => {
               onClick={() => { setAuthView('register'); setError(null); setSuccess(null); }}
               sx={{ textTransform: 'none', minWidth: 44, minHeight: 44, fontWeight: 800 }}
             >
-              Đăng ký
+              Đăng ký ngay
             </Button>
           </Typography>
         </Box>}
@@ -471,6 +499,36 @@ export const LoginPage: React.FC = () => {
             id="register-email" label="Email đăng nhập" name="email" type="email" autoComplete="email"
             value={email} disabled={loading} onChange={(event) => setEmail(event.target.value)}
           />
+          <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: requestedRole ? "1fr" : "repeat(2, minmax(0, 1fr))" }, gap: { xs: 0, sm: 1.5 } }}>
+          <TextField
+            data-cy="register-phone"
+            margin="normal" required fullWidth
+            id="register-phone" label="Số điện thoại" name="tel" type="tel" autoComplete="tel"
+            value={phoneNumber} disabled={loading} onChange={(event) => setPhoneNumber(event.target.value)}
+          />
+          {!requestedRole && <TextField
+            data-cy="register-grade"
+            margin="normal" required fullWidth select
+            id="register-grade" label="Khối lớp" name="gradeLevel"
+            slotProps={{ select: { native: true } }}
+            value={gradeLevel} disabled={loading} onChange={(event) => setGradeLevel(event.target.value)}
+          >
+            {[1, 2, 3, 4, 5].map((grade) => <option key={grade} value={String(grade)}>Lớp {grade}</option>)}
+          </TextField>}
+          </Box>
+          <TextField
+            data-cy="register-gender"
+            margin="normal" required fullWidth select
+            id="register-gender" label="Giới tính" name="gender"
+            slotProps={{ select: { native: true } }}
+            value={gender} disabled={loading} onChange={(event) => setGender(event.target.value as typeof gender)}
+          >
+            <option value="MALE">Nam</option>
+            <option value="FEMALE">Nữ</option>
+            <option value="OTHER">Khác</option>
+            <option value="PREFER_NOT_TO_SAY">Không muốn tiết lộ</option>
+          </TextField>
+          <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" }, gap: { xs: 0, sm: 1.5 } }}>
           <TextField
             data-cy="register-password"
             margin="normal" required fullWidth
@@ -485,40 +543,7 @@ export const LoginPage: React.FC = () => {
             id="register-confirm-password" label="Nhập lại mật khẩu" name="confirm-password" type="password" autoComplete="new-password"
             value={confirmRegisterPassword} disabled={loading} onChange={(event) => setConfirmRegisterPassword(event.target.value)}
           />
-          <TextField
-            data-cy="register-role"
-            margin="normal" required fullWidth select
-            id="register-role" label="Vai trò" name="role"
-            value={role} disabled={loading} onChange={(event) => setRole(event.target.value as 'STUDENT' | 'TEACHER')}
-          >
-            <MenuItem value="STUDENT">Học sinh</MenuItem>
-            <MenuItem value="TEACHER">Giáo viên</MenuItem>
-          </TextField>
-          {role === 'STUDENT' && <TextField
-            data-cy="register-grade"
-            margin="normal" required fullWidth select
-            id="register-grade" label="Khối lớp" name="gradeLevel"
-            value={gradeLevel} disabled={loading} onChange={(event) => setGradeLevel(event.target.value)}
-          >
-            {[1, 2, 3, 4, 5].map((grade) => <MenuItem key={grade} value={String(grade)}>Lớp {grade}</MenuItem>)}
-          </TextField>}
-          <TextField
-            data-cy="register-gender"
-            margin="normal" required fullWidth select
-            id="register-gender" label="Giới tính" name="gender"
-            value={gender} disabled={loading} onChange={(event) => setGender(event.target.value as typeof gender)}
-          >
-            <MenuItem value="MALE">Nam</MenuItem>
-            <MenuItem value="FEMALE">Nữ</MenuItem>
-            <MenuItem value="OTHER">Khác</MenuItem>
-            <MenuItem value="PREFER_NOT_TO_SAY">Không muốn tiết lộ</MenuItem>
-          </TextField>
-          <TextField
-            data-cy="register-phone"
-            margin="normal" required fullWidth
-            id="register-phone" label="Số điện thoại" name="tel" type="tel" autoComplete="tel"
-            value={phoneNumber} disabled={loading} onChange={(event) => setPhoneNumber(event.target.value)}
-          />
+          </Box>
           <Button data-cy="submit-register" type="submit" fullWidth variant="contained" size="large" disabled={loading} aria-busy={loading} startIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden /> : undefined} sx={{ mt: 2, py: 1.4 }}>
             {loading ? 'Đang tạo tài khoản…' : 'Tạo tài khoản'}
           </Button>
@@ -569,10 +594,11 @@ export const LoginPage: React.FC = () => {
         {authView === 'social-student-setup' && <Box component="form" onSubmit={handleSocialStudentSetup} noValidate>
           <TextField
             margin="normal" required fullWidth select id="google-student-grade" label="Khối lớp"
+            slotProps={{ select: { native: true } }}
             value={socialSetupGrade} disabled={loading}
             onChange={(event) => setSocialSetupGrade(event.target.value)}
           >
-            {[1, 2, 3, 4, 5].map((grade) => <MenuItem key={grade} value={String(grade)}>Lớp {grade}</MenuItem>)}
+            {[1, 2, 3, 4, 5].map((grade) => <option key={grade} value={String(grade)}>Lớp {grade}</option>)}
           </TextField>
           <Button type="submit" fullWidth variant="contained" size="large" disabled={loading} aria-busy={loading} startIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden /> : undefined} sx={{ mt: 2, py: 1.4 }}>
             {loading ? 'Đang mở trang học sinh…' : 'Tiếp tục vào trang học sinh'}
@@ -639,9 +665,14 @@ export const LoginPage: React.FC = () => {
             </Accordion>
           </Box>
         )}
-        </Box>
-      </Paper>
-    </Box>
+        <div className="student-auth-note">
+          <StudyIcon name="shield-checkmark-outline" size={20} />
+          <span>Thông tin của em được bảo vệ tại MathVisionKid.</span>
+        </div>
+          </Box>
+        </div>
+      </div>
+    </main>
   );
 };
 
