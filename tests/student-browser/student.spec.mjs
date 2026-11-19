@@ -271,7 +271,7 @@ test('Portal login enters the real Student bundle, navigates and survives a deep
   await login(page, 'STUDENT');
   await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
-  await page.getByRole('tab', { name: 'Bài học' }).click();
+  await page.getByRole('tab', { name: 'Bài học' }).or(page.getByRole('link', { name: 'Bài học' })).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons`);
   await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
   await page.reload();
@@ -302,11 +302,11 @@ test('Của em keeps saved work, while the avatar opens account settings and log
     }]));
   });
   await page.setViewportSize({ width: 320, height: 844 });
-  await page.getByRole('tab', { name: 'Thành tích', exact: true }).click();
+  await page.getByRole('tab', { name: 'Thành tích', exact: true }).or(page.getByRole('link', { name: 'Thành tích', exact: true })).click();
   await expect(page.getByRole('heading', { name: 'Nhiệm vụ của em' })).toBeVisible();
   await expect(page.getByText(/Hoàn thành bài học/)).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
-  await page.getByRole('tab', { name: 'Của em', exact: true }).click();
+  await page.getByRole('tab', { name: 'Của em', exact: true }).or(page.getByRole('link', { name: 'Của em', exact: true })).click();
   await expect(page.getByRole('button', { name: 'Đăng xuất', exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'Ghi chú', exact: true }).click();
   await expect(page.getByText('Em nhớ cộng hàng đơn vị trước.').first()).toBeVisible();
@@ -548,7 +548,7 @@ test('student can find registered-grade ranking, choose name privacy and open al
   await page.goto(`${sites.portal.origin}/study/achievements`);
   await expect(page.getByText('Sư Tử', { exact: true })).toBeVisible();
   await expect(page.getByTestId('leaderboard-entry').getByText('Bạn nhỏ thích tính nhẩm', { exact: true })).toHaveCount(0);
-  await page.getByRole('tab', { name: 'Của em', exact: true }).click();
+  await page.getByRole('tab', { name: 'Của em', exact: true }).or(page.getByRole('link', { name: 'Của em', exact: true })).click();
   await page.getByRole('button', { name: 'Trò chơi rèn luyện cho em' }).click();
   await expect(page.getByTestId('game-star-quest')).toBeVisible();
   const cards = page.getByTestId(/^training-card-/);
@@ -723,7 +723,9 @@ test('camera fallback opens the rear capture picker and sends the selected image
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/camera`);
   await expect(page.getByText(/Chưa mở được máy ảnh/)).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Chụp ảnh bài toán' })).toBeDisabled();
+  const shutter = page.getByRole('button', { name: 'Chụp ảnh bài toán' });
+  if (page.viewportSize().width >= 780) await expect(shutter).toHaveCount(0);
+  else await expect(shutter).toBeDisabled();
   const [picker] = await Promise.all([
     page.waitForEvent('filechooser'),
     page.getByRole('button', { name: 'Chụp bằng máy ảnh điện thoại' }).click(),
