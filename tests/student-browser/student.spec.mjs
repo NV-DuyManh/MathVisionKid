@@ -272,7 +272,7 @@ test('Student home, library and saved work share the same web canvas', async ({ 
   await login(page, 'STUDENT');
   const base = `${sites.portal.origin}/study`;
   for (const [path, label] of [['/', 'Tiện ích nhanh'], ['/lessons', 'Chương trình học của em'], ['/profile', 'Những bài học của em']]) {
-    await page.goto(base + path);
+    if (path !== '/') await page.goto(base + path);
     const heading = page.getByText(label, { exact: true }).first();
     await expect(heading).toBeVisible();
     expect(await heading.evaluate(element => {

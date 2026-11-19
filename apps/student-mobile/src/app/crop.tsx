@@ -144,11 +144,11 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
   const remember = (rotation: { turns?: number; fine?: number } = {}, selection?: Rect) => {
     if (Platform.OS !== 'web' || !draft) return;
     const f = frame.get(), c = crop.get();
-    if (!f.w || !f.h || !c.w || !c.h) return;
-    const edit = { turns: rotation.turns ?? turns.get(), fine: rotation.fine ?? fine.get(), selection: selection || {
+    const currentSelection = f.w && f.h && c.w && c.h ? {
       x: Math.max(0, (c.x - f.x) / f.w), y: Math.max(0, (c.y - f.y) / f.h),
       w: Math.min(1, c.w / f.w), h: Math.min(1, c.h / f.h),
-    } };
+    } : remembered.get();
+    const edit = { turns: rotation.turns ?? turns.get(), fine: rotation.fine ?? fine.get(), selection: selection ?? currentSelection };
     remembered.set(edit.selection);
     recognitionDraftStore.updateDraft({ cropEdit: edit });
     imageDraftPersistence.saveCrop(draft, edit);

@@ -271,6 +271,8 @@ test('A stale edit journal from another image revision cannot rotate the restore
   await start(page); await openCrop(page);
   const angle = page.getByRole('slider', { name: 'Góc căn thẳng ảnh', exact: true });
   await angle.focus(); await angle.press('ArrowRight');
+  await expect(angle).toHaveValue('0.1');
+  await expect.poll(async () => (await storage(page)).rows[0]?.meta.cropEdit?.fine).toBe(0.1);
   await page.evaluate(() => {
     const key = 'mathvision-photo-edit-v1', edit = JSON.parse(localStorage.getItem(key));
     edit.imageRevision = 'another-image'; edit.cropEdit.fine = 37;
