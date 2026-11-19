@@ -16,13 +16,11 @@ import { studentWorkspaceStyles } from './studentWorkspaceStyles.web';
 const destinations = [
   { path: '/', href: '/(tabs)', title: 'Trang chủ', icon: 'home-outline' },
   { path: '/lessons', href: '/(tabs)/lessons', title: 'Bài học', icon: 'book-outline' },
+  { path: '/quiz', href: '/quiz', title: 'Câu đố', icon: 'clipboard-outline' },
+  { path: '/games', href: '/games', title: 'Trò chơi', icon: 'game-controller-outline' },
   { path: '/achievements', href: '/(tabs)/achievements', title: 'Thành tích', icon: 'trophy-outline' },
+  { path: '/saved', href: '/saved', title: 'Bài đã lưu', icon: 'bookmark-outline' },
   { path: '/profile', href: '/(tabs)/profile', title: 'Của em', icon: 'person-outline' },
-] as const;
-const shortcuts = [
-  { path: '/quiz', title: 'Câu đố', icon: 'extension-puzzle-outline' },
-  { path: '/games', title: 'Trò chơi', icon: 'game-controller-outline' },
-  { path: '/saved', title: 'Bài đã lưu', icon: 'bookmark-outline' },
 ] as const;
 const mascot = require('../../../assets/illustrations/web/robot-mascot.webp');
 const workspace = /^\/(?:$|(?:lessons|achievements|profile|account|progress|saved|camera|crop|preview|processing|learning|recognition|results|quiz)(?:\/|$)|games\/?$)/;
@@ -48,13 +46,12 @@ export function StudentWebWorkspace({ children }: React.PropsWithChildren) {
 
 function WorkspaceSidebar({ pathname }: { pathname: string }) {
   const [collapsed, setCollapsed] = useState(false);
-  const tabs = useRef<HTMLAnchorElement[]>([]);
+  const links = useRef<HTMLAnchorElement[]>([]);
   const section = '/' + pathname.split('/')[1];
   const activeTab = section === '/progress' ? '/achievements'
     : section === '/account' ? '/profile'
       : section === '/learning' ? '/lessons'
         : ['/camera', '/crop', '/preview', '/processing', '/recognition', '/results'].includes(section) ? '/' : section;
-  const selectedTab = destinations.findIndex(({ path }) => path === activeTab);
   function moveFocus(event: React.KeyboardEvent, index: number) {
     const count = destinations.length;
     const targets: Record<string, number> = {
@@ -62,42 +59,32 @@ function WorkspaceSidebar({ pathname }: { pathname: string }) {
     };
     if (targets[event.key] === undefined) return;
     event.preventDefault();
-    tabs.current[targets[event.key]]?.focus();
+    links.current[targets[event.key]]?.focus();
   }
   return <aside className={`student-workspace-sidebar${collapsed ? ' is-collapsed' : ''}`}>
     <div className="student-workspace-brand">
-      <AppIllustration source={mascot} style={{ width: 38, height: 38 }} accessible={false} />
+      <Ionicons name="planet" size={32} color="#FFE07C" aria-hidden />
       <span>MathVision<span>Kid</span><small>Cùng em học Toán</small></span>
+      <button type="button" className="student-workspace-toggle" aria-label={collapsed ? 'Mở rộng menu' : 'Thu gọn menu'}
+        aria-controls="student-workspace-nav" aria-expanded={!collapsed} onClick={() => setCollapsed(value => !value)}>
+        <Ionicons name={collapsed ? 'chevron-forward' : 'chevron-back'} size={18} color="#E5D9FF" aria-hidden />
+      </button>
     </div>
-    <button type="button" className="student-workspace-toggle" aria-label={collapsed ? 'Mở rộng menu' : 'Thu gọn menu'}
-      aria-controls="student-workspace-nav" aria-expanded={!collapsed} onClick={() => setCollapsed(value => !value)}>
-      <Ionicons name={collapsed ? 'chevron-forward' : 'chevron-back'} size={20} color="#E5D9FF" aria-hidden />
-      <span>Thu gọn</span>
-    </button>
     <nav id="student-workspace-nav" aria-label="Điều hướng học sinh">
-      <div role="tablist" aria-label="Mục học tập" aria-orientation="vertical">
-        {destinations.map((item, index) => <Link key={item.path} href={item.href} asChild>
-          <a ref={element => { if (element) tabs.current[index] = element; }} role="tab"
-            aria-label={item.title} aria-selected={index === selectedTab} tabIndex={index === Math.max(0, selectedTab) ? 0 : -1}
+        {destinations.map((item, index) => <Link key={item.path} href={item.href as Href} asChild>
+          <a ref={element => { if (element) links.current[index] = element; }}
+            aria-label={item.title} aria-current={activeTab === item.path ? 'page' : undefined}
             title={collapsed ? item.title : undefined} onKeyDown={event => moveFocus(event, index)}>
             <Ionicons name={item.icon} size={22} color="#FFFFFF" aria-hidden /><span>{item.title}</span>
           </a>
         </Link>)}
-      </div>
-      <div className="student-workspace-shortcuts">
-        {shortcuts.map(item => <Link key={item.path} href={item.path as Href} asChild>
-          <a aria-current={section === item.path ? 'page' : undefined} aria-label={item.title} title={collapsed ? item.title : undefined}>
-            <Ionicons name={item.icon} size={22} color="#FFFFFF" aria-hidden /><span>{item.title}</span>
-          </a>
-        </Link>)}
-      </div>
     </nav>
     <div className="student-workspace-companion">
       <Link href={{ pathname: '/account', params: { section: 'privacy' } }} asChild><a className="student-workspace-safety">
         <Ionicons name="shield-checkmark-outline" size={23} color={STUDENT_WEB.gold} aria-hidden />
         <span><strong>Học vui, an toàn</strong><small>Bảo vệ thông tin cá nhân của em</small></span>
       </a></Link>
-      <AppIllustration source={mascot} style={{ width: '100%', height: 186 }} accessible={false} />
+      <div className="student-workspace-sideart"><AppIllustration source={mascot} style={{ width: '100%', height: 220 }} accessible={false} /></div>
     </div>
   </aside>;
 }

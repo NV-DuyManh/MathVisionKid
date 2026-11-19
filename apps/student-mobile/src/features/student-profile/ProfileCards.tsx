@@ -6,6 +6,7 @@ import { COLORS, FONTS, IS_STUDENT_WEB } from '../../constants/theme';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import type { StudentProfile } from './profileApi';
 import { RankEmblem } from './RankEmblem';
+import { AppIllustration } from '../../components/ui/AppIllustration';
 
 export const avatars = [
   { id: 'star', icon: 'star', name: 'Sao nhỏ', color: '#7A4B00', background: '#FFF0BC' },
@@ -29,7 +30,7 @@ export function ProfileRankCard({ profile }: { profile: StudentProfile }) {
   const next = rank.goal > 0 ? rank.goal - rank.progress : 0;
   const title = profile.titles.find(t => t.id === profile.selectedTitle);
   const identity = <View style={styles.heroRow}>
-    <RankEmblem name={rank.name} />
+    <RankEmblem name={rank.name} size={IS_STUDENT_WEB ? 94 : undefined} />
     <View style={styles.grow}>
       <Text style={styles.rankCaption}>HẠNG CỦA EM</Text>
       <Text accessibilityRole="header" style={styles.rank}>{rank.name}</Text>
@@ -49,10 +50,11 @@ export function ProfileRankCard({ profile }: { profile: StudentProfile }) {
     <Text style={styles.light}>Hạng cao nhất · {highestRank}</Text>
     {position !== null && <Text style={styles.light}>Vị trí khối {profile.gradeLevel} · #{position}</Text>}
   </>;
-  return IS_STUDENT_WEB ? <LinearGradient colors={['#37216D', '#5736AB']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+  return IS_STUDENT_WEB ? <LinearGradient colors={['#4A2DAD', '#6944DD', '#8A4FE9']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
     style={[styles.rankCard, styles.webRankCard]}>
     <View style={styles.webRankIdentity}>{identity}</View>
     <View style={styles.webRankProgress}>{progress}</View>
+    <AppIllustration source={require('../../../assets/illustrations/web/robot-mascot.webp')} style={styles.webRankMascot} accessible={false} />
   </LinearGradient> : <View style={styles.rankCard}>{identity}{progress}</View>;
 }
 
@@ -88,9 +90,10 @@ export const profileStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   ...profileStyles,
   avatar: { alignItems: 'center', justifyContent: 'center', borderRadius: 50 },
-  webRankCard: { padding: 22, gap: 16, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' },
-  webRankIdentity: { flexGrow: 1, flexBasis: 220, minWidth: 0 },
-  webRankProgress: { flexGrow: 1, flexBasis: 168, minWidth: 0, gap: 7 },
+  webRankCard: { padding: 20, gap: 11, minHeight: 192, overflow: 'hidden' },
+  webRankIdentity: { width: '76%', minWidth: 0, zIndex: 1 },
+  webRankProgress: { width: '76%', minWidth: 0, gap: 6, zIndex: 1 },
+  webRankMascot: { position: 'absolute', right: 9, top: 11, bottom: 10, width: '28%', opacity: .95 },
   webStatsCard: { borderRadius: STUDENT_WEB.radius, borderColor: STUDENT_WEB.border, padding: 20 },
   rankCard: { gap: 10, borderRadius: 24, padding: 20, backgroundColor: '#412874' },
   heroRow: { flexDirection: 'row', alignItems: 'center', gap: 12, flexWrap: 'wrap' },

@@ -85,10 +85,10 @@ export default function GamesScreen() {
       onPress={() => { if (opening.current) return; opening.current = true; router.push('/games/arithmetic-quest'); }}
       style={({ pressed }) => [styles.card, IS_STUDENT_WEB && styles.featured, pressed && styles.pressed]}>
       {IS_STUDENT_WEB ? <>
-        <Image source={GAME_COVERS['star-quest']} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition="center" accessible={false} />
-        <LinearGradient colors={['#23114DF4', '#281456BC', '#2814560A']} locations={[0, .36, .86]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={StyleSheet.absoluteFill} />
+        <Image source={GAME_COVERS['star-quest']} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition={{ left: '50%', top: '30%' }} accessible={false} />
+        <LinearGradient colors={['#251365EE', '#35156D88', '#28145603']} locations={[0, .32, .78]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={StyleSheet.absoluteFill} />
         <View style={styles.featuredCopy}>
-          <Text style={styles.featuredLabel}>TRÒ CHƠI NỔI BẬT</Text>
+          <Text style={styles.featuredLabel}>★ Trò chơi nổi bật</Text>
           <Text accessibilityRole="header" style={styles.featuredTitle}>{STAR_QUEST.title}</Text>
           <Text style={styles.featuredDescription}>{STAR_QUEST.description}</Text>
           <View style={styles.featuredCta}><Ionicons name="play" size={16} color="#24104C" accessible={false} /><Text style={styles.featuredAction}>Chơi ngay</Text></View>
@@ -124,7 +124,7 @@ export default function GamesScreen() {
             router.push({ pathname: '/games/[gameId]', params: access.kind === 'trial' ? { gameId: game.id, playMode: 'trial' } : { gameId: game.id } });
           }} style={({ pressed }) => [styles.playTarget, !playable && styles.disabled, pressed && styles.pressed]}>
           <GameCover id={game.id} title={game.title} />
-        <View style={styles.cardBody}>
+        <View style={[styles.cardBody, IS_STUDENT_WEB && styles.webGameBody]}>
           <Text style={styles.copy}>{game.description}</Text><Text style={styles.math}>{game.math}</Text>
           {game.note && <Text style={styles.note}>{game.note}</Text>}
           {result && <Text testID={`training-recent-${game.id}`} style={styles.recent}>Gần đây: {({ won: 'Hoàn thành', lost: 'Đã thử sức', abandoned: 'Dừng giữa chừng', restarted: 'Chơi lại' } as const)[result.status]}{result.score !== undefined ? ` · ${result.score}${result.maxScore !== undefined ? '/' + result.maxScore : ''} điểm` : ''}</Text>}
@@ -132,7 +132,7 @@ export default function GamesScreen() {
         </View>
         </Pressable>
           {playable && access.kind === 'student' && <>
-            <View style={styles.challenge}>
+            <View style={[styles.challenge, IS_STUDENT_WEB && styles.webChallenge]}>
             <AppButton title="Mở thử thách tính sao" accessibilityLabel={`Mở thử thách tính sao · ${game.title}`} variant="secondary"
               onPress={() => { if (opening.current) return; opening.current = true; router.push({ pathname: '/games/arithmetic-quest', params: { mode: game.id } }); }} />
             <Text style={styles.note}>Giải 5 câu để có cơ hội nhận sao vào hồ sơ.</Text>
@@ -179,11 +179,11 @@ const styles = StyleSheet.create({
   content: { flexGrow: 1, width: '100%', maxWidth: 1060, alignSelf: 'center', paddingHorizontal: 16, paddingBottom: 32 },
   webContent: { maxWidth: 1420, paddingHorizontal: 24, paddingBottom: 40 },
   webHeadingCopy: { flex: 1, minWidth: 0, gap: 3 },
-  webHeader: { alignSelf: 'stretch', maxWidth: undefined, paddingHorizontal: 0, paddingVertical: 20, gap: 12 },
+  webHeader: { alignSelf: 'stretch', maxWidth: undefined, paddingHorizontal: 0, paddingVertical: 10, gap: 12 },
   webTitle: { flex: 0, paddingHorizontal: 0, textAlign: 'left', fontFamily: FONTS.black, fontSize: 29, lineHeight: 35 },
-  featured: { overflow: 'hidden', minHeight: 286, padding: 24, justifyContent: 'center' },
+  featured: { overflow: 'hidden', minHeight: 227, padding: 21, justifyContent: 'center' },
   featuredCopy: { maxWidth: 380, gap: 8 },
-  featuredLabel: { color: '#FFDF57', fontFamily: FONTS.extraBold, fontSize: 12, letterSpacing: 1 },
+  featuredLabel: { color: '#291552', backgroundColor: STUDENT_WEB.gold, alignSelf: 'flex-start', paddingVertical: 4, paddingHorizontal: 9, borderRadius: 18, fontFamily: FONTS.extraBold, fontSize: 12 },
   featuredTitle: { color: '#FFFFFF', fontFamily: FONTS.black, fontSize: 35, lineHeight: 44 },
   featuredDescription: { color: '#F5EEFF', fontFamily: FONTS.semiBold, fontSize: 15, lineHeight: 23 },
   featuredCta: { minHeight: 45, paddingHorizontal: 20, marginTop: 7, borderRadius: 14, backgroundColor: '#FFDF57', alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 8 },
@@ -209,6 +209,7 @@ const styles = StyleSheet.create({
   rewardCount: { color: STUDENT_WEB.primary, fontFamily: FONTS.extraBold, fontSize: 19 },
   playTarget: { minHeight: 48 },
   cardBody: { padding: 16, gap: 8 }, challenge: { paddingHorizontal: 16, paddingBottom: 16, gap: 8 },
+  webGameBody: { padding: 13, gap: 6 }, webChallenge: { paddingHorizontal: 13, paddingBottom: 12, gap: 6 },
   math: { fontFamily: FONTS.bold, fontSize: 12, lineHeight: 19, color: COLORS.primaryDark }, note: { fontFamily: FONTS.semiBold, fontSize: 11, color: COLORS.textMuted },
   playText: { fontFamily: FONTS.extraBold, color: '#FFFFFF', fontSize: 15 }, disabled: { opacity: .45 },
   recent: { fontFamily: FONTS.semiBold, fontSize: 12, color: COLORS.textSecondary }, notice: { fontFamily: FONTS.semiBold, color: '#7C4315', fontSize: 13, lineHeight: 21, paddingVertical: 8 }, noticeBox: { backgroundColor: COLORS.warningLight, padding: 12, borderRadius: 14, marginBottom: 16 }, retry: { minHeight: 48, alignItems: 'center', justifyContent: 'center', padding: 12, borderRadius: 14, backgroundColor: COLORS.primary },

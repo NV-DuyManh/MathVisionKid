@@ -113,11 +113,10 @@ export function ProfileContent({ owner, savedOnly = false, initialTab = 'saved' 
         {!savedOnly && <ProfileIdentity owner={owner} counts={counts} />}
         <View style={[web.columns, webWide && web.wide]}>
           <View style={[web.stack, webWide && web.mainGrow]}>
-            <PersonalPanel title={savedOnly ? 'Sổ học tập' : 'Bài học đã lưu trên thiết bị'}>
+            <PersonalPanel title={savedOnly ? 'Sổ học tập' : 'Bài học đã lưu trên thiết bị'} icon="bookmark-outline">
               {notebook}
             </PersonalPanel>
-            {!savedOnly && <ProfileShortcuts />}
-            {tab === 'saved' && notes.length > 0 && <PersonalPanel title="Ghi chú gần đây">
+            {tab === 'saved' && notes.length > 0 && <PersonalPanel title="Ghi chú gần đây" icon="document-text-outline">
               <View style={styles.noteGrid}>{notes.slice(0, 2).map(lesson => <Pressable key={lesson.id}
                 accessibilityRole="button" accessibilityLabel={'Xem ghi chú của bài: ' + (lesson.problemText || lesson.workText).slice(0, 60)}
                 onPress={() => setMenu(lesson)} style={({ pressed }) => [styles.notePreview, pressed && styles.pressed]}>
@@ -127,7 +126,10 @@ export function ProfileContent({ owner, savedOnly = false, initialTab = 'saved' 
               </Pressable>)}</View>
             </PersonalPanel>}
           </View>
-          <NotebookAside counts={counts} savedOnly={savedOnly} wide={webWide} onCapture={capture} />
+          <View style={[web.stack, webWide && web.sideGrow]}>
+            {!savedOnly && <ProfileShortcuts onCapture={capture} />}
+            <NotebookAside counts={counts} savedOnly={savedOnly} wide={false} onCapture={capture} />
+          </View>
         </View>
       </> : <>{games}{notebook}</>}
     </ScrollView>
@@ -169,9 +171,9 @@ const styles = StyleSheet.create({
   notebookTile: { width: '48.5%', flexGrow: 1, maxWidth: '50%' },
   noteGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   notePreview: { padding: 13, gap: 2, flexGrow: 1, flexBasis: 165, minWidth: 0, backgroundColor: '#FFF2D7', borderRadius: 13 },
-  webSelected: { backgroundColor: STUDENT_WEB.primary },
+  webSelected: { backgroundColor: '#713CF7', boxShadow: '0 3px 9px #6631DC4D' },
   webSecondary: { color: STUDENT_WEB.muted },
-  webThumbnail: { width: 50, height: 50, alignItems: 'center', borderColor: 'transparent' },
+  webThumbnail: { width: 61, height: 61, alignItems: 'center', borderColor: 'transparent' },
   webLesson: { borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.background, boxShadow: 'none' },
   webEmpty: { borderWidth: 1, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.background },
 });

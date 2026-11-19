@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import Svg, { Circle } from 'react-native-svg';
 import { COLORS, FONTS, IS_STUDENT_WEB, WEB_DESIGN } from '../../constants/theme';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { getCurriculumProblem, getProblemsByGrade } from '../../data/primaryMathCurriculum';
@@ -158,16 +159,35 @@ export default function LessonsScreen() {
     </View>
     <Image source={require('../../../assets/illustrations/web/robot-mascot.webp')} style={[styles.webHeroArt, webWide && styles.webHeroArtWide]} resizeMode="contain" accessible={false} />
   </LinearGradient>;
-  const progressCard = <View style={styles.progressCard}>
-    <View style={styles.progressHeading}><Text style={styles.progressTitle}>Bài đã lưu của em</Text><Text accessibilityLiveRegion="polite" style={styles.progressCount}>{savedIds ? `${savedCount}/${problems.length}` : progressUnavailable ? '—' : '…'}</Text></View>
-    <View accessibilityRole="progressbar" accessibilityLabel="Bài trong chương trình đã lưu trên thiết bị này" accessibilityState={{ busy: !savedIds && !progressUnavailable }} aria-busy={!savedIds && !progressUnavailable} accessibilityValue={{ min: 0, max: problems.length, ...(savedIds ? { now: savedCount } : {}) }} style={styles.progressTrack}>
-      <View style={[styles.progressFill, { width: `${savedCount / Math.max(1, problems.length) * 100}%` }]} />
+  const savedRatio = savedCount / Math.max(1, problems.length);
+  const progressCard = <View style={[styles.progressCard, webThreeColumns && styles.webStudyProgress]}>
+    <View style={styles.progressHeading}>
+      {webThreeColumns && <Ionicons name="stats-chart-outline" size={20} color="#17774D" accessible={false} />}
+      <Text accessibilityRole={webThreeColumns ? 'header' : undefined} style={[styles.progressTitle, styles.grow]}>{webThreeColumns ? 'Tiến độ ôn tập' : 'Bài đã lưu của em'}</Text>
+      {webThreeColumns && <Text style={styles.gradeTag}>Toán lớp {activeGrade}</Text>}
     </View>
-    <Text style={styles.progressNote}>{progressUnavailable ? 'Chưa tải được bài đã lưu. Em mở lại trang để thử nhé.' : 'Theo bài làm em đã lưu trên thiết bị này.'}</Text>
+    <View style={webThreeColumns ? styles.webProgressContent : undefined}>
+      <View accessibilityRole="progressbar" accessibilityLabel="Bài trong chương trình đã lưu trên thiết bị này"
+        accessibilityState={{ busy: !savedIds && !progressUnavailable }}
+        accessibilityValue={{ min: 0, max: problems.length, ...(savedIds ? { now: savedCount } : {}) }} style={webThreeColumns ? styles.progressRing : styles.progressTrack}>
+        {webThreeColumns ? <>
+          <Svg width={84} height={84} viewBox="0 0 84 84" accessible={false} aria-hidden>
+            <Circle cx={42} cy={42} r={34} fill="none" stroke="#E9F5EE" strokeWidth={9} />
+            {savedCount > 0 && <Circle cx={42} cy={42} r={34} rotation={-90} origin="42,42" fill="none" stroke="#1E9B65"
+              strokeWidth={9} strokeLinecap="round" strokeDasharray={2 * Math.PI * 34} strokeDashoffset={2 * Math.PI * 34 * (1 - savedRatio)} />}
+          </Svg>
+          <Text style={styles.ringLabel}>{savedIds ? Math.round(100 * savedRatio) + '%' : '—'}</Text>
+        </> : <View style={[styles.progressFill, { width: `${savedRatio * 100}%` }]} />}
+      </View>
+      <View style={webThreeColumns ? styles.grow : undefined}>
+        <Text accessibilityLiveRegion="polite" style={styles.progressCount}>{savedIds ? `${savedCount}/${problems.length}` : progressUnavailable ? '—' : '…'}</Text>
+        <Text style={styles.progressNote}>{progressUnavailable ? 'Chưa tải được bài đã lưu. Em mở lại trang để thử nhé.' : 'Theo bài làm em đã lưu trên thiết bị này.'}</Text>
+      </View>
+    </View>
   </View>;
   return <ScrollView style={[styles.screen, IS_STUDENT_WEB && styles.webScreen]} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} showsVerticalScrollIndicator={false}
     contentContainerStyle={[styles.content, IS_STUDENT_WEB && styles.webContent, { paddingTop: insets.top + 12, paddingBottom: pageWidth >= 768 ? 32 : 108 }]}>
-    <StudentPageHeader compact title="Bài học" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/account')} />
+    {!webWide && <StudentPageHeader compact title="Bài học" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/account')} />}
     {auth?.user && !hasRegisteredGrade ? <RecoveryNotice title="Chưa tải được lớp của em" message="Em tải lại hồ sơ để mở đúng chương trình học nhé."
       actions={[{ label: 'Tải lại hồ sơ', onPress: () => { void auth.refreshUser?.(); } }]} /> : IS_STUDENT_WEB ? (
       <>
@@ -247,6 +267,11 @@ const styles = StyleSheet.create({
   webPlanTitle: { fontFamily: FONTS.extraBold, fontSize: 18, color: STUDENT_WEB.ink },
   webHeroRow: { flexDirection: 'row', alignItems: 'flex-start', gap: WEB_DESIGN.space.xl, marginBottom: 16 },
   webBanner: { flex: 1, minWidth: 0, minHeight: 170, marginBottom: 0 },
+  webStudyProgress: { minHeight: 170, justifyContent: 'center', backgroundColor: STUDENT_WEB.surface },
+  webProgressContent: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  progressRing: { width: 84, height: 84, alignItems: 'center', justifyContent: 'center' },
+  ringLabel: { position: 'absolute', alignSelf: 'center', color: '#1B6044', fontFamily: FONTS.black, fontSize: 20 },
+  gradeTag: { paddingHorizontal: 7, paddingVertical: 4, borderRadius: 12, backgroundColor: STUDENT_WEB.soft, color: STUDENT_WEB.primary, fontFamily: FONTS.bold, fontSize: 11 },
   bannerAction: { marginTop: 11, minHeight: 44, borderRadius: 18, paddingHorizontal: 14, backgroundColor: STUDENT_WEB.gold, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6 },
   bannerActionLabel: { fontFamily: FONTS.extraBold, color: STUDENT_WEB.ink, fontSize: 13 },
   grow: { flex: 1, minWidth: 0 },
@@ -260,8 +285,8 @@ const styles = StyleSheet.create({
   webListHeading: { fontSize: 21, flexShrink: 1 },
   webCount: { flexShrink: 0, color: STUDENT_WEB.primary, backgroundColor: STUDENT_WEB.soft, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 6 },
   webSectionGroup: { marginBottom: 18, gap: 10 },
-  webSectionToggle: { backgroundColor: STUDENT_WEB.soft, paddingHorizontal: 14, minHeight: 60 },
-  webTopicRow: { minHeight: 84, paddingHorizontal: 14 },
+  webSectionToggle: { backgroundColor: STUDENT_WEB.soft, paddingHorizontal: 12, minHeight: 52 },
+  webTopicRow: { minHeight: 71, paddingVertical: 5, paddingHorizontal: 10 },
   webDetail: { backgroundColor: STUDENT_WEB.background, borderColor: STUDENT_WEB.border, padding: 20 },
   webDetailProblem: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   webDetailCopy: { flex: 1, minWidth: 0, gap: 12 },

@@ -17,6 +17,7 @@ import { PersonalMetrics, PersonalPageHeader, PersonalPanel, personalWebStyles a
 import { useStudentProfile } from './useStudentProfile';
 import { profileApi, type ProfileEdit, type StudentProfile } from './profileApi';
 import { tokenStorage } from '../../services/auth/tokenStorage';
+import { WEEKLY_ACTIVITY_GOAL } from '../home/learningActivity';
 
 export function AccountScreen({ owner, openPrivacy = false, openLogout = false }: { owner: string; openPrivacy?: boolean; openLogout?: boolean }) {
   const router = useRouter(), auth = useContext(AuthContext), profile = useStudentProfile(owner);
@@ -37,6 +38,7 @@ export function AccountScreen({ owner, openPrivacy = false, openLogout = false }
     try { await auth?.logout(); } catch { setLogoutError(true); } finally { logoutLock.current = false; setLeaving(false); }
   };
   const goBack = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
+  const week = profile.value ? Math.min(WEEKLY_ACTIVITY_GOAL, profile.value.stats.week) : 0;
   return <SafeAreaView style={[s.screen, IS_STUDENT_WEB && s.webScreen]} edges={['top', 'bottom']}>
     <KeyboardAvoidingView style={[s.screen, IS_STUDENT_WEB && s.webScreen]} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[s.content, IS_STUDENT_WEB && s.webContent]}>
@@ -47,17 +49,26 @@ export function AccountScreen({ owner, openPrivacy = false, openLogout = false }
           <AccountEditor profile={profile.value} onSave={profile.accept} wide={wide} openPrivacy={openPrivacy} />
           <View style={[s.side, wide && (IS_STUDENT_WEB ? s.webSide : { flex: 1, maxWidth: 320 })]}>
             <PasswordCard available={profile.value.passwordLoginAvailable !== false} />
-            {IS_STUDENT_WEB && <PersonalPanel title="Tổng quan học tập của em">
+            {IS_STUDENT_WEB && <AppButton title="Đăng xuất" variant="ghost" style={s.webLogout}
+              icon={<Ionicons accessible={false} aria-hidden name="log-out-outline" color="#9A3152" size={20} />} onPress={() => setConfirmLogout(true)} />}
+            {IS_STUDENT_WEB && <PersonalPanel title="Tổng quan học tập của em" icon="stats-chart-outline">
               <PersonalMetrics metrics={[
                 { label: 'Ngày học liên tiếp', amount: profile.value.stats.streak, icon: 'flame-outline', tone: 'purple' },
                 { label: 'Bài hoàn thành', amount: profile.value.stats.lessons, icon: 'book-outline', tone: 'blue' },
                 { label: 'Danh hiệu', amount: profile.value.titles.filter(title => title.unlocked).length, icon: 'ribbon-outline', tone: 'yellow' },
               ]} />
             </PersonalPanel>}
-            {IS_STUDENT_WEB && <PersonalPanel title="Bảo vệ thông tin của em">
+            {IS_STUDENT_WEB && <PersonalPanel title="Mục tiêu tuần" icon="locate-outline">
+              <View style={s.weeklyLabel}><Text style={s.body}>Hoạt động trong 7 ngày qua</Text><Text style={s.link}>{week}/{WEEKLY_ACTIVITY_GOAL}</Text></View>
+              <View accessibilityRole="progressbar" accessibilityLabel="Mục tiêu tuần" accessibilityValue={{ min: 0, max: WEEKLY_ACTIVITY_GOAL, now: week }} style={s.weeklyTrack}>
+                <View style={[s.weeklyFill, { width: `${100 * week / WEEKLY_ACTIVITY_GOAL}%` }]} />
+              </View>
+            </PersonalPanel>}
+            {IS_STUDENT_WEB && <PersonalPanel title="Bảo vệ thông tin của em" icon="shield-checkmark-outline">
               <Text style={web.body}>Nhờ người lớn em tin tưởng giúp em chọn ảnh đại diện và thiết lập quyền riêng tư.</Text>
             </PersonalPanel>}
-            <AppButton title="Đăng xuất" variant="ghost" style={IS_STUDENT_WEB ? s.webLogout : undefined} icon={<Ionicons accessible={false} aria-hidden name="log-out-outline" color={COLORS.textSecondary} size={20} />} onPress={() => setConfirmLogout(true)} />
+            {!IS_STUDENT_WEB && <AppButton title="Đăng xuất" variant="ghost"
+              icon={<Ionicons accessible={false} aria-hidden name="log-out-outline" color={COLORS.textSecondary} size={20} />} onPress={() => setConfirmLogout(true)} />}
           </View>
         </View> : !profile.failed && <ActivityIndicator accessibilityLabel="Đang tải hồ sơ" />}
         {profile.failed && <RecoveryNotice title={profile.value ? 'Chưa cập nhật được hồ sơ' : 'Chưa tải được hồ sơ'}
@@ -227,7 +238,7 @@ function PasswordCard({ available }: { available: boolean }) {
     } finally { lock.current = false; if (!signal.aborted) setBusy(false); }
   };
   return <View style={[s.card, IS_STUDENT_WEB && s.webCard]}>
-    <View style={s.sectionTitle}><Ionicons accessible={false} aria-hidden name="lock-closed-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={s.heading}>An toàn tài khoản</Text></View>
+    <View style={[s.sectionTitle, IS_STUDENT_WEB && s.webSectionTitle]}><Ionicons accessible={false} aria-hidden name="lock-closed-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={s.heading}>An toàn tài khoản</Text></View>
     {!available ? <Text style={s.body}>Em đang dùng tài khoản liên kết. Em đổi mật khẩu tại dịch vụ em dùng để đăng nhập nhé.</Text> : <>
       <Text style={s.hint}>Giữ mật khẩu cho riêng mình. Em có thể nhờ bố mẹ hỗ trợ.</Text>
       <Pressable accessibilityRole="button" accessibilityLabel="Đổi mật khẩu" accessibilityState={{ expanded, disabled: busy }} aria-expanded={expanded} aria-controls="account-password-fields"
@@ -251,13 +262,17 @@ function PasswordCard({ available }: { available: boolean }) {
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: COLORS.background },
   webScreen: { backgroundColor: STUDENT_WEB.background },
-  webContent: { paddingTop: 16, maxWidth: 1440, gap: 18 },
-  webColumns: { gap: 18 },
+  webContent: { paddingTop: 10, maxWidth: 1440, gap: 12 },
+  webColumns: { gap: 15 },
   webSide: { flex: 1, maxWidth: 410 },
-  webCard: { borderColor: STUDENT_WEB.border, borderRadius: STUDENT_WEB.radius },
+  webCard: { borderColor: STUDENT_WEB.border, borderRadius: 17, padding: 17 },
+  webSectionTitle: { backgroundColor: '#EBE0FC', padding: 10, borderRadius: 12 },
   webIdentity: { backgroundColor: STUDENT_WEB.soft, borderRadius: 18, padding: 16 },
   webEditName: { borderRadius: 12, backgroundColor: STUDENT_WEB.surface },
-  webLogout: { borderColor: STUDENT_WEB.border, borderWidth: 1, borderRadius: STUDENT_WEB.radius, backgroundColor: STUDENT_WEB.surface },
+  webLogout: { borderColor: '#F3CBDD', borderWidth: 1, borderRadius: 15, backgroundColor: '#FFF0F6' },
+  weeklyLabel: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 },
+  weeklyTrack: { height: 8, borderRadius: 5, backgroundColor: STUDENT_WEB.soft, overflow: 'hidden' },
+  weeklyFill: { height: 8, borderRadius: 5, backgroundColor: '#6B3EDD' },
   webPrivacyRow: { minHeight: 46, backgroundColor: STUDENT_WEB.background, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 6 },
   webChosen: { borderColor: STUDENT_WEB.primary, backgroundColor: STUDENT_WEB.soft },
   webPasswordToggle: { backgroundColor: STUDENT_WEB.soft, borderRadius: 12, paddingHorizontal: 12 },

@@ -85,17 +85,18 @@ function Library() {
   const topics = IS_STUDENT_WEB && Number.isInteger(grade) && grade >= 1 && grade <= 5
     ? [...new Set(getProblemsByGrade(grade as 1 | 2 | 3 | 4 | 5).map(problem => problem.section))].slice(0, 3) : [];
   return <SafeAreaView style={s.screen} edges={['top', 'bottom']}>
-    <AppHeader title="Câu đố của em" showBack rightIcon="help-circle-outline" onRightPress={() => setShowHelp(value => !value)}
-      rightAccessibilityLabel="Câu đố hoạt động thế nào?" rightAccessibilityState={{ expanded: showHelp }} />
+    {!desktop && <AppHeader title="Câu đố của em" showBack rightIcon="help-circle-outline" onRightPress={() => setShowHelp(value => !value)}
+      rightAccessibilityLabel="Câu đố hoạt động thế nào?" rightAccessibilityState={{ expanded: showHelp }} />}
     <ScrollView style={s.scroll} contentContainerStyle={[l.content, IS_STUDENT_WEB && l.webContent]}>
       <Columns {...(IS_STUDENT_WEB ? { style: desktop ? l.webLayout : undefined } : {})}>
       <Columns {...(IS_STUDENT_WEB ? { style: [l.column, desktop && l.webMain] } : {})}>
       {showHelp ? <View style={l.help}><Text accessibilityRole="header" style={l.topic}>Luyện thêm từ bài em đã học</Text>
         <Text style={l.body}>Hoàn tất bài học hoặc phần nhận xét, rồi chọn làm ngay hay để sau. Câu đố có dữ kiện mới để em thử lại cách làm.</Text>
         <Text style={l.body}>Chỉ những dạng bài được hỗ trợ mới có câu đố. Bài đang dở và kết quả sẽ được lưu trong tài khoản của em.</Text></View> : null}
-      {IS_STUDENT_WEB ? <LinearGradient colors={['#4431BF', '#7949F3']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={l.webHero}>
+      {IS_STUDENT_WEB ? <LinearGradient colors={['#4632D0', '#6946DE', '#824CEB']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={l.webHero}>
+        {desktop && <View style={l.webHeroBadge}><Ionicons name="clipboard" size={44} color="#FFD657" accessible={false} /></View>}
         <View style={l.introCopy}>
-          <Text accessibilityRole="header" style={l.webHeroTitle}>Học qua câu đố, nhớ thật lâu!</Text>
+          <Text accessibilityRole="header" style={l.webHeroTitle}>Câu đố của em</Text>
           <Text style={l.webHeroCopy}>Ôn lại cách làm từ những bài em đã học.</Text>
           <Pressable accessibilityRole="button" style={l.webHeroAction} onPress={() => {
             const next = result?.items.find(item => item.status !== 'COMPLETED');
@@ -107,6 +108,8 @@ function Library() {
           </Pressable>
         </View>
         <AppIllustration source={require('../../../assets/illustrations/web/robot-mascot.webp')} style={l.heroMascot} accessible={false} />
+        {desktop && <Pressable accessibilityRole="button" accessibilityLabel="Câu đố hoạt động thế nào?" accessibilityState={{ expanded: showHelp }}
+          onPress={() => setShowHelp(value => !value)} style={l.webHeroHelp}><Ionicons name="help-circle-outline" size={23} color="#FFF" accessible={false} /></Pressable>}
       </LinearGradient> : <View style={l.intro}>
         <View style={l.introCopy}><Text accessibilityRole="header" style={l.heading}>Cùng thử sức</Text><Text style={l.body}>Ôn lại từ những bài em đã học.</Text>
           {totalStars !== null && totalStars > 0 ? <View style={l.starPill}><Ionicons name="star" size={13} color="#936315" accessible={false} /><Text style={l.starText}>{totalStars} sao đã nhận</Text></View> : null}</View>
@@ -114,11 +117,16 @@ function Library() {
       </View>}
       <View style={[l.groups, IS_STUDENT_WEB && l.webGroups]}>{GROUPS.map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.title}
         accessibilityState={{ selected: group === item.id }} onPress={() => selectGroup(item.id)}
-        style={({ pressed }) => [l.group, group === item.id && l.selected, pressed && l.pressed]}><Text style={[l.groupText, group === item.id && l.selectedText]}>{item.title}</Text></Pressable>)}</View>
+        style={({ pressed }) => [l.group, IS_STUDENT_WEB && l.webGroup, group === item.id && (IS_STUDENT_WEB ? l.webSelected : l.selected), pressed && l.pressed]}>
+          {IS_STUDENT_WEB && <Ionicons name={item.id === 'PENDING' ? 'hourglass-outline' : item.id === 'IN_PROGRESS' ? 'play-outline' : 'checkmark-circle-outline'}
+            size={17} color={group === item.id ? '#FFF' : STUDENT_WEB.primary} accessible={false} />}
+          <Text style={[l.groupText, group === item.id && (IS_STUDENT_WEB ? l.webSelectedText : l.selectedText)]}>{item.title}{IS_STUDENT_WEB && group === item.id && result ? ` (${result.totalElements})` : ''}</Text>
+        </Pressable>)}</View>
+      {IS_STUDENT_WEB && <View style={l.listHeading}><Ionicons name="list-outline" color={STUDENT_WEB.primary} size={21} accessible={false} /><Text accessibilityRole="header" style={l.topic}>Danh sách câu đố</Text></View>}
       {busy && !result ? <View style={l.loading} accessibilityRole="progressbar" accessibilityLabel="Đang tải câu đố" accessibilityState={{ busy: true }}>
         <ActivityIndicator color={COLORS.primaryDark} /><Text style={l.body}>Đang tải câu đố…</Text></View> : null}
       {error ? <View style={l.help}><Text accessibilityRole="alert" style={l.error}>{error}</Text><AppButton title="Thử lại" variant="secondary" onPress={() => result ? void more() : setRetry(value => value + 1)} /></View> : null}
-      {result && !result.items.length ? <View style={l.empty}>
+      {result && !result.items.length ? <View style={[l.empty, IS_STUDENT_WEB && l.webEmpty]}>
         <View style={l.emptyArt}><Image source={require('../../../assets/illustrations/robot-mascot.png')} style={l.emptyMascot} accessible={false} /></View>
         <Text accessibilityRole="header" style={l.emptyTitle}>{empty.title}</Text><Text style={l.emptyBody}>{empty.body}</Text>
         <View style={l.emptyAction}><AppButton title={empty.action} variant="secondary" onPress={() => group === 'PENDING' ? router.replace('/(tabs)/lessons') : selectGroup('PENDING')} /></View>
@@ -172,9 +180,16 @@ const l = StyleSheet.create({
   column: { minWidth: 0, gap: 16, marginBottom: 16 },
   webMain: { flex: 1 },
   webAside: { width: 326 },
-  webHero: { flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 194, borderRadius: 22, padding: 20 },
-  heroMascot: { width: '30%', maxWidth: 180, height: 130 },
-  webHeroTitle: { color: '#FFF', fontFamily: FONTS.black, fontSize: 27, lineHeight: 34 },
+  webHero: { flexDirection: 'row', alignItems: 'center', gap: 14, minHeight: 162, borderRadius: 22, padding: 15, overflow: 'hidden' },
+  heroMascot: { width: '30%', maxWidth: 180, height: 134 },
+  webHeroBadge: { width: 75, height: 79, borderRadius: 23, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF20', transform: [{ rotate: '-8deg' }] },
+  webHeroHelp: { position: 'absolute', right: 7, top: 4, width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
+  webHeroTitle: { color: '#FFD95E', fontFamily: FONTS.black, fontSize: 30, lineHeight: 36 },
+  webGroup: { flexDirection: 'row', gap: 5, borderRadius: 22 },
+  webSelected: { backgroundColor: '#6535D5', borderColor: '#A177F5' },
+  webSelectedText: { color: '#FFFFFF', fontFamily: FONTS.extraBold },
+  listHeading: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  webEmpty: { minHeight: 190, paddingVertical: 14, borderWidth: 1, borderColor: STUDENT_WEB.border, borderRadius: 17, backgroundColor: STUDENT_WEB.surface },
   webHeroCopy: { color: '#F5EEFF', fontFamily: FONTS.semiBold, fontSize: 14, lineHeight: 21 },
   webHeroAction: { flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', justifyContent: 'center', minHeight: 44, backgroundColor: STUDENT_WEB.gold, marginTop: 7, borderRadius: 12, paddingHorizontal: 15, gap: 7 },
   webHeroActionText: { color: STUDENT_WEB.ink, fontFamily: FONTS.extraBold, fontSize: 14 },

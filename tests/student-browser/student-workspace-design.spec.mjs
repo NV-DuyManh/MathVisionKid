@@ -13,7 +13,7 @@ for (const width of [390, 768, 1024, 1280, 1440, 1672]) {
     await page.setViewportSize({ width, height: width === 390 ? 844 : width === 768 ? 1024 : 941 });
     app.realStudent = true;
     await login(page, 'STUDENT');
-    await expect(page.getByRole('heading', { name: 'Hôm nay em học gì?' })).toBeVisible();
+    await expect(page.getByTestId('home-hero')).toBeVisible();
     await expect(page.getByTestId('quick-actions-grid').getByRole('button')).toHaveCount(5);
     await expect(page.getByTestId('learning-journey').getByRole('button')).toHaveCount(4);
     await expect(page.getByTestId('learning-streak').getByText('Em đã học liên tiếp 1 ngày!')).toBeVisible();
@@ -23,9 +23,11 @@ for (const width of [390, 768, 1024, 1280, 1440, 1672]) {
       const nav = page.getByRole('navigation', { name: 'Điều hướng học sinh' });
       await expect(nav.getByRole('link', { name: '1 sao' })).toHaveCount(0);
       await expect(page.getByRole('link', { name: '1 sao', exact: true })).toBeVisible();
-      await nav.getByRole('tab', { name: 'Trang chủ' }).focus();
+      await expect(nav.getByRole('link')).toHaveCount(7);
+      await expect(nav.getByRole('link', { name: 'Trang chủ' })).toHaveAttribute('aria-current', 'page');
+      await nav.getByRole('link', { name: 'Trang chủ' }).focus();
       await page.keyboard.press('ArrowDown');
-      await expect(nav.getByRole('tab', { name: 'Bài học' })).toBeFocused();
+      await expect(nav.getByRole('link', { name: 'Bài học' })).toBeFocused();
       const search = page.getByRole('searchbox', { name: 'Tìm bài học, chủ đề' });
       await page.keyboard.press('Control+k');
       await expect(search).toBeFocused();
@@ -55,7 +57,7 @@ for (const width of [390, 768, 1024, 1280, 1440, 1672]) {
     } else {
       await page.getByTestId('learning-journey').getByRole('button', { name: /^Kiểm tra/ }).click();
     }
-    await expect(page.getByRole('heading', { name: 'Học qua câu đố, nhớ thật lâu!' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Danh sách câu đố' })).toBeVisible();
     await expect(page.getByText('Chưa có câu đố mới')).toBeVisible();
     await capture(page, testInfo, 'quiz');
     await page.getByRole('button', { name: 'Đã xong', exact: true }).click();

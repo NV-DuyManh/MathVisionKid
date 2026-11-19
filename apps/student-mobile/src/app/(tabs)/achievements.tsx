@@ -146,7 +146,7 @@ function Achievements({ owner, registeredGrade }: { owner?: string; registeredGr
   ]} />;
   const progressLink = web && <PersonalLink label="Xem tiến độ học tập" description="Theo dõi hoạt động và ngày học liên tiếp"
     icon="trending-up-outline" tone="purple" onPress={() => router.push('/progress')} />;
-  const streakPanel = web && value && <PersonalPanel title="Chuỗi học tập">
+  const streakPanel = web && value && <PersonalPanel title="Chuỗi học tập" icon="flame-outline">
     <Text style={styles.streakValue}>{value.stats.streak} ngày liên tiếp</Text>
     <View style={styles.streakWeek}>{buildCompletedLearningActivity(value.history).days.map(day =>
       <View key={day.label} accessible accessibilityLabel={`${day.label}: ${day.completed ? 'đã học' : 'chưa có hoạt động hoàn thành'}`} style={styles.streakDay}>
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   streakWeek: { flexDirection: 'row', justifyContent: 'space-between', gap: 4 },
   streakDay: { flex: 1, alignItems: 'center', gap: 4 },
   webScreen: { backgroundColor: STUDENT_WEB.background },
-  webContent: { maxWidth: 1440, paddingTop: 16, paddingHorizontal: 18, gap: 18 },
+  webContent: { maxWidth: 1440, paddingTop: 10, paddingHorizontal: 19, gap: 12 },
   webPanel: { borderColor: STUDENT_WEB.border, borderRadius: STUDENT_WEB.radius, padding: 20 },
   wideContent: { paddingBottom: 38 },
   mainColumns: { gap: 16 }, wideColumns: { flexDirection: 'row', alignItems: 'flex-start', gap: 24 },
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   ownPosition: { minHeight: 48, borderRadius: 14, padding: 12, backgroundColor: COLORS.primaryLight, flexDirection: 'row', alignItems: 'center', gap: 8 },
   positionText: { flex: 1, fontFamily: FONTS.bold, fontSize: 14, color: COLORS.primaryDark },
   boardRow: { minHeight: 84, flexDirection: 'row', alignItems: 'center', gap: 10, padding: 12, borderRadius: 16, backgroundColor: COLORS.background, borderWidth: 1, borderColor: 'transparent' },
-  webBoardRow: { minHeight: 76, paddingHorizontal: 10, gap: 8, backgroundColor: STUDENT_WEB.background, borderColor: STUDENT_WEB.border },
+  webBoardRow: { minHeight: 57, paddingVertical: 5, paddingHorizontal: 10, gap: 8, backgroundColor: STUDENT_WEB.background, borderColor: STUDENT_WEB.border },
   positionBadge: { minWidth: 28, alignItems: 'center' }, topPosition: { borderRadius: 12, backgroundColor: '#FFF1CC', minHeight: 36, justifyContent: 'center', gap: 3, paddingHorizontal: 6 },
   selfRow: { borderColor: '#BCA8F6', backgroundColor: '#F2ECFF' }, position: { minWidth: 28, fontFamily: FONTS.extraBold, fontSize: 16, color: COLORS.primaryDark },
   nameRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6 }, alias: { flexShrink: 1, fontFamily: FONTS.bold, fontSize: 15, lineHeight: 22, color: COLORS.textPrimary },

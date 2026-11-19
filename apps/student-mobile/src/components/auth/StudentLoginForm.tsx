@@ -418,7 +418,7 @@ export default function LoginScreen({ webLayout = false }: { webLayout?: boolean
         </View>
       </View>
       <View style={[styles.footerNote, webLayout && styles.webFooter]}>
-        {webLayout ? <Ionicons name="shield-checkmark-outline" size={16} color="#685891" accessible={false} /> : null}
+        {webLayout ? <Ionicons name="shield-checkmark-outline" size={20} color="#815806" accessible={false} /> : null}
         <Text style={styles.footerText}>{webLayout ? 'Thông tin của em được bảo vệ tại MathVisionKid.' : authView === 'register' ? 'Thông tin của em được dùng để tạo tài khoản học tập.' : 'Tài khoản được xác minh bằng email và mã bảo mật.'}</Text>
       </View>
     </View>
@@ -445,11 +445,11 @@ export default function LoginScreen({ webLayout = false }: { webLayout?: boolean
 const styles = StyleSheet.create({
   webFormColumn: { width: '100%', maxWidth: 514, minWidth: 0, alignSelf: 'center' },
   webCard: { width: '100%' },
-  webEmblem: { width: 52, height: 52, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EEE8FF', marginBottom: 24 },
-  webTitle: { fontFamily: FONTS.extraBold, fontSize: 32, lineHeight: 41, color: '#1C174C', marginBottom: 7 },
-  webSubtitle: { lineHeight: 22, marginBottom: 24 },
+  webEmblem: { width: 46, height: 44, borderRadius: 15, alignItems: 'center', alignSelf: 'center', justifyContent: 'center', backgroundColor: '#EEE8FF', marginBottom: 10 },
+  webTitle: { fontFamily: FONTS.black, fontSize: 27, lineHeight: 34, color: '#1C174C', marginBottom: 4, textAlign: 'center' },
+  webSubtitle: { lineHeight: 19, marginBottom: 16, textAlign: 'center' },
   webSwitchPrompt: { fontFamily: FONTS.regular, color: COLORS.textSecondary },
-  webFooter: { flexDirection: 'row', justifyContent: 'center', gap: 8 },
+  webFooter: { flexDirection: 'row', justifyContent: 'center', gap: 8, backgroundColor: '#FFF5D9', borderRadius: 13, padding: 9, marginTop: 10 },
   container: { flex: 1, backgroundColor: COLORS.background },
   scrollContent: { flexGrow: 1, padding: SIZES.large, justifyContent: 'center', maxWidth: 480, width: '100%', alignSelf: 'center' },
   scrollWide: { maxWidth: 1140, flexDirection: 'row', gap: 60, alignItems: 'center', padding: 44 },

@@ -99,10 +99,11 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       ? { title: 'Thành tích', label: 'Thành tích. Xem danh hiệu của em', image: ART.crown, color: '#FFF2CC', action: () => router.push('/(tabs)/achievements') }
       : { title: 'Máy tính', label: 'Mở máy tính bỏ túi', image: ART.calculator, color: '#EFE6FC', action: () => setCalculatorOpen(true) },
   ];
+  const accountAction = () => router.push('/account');
   return <View onLayout={event => setAvailableWidth(event.nativeEvent.layout.width)}>
     {!IS_STUDENT_WEB && <Text style={styles.pageTitle} accessibilityRole="header">Trang chủ</Text>}
-    <View style={styles.header}>
-      <Pressable accessibilityRole="button" accessibilityLabel="Trang cá nhân của em" onPress={() => router.push('/account')} style={styles.avatar}>
+    {!desktop && <View style={styles.header}>
+      <Pressable accessibilityRole="button" accessibilityLabel="Trang cá nhân của em" onPress={accountAction} style={styles.avatar}>
         <StudentAvatar id={profile.value?.avatar ?? 'rocket'} photo={profile.value?.avatarPhoto} size={44} />
       </Pressable>
       <View style={styles.headerCopy}>
@@ -113,7 +114,7 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       <Pressable accessibilityRole="button" accessibilityLabel="Thông báo học tập" onPress={() => setNotificationsOpen(true)} style={styles.iconButton}>
         <Ionicons name="notifications-outline" size={26} color={COLORS.primaryDark} accessible={false} />
       </Pressable>
-    </View>
+    </View>}
     <PrimaryColumn {...(desktop ? { style: styles.desktopGrid } : {})}>
     <PrimaryColumn {...(desktop ? { style: styles.desktopPrimary } : {})}>
     <LinearGradient colors={IS_STUDENT_WEB ? [STUDENT_WEB.indigo, '#6543DB', STUDENT_WEB.heroEnd] : ['#343DDC', '#5430CB', '#9848E6']}
@@ -123,15 +124,26 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
         <View style={styles.cloud} /><View style={[styles.cloud, styles.cloudLower]} /><View style={styles.cloud} />
       </View>}
       <View style={[styles.heroCopy, fontScale > 1.3 && { width: '100%' }]}>
+        {desktop && <View style={styles.heroGreeting}>
+          <Pressable accessibilityRole="button" accessibilityLabel="Trang cá nhân của em" onPress={accountAction} style={styles.greetingPill}>
+            <Text style={styles.greetingLabel} numberOfLines={1}>{`Chào mừng trở lại, ${displayName}!`}</Text>
+          </Pressable>
+          <Pressable accessibilityRole="button" accessibilityLabel="Thông báo học tập" onPress={() => setNotificationsOpen(true)} style={styles.greetingBell}>
+            <Ionicons name="notifications-outline" size={17} color="#FFF" accessible={false} />
+          </Pressable>
+        </View>}
         <Text style={[styles.heroTitle, wide && styles.heroTitleWide]} accessibilityRole="header">Cùng <Text style={styles.yellow}>MathVisionKid</Text>{'\n'}khám phá Toán học nhé!</Text>
         {IS_STUDENT_WEB && wide && <Text style={styles.heroSubtitle}>Hiểu đề, tự tìm cách giải và luyện tập theo lớp của em.</Text>}
         <View style={IS_STUDENT_WEB ? styles.heroActions : undefined}>
           {IS_STUDENT_WEB ? <Pressable accessibilityRole="button" onPress={() => onPractice()}
-            style={({ pressed }) => [styles.capture, pressed && styles.pressed]}><Text style={styles.captureText}>Học ngay</Text></Pressable> : null}
+            style={({ pressed }) => [styles.capture, styles.heroButtonIcon, pressed && styles.pressed]}><Ionicons name="play" size={16} color="#20143F" accessible={false} /><Text style={styles.captureText}>Học ngay</Text></Pressable> : null}
           <Pressable accessibilityRole="button" accessibilityLabel="Chụp bài toán" accessibilityHint="Mở máy ảnh để chụp đề hoặc chọn ảnh bài toán" onPress={onAcquire}
-            style={({ pressed }) => [styles.capture, IS_STUDENT_WEB && styles.webCapture, pressed && styles.pressed]}><Text style={styles.captureText}>{IS_STUDENT_WEB ? 'Chụp bài, hỏi AI' : 'Chụp bài toán'}</Text></Pressable>
+            style={({ pressed }) => [styles.capture, IS_STUDENT_WEB && styles.webCapture, pressed && styles.pressed]}>{IS_STUDENT_WEB && <Ionicons name="camera-outline" size={19} color="#20143F" accessible={false} />}<Text style={styles.captureText}>{IS_STUDENT_WEB ? 'Chụp bài, hỏi AI' : 'Chụp bài toán'}</Text></Pressable>
         </View>
       </View>
+      {desktop && fontScale <= 1.3 && <View pointerEvents="none" accessible={false} aria-hidden style={styles.mathCard}>
+        <Text style={styles.mathLabel}>8 + 5 = 13</Text><Ionicons name="shapes-outline" size={34} color="#DBF5FF" />
+      </View>}
       {fontScale <= 1.3 ? <HomeMascot visible={heroVisible} style={[styles.mascot, wide && styles.mascotWide]} /> : null}
     </LinearGradient>
     <View style={styles.headingRow}><Ionicons name="bulb-outline" size={24} color={COLORS.primaryDark} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Tiện ích nhanh</Text>
@@ -139,11 +151,11 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
         <Ionicons name="calculator-outline" size={19} color={COLORS.primaryDark} accessible={false} /><Text style={styles.link}>Máy tính</Text>
       </Pressable>}
     </View>
-    <View style={styles.quickGrid} testID="quick-actions-grid">
+    <View style={[styles.quickGrid, desktop && styles.desktopQuickGrid]} testID="quick-actions-grid">
       {quickActions.map(item => <Pressable key={item.title} accessibilityRole="button" accessibilityLabel={item.label} onPress={item.action}
         style={({ pressed }) => [styles.quickCard, { backgroundColor: item.color }, wide && styles.quickCardWide, desktop && styles.desktopQuickCard, pressed && styles.pressed]}>
-        <Image source={item.image} style={[styles.quickArt, wide && styles.quickArtWide]} accessible={false} />
-        <Text style={[styles.quickTitle, wide && styles.quickTitleWide]}>{item.title}</Text>
+        <Image source={item.image} style={[styles.quickArt, wide && styles.quickArtWide, desktop && styles.desktopQuickArt]} accessible={false} />
+        <Text style={[styles.quickTitle, wide && styles.quickTitleWide, desktop && styles.desktopQuickTitle]}>{item.title}</Text>
       </Pressable>)}
     </View>
     <LearningJourney desktop={wide} onPractice={() => onPractice()} onAcquire={onAcquire} onCheck={IS_STUDENT_WEB ? () => router.push('/quiz') : undefined} />
@@ -181,7 +193,7 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       {profile.failed ? <Pressable accessibilityRole="button" accessibilityLabel="Tải lại chuỗi học tập" onPress={profile.retry} style={styles.textButton}><Text style={styles.link}>Tải lại</Text></Pressable> : null}
     </View>
     {IS_STUDENT_WEB && profile.value ? <View style={styles.desktopProgress}>
-      <Text accessibilityRole="header" style={styles.heading}>Mục tiêu tuần</Text>
+      <View style={styles.panelTitleRow}><Ionicons name="locate" size={21} color={COLORS.primaryDark} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Mục tiêu tuần</Text></View>
       <View style={styles.weeklySummary}>
         <Text style={styles.progressLabel}>Hoạt động trong 7 ngày qua</Text>
         <Text style={styles.link}>{weeklyProgress}/{WEEKLY_ACTIVITY_GOAL}</Text>
@@ -195,16 +207,20 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       </Pressable>
     </View> : null}
     {IS_STUDENT_WEB && profile.value ? <View style={styles.desktopProgress}>
-      <Text accessibilityRole="header" style={styles.heading}>Danh hiệu của em</Text>
+      <View style={styles.panelTitleRow}><Ionicons name="star" size={20} color="#A76405" accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Danh hiệu của em</Text></View>
       {titles.length ? <View style={styles.progressMetrics}>{titles.map(item => <View key={item.id} style={styles.titleTile}>
         <Ionicons name="ribbon" size={24} color={COLORS.primaryDark} accessible={false} /><Text style={styles.progressLabel}>{item.name}</Text>
       </View>)}</View> : <Text style={styles.caption}>Chưa có danh hiệu.</Text>}
       <Pressable accessibilityRole="button" onPress={() => router.push('/(tabs)/achievements')} style={styles.textButton}><Text style={styles.link}>Xem danh hiệu</Text></Pressable>
     </View> : null}
-    {IS_STUDENT_WEB && hasRegisteredGrade ? <View style={styles.desktopProgress}>
-      <Text accessibilityRole="header" style={styles.heading}>Bảng xếp hạng khối {registeredGrade}</Text>
-      {leaders?.map(entry => <View key={entry.position} style={styles.leader}>
+    {IS_STUDENT_WEB && hasRegisteredGrade ? <View style={[styles.desktopProgress, styles.leaderPanel]}>
+      <LinearGradient colors={['#643BD3', '#814CEB']} start={{ x: 0, y: 0 }} end={{ x: 1, y: .5 }} style={styles.leaderHeading}>
+        <Ionicons name="trophy-outline" size={21} color="#FFE888" accessible={false} />
+        <Text accessibilityRole="header" style={styles.leaderTitle}>Bảng xếp hạng</Text><Text style={styles.leaderGrade}>Khối {registeredGrade}</Text>
+      </LinearGradient>
+      {leaders?.map((entry, index) => <View key={entry.position} style={[styles.leader, index === 0 && styles.leaderTop]}>
         <Text style={styles.link}>#{entry.position}</Text>
+        <StudentAvatar id={entry.avatar} size={25} />
         <Text style={styles.leaderName}>{entry.self && profile.value?.leaderboardNameHidden ? profile.value.publicAlias : entry.alias}</Text>
         <Text style={styles.progressLabel}>{entry.stars} sao</Text>
       </View>)}
@@ -219,7 +235,7 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
     <PocketCalculator visible={calculatorOpen} onClose={() => setCalculatorOpen(false)} />
     {notificationsOpen ? <LessonSheet title="Thông báo học tập" compact onClose={() => setNotificationsOpen(false)}>
       <Text style={styles.caption}>Chưa có thông báo mới. Em có thể mở lại bài đang học hoặc chọn một bài trong chương trình của mình.</Text>
-      <Pressable accessibilityRole="button" accessibilityLabel="Mở lại giới thiệu MathVisionKid" onPress={() => { setNotificationsOpen(false); router.push('/onboarding'); }} style={styles.textButton}><Text style={styles.link}>Xem giới thiệu MathVisionKid</Text></Pressable>
+      {!IS_STUDENT_WEB && <Pressable accessibilityRole="button" accessibilityLabel="Mở lại giới thiệu MathVisionKid" onPress={() => { setNotificationsOpen(false); router.push('/onboarding'); }} style={styles.textButton}><Text style={styles.link}>Xem giới thiệu MathVisionKid</Text></Pressable>}
     </LessonSheet> : null}
   </View>;
 }
@@ -227,18 +243,27 @@ const styles = StyleSheet.create({
   desktopGrid: { flexDirection: 'row', alignItems: 'flex-start', gap: 22 },
   desktopPrimary: { flex: 1, minWidth: 0 },
   desktopAside: { width: 340, flexShrink: 0 },
-  desktopHero: { minHeight: 236, borderRadius: STUDENT_WEB.radius },
+  desktopHero: { minHeight: 248, padding: 20, borderRadius: STUDENT_WEB.radius, marginBottom: 8 },
   desktopStreak: { marginTop: 0, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.surface },
-  desktopQuickCard: { minHeight: 106 },
+  desktopQuickGrid: { marginBottom: 15, gap: 8 },
+  desktopQuickCard: { minHeight: 59, flexDirection: 'row', gap: 6, paddingHorizontal: 6, borderRadius: 14 },
+  desktopQuickArt: { width: 34, height: 34, marginBottom: 0 },
+  desktopQuickTitle: { fontSize: 13, lineHeight: 17, flexShrink: 1 },
   desktopProgress: { marginTop: 14, paddingHorizontal: 18, paddingTop: 14, borderRadius: STUDENT_WEB.radius,
     borderWidth: 1, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.surface },
   progressMetrics: { flexDirection: 'row', gap: 8, marginTop: 12 },
+  panelTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   weeklySummary: { paddingTop: 11, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 6 },
   weeklyTrack: { height: 8, marginTop: 8, borderRadius: 4, backgroundColor: STUDENT_WEB.soft, overflow: 'hidden' },
   weeklyBar: { height: '100%', borderRadius: 4, backgroundColor: STUDENT_WEB.brand },
   progressLabel: { color: STUDENT_WEB.muted, fontFamily: FONTS.semiBold, fontSize: 12 },
   titleTile: { flex: 1, alignItems: 'center', padding: 8, gap: 5, borderRadius: 12, backgroundColor: STUDENT_WEB.soft },
-  leader: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 40, borderBottomWidth: 1, borderColor: STUDENT_WEB.border },
+  leaderPanel: { paddingHorizontal: 0, paddingTop: 0, overflow: 'hidden' },
+  leaderHeading: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 12 },
+  leaderTitle: { flex: 1, fontFamily: FONTS.extraBold, fontSize: 16, color: '#FFF' },
+  leaderGrade: { color: '#FFF', backgroundColor: '#FFFFFF26', fontFamily: FONTS.bold, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 10, fontSize: 12 },
+  leader: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 40, paddingHorizontal: 12, borderBottomWidth: 1, borderColor: STUDENT_WEB.border },
+  leaderTop: { backgroundColor: '#FFF4D9' },
   leaderName: { flex: 1, color: STUDENT_WEB.ink, fontFamily: FONTS.bold, fontSize: 13 },
   quizShortcut: { marginTop: 16 },
   pageTitle: { fontFamily: FONTS.extraBold, fontSize: 25, color: COLORS.textPrimary, marginBottom: 16 },
@@ -249,11 +274,18 @@ const styles = StyleSheet.create({
   hero: { borderRadius: 24, padding: 17, minHeight: 184, justifyContent: 'center', overflow: 'hidden', marginBottom: 18 }, heroWide: { minHeight: 228, padding: 28 }, heroCopy: { width: '68%', zIndex: 1, alignItems: 'flex-start', gap: 13 },
   heroTitle: { fontFamily: FONTS.black, fontSize: 19, lineHeight: 25, color: '#FFFFFF', letterSpacing: -.35 }, heroTitleWide: { fontSize: 29, lineHeight: 38 }, yellow: { color: '#FFDE54' },
   heroSubtitle: { fontFamily: FONTS.semiBold, fontSize: 14, lineHeight: 21, color: '#F7EEFF' },
+  heroGreeting: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  greetingPill: { minHeight: 44, justifyContent: 'center', paddingHorizontal: 13, borderRadius: 24, backgroundColor: '#FFFFFF22', flexShrink: 1 },
+  greetingLabel: { color: '#FEF2FF', fontFamily: FONTS.bold, fontSize: 13 },
+  greetingBell: { width: 44, minHeight: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  mathCard: { position: 'absolute', right: '28%', top: 60, width: 102, alignItems: 'center', gap: 5, padding: 7, borderWidth: 1, borderColor: '#8EE5FF99', borderRadius: 16, backgroundColor: '#3D65CD', transform: [{ rotate: '-9deg' }] },
+  mathLabel: { color: '#EAFAFF', fontFamily: FONTS.extraBold, fontSize: 13 },
   heroClouds: { position: 'absolute', flexDirection: 'row', right: '-5%', bottom: -62, width: '38%', minWidth: 230, justifyContent: 'flex-end' },
   cloud: { width: 110, height: 110, borderRadius: 55, backgroundColor: '#C9ACFFF2', marginLeft: -25 },
   cloudLower: { marginTop: 24, backgroundColor: '#D4BEFFF2' },
   capture: { minHeight: 44, backgroundColor: '#FFDC50', borderRadius: 26, paddingHorizontal: 16, paddingVertical: 11, justifyContent: 'center' }, captureText: { fontFamily: FONTS.extraBold, fontSize: 13, lineHeight: 19, color: '#20143F' },
-  webCapture: { backgroundColor: '#E3F3FF' },
+  heroButtonIcon: { flexDirection: 'row', gap: 7, alignItems: 'center' },
+  webCapture: { backgroundColor: '#F5F2FF', flexDirection: 'row', gap: 8, alignItems: 'center' },
   heroActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   utility: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingHorizontal: 10, minHeight: 44, borderRadius: 12, backgroundColor: STUDENT_WEB.soft },
   mascot: { position: 'absolute', right: 0, bottom: 9, width: '36%', height: 155 }, mascotWide: { right: 20, bottom: 4, height: 218, width: '34%' }, orbit: { position: 'absolute', width: '90%', height: 90, borderWidth: 2, borderColor: '#AD78EA', bottom: -60, right: -30, borderRadius: 80, transform: [{ rotate: '-15deg' }] },

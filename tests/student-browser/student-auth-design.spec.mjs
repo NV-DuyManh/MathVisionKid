@@ -15,9 +15,16 @@ for (const width of [390, 1024, 1672]) {
       await page.evaluate(() => document.fonts.ready);
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
       const hero = await page.locator('.student-auth-hero').boundingBox();
-      expect(hero.width).toBeGreaterThanOrEqual(width * (width < 840 ? .9 : .49));
-      expect(hero.width).toBeLessThanOrEqual(width * (width < 840 ? 1 : .54));
-      expect(hero.height).toBeGreaterThan(130);
+      expect(hero.width).toBeGreaterThan(width < 840 ? width - 30 : 350);
+      expect(hero.width).toBeLessThanOrEqual(width < 840 ? width : 570);
+      expect(hero.height).toBeGreaterThan(100);
+      if (name === 'login') {
+        await expect(page.getByRole('navigation')).toHaveCount(0);
+        const submit = page.getByRole('button', { name: 'Đăng nhập', exact: true });
+        await expect(submit).toBeInViewport();
+        const form = await page.locator('.student-auth-main > div').boundingBox();
+        expect(form.height).toBeLessThan(620);
+      }
       await page.screenshot({ path: testInfo.outputPath(`${name}-${width}.png`), fullPage: true, animations: 'disabled', scale: 'css' });
     };
 

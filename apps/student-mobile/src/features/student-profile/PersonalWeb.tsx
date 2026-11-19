@@ -43,9 +43,12 @@ export function PersonalMetrics({ metrics }: { metrics: PersonalMetric[] }) {
     </View>)}</View>;
 }
 
-export function PersonalPanel({ title, children }: { title: string; children: ReactNode }) {
+export function PersonalPanel({ title, icon, children }: { title: string; icon?: Icon; children: ReactNode }) {
   return <View style={styles.panel}>
-    <Text accessibilityRole="header" aria-level={2} style={styles.heading}>{title}</Text>
+    <View style={styles.panelHeading}>
+      {icon && <Ionicons name={icon} size={22} color={STUDENT_WEB.primary} accessible={false} />}
+      <Text accessibilityRole="header" aria-level={2} style={styles.heading}>{title}</Text>
+    </View>
     {children}
   </View>;
 }
@@ -66,7 +69,7 @@ function PersonalIcon({ icon, tone }: { icon: Icon; tone: Tone }) {
 }
 
 export const personalWebStyles = StyleSheet.create({
-  panel: { backgroundColor: STUDENT_WEB.surface, borderRadius: STUDENT_WEB.radius, borderColor: STUDENT_WEB.border, borderWidth: 1, padding: 18, gap: 14 },
+  panel: { backgroundColor: STUDENT_WEB.surface, borderRadius: 17, borderColor: STUDENT_WEB.border, borderWidth: 1, padding: 15, gap: 11, boxShadow: '0 5px 15px #49348308' },
   heading: { fontFamily: FONTS.extraBold, fontSize: 20, lineHeight: 28, color: STUDENT_WEB.ink },
   body: { fontFamily: FONTS.semiBold, fontSize: 14, lineHeight: 20, color: STUDENT_WEB.muted },
   columns: { gap: 18 },
@@ -78,6 +81,7 @@ export const personalWebStyles = StyleSheet.create({
 
 const styles = StyleSheet.create({
   ...personalWebStyles,
+  panelHeading: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   pageHeader: { minHeight: 54, flexDirection: 'row', alignItems: 'center', gap: 12 },
   headerButton: { width: 44, height: 44, borderRadius: 13, justifyContent: 'center', alignItems: 'center',
     borderWidth: 1, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.surface },
