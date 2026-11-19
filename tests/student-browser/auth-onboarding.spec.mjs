@@ -8,6 +8,12 @@ for (const width of widths) {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(`${sites.portal.origin}/study/onboarding`);
+    if (width >= 768) {
+      await expect(page).toHaveURL(sites.portal.origin + '/login');
+      await expect(page.getByRole('textbox', { name: 'Email', exact: true })).toBeVisible();
+      expect(app.requests.filter(request => request.path === '/me')).toHaveLength(0);
+      return;
+    }
     await expect(page.getByRole('heading', { name: 'Học Toán thông minh cùng AI', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Trang giới thiệu trước', exact: true })).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'Trang giới thiệu tiếp theo', exact: true })).toHaveCount(0);
@@ -90,6 +96,7 @@ test('expired onboarding credentials recover to login and clear the stale sessio
 });
 
 test('a verified student can deliberately reopen introduction and skip directly home', async ({ page, app }) => {
+  await page.setViewportSize({ width: 390, height: 900 });
   app.realStudent = true;
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
@@ -118,6 +125,7 @@ test('a verified student opening the mounted login stays in the learning app', a
 
 for (const authenticated of [false, true]) {
   test(`Skip introduction persists completion for ${authenticated ? 'verified student' : 'anonymous visitor'}`, async ({ page, app }) => {
+    await page.setViewportSize({ width: 390, height: 900 });
     app.realStudent = true;
     if (authenticated) {
       await login(page, 'STUDENT');

@@ -43,8 +43,7 @@ for (const width of widths) {
     await login(page, 'STUDENT');
     await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
     const homeRobot = page.locator('img[src*="robot-mascot"]');
-    expect(await homeRobot.count()).toBeGreaterThan(0);
-    await expect.poll(() => homeRobot.evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0))).toBe(true);
+    await expect.poll(() => homeRobot.evaluateAll(images => images.length > 0 && images.every(image => image.complete && image.naturalWidth > 0))).toBe(true);
     await expect(page.locator('img[src*="mathvision-star"], img[src*="mathvision-icon-v2"]')).toHaveCount(0);
     await noPageOverflow(page);
     const quickCards = page.getByTestId('quick-actions-grid').getByRole('button');
@@ -55,10 +54,15 @@ for (const width of widths) {
     expect(Math.max(...bounds.map(card => card.y)) - Math.min(...bounds.map(card => card.y))).toBeLessThanOrEqual(1);
     expect(Math.max(...bounds.map(card => card.width)) - Math.min(...bounds.map(card => card.width))).toBeLessThanOrEqual(1);
     await expect(page.getByRole('button', { name: 'Tiện ích tiếp theo', exact: true })).toHaveCount(0);
-    await expect(page.getByRole('heading', { name: 'Trang chủ', exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Thông báo học tập', exact: true })).toBeVisible();
+    if (width < 768) {
+      await expect(page.getByRole('heading', { name: 'Trang chủ', exact: true })).toBeVisible();
+      await expect(page.getByRole('button', { name: 'Thông báo học tập', exact: true })).toBeVisible();
+    } else {
+      await expect(page.getByTestId('home-hero').getByRole('heading')).toContainText('khám phá Toán học nhé!');
+      await expect(page.getByRole('button', { name: 'Thông báo', exact: true })).toBeVisible();
+    }
     await expect(page.getByRole('heading', { name: 'Hành trình học tập', exact: true })).toBeVisible();
-    await expect(page.getByTestId('learning-journey').getByRole('button')).toHaveCount(3);
+    await expect(page.getByTestId('learning-journey').getByRole('button')).toHaveCount(width < 768 ? 3 : 4);
     await expect(page.getByRole('heading', { name: 'Bài học gợi ý cho em', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: /^Luyện tập lớp \d$/ })).toHaveCount(0);
     await page.getByRole('button', { name: 'Chụp bài toán', exact: true }).scrollIntoViewIfNeeded();
@@ -85,14 +89,18 @@ for (const width of widths) {
     await expect(page.getByText('Bảo vệ thông tin cá nhân', { exact: true })).toBeVisible();
     await page.getByRole('button', { name: 'Đóng thông tin bảo mật', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Chương trình Toán lớp 5', exact: true })).toHaveCount(0);
-    await expect(page.getByRole('button', { name: /^Học bài / })).toHaveCount(1);
+    await expect(page.getByRole('button', { name: /^Học bài / })).toHaveCount(width < 768 ? 1 : 3);
     await page.getByRole('button', { name: 'Luyện tập. Làm bài theo chủ đề', exact: true }).first().click();
     await expect(page).toHaveURL(/\/study\/lessons/);
     await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
     await expect(page.getByText('20 bài học', { exact: true })).toBeVisible();
     await expect(page.getByText('1/20', { exact: true })).toBeVisible();
-    await expect(page.getByText('Đã lưu bài làm', { exact: true })).toHaveCount(1);
     await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
+    const savedSection = page.getByRole('button', { name: `Chủ đề ${gradeFive[0].section}`, exact: true });
+    await expect(savedSection).toHaveAttribute('aria-expanded', 'false');
+    await savedSection.click();
+    await expect(page.getByText('Đã lưu bài làm', { exact: true })).toBeVisible();
+    await savedSection.click();
     await expect(page.getByRole('button', { name: /^Chọn Lớp / })).toHaveCount(0);
     await expect(page.getByRole('button', { name: /^Câu đố của em/ })).toHaveCount(0);
     await expect(page.getByText('Hôm nay em học gì?', { exact: true })).toHaveCount(0);
@@ -131,10 +139,15 @@ for (const width of widths) {
     await expect(page.getByRole('button', { name: 'Chọn ảnh từ thư viện', exact: true })).toBeVisible();
   });
 
-  test(`welcome pages support swipe and compact dots without overflow at ${width}px`, async ({ page, app }, testInfo) => {
+  test(`welcome uses onboarding or shared login at ${width}px`, async ({ page, app }, testInfo) => {
     app.realStudent = true;
     await page.setViewportSize({ width, height: 900 });
     await page.goto(`${sites.portal.origin}/study/welcome`);
+    if (width >= 768) {
+      await expect(page).toHaveURL(`${sites.portal.origin}/login`);
+      await expect(page.getByRole('textbox', { name: 'Email', exact: true })).toBeVisible();
+      return;
+    }
     await expect(page.getByRole('heading', { name: 'Học Toán thông minh cùng AI', exact: true })).toBeVisible();
     await expect(page.getByTestId('welcome-card-2')).toHaveAttribute('aria-hidden', 'true');
     await expect(page.getByTestId('welcome-card-3')).toHaveAttribute('aria-hidden', 'true');
@@ -168,7 +181,10 @@ test('library remains usable by keyboard in landscape with reduced motion and en
   await page.setViewportSize({ width: 844, height: 390 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await login(page, 'STUDENT');
-  await page.getByRole('tab', { name: 'Bài học', exact: true }).click();
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.getByRole('link', { name: 'Bài học', exact: true }).click();
+  await expect(page).toHaveURL(/\/study\/lessons$/);
+  await expect(page.getByRole('heading', { name: 'Chương trình học của em', exact: true })).toBeVisible();
   await page.evaluate(() => { document.documentElement.style.zoom = '1.5'; });
   const search = page.getByRole('textbox', { name: 'Tìm bài học', exact: true });
   await search.focus();

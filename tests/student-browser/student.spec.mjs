@@ -271,7 +271,8 @@ test('Portal login enters the real Student bundle, navigates and survives a deep
   await login(page, 'STUDENT');
   await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
-  await page.getByRole('tab', { name: 'Bài học' }).click();
+  const lessonNavigation = page.viewportSize().width >= 768 ? 'link' : 'tab';
+  await page.getByRole(lessonNavigation, { name: 'Bài học', exact: true }).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons`);
   await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
   await page.reload();
@@ -339,7 +340,10 @@ test('Avatar account page edits name beside the header, uploads through the avat
   app.realStudent = true;
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
+  const workspaceAvatar = page.getByRole('link', { name: 'Mở trang Của em', exact: true });
+  const desktop = page.viewportSize().width >= 768;
+  if (desktop) await workspaceAvatar.click();
+  await page.getByRole('button', { name: desktop ? 'Chỉnh sửa hồ sơ' : 'Trang cá nhân của em', exact: true }).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/account`);
   await expect(page.getByRole('textbox', { name: 'Tên hiển thị', exact: true })).toHaveCount(0);
   await expect(page.getByText('Ảnh và tên hiển thị của em', { exact: true })).toHaveCount(0);
@@ -382,14 +386,21 @@ test('Avatar account page edits name beside the header, uploads through the avat
   await page.getByRole('button', { name: 'Cập nhật mật khẩu', exact: true }).click();
   await expect(page.getByText('Đã đổi mật khẩu. Các phiên đăng nhập khác đã kết thúc.', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Quay lại', exact: true }).click();
-  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  if (page.viewportSize().width >= 768) {
+    await expect(page).toHaveURL(`${sites.portal.origin}/study/profile`);
+  } else {
+    await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  }
 });
 
 test('A photo picker opened in an old session cannot upload into a new session', async ({ page, app }) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
+  const workspaceAvatar = page.getByRole('link', { name: 'Mở trang Của em', exact: true });
+  const desktop = page.viewportSize().width >= 768;
+  if (desktop) await workspaceAvatar.click();
+  await page.getByRole('button', { name: desktop ? 'Chỉnh sửa hồ sơ' : 'Trang cá nhân của em', exact: true }).click();
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Thay ảnh đại diện', exact: true }).click();
   const selected = await chooser;
@@ -725,7 +736,12 @@ test('camera fallback opens the rear capture picker and sends the selected image
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/camera`);
   await expect(page.getByText(/Chưa mở được máy ảnh/)).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Chụp ảnh bài toán' })).toBeDisabled();
+  if (page.viewportSize().width < 780) {
+    await expect(page.getByRole('button', { name: 'Chụp ảnh bài toán' })).toBeDisabled();
+  } else {
+    await expect(page.getByRole('button', { name: 'Thử mở lại máy ảnh' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Chụp ảnh bài toán' })).toHaveCount(0);
+  }
   const [picker] = await Promise.all([
     page.waitForEvent('filechooser'),
     page.getByRole('button', { name: 'Chụp bằng máy ảnh điện thoại' }).click(),
