@@ -836,10 +836,10 @@ const styles = StyleSheet.create({
   editorBody: { flex: 1 },
   editorLandscape: { flexDirection: 'row' },
   landscapeFooter: { width: 300, padding: 14, justifyContent: 'center' },
-  webInstructions: { backgroundColor: WEB_DESIGN.colors.blueLight, borderColor: WEB_DESIGN.colors.line, paddingVertical: 12 },
+  webInstructions: { backgroundColor: COLORS.surfaceSubdued, borderColor: COLORS.border, paddingVertical: 12 },
   webEditor: { width: '100%', maxWidth: 1240, alignSelf: 'center', gap: 12, padding: 12 },
   webCanvas: { minWidth: 0, minHeight: 120, borderRadius: WEB_DESIGN.radii.notebook, overflow: 'hidden' },
-  webFooter: { borderWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook, padding: 12 },
+  webFooter: { borderWidth: 1, borderColor: COLORS.border, borderRadius: WEB_DESIGN.radii.notebook, padding: 12 },
   webMaskControls: { position: 'relative', bottom: 0, left: 0, right: 0, flexWrap: 'wrap', gap: 6, marginBottom: 12 },
   imageWrapper: {
     flex: 1,

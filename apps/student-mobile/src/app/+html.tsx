@@ -1,10 +1,10 @@
 import { ScrollViewStyleReset, useServerDocumentContext } from 'expo-router/html';
 import type { PropsWithChildren } from 'react';
-import { WEB_DESIGN } from '../constants/theme';
+import { COLORS, WEB_DESIGN } from '../constants/theme';
 
 const { colors, focus, motion } = WEB_DESIGN;
 const WEB_STYLES = `
-  body { margin: 0; background: ${colors.paper}; }
+  body { margin: 0; background: ${COLORS.background}; }
   button, a, [role="button"], [role="tab"] { touch-action: manipulation; }
   *:focus-visible { outline: ${focus.width}px solid ${focus.color}; outline-offset: ${focus.offset}px; }
   ::selection { background: ${colors.star}; color: ${colors.ink}; }

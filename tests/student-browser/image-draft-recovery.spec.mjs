@@ -196,12 +196,13 @@ for (const [operation, message] of [['expire', 'Ảnh đã hết thời gian lư
 
 test('Cancel and reselecting the same file preserve the old draft until a new source is decoded', async ({ page }) => {
   await start(page); await openCrop(page);
-  const hash = await imageHash(page, 'Ảnh bài tập đang căn chỉnh');
+  await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  const hash = await imageHash(page, 'Ảnh bài toán em đã chọn');
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Chọn ảnh khác', exact: true }).click();
   await chooser;
   await page.getByLabel('Chọn ảnh bài tập', { exact: true }).dispatchEvent('cancel');
-  expect(await imageHash(page, 'Ảnh bài tập đang căn chỉnh')).toBe(hash);
+  expect(await imageHash(page, 'Ảnh bài toán em đã chọn')).toBe(hash);
   const next = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Chọn ảnh khác', exact: true }).click();
   await (await next).setFiles(await picture(page));
@@ -241,16 +242,17 @@ test('An EXIF-oriented JPEG is normalized and retains its orientation after F5',
 
 test('Rapid repeated picks open one chooser and a failed decode leaves the approved draft intact', async ({ page }) => {
   await start(page); await openCrop(page);
-  const hash = await imageHash(page, 'Ảnh bài tập đang căn chỉnh');
+  await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  const hash = await imageHash(page, 'Ảnh bài toán em đã chọn');
   let count = 0; page.on('filechooser', () => count++);
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Chọn ảnh khác', exact: true }).dblclick();
   await (await chooser).setFiles({ name: 'broken.heic', mimeType: 'image/heic', buffer: Buffer.from('not a photo') });
   await expect(page.getByRole('alert')).toContainText('Ảnh trước vẫn được giữ');
   expect(count).toBe(1);
-  expect(await imageHash(page, 'Ảnh bài tập đang căn chỉnh')).toBe(hash);
-  await page.reload(); await expect(page.getByLabel('Ảnh bài tập đang căn chỉnh')).toBeVisible();
-  expect(await imageHash(page, 'Ảnh bài tập đang căn chỉnh')).toBe(hash);
+  expect(await imageHash(page, 'Ảnh bài toán em đã chọn')).toBe(hash);
+  await page.reload(); await expect(page.getByLabel('Ảnh bài toán em đã chọn')).toBeVisible();
+  expect(await imageHash(page, 'Ảnh bài toán em đã chọn')).toBe(hash);
 });
 
 test('Editing changes metadata without rewriting photo blobs', async ({ page }) => {

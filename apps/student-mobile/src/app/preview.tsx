@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   contentWide: { maxWidth: 1140, flexDirection: 'row', alignItems: 'center', gap: 32 },
   webContent: { padding: 16 },
   webImage: { borderRadius: WEB_DESIGN.radii.notebook, backgroundColor: WEB_DESIGN.colors.ink },
-  webControls: { backgroundColor: COLORS.surface, borderWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook, padding: 16 },
+  webControls: { backgroundColor: COLORS.surface, borderWidth: 1, borderColor: COLORS.border, borderRadius: WEB_DESIGN.radii.notebook, padding: 16 },
   webTool: { borderRadius: WEB_DESIGN.radii.control, borderColor: COLORS.border, paddingHorizontal: 8 },
   controlColumn: { gap: 10 }, controlColumnWide: { width: 360 },
   reviewTitle: { fontFamily: FONTS.extraBold, color: COLORS.textPrimary, fontSize: 23, lineHeight: 31 },

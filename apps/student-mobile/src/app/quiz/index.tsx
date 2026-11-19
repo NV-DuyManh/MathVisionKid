@@ -108,9 +108,9 @@ function Library() {
 const l = StyleSheet.create({
   content: { flexGrow: 1, width: '100%', maxWidth: 840, alignSelf: 'center', paddingHorizontal: 20, paddingTop: 6, paddingBottom: 24, gap: 16 },
   intro: { flexDirection: 'row', alignItems: 'center', gap: 16, paddingVertical: 8 },
-  webIntro: { padding: 16, borderWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook, backgroundColor: COLORS.surface },
-  webGroups: { backgroundColor: WEB_DESIGN.colors.blueLight, borderRadius: WEB_DESIGN.radii.control },
-  webCard: { borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook },
+  webIntro: { padding: 16, borderWidth: 1, borderColor: COLORS.border, borderRadius: WEB_DESIGN.radii.notebook, backgroundColor: COLORS.surface },
+  webGroups: { backgroundColor: COLORS.surfaceSubdued, borderRadius: WEB_DESIGN.radii.control },
+  webCard: { borderColor: COLORS.border, borderRadius: WEB_DESIGN.radii.notebook },
   introCopy: { flex: 1, minWidth: 0, gap: 5 }, introMascot: { width: 72, height: 78, resizeMode: 'contain' },
   heading: { fontFamily: FONTS.extraBold, fontSize: 21, lineHeight: 29, color: COLORS.textPrimary },
   body: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: COLORS.textSecondary },

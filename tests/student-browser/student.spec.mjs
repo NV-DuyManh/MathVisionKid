@@ -165,6 +165,7 @@ test('Student previews and crops a local worksheet without sending it', async ({
   await confirmation.click();
   await page.getByRole('button', { name: 'Tiếp tục xem lại' }).click();
   await expect(page).toHaveURL(/\/study\/crop/);
+  await expect(page.getByRole('button', { name: 'Chọn ảnh khác', exact: true })).toHaveCount(0);
   const cropImage = page.getByLabel('Ảnh bài tập đang căn chỉnh');
   await expect(cropImage).toBeVisible();
   await expect.poll(() => cropImage.evaluate(async element => {
@@ -265,6 +266,24 @@ for (const { route, title, action, next, ...response } of arithmeticOutcomes) {
     expect(app.requests.filter(request => request.method === 'POST').map(request => request.path)).toEqual(['/auth/login', '/student/submissions']);
   });
 }
+
+test('Student home, library and saved work share the same web canvas', async ({ page, app }) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  const base = `${sites.portal.origin}/study`;
+  for (const [path, label] of [['/', 'Tiện ích nhanh'], ['/lessons', 'Chương trình học của em'], ['/profile', 'Những bài học của em']]) {
+    await page.goto(base + path);
+    const heading = page.getByText(label, { exact: true }).first();
+    await expect(heading).toBeVisible();
+    expect(await heading.evaluate(element => {
+      for (let node = element; node; node = node.parentElement) {
+        const color = getComputedStyle(node).backgroundColor;
+        if (color !== 'rgba(0, 0, 0, 0)') return color;
+      }
+      return null;
+    })).toBe('rgb(245, 244, 252)');
+  }
+});
 
 test('Portal login enters the real Student bundle, navigates and survives a deep-link reload', async ({ page, app }) => {
   app.realStudent = true;
