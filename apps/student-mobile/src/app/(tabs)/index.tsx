@@ -2,12 +2,13 @@ import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Pressable, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
+import { COLORS, FONTS, SHADOWS, IS_STUDENT_WEB, MATHVISION_COLORS } from '../../constants/theme';
 import { AuthContext } from '../../context/AuthContext';
 import { recognitionDraftStore, logFlowDomain, FlowDomain } from '../../features/recognition/state/recognitionDraftStore';
 import { getAppBranding } from '../../config/appConfig';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HomeDashboard } from '../../components/home/HomeDashboard';
+import { isCompactStudentWeb } from '../../components/ui/useIsCompactStudentWeb';
 export default function HomeScreen() {
     const router = useRouter();
     const auth = useContext(AuthContext);
@@ -23,7 +24,7 @@ export default function HomeScreen() {
         logFlowDomain('ACQUIRE', mode);
         router.push({ pathname: '/camera' as any, params: { mode } });
     };
-    return (<ScrollView style={styles.container} onScroll={event => setHeroVisible(event.nativeEvent.contentOffset.y < 340)} scrollEventThrottle={100} contentContainerStyle={[styles.content, { flexGrow: 1, paddingTop: insets.top + 12, paddingBottom: 108 + insets.bottom }, width >= 768 && { maxWidth: width >= 1200 ? 1360 : 1040, paddingHorizontal: width >= 1200 ? 30 : 24, paddingTop: insets.top + 20, paddingBottom: 28 }]} showsVerticalScrollIndicator={false}>
+    return (<ScrollView style={[styles.container, isCompactStudentWeb(width) && styles.compactWebBackground]} onScroll={event => setHeroVisible(event.nativeEvent.contentOffset.y < 340)} scrollEventThrottle={100} contentContainerStyle={[styles.content, { flexGrow: 1, paddingTop: insets.top + 12, paddingBottom: 108 + insets.bottom }, width >= 768 && { maxWidth: width >= 1200 ? 1360 : 1040, paddingHorizontal: width >= 1200 ? 30 : 24, paddingTop: insets.top + 20, paddingBottom: 28 }, IS_STUDENT_WEB && width >= 768 && { maxWidth: '100%', paddingHorizontal: 24 }]} showsVerticalScrollIndicator={false}>
       <HomeDashboard
         userName={userName}
         heroVisible={heroVisible}
@@ -151,6 +152,7 @@ export default function HomeScreen() {
 }
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: COLORS.background },
+    compactWebBackground: { backgroundColor: MATHVISION_COLORS.background },
     content: { paddingHorizontal: 20, paddingBottom: 112, maxWidth: 1440, width: '100%', alignSelf: 'center' },
     modalBody: { flexGrow: 0, flexShrink: 1 },
     /* Modals */

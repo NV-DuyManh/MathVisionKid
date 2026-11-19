@@ -130,7 +130,7 @@ test('the shared login completes password recovery and registration using the ex
     return json({});
   });
   app.responses.set('POST /auth/register', ({ body, json }) => {
-    expect(body).toMatchObject({ email: 'student@example.test', displayName: 'Học sinh kiểm thử', role: 'STUDENT', gradeLevel: 1 });
+    expect(body).toMatchObject({ email: 'student@example.test', displayName: 'Học sinh kiểm thử', role: 'STUDENT', gradeLevel: 4, gender: 'FEMALE' });
     return json({}, 201);
   });
   await page.goto(`${sites.portal.origin}/login`);
@@ -141,7 +141,11 @@ test('the shared login completes password recovery and registration using the ex
   await page.getByLabel(/^Mật khẩu mới/).fill('new-password-example');
   await page.getByRole('button', { name: 'Xác nhận và đổi mật khẩu' }).click();
   await expect(page.getByText(/Đổi mật khẩu thành công/)).toBeVisible();
-  await page.getByRole('button', { name: 'Đăng ký', exact: true }).click();
+  await page.getByRole('button', { name: 'Đăng ký ngay', exact: true }).click();
+  await expect(page.getByRole('combobox', { name: 'Vai trò', exact: true })).toHaveCount(0);
+  await expect(page.locator('form .MuiFormLabel-asterisk:visible')).toHaveCount(0);
+  await page.getByRole('combobox', { name: 'Khối lớp', exact: true }).selectOption('4');
+  await page.getByRole('combobox', { name: 'Giới tính', exact: true }).selectOption('FEMALE');
   await page.locator('#register-name').fill('Học sinh kiểm thử');
   await page.locator('#register-password').fill('new-password-example');
   await page.locator('#register-confirm-password').fill('new-password-example');

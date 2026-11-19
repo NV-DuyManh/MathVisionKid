@@ -1,4 +1,5 @@
 import { Platform } from 'react-native';
+import { STUDENT_WEB } from './studentWebDesign';
 import { WEB_DESIGN } from '../../../../packages/ui-brand/src/web-design';
 
 export { WEB_DESIGN };
@@ -54,7 +55,16 @@ export const MATHVISION_COLORS = {
 
 export const COLORS = IS_STUDENT_WEB ? {
   ...MATHVISION_COLORS,
+  background: STUDENT_WEB.background,
+  surface: STUDENT_WEB.surface,
+  border: STUDENT_WEB.border,
+  textPrimary: STUDENT_WEB.ink,
+  textSecondary: STUDENT_WEB.muted,
+  primary: STUDENT_WEB.brand,
+  primaryDark: STUDENT_WEB.primary,
+  primaryLight: STUDENT_WEB.soft,
   secondary: WEB_DESIGN.colors.star,
+  borderFocus: STUDENT_WEB.brand,
 } : MATHVISION_COLORS;
 export function getThemeColors() { return COLORS; }
 

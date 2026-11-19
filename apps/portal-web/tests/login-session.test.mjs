@@ -69,6 +69,7 @@ for (const oldResult of ['expired', 'old-teacher']) {
       return React.createElement(component === 'form' ? 'form' : 'div', null, children);
     };
     const imports = {
+      './studentAuth.css': {},
       '@mui/material': new Proxy({}, { get: (_, name) => name === 'TextField'
         ? props => { fields[props.id] = props; return React.createElement('input', { id: props.id }); }
         : placeholder }),

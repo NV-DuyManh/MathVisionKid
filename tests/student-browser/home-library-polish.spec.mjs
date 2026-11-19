@@ -92,8 +92,7 @@ for (const width of widths) {
     await expect(page.getByText('20 bài học', { exact: true })).toBeVisible();
     await expect(page.getByText('1/20', { exact: true })).toBeVisible();
     await expect(page.getByText('Đã lưu bài làm', { exact: true })).toHaveCount(1);
-    await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(20);
-    for (const problem of gradeFive) await expect(page.getByRole('button', { name: `Mở bài: ${problem.title}`, exact: true })).toHaveCount(1);
+    await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
     await expect(page.getByRole('button', { name: /^Chọn Lớp / })).toHaveCount(0);
     await expect(page.getByRole('button', { name: /^Câu đố của em/ })).toHaveCount(0);
     await expect(page.getByText('Hôm nay em học gì?', { exact: true })).toHaveCount(0);
@@ -116,7 +115,8 @@ for (const width of widths) {
     await expect(page.getByText('Chưa tìm thấy bài phù hợp. Em thử tìm bằng từ khác nhé.', { exact: true })).toBeVisible();
     await page.getByRole('button', { name: 'Xem tất cả bài học', exact: true }).click();
     await expect(search).toHaveValue('');
-    await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(20);
+    await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
+    await page.getByRole('button', { name: 'Chủ đề Số và phép tính', exact: true }).click();
 
     const problem = gradeFive.find(item => item.title === 'Cộng số thập phân');
     await page.getByRole('button', { name: `Mở bài: ${problem.title}`, exact: true }).click();

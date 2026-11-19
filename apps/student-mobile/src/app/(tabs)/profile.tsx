@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
+import { useIsCompactStudentWeb } from '../../components/ui/useIsCompactStudentWeb';
 import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,24 +9,32 @@ import { StudentPageHeader } from '../../components/ui/StudentPageHeader';
 import { AppButton } from '../../components/ui/AppButton';
 import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { MathText } from '../../components/domain/MathText';
-import { COLORS, FONTS, SHADOWS, IS_STUDENT_WEB, WEB_DESIGN } from '../../constants/theme';
+import { COLORS, FONTS, SHADOWS, IS_STUDENT_WEB, MATHVISION_COLORS } from '../../constants/theme';
 import { loadLessons, SavedLesson } from '../../features/tutoring/learningHistory';
+import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
 
-type Tab = 'saved' | 'work' | 'notes';
+import { PersonalPageHeader, PersonalPanel, personalWebStyles as web } from '../../features/student-profile/PersonalWeb';
+import { NotebookAside, ProfileIdentity, type NotebookTab, type NotebookCounts } from '../../features/student-profile/ProfileWeb';
+
 export default function ProfileScreen() {
   const auth = useContext(AuthContext);
   const owner = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
   return <ProfileContent key={owner ?? 'signed-out'} owner={owner} />;
 }
 
-function ProfileContent({ owner }: { owner?: string }) {
+export function ProfileContent({ owner, savedOnly = false, initialTab = 'saved' }: {
+  owner?: string; savedOnly?: boolean; initialTab?: NotebookTab;
+}) {
   const router = useRouter();
-  const [pageWidth, setPageWidth] = useState(0), [tab, setTab] = useState<Tab>('saved');
+  const compactWeb = useIsCompactStudentWeb();
+  const desktopWeb = IS_STUDENT_WEB && !compactWeb;
+  const [pageWidth, setPageWidth] = useState(0), [tab, setTab] = useState<NotebookTab>(initialTab);
   const [lessons, setLessons] = useState<SavedLesson[]>([]), [error, setError] = useState(false);
   const [attempt, setAttempt] = useState(0), [loading, setLoading] = useState(true);
   const [menu, setMenu] = useState<SavedLesson | null>(null);
+  const [oldestFirst, setOldestFirst] = useState(false);
   useFocusEffect(useCallback(() => {
     let active = true;
     setLessons([]); setError(false); setLoading(true); setMenu(null);
@@ -37,51 +46,91 @@ function ProfileContent({ owner }: { owner?: string }) {
   }, [owner, attempt]));
   const capture = () => { recognitionDraftStore.clearDraft(); router.push({ pathname: '/camera', params: { mode: 'MATH_TUTOR' } }); };
   const open = (lesson: SavedLesson) => router.push({ pathname: '/learning/math-guide', params: { problemText: lesson.problemText, workText: lesson.workText, lessonId: lesson.id, reflection: lesson.reflection } });
-  const items = lessons.filter(item => tab === 'notes' ? item.reflection.trim() : tab === 'work' ? item.workText.trim() : true);
-  return <SafeAreaView style={[styles.screen, IS_STUDENT_WEB && styles.webScreen]} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} edges={['top']}>
-    <ScrollView contentContainerStyle={[styles.content, pageWidth >= 768 && styles.contentWide]} showsVerticalScrollIndicator={false}>
-      <StudentPageHeader compact title="Của em" onBack={() => router.replace('/(tabs)')} />
-      <Pressable accessibilityRole="button" accessibilityLabel="Trò chơi rèn luyện cho em"
-        onPress={() => router.push('/games')}
-        style={({ pressed }) => [styles.games, IS_STUDENT_WEB && styles.webGames, pressed && styles.pressed]}>
-        <Ionicons name="game-controller-outline" size={26} color={COLORS.primaryDark} accessible={false} />
-        <Text style={styles.gamesTitle}>Trò chơi rèn luyện cho em</Text>
-        <Ionicons name="chevron-forward" size={22} color={COLORS.primaryDark} accessible={false} />
-      </Pressable>
-      <View style={[styles.tabs, IS_STUDENT_WEB && styles.webTabs]}>{([['saved', 'Bài đã lưu'], ['work', 'Bài làm'], ['notes', 'Ghi chú']] as const).map(([value, label]) => <Pressable
+  const work = lessons.filter(item => item.workText.trim());
+  const notes = lessons.filter(item => item.reflection.trim());
+  const matching = tab === 'work' ? work : tab === 'notes' ? notes : lessons;
+  const items = IS_STUDENT_WEB ? [...matching].sort((a, b) => oldestFirst ? a.timestamp - b.timestamp : b.timestamp - a.timestamp) : matching;
+  const counts: NotebookCounts | undefined = error || loading ? undefined : { saved: lessons.length, work: work.length, notes: notes.length };
+  const webWide = desktopWeb && pageWidth >= 840;
+  const notebookGrid = webWide && pageWidth >= 1100 && savedOnly;
+  const games = <Pressable accessibilityRole="button" accessibilityLabel="Trò chơi rèn luyện cho em"
+    onPress={() => router.push('/games')}
+    style={({ pressed }) => [styles.games, compactWeb && styles.compactWebGames, pressed && styles.pressed]}>
+    <Ionicons name="game-controller-outline" size={26} color={COLORS.primaryDark} accessible={false} />
+    <Text style={styles.gamesTitle}>Trò chơi rèn luyện cho em</Text>
+    <Ionicons name="chevron-forward" size={22} color={COLORS.primaryDark} accessible={false} />
+  </Pressable>;
+  const notebook = <>
+      <View style={[styles.tabs, (desktopWeb || savedOnly) && styles.webTabs, compactWeb && !savedOnly && styles.compactTabs]}>{([['saved', 'Bài đã lưu'], ['work', 'Bài làm'], ['notes', 'Ghi chú']] as const).map(([value, label]) => <Pressable
         key={value} accessibilityRole={IS_STUDENT_WEB ? 'button' : 'tab'} accessibilityLabel={label}
         accessibilityState={IS_STUDENT_WEB ? undefined : { selected: tab === value }} aria-pressed={IS_STUDENT_WEB ? tab === value : undefined}
-        onPress={() => setTab(value)} style={[styles.tab, tab === value && (IS_STUDENT_WEB ? styles.webSelected : styles.tabSelected)]}>
+        onPress={() => setTab(value)} style={[styles.tab, tab === value && (desktopWeb || savedOnly ? styles.webSelected : compactWeb ? styles.compactSelected : styles.tabSelected)]}>
         <Text style={[styles.tabText, IS_STUDENT_WEB && styles.webSecondary, tab === value && styles.white]}>{label}</Text>
       </Pressable>)}</View>
       <View style={styles.listHeading}>
         <Text accessibilityRole={IS_STUDENT_WEB ? 'header' : undefined} style={styles.heading}>{tab === 'saved' ? 'Những bài học của em' : tab === 'work' ? 'Bài em đã viết' : 'Điều em ghi nhớ'}</Text>
         {(!IS_STUDENT_WEB || (!error && !loading)) && <Text style={[styles.count, IS_STUDENT_WEB && styles.webSecondary]}>{items.length} bài</Text>}
       </View>
-      {tab === 'work' ? <Text style={styles.caption}>Nội dung em đã lưu bằng chữ. Ảnh riêng tư không lưu trong góc học tập.</Text> : null}
+      {(desktopWeb || savedOnly) && items.length > 1 && <Pressable accessibilityRole="button"
+        accessibilityLabel={oldestFirst ? 'Sắp xếp bài mới nhất trước' : 'Sắp xếp bài cũ nhất trước'}
+        onPress={() => setOldestFirst(value => !value)} style={styles.sortButton}>
+        <Ionicons name="swap-vertical-outline" size={18} color={STUDENT_WEB.primary} accessible={false} />
+        <Text style={styles.sortLabel}>{oldestFirst ? 'Cũ nhất trước' : 'Mới nhất trước'}</Text>
+      </Pressable>}
+      {tab === 'work' ? <Text style={[styles.caption, IS_STUDENT_WEB && styles.webSecondary]}>Nội dung em đã lưu bằng chữ. Ảnh riêng tư không lưu trong góc học tập.</Text> : null}
       {error ? <RecoveryNotice title="Chưa mở được bài đã lưu" message="Em thử lại nhé." actions={[
         { label: 'Thử lại', accessibilityLabel: 'Tải lại bài đã lưu', icon: 'refresh-outline', onPress: () => setAttempt(value => value + 1) },
       ]} /> : loading ? <ActivityIndicator accessibilityLabel="Đang mở bài đã lưu" color={COLORS.primary} />
-        : items.length ? <View style={styles.list}>{items.map((lesson, index) => <View key={lesson.id} style={[styles.lesson, IS_STUDENT_WEB && styles.webLesson]}>
+        : items.length ? <View style={[styles.list, notebookGrid && styles.notebookGrid]}>{items.map((lesson, index) => <View key={lesson.id} style={[styles.lesson, (desktopWeb || savedOnly) && styles.webLesson, compactWeb && !savedOnly && styles.compactLesson, notebookGrid && styles.notebookTile]}>
           <Pressable accessibilityRole="button" accessibilityLabel={'Học tiếp: ' + (lesson.problemText || lesson.workText).slice(0, 60)}
             onPress={() => open(lesson)} style={({ pressed }) => [styles.lessonOpen, pressed && styles.pressed]}>
-            <View style={[styles.thumbnail, { backgroundColor: ['#F0EBF9', '#FFF3DF', '#EAF3FD'][index % 3] }]} accessible={false} importantForAccessibility="no-hide-descendants" aria-hidden>
-              <View style={styles.paperLines}>{[0, 1, 2, 3, 4].map(line => <View key={line} style={styles.paperLine} />)}</View>
-              <MathText style={styles.thumbnailText}>{(tab === 'notes' ? lesson.reflection : lesson.workText || lesson.problemText).slice(0, 65)}</MathText>
+            <View style={[styles.thumbnail, (desktopWeb || savedOnly) && styles.webThumbnail,
+              { backgroundColor: ['#F0EBF9', '#FFF3DF', '#EAF3FD'][index % 3] }]}
+              accessible={false} importantForAccessibility="no-hide-descendants" aria-hidden>
+              {desktopWeb || savedOnly ? <Ionicons name={tab === 'notes' ? 'document-text-outline' : tab === 'work' ? 'create-outline' : 'book-outline'}
+                size={25} color={STUDENT_WEB.primary} accessible={false} /> : <>
+                <View style={styles.paperLines}>{[0, 1, 2, 3, 4].map(line => <View key={line} style={styles.paperLine} />)}</View>
+                <MathText style={styles.thumbnailText}>{(tab === 'notes' ? lesson.reflection : lesson.workText || lesson.problemText).slice(0, 65)}</MathText>
+              </>}
             </View>
             <View style={styles.copy}><MathText style={styles.lessonTitle}>{lesson.problemText || lesson.workText}</MathText>
-              <Text style={styles.date}>{new Date(lesson.timestamp).toLocaleDateString('vi-VN')} · {lesson.reviewedSteps} bước đã xem</Text>
+              <Text style={[styles.date, IS_STUDENT_WEB && styles.webSecondary]}>{new Date(lesson.timestamp).toLocaleDateString('vi-VN')} · {lesson.reviewedSteps} bước đã xem</Text>
               {tab === 'notes' ? <MathText style={styles.note}>{lesson.reflection}</MathText> : null}</View>
           </Pressable>
           <Pressable accessibilityRole="button" accessibilityLabel={'Tùy chọn bài ' + (index + 1)} onPress={() => setMenu(lesson)} style={styles.more}>
             <Ionicons name="ellipsis-vertical" size={20} color="#9C87C8" /></Pressable>
-        </View>)}</View> : <View style={[styles.empty, IS_STUDENT_WEB && styles.webEmpty]}>
+        </View>)}</View> : <View style={[styles.empty, IS_STUDENT_WEB && styles.webEmpty, compactWeb && !savedOnly && styles.compactEmpty]}>
           <Image source={require('../../../assets/illustrations/approved/saved.webp')} style={styles.art} resizeMode="contain" accessible={false} />
           <Text style={styles.emptyTitle}>{tab === 'notes' ? 'Ghi lại cách nghĩ của em' : tab === 'work' ? 'Chưa có bài làm đã lưu' : 'Bài học hay, mình giữ lại nhé!'}</Text>
-          <Text style={styles.emptyText}>{tab === 'notes' ? 'Khi lưu bài, em viết một điều vừa hiểu. Ghi chú sẽ xuất hiện ở đây.' : 'Chụp bài toán, cùng học từng bước rồi lưu lại để lần sau học tiếp.'}</Text>
+          <Text style={[styles.emptyText, IS_STUDENT_WEB && styles.webSecondary]}>{tab === 'notes' ? 'Khi lưu bài, em viết một điều vừa hiểu. Ghi chú sẽ xuất hiện ở đây.' : 'Chụp bài toán, cùng học từng bước rồi lưu lại để lần sau học tiếp.'}</Text>
           <AppButton title="Chụp bài toán" onPress={capture} />
         </View>}
-
+  </>;
+  return <SafeAreaView style={[styles.screen, desktopWeb && styles.webScreen, compactWeb && styles.compactScreen]} onLayout={event => setPageWidth(event.nativeEvent.layout.width)} edges={['top']}>
+    <ScrollView contentContainerStyle={[styles.content, pageWidth >= 768 && styles.contentWide, desktopWeb && styles.webContent]} showsVerticalScrollIndicator={false}>
+      {(desktopWeb || savedOnly) ? <PersonalPageHeader title={savedOnly ? 'Bài đã lưu' : 'Của em'}
+        onBack={() => savedOnly ? router.replace('/(tabs)/profile') : router.replace('/(tabs)')}
+        backLabel={savedOnly ? 'Về trang của em' : 'Về trang chủ'} onAccount={() => router.push('/account')} />
+        : <StudentPageHeader compact title="Của em" onBack={() => router.replace('/(tabs)')} />}
+      {IS_STUDENT_WEB && (desktopWeb || savedOnly) ? (savedOnly ? (
+        <View style={[web.columns, webWide && web.wide]}>
+          <View style={[web.stack, webWide && web.mainGrow]}>
+            <PersonalPanel title="Sổ học tập" icon="bookmark-outline">{notebook}</PersonalPanel>
+            {tab === 'saved' && notes.length > 0 && <PersonalPanel title="Ghi chú gần đây" icon="document-text-outline">
+              <View style={styles.noteGrid}>{notes.slice(0, 2).map(lesson => <Pressable key={lesson.id}
+                accessibilityRole="button" accessibilityLabel={'Xem ghi chú của bài: ' + (lesson.problemText || lesson.workText).slice(0, 60)}
+                onPress={() => setMenu(lesson)} style={({ pressed }) => [styles.notePreview, pressed && styles.pressed]}>
+                <MathText style={styles.lessonTitle}>{(lesson.problemText || lesson.workText).slice(0, 100)}</MathText>
+                <MathText style={styles.note}>{lesson.reflection.slice(0, 145)}</MathText>
+                <Text style={[styles.date, styles.webSecondary]}>{new Date(lesson.timestamp).toLocaleDateString('vi-VN')}</Text>
+              </Pressable>)}</View>
+            </PersonalPanel>}
+          </View>
+          <View style={[web.stack, webWide && web.sideGrow]}>
+            <NotebookAside counts={counts} onCapture={capture} />
+          </View>
+        </View>
+      ) : <ProfileIdentity owner={owner} counts={counts} wide={webWide} />) : <>{games}{notebook}</>}
     </ScrollView>
     {menu ? <LessonSheet title="Bài học của em" onClose={() => setMenu(null)}>
       <MathText style={styles.emptyText}>{menu.problemText || menu.workText}</MathText>
@@ -110,13 +159,26 @@ const styles = StyleSheet.create({
   emptyTitle: { fontFamily: FONTS.extraBold, fontSize: 20, color: '#4F3973', textAlign: 'center' }, emptyText: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 23, color: '#7A6B92' },
   caption: { fontFamily: FONTS.regular, fontSize: 12, lineHeight: 19, color: '#8B7DA1' },
   games: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 64, padding: 20, borderRadius: 25, backgroundColor: COLORS.surface, ...SHADOWS.small },
+  compactWebGames: { borderRadius: 16, backgroundColor: COLORS.surface, borderWidth: 1, borderColor: COLORS.border, boxShadow: 'none' },
   gamesTitle: { flex: 1, minWidth: 0, fontFamily: FONTS.bold, fontSize: 17, lineHeight: 26, color: COLORS.textPrimary },
   error: { fontFamily: FONTS.regular, fontSize: 14, color: COLORS.errorText }, pressed: { opacity: .7 },
-  webScreen: { backgroundColor: WEB_DESIGN.colors.paper },
-  webGames: { borderWidth: 1, borderColor: WEB_DESIGN.colors.line, borderRadius: WEB_DESIGN.radii.control, boxShadow: 'none' },
-  webTabs: { backgroundColor: WEB_DESIGN.colors.blueLight, borderRadius: WEB_DESIGN.radii.control },
-  webSelected: { backgroundColor: WEB_DESIGN.colors.blue },
-  webSecondary: { color: WEB_DESIGN.colors.mutedInk },
-  webLesson: { borderColor: WEB_DESIGN.colors.paperLine, boxShadow: 'none' },
-  webEmpty: { borderWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, backgroundColor: COLORS.surface },
+  compactScreen: { backgroundColor: MATHVISION_COLORS.background },
+  compactTabs: { backgroundColor: MATHVISION_COLORS.surfaceSubdued, borderRadius: 14 },
+  compactSelected: { backgroundColor: MATHVISION_COLORS.primaryDark },
+  compactEmpty: { backgroundColor: MATHVISION_COLORS.surface },
+  compactLesson: { borderColor: MATHVISION_COLORS.border, boxShadow: 'none' },
+  webScreen: { backgroundColor: STUDENT_WEB.background },
+  webContent: { maxWidth: '100%', paddingTop: 18, paddingHorizontal: 22 },
+  webTabs: { backgroundColor: STUDENT_WEB.soft, borderRadius: 14 },
+  sortButton: { minHeight: 44, borderRadius: 14, borderWidth: 1, borderColor: STUDENT_WEB.border, paddingHorizontal: 10, gap: 7, flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end' },
+  sortLabel: { color: STUDENT_WEB.primary, fontFamily: FONTS.bold, fontSize: 13 },
+  notebookGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  notebookTile: { width: '48.5%', flexGrow: 1, maxWidth: '50%' },
+  noteGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  notePreview: { padding: 13, gap: 2, flexGrow: 1, flexBasis: 165, minWidth: 0, backgroundColor: '#FFF2D7', borderRadius: 13 },
+  webSelected: { backgroundColor: '#713CF7', boxShadow: '0 3px 9px #6631DC4D' },
+  webSecondary: { color: STUDENT_WEB.muted },
+  webThumbnail: { width: 61, height: 61, alignItems: 'center', borderColor: 'transparent' },
+  webLesson: { borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.background, boxShadow: 'none' },
+  webEmpty: { borderWidth: 1, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.background },
 });

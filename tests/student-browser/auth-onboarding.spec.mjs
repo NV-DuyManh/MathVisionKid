@@ -59,10 +59,10 @@ test('touch swipes update onboarding cards and Start reaches login', async ({ pa
   await expect(page.getByRole('textbox', { name: 'Email', exact: true })).toBeVisible();
 });
 
-test('the mounted Student login authenticates directly without visiting Portal', async ({ page, app }) => {
+test('the former Student login leads to the common Portal login', async ({ page, app }) => {
   app.realStudent = true;
   await page.goto(`${sites.portal.origin}/study/login`);
-  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
   await expect(page.getByRole('textbox', { name: 'Email', exact: true })).toBeVisible();
   await expect(page.getByText('Đang xác minh tài khoản…', { exact: true })).toHaveCount(0);
   expect(app.requests.filter(request => request.path === '/me')).toHaveLength(0);

@@ -6,7 +6,6 @@ const SOURCES = [
   require('../../../assets/illustrations/approved/practice.webp'),
   require('../../../assets/illustrations/approved/progress.webp'),
   require('../../../assets/illustrations/approved/calculator.webp'),
-  require('../../../assets/illustrations/student-avatar.png'),
   require('../../../assets/illustrations/robot-mascot.png'),
   require('../../../assets/illustrations/encouragement-crown.png'),
   require('../../../assets/illustrations/streak-flame.png'),

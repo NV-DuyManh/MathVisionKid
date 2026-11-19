@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { View, Text, StyleSheet, Image, Alert, Platform, Pressable, ScrollView, useWindowDimensions } from 'react-native';
+import type { ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -41,6 +42,27 @@ function WebCropControls({ disabled, onAdjust }: { disabled: boolean; onAdjust: 
   </View>;
 }
 
+const webRulerStyles = `
+  .student-crop-ruler { position: relative; border-radius: 4px; }
+  .student-crop-ruler:focus-within { outline: 2px solid ${COLORS.primaryDark}; outline-offset: 4px; }
+  .student-crop-ruler input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; appearance: none; }
+  .student-crop-ruler input::-webkit-slider-thumb { appearance: none; width: 2px; height: 24px; }
+  .student-crop-ruler input::-moz-range-thumb { width: 2px; height: 24px; border: 0; }
+  .student-crop-ruler input:disabled { cursor: default; }
+  @media (forced-colors: active) {
+    .student-crop-ruler:focus-within { outline-color: Highlight; }
+    .student-crop-ruler input { opacity: 1; appearance: auto; }
+  }
+`;
+
+function RulerMarks({ marker }: { marker: ReturnType<typeof useAnimatedStyle<ViewStyle>> }) {
+  return <>
+    <View pointerEvents="none" style={styles.ticks}>{Array.from({ length: 31 }, (_, i) => <View key={i} style={[styles.tick, i % 5 === 0 && styles.majorTick]} />)}</View>
+    <View pointerEvents="none" style={styles.degreeLabels}>{[-45, -30, -15, 0, 15, 30, 45].map(n => <Text key={n} style={styles.degreeText}>{n}°</Text>)}</View>
+    <Animated.View pointerEvents="none" style={[styles.angleMarker, marker]}><View style={styles.markerDot} /></Animated.View>
+  </>;
+}
+
 /** The ruler and image move on the UI thread; no image export during interaction. */
 function StraightenRuler({ angle, disabled, onChange }: { angle: SharedValue<number>; disabled: boolean; onChange?: (angle: number) => void }) {
   const width = useSharedValue(1);
@@ -51,22 +73,23 @@ function StraightenRuler({ angle, disabled, onChange }: { angle: SharedValue<num
     angle.set(Math.round((Math.max(0, Math.min(1, x / width.get())) * 90 - 45) * 10) / 10);
   };
   const pan = Gesture.Pan().enabled(!disabled).minDistance(0).onBegin(e => update(e.x)).onUpdate(e => update(e.x));
-  const marker = useAnimatedStyle(() => ({ left: `${(angle.get() + 45) / 90 * 100}%` }));
+  const marker = useAnimatedStyle<ViewStyle>(() => ({ left: `${(angle.get() + 45) / 90 * 100}%` }));
   return <View style={styles.rulerBlock}>
     <View style={styles.rulerHeading}><Text style={styles.controlTitle}>Căn thẳng</Text>
       <Text style={styles.angleLabel}>{label > 0 ? '+' : ''}{label.toFixed(1).replace('.', ',')}°</Text></View>
-    {Platform.OS === 'web' ? <input type="range" min={-45} max={45} step={0.1} value={label}
-      aria-label="Góc căn thẳng ảnh" aria-valuetext={`${label.toFixed(1).replace('.', ',')} độ`} disabled={disabled}
-      onChange={event => { const value = event.currentTarget.valueAsNumber; onChange?.(value); angle.set(value); }}
-      style={{ width: '100%', height: 44, margin: 0, accentColor: COLORS.primaryDark }} />
+    {Platform.OS === 'web' ? <div className="student-crop-ruler" style={{ minHeight: 44, marginTop: 4 }}>
+      <style>{webRulerStyles}</style>
+      <div aria-hidden="true"><RulerMarks marker={marker} /></div>
+      <input type="range" min={-45} max={45} step={0.1} value={label}
+        aria-label="Góc căn thẳng ảnh" aria-valuetext={`${label.toFixed(1).replace('.', ',')} độ`} disabled={disabled}
+        onChange={event => { const value = event.currentTarget.valueAsNumber; onChange?.(value); angle.set(value); }} />
+    </div>
     : <GestureDetector gesture={pan}><Animated.View style={styles.ruler} onLayout={e => { width.set(e.nativeEvent.layout.width); }}
       accessible accessibilityRole="adjustable" accessibilityLabel="Góc căn thẳng ảnh"
       accessibilityValue={{ min: -45, max: 45, now: label, text: `${label} độ` }}
       accessibilityState={{ disabled }} accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
       onAccessibilityAction={e => { if (!disabled) angle.set(Math.max(-45, Math.min(45, angle.get() + (e.nativeEvent.actionName === 'increment' ? 0.5 : -0.5)))); }}>
-      <View pointerEvents="none" style={styles.ticks}>{Array.from({ length: 31 }, (_, i) => <View key={i} style={[styles.tick, i % 5 === 0 && styles.majorTick]} />)}</View>
-      <View pointerEvents="none" style={styles.degreeLabels}>{[-45, -30, -15, 0, 15, 30, 45].map(n => <Text key={n} style={styles.degreeText}>{n}°</Text>)}</View>
-      <Animated.View pointerEvents="none" style={[styles.angleMarker, marker]}><View style={styles.markerDot} /></Animated.View>
+      <RulerMarks marker={marker} />
     </Animated.View></GestureDetector>}
   </View>;
 }
@@ -260,8 +283,8 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
   return <GestureHandlerRootView style={styles.screen}><SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
     <AppHeader title="Cắt & căn thẳng" showBack />
     <View style={styles.tip}><Ionicons name="crop-outline" size={18} color={COLORS.primaryDark} /><Text style={styles.tipText}>{Platform.OS === 'web'
-      ? 'Kéo khung hoặc chọn cạnh để chỉnh. Dùng thanh trượt để căn thẳng.'
-      : 'Kéo cạnh hoặc góc để cắt. Kéo thanh để căn thẳng.'}</Text></View>
+      ? 'Kéo khung hoặc chọn cạnh để chỉnh. Kéo thước chia độ để căn thẳng.'
+      : 'Kéo cạnh hoặc góc để cắt. Kéo thước chia độ để căn thẳng.'}</Text></View>
     {Platform.OS === 'web' ? <ScrollView contentContainerStyle={styles.webEditor}>{editor}</ScrollView> : editor}
   </SafeAreaView></GestureHandlerRootView>;
 }
