@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,6 +13,9 @@ import { useStudentProfile } from '../../features/student-profile/useStudentProf
 import { RankEmblem } from '../../features/student-profile/RankEmblem';
 import { RankGuide } from '../../features/student-profile/RankGuide';
 import { COLORS, FONTS } from '../../constants/theme';
+import { STUDENT_WEB } from '../../constants/studentWebDesign';
+import { PersonalLink, PersonalMetrics, PersonalPageHeader, PersonalPanel } from '../../features/student-profile/PersonalWeb';
+import { buildCompletedLearningActivity, WEEKLY_ACTIVITY_GOAL } from '../../features/home/learningActivity';
 
 const LEADERBOARD_PAGE_SIZE = 10;
 
@@ -26,9 +29,9 @@ export default function AchievementsScreen() {
 
 function Achievements({ owner, registeredGrade }: { owner?: string; registeredGrade?: number }) {
   const router = useRouter();
-  const { width } = useWindowDimensions();
+  const [width, setWidth] = useState(0);
   const web = Platform.OS === 'web';
-  const wide = web && width >= 1100;
+  const wide = web && width >= 810;
   const profile = useStudentProfile(owner);
   const [retry, setRetry] = useState(0);
   const [visibleEntries, setVisibleEntries] = useState(LEADERBOARD_PAGE_SIZE);
@@ -58,23 +61,7 @@ function Achievements({ owner, registeredGrade }: { owner?: string; registeredGr
   const listedEntries = current?.data?.entries.filter(item => !rankingPrivate || !item.self) ?? [];
   const boardMatchesGrade = !web || !expectedGrade || !current?.data?.gradeLevel || expectedGrade === current.data.gradeLevel;
   const ownEntryIndex = listedEntries.findIndex(item => item.self);
-  return <SafeAreaView style={s.screen} edges={['top']}>
-    <ScrollView contentContainerStyle={[s.content, web && styles.webContent, wide && styles.wideContent]}>
-      <StudentPageHeader compact title="Thành tích" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/account')} />
-      <View style={[styles.mainColumns, wide && styles.wideColumns]}>
-      <View style={[styles.mainColumn, wide && styles.rankColumn]}>
-      {value && <ProfileRankCard profile={value} />}
-      {web && value && <View style={styles.identityCard}>
-        <View style={styles.identityHeader}><Ionicons name={rankingPrivate ? 'eye-off-outline' : 'shield-checkmark-outline'} size={20} color={COLORS.primaryDark} accessible={false} />
-          <Text accessibilityRole="header" style={styles.identityTitle}>{rankingPrivate ? 'Em đang ẩn khỏi bảng xếp hạng' : value.leaderboardNameHidden !== false ? 'Em đang dùng bí danh' : 'Em đang hiển thị tên'}</Text></View>
-        <Text style={s.body}>{rankingPrivate ? 'Thành tích vẫn được lưu trong tài khoản của em.' : value.leaderboardNameHidden !== false
-          ? `Bạn bè nhìn thấy ${value.publicAlias?.trim() || 'bí danh động vật của em'}.` : `Bạn bè nhìn thấy ${value.displayName}.`}</Text>
-        <AppButton title="Đổi quyền riêng tư" variant="ghost" onPress={() => router.push('/account')} />
-      </View>}
-      {wide && value && <ProfileStats profile={value} />}
-      </View>
-      <View style={[styles.mainColumn, wide && styles.boardColumn]}>
-      <View style={s.card}>
+  const leaderboard = <View style={[s.card, web && styles.webPanel]}>
         <View style={styles.boardHeader}>
           <View style={styles.grow}><Text accessibilityRole="header" style={s.heading}>Bảng xếp hạng{grade ? ` khối ${grade}` : ''}</Text>
             <Text style={s.body}>Cùng các bạn chăm học mỗi ngày</Text></View>
@@ -108,41 +95,104 @@ function Achievements({ owner, registeredGrade }: { owner?: string; registeredGr
             {visibleEntries > LEADERBOARD_PAGE_SIZE && <AppButton title="Thu gọn bảng xếp hạng" variant="ghost"
               onPress={() => setVisibleEntries(LEADERBOARD_PAGE_SIZE)} />}
           </> : <ActivityIndicator accessibilityLabel="Đang tải bảng xếp hạng" />}
-      </View>
-      </View>
-      </View>
-      {value ? <>
-        {!wide && <ProfileStats profile={value} />}
-        <View style={s.card}>
+      </View>;
+  const tasks = value && <View style={[s.card, web && styles.webPanel]}>
           <Text accessibilityRole="header" style={s.heading}>Nhiệm vụ của em</Text>
           <Text style={s.body}>Hôm nay · {Math.min(1, value.stats.today)}/1 hoạt động</Text>
-          <Text style={s.body}>7 ngày qua · {Math.min(5, value.stats.week)}/5 hoạt động</Text>
+          <Text style={s.body}>7 ngày qua · {Math.min(WEEKLY_ACTIVITY_GOAL, value.stats.week)}/{WEEKLY_ACTIVITY_GOAL} hoạt động</Text>
           <View style={s.row}>
             <AppButton title="Học một bài" onPress={() => router.push('/(tabs)/lessons')} />
             <AppButton title="Mở Quiz" variant="secondary" onPress={() => router.push('/quiz')} />
             <AppButton title="Chơi luyện toán" variant="secondary" onPress={() => router.push('/games/arithmetic-quest')} />
           </View>
-        </View>
-        <View style={s.card}>
-          <Text accessibilityRole="header" style={s.heading}>Bộ sưu tập danh hiệu</Text>
-          {value.titles.map(title => <View key={title.id} style={[s.row, s.chip]}>
-            <Ionicons name={title.unlocked ? 'ribbon' : 'lock-closed-outline'} size={25} color="#5B339D" accessible={false} aria-hidden />
-            <View style={{ flex: 1, minWidth: 150 }}>
-              <Text style={s.heading}>{title.name}</Text>
-              <Text style={s.body}>{title.rarity} · {title.unlocked ? 'Đã mở khóa' : `${title.progress}/${title.goal}`}</Text>
-              <Text style={s.body}>{title.description}</Text>
-            </View>
-          </View>)}
-          <AppButton title="Chọn danh hiệu trên hồ sơ" variant="secondary" onPress={() => router.push('/account')} />
-        </View>
-        <View style={s.card}>
+        </View>;
+  const titleItems = value?.titles.map(title => {
+    const icon = <Ionicons name={title.unlocked ? 'ribbon' : 'lock-closed-outline'} size={25} color="#5B339D" accessible={false} aria-hidden />;
+    return <View key={title.id} style={[s.row, s.chip, web && styles.webTitle, web && title.unlocked && styles.webTitleUnlocked]}>
+      {web ? <View style={styles.titleIcon}>{icon}</View> : icon}
+      <View style={web ? styles.titleCopy : { flex: 1, minWidth: 150 }}>
+        <Text style={web ? styles.titleName : s.heading}>{title.name}</Text>
+        <Text style={s.body}>{title.rarity} · {title.unlocked ? 'Đã mở khóa' : title.progress + '/' + title.goal}</Text>
+        <Text style={s.body}>{title.description}</Text>
+      </View>
+    </View>;
+  });
+  const titles = value && <View style={[s.card, web && styles.webPanel]}>
+    <Text accessibilityRole="header" style={s.heading}>Bộ sưu tập danh hiệu</Text>
+    {web ? <View style={styles.titleGrid}>{titleItems?.length ? titleItems
+      : <Text style={s.body}>Danh hiệu sẽ xuất hiện khi em đạt các mốc học tập.</Text>}</View> : titleItems}
+    <AppButton title="Chọn danh hiệu trên hồ sơ" variant="secondary" onPress={() => router.push('/account')} />
+  </View>;
+  const history = value && <View style={[s.card, web && styles.webPanel]}>
           <Text accessibilityRole="header" style={s.heading}>Những lần em nhận sao</Text>
           {value.history.length === 0 && <Text style={s.body}>Sao sẽ xuất hiện khi em hoàn thành hoạt động đủ điều kiện.</Text>}
           {value.history.map((item, index) => <Text key={item.completedAt + item.source + index} style={s.body}>
             +{item.stars} sao · {{ LESSON: 'Hoàn thành bài học', QUIZ: 'Giải đúng Quiz', GAME: 'Thắng lượt chơi' }[item.source]} · {new Date(item.completedAt).toLocaleDateString('vi-VN')}
           </Text>)}
+        </View>;
+  const identity = web && value && <View style={styles.identityCard}>
+    <View style={styles.identityHeader}><Ionicons name={rankingPrivate ? 'eye-off-outline' : 'shield-checkmark-outline'} size={20} color={COLORS.primaryDark} accessible={false} />
+      <Text accessibilityRole="header" style={styles.identityTitle}>{rankingPrivate ? 'Em đang ẩn khỏi bảng xếp hạng' : value.leaderboardNameHidden !== false ? 'Em đang dùng bí danh' : 'Em đang hiển thị tên'}</Text>
+    </View>
+    <Text style={s.body}>{rankingPrivate ? 'Thành tích vẫn được lưu trong tài khoản của em.' : value.leaderboardNameHidden !== false
+      ? `Bạn bè nhìn thấy ${value.publicAlias?.trim() || 'bí danh động vật của em'}.` : `Bạn bè nhìn thấy ${value.displayName}.`}</Text>
+    <AppButton title="Đổi quyền riêng tư" variant="ghost" onPress={() => router.push('/account')} />
+  </View>;
+  const rank = value && <ProfileRankCard profile={value} />;
+  const metrics = web && value && <PersonalMetrics metrics={[
+    { label: 'Bài đã hoàn thành', amount: value.stats.lessons, icon: 'book-outline', tone: 'blue' },
+    { label: 'Quiz giải đúng', amount: value.stats.quizzes, icon: 'checkmark-circle-outline', tone: 'green' },
+    { label: 'Lượt chơi đạt yêu cầu', amount: value.stats.games, icon: 'game-controller-outline', tone: 'yellow' },
+  ]} />;
+  const progressLink = web && <PersonalLink label="Xem tiến độ học tập" description="Theo dõi hoạt động và ngày học liên tiếp"
+    icon="trending-up-outline" tone="purple" onPress={() => router.push('/progress')} />;
+  const streakPanel = web && value && <PersonalPanel title="Chuỗi học tập" icon="flame-outline">
+    <Text style={styles.streakValue}>{value.stats.streak} ngày liên tiếp</Text>
+    <View style={styles.streakWeek}>{buildCompletedLearningActivity(value.history).days.map(day =>
+      <View key={day.label} accessible accessibilityLabel={`${day.label}: ${day.completed ? 'đã học' : 'chưa có hoạt động hoàn thành'}`} style={styles.streakDay}>
+        <Ionicons name={day.completed ? 'checkmark-circle' : 'ellipse-outline'} color={day.completed ? '#138453' : '#8273A5'} size={22} accessible={false} />
+        <Text style={s.body}>{day.label}</Text>
+      </View>)}</View>
+  </PersonalPanel>;
+  return <SafeAreaView style={[s.screen, web && styles.webScreen]} edges={['top']} onLayout={web ? event => setWidth(event.nativeEvent.layout.width) : undefined}>
+    <ScrollView contentContainerStyle={[s.content, web && styles.webContent, wide && styles.wideContent]}>
+      {web ? <PersonalPageHeader title="Thành tích của em" backLabel="Về trang chủ" onBack={() => router.replace('/(tabs)')} />
+        : <StudentPageHeader compact title="Thành tích" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/account')} />}
+      {wide ? <View style={[styles.mainColumns, styles.wideColumns]}>
+        <View style={[styles.mainColumn, styles.rankColumn]}>
+          {rank}
+          {metrics}
+          {titles}
+          {tasks}
         </View>
-      </> : !profile.failed && <ActivityIndicator accessibilityLabel="Đang tải thành tích" />}
+        <View style={[styles.mainColumn, styles.boardColumn]}>
+          {leaderboard}
+          {streakPanel}
+          {identity}
+          {progressLink}
+          {history}
+        </View>
+      </View> : web ? <>
+        {rank}
+        {leaderboard}
+        {streakPanel}
+        {identity}
+        {progressLink}
+        {titles}
+        {metrics}
+        {tasks}
+        {history}
+      </> : <>
+        <View style={styles.mainColumns}>
+          <View style={styles.mainColumn}>{rank}</View>
+          <View style={styles.mainColumn}>{leaderboard}</View>
+        </View>
+        {value && <ProfileStats profile={value} />}
+        {tasks}
+        {titles}
+        {history}
+      </>}
+      {!value && !profile.failed && <ActivityIndicator accessibilityLabel="Đang tải thành tích" />}
       {profile.failed && <RecoveryNotice title={value ? 'Chưa cập nhật được thành tích' : 'Chưa tải được thành tích'}
         message={value ? 'Em đang xem thành tích đã tải trước đó.' : 'Em kiểm tra kết nối rồi thử lại nhé.'}
         actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại thành tích', icon: 'refresh-outline', onPress: profile.retry }]} />}
@@ -152,18 +202,29 @@ function Achievements({ owner, registeredGrade }: { owner?: string; registeredGr
 }
 
 const styles = StyleSheet.create({
-  webContent: { maxWidth: 1240, paddingTop: 20, paddingHorizontal: 20, gap: 20 },
-  wideContent: { paddingHorizontal: 28, paddingBottom: 40 },
+  streakValue: { color: STUDENT_WEB.primary, fontFamily: FONTS.black, fontSize: 24 },
+  streakWeek: { flexDirection: 'row', justifyContent: 'space-between', gap: 4 },
+  streakDay: { flex: 1, alignItems: 'center', gap: 4 },
+  webScreen: { backgroundColor: STUDENT_WEB.background },
+  webContent: { maxWidth: 1440, paddingTop: 10, paddingHorizontal: 19, gap: 12 },
+  webPanel: { borderColor: STUDENT_WEB.border, borderRadius: STUDENT_WEB.radius, padding: 20 },
+  wideContent: { paddingBottom: 38 },
   mainColumns: { gap: 16 }, wideColumns: { flexDirection: 'row', alignItems: 'flex-start', gap: 24 },
-  mainColumn: { gap: 16, minWidth: 0 }, rankColumn: { flex: 0.9 }, boardColumn: { flex: 1.3 },
-  identityCard: { padding: 16, gap: 8, borderRadius: 20, backgroundColor: '#F0E9FF', borderWidth: 1, borderColor: '#DED0FA' },
+  mainColumn: { gap: 16, minWidth: 0 }, rankColumn: { flex: 1.65 }, boardColumn: { flex: 1 },
+  titleGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  webTitle: { alignItems: 'flex-start', justifyContent: 'flex-start', flexGrow: 1, flexBasis: 170, minWidth: 0, backgroundColor: '#F5F3FA' },
+  titleCopy: { flex: 1, minWidth: 0, gap: 4, flexBasis: 100 },
+  webTitleUnlocked: { backgroundColor: '#F1E9FF' },
+  titleIcon: { borderRadius: 12, backgroundColor: '#E9DCFF', padding: 8 },
+  titleName: { color: COLORS.textPrimary, fontFamily: FONTS.extraBold, fontSize: 15, lineHeight: 21 },
+  identityCard: { padding: 16, gap: 8, borderRadius: STUDENT_WEB.radius, backgroundColor: STUDENT_WEB.soft, borderWidth: 1, borderColor: STUDENT_WEB.border },
   identityHeader: { flexDirection: 'row', gap: 8, alignItems: 'center' }, identityTitle: { flex: 1, fontFamily: FONTS.bold, fontSize: 14, lineHeight: 21, color: COLORS.primaryDark },
   boardHeader: { flexDirection: 'row', alignItems: 'center', gap: 10 }, grow: { flex: 1, minWidth: 0, gap: 4 },
   rankHelp: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.surfaceSubdued },
   ownPosition: { minHeight: 48, borderRadius: 14, padding: 12, backgroundColor: COLORS.primaryLight, flexDirection: 'row', alignItems: 'center', gap: 8 },
   positionText: { flex: 1, fontFamily: FONTS.bold, fontSize: 14, color: COLORS.primaryDark },
   boardRow: { minHeight: 84, flexDirection: 'row', alignItems: 'center', gap: 10, padding: 12, borderRadius: 16, backgroundColor: COLORS.background, borderWidth: 1, borderColor: 'transparent' },
-  webBoardRow: { minHeight: 76, paddingHorizontal: 10, gap: 8 },
+  webBoardRow: { minHeight: 57, paddingVertical: 5, paddingHorizontal: 10, gap: 8, backgroundColor: STUDENT_WEB.background, borderColor: STUDENT_WEB.border },
   positionBadge: { minWidth: 28, alignItems: 'center' }, topPosition: { borderRadius: 12, backgroundColor: '#FFF1CC', minHeight: 36, justifyContent: 'center', gap: 3, paddingHorizontal: 6 },
   selfRow: { borderColor: '#BCA8F6', backgroundColor: '#F2ECFF' }, position: { minWidth: 28, fontFamily: FONTS.extraBold, fontSize: 16, color: COLORS.primaryDark },
   nameRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6 }, alias: { flexShrink: 1, fontFamily: FONTS.bold, fontSize: 15, lineHeight: 22, color: COLORS.textPrimary },

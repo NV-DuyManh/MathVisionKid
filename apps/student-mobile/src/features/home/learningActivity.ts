@@ -1,5 +1,7 @@
 import type { StudentProfile } from '../student-profile/profileApi';
 
+export const WEEKLY_ACTIVITY_GOAL = 5;
+
 /** Backend-confirmed completions grouped in the same Vietnam time zone as profile statistics. */
 export function buildCompletedLearningActivity(history: StudentProfile['history'], now = new Date()) {
   const vietnamDate = (instant: Date) => new Intl.DateTimeFormat('en-CA', {

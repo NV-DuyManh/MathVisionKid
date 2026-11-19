@@ -1,9 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { Keyboard, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Keyboard, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import type { ScrollViewInstance, TextInputInstance } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import { COLORS, FONTS, IS_STUDENT_WEB, SHADOWS } from '../../constants/theme';
+import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { MathText } from '../../components/domain/MathText';
 import { calculateExpression } from './calculate';
 import { UnitConverter } from './UnitConverter';
@@ -17,6 +19,8 @@ type Result = ReturnType<typeof calculateExpression>;
 
 /** One popup over its parent screen. No access to OCR, lesson answers or APIs. */
 export function PocketCalculator({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+  const { width } = useWindowDimensions();
+  const wide = IS_STUDENT_WEB && width >= 820;
   const [expression, setExpression] = useState('');
   const [mode, setMode] = useState<'calculate' | 'convert'>('calculate');
   const [output, setOutput] = useState<Result | null>(null);
@@ -61,26 +65,50 @@ export function PocketCalculator({ visible, onClose }: { visible: boolean; onClo
   };
   const keyButton = (key: string) => <Pressable key={key} accessibilityRole="button"
     accessibilityLabel={LABELS[key] || `Nhập ${key}`} onPress={() => pressKey(key)}
-    style={({ pressed }) => [styles.key, ['÷', '×', '−', '+', '%', 'a/b'].includes(key) && styles.operator,
+    style={({ pressed }) => [styles.key, wide && styles.webKey, ['÷', '×', '−', '+', '%', 'a/b'].includes(key) && styles.operator,
       key === '=' && styles.equals, pressed && styles.pressed]}>
     {key === 'a/b' ? <View accessible={false} style={styles.fractionKey}><Text style={styles.fractionLetter}>a</Text><View style={styles.bar} /><Text style={styles.fractionLetter}>b</Text></View>
       : key === '⌫' ? <Ionicons name="backspace-outline" size={25} color={COLORS.textPrimary} accessible={false} />
         : <Text style={[styles.keyText, key === '=' && styles.white]}>{key}</Text>}
   </Pressable>;
   const activeResult = remainder && output?.remainder ? output.remainder : output;
+  const displayContents = <>
+    <TextInput ref={input} accessibilityLabel="Phép tính" accessibilityHint="Nhập bằng bàn phím bên dưới. Phím phân số nối tử số với mẫu số."
+      value={expression} maxLength={120} showSoftInputOnFocus={false} multiline
+      onChangeText={update} onSubmitEditing={run} style={[styles.expressionInput, expression.includes('/') && styles.fractionInput, wide && styles.webDisplayInk]} />
+    {expression.includes('/') ? <View style={styles.result}><MathText style={[styles.fractionPreview, wide && styles.webDisplayInk]}>{expression}</MathText></View> : null}
+    {output ? <View style={styles.result} accessibilityLiveRegion="polite"><MathText style={[styles.answer, wide && styles.webAnswer]}>{activeResult!.result}</MathText></View>
+      : <Text style={[styles.caption, wide && styles.webDisplayInk]}>Chọn số và phép tính, rồi chạm =</Text>}
+    {error ? <Text accessibilityRole="alert" style={[styles.error, wide && styles.webError]}>{error}</Text> : null}
+  </>;
+  const steps = activeResult?.steps.map((step, index) => <View key={index} style={styles.step}>
+    <Text style={styles.toolText}>Bước {index + 1}</Text><MathText style={styles.body}>{step}</MathText>
+  </View>);
+  const historyItems = <>
+    <View style={styles.historyHeader}><Text style={styles.toolText}>10 phép tính gần nhất</Text>
+      <Pressable accessibilityRole="button" accessibilityLabel="Xóa lịch sử máy tính" onPress={() => setHistory([])} style={styles.iconButton}>
+        <Ionicons name="trash-outline" size={22} color={COLORS.primaryDark} accessible={false} />
+      </Pressable>
+    </View>
+    {!history.length ? <Text style={styles.caption}>Chưa có phép tính. Lịch sử được giữ trên màn hình này.</Text> : history.map((entry, index) =>
+      <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Sửa phép tính ${entry.expression}`} style={({ pressed }) => [styles.historyItem, pressed && styles.pressed]}
+        onPress={() => { setExpression(entry.expression); setOutput(entry); setError(''); setRemainder(false); setPanel(entry.steps.length ? 'steps' : null); scroll.current?.scrollTo({ y: 0, animated: false }); }}>
+        <MathText style={styles.body}>{`${entry.expression} = ${entry.result}`}</MathText>
+      </Pressable>)}
+  </>;
   return <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}
     onShow={() => { if (mode === 'calculate') input.current?.focus(); }} statusBarTranslucent>
     <SafeAreaView style={styles.overlay} edges={['top', 'bottom', 'left', 'right']}>
       <Pressable accessibilityRole="button" accessibilityLabel="Đóng máy tính bên ngoài" onPress={onClose} style={StyleSheet.absoluteFill} />
-      <View style={styles.popup} accessibilityViewIsModal testID="calculator-popup">
+      <View style={[styles.popup, wide && styles.webPopup]} accessibilityViewIsModal testID="calculator-popup">
         <View style={styles.header}>
           <Ionicons name="calculator-outline" size={22} color={COLORS.primaryDark} accessible={false} />
-          <Text style={styles.title} accessibilityRole="header">Máy tính bỏ túi</Text>
+          <Text style={[styles.title, wide && styles.webTitle]} accessibilityRole="header">Máy tính bỏ túi</Text>
           <Pressable accessibilityRole="button" accessibilityLabel="Đóng máy tính" onPress={onClose} style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}>
             <Ionicons name="close" size={24} color={COLORS.textPrimary} accessible={false} />
           </Pressable>
         </View>
-        <ScrollView ref={scroll} keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets contentContainerStyle={styles.content}>
+        <ScrollView ref={scroll} keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets contentContainerStyle={[styles.content, wide && styles.webContent]}>
           <View style={styles.modes}>
             {(['calculate', 'convert'] as const).map(key => <Pressable key={key} accessibilityRole="button"
               accessibilityLabel={key === 'calculate' ? 'Tính toán' : 'Đổi đơn vị'} accessibilityState={{ selected: mode === key }}
@@ -92,52 +120,46 @@ export function PocketCalculator({ visible, onClose }: { visible: boolean; onClo
           </View>
           <UnitConverter visible={mode === 'convert'} />
           {mode === 'calculate' ? <>
-          <View style={styles.display}>
-            <TextInput ref={input} accessibilityLabel="Phép tính" accessibilityHint="Nhập bằng bàn phím bên dưới. Phím phân số nối tử số với mẫu số."
-              value={expression} maxLength={120} showSoftInputOnFocus={false} multiline
-              onChangeText={update} onSubmitEditing={run} style={[styles.expressionInput, expression.includes('/') && styles.fractionInput]} />
-            {expression.includes('/') ? <View style={styles.result}><MathText style={styles.fractionPreview}>{expression}</MathText></View> : null}
-            {output ? <View style={styles.result} accessibilityLiveRegion="polite"><MathText style={styles.answer}>{activeResult!.result}</MathText></View>
-              : <Text style={styles.caption}>Chọn số và phép tính, rồi chạm =</Text>}
-            {error ? <Text accessibilityRole="alert" style={styles.error}>{error}</Text> : null}
-          </View>
-          <View style={styles.toolbar}>
-            <Pressable accessibilityRole="button" accessibilityLabel="Lịch sử phép tính" accessibilityState={{ expanded: panel === 'history' }}
-              onPress={() => setPanel(value => value === 'history' ? null : 'history')} style={({ pressed }) => [styles.tool, pressed && styles.pressed]}>
-              <Ionicons name="time-outline" size={20} color={COLORS.primaryDark} accessible={false} /><Text style={styles.toolText}>Lịch sử</Text>
-            </Pressable>
-            {activeResult?.steps.length ? <Pressable accessibilityRole="button" accessibilityLabel="Xem cách tính" accessibilityState={{ expanded: panel === 'steps' }}
-              onPress={() => setPanel(value => value === 'steps' ? null : 'steps')} style={({ pressed }) => [styles.tool, pressed && styles.pressed]}>
-              <Ionicons name="bulb-outline" size={20} color={COLORS.primaryDark} accessible={false} /><Text style={styles.toolText}>Cách tính</Text>
-            </Pressable> : null}
-            <Pressable accessibilityRole="button" accessibilityLabel="Thêm chức năng" accessibilityState={{ expanded: extras }}
-              onPress={() => setExtras(value => !value)} style={({ pressed }) => [styles.tool, pressed && styles.pressed]}>
-              <Ionicons name={extras ? 'chevron-up' : 'chevron-down'} size={20} color={COLORS.primaryDark} accessible={false} /><Text style={styles.toolText}>Thêm</Text>
-            </Pressable>
-          </View>
-          {extras ? <View style={styles.row}>{['(', ')', '±'].map(keyButton)}</View> : null}
-          {output?.remainder ? <Pressable accessibilityRole="button" accessibilityLabel="Xem thương và số dư" accessibilityState={{ selected: remainder }}
-            onPress={() => { setRemainder(value => !value); setPanel('steps'); }} style={({ pressed }) => [styles.remainder, pressed && styles.pressed]}>
-            <Text style={styles.toolText}>{remainder ? 'Xem kết quả đầy đủ' : 'Xem thương và số dư'}</Text>
-          </Pressable> : null}
-          {panel ? <ScrollView nestedScrollEnabled style={styles.detailsScroll} contentContainerStyle={styles.details}
-            accessibilityLabel={panel === 'steps' ? 'Cách tính từng bước' : 'Lịch sử phép tính gần đây'}>
-            {panel === 'steps' && activeResult ? activeResult.steps.map((step, index) => <View key={index} style={styles.step}>
-              <Text style={styles.toolText}>Bước {index + 1}</Text><MathText style={styles.body}>{step}</MathText>
-            </View>) : <>
-              <View style={styles.historyHeader}><Text style={styles.toolText}>10 phép tính gần nhất</Text>
-                <Pressable accessibilityRole="button" accessibilityLabel="Xóa lịch sử máy tính" onPress={() => setHistory([])} style={styles.iconButton}>
-                  <Ionicons name="trash-outline" size={22} color={COLORS.primaryDark} accessible={false} />
-                </Pressable>
+            <View style={wide ? styles.webColumns : undefined}>
+              <View style={wide ? styles.webWorkspace : styles.workspace}>
+                {wide ? <LinearGradient colors={['#382081', '#6542C1']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.display, styles.webDisplay]}>{displayContents}</LinearGradient>
+                  : <View style={styles.display}>{displayContents}</View>}
+                <View style={styles.toolbar}>
+                  {!wide ? <Pressable accessibilityRole="button" accessibilityLabel="Lịch sử phép tính" accessibilityState={{ expanded: panel === 'history' }}
+                    onPress={() => setPanel(value => value === 'history' ? null : 'history')} style={({ pressed }) => [styles.tool, pressed && styles.pressed]}>
+                    <Ionicons name="time-outline" size={20} color={COLORS.primaryDark} accessible={false} /><Text style={styles.toolText}>Lịch sử</Text>
+                  </Pressable> : null}
+                  {activeResult?.steps.length ? <Pressable accessibilityRole="button" accessibilityLabel="Xem cách tính" accessibilityState={{ expanded: panel === 'steps' }}
+                    onPress={() => setPanel(value => value === 'steps' ? null : 'steps')} style={({ pressed }) => [styles.tool, pressed && styles.pressed]}>
+                    <Ionicons name="bulb-outline" size={20} color={COLORS.primaryDark} accessible={false} /><Text style={styles.toolText}>Cách tính</Text>
+                  </Pressable> : null}
+                  <Pressable accessibilityRole="button" accessibilityLabel="Thêm chức năng" accessibilityState={{ expanded: extras }}
+                    onPress={() => setExtras(value => !value)} style={({ pressed }) => [styles.tool, pressed && styles.pressed]}>
+                    <Ionicons name={extras ? 'chevron-up' : 'chevron-down'} size={20} color={COLORS.primaryDark} accessible={false} /><Text style={styles.toolText}>Thêm</Text>
+                  </Pressable>
+                </View>
+                {extras ? <View style={styles.row}>{['(', ')', '±'].map(keyButton)}</View> : null}
+                {output?.remainder ? <Pressable accessibilityRole="button" accessibilityLabel="Xem thương và số dư" accessibilityState={{ selected: remainder }}
+                  onPress={() => { setRemainder(value => !value); setPanel('steps'); }} style={({ pressed }) => [styles.remainder, pressed && styles.pressed]}>
+                  <Text style={styles.toolText}>{remainder ? 'Xem kết quả đầy đủ' : 'Xem thương và số dư'}</Text>
+                </Pressable> : null}
+                {!wide && panel ? <ScrollView nestedScrollEnabled style={styles.detailsScroll} contentContainerStyle={styles.details}
+                  accessibilityLabel={panel === 'steps' ? 'Cách tính từng bước' : 'Lịch sử phép tính gần đây'}>
+                  {panel === 'steps' ? steps : historyItems}
+                </ScrollView> : null}
+                <View style={styles.keypad}>{KEYS.map((row, index) => <View key={index} style={styles.row}>{row.map(keyButton)}</View>)}</View>
               </View>
-              {!history.length ? <Text style={styles.caption}>Chưa có phép tính. Lịch sử được giữ trên màn hình này.</Text> : history.map((entry, index) =>
-                <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Sửa phép tính ${entry.expression}`} style={({ pressed }) => [styles.historyItem, pressed && styles.pressed]}
-                  onPress={() => { setExpression(entry.expression); setOutput(entry); setError(''); setRemainder(false); setPanel(entry.steps.length ? 'steps' : null); scroll.current?.scrollTo({ y: 0, animated: false }); }}>
-                  <MathText style={styles.body}>{`${entry.expression} = ${entry.result}`}</MathText>
-                </Pressable>)}
-            </>}
-          </ScrollView> : null}
-          <View style={styles.keypad}>{KEYS.map((row, index) => <View key={index} style={styles.row}>{row.map(keyButton)}</View>)}</View>
+              {wide ? <View style={styles.webAside}>
+                  {panel === 'steps' && steps ? <View style={styles.webPanel}>
+                    <Text accessibilityRole="header" style={styles.webPanelTitle}>Cách tính từng bước</Text>
+                    {steps}
+                  </View> : null}
+                  <View style={styles.webPanel} accessibilityLabel="Lịch sử phép tính gần đây">
+                    <Text accessibilityRole="header" style={styles.webPanelTitle}>Lịch sử</Text>
+                    {historyItems}
+                  </View>
+              </View> : null}
+            </View>
           </> : null}
         </ScrollView>
       </View>
@@ -146,6 +168,20 @@ export function PocketCalculator({ visible, onClose }: { visible: boolean; onClo
 }
 
 const styles = StyleSheet.create({
+  workspace: { gap: 8 },
+  webPopup: { maxWidth: 960, borderWidth: 1, borderColor: STUDENT_WEB.border },
+  webTitle: { fontSize: 23 },
+  webContent: { padding: 20, gap: 16 },
+  webColumns: { flexDirection: 'row', alignItems: 'flex-start', gap: 18 },
+  webWorkspace: { flex: 3, minWidth: 0, gap: 10 },
+  webAside: { flex: 2, minWidth: 0, gap: 12 },
+  webDisplay: { minHeight: 140, padding: 18 },
+  webDisplayInk: { color: '#FFFFFF' },
+  webAnswer: { color: STUDENT_WEB.gold },
+  webError: { color: '#FFE1E8' },
+  webKey: { minHeight: 56 },
+  webPanel: { backgroundColor: STUDENT_WEB.background, borderRadius: 18, borderWidth: 1, borderColor: STUDENT_WEB.border, padding: 14, gap: 8 },
+  webPanelTitle: { color: STUDENT_WEB.ink, fontFamily: FONTS.extraBold, fontSize: 17 },
   overlay: { flex: 1, backgroundColor: 'rgba(15, 23, 42, 0.48)', justifyContent: 'center', alignItems: 'center', padding: 16 },
   popup: { width: '100%', maxWidth: 400, maxHeight: '94%', flexShrink: 1, borderRadius: 28, backgroundColor: COLORS.surface, overflow: 'hidden', ...SHADOWS.large },
   header: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingLeft: 16, paddingRight: 8, borderBottomWidth: 1, borderColor: COLORS.border },
