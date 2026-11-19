@@ -478,11 +478,11 @@ test('Student quiz starts, shows feedback and completes with the existing API co
   await testInfo.attach('Student quiz fixture completed', { body: await page.screenshot(), contentType: 'image/png' });
 });
 
-test('Student Web has a direct login form on its mounted route', async ({ page, app }) => {
+test('Student Web forwards its old login route to the shared form', async ({ page, app }) => {
   app.realStudent = true;
   await page.goto(`${sites.portal.origin}/study/login`);
   await expect(page).toHaveURL(`${sites.portal.origin}/login`);
-  await expect(page.getByRole('textbox', { name: 'Mật khẩu', exact: true })).toHaveAttribute('type', 'password');
+  await expect(page.getByLabel('Mật khẩu', { exact: true })).toHaveAttribute('type', 'password');
 });
 
 test('student can find registered-grade ranking, choose name privacy and open all six games on a narrow screen', async ({ page, app }, testInfo) => {

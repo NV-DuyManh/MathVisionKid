@@ -114,7 +114,7 @@ test('the single login fits a narrow screen and keeps recovery and registration 
   await page.getByRole('button', { name: 'Quên mật khẩu?' }).click();
   await expect(page.getByRole('heading', { name: 'Khôi phục mật khẩu' })).toBeVisible();
   await page.getByRole('button', { name: /Quay lại đăng nhập/ }).click();
-  await page.getByRole('button', { name: 'Đăng ký', exact: true }).click();
+  await page.getByRole('button', { name: 'Đăng ký ngay', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Tạo tài khoản' })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
   expect(app.requests).toEqual([]);
