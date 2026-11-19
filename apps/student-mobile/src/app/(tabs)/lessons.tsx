@@ -169,6 +169,7 @@ export default function LessonsScreen() {
     <View style={webThreeColumns ? styles.webProgressContent : undefined}>
       <View accessibilityRole="progressbar" accessibilityLabel="Bài trong chương trình đã lưu trên thiết bị này"
         accessibilityState={{ busy: !savedIds && !progressUnavailable }}
+        aria-busy={!savedIds && !progressUnavailable}
         accessibilityValue={{ min: 0, max: problems.length, ...(savedIds ? { now: savedCount } : {}) }} style={webThreeColumns ? styles.progressRing : styles.progressTrack}>
         {webThreeColumns ? <>
           <Svg width={84} height={84} viewBox="0 0 84 84" accessible={false} aria-hidden>
