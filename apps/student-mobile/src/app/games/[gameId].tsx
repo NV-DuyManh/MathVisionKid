@@ -6,12 +6,10 @@ import { trainingAccess } from '../../features/training-games/identity';
 import { trainingTrace } from '../../features/training-games/diagnostics';
 import { GameFallback, GamePlayer } from '../../features/training-games/GamePlayer';
 import { trainingScreenOptions } from '../../features/training-games/presentation';
-import { StudentGameAccess } from '../../features/student-profile/StudentDailyLimit';
 
 export function generateStaticParams() { return TRAINING_GAME_IDS.map(gameId => ({ gameId })); }
 export default function TrainingGameRoute() {
   const auth = useContext(AuthContext), router = useRouter(), focused = useIsFocused();
-  const mayPlay = useContext(StudentGameAccess);
   const { gameId, playMode } = useLocalSearchParams<{ gameId: string; playMode?: string }>();
   const access = trainingAccess(auth?.user, !!auth?.isAuthenticated);
   useEffect(() => {
@@ -27,7 +25,6 @@ export default function TrainingGameRoute() {
   if (access.kind === 'trial' && playMode !== 'trial') return <GameFallback message="Tài khoản này chỉ có thể chơi thử không lưu thành tích. Em trở về danh sách và chọn Chơi thử nhé." onBack={back} />;
   const trial = access.kind === 'trial';
   const studentId = access.kind === 'student' ? access.studentId : access.owner;
-  return <><Stack.Screen options={trainingScreenOptions(gameId)} />{focused && (trial || mayPlay
-    ? <GamePlayer key={`${studentId}:${gameId}`} studentId={studentId} trial={trial} gameId={gameId} onExit={back} />
-    : <GameFallback message="Chưa xác minh được thời gian sử dụng. Em kết nối mạng để tiếp tục chơi nhé." onBack={back} />)}</>;
+  return <><Stack.Screen options={trainingScreenOptions(gameId)} />{focused &&
+    <GamePlayer key={`${studentId}:${gameId}`} studentId={studentId} trial={trial} gameId={gameId} onExit={back} />}</>;
 }

@@ -29,7 +29,9 @@ export function enterGameDisplay(gameId: TrainingGameId) {
   })().catch(() => {});
 }
 
-export function GameDisplay({ gameId, children, onExit }: { gameId: TrainingGameId; children: React.ReactNode; onExit?: () => void }) {
+export function GameDisplay({ gameId, children, onExit, pauseInPortrait }: {
+  gameId: TrainingGameId; children: React.ReactNode; onExit?: () => void; pauseInPortrait?: boolean;
+}) {
   const { width, height } = useWindowDimensions();
   const portraitPhone = trainingScreenOptions(gameId).orientation === 'landscape' && width < 700 && height > width;
   // Mount the board once in landscape. Keeping it mounted after that preserves
@@ -62,7 +64,8 @@ export function GameDisplay({ gameId, children, onExit }: { gameId: TrainingGame
         <Text style={styles.buttonText}>Về danh sách trò chơi</Text>
       </Pressable>}
     </View> : null}
-    {opened && <View aria-hidden={portraitPhone || undefined} style={portraitPhone ? styles.hidden : styles.root}>{children}</View>}
+    {opened && (!pauseInPortrait || !portraitPhone) &&
+      <View aria-hidden={portraitPhone || undefined} style={portraitPhone ? styles.hidden : styles.root}>{children}</View>}
   </View>;
 }
 const styles = StyleSheet.create({

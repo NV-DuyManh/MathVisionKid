@@ -44,6 +44,11 @@ public class ParentControlController {
         return controls.saveDailyLimit(principal.getName(), request.pin(), request.minutes());
     }
 
+    @PutMapping("/game-limit")
+    ParentControlService.Settings saveGameLimit(Principal principal, @Valid @RequestBody DailyLimit request) {
+        return controls.saveGameLimit(principal.getName(), request.pin(), request.minutes());
+    }
+
     record Pin(@NotNull @Pattern(regexp = "[0-9]{6}") String pin) {}
     record DailyLimit(@NotNull @Pattern(regexp = "[0-9]{6}") String pin, @Min(1) @Max(1440) Integer minutes) {}
 }

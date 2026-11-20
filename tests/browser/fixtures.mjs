@@ -104,6 +104,10 @@ export const test = base.extend({
       if (respond) return respond({ body, json, reject, route });
       if (role === 'STUDENT' && path === '/student/parent-control/status' && method === 'GET')
         return json({ pinConfigured: false, dailyLimitReached: false, dailyLimitConfigured: false, activityVerified: true });
+      if (role === 'STUDENT' && path === '/student/app-usage/game-status' && method === 'GET')
+        return json({ gameLimitReached: false });
+      if (role === 'STUDENT' && path === '/student/app-usage/game-heartbeat' && method === 'POST')
+        return json({ remainingMillis: null, leaseMillis: body.active ? 10000 : 0, gameLimitReached: false });
       if (role === 'STUDENT' && path === '/student/app-usage/heartbeat' && method === 'POST') {
         expect(Object.keys(body ?? {}).sort()).toEqual(['active', 'connectionId']);
         expect(typeof body.active).toBe('boolean');

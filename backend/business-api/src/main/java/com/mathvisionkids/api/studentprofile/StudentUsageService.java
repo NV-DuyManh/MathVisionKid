@@ -18,10 +18,12 @@ public class StudentUsageService {
     static final Duration MAX_HEARTBEAT_GAP = Duration.ofSeconds(30);
     private final JdbcTemplate db;
     private final StudentProfileService profiles;
+    private final StudentGameUsageService gameUsage;
 
-    StudentUsageService(JdbcTemplate db, StudentProfileService profiles) {
+    StudentUsageService(JdbcTemplate db, StudentProfileService profiles, StudentGameUsageService gameUsage) {
         this.db = db;
         this.profiles = profiles;
+        this.gameUsage = gameUsage;
     }
 
     @Transactional
@@ -110,9 +112,13 @@ public class StudentUsageService {
         }
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Week week(String principal) {
-        return weekFor(profiles.student(principal).getId(), LocalDate.now(StudentRewards.ZONE));
+        var student = profiles.student(principal).getId();
+        profiles.lockStudent(student);
+        var now = StudentGameUsageService.currentTime();
+        gameUsage.accrueLocked(student, now);
+        return weekFor(student, LocalDate.ofInstant(now, StudentRewards.ZONE));
     }
 
     Week weekFor(UUID student, LocalDate today) {
@@ -124,12 +130,19 @@ public class StudentUsageService {
                 """, row -> {
             totals.put(row.getObject(1, LocalDate.class), row.getLong(2));
         }, student, monday, today);
+        var gameTotals = new HashMap<LocalDate, Long>();
+        db.query("""
+                SELECT usage_day, elapsed_millis FROM student_game_usage_day
+                WHERE student_id = ? AND usage_day BETWEEN ? AND ?
+                """, row -> {
+            gameTotals.put(row.getObject(1, LocalDate.class), row.getLong(2));
+        }, student, monday, today);
         List<Day> days = IntStream.range(0, 7).mapToObj(i -> monday.plusDays(i))
-                .map(day -> new Day(day.toString(), totals.getOrDefault(day, 0L))).toList();
+                .map(day -> new Day(day.toString(), totals.getOrDefault(day, 0L), gameTotals.getOrDefault(day, 0L))).toList();
         return new Week(today.toString(), days.stream().mapToLong(Day::elapsedMillis).sum(), days);
     }
 
-    public record Day(String date, long elapsedMillis) {}
+    public record Day(String date, long elapsedMillis, long gameElapsedMillis) {}
     public record Week(String today, long totalMillis, List<Day> days) {}
     private record Span(Instant start, Instant finish) {}
 }

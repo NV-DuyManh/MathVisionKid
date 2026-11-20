@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import GamesScreen from '../app/games';
 import { AuthContext } from '../context/AuthContext';
 import { TRAINING_CATALOG } from '../features/training-games/catalog';
+import { readGameTimeStatus } from '../features/student-profile/studentUsage';
 
 jest.mock('expo-router', () => ({
   useRouter: jest.fn(), Redirect: 'Redirect',
@@ -12,6 +13,7 @@ jest.mock('expo-router', () => ({
 }));
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: 'SafeAreaView' }));
 jest.mock('../context/AuthContext', () => ({ AuthContext: require('react').createContext(undefined) }));
+jest.mock('../features/student-profile/studentUsage', () => ({ readGameTimeStatus: jest.fn() }));
 
 const UUID = '11111111-1111-4111-8111-111111111111';
 const auth = { user: { userId: UUID, role: 'STUDENT' }, isAuthenticated: true, isLoading: false, login: jest.fn(), logout: jest.fn() };
@@ -25,7 +27,8 @@ const update = async (value: React.ComponentProps<typeof AuthContext.Provider>['
 };
 const button = (id: string) => tree.root.findAll(node => node.props.testID === `training-play-${id}` && typeof node.props.onPress === 'function')[0];
 const text = () => JSON.stringify(tree.toJSON());
-beforeEach(() => { jest.clearAllMocks(); jest.mocked(useRouter).mockReturnValue({ push, dismissTo } as ReturnType<typeof useRouter>); });
+beforeEach(() => { jest.clearAllMocks(); jest.mocked(readGameTimeStatus).mockResolvedValue(false);
+  jest.mocked(useRouter).mockReturnValue({ push, dismissTo } as ReturnType<typeof useRouter>); });
 afterEach(() => { if (tree) act(() => tree.unmount()); tree = undefined as unknown as TestRenderer.ReactTestRenderer; });
 
 test.each(TRAINING_CATALOG)('authenticated UUID: touching $id navigates to its allowlisted route', async game => {
@@ -33,7 +36,7 @@ test.each(TRAINING_CATALOG)('authenticated UUID: touching $id navigates to its a
   const play = button(game.id);
   expect(play.props.disabled).toBe(false);
   expect(play.props.accessibilityState.disabled).toBe(false);
-  act(() => play.props.onPress());
+  await act(async () => play.props.onPress());
   expect(push).toHaveBeenCalledTimes(1);
   expect(push).toHaveBeenCalledWith({ pathname: '/games/[gameId]', params: { gameId: game.id } });
 });
@@ -41,7 +44,7 @@ test.each(TRAINING_CATALOG)('authenticated UUID: touching $id navigates to its a
 test('auth loading does not expose controls; finishing restore enables the real student buttons', async () => {
   await update({ ...auth, isLoading: true }); expect(tree.toJSON()).toBeNull(); expect(push).not.toHaveBeenCalled();
   await update(auth); expect(button('planet-rescue').props.disabled).toBe(false);
-  act(() => button('planet-rescue').props.onPress()); expect(push).toHaveBeenCalledTimes(1);
+  await act(async () => button('planet-rescue').props.onPress()); expect(push).toHaveBeenCalledTimes(1);
 });
 
 test('invalid profile gives an explicit reason and a truthful blocked button label', async () => {
@@ -62,9 +65,21 @@ test.each(TRAINING_CATALOG)('development mock opens $id in trial, separate from 
 
 test('repeated taps only open one game until the catalog is focused again', async () => {
   await update(auth);
-  act(() => { button('race-to-finish').props.onPress(); button('race-to-finish').props.onPress(); button('terrain-racing').props.onPress(); });
+  await act(async () => { button('race-to-finish').props.onPress(); button('race-to-finish').props.onPress(); button('terrain-racing').props.onPress(); });
   expect(push).toHaveBeenCalledTimes(1);
   expect(push).toHaveBeenCalledWith({ pathname: '/games/[gameId]', params: { gameId: 'race-to-finish' } });
+});
+
+test('native catalog keeps the same route and opens a dismissible modal when the server reports exhaustion', async () => {
+  jest.mocked(readGameTimeStatus).mockResolvedValue(true);
+  await update(auth);
+  await act(async () => button('race-to-finish').props.onPress());
+  expect(push).not.toHaveBeenCalled();
+  expect(text()).toContain('Đã hết giờ chơi hôm nay');
+  const modal = tree.root.findAll(node => typeof node.props.onRequestClose === 'function' && node.props.transparent)[0];
+  expect(modal).toBeTruthy();
+  act(() => modal.props.onRequestClose());
+  expect(text()).not.toContain('Đã hết giờ chơi hôm nay');
 });
 
 test('native touch structure: ordinary Pressable targets outside decorative artwork, no responder capture', async () => {

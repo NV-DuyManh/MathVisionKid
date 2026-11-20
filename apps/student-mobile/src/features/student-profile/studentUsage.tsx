@@ -6,13 +6,21 @@ import { tokenStorage } from '../../services/auth/tokenStorage';
 
 const HEARTBEAT_MS = 10_000;
 
-export type StudentUsageWeek = { today: string; totalMillis: number; days: { date: string; elapsedMillis: number }[] };
+export type StudentUsageWeek = { today: string; totalMillis: number; days: { date: string; elapsedMillis: number; gameElapsedMillis?: number }[] };
 
 export async function readStudentUsageWeek(signal: AbortSignal) {
   return (await apiClient.get<StudentUsageWeek>('/student/app-usage/week', { signal })).data;
 }
 
-function connectionId() {
+export async function readGameTimeStatus(signal: AbortSignal) {
+  const identity = await tokenStorage.getSessionId();
+  const config = { signal, timeout: 4_000, _identity: identity };
+  const { data } = await apiClient.get<{ gameLimitReached: boolean }>('/student/app-usage/game-status', config);
+  if (typeof data?.gameLimitReached !== 'boolean') throw new Error('Chưa xác minh được thời gian chơi.');
+  return data.gameLimitReached;
+}
+
+export function createUsageConnectionId() {
   return globalThis.crypto?.randomUUID?.() ?? 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, character => {
     const random = Math.floor(Math.random() * 16);
     return (character === 'x' ? random : (random & 3) | 8).toString(16);
@@ -42,7 +50,7 @@ export function StudentUsageTracker() {
     };
     const start = () => {
       if (!mounted || running) return;
-      const id = connectionId();
+      const id = createUsageConnectionId();
       running = id;
       send(id, true);
       interval = setInterval(() => send(id, true), HEARTBEAT_MS);

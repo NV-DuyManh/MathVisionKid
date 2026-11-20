@@ -30,6 +30,7 @@ class StudentProfileIntegrationTest {
     @Autowired StudentProfileService profiles;
     @Autowired StudentGameService games;
     @Autowired StudentUsageService usage;
+    @Autowired StudentGameUsageService gameUsage;
     @Autowired QuizSources lessons;
     @Autowired JdbcTemplate db;
     @Autowired MockMvc mvc;
@@ -133,6 +134,101 @@ class StudentProfileIntegrationTest {
                 .andExpect(status().isTooManyRequests());
         mvc.perform(post(base + "/unlock").with(account).contentType("application/json").content(pin))
                 .andExpect(status().isTooManyRequests());
+    }
+
+    @Test void gameTimeLimitRequiresPinAndBlocksGameApiWithoutBlockingOtherStudentApis() throws Exception {
+        var account = user(pupil.getEmail()).roles("STUDENT");
+        var differentAccount = user(other.getEmail()).roles("STUDENT");
+        String parent = "/api/v1/student/parent-control";
+        String heartbeat = "/api/v1/student/app-usage/game-heartbeat";
+        String gameStatus = "/api/v1/student/app-usage/game-status";
+        String active = "{\"connectionId\":\"" + UUID.randomUUID() + "\",\"active\":true}";
+        mvc.perform(post(heartbeat).contentType("application/json").content(active))
+                .andExpect(status().isUnauthorized());
+        mvc.perform(post(heartbeat).with(user(pupil.getEmail()).roles("TEACHER")).contentType("application/json").content(active))
+                .andExpect(status().isForbidden());
+        mvc.perform(post(parent + "/pin").with(account).contentType("application/json").content("{\"pin\":\"716025\"}"))
+                .andExpect(status().isOk());
+        mvc.perform(put(parent + "/game-limit").with(account).contentType("application/json")
+                        .content("{\"pin\":\"000000\",\"minutes\":1}"))
+                .andExpect(status().isForbidden());
+        mvc.perform(put(parent + "/game-limit").with(account).contentType("application/json")
+                        .content("{\"pin\":\"716025\",\"minutes\":0}"))
+                .andExpect(status().isBadRequest());
+        mvc.perform(put(parent + "/game-limit").with(account).contentType("application/json")
+                        .content("{\"pin\":\"716025\",\"minutes\":1}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameMinutes").value(1))
+                .andExpect(jsonPath("$.dailyMinutes").isEmpty());
+        mvc.perform(post("/api/v1/student/game-runs").with(account))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.error.code").value("STUDENT_GAME_ACTIVITY_REQUIRED"));
+        mvc.perform(get(gameStatus)).andExpect(status().isUnauthorized());
+        mvc.perform(get(gameStatus).with(account)).andExpect(status().isOk())
+                .andExpect(header().string("Cache-Control", "no-store"))
+                .andExpect(jsonPath("$.gameLimitReached").value(false));
+        mvc.perform(post("/api/v1/student/game-runs").with(account)).andExpect(status().isServiceUnavailable());
+        mvc.perform(post(heartbeat).with(account).contentType("application/json").content(active))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Cache-Control", "no-store"))
+                .andExpect(jsonPath("$.remainingMillis").value(60000))
+                .andExpect(jsonPath("$.leaseMillis").value(10000))
+                .andExpect(jsonPath("$.gameLimitReached").value(false));
+        mvc.perform(post("/api/v1/student/game-runs").with(account)).andExpect(status().isOk());
+        var day = java.time.LocalDate.now(StudentRewards.ZONE);
+        db.update("DELETE FROM student_game_usage_day WHERE student_id = ?", pupil.getId());
+        db.update("INSERT INTO student_game_usage_day (student_id, usage_day, elapsed_millis) VALUES (?, ?, 60000)",
+                pupil.getId(), day);
+        mvc.perform(post(heartbeat).with(account).contentType("application/json").content(active))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.leaseMillis").value(0))
+                .andExpect(jsonPath("$.gameLimitReached").value(true));
+        mvc.perform(get(gameStatus).with(account)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameLimitReached").value(true));
+        mvc.perform(get(gameStatus).with(differentAccount)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameLimitReached").value(false));
+        mvc.perform(post("/api/v1/student/game-runs").with(account))
+                .andExpect(status().isTooManyRequests())
+                .andExpect(jsonPath("$.error.code").value("STUDENT_GAME_LIMIT"));
+        mvc.perform(get("/api/v1/student/rank-milestones").with(account)).andExpect(status().isOk());
+        mvc.perform(post("/api/v1/student/game-runs").with(differentAccount)).andExpect(status().isOk());
+        mvc.perform(get("/api/v1/student/app-usage/week").with(account))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.days[" + (day.getDayOfWeek().getValue() - 1) + "].gameElapsedMillis")
+                        .value(org.hamcrest.Matchers.greaterThanOrEqualTo(60000)));
+        mvc.perform(put(parent + "/game-limit").with(account).contentType("application/json")
+                        .content("{\"pin\":\"716025\",\"minutes\":null}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.gameMinutes").isEmpty());
+        mvc.perform(post("/api/v1/student/game-runs").with(account)).andExpect(status().isOk());
+    }
+
+    @Test void gameTimeUsesServerLeasesAndCountsConcurrentDevicesOnlyOnce() {
+        var day = java.time.LocalDate.of(2026, 11, 16);
+        var midnight = day.atStartOfDay(StudentRewards.ZONE).toInstant();
+        var id = pupil.getId();
+        UUID first = UUID.randomUUID(), second = UUID.randomUUID();
+        assertEquals(8_000, gameUsage.observeLocked(id, first, true, midnight.minusSeconds(8)).leaseMillis());
+        assertEquals(4_000, gameUsage.observeLocked(id, second, true, midnight.minusSeconds(4)).leaseMillis());
+        assertEquals(0, gameUsage.observeLocked(id, first, false, midnight.minusSeconds(2)).leaseMillis());
+        gameUsage.observeLocked(id, first, true, midnight.plusSeconds(2));
+        gameUsage.observeLocked(id, second, true, midnight.plusSeconds(6));
+        gameUsage.observeLocked(id, first, false, midnight.plusSeconds(8));
+        gameUsage.observeLocked(id, second, true, midnight.plusSeconds(60));
+        gameUsage.observeLocked(id, second, false, midnight.plusSeconds(65));
+
+        assertEquals(8_000, usage.weekFor(id, day.minusDays(1)).days().getLast().gameElapsedMillis());
+        assertEquals(19_000, usage.weekFor(id, day).days().getFirst().gameElapsedMillis());
+        assertEquals(0, usage.weekFor(id, day).totalMillis());
+        assertEquals(0, usage.weekFor(other.getId(), day).days().getFirst().gameElapsedMillis());
+
+        db.update("INSERT INTO student_parent_control(student_id, pin_hash, game_minutes) VALUES (?, ?, ?)",
+                id, "unused-test-hash", 1);
+        db.update("UPDATE student_game_usage_day SET elapsed_millis = 59500 WHERE student_id = ? AND usage_day = ?",
+                id, day);
+        assertEquals(500, gameUsage.observeLocked(id, first, true, midnight.plusSeconds(65)).leaseMillis());
+        var reached = gameUsage.observeLocked(id, first, true, midnight.plusSeconds(66));
+        assertEquals(0, reached.leaseMillis());
+        assertEquals(0L, reached.remainingMillis());
+        assertTrue(reached.gameLimitReached());
+        assertEquals(60_000, usage.weekFor(id, day).days().getFirst().gameElapsedMillis());
     }
 
     @Test void initialAvatarIsPersistedOnceAndExistingChoicesArePreserved() {

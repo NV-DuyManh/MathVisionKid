@@ -53,21 +53,30 @@ public class ParentControlService {
             throw new ApiException("PARENT_PIN_EXISTS", "Mã PIN đã được thiết lập.", HttpStatus.CONFLICT);
         }
         db.update("INSERT INTO student_parent_control (student_id, pin_hash) VALUES (?, ?)", student, passwords.encode(pin));
-        return new Settings(null);
+        return new Settings(null, null);
     }
 
     // Failed attempts must persist even when the controller returns an error.
     @Transactional(noRollbackFor = ApiException.class)
     public Settings unlock(String principal, String pin) {
-        return new Settings(verify(lockedStudent(principal), pin).dailyMinutes());
+        var control = verify(lockedStudent(principal), pin);
+        return new Settings(control.dailyMinutes(), control.gameMinutes());
     }
 
     @Transactional(noRollbackFor = ApiException.class)
     public Settings saveDailyLimit(String principal, String pin, Integer minutes) {
         var student = lockedStudent(principal);
-        verify(student, pin);
+        var control = verify(student, pin);
         db.update("UPDATE student_parent_control SET daily_minutes = ? WHERE student_id = ?", minutes, student);
-        return new Settings(minutes);
+        return new Settings(minutes, control.gameMinutes());
+    }
+
+    @Transactional(noRollbackFor = ApiException.class)
+    public Settings saveGameLimit(String principal, String pin, Integer minutes) {
+        var student = lockedStudent(principal);
+        var control = verify(student, pin);
+        db.update("UPDATE student_parent_control SET game_minutes = ? WHERE student_id = ?", minutes, student);
+        return new Settings(control.dailyMinutes(), minutes);
     }
 
     private UUID lockedStudent(String principal) {
@@ -106,14 +115,16 @@ public class ParentControlService {
 
     private Control find(UUID student) {
         return db.query("""
-                SELECT pin_hash, daily_minutes, failed_attempts, locked_until FROM student_parent_control WHERE student_id = ?
+                SELECT pin_hash, daily_minutes, game_minutes, failed_attempts, locked_until
+                FROM student_parent_control WHERE student_id = ?
                 """, (row, index) -> {
-            var lock = row.getTimestamp(4);
-            return new Control(row.getString(1), row.getObject(2, Integer.class), row.getInt(3), lock == null ? null : lock.toInstant());
+            var lock = row.getTimestamp(5);
+            return new Control(row.getString(1), row.getObject(2, Integer.class), row.getObject(3, Integer.class),
+                    row.getInt(4), lock == null ? null : lock.toInstant());
         }, student).stream().findFirst().orElse(null);
     }
 
     public record Status(boolean pinConfigured, boolean dailyLimitReached, boolean dailyLimitConfigured, boolean activityVerified) {}
-    public record Settings(Integer dailyMinutes) {}
-    private record Control(String hash, Integer dailyMinutes, int failedAttempts, Instant lockedUntil) {}
+    public record Settings(Integer dailyMinutes, Integer gameMinutes) {}
+    private record Control(String hash, Integer dailyMinutes, Integer gameMinutes, int failedAttempts, Instant lockedUntil) {}
 }

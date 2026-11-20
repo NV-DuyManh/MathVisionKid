@@ -13,9 +13,11 @@ import java.util.UUID;
 @RequestMapping("/api/v1/student/app-usage")
 public class StudentUsageController {
     private final StudentUsageService usage;
+    private final StudentGameUsageService gameUsage;
 
-    StudentUsageController(StudentUsageService usage) {
+    StudentUsageController(StudentUsageService usage, StudentGameUsageService gameUsage) {
         this.usage = usage;
+        this.gameUsage = gameUsage;
     }
 
     @ModelAttribute
@@ -29,9 +31,19 @@ public class StudentUsageController {
         usage.observe(principal.getName(), heartbeat.connectionId(), heartbeat.active());
     }
 
+    @PostMapping("/game-heartbeat")
+    StudentGameUsageService.Lease gameHeartbeat(Principal principal, @Valid @RequestBody Heartbeat heartbeat) {
+        return gameUsage.heartbeat(principal.getName(), heartbeat.connectionId(), heartbeat.active());
+    }
+
     @GetMapping("/week")
     StudentUsageService.Week week(Principal principal) {
         return usage.week(principal.getName());
+    }
+
+    @GetMapping("/game-status")
+    StudentGameUsageService.GameTimeStatus gameStatus(Principal principal) {
+        return gameUsage.status(principal.getName());
     }
 
     record Heartbeat(@NotNull UUID connectionId, @NotNull Boolean active) {}
