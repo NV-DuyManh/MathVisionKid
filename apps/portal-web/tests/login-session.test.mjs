@@ -1,13 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
 import vm from 'node:vm';
-import React, { act } from 'react';
-import { JSDOM } from 'jsdom';
-import { transpileModule, ModuleKind, JsxEmit } from 'typescript';
-
-const require = createRequire(import.meta.url);
+import { transpileModule, ModuleKind } from 'typescript';
 
 test('Google popup returns the OAuth token and clears the Firebase session even when credentials are missing', async () => {
   const app = { name: 'mathvision-social' };
