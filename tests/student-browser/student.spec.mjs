@@ -392,7 +392,8 @@ test('Avatar account page edits name beside the header, uploads through the avat
     await expect(page).toHaveURL(`${sites.portal.origin}/study/profile`);
   } else {
     await page.getByRole('button', { name: 'Quay lại', exact: true }).click();
-    await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+    await expect(page).toHaveURL(`${sites.portal.origin}/study/profile`);
+    await expect(page.getByRole('button', { name: 'Góc phụ huynh', exact: true })).toBeVisible();
   }
 });
 

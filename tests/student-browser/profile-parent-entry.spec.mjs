@@ -6,7 +6,7 @@ test('Student can open and complete the parent PIN gate from the profile on desk
     json({ pinConfigured: true, dailyLimitConfigured: false, dailyLimitReached: false, activityVerified: true }));
   app.responses.set('POST /student/parent-control/unlock', ({ body, json }) => body.pin === '123456'
     ? json({ dailyMinutes: null })
-    : json({ error: { code: 'PARENT_PIN_INVALID' } }, 401));
+    : json({ error: { code: 'PARENT_PIN_INVALID' } }, 403));
   app.responses.set('GET /student/app-usage/week', ({ json }) => json({ today: '2026-11-20', totalMillis: 0,
     days: [{ date: '2026-11-16', elapsedMillis: 0 }, { date: '2026-11-17', elapsedMillis: 0 }, { date: '2026-11-18', elapsedMillis: 0 },
       { date: '2026-11-19', elapsedMillis: 0 }, { date: '2026-11-20', elapsedMillis: 0 }, { date: '2026-11-21', elapsedMillis: 0 }, { date: '2026-11-22', elapsedMillis: 0 }] }));
