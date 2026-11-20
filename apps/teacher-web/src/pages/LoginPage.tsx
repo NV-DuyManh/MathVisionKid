@@ -1,8 +1,7 @@
 import { Button, Alert } from '@mui/material';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import apiClient from '../services/api/apiClient';
-import { AuthTokenStore } from '../services/api/AuthTokenStore';
+import { establishTeacherSession } from '../services/api/AuthTokenStore';
 import { appConfig } from '../config/runtime';
 
 export default function LoginPage() {
@@ -28,13 +27,10 @@ export default function LoginPage() {
     const exchangeTicket = async () => {
       try {
         setError(null);
-        const res = await apiClient.post('/auth/sso/exchange', {
+        await establishTeacherSession('/auth/sso/exchange', {
           code: ssoCode,
           targetApp: 'TEACHER',
         });
-        const { accessToken, refreshToken } = res.data;
-        if (!accessToken || !refreshToken) throw new Error('Incomplete Teacher SSO session');
-        AuthTokenStore.setTokens(accessToken, refreshToken, true);
         navigate('/dashboard', { replace: true });
       } catch (err: any) {
         setError(

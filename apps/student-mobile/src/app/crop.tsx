@@ -232,7 +232,9 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
       const saved = recognitionDraftStore.getDraft();
       if (saved) await imageDraftPersistence.confirm(saved, path);
       if (!mounted.current || recognitionDraftStore.getDraft()?.imageSessionId !== draft?.imageSessionId) return;
-      router.push({ pathname: path as any, params: { retrySubmissionId, originalImageUri: original } });
+      const params = Platform.OS === 'web' && mode === 'MATH_TUTOR'
+        ? { guidePhotoId: saved?.imageSessionId, guideEntryId: String(Date.now()) } : { retrySubmissionId, originalImageUri: original };
+      router.push({ pathname: path as any, params });
     } catch {
       if (mounted.current) Alert.alert('Chưa cắt được ảnh', 'Ảnh của em vẫn được giữ. Em chọn vùng lớn hơn hoặc thử lại nhé.');
     } finally { lock.current = false; if (mounted.current) setProcessing(false); }

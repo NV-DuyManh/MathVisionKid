@@ -22,6 +22,7 @@ test('Student entry and protected deep links serve the real shared app and its a
         const script = await get(entry);
         assert.equal(script.status, 200);
         assert.ok(!script.headers.get('content-type')?.includes('text/html'));
+        assert.match(script.headers.get('cache-control') || '', /\bimmutable\b/, entry);
         return script.text();
       }));
       const bundle = scripts.join('\n');

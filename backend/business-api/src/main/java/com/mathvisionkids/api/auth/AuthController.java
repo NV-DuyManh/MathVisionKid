@@ -1,10 +1,12 @@
 package com.mathvisionkids.api.auth;
 
+import com.mathvisionkids.api.common.ApiException;
 import com.mathvisionkids.api.user.StudentRepository;
 import com.mathvisionkids.api.user.User;
 import com.mathvisionkids.api.user.UserRepository;
 import com.mathvisionkids.api.user.UserResponse;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,8 +23,10 @@ public class AuthController {
     private final UserRepository userRepository;
     private final StudentRepository studentRepository;
     private final RefreshTokenService refreshTokenService;
+    private final WebSessionService webSessions;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, UserRepository userRepository, StudentRepository studentRepository, RefreshTokenService refreshTokenService) {
+    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, UserRepository userRepository, StudentRepository studentRepository, RefreshTokenService refreshTokenService, WebSessionService webSessions) {
+        this.webSessions = webSessions;
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
@@ -74,11 +78,20 @@ public class AuthController {
     }
 
     @PostMapping("/auth/logout")
-    public ResponseEntity<Void> logoutUser(Principal principal) {
+    public ResponseEntity<Void> logoutUser(Principal principal, jakarta.servlet.http.HttpServletRequest request,
+                                          @RequestBody(required = false) TokenRefreshRequest credentials) {
+        var client = WebSessionService.client(request);
+        if (client != null) {
+            if (principal == null) throw new ApiException("UNAUTHORIZED", "Authentication required", HttpStatus.UNAUTHORIZED);
+            webSessions.logout(principal.getName(), request, client);
+            return ResponseEntity.ok().build();
+        }
         if (principal != null) {
             userRepository.findByEmail(principal.getName()).ifPresent(user -> {
                 refreshTokenService.deleteByUserId(user.getId());
             });
+        } else if (credentials == null || !refreshTokenService.revokeForLogout(credentials.getRefreshToken())) {
+            throw new ApiException("UNAUTHORIZED", "Authentication required", HttpStatus.UNAUTHORIZED);
         }
         return ResponseEntity.ok().build();
     }

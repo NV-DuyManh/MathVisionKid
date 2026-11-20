@@ -83,15 +83,13 @@ test('expired onboarding credentials recover to login and clear the stale sessio
   app.expired = true;
   await page.addInitScript(() => {
     if (location.pathname !== '/study/onboarding') return;
-    sessionStorage.setItem('portal_access_token', 'fixture.STUDENT.access');
-    sessionStorage.setItem('portal_refresh_token', 'fixture.STUDENT.refresh');
+    localStorage.setItem('mvk_portal_web_session', 'expired-tab-id');
   });
   await page.goto(`${sites.portal.origin}/study/onboarding`);
   await expect(page).toHaveURL(/\/login(?:\?|$)/);
   await expect(page.getByRole('textbox', { name: 'Email', exact: true })).toBeVisible();
   await expect(page.getByText('Đang xác minh tài khoản…', { exact: true })).toHaveCount(0);
-  expect(await page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
-  expect(await page.evaluate(() => sessionStorage.getItem('portal_refresh_token'))).toBeNull();
+  expect(await page.evaluate(() => localStorage.getItem('mvk_portal_web_session'))).toBeNull();
   expect(app.requests.some(request => request.path === '/me')).toBe(true);
 });
 

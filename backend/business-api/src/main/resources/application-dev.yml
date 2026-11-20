@@ -5,6 +5,9 @@ spring:
     password: ${DB_PASSWORD:password123}
 
 app:
+  auth:
+    web:
+      secure-cookie: ${AUTH_WEB_SECURE_COOKIE:false}
   jwt:
     secret: ${JWT_SECRET:super_secret_development_jwt_key_do_not_use_in_production_1234567890}
   cors:
