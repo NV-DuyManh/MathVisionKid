@@ -29,7 +29,19 @@ public class RefreshTokenService {
         this.jwtUtil = jwtUtil;
     }
 
-    private String hashToken(String token) {
+    @Transactional
+    public boolean revokeForLogout(String rawToken) {
+        if (rawToken == null || rawToken.length() != 36) return false;
+        String hash = hashToken(rawToken);
+        var owner = refreshTokenRepository.findOwnerId(hash);
+        if (owner.isEmpty() || userRepository.lockSessions(owner.get()).isEmpty()) return false;
+        var active = refreshTokenRepository.findByTokenHash(hash)
+                .filter(token -> !token.isRevoked() && token.getExpiryDate().isAfter(Instant.now()));
+        active.ifPresent(refreshTokenRepository::delete);
+        return active.isPresent();
+    }
+
+    static String hashToken(String token) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(token.getBytes(StandardCharsets.UTF_8));

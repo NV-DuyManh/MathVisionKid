@@ -39,6 +39,50 @@ it('opens prepared curriculum speech with an explicit Vietnamese fallback label'
   expect(text()).toContain('Đang dùng giọng Việt dự phòng.');
 });
 
+it.each([
+  ['Giọng nam', 'vi-VN-NamMinhNeural'],
+  ['Giọng nữ', 'vi-VN-HoaiMyNeural'],
+  ['Giọng thiết bị', 'device'],
+] as const)('selects %s directly from prepared fallback on Web', async (label, voiceId) => {
+  const previous = Platform.OS;
+  Platform.OS = 'web';
+  try {
+    await saveNarrationVoice('vi-VN-NamMinhNeural');
+    await render({ preparedFallback: true });
+    expect(button(label).props.accessibilityState.disabled).toBe(false);
+    await act(async () => button(label).props.onPress());
+    expect(button(label).props.accessibilityState.checked).toBe(true);
+    expect(text()).not.toContain('Đang dùng giọng Việt dự phòng.');
+    if (voiceId === 'device') {
+      expect(view.root.findByType(DeviceNarration).props.paragraphs).toEqual(paragraphs);
+      expect(downloadNarration).toHaveBeenCalledTimes(1);
+    } else {
+      expect(downloadNarration).toHaveBeenLastCalledWith(source, paragraphs, expect.any(AbortSignal), voiceId, expect.any(Function));
+    }
+  } finally {
+    Platform.OS = previous;
+    await saveNarrationVoice('vi-VN-NamMinhNeural');
+  }
+});
+
+it('starts in device mode when requested even with a saved online voice', async () => {
+  await saveNarrationVoice('vi-VN-HoaiMyNeural');
+  try {
+    await render({ startWithDevice: true, preparedFallback: true });
+    expect(button('Giọng thiết bị').props.accessibilityState.checked).toBe(true);
+    expect(button('Giọng nam').props.accessibilityState.disabled).toBe(false);
+    expect(button('Giọng nữ').props.accessibilityState.disabled).toBe(false);
+    expect(downloadNarration).not.toHaveBeenCalled();
+    expect(text()).not.toContain('Đang dùng giọng Việt dự phòng.');
+    await act(async () => button('Giọng nữ').props.onPress());
+    expect(button('Giọng nữ').props.accessibilityState.checked).toBe(true);
+    expect(downloadNarration).toHaveBeenCalledTimes(1);
+    expect(downloadNarration).toHaveBeenCalledWith(source, paragraphs, expect.any(AbortSignal), 'vi-VN-HoaiMyNeural', expect.any(Function));
+  } finally {
+    await saveNarrationVoice('vi-VN-NamMinhNeural');
+  }
+});
+
 it('opens the persisted device voice directly without cloud requests or autoplay', async () => {
   await saveNarrationVoice('device');
   try {
@@ -50,7 +94,7 @@ it('opens the persisted device voice directly without cloud requests or autoplay
   } finally { await saveNarrationVoice('vi-VN-NamMinhNeural'); }
 });
 
-it('uses the Vietnamese server fallback only after the web learner requests it', async () => {
+it('opens the default online male voice when the web learner requests device fallback', async () => {
   const previous = Platform.OS;
   Platform.OS = 'web';
   await saveNarrationVoice('device');
@@ -58,8 +102,27 @@ it('uses the Vietnamese server fallback only after the web learner requests it',
     await render();
     expect(downloadNarration).not.toHaveBeenCalled();
     await act(async () => view.root.findByType(DeviceNarration).props.onFallback());
-    expect(downloadNarration).toHaveBeenCalledWith({ ...source, useFallback: true }, paragraphs, expect.any(AbortSignal), 'vi-VN-NamMinhNeural', expect.any(Function));
+    expect(downloadNarration).toHaveBeenCalledTimes(1);
+    expect(downloadNarration).toHaveBeenCalledWith(source, paragraphs, expect.any(AbortSignal), 'vi-VN-NamMinhNeural', expect.any(Function));
+    expect(button('Giọng nam').props.accessibilityState.checked).toBe(true);
     expect(view.root.findByType(AudioPlayback).props.uri).toBe('file:///private-speech.wav');
+  } finally {
+    Platform.OS = previous;
+    await saveNarrationVoice('vi-VN-NamMinhNeural');
+  }
+});
+
+it('opens the last online female voice when returning from device mode in a new sheet', async () => {
+  const previous = Platform.OS;
+  Platform.OS = 'web';
+  await saveNarrationVoice('vi-VN-HoaiMyNeural');
+  await saveNarrationVoice('device');
+  try {
+    await render();
+    await act(async () => view.root.findByType(DeviceNarration).props.onFallback());
+    expect(downloadNarration).toHaveBeenCalledTimes(1);
+    expect(downloadNarration).toHaveBeenCalledWith(source, paragraphs, expect.any(AbortSignal), 'vi-VN-HoaiMyNeural', expect.any(Function));
+    expect(button('Giọng nữ').props.accessibilityState.checked).toBe(true);
   } finally {
     Platform.OS = previous;
     await saveNarrationVoice('vi-VN-NamMinhNeural');

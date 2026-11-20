@@ -1,6 +1,6 @@
 import type { TeacherService } from './TeacherService';
 import apiClient from './apiClient';
-import { AuthTokenStore } from './AuthTokenStore';
+import { establishTeacherSession } from './AuthTokenStore';
 import type { Assignment, Batch, Class, ClassDetail, DashboardStats, Evidence, EvidenceItem, MathType, ReviewQueueItem, Submission } from '../../types';
 
 type RawReviewMetrics = Pick<Submission, 'maxScore' | 'confidenceBundle' | 'validation'> & {
@@ -54,12 +54,8 @@ function normalizeReviewMetrics(detail: RawReviewMetrics) {
 
 class SpringTeacherServiceImpl implements TeacherService {
   async login(email: string, password?: string): Promise<{ token: string }> {
-    const res = await apiClient.post('/auth/login', { email, password });
-    const { accessToken, refreshToken } = res.data;
-    if (accessToken && refreshToken) {
-      AuthTokenStore.setTokens(accessToken, refreshToken, true);
-    }
-    return { token: accessToken };
+    const sessionId = await establishTeacherSession('/auth/login', { email, password });
+    return { token: sessionId };
   }
 
   async getDashboard(): Promise<DashboardStats> {

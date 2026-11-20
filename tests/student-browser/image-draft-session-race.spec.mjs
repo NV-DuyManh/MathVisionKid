@@ -42,7 +42,7 @@ for (const outcome of ['error', 'success']) {
       const exported = {};
       new Function('require', 'exports', controller)(name => {
         if (name.endsWith('recognitionDraftStore')) return { recognitionDraftStore: store, isValidFlowDomain: mode => mode === 'ARITHMETIC' };
-        if (name.endsWith('tokenStorage')) return { tokenStorage: { getSessionId: async () => session } };
+        if (name.endsWith('tokenStorage.web')) return { tokenStorage: { getDraftScopeId: async () => session } };
         throw new Error(`Unexpected controller dependency: ${name}`);
       }, exported);
       const persistence = exported.imageDraftPersistence;

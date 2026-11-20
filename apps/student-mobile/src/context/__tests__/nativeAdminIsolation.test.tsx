@@ -64,6 +64,15 @@ test('expired refresh removes the mounted student session', async () => {
   expect(context!.isAuthenticated).toBe(false);
   expect(mockReplace).toHaveBeenLastCalledWith('/login');
 });
+test('logout forwards the stored refresh credential when access has expired', async () => {
+  await mount();
+  (authApi.getMe as jest.Mock).mockResolvedValue(student);
+  await act(async () => { await context!.login({}); });
+  (tokenStorage.getRefreshToken as jest.Mock).mockResolvedValue('stored-refresh');
+  await act(async () => { await context!.logout(); });
+  expect(authApi.logout).toHaveBeenCalledWith(null, 'stored-refresh');
+  expect(context!.isAuthenticated).toBe(false);
+});
 test('a late old /me result cannot replace the next login', async () => {
   await mount();
   let finishOld: (value: unknown) => void = () => {};

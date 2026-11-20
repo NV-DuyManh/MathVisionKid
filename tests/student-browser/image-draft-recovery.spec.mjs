@@ -389,8 +389,12 @@ test('Reloaded crop continues through photo reading and a correct Work Review re
   await page.reload();
   await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
   await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
-  await expect(page.getByText('Em làm đúng rồi!', { exact: true })).toBeVisible();
+  const result = page.getByText('Em làm đúng rồi!', { exact: true });
+  await expect(result).toBeVisible();
+  await page.reload();
+  await expect(result).toBeVisible();
   expect(app.requests.filter(request => request.path === '/student/tutor/inspect')).toHaveLength(1);
+  expect(app.requests.filter(request => request.path === '/student/tutor/work-review')).toHaveLength(1);
 });
 
 test('A known submission resumes by GET after reload without uploading again', async ({ page, app }) => {
@@ -407,6 +411,24 @@ test('A known submission resumes by GET after reload without uploading again', a
   await expect(page.getByRole('heading', { name: 'Bài làm đúng', level: 2, exact: true })).toBeVisible();
   expect(app.requests.filter(request => request.method === 'POST' && request.path === '/student/submissions')).toHaveLength(1);
   expect(app.requests.some(request => request.method === 'GET' && request.path === '/student/submissions/resume-photo')).toBe(true);
+});
+
+test('Math Guide keeps the recognized problem and masked preview after F5', async ({ page, app }) => {
+  const problemText = 'Lan có 12 viên bi, Minh cho Lan thêm 3 viên. Hỏi Lan có bao nhiêu viên bi?';
+  app.responses.set('POST /student/tutor/inspect', ({ json }) =>
+    json({ kind: 'PROBLEM', problemText, lines: [], needsProblem: false }));
+  app.responses.set('POST /student/tutor/lesson/prepare', ({ json }) => json({ phase: 'ready' }));
+  await start(page);
+  await openCrop(page, { masks: false, mode: 'MATH_TUTOR' });
+  await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  const confirmation = page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' });
+  await expect(confirmation).toBeVisible();
+  await expect(page.getByLabel('Ảnh đề bài đã che thông tin')).toBeVisible();
+  await page.reload();
+  await expect(confirmation).toBeVisible();
+  await expect(page.getByLabel('Ảnh đề bài đã che thông tin')).toBeVisible();
+  await expect(page.getByText(/Lan có 12 viên bi/).first()).toBeVisible();
+  expect(app.requests.filter(request => request.path === '/student/tutor/inspect')).toHaveLength(1);
 });
 
 test('Interrupted tutor photo reading requires explicit continuation after F5', async ({ page, app }) => {
@@ -443,4 +465,44 @@ test('A quota failure is reported without claiming the photo was saved', async (
   expect((await storage(page)).imageCount).toBe(0);
   await page.reload();
   await expect(page.getByRole('button', { name: 'Chọn lại ảnh', exact: true })).toBeVisible();
+});
+
+test('Interrupted tutor photo recovery can switch to typed input without sending the image again', async ({ page, app }) => {
+  app.responses.set('POST /student/tutor/inspect', ({ route }) => route.abort('failed'));
+  await start(page);
+  await openCrop(page, { masks: false, mode: 'MATH_TUTOR' });
+  await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  const inspectRequests = () => app.requests.filter(request => request.path === '/student/tutor/inspect').length;
+  await expect.poll(inspectRequests).toBe(1);
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Tiếp tục đọc ảnh', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Nhập đề bằng chữ', exact: true }).click();
+  await expect(page.getByPlaceholder('Nhập nội dung ở đây nhé…', { exact: true })).toBeVisible();
+  expect(inspectRequests()).toBe(1);
+});
+
+test('F5 before privacy confirmation recovers the image and mask until the 30 second deadline', async ({ page }) => {
+  await start(page);
+  const photo = await openPrivacy(page, undefined, 'MATH_TUTOR');
+  const box = await photo.boundingBox();
+  await page.mouse.move(box.x + box.width * .15, box.y + box.height * .15);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * .45, box.y + box.height * .38, { steps: 5 });
+  await page.mouse.up();
+  const undo = page.getByRole('button', { name: 'Hoàn tác vùng che vừa vẽ' });
+  await expect(undo).toBeVisible();
+  const temporary = (await storage(page)).rows[0];
+  expect(temporary?.step).toBe('privacy');
+  expect(temporary.expiresAt - temporary.createdAt).toBe(30000);
+
+  await page.reload();
+  await expect(photo).toBeVisible();
+  await expect(undo).toBeVisible();
+  await expect(page.getByRole('checkbox')).not.toBeChecked();
+
+  await storage(page, 'expire');
+  await page.reload();
+  await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
+  await expect(page.getByRole('button', { name: 'Chọn ảnh từ thư viện' })).toBeVisible();
+  expect((await storage(page)).imageCount).toBe(0);
 });

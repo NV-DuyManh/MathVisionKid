@@ -11,6 +11,7 @@ const firstStep = {
 };
 
 test('orchard lesson opens each calculation on hint two and checks an exact retry on a short phone', async ({ page, app }, testInfo) => {
+  test.setTimeout(90000);
   const source = 'Bài 6\nVườn cây nhà bác Nam có 1/3 số cây là cây táo, 2/5 số cây là cây xoài, còn lại là cây cam. Biết rằng số cây cam có trong vườn là 16 cây. Hỏi trong vườn nhà bác Nam có tất cả bao nhiêu cây?';
   const given = 'Vườn cây nhà bác Nam có (1)/(3) số cây là cây táo';
   const asked = 'Hỏi trong vườn nhà bác Nam có tất cả bao nhiêu cây?';
@@ -37,7 +38,7 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   app.realStudent = true;
   lessonFixtures(app);
   app.responses.set('POST /student/tutor/lesson', ({ json }) => json(state()));
-  app.responses.set('POST /student/tutor/lesson/resume', ({ json }) => json(state()));
+  app.responses.set('POST /student/tutor/lesson/resume', ({ json }) => json(state(completed.length === steps.length ? 'COMPLETE' : 'READY')));
   app.responses.set('POST /student/tutor/lesson/answer', ({ body, json }) => {
     expect(body.revision).toBe(completed.length);
     const index = completed.length;
@@ -96,6 +97,10 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   await expect(page.getByRole('button', { name: 'Sai', exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'Bước trước', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Sai', exact: true })).toBeVisible();
+  const submittedCount = app.requests.filter(request => request.path === '/student/tutor/lesson/answer').length;
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Sai', exact: true })).toBeVisible();
+  expect(app.requests.filter(request => request.path === '/student/tutor/lesson/answer')).toHaveLength(submittedCount);
   await page.getByRole('button', { name: 'Tiếp tục', exact: true }).click();
   // Saving is debounced by the real progress store.
   await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(key => key.startsWith('mathvision_progress_'))
@@ -109,6 +114,10 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   await expect(page.getByRole('textbox', { name: 'Tử số câu trả lời', exact: true })).toBeVisible();
   await page.getByRole('textbox', { name: 'Tử số câu trả lời', exact: true }).fill('1');
   await page.getByRole('textbox', { name: 'Mẫu số câu trả lời', exact: true }).fill('2');
+  await page.reload();
+  await expect(page.getByRole('textbox', { name: 'Tử số câu trả lời', exact: true })).toHaveValue('1');
+  await expect(page.getByRole('textbox', { name: 'Mẫu số câu trả lời', exact: true })).toHaveValue('2');
+  expect(app.requests.filter(request => request.path === '/student/tutor/lesson/answer')).toHaveLength(submittedCount);
   await page.getByRole('button', { name: 'Bước trước', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Tóm tắt bài toán', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Bắt đầu giải', exact: true }).click();
@@ -183,16 +192,18 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   await page.screenshot({ path: testInfo.outputPath('orchard-division-fraction.png') });
   await page.reload();
   await expect(page.getByText('Đã khôi phục bước đang học của em.', { exact: true })).toBeVisible();
-  await expect(finalFormula).toHaveCount(0);
-  await page.getByRole('button', { name: 'Gợi ý cách làm bước này', exact: true }).click();
-  await expect(hint).toContainText('CẤP 1/2');
-  await page.getByRole('button', { name: 'Gợi ý sau', exact: true }).click();
+  await expect(hint).toContainText('CẤP 2/2');
   await expect(finalFormula).toBeVisible();
+  await expect(hint).not.toContainText(/\b60\b|sáu mươi/);
   expect(app.requests.filter(item => item.path === '/student/tutor/lesson/answer' && item.body.hint)).toHaveLength(4);
   await page.getByRole('textbox', { name: 'Câu trả lời của em', exact: true }).fill('60');
   await check.click();
   await page.getByRole('button', { name: 'Xem bài giải', exact: true }).click();
   await expect(page.getByText('Đáp số: 60 cây.', { exact: true })).toBeVisible();
+  const finalSubmissionCount = app.requests.filter(request => request.path === '/student/tutor/lesson/answer').length;
+  await page.reload();
+  await expect(page.getByText('Đáp số: 60 cây.', { exact: true })).toBeVisible();
+  expect(app.requests.filter(request => request.path === '/student/tutor/lesson/answer')).toHaveLength(finalSubmissionCount);
 });
 
 test('centers a short hint, constrains long hints and preserves the other lesson sheets', async ({ page, app }, testInfo) => {

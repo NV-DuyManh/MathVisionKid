@@ -57,7 +57,9 @@ export function DraftImagePicker({ title = 'Chọn lại ảnh', mode, disabled,
       draft.mode = resolveFlowDomain(mode, old?.mode || 'MATH_TUTOR');
       draft.lessonContext = old?.lessonContext;
       draft.retrySubmissionId = old?.retrySubmissionId;
-      recognitionDraftStore.setDraft(draft);
+      const selectedDraft = recognitionDraftStore.setDraft(draft);
+      await imageDraftPersistence.savePrivacy(selectedDraft);
+      if (!active.current || recognitionDraftStore.getDraft()?.imageSessionId !== selectedDraft.imageSessionId) return;
       router.push('/privacy');
     } catch { if (active.current && id === request.current) setError(true); }
     finally { URL.revokeObjectURL(original); if (id === request.current) { locked.current = false; if (active.current) setBusy(false); } }

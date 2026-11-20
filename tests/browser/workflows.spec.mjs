@@ -184,7 +184,7 @@ for (const role of ['TEACHER', 'ADMIN']) {
     expect(app.requests.filter(r => r.path === '/auth/sso/exchange')).toHaveLength(1);
   });
 
-  test(`${role} SSO, reload and logout preserve the correct session boundaries`, async ({ page, app }) => {
+  test(`${role} SSO, reload and logout preserve the correct session boundaries`, async ({ page, app, context }) => {
     await page.goto(sites.portal.origin);
     await login(page, role);
     await expect(page.getByRole('heading', { name: `Xin chào, Kiểm thử ${role}`, exact: true })).toBeVisible();
@@ -193,9 +193,17 @@ for (const role of ['TEACHER', 'ADMIN']) {
     await page.reload();
     await expect(page.getByRole('heading', { name: `Xin chào, Kiểm thử ${role}`, exact: true })).toBeVisible();
     expect(app.requests.filter(r => r.path === '/auth/sso/exchange')).toHaveLength(1);
+    const cookie = (await context.cookies(site.origin)).find(entry => entry.name === `__Host-mvk_${role.toLowerCase()}_session`);
+    expect(cookie).toMatchObject({ httpOnly: true, secure: true, sameSite: 'Strict' });
+    const otherTab = await context.newPage();
+    await otherTab.goto(`${site.origin}/dashboard`);
+    await expect(otherTab.getByRole('heading', { name: `Xin chào, Kiểm thử ${role}`, exact: true })).toBeVisible();
+    await expect(otherTab).toHaveURL(`${site.origin}/dashboard`);
     await page.getByRole('button', { name: 'Đăng xuất', exact: true }).click();
     await expect(page).toHaveURL(`${sites.portal.origin}/`);
-    await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
+    await expect(otherTab).toHaveURL(signedOutUrl);
+    await otherTab.close();
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('mvk_portal_web_session'))).toBeNull();
     await expect(page.getByRole('banner').getByRole('link', { name: 'Đăng nhập', exact: true })).toBeVisible();
     await page.goBack();
     await expect(page).toHaveURL(signedOutUrl);
@@ -204,9 +212,6 @@ for (const role of ['TEACHER', 'ADMIN']) {
   });
 
   test(`${role} expired credentials leave the protected page instead of looping`, async ({ page, app }) => {
-    // Finish the valid dashboard load before expiring this session. Otherwise
-    // its pending requests can refresh in the old document just before reload,
-    // and the test counts that aborted refresh alongside the new document's.
     const initialPaths = role === 'ADMIN' ? ['/admin/dashboard', '/admin/audit'] : ['/teacher/dashboard'];
     await Promise.all([
       ...initialPaths.map(path => page.waitForResponse(response =>
@@ -216,19 +221,16 @@ for (const role of ['TEACHER', 'ADMIN']) {
     app.expired = true;
     await page.reload();
     await expect(page).toHaveURL(signedOutUrl);
-    await expect.poll(() => page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('mvk_portal_web_session'))).toBeNull();
     await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
-    const refreshes = app.requests.filter(r => r.path === '/auth/refresh');
-    expect(refreshes.filter(r => r.origin === site.origin)).toHaveLength(1);
-    expect(refreshes.filter(r => r.origin === sites.portal.origin)).toHaveLength(1);
-    expect(refreshes).toHaveLength(2);
+    expect(app.requests.filter(r => r.path === '/auth/refresh')).toHaveLength(0);
     await page.goto(`${site.origin}/dashboard`);
     await expect(page).toHaveURL(signedOutUrl);
-    expect(app.requests.filter(r => r.path === '/auth/refresh')).toHaveLength(refreshes.length);
+    expect(app.requests.filter(r => r.path === '/auth/refresh')).toHaveLength(0);
   });
 }
 
-test('student account cannot open admin dashboard', async ({ context, page, app }) => {
+test('legacy credentials cannot open the admin dashboard', async ({ context, page, app }) => {
   await context.addInitScript(origin => {
     if (location.origin === origin) {
       localStorage.setItem('mvk_admin_access_token', 'fixture.STUDENT.access');
@@ -236,10 +238,11 @@ test('student account cannot open admin dashboard', async ({ context, page, app 
     }
   }, sites.admin.origin);
   await page.goto(`${sites.admin.origin}/dashboard`);
-  await expect(page).toHaveURL(`${sites.admin.origin}/403`);
-  await expect(page.getByRole('heading', { name: 'Bạn không có quyền truy cập' })).toBeVisible();
+  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
+  await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
   expect(app.requests.filter(r => r.path.startsWith('/admin/'))).toEqual([]);
-  expect(await page.evaluate(() => localStorage.getItem('mvk_admin_access_token'))).toBeNull();
+  const cookies = await context.cookies(sites.admin.origin);
+  expect(cookies).toHaveLength(0);
 });
 
 test('teacher cannot cross into the admin portal', async ({ page, app }) => {

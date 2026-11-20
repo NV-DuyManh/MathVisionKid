@@ -11,9 +11,11 @@ export const DEFAULT_NARRATION_VOICE: NarrationVoice = NARRATION_VOICES[0].id;
 const DEFAULT_NARRATION_CHOICE: NarrationChoice = 'device';
 const listeners = new Set<(voice: NarrationChoice) => void>();
 let selectedVoice: NarrationChoice | null = null;
+let lastOnlineVoice: NarrationVoice = DEFAULT_NARRATION_VOICE;
 let loadingVoice: Promise<NarrationChoice> | undefined;
 let pendingSave: { voice: NarrationChoice; promise: Promise<void> } | undefined;
 export const currentNarrationVoice = () => selectedVoice;
+export const currentOnlineNarrationVoice = () => lastOnlineVoice;
 export function subscribeNarrationVoice(listener: (voice: NarrationChoice) => void): () => void {
   listeners.add(listener);
   return () => { listeners.delete(listener); };
@@ -24,16 +26,25 @@ export function isNarrationVoice(value: unknown): value is NarrationVoice {
 export async function readNarrationVoice(): Promise<NarrationChoice> {
   if (selectedVoice) return selectedVoice;
   loadingVoice ??= voicePreferences.get().then(saved => {
-    const value = saved ? JSON.parse(saved)?.voiceId : null;
+    if (selectedVoice) return selectedVoice;
+    const preference = saved ? JSON.parse(saved) : null;
+    const value = preference?.voiceId;
     const restored: NarrationChoice = value === 'device' || isNarrationVoice(value) ? value : DEFAULT_NARRATION_CHOICE;
-    selectedVoice ??= restored;
-    return selectedVoice;
-  }).catch(() => { selectedVoice ??= DEFAULT_NARRATION_CHOICE; return selectedVoice; });
+    selectedVoice = restored;
+    if (isNarrationVoice(value)) lastOnlineVoice = value;
+    else if (value === 'device' && isNarrationVoice(preference?.onlineVoiceId)) lastOnlineVoice = preference.onlineVoiceId;
+    return restored;
+  }).catch(() => (selectedVoice ??= DEFAULT_NARRATION_CHOICE));
   return loadingVoice;
 }
 export function saveNarrationVoice(voiceId: NarrationChoice): Promise<void> {
   selectedVoice = voiceId;
-  const promise = (pendingSave?.promise.catch(() => {}) || Promise.resolve()).then(() => voicePreferences.set(JSON.stringify({ voiceId })));
+  if (isNarrationVoice(voiceId)) lastOnlineVoice = voiceId;
+  const preference = JSON.stringify({
+    voiceId,
+    ...(voiceId === 'device' && lastOnlineVoice !== DEFAULT_NARRATION_VOICE ? { onlineVoiceId: lastOnlineVoice } : {}),
+  });
+  const promise = (pendingSave?.promise.catch(() => {}) || Promise.resolve()).then(() => voicePreferences.set(preference));
   const next = { voice: voiceId, promise };
   pendingSave = next;
   void promise.then(() => { if (pendingSave === next) pendingSave = undefined; }, () => {});

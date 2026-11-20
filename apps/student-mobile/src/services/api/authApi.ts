@@ -1,3 +1,4 @@
+import axios from 'axios';
 import apiClient from './apiClient';
 import { ENV } from '../../config/env';
 import { tokenStorage } from '../auth/tokenStorage';
@@ -59,11 +60,13 @@ export const authApi = {
     return { accessToken: `demo_student_token_${user.userId}`,
       refreshToken: `demo_student_refresh_${user.userId}`, user };
   },
-  async logout(accessToken?: string | null): Promise<void> {
+  async logout(accessToken?: string | null, refreshToken?: string | null): Promise<void> {
     if (ENV.USE_MOCK) return;
     const token = accessToken === undefined ? await tokenStorage.getAccessToken() : accessToken;
     try {
-      if (token) await apiClient.post('/auth/logout', {}, { timeout: 5000, headers: { Authorization: `Bearer ${token}` } });
+      if (token || refreshToken) await axios.post(`${ENV.API_BASE_URL}/auth/logout`, refreshToken ? { refreshToken } : {}, {
+        timeout: 5000, headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
     } catch { /* Local logout remains available offline. */ }
   },
   async getMe(): Promise<any> {

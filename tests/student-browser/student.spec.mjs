@@ -405,7 +405,7 @@ test('A photo picker opened in an old session cannot upload into a new session',
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Thay ảnh đại diện', exact: true }).click();
   const selected = await chooser;
-  await page.evaluate(() => window.sessionStorage.setItem('portal_session_id', crypto.randomUUID()));
+  await page.evaluate(() => window.localStorage.setItem('mvk_portal_web_session', crypto.randomUUID()));
   await selected.setFiles(fileURLToPath(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)));
   await expect(page.getByRole('alert')).toHaveText('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.');
   expect(app.requests.filter(request => request.path === '/student/profile/photo')).toHaveLength(0);
@@ -856,3 +856,41 @@ for (const viewport of [{ width: 360, height: 640 }, { width: 640, height: 360 }
     await expect(popup).toHaveCount(0);
   });
 }
+
+test('A catalog lesson opened directly and refreshed goes back to the lesson list', async ({ page, app }) => {
+  app.realStudent = true;
+  app.responses.set('POST /student/tutor/lesson/prepare', ({ json }) => json({ phase: 'ready' }));
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  const problemText = encodeURIComponent('Lan có 12 viên bi, Minh cho Lan thêm 3 viên. Hỏi Lan có bao nhiêu viên bi?');
+  await page.goto(sites.portal.origin + '/study/learning/math-guide?problemText=' + problemText);
+  await page.reload();
+  await page.getByRole('button', { name: 'Quay lại', exact: true }).click();
+  await expect(page).toHaveURL(sites.portal.origin + '/study/lessons');
+});
+
+test('a new Student tab restores a protected profile and follows logout', async ({ page, app }) => {
+  app.realStudent = true;
+  const sibling = await page.context().newPage();
+  try {
+    await login(page, 'STUDENT');
+    const profileUrl = sites.portal.origin + '/study/profile';
+    await sibling.goto(profileUrl);
+    if (sibling.viewportSize().width < 768) {
+      await expect(sibling.getByRole('button', { name: 'Trang cá nhân của em', exact: true })).toBeVisible();
+    } else {
+      await expect(sibling.getByText('Kiểm thử STUDENT', { exact: true }).first()).toBeVisible();
+    }
+    await expect(sibling).toHaveURL(profileUrl);
+    expect(app.requests.filter(({ path }) => path === '/auth/login')).toHaveLength(1);
+    await page.goto(sites.portal.origin + '/study/account');
+    await page.getByRole('button', { name: 'Đăng xuất', exact: true }).click();
+    await page.getByRole('button', { name: 'Xác nhận đăng xuất', exact: true }).click();
+    await expect(sibling).toHaveURL(sites.portal.origin + '/login');
+    await sibling.goto(sites.portal.origin + '/study/lessons');
+    await expect(sibling).toHaveURL(sites.portal.origin + '/login');
+    await expect.poll(() => app.requests.filter(({ path }) => path === '/auth/logout').length).toBe(1);
+  } finally {
+    await sibling.close();
+  }
+});
