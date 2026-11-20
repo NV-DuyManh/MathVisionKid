@@ -21,5 +21,3 @@ Keep existing branch/workspace, auth rules, backend limits, and source-backed me
 ## Review focus
 
 Mobile keyboard, backend error on save, missing data versus real zero, previously verified time exhaustion while offline, and unsaved task state behind the rest overlay.
-
-
