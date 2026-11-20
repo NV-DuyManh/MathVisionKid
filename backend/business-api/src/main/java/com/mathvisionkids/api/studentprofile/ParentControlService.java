@@ -19,16 +19,20 @@ public class ParentControlService {
     private final JdbcTemplate db;
     private final StudentProfileService profiles;
     private final PasswordEncoder passwords;
+    private final StudentUsageService usage;
 
-    ParentControlService(JdbcTemplate db, StudentProfileService profiles, PasswordEncoder passwords) {
+    ParentControlService(JdbcTemplate db, StudentProfileService profiles, PasswordEncoder passwords, StudentUsageService usage) {
         this.db = db;
         this.profiles = profiles;
         this.passwords = passwords;
+        this.usage = usage;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Status status(String principal) {
         var now = Instant.now();
+        var student = lockedStudent(principal);
+        usage.expireConnectionsLocked(student, now);
         var today = LocalDate.ofInstant(now, StudentRewards.ZONE);
         return db.query("""
                 SELECT c.daily_minutes, COALESCE(d.elapsed_millis, 0),

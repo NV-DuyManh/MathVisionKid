@@ -8,7 +8,6 @@ import { WebAlerts } from '../components/ui/WebAlerts.web';
 import { StudentWebWorkspace } from '../components/ui/StudentWebWorkspace.web';
 import { COLORS } from '../constants/theme';
 import { observeLearningPerformance } from '../features/tutoring/webPerformance.web';
-import { StudentUsageTracker } from '../features/student-profile/studentUsage';
 import { StudentDailyLimit } from '../features/student-profile/StudentDailyLimit';
 
 export default function StudentWebLayout() {
@@ -28,7 +27,6 @@ export default function StudentWebLayout() {
     <WebAlerts />
     <View style={{ flex: 1, width: '100%', minWidth: 0 }}>
       <AuthProvider>
-        <StudentUsageTracker />
         <StudentDailyLimit><StudentWebWorkspace><Stack screenOptions={{ headerShown: false }} /></StudentWebWorkspace></StudentDailyLimit>
       </AuthProvider>
     </View>

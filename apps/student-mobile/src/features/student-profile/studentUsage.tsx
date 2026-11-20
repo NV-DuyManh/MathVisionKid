@@ -27,10 +27,10 @@ export function createUsageConnectionId() {
   });
 }
 
-export function StudentUsageTracker() {
+export function StudentUsageTracker({ enabled = true }: { enabled?: boolean }) {
   const auth = useContext(AuthContext);
   const owner = auth?.user?.id ?? auth?.user?.userId;
-  const eligible = auth?.isAuthenticated === true && auth.user?.role === 'STUDENT' && auth.user?.active === true && !!owner;
+  const eligible = enabled && auth?.isAuthenticated === true && auth.user?.role === 'STUDENT' && auth.user?.active === true && !!owner;
 
   useEffect(() => {
     if (!eligible) return;

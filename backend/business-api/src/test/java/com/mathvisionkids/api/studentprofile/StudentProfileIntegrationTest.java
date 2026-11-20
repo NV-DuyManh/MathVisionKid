@@ -53,6 +53,31 @@ class StudentProfileIntegrationTest {
         return students.saveAndFlush(s);
     }
 
+    @Test void expiredAppConnectionsAccountForBoundedTimeWithoutDoubleCounting() {
+        var start = java.time.LocalDate.of(2026, 11, 16).atStartOfDay(StudentRewards.ZONE).toInstant();
+        var id = pupil.getId();
+        var first = UUID.randomUUID();
+        var second = UUID.randomUUID();
+        usage.observeLocked(id, first, true, start);
+        usage.observeLocked(id, second, true, start.plusSeconds(5));
+        // Both clients disappear without sending a stop or a second heartbeat.
+        usage.observeLocked(id, UUID.randomUUID(), true, start.plusSeconds(50));
+        assertEquals(15_000, usage.weekFor(id, java.time.LocalDate.of(2026, 11, 16)).totalMillis());
+    }
+
+    @Test void statusAccountsExpiredConnectionBeforeCheckingDailyLimit() throws Exception {
+        var account = user(pupil.getEmail()).roles("STUDENT");
+        mvc.perform(post("/api/v1/student/parent-control/pin").with(account).contentType("application/json")
+                .content("{\"pin\":\"716025\"}")).andExpect(status().isOk());
+        mvc.perform(put("/api/v1/student/parent-control/daily-limit").with(account).contentType("application/json")
+                .content("{\"pin\":\"716025\",\"minutes\":1}")).andExpect(status().isOk());
+        var day = java.time.LocalDate.now(StudentRewards.ZONE);
+        db.update("INSERT INTO student_usage_day (student_id, usage_day, elapsed_millis) VALUES (?, ?, ?)", pupil.getId(), day, 55_000);
+        db.update("INSERT INTO student_usage_connection (student_id, connection_id, last_seen_at) VALUES (?, ?, ?)", pupil.getId(), UUID.randomUUID(), java.sql.Timestamp.from(java.time.Instant.now().minusSeconds(50)));
+        mvc.perform(get("/api/v1/student/parent-control/status").with(account))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.dailyLimitReached").value(true));
+    }
+
     @Test void appUsageCountsOverlappingConnectionsOnceAndSplitsAtVietnamMidnight() throws Exception {
         var monday = java.time.LocalDate.of(2026, 11, 16);
         var midnight = monday.atStartOfDay(StudentRewards.ZONE).toInstant();
@@ -66,8 +91,8 @@ class StudentProfileIntegrationTest {
 
         assertEquals(8_000, usage.weekFor(student, monday.minusDays(1)).totalMillis());
         var week = usage.weekFor(student, monday);
-        assertEquals(13_000, week.totalMillis());
-        assertEquals(13_000, week.days().getFirst().elapsedMillis());
+        assertEquals(19_000, week.totalMillis());
+        assertEquals(19_000, week.days().getFirst().elapsedMillis());
         assertEquals(7, week.days().size());
         assertEquals(0, usage.weekFor(other.getId(), monday).totalMillis());
         mvc.perform(get("/api/v1/student/app-usage/week")).andExpect(status().isUnauthorized());

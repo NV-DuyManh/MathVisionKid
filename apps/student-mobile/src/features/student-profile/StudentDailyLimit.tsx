@@ -6,6 +6,7 @@ import { readParentControlStatus } from './parentControlApi';
 import { ParentProfilePinDialog } from './ParentModePreview';
 import { clearParentModeSession, storeParentModeHandoff } from './parentModeHandoff';
 import { StudentPauseScreen } from './StudentPauseScreen';
+import { StudentUsageTracker } from './studentUsage';
 
 export const StudentGameAccess = createContext(true);
 export const VerifyStudentGameAccess = createContext<() => Promise<boolean>>(async () => false);
@@ -110,6 +111,7 @@ export function StudentDailyLimit({ children }: PropsWithChildren) {
 
   return <StudentGameAccess.Provider value={mayPlay}>
     <VerifyStudentGameAccess.Provider value={verify}>
+      <StudentUsageTracker enabled={!blocked && !inParentMode} />
       <View ref={content} style={{ flex: 1, minHeight: 0 }} pointerEvents={showRest ? 'none' : 'auto'}
         aria-hidden={showRest || undefined} accessibilityElementsHidden={showRest}
         importantForAccessibility={showRest ? 'no-hide-descendants' : 'auto'}>

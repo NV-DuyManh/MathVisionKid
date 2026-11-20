@@ -16,6 +16,7 @@ import java.util.stream.IntStream;
 @Service
 public class StudentUsageService {
     static final Duration MAX_HEARTBEAT_GAP = Duration.ofSeconds(30);
+    private static final Duration CRASH_ACCOUNTING_WINDOW = Duration.ofSeconds(10);
     private final JdbcTemplate db;
     private final StudentProfileService profiles;
     private final StudentGameUsageService gameUsage;
@@ -38,6 +39,7 @@ public class StudentUsageService {
         var student = profiles.student(principal).getId();
         profiles.lockStudent(student);
         var now = Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS);
+        expireConnectionsLocked(student, now);
         var lastSeen = db.queryForObject("""
                 SELECT MIN(last_seen_at) FROM student_usage_connection
                 WHERE student_id = ? AND last_seen_at >= ?
@@ -48,11 +50,7 @@ public class StudentUsageService {
     }
 
     void observeLocked(UUID student, UUID connection, boolean active, Instant now) {
-        var cutoff = now.minus(MAX_HEARTBEAT_GAP);
-        db.update("DELETE FROM student_usage_connection WHERE student_id = ? AND last_seen_at < ?",
-                student, Timestamp.from(cutoff));
-        db.update("DELETE FROM student_usage_recent_span WHERE student_id = ? AND ends_at < ?",
-                student, Timestamp.from(cutoff));
+        expireConnectionsLocked(student, now);
         Instant previous = db.query("""
                 SELECT last_seen_at FROM student_usage_connection WHERE student_id = ? AND connection_id = ?
                 """, (row, index) -> row.getTimestamp(1).toInstant(), student, connection)
@@ -70,6 +68,21 @@ public class StudentUsageService {
             db.update("UPDATE student_usage_connection SET last_seen_at = ? WHERE student_id = ? AND connection_id = ?",
                     Timestamp.from(now), student, connection);
         }
+    }
+
+    void expireConnectionsLocked(UUID student, Instant now) {
+        var cutoff = now.minus(MAX_HEARTBEAT_GAP);
+        // An ungraceful disconnect has no end timestamp. Charge at most one heartbeat
+        // interval; merge with retained spans before pruning to avoid charging overlap twice.
+        var expired = db.query("""
+                SELECT last_seen_at FROM student_usage_connection
+                WHERE student_id = ? AND last_seen_at < ? ORDER BY last_seen_at
+                """, (row, index) -> row.getTimestamp(1).toInstant(), student, Timestamp.from(cutoff));
+        for (var lastSeen : expired) recordUncoveredTime(student, lastSeen, lastSeen.plus(CRASH_ACCOUNTING_WINDOW));
+        db.update("DELETE FROM student_usage_connection WHERE student_id = ? AND last_seen_at < ?",
+                student, Timestamp.from(cutoff));
+        db.update("DELETE FROM student_usage_recent_span WHERE student_id = ? AND ends_at < ?",
+                student, Timestamp.from(cutoff));
     }
 
     private void recordUncoveredTime(UUID student, Instant start, Instant finish) {
@@ -117,6 +130,7 @@ public class StudentUsageService {
         var student = profiles.student(principal).getId();
         profiles.lockStudent(student);
         var now = StudentGameUsageService.currentTime();
+        expireConnectionsLocked(student, now);
         gameUsage.accrueLocked(student, now);
         return weekFor(student, LocalDate.ofInstant(now, StudentRewards.ZONE));
     }
