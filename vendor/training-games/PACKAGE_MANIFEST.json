@@ -1,10 +1,10 @@
 {
   "name": "@mathvisionkid/training-games",
-  "version": "0.1.2",
-  "filename": "mathvisionkid-training-games-0.1.2.tgz",
-  "sha256": "f6a319d1b61c53cdbe1331d9812c85a9813b3ead9841eb05c3c639b657186f9e",
-  "bytes": 17099872,
-  "unpackedBytes": 17859180,
+  "version": "0.1.8",
+  "filename": "mathvisionkid-training-games-0.1.8.tgz",
+  "sha256": "2168e3ffcdb296486eaebb7f799a1dab4fe3f6c56e7837c1c10fc0f3381e1b6d",
+  "bytes": 17100074,
+  "unpackedBytes": 17859834,
   "entries": 223,
   "sourceFiles": 220,
   "games": [
@@ -14,10 +14,23 @@
     "energy-defense",
     "block-island"
   ],
+  "baseline": {
+    "filename": "mathvisionkid-training-games-0.1.2.tgz",
+    "sha256": "f6a319d1b61c53cdbe1331d9812c85a9813b3ead9841eb05c3c639b657186f9e"
+  },
+  "sourceRevision": "27a9c10608fe405a37c961ca8e7157a1e0c04043",
+  "canonicalReplacements": [
+    "src/games/race-to-finish/logic/cameraGeometry.ts",
+    "src/games/race-to-finish/components/GameCamera.tsx"
+  ],
+  "integrationPatches": [
+    "src/games/block-island/components/IslandIntro.tsx",
+    "src/shared/integration/contracts.ts"
+  ],
   "npmFiles": [
     {
       "path": "MANIFEST.json",
-      "size": 40505,
+      "size": 40506,
       "mode": 420
     },
     {
@@ -27,7 +40,7 @@
     },
     {
       "path": "package.json",
-      "size": 1284,
+      "size": 1285,
       "mode": 420
     },
     {
@@ -42,7 +55,7 @@
     },
     {
       "path": "src/games/block-island/components/IslandIntro.tsx",
-      "size": 3268,
+      "size": 3465,
       "mode": 420
     },
     {
@@ -702,7 +715,7 @@
     },
     {
       "path": "src/games/race-to-finish/components/GameCamera.tsx",
-      "size": 8542,
+      "size": 8931,
       "mode": 420
     },
     {
@@ -772,7 +785,7 @@
     },
     {
       "path": "src/games/race-to-finish/logic/cameraGeometry.ts",
-      "size": 1708,
+      "size": 1774,
       "mode": 420
     },
     {

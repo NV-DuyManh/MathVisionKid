@@ -1,0 +1,45 @@
+{
+  "name": "@mathvisionkid/training-games",
+  "version": "0.1.8",
+  "baseline": {
+    "filename": "mathvisionkid-training-games-0.1.2.tgz",
+    "sha256": "f6a319d1b61c53cdbe1331d9812c85a9813b3ead9841eb05c3c639b657186f9e"
+  },
+  "replacements": [
+    "src/games/race-to-finish/logic/cameraGeometry.ts",
+    "src/games/race-to-finish/components/GameCamera.tsx"
+  ],
+  "additions": [],
+  "textPatches": [
+    {
+      "file": "src/games/block-island/components/IslandIntro.tsx",
+      "changes": [
+        {
+          "from": "import { StyleSheet, Text, View } from 'react-native';",
+          "to": "import { Platform, StyleSheet, Text, View } from 'react-native';"
+        },
+        {
+          "from": "  return <View testID=\"island-intro\" style={[s.root,wide&&s.wide]}>",
+          "to": "  const desktop=wide&&Platform.OS==='web'&&typeof window!=='undefined'&&window.matchMedia?.('(pointer: fine)').matches;\n  return <View testID=\"island-intro\" style={[s.root,wide&&s.wide,desktop&&{alignItems:'stretch'}]}>"
+        },
+        {
+          "from": "<View style={[s.copy,wide&&{width:390,padding:24},short&&{gap:6,padding:12}]}",
+          "to": "<View style={[s.copy,wide&&{width:390,padding:24},desktop&&{justifyContent:'center'},short&&{gap:6,padding:12}]}"
+        }
+      ]
+    },
+    {
+      "file": "src/shared/integration/contracts.ts",
+      "changes": [
+        {
+          "from": "export const TRAINING_GAME_VERSION = '0.1.2';",
+          "to": "export const TRAINING_GAME_VERSION = '0.1.8';"
+        }
+      ]
+    }
+  ],
+  "peerDependencyOverrides": {
+    "react-native": "^0.88.0",
+    "react-native-safe-area-context": "^5.10.1"
+  }
+}

@@ -452,7 +452,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         if (result.problemText) setProblemImage(imageUri);
       }
     });
-  }, [photoAllowed, imageUri, context?.purpose, draft, run]);
+  }, [photoAllowed, imageUri, context?.purpose, draft, run, setError, setWorkConfirmed]);
 
   useFocusEffect(useCallback(() => {
     active.current = true;

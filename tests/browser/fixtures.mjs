@@ -28,7 +28,9 @@ export const test = base.extend({
       const site = Object.values(sites).find(site => site.origin === url.origin);
       if (site && !url.pathname.startsWith('/api/v1/')) {
         const port = state.realStudent && url.pathname.startsWith('/study/') ? studentPort : site.port;
-        const response = await route.fetch({ url: `http://127.0.0.1:${port}${url.pathname}${url.search}` });
+        // Retry only ECONNRESET on local keep-alive connections; HTTP failures
+        // and missing assets still propagate to the browser assertions.
+        const response = await route.fetch({ url: `http://127.0.0.1:${port}${url.pathname}${url.search}`, maxRetries: 2 });
         return route.fulfill({ response });
       }
       if (url.origin !== apiOrigin && !(site && url.pathname.startsWith('/api/v1/'))) {
