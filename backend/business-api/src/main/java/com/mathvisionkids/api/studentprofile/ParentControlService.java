@@ -31,6 +31,13 @@ public class ParentControlService {
     @Transactional
     public Status status(String principal) {
         var now = Instant.now();
+        // Preserve the unconfigured response without requiring a student profile.
+        // Only a configured control can have a limit that needs accounting.
+        var configured = db.queryForObject("""
+                SELECT EXISTS(SELECT 1 FROM student_parent_control c
+                    JOIN users u ON u.id = c.student_id WHERE u.email = ?)
+                """, Boolean.class, principal);
+        if (!Boolean.TRUE.equals(configured)) return new Status(false, false, false, true);
         var student = lockedStudent(principal);
         usage.expireConnectionsLocked(student, now);
         var today = LocalDate.ofInstant(now, StudentRewards.ZONE);

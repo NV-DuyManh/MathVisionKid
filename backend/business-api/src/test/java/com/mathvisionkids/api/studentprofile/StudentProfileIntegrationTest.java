@@ -53,6 +53,13 @@ class StudentProfileIntegrationTest {
         return students.saveAndFlush(s);
     }
 
+    @Test void statusWithoutParentControlPreservesUnconfiguredResponse() throws Exception {
+        mvc.perform(get("/api/v1/student/parent-control/status").with(user("no-profile@example.test").roles("STUDENT")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.pinConfigured").value(false))
+                .andExpect(jsonPath("$.dailyLimitConfigured").value(false));
+    }
+
     @Test void expiredAppConnectionsAccountForBoundedTimeWithoutDoubleCounting() {
         var start = java.time.LocalDate.of(2026, 11, 16).atStartOfDay(StudentRewards.ZONE).toInstant();
         var id = pupil.getId();
