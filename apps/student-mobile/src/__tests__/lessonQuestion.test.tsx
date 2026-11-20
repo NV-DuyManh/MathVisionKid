@@ -6,6 +6,7 @@ import { TutorService } from '../features/tutoring/api/TutorService';
 import { LessonNarration } from '../features/tutoring/LessonNarration';
 import { AudioModule, setAudioModeAsync, setIsAudioActiveAsync } from 'expo-audio';
 import { TaskProgress } from '../components/ui/TaskProgress';
+import { saveNarrationVoice } from '../features/tutoring/narrationVoices';
 import { NarrationPreparation } from '../features/tutoring/NarrationPreparation';
 import { downloadNarration, prepareLessonMedia } from '../features/tutoring/narrationApi';
 jest.mock('expo-router', () => ({ useFocusEffect: (callback: () => void) => require('react').useEffect(callback, [callback]) }));
@@ -184,6 +185,7 @@ it('replays the original recording after the answer and releases it before a new
 });
 
 it('prepares both exact voices for the issued reply, starting with the selected voice', async () => {
+  await saveNarrationVoice('vi-VN-NamMinhNeural');
   await act(async () => { view = TestRenderer.create(<NarrationPreparation><LessonQuestion sessionId="conversation-session-123456" revision={3} stepIndex={1} scope="pupil-a:session:3" /></NarrationPreparation>); });
   expect(downloadNarration).not.toHaveBeenCalled();
   act(() => input().props.onChangeText('Vì sao quy đồng?')); await press('Gửi câu hỏi');
@@ -193,6 +195,7 @@ it('prepares both exact voices for the issued reply, starting with the selected 
   expect((downloadNarration as jest.Mock).mock.calls[0][1]).toEqual(['Em tưởng tượng chia lại các miếng bánh để chúng cùng kích thước rồi mới gộp.', 'Các phần cần có đặc điểm gì?']);
   expect(text()).toContain('Các phần phải bằng nhau.');
   expect(prepareLessonMedia).not.toHaveBeenCalled();
+  await act(async () => { await saveNarrationVoice('device'); });
 });
 
 it('does not stop an idle recorder or show a cancellation notice when the reader briefly leaves the app',async()=>{

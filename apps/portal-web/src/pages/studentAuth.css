@@ -1,0 +1,143 @@
+@font-face {
+  font-family: StudyAuthBlack;
+  src: url('../../../student-mobile/assets/fonts/Nunito-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: StudyAuthIcons;
+  src: url('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf') format('truetype');
+  font-display: block;
+}
+
+.student-auth {
+  --auth-ink: #211759;
+  --auth-purple: #713CF7;
+  --auth-gold: #FFD044;
+  --auth-line: #E4DCFF;
+  display: flex;
+  flex: 1;
+  min-block-size: 100dvh;
+  overflow: auto;
+  background: #F6F3FF;
+  color: var(--auth-ink);
+  font-family: Nunito, system-ui, sans-serif;
+}
+
+.student-auth-layout {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+  align-self: flex-start;
+  max-width: 1070px;
+  margin-inline: auto;
+  margin-block: auto;
+  padding: 24px;
+}
+
+.student-auth-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 30px;
+  min-height: 485px;
+  box-sizing: border-box;
+  padding: 32px 34px 180px;
+  background:
+    radial-gradient(ellipse 42% 23% at 3% 108%, #DCC7FB 0 70%, transparent 71%),
+    radial-gradient(ellipse 55% 29% at 71% 111%, #CDB1FA 0 75%, transparent 76%),
+    radial-gradient(ellipse 30% 25% at 106% 99%, #DCC7FB 0 71%, transparent 72%),
+    radial-gradient(ellipse 61% 60% at 91% 3%, #9D61FF9C, transparent 66%),
+    linear-gradient(147deg, #3C28BB, #6051E9 55%, #704AE5);
+  color: #fff;
+}
+
+.student-auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 20px StudyAuthBlack, system-ui, sans-serif;
+}
+.student-auth-intro { position: relative; z-index: 1; padding-block-start: 20px; }
+.student-auth-slogan { margin: 0; font: clamp(37px, 3.35vw, 52px)/1.075 StudyAuthBlack, system-ui, sans-serif; letter-spacing: -.035em; }
+.student-auth-slogan span { color: var(--auth-gold); }
+.student-auth-description { margin: 14px 0 0; max-width: 280px; font-size: 15px; line-height: 1.47; color: #fff; }
+.student-auth-art {
+  position: absolute;
+  z-index: 1;
+  right: 3%;
+  bottom: 16.5%;
+  inline-size: min(58%, 312px);
+  pointer-events: none;
+}
+.student-auth-math {
+  position:absolute;
+  bottom: 21%;
+  left: 12%;
+  display:grid;
+  gap:5px;
+  justify-items:center;
+  padding: 9px 13px;
+  color:#E9FAFF;
+  font-size: 13px;
+  border:1px solid #9BE6FF;
+  border-radius:11px;
+  background:#264CB2;
+  box-shadow: 0 0 16px #77C9FF70;
+  transform:rotate(-10deg);
+}
+
+.student-auth-main { display: flex; min-width: 0; }
+.student-auth-card {
+  box-sizing: border-box;
+  width: 100%;
+  align-self:stretch;
+  justify-content:center;
+  margin: 0;
+  max-width: none;
+  padding: 25px 27px;
+  background: white;
+  border: 1px solid var(--auth-line);
+  border-radius: 30px;
+  box-shadow: 0 12px 34px #32187413;
+}
+
+.student-auth-icon { font-family: StudyAuthIcons; font-weight: normal; line-height: 1; }
+.student-auth-brand, .student-auth-slogan { font-weight: 900; }
+.student-auth-art img { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; }
+.student-auth-card { display: flex; flex-direction: column; }
+.student-auth-heading { display: grid; justify-items: center; gap: 4px; margin-bottom: 16px; text-align: center; }
+.student-auth-heading h1 { margin: 0; color: #1C174C; font: 900 27px/34px StudyAuthBlack, Nunito, sans-serif; }
+.student-auth-heading p { margin: 0; color: #625A86; font-size: 14px; line-height: 19px; }
+.student-auth-emblem {
+  display: grid; place-items: center; width: 46px; height: 44px; margin-bottom: 6px; border-radius: 15px;
+  background: #EEE8FF; color: #66568C;
+}
+.student-auth-control-label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 700; }
+.student-auth-note {
+  display: flex; align-items: center; justify-content: center; gap: 8px; padding: 9px;
+  background: #FFF5D9; color: #625A86; border-radius: 13px; font-size: 13px; text-align: center;
+}
+.student-auth-note .student-auth-icon { color: #815806; }
+
+@media (min-width: 1100px) and (hover: hover) and (pointer: fine) {
+  .student-auth { zoom: 1.07; min-block-size: calc(100dvh / 1.07); }
+}
+
+@media (max-width: 839px) {
+  .student-auth-layout {
+    display: flex; flex-direction: column; width: 100%; max-width: 540px; padding: 12px; gap: 12px;
+  }
+  .student-auth-hero { min-height: 0; border-radius: 21px; padding: 15px 19px 20px; }
+  .student-auth-brand { font-size: 17px; }
+  .student-auth-intro { padding-block-start: 10px; padding-inline-end: 26%; }
+  .student-auth-slogan { font-size: clamp(20px, 5.8vw, 30px); }
+  .student-auth-art { top: 50%; bottom: auto; inline-size: min(26%, 96px); transform: translateY(-50%); }
+  .student-auth-description, .student-auth-math { display: none; }
+  .student-auth-card { padding: 18px; border-radius: 21px; }
+}

@@ -501,7 +501,8 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
     await dock.getByRole('button', { name: 'Nghe giảng', exact: true }).click();
     const voices = page.getByRole('radiogroup', { name: 'Chọn giọng đọc', exact: true });
     await expect(voices.getByRole('radio')).toHaveText([/Giọng thiết bị/, /Giọng nam/, /Giọng nữ/]);
-    await expect(voices.getByText('Chuẩn bị khoảng 5–15 giây', { exact: true })).toHaveCount(2);
+    await expect(voices.getByText(width < 768 ? 'Chờ 5–15 giây' : '5–15 giây', { exact: true })).toHaveCount(2);
+    await expect(voices.getByRole('radio', { name: 'Giọng thiết bị', exact: true })).toHaveAttribute('aria-checked', 'true');
     const deviceBox = await voices.getByRole('radio', { name: 'Giọng thiết bị', exact: true }).boundingBox();
     const maleBox = await voices.getByRole('radio', { name: 'Giọng nam', exact: true }).boundingBox();
     expect(deviceBox.y + deviceBox.height).toBeLessThanOrEqual(maleBox.y);
@@ -638,7 +639,7 @@ test('grade library topic links and keyboard accordions preserve search and grad
   await expect(page.getByRole('button', { name: 'Mở bài: Cộng số thập phân', exact: true })).toBeVisible();
   await expect(topic).toHaveAttribute('aria-expanded', 'true');
   await page.goto(`${sites.portal.origin}/study/lessons?section=unknown-topic`);
-  await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(20);
+  await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
   await expect(page.getByRole('button', { name: /^Chọn Lớp / })).toHaveCount(0);
 });
 
@@ -657,5 +658,5 @@ test('grade library explains unavailable saved-work storage', async ({ page, app
   await expect(page.getByText('Chưa tải được bài đã lưu. Em mở lại trang để thử nhé.', { exact: true })).toBeVisible();
   await expect(page.getByText('—', { exact: true })).toBeVisible();
   await expect(page.getByRole('progressbar', { name: 'Bài trong chương trình đã lưu trên thiết bị này', exact: true })).toHaveAttribute('aria-busy', 'false');
-  await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(20);
+  await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
 });

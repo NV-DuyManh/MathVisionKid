@@ -70,7 +70,7 @@ export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, ex
   </View>;
 
   if (!wide) return <View style={[styles.bar, IS_STUDENT_WEB && styles.webBar, { paddingBottom: Math.max(insets.bottom, 10) }]}>{destinations}</View>;
-  const sidebarColors = IS_STUDENT_WEB ? [WEB_DESIGN.colors.ink, WEB_DESIGN.colors.ink] as const : ['#352A7D', '#2B1D6C', '#352479'] as const;
+  const sidebarColors = IS_STUDENT_WEB ? ['#281571', '#402199', '#5B36CD'] as const : ['#352A7D', '#2B1D6C', '#352479'] as const;
   return <LinearGradient colors={sidebarColors} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.sidebar, IS_STUDENT_WEB && styles.webSidebar, { width: expanded ? (IS_STUDENT_WEB ? 218 : 248) : 80, paddingTop: Math.max(insets.top, 25), paddingBottom: Math.max(insets.bottom, 20) }]}>
     <View style={[styles.brand, !expanded && styles.compactBrand]}>
       <AppIllustration source={IS_STUDENT_WEB ? require('../../../assets/illustrations/web/robot-mascot.webp') : require('../../../assets/images/mathvision-robot-icon.png')} style={{ width: 31, height: 31, borderRadius: 16 }} accessible={false} />
@@ -86,7 +86,7 @@ export function StudentTabBar({ state, emitter, navigateToTab, viewportWidth, ex
       {expanded && <Text style={styles.toggleText}>Thu gọn</Text>}
     </Pressable>
     <ScrollView nativeID="student-destinations" showsVerticalScrollIndicator={false} contentContainerStyle={styles.sidebarScroll}>{destinations}</ScrollView>
-    {expanded && !IS_STUDENT_WEB && <View style={styles.sidebarNote}><AppIllustration source={require('../../../assets/illustrations/robot-mascot.png')} style={styles.sidebarMascot} accessible={false} /><Text style={styles.noteTitle}>Một chút mỗi ngày</Text><Text style={styles.noteText}>Cùng em hiểu bài, tự tin hơn.</Text></View>}
+    {expanded && <View style={styles.sidebarNote}><AppIllustration source={IS_STUDENT_WEB ? require('../../../assets/illustrations/web/robot-mascot.webp') : require('../../../assets/illustrations/robot-mascot.png')} style={styles.sidebarMascot} accessible={false} /><Text style={styles.noteTitle}>Một chút mỗi ngày</Text><Text style={styles.noteText}>Cùng em hiểu bài, tự tin hơn.</Text></View>}
   </LinearGradient>;
 }
 
@@ -98,7 +98,7 @@ export default function TabLayout() {
   if (auth?.isLoading) return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator accessibilityLabel="Đang xác minh tài khoản" /></View>;
   if (!auth?.isAuthenticated || auth.user?.role !== 'STUDENT' || auth.user?.active !== true) return <Redirect href="/login" />;
   return <Tabs screenOptions={{ headerShown: false, tabBarPosition: width >= 768 ? 'left' : 'bottom' }}
-    tabBar={props => <StudentTabBar {...props} viewportWidth={width} expanded={expanded} onToggle={() => setPreference(!expanded)} />}>
+    tabBar={props => IS_STUDENT_WEB && width >= 768 ? null : <StudentTabBar {...props} viewportWidth={width} expanded={expanded} onToggle={() => setPreference(!expanded)} />}>
     <Tabs.Screen name="index" options={{ title: 'Trang chủ' }} />
     <Tabs.Screen name="lessons" options={{ title: 'Bài học' }} />
     <Tabs.Screen name="achievements" options={{ title: 'Thành tích' }} />
@@ -110,9 +110,9 @@ const styles = StyleSheet.create({
   webBar: { borderTopWidth: 1, borderColor: COLORS.border },
   webSelected: { backgroundColor: COLORS.primaryLight },
   webHovered: { backgroundColor: COLORS.primaryLight },
-  webSidebar: { borderRightColor: WEB_DESIGN.colors.ink },
-  webSideSelected: { backgroundColor: COLORS.primaryDark, borderColor: '#8265E6', borderRadius: WEB_DESIGN.radii.control, shadowOpacity: 0 },
-  webSideHovered: { backgroundColor: '#2C4178' },
+  webSidebar: { borderRightColor: '#432695' },
+  webSideSelected: { backgroundColor: '#7046DC', borderColor: '#A285F3', borderRadius: WEB_DESIGN.radii.control, shadowOpacity: 0 },
+  webSideHovered: { backgroundColor: '#5B36BD' },
   webSideFocused: { outlineColor: WEB_DESIGN.colors.star, outlineWidth: 2, outlineOffset: 2 },
   bar: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingTop: 8, paddingHorizontal: 12,
     backgroundColor: '#FFFFFF', borderTopLeftRadius: 26, borderTopRightRadius: 26,

@@ -14,11 +14,15 @@ for (const grade of [1, 2, 3, 4, 5]) {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${sites.portal.origin}/study/login`);
     await page.getByRole('textbox', { name: 'Email', exact: true }).fill('student@example.test');
-    await page.getByRole('textbox', { name: 'Mật khẩu', exact: true }).fill('synthetic-password');
+    await page.getByLabel('Mật khẩu', { exact: true }).fill('synthetic-password');
     await page.getByRole('button', { name: 'Đăng nhập', exact: true }).click();
     await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
     await page.goto(`${sites.portal.origin}/study/lessons`);
     const cards = page.getByRole('button', { name: /^Mở bài: / });
+    await expect(cards).toHaveCount(0);
+    for (const section of new Set(curriculum.filter(item => item.grade === grade).map(item => item.section))) {
+      await page.getByRole('button', { name: `Chủ đề ${section}`, exact: true }).click();
+    }
     await expect(cards).toHaveCount(20);
     const images = cards.locator('img');
     await expect(images).toHaveCount(20);

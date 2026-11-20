@@ -273,7 +273,8 @@ test('Portal login enters the real Student bundle, navigates and survives a deep
   await login(page, 'STUDENT');
   await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
-  await page.getByRole('tab', { name: 'Bài học' }).click();
+  const lessonNavigation = page.viewportSize().width >= 768 ? 'link' : 'tab';
+  await page.getByRole(lessonNavigation, { name: 'Bài học', exact: true }).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons`);
   await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
   await page.reload();
@@ -281,6 +282,8 @@ test('Portal login enters the real Student bundle, navigates and survives a deep
   const originalViewport = page.viewportSize();
   await page.setViewportSize({ width: 320, height: 844 });
   await expect(page.getByRole('button', { name: /^Chọn Lớp / })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /^Mở bài:/ })).toHaveCount(0);
+  await page.getByRole('button', { name: /^Chủ đề / }).first().click();
   await page.getByRole('button', { name: /^Mở bài:/ }).first().click();
   await page.getByRole('button', { name: /^Xem gợi ý:/ }).click();
   await expect(page.getByRole('button', { name: /^Ẩn gợi ý:/ })).toBeVisible();
@@ -327,19 +330,22 @@ test('Của em keeps saved work, while the avatar opens account settings and log
   await expect(page.getByRole('banner').getByRole('link', { name: 'Đăng nhập', exact: true })).toBeVisible();
   await expect.poll(() => app.requests.filter(({ path }) => path === '/auth/logout').length).toBe(1);
   await page.goBack();
-  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
   await expect(page.getByRole('textbox', { name: 'Email', exact: true })).toBeVisible();
   expect(await page.evaluate(() => sessionStorage.getItem('portal_access_token'))).toBeNull();
   expect(await page.evaluate(() => sessionStorage.getItem('portal_refresh_token'))).toBeNull();
   await page.goto(`${sites.portal.origin}/study/profile`);
-  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
 });
 
 test('Avatar account page edits name beside the header, uploads through the avatar, and validates password change', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
+  const workspaceAvatar = page.getByRole('link', { name: 'Mở trang Của em', exact: true });
+  const desktop = page.viewportSize().width >= 768;
+  if (desktop) await workspaceAvatar.click();
+  await page.getByRole('button', { name: desktop ? 'Chỉnh sửa hồ sơ' : 'Trang cá nhân của em', exact: true }).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/account`);
   await expect(page.getByRole('textbox', { name: 'Tên hiển thị', exact: true })).toHaveCount(0);
   await expect(page.getByText('Ảnh và tên hiển thị của em', { exact: true })).toHaveCount(0);
@@ -381,15 +387,23 @@ test('Avatar account page edits name beside the header, uploads through the avat
   await page.getByLabel('Mật khẩu hiện tại', { exact: true }).fill('CurrentPassword-123');
   await page.getByRole('button', { name: 'Cập nhật mật khẩu', exact: true }).click();
   await expect(page.getByText('Đã đổi mật khẩu. Các phiên đăng nhập khác đã kết thúc.', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Quay lại', exact: true }).click();
-  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  if (desktop) {
+    await workspaceAvatar.click();
+    await expect(page).toHaveURL(`${sites.portal.origin}/study/profile`);
+  } else {
+    await page.getByRole('button', { name: 'Quay lại', exact: true }).click();
+    await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  }
 });
 
 test('A photo picker opened in an old session cannot upload into a new session', async ({ page, app }) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
+  const workspaceAvatar = page.getByRole('link', { name: 'Mở trang Của em', exact: true });
+  const desktop = page.viewportSize().width >= 768;
+  if (desktop) await workspaceAvatar.click();
+  await page.getByRole('button', { name: desktop ? 'Chỉnh sửa hồ sơ' : 'Trang cá nhân của em', exact: true }).click();
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Thay ảnh đại diện', exact: true }).click();
   const selected = await chooser;
@@ -402,7 +416,7 @@ test('A photo picker opened in an old session cannot upload into a new session',
 test('anonymous Student deep link returns to login and missing bundles return 404', async ({ page, app }) => {
   app.realStudent = true;
   await page.goto(`${sites.portal.origin}/study/login`);
-  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
   for (const width of [320, 768, 1280]) {
     await page.setViewportSize({ width, height: 844 });
     await expect(page.getByRole('textbox', { name: 'Email', exact: true })).toBeVisible();
@@ -410,7 +424,7 @@ test('anonymous Student deep link returns to login and missing bundles return 40
     await expect(page.locator('.oly-grid-paper')).toHaveCount(0);
   }
   await page.goto(`${sites.portal.origin}/study/quiz`);
-  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
+  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
   await expect(page.getByRole('button', { name: 'Đăng nhập', exact: true })).toBeVisible();
   const missing = await page.request.get(`http://127.0.0.1:${studentPort}/study/_expo/static/js/web/missing.js`);
   expect(missing.status()).toBe(404);
@@ -478,11 +492,11 @@ test('Student quiz starts, shows feedback and completes with the existing API co
   await testInfo.attach('Student quiz fixture completed', { body: await page.screenshot(), contentType: 'image/png' });
 });
 
-test('Student Web has a direct login form on its mounted route', async ({ page, app }) => {
+test('Student Web forwards its old login route to the shared form', async ({ page, app }) => {
   app.realStudent = true;
   await page.goto(`${sites.portal.origin}/study/login`);
-  await expect(page).toHaveURL(`${sites.portal.origin}/study/login`);
-  await expect(page.getByRole('textbox', { name: 'Mật khẩu', exact: true })).toHaveAttribute('type', 'password');
+  await expect(page).toHaveURL(`${sites.portal.origin}/login`);
+  await expect(page.getByLabel('Mật khẩu', { exact: true })).toHaveAttribute('type', 'password');
 });
 
 test('student can find registered-grade ranking, choose name privacy and open all six games on a narrow screen', async ({ page, app }, testInfo) => {
@@ -725,7 +739,12 @@ test('camera fallback opens the rear capture picker and sends the selected image
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/camera`);
   await expect(page.getByText(/Chưa mở được máy ảnh/)).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Chụp ảnh bài toán' })).toBeDisabled();
+  if (page.viewportSize().width < 780) {
+    await expect(page.getByRole('button', { name: 'Chụp ảnh bài toán' })).toBeDisabled();
+  } else {
+    await expect(page.getByRole('button', { name: 'Thử mở lại máy ảnh' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Chụp ảnh bài toán' })).toHaveCount(0);
+  }
   const [picker] = await Promise.all([
     page.waitForEvent('filechooser'),
     page.getByRole('button', { name: 'Chụp bằng máy ảnh điện thoại' }).click(),
