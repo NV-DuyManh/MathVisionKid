@@ -3,6 +3,10 @@ import TestRenderer, { act } from 'react-test-renderer';
 import { StatusBar } from 'expo-status-bar';
 import { TRAINING_GAME_IDS, TrainingServicesContext, type TrainingGameId, type TrainingServices } from '@mathvisionkid/training-games';
 import { GamePlayer } from '../features/training-games/GamePlayer';
+
+jest.mock('../features/student-profile/StudentGameTimeGate', () => ({
+  StudentGameTimeGate: ({ children }: React.PropsWithChildren) => children,
+}));
 import { trainingResults } from '../features/training-games/resultStore';
 import { trainingScreenOptions } from '../features/training-games/presentation';
 import { createTrainingRuntime } from '../features/training-games/runtime';

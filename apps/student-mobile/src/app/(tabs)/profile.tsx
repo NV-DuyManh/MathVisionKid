@@ -20,12 +20,15 @@ import { NotebookAside, ProfileIdentity, type NotebookTab, type NotebookCounts }
 
 export default function ProfileScreen() {
   const auth = useContext(AuthContext);
-  const owner = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
-  return <ProfileContent key={owner ?? 'signed-out'} owner={owner} />;
+  const user = auth?.user;
+  const accountId = user?.id || user?.userId;
+  const owner = accountId || user?.email;
+  const canOpenParentMode = Boolean(accountId && auth?.isAuthenticated && user?.role === 'STUDENT' && user.active === true);
+  return <ProfileContent key={owner ?? 'signed-out'} owner={owner} canOpenParentMode={canOpenParentMode} />;
 }
 
-export function ProfileContent({ owner, savedOnly = false, initialTab = 'saved' }: {
-  owner?: string; savedOnly?: boolean; initialTab?: NotebookTab;
+export function ProfileContent({ owner, savedOnly = false, initialTab = 'saved', canOpenParentMode = false }: {
+  owner?: string; savedOnly?: boolean; initialTab?: NotebookTab; canOpenParentMode?: boolean;
 }) {
   const router = useRouter();
   const compactWeb = useIsCompactStudentWeb();
@@ -130,7 +133,10 @@ export function ProfileContent({ owner, savedOnly = false, initialTab = 'saved' 
             <NotebookAside counts={counts} onCapture={capture} />
           </View>
         </View>
-      ) : <ProfileIdentity owner={owner} counts={counts} wide={webWide} />) : <>{games}{notebook}</>}
+      ) : <ProfileIdentity owner={owner} counts={counts} wide={webWide} canOpenParentMode={canOpenParentMode} />) : <>
+        {!savedOnly && owner && <ProfileIdentity owner={owner} counts={counts} wide={false} canOpenParentMode={canOpenParentMode} />}
+        {games}{notebook}
+      </>}
     </ScrollView>
     {menu ? <LessonSheet title="Bài học của em" onClose={() => setMenu(null)}>
       <MathText style={styles.emptyText}>{menu.problemText || menu.workText}</MathText>
