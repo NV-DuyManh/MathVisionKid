@@ -144,12 +144,11 @@ describe('AI.HWTEXT.PROD.3F.1 / 3F.2 — Custom Gallery & Direct CTAs', () => {
       canAskAgain: true,
       status: 'granted',
     });
-    (MediaLibrary.getAssetsAsync as jest.Mock).mockResolvedValue({
-      assets: mockAssets,
-      endCursor: 'cursor-1',
-      hasNextPage: true,
-      totalCount: 50,
-    });
+    // FlatList may request the next page while act flushes the initial render.
+    // A repeating cursor with hasNextPage=true makes this fixture paginate forever.
+    (MediaLibrary.getAssetsAsync as jest.Mock)
+      .mockResolvedValueOnce({ assets: mockAssets, endCursor: 'cursor-1', hasNextPage: true, totalCount: 2 })
+      .mockResolvedValue({ assets: [], endCursor: 'cursor-1', hasNextPage: false, totalCount: 2 });
 
     await act(async () => {
       renderer = TestRenderer.create(<CustomGalleryScreen />);

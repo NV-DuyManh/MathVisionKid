@@ -31,6 +31,11 @@ export function enterGameDisplay(gameId: TrainingGameId) {
 
 export function GameDisplay({ gameId, children, onExit }: { gameId: TrainingGameId; children: React.ReactNode; onExit?: () => void }) {
   const { width, height } = useWindowDimensions();
+  const desktop = width >= 1000 && typeof window !== 'undefined' && window.matchMedia?.('(pointer: fine)').matches;
+  // Terrain's world is designed in portrait coordinates (540 × 970). Give its
+  // existing camera a proportional viewport instead of stretching the road.
+  const portraitStage = desktop && gameId === 'terrain-racing'
+    ? { width: Math.min(width, height * 540 / 970), alignSelf: 'center' as const } : undefined;
   const portraitPhone = trainingScreenOptions(gameId).orientation === 'landscape' && width < 700 && height > width;
   // Mount the board once in landscape. Keeping it mounted after that preserves
   // the current race if the player briefly rotates the phone back to portrait.
@@ -50,7 +55,7 @@ export function GameDisplay({ gameId, children, onExit }: { gameId: TrainingGame
       try { screen.orientation?.unlock?.(); } catch { /* Orientation controls may be blocked by the browser. */ }
     };
   }, [gameId]);
-  return <View style={styles.root}>
+  return <View style={[styles.root, gameId === 'terrain-racing' && styles.terrain]}>
     {portraitPhone ? <View style={styles.notice}>
       <Text accessibilityRole="header" style={styles.title}>Đua Về Đích</Text>
       <Text style={styles.text}>Xoay ngang điện thoại để xem đủ bàn đua và chọn nhân vật.</Text>
@@ -62,11 +67,12 @@ export function GameDisplay({ gameId, children, onExit }: { gameId: TrainingGame
         <Text style={styles.buttonText}>Về danh sách trò chơi</Text>
       </Pressable>}
     </View> : null}
-    {opened && <View aria-hidden={portraitPhone || undefined} style={portraitPhone ? styles.hidden : styles.root}>{children}</View>}
+    {opened && <View aria-hidden={portraitPhone || undefined} style={portraitPhone ? styles.hidden : [styles.root, portraitStage]}>{children}</View>}
   </View>;
 }
 const styles = StyleSheet.create({
   root: { flex: 1, minHeight: 0 },
+  terrain: { backgroundColor: '#142942' },
   hidden: { display: 'none' },
   notice: { flex: 1, padding: 24, gap: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.primaryLight },
   title: { fontFamily: FONTS.extraBold, fontSize: 24, color: COLORS.textPrimary },
