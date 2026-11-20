@@ -28,7 +28,7 @@ Ngày đối chiếu 20/11/2026. Dự án MathVisionKid, nhánh `bugfix/reported
 - Chrome DevTools MCP trên `localhost:5172`, đăng nhập bằng tài khoản thử local, mở bài tam giác, xác nhận đề, bắt đầu và tải lại. Desktop và mobile web giả lập đều hiển thị đúng bước “Nhận biết dữ kiện”. Kiểm tra Network trên mobile web cho thấy API tải lại phiên học trả HTTP 200. Spring Boot và FastAPI local hoạt động, với OCR chạy ở chế độ fixture.
 - Playwright + Chrome đạt 12/12 lượt trên desktop và mobile web giả lập, dùng dữ liệu kiểm thử. Các ca gồm ảnh đã đọc và bản xem trước, đọc dở có thể tiếp tục hoặc nhập chữ, bước đã xem, màn tóm tắt, phân số đang nhập, gợi ý đang mở, đáp số cuối, kết quả “Bài đã làm” và bài nộp khôi phục bằng GET. Các ca ảnh đối chiếu số yêu cầu để phát hiện đọc, chấm hoặc tải ảnh lên lặp lại.
 - `npx tsc --noEmit -p apps/student-mobile/tsconfig.json` và ESLint trên các tệp TypeScript sửa cho lỗi 5 đã qua. Thêm 129 kiểm thử Jest trong hai bộ liên quan và 17 kiểm thử hợp đồng bằng `npm run test:contracts`, tất cả qua.
-- `scripts/start-all.bat` xác nhận `READY_FOR_FULL_DEMO`; Portal đã xuất lại Student Web. `git diff --check` qua. Báo cáo Markdown là tệp local dưới `report/` và thuộc đường dẫn Git bỏ qua.
+- `scripts/start-all.bat` xác nhận `READY_FOR_FULL_DEMO`; Portal đã xuất lại Student Web. `git diff --check` qua. Báo cáo Markdown được lưu dưới `docs/engineering/`.
 - Thay đổi tập trung ở `crop.tsx`, `math-guide.tsx`, `mathGuideCheckpoint.ts`, `StudentWorkReview.tsx`, phần dọn bản nháp của xác thực Web, và hai bộ hồi quy ảnh và bài học. Lần kiểm tra này chưa đánh giá độ chính xác đọc ảnh của nhà cung cấp, thời gian tải trên thiết bị thật hoặc xác minh hành vi trên production.
 
 ## Skills Applied
