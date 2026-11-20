@@ -18,7 +18,8 @@ async function prepare(page, app) {
     HTMLElement.prototype.requestFullscreen = async () => { throw new Error('Viewport controlled by the browser test'); };
   });
   await login(page, 'STUDENT');
-  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+  await expect(page.locator('.student-workspace')).toBeVisible();
 }
 
 test('terrain answers, loss, replay, five stages, pause, resize and exit preserve the live session', async ({ page, app, isMobile }, info) => {
@@ -234,8 +235,13 @@ test('island pointer construction completes six missions and preserves blocks th
 });
 
 async function open(page, game) {
-  await page.goto(`${sites.portal.origin}/study/games/${game}`);
-  await expect(page.getByTestId(`training-player-${game}`)).toBeVisible();
+  const player = page.getByTestId(`training-player-${game}`);
+  if (!await player.isVisible()) {
+    const play = page.getByTestId(`training-play-${game}`);
+    if (await play.isVisible()) await play.click();
+    else await page.goto(`${sites.portal.origin}/study/games/${game}`);
+  }
+  await expect(player).toBeVisible();
   expect(await page.evaluate(() => Number(getComputedStyle(document.documentElement).zoom))).toBe(1);
 }
 
@@ -289,6 +295,9 @@ for (const [width, height] of [...desktopSizes, ...zoomReflowSizes, ...mobileSiz
     await inside(page, page.getByTestId('supercar-resume'));
     await page.getByTestId('supercar-resume').click();
     await expect(page.getByTestId('supercar-question')).toBeVisible();
+    await page.getByTestId('supercar-pause').click();
+    await page.getByTestId('supercar-exit').click();
+    await expect(page.getByTestId('training-play-terrain-racing')).toBeVisible();
 
     if (width < 700) {
       await page.goto(`${sites.portal.origin}/study/games/race-to-finish`);
