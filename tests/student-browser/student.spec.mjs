@@ -4,6 +4,7 @@ import { studentPort } from '../browser/sites.mjs';
 
 test('Student can add missing written work from the solved-work action on web', async ({ page, app }, testInfo) => {
   app.realStudent = true;
+  app.responses.set('POST /student/quizzes/prepare', ({ json }) => json({ status: 'READY' }));
   app.responses.set('POST /student/tutor/lesson/prepare', ({ json }) => json({ status: 'READY' }));
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
@@ -13,6 +14,10 @@ test('Student can add missing written work from the solved-work action on web', 
   await expect(page.getByRole('dialog', { name: 'Thêm bài em đã làm', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true })).toBeVisible();
   await testInfo.attach('Add missing work choices on web', { body: await page.screenshot(), contentType: 'image/png' });
+  await page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true }).click();
+  await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
+  await page.goto(url);
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await page.getByRole('button', { name: 'Đóng Thêm bài em đã làm', exact: true }).click();
   await expect(page.getByRole('dialog', { name: 'Thêm bài em đã làm', exact: true })).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Bài đã làm', exact: true })).toBeVisible();
@@ -21,10 +26,8 @@ test('Student can add missing written work from the solved-work action on web', 
   await page.getByRole('textbox', { name: 'Nội dung bài làm', exact: true }).fill('23 + 17 = 40');
   await page.getByRole('button', { name: 'Dùng nội dung này', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Bài đã làm', exact: true })).toBeVisible();
-  await page.goto(url);
-  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
-  await page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true }).click();
-  await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
+  await page.reload();
+  await expect(page.getByText('23 + 17 = 40', { exact: true }).first()).toBeVisible();
   expect(app.requests.some(request => request.path === '/student/tutor/work-review')).toBe(false);
 });
 

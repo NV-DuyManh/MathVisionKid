@@ -148,13 +148,18 @@ test('Preview reload preserves the cropped bytes and a second reload keeps baked
   expect((await maskedPixels(page)).flat().every(channel => channel < 24)).toBe(true);
 });
 
-test('No original image enters persistent storage before privacy approval', async ({ page }) => {
+test('The unapproved original is stored only as a short-lived privacy draft', async ({ page, app }) => {
   await start(page); await openPrivacy(page);
-  expect((await storage(page)).imageCount).toBe(0);
+  const pending = await storage(page);
+  expect(pending.imageCount).toBe(1);
+  expect(pending.hasOnlyBlobs).toBe(false);
+  const [record] = pending.rows;
+  expect(record.step).toBe('privacy');
+  expect(record.expiresAt - record.createdAt).toBe(30000);
   await page.reload();
-  await expect(page.getByText('Chưa có ảnh bài tập', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Chọn lại ảnh', exact: true })).toBeVisible();
-  expect((await storage(page)).imageCount).toBe(0);
+  await expect(page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư')).toBeVisible();
+  await expect(page.getByRole('checkbox')).not.toBeChecked();
+  expect(app.requests.filter(request => request.method === 'POST').map(request => request.path)).toEqual(['/auth/login']);
 });
 
 test('Only approved Blob data and URI-free metadata are stored', async ({ page }) => {
@@ -207,7 +212,10 @@ test('Cancel and reselecting the same file preserve the old draft until a new so
   await (await next).setFiles(await picture(page));
   await expect(page).toHaveURL(/\/study\/privacy/);
   await expect(page.getByRole('checkbox')).not.toBeChecked();
-  expect((await storage(page)).imageCount).toBe(0);
+  const pending = await storage(page);
+  expect(pending.imageCount).toBe(1);
+  expect(pending.rows[0].step).toBe('privacy');
+  expect(pending.hasOnlyBlobs).toBe(false);
 });
 
 test('A reopened tab restores the approved photo when the browser restores the same verified session', async ({ page, context }) => {

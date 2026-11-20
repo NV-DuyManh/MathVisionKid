@@ -619,18 +619,17 @@ test('web work recovery offers capture and typing while retaining the original p
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem })}`);
   await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
+  await page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true }).click();
+  await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
+  await expect(page.getByRole('button', { name: 'Chọn ảnh từ thư viện', exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem })}`);
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Nhập bài làm bằng chữ', exact: true }).click();
   await page.getByRole('textbox', { name: 'Nội dung bài làm', exact: true }).fill('1/3 + 2/5 = 11/15');
   await page.getByRole('button', { name: 'Dùng nội dung này', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Đối chiếu đề bài', exact: true })).toBeVisible();
   expect(app.requests.filter(item => item.path === '/student/tutor/lesson')).toHaveLength(0);
-
-  await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem })}`);
-  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
-  await page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true }).click();
-  await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
-  await expect(page.getByRole('button', { name: 'Chọn ảnh từ thư viện', exact: true })).toBeVisible();
 });
 
 test('grade library topic links and keyboard accordions preserve search and grade boundaries', async ({ page, app }) => {
