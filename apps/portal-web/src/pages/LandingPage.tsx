@@ -38,22 +38,53 @@ export const LandingPage: React.FC = () => {
   ];
 
   return (
-    <Box sx={{ width: '100%', bgcolor: '#FAF9FE', color: '#1E1B4B', overflowX: 'hidden' }}>
+    <Box sx={{ width: '100%', bgcolor: '#FAF8FE', color: '#1E1B4B', overflowX: 'hidden' }}>
 
       {/* ========================================================================= */}
-      {/* 1. HERO SECTION                                                          */}
+      {/* 1. HERO SECTION (Ảnh 1)                                                   */}
       {/* ========================================================================= */}
       <Box
         id="hero"
         sx={{
-          pt: { xs: 5, md: 8 },
+          pt: { xs: 5, md: 7 },
           pb: { xs: 4, md: 6 },
-          background: 'linear-gradient(180deg, #F8F6FE 0%, #FFFFFF 100%)',
+          background: 'radial-gradient(ellipse at 50% 10%, #FDFBFF 0%, #F5EEFF 50%, #FAF8FE 100%)',
           position: 'relative',
+          overflow: 'hidden',
         }}
       >
-        <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
-          <Grid container spacing={{ xs: 4, md: 6 }} sx={{ alignItems: 'center' }}>
+        {/* Soft Lavender Cloud Silhouettes in background */}
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: 0,
+            left: -100,
+            width: 400,
+            height: 250,
+            borderRadius: '50%',
+            bgcolor: 'rgba(237, 233, 254, 0.45)',
+            filter: 'blur(50px)',
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 20,
+            right: -80,
+            width: 450,
+            height: 300,
+            borderRadius: '50%',
+            bgcolor: 'rgba(243, 238, 255, 0.6)',
+            filter: 'blur(60px)',
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
+
+        <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 5 }, position: 'relative', zIndex: 1 }}>
+          <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: 'center' }}>
             
             {/* Hero Left Content */}
             <Grid size={{ xs: 12, md: 7 }}>
@@ -61,16 +92,16 @@ export const LandingPage: React.FC = () => {
                 variant="h1"
                 sx={{
                   fontFamily: 'Nunito, sans-serif',
-                  fontSize: { xs: '2.5rem', sm: '3.2rem', md: '3.75rem' },
+                  fontSize: { xs: '2.5rem', sm: '3.15rem', md: '3.5rem' },
                   fontWeight: 900,
                   color: '#1E1B4B',
-                  lineHeight: 1.18,
+                  lineHeight: 1.2,
                   letterSpacing: '-0.025em',
                   mb: 2.5,
                 }}
               >
                 Cùng{' '}
-                <Box component="span" sx={{ color: '#F59E0B' }}>
+                <Box component="span" sx={{ color: '#FBBF24' }}>
                   MathVisionKid
                 </Box>
                 <br />
@@ -79,12 +110,12 @@ export const LandingPage: React.FC = () => {
 
               <Typography
                 sx={{
-                  color: '#475569',
-                  fontSize: { xs: '1rem', md: '1.1rem' },
-                  lineHeight: 1.65,
+                  color: '#1E1B4B',
+                  fontSize: { xs: '1rem', md: '1.05rem' },
+                  lineHeight: 1.6,
                   maxWidth: 540,
                   mb: 4,
-                  fontWeight: 500,
+                  fontWeight: 600,
                 }}
               >
                 Cùng MathVisionKid rèn luyện tư duy nhanh nhạy, Toán điểm trở thành hành trình thú vị hơn bao giờ hết!
@@ -97,14 +128,14 @@ export const LandingPage: React.FC = () => {
                   sx={{
                     bgcolor: '#FBBF24',
                     color: '#1E1B4B',
-                    fontWeight: 800,
-                    fontSize: '1rem',
+                    fontWeight: 900,
+                    fontSize: '0.98rem',
                     borderRadius: '9999px',
-                    px: 4,
-                    py: 1.35,
+                    px: 3.8,
+                    py: 1.3,
                     textTransform: 'none',
-                    boxShadow: '0 6px 18px rgba(251, 191, 36, 0.4)',
-                    transition: 'all 200ms ease',
+                    boxShadow: '0 4px 16px rgba(251, 191, 36, 0.35)',
+                    transition: 'all 180ms ease',
                     '&:hover': { bgcolor: '#F59E0B', transform: 'translateY(-2px)' },
                   }}
                 >
@@ -117,13 +148,13 @@ export const LandingPage: React.FC = () => {
                     bgcolor: '#6D28D9',
                     color: '#FFFFFF',
                     fontWeight: 800,
-                    fontSize: '1rem',
+                    fontSize: '0.98rem',
                     borderRadius: '9999px',
                     px: 3.5,
-                    py: 1.35,
+                    py: 1.3,
                     textTransform: 'none',
-                    boxShadow: '0 6px 18px rgba(109, 40, 217, 0.3)',
-                    transition: 'all 200ms ease',
+                    boxShadow: '0 4px 16px rgba(109, 40, 217, 0.25)',
+                    transition: 'all 180ms ease',
                     '&:hover': { bgcolor: '#5B21B6', transform: 'translateY(-2px)' },
                   }}
                 >
@@ -140,22 +171,22 @@ export const LandingPage: React.FC = () => {
                 <Box
                   sx={{
                     position: 'absolute',
-                    top: 10,
-                    right: { xs: -10, sm: -20 },
+                    top: 15,
+                    right: { xs: -10, sm: -15 },
                     zIndex: 10,
                     bgcolor: '#FFFFFF',
                     border: '1.5px solid #E2E8F0',
-                    boxShadow: '0 8px 24px rgba(109, 40, 217, 0.12)',
+                    boxShadow: '0 6px 20px rgba(109, 40, 217, 0.1)',
                     borderRadius: '16px',
                     px: 2,
                     py: 1,
                     textAlign: 'left',
                   }}
                 >
-                  <Typography sx={{ fontSize: '0.75rem', fontWeight: 800, color: '#1E1B4B' }}>
+                  <Typography sx={{ fontSize: '0.76rem', fontWeight: 800, color: '#1E1B4B', lineHeight: 1.25 }}>
                     Bước nhỏ hôm nay
                   </Typography>
-                  <Typography sx={{ fontSize: '0.7rem', fontWeight: 700, color: '#6D28D9' }}>
+                  <Typography sx={{ fontSize: '0.72rem', fontWeight: 800, color: '#1E1B4B', lineHeight: 1.25 }}>
                     — Giỏi hơn ngày mai!
                   </Typography>
                 </Box>
@@ -165,7 +196,7 @@ export const LandingPage: React.FC = () => {
                   sx={{
                     position: 'relative',
                     width: '100%',
-                    height: { xs: 260, sm: 300 },
+                    height: { xs: 250, sm: 290 },
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -179,7 +210,7 @@ export const LandingPage: React.FC = () => {
                       width: { xs: 200, sm: 240, md: 260 },
                       height: 'auto',
                       objectFit: 'contain',
-                      filter: 'drop-shadow(0 15px 25px rgba(109, 40, 217, 0.2))',
+                      filter: 'drop-shadow(0 15px 25px rgba(109, 40, 217, 0.18))',
                     }}
                   />
                 </Box>
@@ -192,10 +223,11 @@ export const LandingPage: React.FC = () => {
                     maxWidth: 240,
                     bgcolor: '#FFFFFF',
                     borderRadius: 3,
-                    p: 2,
+                    p: 1.75,
                     border: '1.5px solid #E2E8F0',
-                    boxShadow: '0 8px 20px rgba(0,0,0,0.06)',
+                    boxShadow: '0 6px 18px rgba(0,0,0,0.05)',
                     textAlign: 'left',
+                    position: 'relative',
                   }}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}>
@@ -214,89 +246,95 @@ export const LandingPage: React.FC = () => {
 
           {/* Dải 4 thẻ tổng quan dưới Hero (Under-Hero 4 Cards) */}
           <Box sx={{ mt: { xs: 6, md: 8 } }}>
-            {/* Stepper link text */}
-            <Typography
-              sx={{
-                color: '#6D28D9',
-                fontWeight: 800,
-                fontSize: '0.85rem',
-                mb: 2,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5,
-              }}
-            >
-              <span>Ôn tập</span>
-              <span>→</span>
-              <span>Luyện tập</span>
-              <span>→</span>
-              <span>Khám phá</span>
-              <span>→</span>
-              <span>Kiểm tra</span>
-            </Typography>
-
             <Box
               sx={{
                 bgcolor: '#F3EEFF',
-                borderRadius: '28px',
+                borderRadius: '26px',
                 p: { xs: 2.5, sm: 3 },
                 border: '1px solid #E9DFFC',
               }}
             >
-              <Grid container spacing={2.5}>
-                {/* Card 1 */}
+              {/* Stepper link text */}
+              <Typography
+                sx={{
+                  color: '#1E1B4B',
+                  fontWeight: 800,
+                  fontSize: '0.9rem',
+                  mb: 2.25,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  pl: 0.5,
+                }}
+              >
+                <span>Ôn tập</span>
+                <span style={{ color: '#7C3AED' }}>→</span>
+                <span>Luyện tập</span>
+                <span style={{ color: '#7C3AED' }}>→</span>
+                <span>Khám phá</span>
+                <span style={{ color: '#7C3AED' }}>→</span>
+                <span>Kiểm tra</span>
+              </Typography>
+
+              <Grid container spacing={2.25}>
+                {/* Card 1: Luyện tập tương tác */}
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                   <Box
                     sx={{
                       bgcolor: '#FFFFFF',
-                      borderRadius: '20px',
-                      p: 2.2,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+                      borderRadius: '18px',
+                      p: 2,
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                      border: '1px solid #F1F5F9',
                       height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      transition: 'transform 200ms ease',
-                      '&:hover': { transform: 'translateY(-3px)' },
+                      transition: 'transform 180ms ease',
+                      '&:hover': { transform: 'translateY(-2px)' },
                     }}
                   >
                     <Box>
+                      {/* Image Preview: Cartoon fruit game */}
                       <Box
                         sx={{
-                          height: 70,
-                          borderRadius: 2.5,
-                          bgcolor: '#FEF3C7',
+                          height: 76,
+                          borderRadius: '14px',
+                          background: 'linear-gradient(180deg, #A7F3D0 0%, #6EE7B7 40%, #FDE047 100%)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          gap: 1,
+                          gap: 1.25,
                           mb: 1.75,
+                          position: 'relative',
+                          overflow: 'hidden',
+                          border: '1px solid #A7F3D0',
                         }}
                       >
-                        <Chip label="8" size="small" sx={{ bgcolor: '#F59E0B', color: '#FFF', fontWeight: 800 }} />
-                        <Chip label="5" size="small" sx={{ bgcolor: '#F59E0B', color: '#FFF', fontWeight: 800 }} />
-                        <Chip label="13" size="small" sx={{ bgcolor: '#D97706', color: '#FFF', fontWeight: 800 }} />
+                        <Box sx={{ bgcolor: '#EF4444', color: '#FFF', borderRadius: '50%', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 900 }}>3</Box>
+                        <Box sx={{ bgcolor: '#EF4444', color: '#FFF', borderRadius: '50%', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 900 }}>9</Box>
+                        <Box sx={{ bgcolor: '#EF4444', color: '#FFF', borderRadius: '50%', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 900 }}>15</Box>
                       </Box>
-                      <Typography sx={{ fontWeight: 800, fontSize: '0.95rem', color: '#1E1B4B', mb: 0.5 }}>
+                      <Typography sx={{ fontWeight: 800, fontSize: '0.94rem', color: '#1E1B4B', mb: 0.5 }}>
                         Luyện tập tương tác
                       </Typography>
                       <Typography sx={{ fontSize: '0.78rem', color: '#64748B' }}>
                         Mỗi giờ, 100% điểm số!
                       </Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1.5 }}>
                       <Box
                         sx={{
-                          width: 28,
-                          height: 28,
+                          width: 26,
+                          height: 26,
                           borderRadius: '50%',
-                          bgcolor: '#EDE9FE',
-                          color: '#6D28D9',
+                          bgcolor: '#A855F7',
+                          color: '#FFFFFF',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontWeight: 800,
-                          fontSize: '0.85rem',
+                          fontWeight: 900,
+                          fontSize: '0.75rem',
                         }}
                       >
                         →
@@ -305,60 +343,63 @@ export const LandingPage: React.FC = () => {
                   </Box>
                 </Grid>
 
-                {/* Card 2 */}
+                {/* Card 2: Bài tập đa dạng */}
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                   <Box
                     sx={{
                       bgcolor: '#FFFFFF',
-                      borderRadius: '20px',
-                      p: 2.2,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+                      borderRadius: '18px',
+                      p: 2,
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                      border: '1px solid #F1F5F9',
                       height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      transition: 'transform 200ms ease',
-                      '&:hover': { transform: 'translateY(-3px)' },
+                      transition: 'transform 180ms ease',
+                      '&:hover': { transform: 'translateY(-2px)' },
                     }}
                   >
                     <Box>
+                      {/* Image Preview: Cosmic Starry Game */}
                       <Box
                         sx={{
-                          height: 70,
-                          borderRadius: 2.5,
-                          bgcolor: '#E0E7FF',
+                          height: 76,
+                          borderRadius: '14px',
+                          background: 'linear-gradient(180deg, #1E1B4B 0%, #312E81 100%)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontFamily: 'monospace',
-                          fontWeight: 900,
-                          color: '#3730A3',
-                          fontSize: '1rem',
+                          gap: 1.25,
                           mb: 1.75,
+                          position: 'relative',
+                          border: '1px solid #4338CA',
                         }}
                       >
-                        8 + 5 = 13
+                        <Box sx={{ bgcolor: 'rgba(255,255,255,0.15)', color: '#FDE047', borderRadius: '8px', px: 1, py: 0.25, fontSize: '11px', fontWeight: 900 }}>0</Box>
+                        <Box sx={{ bgcolor: 'rgba(255,255,255,0.15)', color: '#FDE047', borderRadius: '8px', px: 1, py: 0.25, fontSize: '11px', fontWeight: 900 }}>3</Box>
+                        <Box sx={{ bgcolor: 'rgba(255,255,255,0.15)', color: '#FDE047', borderRadius: '8px', px: 1, py: 0.25, fontSize: '11px', fontWeight: 900 }}>21</Box>
                       </Box>
-                      <Typography sx={{ fontWeight: 800, fontSize: '0.95rem', color: '#1E1B4B', mb: 0.5 }}>
+                      <Typography sx={{ fontWeight: 800, fontSize: '0.94rem', color: '#1E1B4B', mb: 0.5 }}>
                         Bài tập đa dạng
                       </Typography>
                       <Typography sx={{ fontSize: '0.78rem', color: '#64748B' }}>
                         Từ cơ bản đến nâng cao.
                       </Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1.5 }}>
                       <Box
                         sx={{
-                          width: 28,
-                          height: 28,
+                          width: 26,
+                          height: 26,
                           borderRadius: '50%',
-                          bgcolor: '#EDE9FE',
-                          color: '#6D28D9',
+                          bgcolor: '#A855F7',
+                          color: '#FFFFFF',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontWeight: 800,
-                          fontSize: '0.85rem',
+                          fontWeight: 900,
+                          fontSize: '0.75rem',
                         }}
                       >
                         →
@@ -367,63 +408,70 @@ export const LandingPage: React.FC = () => {
                   </Box>
                 </Grid>
 
-                {/* Card 3 */}
+                {/* Card 3: Minigames thú vị */}
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                   <Box
                     sx={{
                       bgcolor: '#FFFFFF',
-                      borderRadius: '20px',
-                      p: 2.2,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+                      borderRadius: '18px',
+                      p: 2,
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                      border: '1px solid #F1F5F9',
                       height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      transition: 'transform 200ms ease',
-                      '&:hover': { transform: 'translateY(-3px)' },
+                      transition: 'transform 180ms ease',
+                      '&:hover': { transform: 'translateY(-2px)' },
                     }}
                   >
                     <Box>
+                      {/* Image Preview: Interactive minigames & ô ly */}
                       <Box
                         sx={{
-                          height: 70,
-                          borderRadius: 2.5,
-                          bgcolor: '#F1F5F9',
+                          height: 76,
+                          borderRadius: '14px',
+                          bgcolor: '#FFFFFF',
+                          border: '1px solid #E2E8F0',
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          border: '1px solid #E2E8F0',
                           mb: 1.75,
+                          backgroundImage: `
+                            linear-gradient(to right, #F1F5F9 1px, transparent 1px),
+                            linear-gradient(to bottom, #F1F5F9 1px, transparent 1px)
+                          `,
+                          backgroundSize: '12px 12px',
                         }}
                       >
-                        <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748B' }}>
+                        <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#64748B', mb: 0.25 }}>
                           Interactive minigames
                         </Typography>
-                        <Typography sx={{ fontFamily: 'monospace', fontWeight: 800, fontSize: '0.88rem', color: '#0F172A' }}>
+                        <Typography sx={{ fontFamily: 'monospace', fontWeight: 900, fontSize: '0.95rem', color: '#1E1B4B' }}>
                           8 + 5 = 13
                         </Typography>
                       </Box>
-                      <Typography sx={{ fontWeight: 800, fontSize: '0.95rem', color: '#1E1B4B', mb: 0.5 }}>
+                      <Typography sx={{ fontWeight: 800, fontSize: '0.94rem', color: '#1E1B4B', mb: 0.5 }}>
                         Minigames thú vị
                       </Typography>
                       <Typography sx={{ fontSize: '0.78rem', color: '#64748B' }}>
                         Rèn luyện tư duy nhanh.
                       </Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1.5 }}>
                       <Box
                         sx={{
-                          width: 28,
-                          height: 28,
+                          width: 26,
+                          height: 26,
                           borderRadius: '50%',
-                          bgcolor: '#EDE9FE',
-                          color: '#6D28D9',
+                          bgcolor: '#A855F7',
+                          color: '#FFFFFF',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontWeight: 800,
-                          fontSize: '0.85rem',
+                          fontWeight: 900,
+                          fontSize: '0.75rem',
                         }}
                       >
                         →
@@ -432,63 +480,66 @@ export const LandingPage: React.FC = () => {
                   </Box>
                 </Grid>
 
-                {/* Card 4 */}
+                {/* Card 4: Hỗ trợ từ AI */}
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                   <Box
                     sx={{
                       bgcolor: '#FFFFFF',
-                      borderRadius: '20px',
-                      p: 2.2,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+                      borderRadius: '18px',
+                      p: 2,
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                      border: '1px solid #F1F5F9',
                       height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      transition: 'transform 200ms ease',
-                      '&:hover': { transform: 'translateY(-3px)' },
+                      transition: 'transform 180ms ease',
+                      '&:hover': { transform: 'translateY(-2px)' },
                     }}
                   >
                     <Box>
+                      {/* Image Preview: Socratic guidance */}
                       <Box
                         sx={{
-                          height: 70,
-                          borderRadius: 2.5,
-                          bgcolor: '#EDE9FE',
+                          height: 76,
+                          borderRadius: '14px',
+                          bgcolor: '#F3EEFF',
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: 'center',
                           justifyContent: 'center',
                           p: 1,
                           mb: 1.75,
+                          border: '1px solid #E9DFFC',
                         }}
                       >
-                        <Typography sx={{ fontSize: '0.68rem', fontWeight: 800, color: '#6D28D9' }}>
+                        <Typography sx={{ fontSize: '0.65rem', fontWeight: 800, color: '#6D28D9', mb: 0.25 }}>
                           Socratic guidance
                         </Typography>
-                        <Typography sx={{ fontSize: '0.62rem', color: '#4C1D95', textAlign: 'center' }}>
-                          Bạn cần học Toán? Để tôi giúp!
-                        </Typography>
+                        <Box sx={{ bgcolor: '#EDE9FE', borderRadius: '6px', px: 1, py: 0.25, fontSize: '0.62rem', color: '#4C1D95', fontWeight: 700 }}>
+                          Bạn cần học Toán? Tớ giúp! 💡
+                        </Box>
                       </Box>
-                      <Typography sx={{ fontWeight: 800, fontSize: '0.95rem', color: '#1E1B4B', mb: 0.5 }}>
+                      <Typography sx={{ fontWeight: 800, fontSize: '0.94rem', color: '#1E1B4B', mb: 0.5 }}>
                         Hỗ trợ từ AI
                       </Typography>
                       <Typography sx={{ fontSize: '0.78rem', color: '#64748B' }}>
-                        Gợi ý hướng dẫn và chấm điểm.
+                        Gợi ý, hướng dẫn và chấm điểm.
                       </Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1.5 }}>
                       <Box
                         sx={{
-                          width: 28,
-                          height: 28,
+                          width: 26,
+                          height: 26,
                           borderRadius: '50%',
-                          bgcolor: '#EDE9FE',
-                          color: '#6D28D9',
+                          bgcolor: '#A855F7',
+                          color: '#FFFFFF',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontWeight: 800,
-                          fontSize: '0.85rem',
+                          fontWeight: 900,
+                          fontSize: '0.75rem',
                         }}
                       >
                         →
@@ -503,13 +554,13 @@ export const LandingPage: React.FC = () => {
       </Box>
 
       {/* ========================================================================= */}
-      {/* 2. SECTION LỘ TRÌNH                                                       */}
+      {/* 2. SECTION LỘ TRÌNH (Ảnh 2)                                               */}
       {/* ========================================================================= */}
-      <Box id="lo-trinh" sx={{ py: { xs: 6, md: 10 }, bgcolor: '#FAF9FE' }}>
-        <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
+      <Box id="lo-trinh" sx={{ py: { xs: 6, md: 9 }, bgcolor: '#FFFFFF' }}>
+        <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 5 } }}>
           
           {/* Header Section */}
-          <Typography sx={{ color: '#7C3AED', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '0.05em', textTransform: 'uppercase', mb: 1 }}>
+          <Typography sx={{ color: '#7C3AED', fontWeight: 800, fontSize: '0.82rem', letterSpacing: '0.04em', textTransform: 'uppercase', mb: 1 }}>
             LỘ TRÌNH
           </Typography>
 
@@ -528,25 +579,25 @@ export const LandingPage: React.FC = () => {
               >
                 Mỗi bước nhỏ, một khám phá lớn
               </Typography>
-              <Typography sx={{ color: '#64748B', fontSize: '0.95rem' }}>
+              <Typography sx={{ color: '#475569', fontSize: '0.95rem' }}>
                 Từ những con số đầu tiên đến tư duy toán học vững chắc
               </Typography>
             </Box>
-            <Typography sx={{ color: '#6D28D9', fontWeight: 700, fontSize: '0.85rem' }}>
+            <Typography sx={{ color: '#7C3AED', fontWeight: 600, fontSize: '0.85rem' }}>
               Dành cho học sinh tiểu học
             </Typography>
           </Box>
 
-          {/* Grade Selector Bar */}
+          {/* Grade Selector Capsule Bar */}
           <Box
             sx={{
               display: 'inline-flex',
-              bgcolor: '#F1EDFD',
+              bgcolor: '#F3EEFF',
               borderRadius: '9999px',
-              p: 0.6,
+              p: 0.5,
               mb: 5,
               width: '100%',
-              maxWidth: 700,
+              maxWidth: 720,
               justifyContent: 'space-between',
             }}
           >
@@ -558,14 +609,14 @@ export const LandingPage: React.FC = () => {
                   onClick={() => setSelectedGrade(grade.id)}
                   sx={{
                     flex: 1,
-                    py: 1,
+                    py: 0.9,
                     borderRadius: '9999px',
                     fontWeight: 800,
                     fontSize: '0.88rem',
                     textTransform: 'none',
                     bgcolor: active ? '#7C3AED' : 'transparent',
-                    color: active ? '#FFFFFF' : '#6D28D9',
-                    boxShadow: active ? '0 4px 12px rgba(124, 58, 237, 0.3)' : 'none',
+                    color: active ? '#FFFFFF' : '#1E1B4B',
+                    boxShadow: active ? '0 4px 12px rgba(124, 58, 237, 0.25)' : 'none',
                     '&:hover': {
                       bgcolor: active ? '#7C3AED' : 'rgba(124, 58, 237, 0.08)',
                     },
@@ -578,7 +629,7 @@ export const LandingPage: React.FC = () => {
           </Box>
 
           {/* 3 Roadmap Cards */}
-          <Grid container spacing={3.5} sx={{ mb: 4 }}>
+          <Grid container spacing={3} sx={{ mb: 4 }}>
             {/* Card 01 */}
             <Grid size={{ xs: 12, md: 4 }}>
               <Box
@@ -586,8 +637,8 @@ export const LandingPage: React.FC = () => {
                   bgcolor: '#FFFFFF',
                   borderRadius: '24px',
                   p: 3.5,
-                  border: '1px solid #E2E8F0',
-                  boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
+                  border: '1.5px solid #EDE9FE',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.02)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -595,33 +646,36 @@ export const LandingPage: React.FC = () => {
                 }}
               >
                 <Box>
-                  <Box
-                    sx={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 1,
-                      bgcolor: '#FEF3C7',
-                      color: '#D97706',
-                      borderRadius: '9999px',
-                      px: 2,
-                      py: 0.6,
-                      fontSize: '0.72rem',
-                      fontWeight: 800,
-                      mb: 2.5,
-                    }}
-                  >
-                    <span>01</span>
-                    <span>BẮT ĐẦU TỪ ĐÂY</span>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 2 }}>
+                    <Box
+                      sx={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: '50%',
+                        bgcolor: '#FEF3C7',
+                        color: '#D97706',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '0.78rem',
+                        fontWeight: 900,
+                      }}
+                    >
+                      01
+                    </Box>
+                    <Typography sx={{ color: '#D97706', fontWeight: 800, fontSize: '0.72rem', letterSpacing: '0.04em' }}>
+                      BẮT ĐẦU TỪ ĐÂY
+                    </Typography>
                   </Box>
                   <Typography sx={{ fontFamily: 'Nunito, sans-serif', fontWeight: 900, fontSize: '1.25rem', color: '#1E1B4B', mb: 1.25 }}>
                     Làm quen con số
                   </Typography>
-                  <Typography sx={{ color: '#64748B', fontSize: '0.88rem', lineHeight: 1.6 }}>
+                  <Typography sx={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.6 }}>
                     Đếm, so sánh và khám phá các số trong phạm vi 10.
                   </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: 3, borderTop: '1px solid #F1F5F9', mt: 3 }}>
-                  <Typography sx={{ fontSize: '0.82rem', fontWeight: 700, color: '#64748B' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: 3, borderTop: '1px solid #F8FAFC', mt: 3 }}>
+                  <Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: '#475569' }}>
                     6 bài học
                   </Typography>
                   <Box
@@ -629,8 +683,8 @@ export const LandingPage: React.FC = () => {
                       width: 32,
                       height: 32,
                       borderRadius: '50%',
-                      bgcolor: '#EDE9FE',
-                      color: '#6D28D9',
+                      bgcolor: '#F3EEFF',
+                      color: '#7C3AED',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -650,8 +704,8 @@ export const LandingPage: React.FC = () => {
                   bgcolor: '#FFFFFF',
                   borderRadius: '24px',
                   p: 3.5,
-                  border: '1px solid #E2E8F0',
-                  boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
+                  border: '1.5px solid #EDE9FE',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.02)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -659,33 +713,36 @@ export const LandingPage: React.FC = () => {
                 }}
               >
                 <Box>
-                  <Box
-                    sx={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 1,
-                      bgcolor: '#EDE9FE',
-                      color: '#7C3AED',
-                      borderRadius: '9999px',
-                      px: 2,
-                      py: 0.6,
-                      fontSize: '0.72rem',
-                      fontWeight: 800,
-                      mb: 2.5,
-                    }}
-                  >
-                    <span>02</span>
-                    <span>TIẾN BƯỚC VỮNG VÀNG</span>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 2 }}>
+                    <Box
+                      sx={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: '50%',
+                        bgcolor: '#EDE9FE',
+                        color: '#7C3AED',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '0.78rem',
+                        fontWeight: 900,
+                      }}
+                    >
+                      02
+                    </Box>
+                    <Typography sx={{ color: '#7C3AED', fontWeight: 800, fontSize: '0.72rem', letterSpacing: '0.04em' }}>
+                      TIẾN BƯỚC VỮNG VÀNG
+                    </Typography>
                   </Box>
                   <Typography sx={{ fontFamily: 'Nunito, sans-serif', fontWeight: 900, fontSize: '1.25rem', color: '#1E1B4B', mb: 1.25 }}>
                     Cộng trừ thật vui
                   </Typography>
-                  <Typography sx={{ color: '#64748B', fontSize: '0.88rem', lineHeight: 1.6 }}>
+                  <Typography sx={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.6 }}>
                     Học phép tính qua hình ảnh và những câu chuyện gần gũi.
                   </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: 3, borderTop: '1px solid #F1F5F9', mt: 3 }}>
-                  <Typography sx={{ fontSize: '0.82rem', fontWeight: 700, color: '#64748B' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: 3, borderTop: '1px solid #F8FAFC', mt: 3 }}>
+                  <Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: '#475569' }}>
                     8 bài học
                   </Typography>
                   <Box
@@ -693,8 +750,8 @@ export const LandingPage: React.FC = () => {
                       width: 32,
                       height: 32,
                       borderRadius: '50%',
-                      bgcolor: '#EDE9FE',
-                      color: '#6D28D9',
+                      bgcolor: '#F3EEFF',
+                      color: '#7C3AED',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -714,8 +771,8 @@ export const LandingPage: React.FC = () => {
                   bgcolor: '#FFFFFF',
                   borderRadius: '24px',
                   p: 3.5,
-                  border: '1px solid #E2E8F0',
-                  boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
+                  border: '1.5px solid #EDE9FE',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.02)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -723,33 +780,36 @@ export const LandingPage: React.FC = () => {
                 }}
               >
                 <Box>
-                  <Box
-                    sx={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 1,
-                      bgcolor: '#CCFBF1',
-                      color: '#0D9488',
-                      borderRadius: '9999px',
-                      px: 2,
-                      py: 0.6,
-                      fontSize: '0.72rem',
-                      fontWeight: 800,
-                      mb: 2.5,
-                    }}
-                  >
-                    <span>03</span>
-                    <span>THỬ THÁCH LỚN</span>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 2 }}>
+                    <Box
+                      sx={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: '50%',
+                        bgcolor: '#DCFCE7',
+                        color: '#059669',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '0.78rem',
+                        fontWeight: 900,
+                      }}
+                    >
+                      03
+                    </Box>
+                    <Typography sx={{ color: '#059669', fontWeight: 800, fontSize: '0.72rem', letterSpacing: '0.04em' }}>
+                      THỬ THÁCH LỚN
+                    </Typography>
                   </Box>
                   <Typography sx={{ fontFamily: 'Nunito, sans-serif', fontWeight: 900, fontSize: '1.25rem', color: '#1E1B4B', mb: 1.25 }}>
                     Thế giới hình học
                   </Typography>
-                  <Typography sx={{ color: '#64748B', fontSize: '0.88rem', lineHeight: 1.6 }}>
+                  <Typography sx={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.6 }}>
                     Nhận biết hình khối, vị trí và quy luật quanh em.
                   </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: 3, borderTop: '1px solid #F1F5F9', mt: 3 }}>
-                  <Typography sx={{ fontSize: '0.82rem', fontWeight: 700, color: '#64748B' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: 3, borderTop: '1px solid #F8FAFC', mt: 3 }}>
+                  <Typography sx={{ fontSize: '0.84rem', fontWeight: 600, color: '#475569' }}>
                     5 bài học
                   </Typography>
                   <Box
@@ -757,8 +817,8 @@ export const LandingPage: React.FC = () => {
                       width: 32,
                       height: 32,
                       borderRadius: '50%',
-                      bgcolor: '#EDE9FE',
-                      color: '#6D28D9',
+                      bgcolor: '#F3EEFF',
+                      color: '#7C3AED',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -772,7 +832,7 @@ export const LandingPage: React.FC = () => {
             </Grid>
           </Grid>
 
-          {/* Stepper sub-bar below */}
+          {/* Stepper capsule bar below */}
           <Box
             sx={{
               bgcolor: '#F3EEFF',
@@ -784,31 +844,40 @@ export const LandingPage: React.FC = () => {
               flexWrap: 'wrap',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 2,
-              color: '#6D28D9',
-              fontWeight: 800,
-              fontSize: '0.88rem',
+              gap: 3,
             }}
           >
-            <span>01  Ôn tập</span>
-            <span>→</span>
-            <span>02  Luyện tập</span>
-            <span>→</span>
-            <span>03  Khám phá</span>
-            <span>→</span>
-            <span>04  Kiểm tra</span>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography sx={{ color: '#7C3AED', fontWeight: 900, fontSize: '0.88rem' }}>01</Typography>
+              <Typography sx={{ color: '#1E1B4B', fontWeight: 800, fontSize: '0.88rem' }}>Ôn tập</Typography>
+            </Box>
+            <Typography sx={{ color: '#7C3AED', fontWeight: 800 }}>→</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography sx={{ color: '#7C3AED', fontWeight: 900, fontSize: '0.88rem' }}>02</Typography>
+              <Typography sx={{ color: '#1E1B4B', fontWeight: 800, fontSize: '0.88rem' }}>Luyện tập</Typography>
+            </Box>
+            <Typography sx={{ color: '#7C3AED', fontWeight: 800 }}>→</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography sx={{ color: '#7C3AED', fontWeight: 900, fontSize: '0.88rem' }}>03</Typography>
+              <Typography sx={{ color: '#1E1B4B', fontWeight: 800, fontSize: '0.88rem' }}>Khám phá</Typography>
+            </Box>
+            <Typography sx={{ color: '#7C3AED', fontWeight: 800 }}>→</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography sx={{ color: '#7C3AED', fontWeight: 900, fontSize: '0.88rem' }}>04</Typography>
+              <Typography sx={{ color: '#1E1B4B', fontWeight: 800, fontSize: '0.88rem' }}>Kiểm tra</Typography>
+            </Box>
           </Box>
         </Container>
       </Box>
 
       {/* ========================================================================= */}
-      {/* 3. SECTION TÍNH NĂNG (Bốn cách học vui, một hành trình tự tin)            */}
+      {/* 3. SECTION TÍNH NĂNG (Ảnh 3)                                              */}
       {/* ========================================================================= */}
-      <Box id="tinh-nang" sx={{ py: { xs: 6, md: 10 }, bgcolor: '#FFFFFF' }}>
-        <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
+      <Box id="tinh-nang" sx={{ py: { xs: 6, md: 9 }, bgcolor: '#FAF8FE' }}>
+        <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 5 } }}>
           
           {/* Header */}
-          <Typography sx={{ color: '#7C3AED', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '0.05em', textTransform: 'uppercase', mb: 1 }}>
+          <Typography sx={{ color: '#7C3AED', fontWeight: 800, fontSize: '0.82rem', letterSpacing: '0.04em', textTransform: 'uppercase', mb: 1 }}>
             TÍNH NĂNG
           </Typography>
 
@@ -825,12 +894,12 @@ export const LandingPage: React.FC = () => {
           >
             Bốn cách học vui, một hành trình tự tin
           </Typography>
-          <Typography sx={{ color: '#64748B', fontSize: '0.95rem', mb: 5 }}>
-            Luyện tập, khám phá và ôn lại giờ theo cách của riêng em
+          <Typography sx={{ color: '#475569', fontSize: '0.95rem', mb: 4.5 }}>
+            Luyện tập, khám phá và ôn lại giờ theo cách của riêng em.
           </Typography>
 
           {/* 2x2 Grid of Feature Cards */}
-          <Grid container spacing={3.5}>
+          <Grid container spacing={3}>
             
             {/* Feature 01: Luyện tập tương tác */}
             <Grid size={{ xs: 12, md: 6 }}>
@@ -839,8 +908,8 @@ export const LandingPage: React.FC = () => {
                   bgcolor: '#FFFFFF',
                   borderRadius: '24px',
                   p: 3.5,
-                  border: '1.5px solid #F1F5F9',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+                  border: '1.5px solid #EDE9FE',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -848,18 +917,33 @@ export const LandingPage: React.FC = () => {
                 }}
               >
                 <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                    <Chip label="01" size="small" sx={{ bgcolor: '#FEF3C7', color: '#D97706', fontWeight: 900 }} />
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 1.5 }}>
+                    <Box
+                      sx={{
+                        width: 26,
+                        height: 26,
+                        borderRadius: '50%',
+                        bgcolor: '#FEF3C7',
+                        color: '#D97706',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '0.75rem',
+                        fontWeight: 900,
+                      }}
+                    >
+                      01
+                    </Box>
                     <Typography sx={{ fontFamily: 'Nunito, sans-serif', fontWeight: 900, fontSize: '1.15rem', color: '#1E1B4B' }}>
                       Luyện tập tương tác
                     </Typography>
                   </Box>
-                  <Typography sx={{ color: '#64748B', fontSize: '0.88rem', lineHeight: 1.6, mb: 3 }}>
+                  <Typography sx={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.6, mb: 3 }}>
                     Chọn đáp án, nhận phản hồi và ôn lại kiến thức ngay lập tức qua trò chơi thú vị.
                   </Typography>
 
                   {/* Interactive box */}
-                  <Box sx={{ bgcolor: '#F8F6FE', borderRadius: '18px', p: 3, mb: 2 }}>
+                  <Box sx={{ bgcolor: '#F5EEFF', borderRadius: '18px', p: 2.5, mb: 2 }}>
                     <Typography sx={{ color: '#64748B', fontSize: '0.75rem', fontWeight: 700, mb: 1 }}>
                       Chọn đáp án đúng
                     </Typography>
@@ -867,7 +951,7 @@ export const LandingPage: React.FC = () => {
                       <Typography sx={{ fontFamily: 'monospace', fontWeight: 900, fontSize: '1.5rem', color: '#1E1B4B' }}>
                         8 + 5 = ?
                       </Typography>
-                      <Box sx={{ display: 'flex', gap: 1.5 }}>
+                      <Box sx={{ display: 'flex', gap: 1.25 }}>
                         {[12, 13, 14].map((num) => {
                           const active = mathAnswer1 === num;
                           return (
@@ -879,12 +963,12 @@ export const LandingPage: React.FC = () => {
                                 height: 40,
                                 borderRadius: '12px',
                                 fontWeight: 900,
-                                fontSize: '1rem',
-                                bgcolor: active ? '#FDE047' : '#FFFFFF',
+                                fontSize: '0.95rem',
+                                bgcolor: active ? '#FBBF24' : '#FFFFFF',
                                 color: '#1E1B4B',
-                                border: active ? '2px solid #F59E0B' : '1px solid #E2E8F0',
-                                boxShadow: active ? '0 2px 8px rgba(245, 158, 11, 0.3)' : 'none',
-                                '&:hover': { bgcolor: active ? '#FDE047' : '#F1F5F9' },
+                                border: active ? '1.5px solid #F59E0B' : '1px solid #E2E8F0',
+                                boxShadow: active ? '0 2px 8px rgba(245, 158, 11, 0.25)' : 'none',
+                                '&:hover': { bgcolor: active ? '#FBBF24' : '#F1F5F9' },
                               }}
                             >
                               {num}
@@ -923,8 +1007,8 @@ export const LandingPage: React.FC = () => {
                   bgcolor: '#FFFFFF',
                   borderRadius: '24px',
                   p: 3.5,
-                  border: '1.5px solid #F1F5F9',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+                  border: '1.5px solid #EDE9FE',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -932,25 +1016,40 @@ export const LandingPage: React.FC = () => {
                 }}
               >
                 <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                    <Chip label="02" size="small" sx={{ bgcolor: '#EDE9FE', color: '#7C3AED', fontWeight: 900 }} />
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 1.5 }}>
+                    <Box
+                      sx={{
+                        width: 26,
+                        height: 26,
+                        borderRadius: '50%',
+                        bgcolor: '#EDE9FE',
+                        color: '#7C3AED',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '0.75rem',
+                        fontWeight: 900,
+                      }}
+                    >
+                      02
+                    </Box>
                     <Typography sx={{ fontFamily: 'Nunito, sans-serif', fontWeight: 900, fontSize: '1.15rem', color: '#1E1B4B' }}>
                       Bài tập đa dạng
                     </Typography>
                   </Box>
-                  <Typography sx={{ color: '#64748B', fontSize: '0.88rem', lineHeight: 1.6, mb: 3 }}>
+                  <Typography sx={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.6, mb: 3 }}>
                     Từ cơ bản đến nâng cao, cho từng cấp độ, ôn đúng kiến thức, tiến bộ từng bước nhỏ.
                   </Typography>
 
                   {/* Inner list box */}
-                  <Box sx={{ bgcolor: '#F8F6FE', borderRadius: '18px', p: 2.5, mb: 2, display: 'grid', gap: 1.5 }}>
-                    <Box sx={{ bgcolor: '#FFFFFF', p: 1.5, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #E2E8F0' }}>
+                  <Box sx={{ bgcolor: '#F5EEFF', borderRadius: '18px', p: 2, mb: 2, display: 'grid', gap: 1.25 }}>
+                    <Box sx={{ bgcolor: '#FFFFFF', p: 1.25, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #E2E8F0' }}>
                       <Typography sx={{ fontSize: '0.82rem', fontWeight: 700, color: '#1E1B4B' }}>
                         01  Đếm số còn thiếu
                       </Typography>
                       <Chip label="Cấp độ" size="small" sx={{ bgcolor: '#F1F5F9', color: '#64748B', fontSize: '0.72rem', fontWeight: 700 }} />
                     </Box>
-                    <Box sx={{ bgcolor: '#FFFFFF', p: 1.5, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #E2E8F0' }}>
+                    <Box sx={{ bgcolor: '#FFFFFF', p: 1.25, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #E2E8F0' }}>
                       <Typography sx={{ fontSize: '0.82rem', fontWeight: 700, color: '#1E1B4B' }}>
                         02  Giải toán có lời văn
                       </Typography>
@@ -986,8 +1085,8 @@ export const LandingPage: React.FC = () => {
                   bgcolor: '#FFFFFF',
                   borderRadius: '24px',
                   p: 3.5,
-                  border: '1.5px solid #F1F5F9',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+                  border: '1.5px solid #EDE9FE',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -995,20 +1094,35 @@ export const LandingPage: React.FC = () => {
                 }}
               >
                 <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                    <Chip label="03" size="small" sx={{ bgcolor: '#CCFBF1', color: '#0D9488', fontWeight: 900 }} />
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 1.5 }}>
+                    <Box
+                      sx={{
+                        width: 26,
+                        height: 26,
+                        borderRadius: '50%',
+                        bgcolor: '#DCFCE7',
+                        color: '#059669',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '0.75rem',
+                        fontWeight: 900,
+                      }}
+                    >
+                      03
+                    </Box>
                     <Typography sx={{ fontFamily: 'Nunito, sans-serif', fontWeight: 900, fontSize: '1.15rem', color: '#1E1B4B' }}>
                       Minigames thú vị!
                     </Typography>
                   </Box>
-                  <Typography sx={{ color: '#64748B', fontSize: '0.88rem', lineHeight: 1.6, mb: 3 }}>
-                    Biến phép tính thành trò chơi hấp dẫn. Rèn phản xạ, tự duy nhanh và bền hơn.
+                  <Typography sx={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.6, mb: 3 }}>
+                    Biến phép tính thành trò chơi hấp dẫn. Rèn phản xạ, tư duy nhanh và bền hơn.
                   </Typography>
 
                   {/* Interactive game box */}
-                  <Box sx={{ bgcolor: '#F8F6FE', borderRadius: '18px', p: 3, mb: 2 }}>
+                  <Box sx={{ bgcolor: '#F5EEFF', borderRadius: '18px', p: 2.5, mb: 2 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                      <Typography sx={{ color: '#64748B', fontSize: '0.75rem', fontWeight: 700 }}>
+                      <Typography sx={{ color: '#475569', fontSize: '0.75rem', fontWeight: 700 }}>
                         Thử thách trong tuần
                       </Typography>
                       <Chip label="0/24" size="small" sx={{ bgcolor: '#DCFCE7', color: '#15803D', fontWeight: 900, fontSize: '0.72rem' }} />
@@ -1017,7 +1131,7 @@ export const LandingPage: React.FC = () => {
                       <Typography sx={{ fontFamily: 'monospace', fontWeight: 900, fontSize: '1.5rem', color: '#1E1B4B' }}>
                         6 + 7 =
                       </Typography>
-                      <Box sx={{ display: 'flex', gap: 1.5 }}>
+                      <Box sx={{ display: 'flex', gap: 1.25 }}>
                         {[11, 12, 13].map((num) => {
                           const active = mathAnswer2 === num;
                           return (
@@ -1029,11 +1143,11 @@ export const LandingPage: React.FC = () => {
                                 height: 40,
                                 borderRadius: '12px',
                                 fontWeight: 900,
-                                fontSize: '1rem',
+                                fontSize: '0.95rem',
                                 bgcolor: active ? '#BBF7D0' : '#FFFFFF',
-                                color: active ? '#166534' : '#1E1B4B',
-                                border: active ? '2px solid #22C55E' : '1px solid #E2E8F0',
-                                boxShadow: active ? '0 2px 8px rgba(34, 197, 94, 0.3)' : 'none',
+                                color: active ? '#14532D' : '#1E1B4B',
+                                border: active ? '1.5px solid #22C55E' : '1px solid #E2E8F0',
+                                boxShadow: active ? '0 2px 8px rgba(34, 197, 94, 0.25)' : 'none',
                                 '&:hover': { bgcolor: active ? '#BBF7D0' : '#F1F5F9' },
                               }}
                             >
@@ -1073,8 +1187,8 @@ export const LandingPage: React.FC = () => {
                   bgcolor: '#FFFFFF',
                   borderRadius: '24px',
                   p: 3.5,
-                  border: '1.5px solid #F1F5F9',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+                  border: '1.5px solid #EDE9FE',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -1082,24 +1196,39 @@ export const LandingPage: React.FC = () => {
                 }}
               >
                 <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                    <Chip label="04" size="small" sx={{ bgcolor: '#EDE9FE', color: '#7C3AED', fontWeight: 900 }} />
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 1.5 }}>
+                    <Box
+                      sx={{
+                        width: 26,
+                        height: 26,
+                        borderRadius: '50%',
+                        bgcolor: '#EDE9FE',
+                        color: '#7C3AED',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '0.75rem',
+                        fontWeight: 900,
+                      }}
+                    >
+                      04
+                    </Box>
                     <Typography sx={{ fontFamily: 'Nunito, sans-serif', fontWeight: 900, fontSize: '1.15rem', color: '#1E1B4B' }}>
                       Hỗ trợ từ AI
                     </Typography>
                   </Box>
-                  <Typography sx={{ color: '#64748B', fontSize: '0.88rem', lineHeight: 1.6, mb: 3 }}>
+                  <Typography sx={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.6, mb: 3 }}>
                     Chưa rõ hoặc cần hỗ trợ? Hãy hỏi AI, giúp bạn và giải mọi thắc mắc, từng bước một.
                   </Typography>
 
                   {/* AI Chat box */}
-                  <Box sx={{ bgcolor: '#F8F6FE', borderRadius: '18px', p: 2.5, mb: 2, display: 'grid', gap: 1.5 }}>
-                    <Box sx={{ bgcolor: '#EDE9FE', p: 1.25, borderRadius: '10px', textAlign: 'center' }}>
+                  <Box sx={{ bgcolor: '#F5EEFF', borderRadius: '18px', p: 2, mb: 2, display: 'grid', gap: 1.25 }}>
+                    <Box sx={{ bgcolor: '#EDE9FE', p: 1, borderRadius: '10px', textAlign: 'center' }}>
                       <Typography sx={{ fontSize: '0.78rem', fontWeight: 800, color: '#6D28D9' }}>
                         Bài toán: 8 + 7 = ?
                       </Typography>
                     </Box>
-                    <Box sx={{ bgcolor: '#FFFFFF', p: 1.5, borderRadius: '12px', border: '1px solid #E2E8F0' }}>
+                    <Box sx={{ bgcolor: '#FFFFFF', p: 1.25, borderRadius: '12px', border: '1px solid #E2E8F0' }}>
                       <Typography sx={{ fontSize: '0.8rem', color: '#94A3B8' }}>
                         Em hãy trả lời: 8 + 7 bằng bao nhiêu?
                       </Typography>
@@ -1131,13 +1260,13 @@ export const LandingPage: React.FC = () => {
       </Box>
 
       {/* ========================================================================= */}
-      {/* 4. SECTION GIẢI ĐÁP CÙNG BA MẸ (FAQ) (Ảnh 2)                              */}
+      {/* 4. SECTION GIẢI ĐÁP CÙNG BA MẸ (FAQ)                                      */}
       {/* ========================================================================= */}
-      <Box id="giai-dap" sx={{ py: { xs: 6, md: 10 }, bgcolor: '#FAF9FE' }}>
+      <Box id="giai-dap" sx={{ py: { xs: 6, md: 9 }, bgcolor: '#FFFFFF' }}>
         <Container maxWidth="md" sx={{ px: { xs: 2.5, sm: 4 } }}>
           
           <Box sx={{ textAlign: 'center', mb: 5 }}>
-            <Typography sx={{ color: '#7C3AED', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '0.05em', textTransform: 'uppercase', mb: 1 }}>
+            <Typography sx={{ color: '#7C3AED', fontWeight: 800, fontSize: '0.82rem', letterSpacing: '0.04em', textTransform: 'uppercase', mb: 1 }}>
               GIẢI ĐÁP CÙNG BA MẸ
             </Typography>
             <Typography
@@ -1162,8 +1291,8 @@ export const LandingPage: React.FC = () => {
                 bgcolor: '#FFFFFF',
                 borderRadius: '20px',
                 p: { xs: 2.5, sm: 3 },
-                border: '1px solid #E2E8F0',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
+                border: '1.5px solid #EDE9FE',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
                 cursor: 'pointer',
               }}
               onClick={() => toggleFaq(1)}
@@ -1177,8 +1306,8 @@ export const LandingPage: React.FC = () => {
                 </Typography>
               </Box>
               <Collapse in={faqOpen[1]}>
-                <Box sx={{ pt: 2, borderTop: '1px solid #F1F5F9', mt: 2 }}>
-                  <Typography sx={{ color: '#64748B', fontSize: '0.9rem', lineHeight: 1.65 }}>
+                <Box sx={{ pt: 2, borderTop: '1px solid #F8FAFC', mt: 2 }}>
+                  <Typography sx={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.65 }}>
                     Các hoạt động được thiết kế cho học sinh tiểu học từ lớp 1 đến lớp 5.<br />
                     Ba mẹ có thể chọn lớp phù hợp để con bắt đầu từ những kiến thức quen thuộc.
                   </Typography>
@@ -1192,8 +1321,8 @@ export const LandingPage: React.FC = () => {
                 bgcolor: '#FFFFFF',
                 borderRadius: '20px',
                 p: { xs: 2.5, sm: 3 },
-                border: '1px solid #E2E8F0',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
+                border: '1.5px solid #EDE9FE',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
                 cursor: 'pointer',
               }}
               onClick={() => toggleFaq(2)}
@@ -1207,8 +1336,8 @@ export const LandingPage: React.FC = () => {
                 </Typography>
               </Box>
               <Collapse in={faqOpen[2]}>
-                <Box sx={{ pt: 2, borderTop: '1px solid #F1F5F9', mt: 2 }}>
-                  <Typography sx={{ color: '#64748B', fontSize: '0.9rem', lineHeight: 1.65 }}>
+                <Box sx={{ pt: 2, borderTop: '1px solid #F8FAFC', mt: 2 }}>
+                  <Typography sx={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.65 }}>
                     Chỉ cần 15 đến 20 phút mỗi ngày. Các bài tập được chia nhỏ thành các thử thách ngắn giúp bé hào hứng học mà không bị mỏi mệt.
                   </Typography>
                 </Box>
@@ -1221,8 +1350,8 @@ export const LandingPage: React.FC = () => {
                 bgcolor: '#FFFFFF',
                 borderRadius: '20px',
                 p: { xs: 2.5, sm: 3 },
-                border: '1px solid #E2E8F0',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
+                border: '1.5px solid #EDE9FE',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
                 cursor: 'pointer',
               }}
               onClick={() => toggleFaq(3)}
@@ -1236,8 +1365,8 @@ export const LandingPage: React.FC = () => {
                 </Typography>
               </Box>
               <Collapse in={faqOpen[3]}>
-                <Box sx={{ pt: 2, borderTop: '1px solid #F1F5F9', mt: 2 }}>
-                  <Typography sx={{ color: '#64748B', fontSize: '0.9rem', lineHeight: 1.65 }}>
+                <Box sx={{ pt: 2, borderTop: '1px solid #F8FAFC', mt: 2 }}>
+                  <Typography sx={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.65 }}>
                     AI của MathVisionKid đóng vai trò người gia sư kiên nhẫn: phân tích từng nét chữ đặt tính trên vở ô ly, chỉ ra điểm nhầm lẫn và đặt câu hỏi gợi mở để con tự tìm ra cách giải, tuyệt đối không đưa sẵn đáp số.
                   </Typography>
                 </Box>
@@ -1248,15 +1377,15 @@ export const LandingPage: React.FC = () => {
       </Box>
 
       {/* ========================================================================= */}
-      {/* 5. SECTION CTA BANNER (MỖI NGÀY MỘT CHÚT TỰ TIN) (Ảnh 2)                  */}
+      {/* 5. SECTION CTA BANNER (MỖI NGÀY MỘT CHÚT TỰ TIN)                          */}
       {/* ========================================================================= */}
-      <Box sx={{ py: { xs: 4, md: 8 }, bgcolor: '#FAF9FE' }}>
-        <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
+      <Box sx={{ py: { xs: 4, md: 7 }, bgcolor: '#FAF8FE' }}>
+        <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 5 } }}>
           <Box
             sx={{
               bgcolor: '#F3EEFF',
-              borderRadius: { xs: '28px', md: '36px' },
-              py: { xs: 6, md: 8 },
+              borderRadius: { xs: '26px', md: '34px' },
+              py: { xs: 5, md: 7 },
               px: { xs: 3, sm: 6 },
               textAlign: 'center',
               border: '1px solid #E9DFFC',
@@ -1282,7 +1411,7 @@ export const LandingPage: React.FC = () => {
 
             <Typography
               sx={{
-                color: '#64748B',
+                color: '#475569',
                 fontSize: { xs: '0.95rem', md: '1.05rem' },
                 maxWidth: 600,
                 mx: 'auto',
@@ -1300,13 +1429,13 @@ export const LandingPage: React.FC = () => {
                   bgcolor: '#FBBF24',
                   color: '#1E1B4B',
                   fontWeight: 900,
-                  fontSize: '1rem',
+                  fontSize: '0.98rem',
                   borderRadius: '9999px',
                   px: 4,
-                  py: 1.4,
+                  py: 1.35,
                   textTransform: 'none',
-                  boxShadow: '0 6px 18px rgba(251, 191, 36, 0.4)',
-                  transition: 'all 200ms ease',
+                  boxShadow: '0 4px 16px rgba(251, 191, 36, 0.35)',
+                  transition: 'all 180ms ease',
                   '&:hover': { bgcolor: '#F59E0B', transform: 'translateY(-2px)' },
                 }}
               >
@@ -1319,14 +1448,14 @@ export const LandingPage: React.FC = () => {
                   bgcolor: '#FFFFFF',
                   color: '#1E1B4B',
                   fontWeight: 800,
-                  fontSize: '1rem',
+                  fontSize: '0.98rem',
                   borderRadius: '9999px',
                   px: 4,
-                  py: 1.4,
+                  py: 1.35,
                   textTransform: 'none',
                   border: '1.5px solid #E2E8F0',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
-                  transition: 'all 200ms ease',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                  transition: 'all 180ms ease',
                   '&:hover': { bgcolor: '#F8FAFC', transform: 'translateY(-2px)' },
                 }}
               >
@@ -1338,34 +1467,49 @@ export const LandingPage: React.FC = () => {
       </Box>
 
       {/* ========================================================================= */}
-      {/* 6. SECTION FOOTER (Ảnh 2)                                                 */}
+      {/* 6. SECTION FOOTER                                                         */}
       {/* ========================================================================= */}
       <Box
         component="footer"
         sx={{
-          pt: { xs: 7, md: 9 },
-          pb: 5,
+          pt: { xs: 6, md: 8 },
+          pb: 4.5,
           bgcolor: '#FFFFFF',
-          borderTop: '1px solid #E2E8F0',
+          borderTop: '1px solid #EDE9FE',
         }}
       >
-        <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
-          <Grid container spacing={{ xs: 4, md: 6 }} sx={{ mb: 6 }}>
+        <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 5 } }}>
+          <Grid container spacing={{ xs: 4, md: 5 }} sx={{ mb: 5 }}>
             {/* Col 1: Brand */}
             <Grid size={{ xs: 12, md: 5 }}>
-              <Typography
-                sx={{
-                  fontFamily: 'Nunito, sans-serif',
-                  fontWeight: 900,
-                  fontSize: '1.35rem',
-                  color: '#1E1B4B',
-                  letterSpacing: '-0.02em',
-                  mb: 1.25,
-                }}
-              >
-                MathVisionKid
-              </Typography>
-              <Typography sx={{ color: '#64748B', fontSize: '0.88rem', lineHeight: 1.6, maxWidth: 300 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 1.25 }}>
+                <Box
+                  sx={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: '50%',
+                    bgcolor: '#EDE9FE',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.15rem',
+                  }}
+                >
+                  🪐
+                </Box>
+                <Typography
+                  sx={{
+                    fontFamily: 'Nunito, sans-serif',
+                    fontWeight: 900,
+                    fontSize: '1.35rem',
+                    color: '#1E1B4B',
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  MathVisionKid
+                </Typography>
+              </Box>
+              <Typography sx={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.6, maxWidth: 320 }}>
                 Nuôi dưỡng niềm vui học toán,<br />
                 chắp cánh những khám phá nhỏ.
               </Typography>
@@ -1377,10 +1521,10 @@ export const LandingPage: React.FC = () => {
                 Khám phá
               </Typography>
               <Box sx={{ display: 'grid', gap: 1.2 }}>
-                <Box component="a" href="#lo-trinh" sx={{ color: '#64748B', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
+                <Box component="a" href="#lo-trinh" sx={{ color: '#475569', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
                   Lộ trình học
                 </Box>
-                <Box component="a" href="#tinh-nang" sx={{ color: '#64748B', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
+                <Box component="a" href="#tinh-nang" sx={{ color: '#475569', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
                   Bài tập & trò chơi
                 </Box>
               </Box>
@@ -1392,10 +1536,10 @@ export const LandingPage: React.FC = () => {
                 Đồng hành
               </Typography>
               <Box sx={{ display: 'grid', gap: 1.2 }}>
-                <Box component="a" href="#giai-dap" sx={{ color: '#64748B', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
+                <Box component="a" href="#giai-dap" sx={{ color: '#475569', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
                   Dành cho phụ huynh
                 </Box>
-                <Box component="a" href="#giai-dap" sx={{ color: '#64748B', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
+                <Box component="a" href="#giai-dap" sx={{ color: '#475569', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
                   Câu hỏi thường gặp
                 </Box>
               </Box>
@@ -1407,10 +1551,10 @@ export const LandingPage: React.FC = () => {
                 Thông tin
               </Typography>
               <Box sx={{ display: 'grid', gap: 1.2 }}>
-                <Box component="a" href="#" sx={{ color: '#64748B', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
+                <Box component="a" href="#" sx={{ color: '#475569', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
                   Quyền riêng tư
                 </Box>
-                <Box component="a" href="#" sx={{ color: '#64748B', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
+                <Box component="a" href="#" sx={{ color: '#475569', fontSize: '0.86rem', textDecoration: 'none', '&:hover': { color: '#6D28D9' } }}>
                   Điều khoản
                 </Box>
               </Box>
@@ -1420,7 +1564,7 @@ export const LandingPage: React.FC = () => {
           {/* Bottom Line */}
           <Box
             sx={{
-              pt: 3.5,
+              pt: 3,
               borderTop: '1px solid #F1F5F9',
               display: 'flex',
               flexDirection: { xs: 'column', sm: 'row' },
