@@ -127,7 +127,7 @@ export const PortalLayout: React.FC = () => {
         sx={{
           bgcolor: '#FFFFFF',
           borderBottom: '1px solid',
-          borderColor: '#EDE9FE',
+          borderColor: '#D5C7F8',
           zIndex: 1100,
         }}
       >
@@ -167,7 +167,7 @@ export const PortalLayout: React.FC = () => {
                   variant="h6"
                   sx={{
                     fontFamily: 'Nunito, sans-serif',
-                    color: '#1E1B4B',
+                    color: '#190568',
                     fontWeight: 900,
                     lineHeight: 1.15,
                     fontSize: { xs: '1.2rem', sm: '1.35rem' },
@@ -187,7 +187,7 @@ export const PortalLayout: React.FC = () => {
               </Box>
             </Box>
 
-            {/* In-page navigation (matching Image 1) */}
+            {/* In-page navigation (matching Figma 2:3) */}
             {isLandingPage && (
               <Box
                 sx={{
@@ -201,7 +201,7 @@ export const PortalLayout: React.FC = () => {
                     component="a"
                     href="#"
                     sx={{
-                      color: '#1E1B4B',
+                      color: '#190568',
                       fontWeight: 800,
                       fontSize: '0.92rem',
                       textDecoration: 'none',
@@ -210,19 +210,19 @@ export const PortalLayout: React.FC = () => {
                   >
                     Trang chủ
                   </Box>
-                  <Box sx={{ width: 28, height: 3, bgcolor: '#7C3AED', borderRadius: '2px' }} />
+                  <Box sx={{ width: 57, height: 3, bgcolor: '#E6D5FF', borderRadius: '2px' }} />
                 </Box>
                 <Box
                   component="a"
                   href="#lo-trinh"
                   sx={{
-                    color: '#475569',
+                    color: '#190568',
                     fontWeight: 700,
                     fontSize: '0.92rem',
                     textDecoration: 'none',
                     py: 1,
                     transition: 'color 160ms ease',
-                    '&:hover': { color: '#6D28D9' },
+                    '&:hover': { color: '#6500EF' },
                   }}
                 >
                   Lộ trình
@@ -231,13 +231,13 @@ export const PortalLayout: React.FC = () => {
                   component="a"
                   href="#tinh-nang"
                   sx={{
-                    color: '#475569',
+                    color: '#190568',
                     fontWeight: 700,
                     fontSize: '0.92rem',
                     textDecoration: 'none',
                     py: 1,
                     transition: 'color 160ms ease',
-                    '&:hover': { color: '#6D28D9' },
+                    '&:hover': { color: '#6500EF' },
                   }}
                 >
                   Tính năng
@@ -246,13 +246,13 @@ export const PortalLayout: React.FC = () => {
                   component="a"
                   href="#giai-dap"
                   sx={{
-                    color: '#475569',
+                    color: '#190568',
                     fontWeight: 700,
                     fontSize: '0.92rem',
                     textDecoration: 'none',
                     py: 1,
                     transition: 'color 160ms ease',
-                    '&:hover': { color: '#6D28D9' },
+                    '&:hover': { color: '#6500EF' },
                   }}
                 >
                   Giải đáp
@@ -283,14 +283,14 @@ export const PortalLayout: React.FC = () => {
                     to={isStudent ? '/student' : isTeacher ? '/teacher-entry' : '/admin-entry'}
                     variant="contained"
                     sx={{
-                      bgcolor: '#F3EEFF',
-                      '&:hover': { bgcolor: '#EDE9FE' },
-                      color: '#1E1B4B',
-                      border: '1px solid #E9DFFC',
+                      bgcolor: '#F5EFFF',
+                      '&:hover': { bgcolor: '#E1D2FF' },
+                      color: '#190568',
+                      border: '1px solid #E1D2FF',
                       fontWeight: 800,
                       px: { xs: 2.25, sm: 2.85 },
-                      minHeight: 38,
-                      borderRadius: '9999px',
+                      minHeight: 37,
+                      borderRadius: '20px',
                       textTransform: 'none',
                       whiteSpace: 'nowrap',
                       fontSize: '0.92rem',
@@ -343,15 +343,15 @@ export const PortalLayout: React.FC = () => {
                   component={RouterLink}
                   to="/login"
                   sx={{
-                    bgcolor: '#F3EEFF',
-                    '&:hover': { bgcolor: '#EDE9FE' },
-                    color: '#1E1B4B',
-                    border: '1px solid #E9DFFC',
+                    bgcolor: '#F5EFFF',
+                    '&:hover': { bgcolor: '#E1D2FF' },
+                    color: '#190568',
+                    border: '1px solid #E1D2FF',
                     fontWeight: 800,
                     px: { xs: 2.25, sm: 3 },
                     py: 0.85,
-                    minHeight: 38,
-                    borderRadius: '9999px',
+                    minHeight: 37,
+                    borderRadius: '20px',
                     textTransform: 'none',
                     fontSize: '0.92rem',
                     whiteSpace: 'nowrap',
