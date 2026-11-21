@@ -131,8 +131,8 @@ export const PortalLayout: React.FC = () => {
           zIndex: 1100,
         }}
       >
-        <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3, md: 5 } }}>
-          <Toolbar disableGutters sx={{ justifyContent: 'space-between', height: { xs: 64, sm: 72 }, gap: 1 }}>
+        <Container maxWidth={isLandingPage ? 'lg' : 'xl'} sx={{ px: { xs: 2.5, sm: 4, md: 5 } }}>
+          <Toolbar disableGutters sx={{ justifyContent: 'space-between', height: { xs: 68, sm: 78 }, gap: 1 }}>
             {/* Brand Logo & Name */}
             <Box
               component={RouterLink}
@@ -140,7 +140,7 @@ export const PortalLayout: React.FC = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 1.25,
+                gap: 1.5,
                 minWidth: 0,
                 textDecoration: 'none',
                 transition: 'transform 160ms ease',
@@ -148,20 +148,15 @@ export const PortalLayout: React.FC = () => {
               }}
             >
               <Box
+                component="img"
+                src="/ui/planet-logo.png"
+                alt="MathVisionKid"
                 sx={{
-                  width: { xs: 34, sm: 38 },
-                  height: { xs: 34, sm: 38 },
-                  borderRadius: '50%',
-                  bgcolor: '#EDE9FE',
-                  border: '1px solid #DDD6FE',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.25rem',
+                  width: { xs: 38, sm: 46 },
+                  height: { xs: 29, sm: 35 },
+                  objectFit: 'contain',
                 }}
-              >
-                🪐
-              </Box>
+              />
               <Box>
                 <Typography
                   variant="h6"
@@ -170,7 +165,7 @@ export const PortalLayout: React.FC = () => {
                     color: '#190568',
                     fontWeight: 900,
                     lineHeight: 1.15,
-                    fontSize: { xs: '1.2rem', sm: '1.35rem' },
+                    fontSize: { xs: '1.35rem', sm: '1.6rem' },
                     letterSpacing: '-0.02em',
                   }}
                 >
@@ -187,13 +182,13 @@ export const PortalLayout: React.FC = () => {
               </Box>
             </Box>
 
-            {/* In-page navigation (matching Figma 2:3) */}
+            {/* In-page navigation (matching Figma 2:3 & User Mockup) */}
             {isLandingPage && (
               <Box
                 sx={{
                   display: { xs: 'none', md: 'flex' },
                   alignItems: 'center',
-                  gap: 3.5,
+                  gap: { md: 5, lg: 6.5 },
                 }}
               >
                 <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -203,22 +198,22 @@ export const PortalLayout: React.FC = () => {
                     sx={{
                       color: '#190568',
                       fontWeight: 800,
-                      fontSize: '0.92rem',
+                      fontSize: '1.18rem',
                       textDecoration: 'none',
                       pb: 0.6,
                     }}
                   >
                     Trang chủ
                   </Box>
-                  <Box sx={{ width: 57, height: 3, bgcolor: '#E6D5FF', borderRadius: '2px' }} />
+                  <Box sx={{ width: 76, height: 4, bgcolor: '#E6D5FF', borderRadius: '4px' }} />
                 </Box>
                 <Box
                   component="a"
                   href="#lo-trinh"
                   sx={{
                     color: '#190568',
-                    fontWeight: 700,
-                    fontSize: '0.92rem',
+                    fontWeight: 800,
+                    fontSize: '1.18rem',
                     textDecoration: 'none',
                     py: 1,
                     transition: 'color 160ms ease',
@@ -232,8 +227,8 @@ export const PortalLayout: React.FC = () => {
                   href="#tinh-nang"
                   sx={{
                     color: '#190568',
-                    fontWeight: 700,
-                    fontSize: '0.92rem',
+                    fontWeight: 800,
+                    fontSize: '1.18rem',
                     textDecoration: 'none',
                     py: 1,
                     transition: 'color 160ms ease',
@@ -247,8 +242,8 @@ export const PortalLayout: React.FC = () => {
                   href="#giai-dap"
                   sx={{
                     color: '#190568',
-                    fontWeight: 700,
-                    fontSize: '0.92rem',
+                    fontWeight: 800,
+                    fontSize: '1.18rem',
                     textDecoration: 'none',
                     py: 1,
                     transition: 'color 160ms ease',
@@ -286,14 +281,14 @@ export const PortalLayout: React.FC = () => {
                       bgcolor: '#F5EFFF',
                       '&:hover': { bgcolor: '#E1D2FF' },
                       color: '#190568',
-                      border: '1px solid #E1D2FF',
+                      border: '1.5px solid #E1D2FF',
                       fontWeight: 800,
-                      px: { xs: 2.25, sm: 2.85 },
-                      minHeight: 37,
-                      borderRadius: '20px',
+                      px: { xs: 2.5, sm: 3.5 },
+                      minHeight: 44,
+                      borderRadius: '25px',
                       textTransform: 'none',
                       whiteSpace: 'nowrap',
-                      fontSize: '0.92rem',
+                      fontSize: '1.05rem',
                     }}
                   >
                     Vào lớp học →
@@ -314,9 +309,9 @@ export const PortalLayout: React.FC = () => {
                     <Avatar
                       sx={{
                         bgcolor: '#6D28D9',
-                        width: 30,
-                        height: 30,
-                        fontSize: '0.82rem',
+                        width: 32,
+                        height: 32,
+                        fontSize: '0.85rem',
                         fontWeight: 800,
                       }}
                     >
@@ -342,18 +337,19 @@ export const PortalLayout: React.FC = () => {
                 <Button
                   component={RouterLink}
                   to="/login"
+                  aria-label="Đăng nhập"
                   sx={{
-                    bgcolor: '#F5EFFF',
+                    bgcolor: '#F5EEFD',
                     '&:hover': { bgcolor: '#E1D2FF' },
                     color: '#190568',
-                    border: '1px solid #E1D2FF',
+                    border: '1.5px solid #E1D2FF',
                     fontWeight: 800,
-                    px: { xs: 2.25, sm: 3 },
-                    py: 0.85,
-                    minHeight: 37,
-                    borderRadius: '20px',
+                    px: { xs: 2.5, sm: 3.5 },
+                    py: 1,
+                    minHeight: 46,
+                    borderRadius: '25px',
                     textTransform: 'none',
-                    fontSize: '0.92rem',
+                    fontSize: '1.08rem',
                     whiteSpace: 'nowrap',
                     transition: 'all 160ms ease',
                     '&:active': { transform: 'scale(0.98)' },
