@@ -73,6 +73,9 @@ export default defineConfig(({ command, mode }) => {
               requestedFile = resolve(studentWebRoot, 'index.html');
             }
             // Serve outside Vite's cached public-file list and production publicDir.
+            if (/^\/study\/_expo\/static\/js\/web\/[^/]+-[a-f0-9]{32}\.js$/.test(pathname)) {
+              response.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+            }
             response.setHeader('Content-Type', contentType(requestedFile) || 'application/octet-stream');
             const stream = createReadStream(requestedFile);
             stream.on('error', () => { response.statusCode = 404; response.end(); });

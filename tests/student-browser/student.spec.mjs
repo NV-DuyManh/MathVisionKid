@@ -4,6 +4,7 @@ import { studentPort } from '../browser/sites.mjs';
 
 test('Student can add missing written work from the solved-work action on web', async ({ page, app }, testInfo) => {
   app.realStudent = true;
+  app.responses.set('POST /student/quizzes/prepare', ({ json }) => json({ status: 'READY' }));
   app.responses.set('POST /student/tutor/lesson/prepare', ({ json }) => json({ status: 'READY' }));
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
@@ -13,6 +14,10 @@ test('Student can add missing written work from the solved-work action on web', 
   await expect(page.getByRole('dialog', { name: 'Thêm bài em đã làm', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true })).toBeVisible();
   await testInfo.attach('Add missing work choices on web', { body: await page.screenshot(), contentType: 'image/png' });
+  await page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true }).click();
+  await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
+  await page.goto(url);
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await page.getByRole('button', { name: 'Đóng Thêm bài em đã làm', exact: true }).click();
   await expect(page.getByRole('dialog', { name: 'Thêm bài em đã làm', exact: true })).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Bài đã làm', exact: true })).toBeVisible();
@@ -21,10 +26,8 @@ test('Student can add missing written work from the solved-work action on web', 
   await page.getByRole('textbox', { name: 'Nội dung bài làm', exact: true }).fill('23 + 17 = 40');
   await page.getByRole('button', { name: 'Dùng nội dung này', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Bài đã làm', exact: true })).toBeVisible();
-  await page.goto(url);
-  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
-  await page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true }).click();
-  await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
+  await page.reload();
+  await expect(page.getByText('23 + 17 = 40', { exact: true }).first()).toBeVisible();
   expect(app.requests.some(request => request.path === '/student/tutor/work-review')).toBe(false);
 });
 
@@ -408,7 +411,7 @@ test('A photo picker opened in an old session cannot upload into a new session',
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Thay ảnh đại diện', exact: true }).click();
   const selected = await chooser;
-  await page.evaluate(() => window.sessionStorage.setItem('portal_session_id', crypto.randomUUID()));
+  await page.evaluate(() => window.localStorage.setItem('mvk_portal_web_session', crypto.randomUUID()));
   await selected.setFiles(fileURLToPath(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)));
   await expect(page.getByRole('alert')).toHaveText('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.');
   expect(app.requests.filter(request => request.path === '/student/profile/photo')).toHaveLength(0);
@@ -859,3 +862,41 @@ for (const viewport of [{ width: 360, height: 640 }, { width: 640, height: 360 }
     await expect(popup).toHaveCount(0);
   });
 }
+
+test('A catalog lesson opened directly and refreshed goes back to the lesson list', async ({ page, app }) => {
+  app.realStudent = true;
+  app.responses.set('POST /student/tutor/lesson/prepare', ({ json }) => json({ phase: 'ready' }));
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  const problemText = encodeURIComponent('Lan có 12 viên bi, Minh cho Lan thêm 3 viên. Hỏi Lan có bao nhiêu viên bi?');
+  await page.goto(sites.portal.origin + '/study/learning/math-guide?problemText=' + problemText);
+  await page.reload();
+  await page.getByRole('button', { name: 'Quay lại', exact: true }).click();
+  await expect(page).toHaveURL(sites.portal.origin + '/study/lessons');
+});
+
+test('a new Student tab restores a protected profile and follows logout', async ({ page, app }) => {
+  app.realStudent = true;
+  const sibling = await page.context().newPage();
+  try {
+    await login(page, 'STUDENT');
+    const profileUrl = sites.portal.origin + '/study/profile';
+    await sibling.goto(profileUrl);
+    if (sibling.viewportSize().width < 768) {
+      await expect(sibling.getByRole('button', { name: 'Trang cá nhân của em', exact: true })).toBeVisible();
+    } else {
+      await expect(sibling.getByText('Kiểm thử STUDENT', { exact: true }).first()).toBeVisible();
+    }
+    await expect(sibling).toHaveURL(profileUrl);
+    expect(app.requests.filter(({ path }) => path === '/auth/login')).toHaveLength(1);
+    await page.goto(sites.portal.origin + '/study/account');
+    await page.getByRole('button', { name: 'Đăng xuất', exact: true }).click();
+    await page.getByRole('button', { name: 'Xác nhận đăng xuất', exact: true }).click();
+    await expect(sibling).toHaveURL(sites.portal.origin + '/login');
+    await sibling.goto(sites.portal.origin + '/study/lessons');
+    await expect(sibling).toHaveURL(sites.portal.origin + '/login');
+    await expect.poll(() => app.requests.filter(({ path }) => path === '/auth/logout').length).toBe(1);
+  } finally {
+    await sibling.close();
+  }
+});

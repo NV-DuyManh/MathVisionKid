@@ -69,3 +69,12 @@ it('keeps the current choice after a storage failure and allows a later save to 
   expect(changed).toHaveBeenCalledTimes(1);
   expect(voicePreferences.set).toHaveBeenLastCalledWith(JSON.stringify({ voiceId: 'vi-VN-NamMinhNeural' }));
 });
+
+it('restores the last online voice when the saved selection is device', async () => {
+  const { voicePreferences, readNarrationVoice, currentOnlineNarrationVoice, saveNarrationVoice } = fresh();
+  voicePreferences.get.mockResolvedValue(JSON.stringify({ voiceId: 'device', onlineVoiceId: 'vi-VN-HoaiMyNeural' }));
+  await expect(readNarrationVoice()).resolves.toBe('device');
+  expect(currentOnlineNarrationVoice()).toBe('vi-VN-HoaiMyNeural');
+  await saveNarrationVoice('device');
+  expect(voicePreferences.set).toHaveBeenLastCalledWith(JSON.stringify({ voiceId: 'device', onlineVoiceId: 'vi-VN-HoaiMyNeural' }));
+});

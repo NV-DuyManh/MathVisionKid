@@ -205,7 +205,17 @@ test('teacher keeps queue filters through review navigation without putting stud
   await expect(page.getByRole('combobox', { name: 'Trạng thái' })).toHaveText('Có điểm đề xuất');
   await expect(page.getByRole('combobox', { name: 'Sắp xếp theo' })).toHaveText('Điểm đề xuất: Cao → Thấp');
 
-  await page.evaluate(() => sessionStorage.setItem('teacher_session_id', 'different-test-session'));
+  const previousState = await page.evaluate(() => history.state.usr);
+  const previousSession = previousState.reviewQueue.sessionId;
+  expect(previousSession).toBeTruthy();
+  await page.getByRole('button', { name: 'Đăng xuất', exact: true }).click();
+  await expect(page).toHaveURL(`${sites.portal.origin}/`);
+  await login(page, 'TEACHER');
+  const currentSession = await page.evaluate(() => localStorage.getItem('mvk_teacher_web_session'));
+  expect(currentSession).toBeTruthy();
+  expect(currentSession).not.toBe(previousSession);
+  await page.goto(reviewUrl);
+  await page.evaluate(state => history.replaceState({ ...history.state, usr: state }, ''), previousState);
   await page.reload();
   await expect(search).toHaveValue('');
   await expect(page.getByRole('button', { name: 'Duyệt bài này' })).toHaveCount(2);

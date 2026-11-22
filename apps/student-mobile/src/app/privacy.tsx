@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, Platform, useWindowDimensions } from 'react-native';
 import { ActivityRail } from '../components/ui/ActivityRail';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
 import ViewShot from 'react-native-view-shot';
 import {
   Gesture,
@@ -47,10 +47,14 @@ export default function PrivacyGateScreen() {
   const params = useLocalSearchParams<{ uri?: string; retrySubmissionId?: string }>();
   const draft = useSyncExternalStore(recognitionDraftStore.subscribe, recognitionDraftStore.getSnapshot, recognitionDraftStore.getSnapshot);
 
+  const recovery = useSyncExternalStore(imageDraftPersistence.subscribe, imageDraftPersistence.getSnapshot, imageDraftPersistence.getSnapshot);
   const rawUri = draft?.sourceImageUri || draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
   const activeUri = rawUri ? ensureFileUri(rawUri) : '';
   const retrySubmissionId = draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId);
 
+  if (Platform.OS === 'web' && !activeUri && recovery.returnMode) {
+    return <Redirect href={{ pathname: '/camera', params: { mode: recovery.returnMode } }} />;
+  }
   return <PrivacyEditor key={`${draft?.imageSessionId || draft?.createdAt || ''}:${activeUri}`} activeUri={activeUri} draft={draft} retrySubmissionId={retrySubmissionId} />;
 }
 
@@ -99,8 +103,18 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
         x: mask.x * next.width / previous.width, y: mask.y * next.height / previous.height,
         width: mask.width * next.width / previous.width, height: mask.height * next.height / previous.height,
       })));
+      return;
     }
-  }, [activeUri, fittedStyle.width, fittedStyle.height]);
+    if (Platform.OS !== 'web' || draft?.privacyConfirmed || !draft?.imageSessionId) return;
+    if (!previous && draft.privacyMaskDraft?.length) {
+      setMasks(draft.privacyMaskDraft.map(mask => ({ ...mask, x: mask.x * next.width, y: mask.y * next.height,
+        width: mask.width * next.width, height: mask.height * next.height })));
+      return;
+    }
+    imageDraftPersistence.savePrivacyMasks(draft.imageSessionId, masks.map(mask => ({ ...mask,
+      x: mask.x / next.width, y: mask.y / next.height, width: mask.width / next.width, height: mask.height / next.height,
+    })));
+  }, [activeUri, fittedStyle.width, fittedStyle.height, masks, draft?.privacyConfirmed, draft?.imageSessionId]);
 
   const effectiveMode = resolveFlowDomain(null, draft?.mode);
 

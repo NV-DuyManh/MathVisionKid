@@ -16,6 +16,8 @@ export async function checkWebBundle(dist, app, { checkLogout = false, checkAdmi
   });
   virtualConsole.on('error', (...args) => errors.push(args.join(' ')));
   const role = app === 'admin' ? 'ADMIN' : app === 'teacher' ? 'TEACHER' : 'STUDENT';
+  const sessionId = 'production-session';
+  const sessionKey = `mvk_${app}_web_session`;
   const profile = { userId: 'production-user', role, displayName: 'Production User', active: true };
   const url = `https://${app}.mathvision.example${app === 'portal' ? '/login' : '/auth/continue#sso=production-ticket'}`;
   const dom = new JSDOM('<div id="root"></div>', {
@@ -39,22 +41,20 @@ export async function checkWebBundle(dist, app, { checkLogout = false, checkAdmi
       return Reflect.set(location, key, value);
     },
   }) });
-  if (app === 'portal') {
-    dom.window.sessionStorage.setItem('portal_access_token', 'student-access');
-    dom.window.sessionStorage.setItem('portal_refresh_token', 'student-refresh');
-  }
+  if (app === 'portal') dom.window.localStorage.setItem(sessionKey, sessionId);
   dom.window.XMLHttpRequest = class {
     onloadend = null;
     readyState = 0;
     responseType = '';
     status = 200;
     statusText = 'OK';
+    headers = new Map();
     open(method, address) { this.method = method; this.url = address; }
-    setRequestHeader() {}
+    setRequestHeader(name, value) { this.headers.set(name.toLowerCase(), value); }
     getAllResponseHeaders() { return 'content-type: application/json\r\n'; }
     abort() { this.onabort?.(); }
     send(body) {
-      calls.push({ method: this.method, url: this.url, body });
+      calls.push({ method: this.method, url: this.url, body, headers: this.headers });
       if (checkAdminDetail && this.url.endsWith(`/admin${checkAdminDetail}`)) {
         const fail = () => {
           this.status = 404;
@@ -68,8 +68,17 @@ export async function checkWebBundle(dist, app, { checkLogout = false, checkAdmi
         return;
       }
       let data;
-      if (this.url.endsWith('/auth/sso/exchange')) data = { accessToken: 'production-access', refreshToken: 'production-refresh' };
-      else if (this.url.endsWith('/me')) data = profile;
+      if (this.url.endsWith('/auth/sso/exchange')) data = { sessionId };
+      else if (this.url.endsWith('/me')) {
+        if (this.headers.get('x-mathvision-web') === app
+            && this.headers.get('x-mathvision-session') === sessionId
+            && !this.headers.has('authorization')) data = profile;
+        else {
+          this.status = 401;
+          this.statusText = 'Unauthorized';
+          data = { message: 'Invalid Web session' };
+        }
+      }
       else if (this.url.includes('/admin/audit')) data = { content: [], totalPages: 0, totalElements: 0, number: 0, size: 6 };
       else if (this.url.endsWith('/admin/dashboard')) data = { totalStudents: 0, activeStudents: 0, disabledStudents: 0,
         totalTeachers: 0, activeTeachers: 0, disabledTeachers: 0, totalClasses: 0 };
@@ -101,7 +110,7 @@ export async function checkWebBundle(dist, app, { checkLogout = false, checkAdmi
     assert.equal(dom.window.location.hash, '');
     if (app === 'portal') assert.equal(new URL(navigation[0], url).pathname, '/study/', 'Validated student must enter the shared learning app.');
     else assert.ok(dom.window.document.body.textContent.includes(profile.displayName), 'Authenticated application must render the returned profile.');
-    assert.ok(calls.some(call => call.url.endsWith('/me')));
+    assert.ok(calls.some(call => call.url.endsWith('/me') && call.headers.get('x-mathvision-session') === sessionId));
     if (app !== 'portal') assert.equal(calls.filter(call => call.url.endsWith('/auth/sso/exchange')).length, 1);
     if (app === 'teacher') {
       for (let attempt = 0; attempt < 100 && !dom.window.document.querySelector('.dashboard-metrics'); attempt++) {
@@ -158,9 +167,10 @@ export async function checkWebBundle(dist, app, { checkLogout = false, checkAdmi
       assert.equal(navigation.length, 1, 'Logout must issue a single external navigation.');
       assert.equal(new URL(navigation[0]).pathname, '/logout');
       assert.equal(new URL(navigation[0]).searchParams.get('source'), 'admin');
-      assert.equal(dom.window.localStorage.getItem('mvk_admin_access_token'), null);
-      assert.equal(dom.window.localStorage.getItem('mvk_admin_refresh_token'), null);
-      assert.equal(calls.filter(call => call.url.endsWith('/auth/logout')).length, 1);
+      assert.equal(dom.window.localStorage.getItem(sessionKey), null);
+      const revocations = calls.filter(call => call.url.endsWith('/auth/logout'));
+      assert.equal(revocations.length, 1);
+      assert.equal(revocations[0].headers.get('x-mathvision-session'), sessionId);
       assert.deepEqual(errors, []);
     }
   } finally {

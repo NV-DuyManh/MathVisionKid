@@ -20,7 +20,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
+    private final WebSessionService webSessions;
+
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService, WebSessionService webSessions) {
+        this.webSessions = webSessions;
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
     }
@@ -28,6 +31,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        if (request.getHeader(WebSessionService.CLIENT) != null) {
+            var client = WebSessionService.client(request);
+            String site = request.getHeader("Sec-Fetch-Site");
+            if (client == null || (site != null && !"same-origin".equals(site))
+                    || "/api/v1/auth/refresh".equals(request.getRequestURI().substring(request.getContextPath().length()))) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\":{\"code\":\"FORBIDDEN\",\"message\":\"Access Denied\"}}");
+                return;
+            }
+            String principal = webSessions.authenticate(request, client);
+            if (principal != null) {
+                UserDetails user = userDetailsService.loadUserByUsername(principal);
+                if (user.isEnabled() && user.isAccountNonLocked() && user.isAccountNonExpired()
+                        && user.isCredentialsNonExpired()) {
+                    var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            }
+            response.setHeader("Cache-Control", "no-store");
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;

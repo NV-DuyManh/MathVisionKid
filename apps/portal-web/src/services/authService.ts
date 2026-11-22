@@ -1,4 +1,4 @@
-import { apiClient, tokenStore } from './apiClient';
+import { apiClient, tokenStore, webSession } from './apiClient';
 export interface UserProfile {
   userId: string; email: string; role: 'STUDENT' | 'TEACHER' | 'ADMIN';
   displayName: string; active: boolean; gradeLevel?: number;
@@ -11,17 +11,17 @@ export interface RegisterPayload {
 }
 async function authenticate(path: string, credentials: object): Promise<UserProfile> {
   const current = ++attempt;
-  tokenStore.clearTokens();
+  let established = false;
   try {
-    const { data } = await apiClient.post(path, credentials);
+    await webSession.establish(path, credentials, undefined, () => current === attempt);
+    established = true;
     if (current !== attempt) throw new Error('Phiên đăng nhập đã thay đổi.');
-    if (!data.accessToken || !data.refreshToken) throw new Error('Phản hồi xác thực không hợp lệ.');
-    tokenStore.setTokens(data.accessToken, data.refreshToken, true);
+    window.dispatchEvent(new Event('portal_auth_changed'));
     const profile = await authService.getMe();
     if (current !== attempt) throw new Error('Phiên đăng nhập đã thay đổi.');
     return profile;
   } catch (error) {
-    if (current === attempt) tokenStore.clearTokens();
+    if (current === attempt && established) tokenStore.clearTokens();
     throw error;
   }
 }
@@ -57,10 +57,8 @@ export const authService = {
   },
   async logout(): Promise<void> {
     attempt++;
-    const accessToken = tokenStore.getAccessToken();
-    tokenStore.clearTokens();
-    try {
-      if (accessToken) await apiClient.post('/auth/logout', {}, { headers: { Authorization: `Bearer ${accessToken}` }, timeout: 5000 });
-    } catch { /* Local logout completes without waiting for server availability. */ }
+    const revocation = webSession.logout();
+    window.dispatchEvent(new Event('portal_auth_changed'));
+    await revocation;
   },
 };
