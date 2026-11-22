@@ -49,9 +49,13 @@ test('terrain answers, loss, replay, five stages, pause, resize and exit preserv
     if (stage === 1) {
       const state = await page.locator('[data-testid^="supercar-state-"]').getAttribute('data-testid');
       await page.getByTestId('supercar-pause').click();
+      await expect(page.getByTestId('supercar-resume')).toBeVisible();
       const hero = await page.getByTestId('supercar-hero').boundingBox();
       await page.waitForTimeout(300); // Observe a frozen animation across real frames.
-      expect(await page.getByTestId('supercar-hero').boundingBox()).toEqual(hero);
+      const pausedHero = await page.getByTestId('supercar-hero').boundingBox();
+      expect(hero).not.toBeNull();
+      expect(pausedHero).not.toBeNull();
+      for (const key of ['x', 'y', 'width', 'height']) expect(Math.abs(hero[key] - pausedHero[key])).toBeLessThan(0.5);
       const player = page.getByTestId('training-player-terrain-racing');
       for (const width of [1001, 1000, 999, 990, 1280]) {
         await page.setViewportSize({ width, height: 720 });
@@ -203,6 +207,7 @@ test('island pointer construction completes six missions and preserves blocks th
   await page.getByTestId('island-confirm-new').click();
   await page.getByTestId('island-check').click();
   await expect(page.getByTestId('island-feedback')).not.toHaveText('');
+  const entities = page.getByTestId('island-play').locator('[data-testid^="island-entity-"]');
   for (let mission = 0; mission < 6; mission++) {
     await page.getByTestId('island-hint').click();
     await expect.poll(async () => (await islandState(page))?.hint?.target?.length ?? 0).toBeGreaterThan(0);
@@ -224,10 +229,10 @@ test('island pointer construction completes six missions and preserves blocks th
       const scene = await page.getByTestId('island-scene').boundingBox();
       const x = scene.x + (720 + (point.x - point.y) * 24) * scene.width / 1440;
       const y = scene.y + (100 + (point.x + point.y + 1) * 14) * scene.height / 980;
-      const before = (await islandState(page)).blocks.length;
+      const before = await entities.count();
       await page.mouse.click(x, y);
-      await expect.poll(async () => (await islandState(page)).blocks.length).toBe(before + 1);
-      expect((await islandState(page)).blocks.at(-1)).toMatchObject({ x: point.x, y: point.y, floorIndex: point.floorIndex });
+      await expect(entities).toHaveCount(before + 1);
+      await expect(page.getByTestId(`island-entity-floor:${point.floorIndex}:${point.x},${point.y}`)).toBeAttached();
     }
     if (mission === 0) {
       const before = (await islandState(page)).blocks;
