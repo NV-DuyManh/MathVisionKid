@@ -59,12 +59,8 @@ public class ParentControlService {
 
     @Transactional
     public Settings setup(String principal, String pin) {
-        var student = lockedStudent(principal);
-        if (find(student) != null) {
-            throw new ApiException("PARENT_PIN_EXISTS", "Mã PIN đã được thiết lập.", HttpStatus.CONFLICT);
-        }
-        db.update("INSERT INTO student_parent_control (student_id, pin_hash) VALUES (?, ?)", student, passwords.encode(pin));
-        return new Settings(null, null);
+        throw new ApiException("PARENT_ENROLLMENT_REQUIRED",
+                "Cần xác minh người giám hộ trước khi thiết lập mã PIN.", HttpStatus.FORBIDDEN);
     }
 
     // Failed attempts must persist even when the controller returns an error.

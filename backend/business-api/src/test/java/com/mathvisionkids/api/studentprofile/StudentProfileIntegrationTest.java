@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -35,6 +36,7 @@ class StudentProfileIntegrationTest {
     @Autowired JdbcTemplate db;
     @Autowired MockMvc mvc;
     @Autowired TransactionTemplate transaction;
+    @Autowired PasswordEncoder passwords;
     Student pupil;
     Student other;
 
@@ -51,6 +53,22 @@ class StudentProfileIntegrationTest {
         s.setRole("STUDENT");
         s.setGradeLevel(3);
         return students.saveAndFlush(s);
+    }
+
+    private void configureParentControl(UUID studentId, String pin) {
+        db.update("INSERT INTO student_parent_control(student_id, pin_hash) VALUES (?, ?)",
+                studentId, passwords.encode(pin));
+    }
+
+    @Test void studentCannotEnrollParentPinWithoutGuardianVerification() throws Exception {
+        mvc.perform(post("/api/v1/student/parent-control/pin")
+                        .with(user(pupil.getEmail()).roles("STUDENT"))
+                        .contentType("application/json")
+                        .content("{\"pin\":\"716025\"}"))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("PARENT_ENROLLMENT_REQUIRED"));
+        assertEquals(0, db.queryForObject("SELECT COUNT(*) FROM student_parent_control WHERE student_id = ?",
+                Integer.class, pupil.getId()));
     }
 
     @Test void statusWithoutParentControlPreservesUnconfiguredResponse() throws Exception {
@@ -74,8 +92,7 @@ class StudentProfileIntegrationTest {
 
     @Test void statusAccountsExpiredConnectionBeforeCheckingDailyLimit() throws Exception {
         var account = user(pupil.getEmail()).roles("STUDENT");
-        mvc.perform(post("/api/v1/student/parent-control/pin").with(account).contentType("application/json")
-                .content("{\"pin\":\"716025\"}")).andExpect(status().isOk());
+        configureParentControl(pupil.getId(), "716025");
         mvc.perform(put("/api/v1/student/parent-control/daily-limit").with(account).contentType("application/json")
                 .content("{\"pin\":\"716025\",\"minutes\":1}")).andExpect(status().isOk());
         var day = java.time.LocalDate.now(StudentRewards.ZONE);
@@ -115,10 +132,7 @@ class StudentProfileIntegrationTest {
         String base = "/api/v1/student/parent-control";
         String pin = "{\"pin\":\"716025\"}";
         String cap = "{\"pin\":\"716025\",\"minutes\":1}";
-        mvc.perform(post(base + "/pin").with(account).contentType("application/json").content(pin))
-                .andExpect(status().isOk());
-        mvc.perform(post(base + "/pin").with(account).contentType("application/json").content(pin))
-                .andExpect(status().isConflict());
+        configureParentControl(pupil.getId(), "716025");
         mvc.perform(put(base + "/daily-limit").with(account).contentType("application/json")
                         .content("{\"pin\":\"000000\",\"minutes\":1}"))
                 .andExpect(status().isForbidden());
@@ -179,8 +193,7 @@ class StudentProfileIntegrationTest {
                 .andExpect(status().isUnauthorized());
         mvc.perform(post(heartbeat).with(user(pupil.getEmail()).roles("TEACHER")).contentType("application/json").content(active))
                 .andExpect(status().isForbidden());
-        mvc.perform(post(parent + "/pin").with(account).contentType("application/json").content("{\"pin\":\"716025\"}"))
-                .andExpect(status().isOk());
+        configureParentControl(pupil.getId(), "716025");
         mvc.perform(put(parent + "/game-limit").with(account).contentType("application/json")
                         .content("{\"pin\":\"000000\",\"minutes\":1}"))
                 .andExpect(status().isForbidden());
