@@ -2,6 +2,14 @@
 
 Spring Boot là thẩm quyền xác thực/RBAC và quyền sở hữu tài nguyên. Student/Teacher/Admin không tự cấp role hoặc coi ẩn nút là bảo vệ API. Giữ namespace, DTO và cấu trúc lỗi đang phát hành; quy ước mới không cho phép thay hợp đồng hàng loạt.
 
+## Phiên đăng nhập
+
+- Portal và Student Web dùng chung client `portal`. Teacher và Admin lần lượt dùng `teacher` và `admin`. Mỗi cổng chuyển tiếp `/api/v1` cùng origin tới Spring Boot. Yêu cầu Web gửi `X-MathVision-Web`, cookie `HttpOnly` và `X-MathVision-Session` khi đã đăng nhập. Dùng HTTPS ngoài môi trường phát triển nội bộ.
+- Đăng nhập, đổi vé SSO và đổi mật khẩu trên Web trả về `{ sessionId }`. Các tab trong cùng hồ sơ trình duyệt và cùng origin chia sẻ mã phiên qua `localStorage`. Cookie `HttpOnly` và mã phiên phải khớp với bản ghi Spring Boot. Các tab đang mở tải lại khi phiên đổi để khôi phục đúng tài khoản. Bản nháp ảnh của Student Web vẫn gắn với mã tab trong `sessionStorage`. Phiên hết hạn sau tối đa 7 ngày tính từ lần cấp, với mã mới khi cấp lại. Đăng xuất Web thu hồi các phiên Web của tài khoản đó. Đổi mật khẩu và phát hiện refresh token bị dùng lại thu hồi các phiên theo chính sách tài khoản hiện có.
+- Mobile dùng Bearer access token và refresh token luân chuyển trên `/api/v1/auth/refresh`. Ứng dụng native giữ token trong `expo-secure-store`. Khi access token đã hết hạn, `/api/v1/auth/logout` dùng refresh token còn hiệu lực để thu hồi chính refresh token đó. Spring Boot kiểm tra role và trạng thái tài khoản ở cả hai luồng.
+
+## Quy ước API
+
 - API nghiệp vụ dưới `/api/v1`, JSON camelCase. Dùng DTO và allowlist đầu vào, không bind entity hoặc nhận điểm/quyền đã duyệt từ client làm sự thật.
 - HTTP: 200 đọc/cập nhật, 201 tạo, 204 không body; 400 validation, 401 chưa xác thực, 403 thiếu quyền, 404 không tồn tại/không được tiết lộ, 409 xung đột, 429 giới hạn. Không trả stack trace, SQL, secret hoặc thông tin môi trường trong lỗi người dùng.
 - Phân trang/sort theo hợp đồng backend hiện có; endpoint mới chốt rõ giới hạn và trường sort. Timestamp ISO 8601; lưu instant, hiển thị theo múi giờ đã chọn.

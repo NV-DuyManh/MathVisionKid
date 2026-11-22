@@ -5,16 +5,17 @@ Sau khi xác nhận riêng tư, tải lại màn crop khôi phục ảnh đã x�
 ## Dữ liệu và quyền riêng tư
 
 - `imageDraftPersistence.web.ts` dùng IndexedDB `mathvision-private-photo-v1`, version 1. Store `drafts` chứa metadata; `images` chứa Blob ảnh đã xác nhận và ảnh crop nếu có. Không lưu chuỗi URL tạm để thay cho dữ liệu ảnh.
-- Chỉ bắt đầu lưu sau `privacyConfirmed`; vùng che được raster hóa vào pixel. Ảnh gốc chưa xác nhận không được lưu. Khi khôi phục, các alias nguồn ảnh đều trỏ đến bản đã xác nhận; không fallback sang ảnh gốc.
-- AuthProvider xác minh tài khoản từ backend trước khi đọc scope `[owner, sessionId]` và mount màn học. Profile cache không có thẩm quyền cấp quyền. Kiểm tra version, owner, session, source/revision, hạn, Blob và khả năng giải mã trước khi dùng.
+- Trước khi xác nhận, trình chỉnh riêng tư trên Student Web giữ tối đa một Blob ảnh nguồn theo phiên đã xác minh trong 30 giây. Tab giữ định danh ảnh, chế độ chụp và các vùng che tương đối trong sessionStorage. Chỉ màn Privacy có thể phục hồi ảnh nguồn nếu phiên và định danh khớp. F5 luôn yêu cầu xác nhận riêng tư lại. Khi ảnh hết hạn, tải lại màn Privacy đưa học sinh về Camera cùng chế độ. Editor đã mở vẫn giữ ảnh trong bộ nhớ để học sinh hoàn tất thao tác.
+- Khi xác nhận, vùng che được raster hóa vào pixel. Bản đã duyệt thay bản gốc trong cùng giao dịch. Luồng crop, gửi bài và đọc ảnh chỉ tiếp tục với ảnh đã xác nhận. Khi khôi phục bản đã duyệt, các alias nguồn ảnh đều trỏ đến bản đã xác nhận.
+- AuthProvider xác minh tài khoản từ backend trước khi đọc scope theo tài khoản, phiên đăng nhập và mã tab. Profile cache không có thẩm quyền cấp quyền. Kiểm tra version, owner, session, source/revision, hạn, Blob và khả năng giải mã trước khi dùng.
 - Đổi phiên vô hiệu hóa tác vụ cũ. Kết quả giải mã thất bại đến muộn phải kiểm tra lại generation trước khi dọn dữ liệu; không được dùng scope của phiên mới để xóa ảnh của tác vụ cũ.
 - Native dùng implementation riêng không truy cập IndexedDB/window. Không thêm endpoint, cấu hình, dependency, migration hoặc upload để phục vụ refresh.
 
 ## Lưu, phục hồi và dọn dẹp
 
-Thời hạn là 30 phút từ lần chỉnh sửa được lưu, giới hạn tối đa 24 giờ từ lúc tạo; giữ tối đa 3 scope. Xóa khi logout, thay ảnh, hoàn thành đọc/xử lý hoặc phát hiện hỏng/hết hạn. Dọn draft cũ khi mở/khôi phục/lưu tiếp; không có tiến trình chạy khi browser đã đóng. Khôi phục tab cần browser khôi phục cùng sessionStorage; phiên đăng nhập mới không đọc draft phiên cũ.
+Với ảnh đã duyệt, thời hạn là 30 phút từ lần chỉnh sửa được lưu, giới hạn tối đa 24 giờ từ lúc tạo; giữ tối đa 3 scope. Xóa khi logout, thay ảnh, hoàn thành đọc/xử lý hoặc phát hiện hỏng/hết hạn. Dọn draft cũ khi mở/khôi phục/lưu tiếp; không có tiến trình chạy khi browser đã đóng. Khôi phục tab cần browser khôi phục cùng sessionStorage; phiên đăng nhập mới không đọc draft phiên cũ.
 
-Blob được ghi ở bước xác nhận ảnh, không ghi theo từng pixel kéo. Crop cập nhật metadata khi kết thúc thao tác; journal đồng bộ nhỏ chỉ chứa scope/source/revision, crop và hạn. Journal khác revision bị bỏ qua. Lưu thành công chỉ được công bố sau `transaction.oncomplete`; lỗi/quota/blocked storage có thông báo và đường chọn lại, không loading vô hạn.
+Blob ảnh nguồn được ghi khi chọn hoặc chụp xong. Tab đang chạy dọn bản lưu khi tới hạn 30 giây. Nếu tab đã đóng hoặc browser tạm ngưng, hạn vẫn được kiểm tra và dữ liệu hết hạn được dọn ở lần truy cập kế tiếp. Logout, thay ảnh và xác nhận xóa hoặc thay thế bản lưu nguồn. Kéo vùng che chỉ ghi metadata, ảnh được ghi lại khi xác nhận. Crop cập nhật metadata khi kết thúc thao tác; journal đồng bộ nhỏ chỉ chứa scope/source/revision, crop và hạn. Journal khác revision bị bỏ qua. Lưu thành công chỉ được công bố sau `transaction.oncomplete`; lỗi/quota/blocked storage có thông báo và đường chọn lại, không loading vô hạn.
 
 Khôi phục tạo URL mới từ Blob. Thu hồi URL do controller/export quản lý khi draft không còn dùng hoặc kết quả bị bỏ; URL kiểm tra giải mã luôn được thu hồi. Ảnh được đọc tại thiết bị, còn xác minh đăng nhập vẫn cần backend.
 

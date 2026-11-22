@@ -1,12 +1,10 @@
 import React, { createContext, useCallback, useEffect, useState, useRef, useSyncExternalStore, ReactNode } from 'react';
 import { ActivityIndicator, Text, View, Pressable } from 'react-native';
 import { usePathname, useRouter } from 'expo-router';
-import axios from 'axios';
-import { tokenStorage } from '../services/auth/tokenStorage';
+import { clearMathGuideCheckpoint } from '../features/tutoring/mathGuideCheckpoint';
+import { studentSession, tokenStorage } from '../services/auth/tokenStorage.web';
 import { sessionEvents } from '../services/auth/sessionEvents';
 import apiClient from '../services/api/apiClient';
-import { ENV } from '../config/env';
-import { workspaceOrigin } from '../config/workspaceOrigin.web';
 import { RecognitionService } from '../features/recognition/api/RecognitionService';
 import { recognitionDraftStore } from '../features/recognition/state/recognitionDraftStore';
 import { imageDraftPersistence } from '../features/recognition/state/imageDraftPersistence';
@@ -42,6 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const loginRoute = /^(?:\/(?:study|learn))?\/login\/?$/.test(pathname);
   const portal = typeof window !== 'undefined' && /^\/(?:study|learn)(?:\/|$)/.test(window.location.pathname);
   const setSessionUser = useCallback((profile: any) => {
+    if (!profile) clearMathGuideCheckpoint();
     const recovery = imageDraftPersistence.activate(profile?.id || profile?.userId);
     RecognitionService.clearCache();
     recognitionAnalyticsStore.setUserScope(profile?.id || profile?.userId);
@@ -51,10 +50,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const revalidate = (event: PageTransitionEvent) => {
       if (!event.persisted) return;
-      void Promise.all([tokenStorage.getAccessToken(), tokenStorage.getRefreshToken()]).then(([access, refresh]) => {
-        if (portal && !access && !refresh) window.location.replace('/');
-        else window.location.reload();
-      });
+      if (portal && !studentSession.hasSession()) window.location.replace('/');
+      else window.location.reload();
     };
     window.addEventListener('pageshow', revalidate);
     return () => window.removeEventListener('pageshow', revalidate);
@@ -67,9 +64,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const timer = setTimeout(() => controller.abort(), 15000);
     const restore = async () => {
       try {
-        const [access, refresh] = await Promise.all([tokenStorage.getAccessToken(), tokenStorage.getRefreshToken()]);
         if (!active || current !== revision.current) return;
-        if (!access && !refresh) {
+        if (!studentSession.hasSession()) {
           if (!publicWelcome) {
             if (portal) window.location.replace(loginRoute ? '/login' + window.location.search : '/login');
             else if (!loginRoute) router.replace('/login');
@@ -80,7 +76,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (!active || current !== revision.current) return;
         if (data.role !== 'STUDENT' || data.active !== true) {
           await tokenStorage.clearTokens();
-          delete apiClient.defaults.headers.common.Authorization;
           if (portal) window.location.replace('/access-denied');
           return;
         }
@@ -90,7 +85,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } catch (error: any) {
         if (!active || current !== revision.current) return;
         await tokenStorage.clearTokens();
-        delete apiClient.defaults.headers.common.Authorization;
         setFailure(error?.response ? 'Phiên đăng nhập không còn hợp lệ. Vui lòng đăng nhập lại.' : 'Chưa kết nối được máy chủ. Vui lòng kiểm tra kết nối và đăng nhập lại.');
         if (portal) window.location.replace(error?.response ? '/login?session=expired' : '/login?connection=failed');
       } finally { restoring = false; clearTimeout(timer); if (active && current === revision.current) setIsLoading(false); }
@@ -111,18 +105,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (loginRoute && user) router.replace('/(tabs)');
   }, [loginRoute, user, router]);
+  useEffect(() => studentSession.onExternalChange(() => {
+    revision.current++;
+    return setSessionUser(null);
+  }), [setSessionUser]);
+
   const logout = async () => {
     const current = ++revision.current;
     const clearPhoto = setSessionUser(null);
     recognitionDraftStore.clearDraft();
-    const accessToken = await tokenStorage.getAccessToken();
-    if (current !== revision.current) return;
-    await tokenStorage.clearTokens();
-    await clearPhoto;
-    delete apiClient.defaults.headers.common.Authorization;
-    if (accessToken) await axios.post(`${ENV.API_BASE_URL}/auth/logout`, {}, {
-      headers: { Authorization: `Bearer ${accessToken}` }, timeout: 2000,
-    }).catch(() => {});
+    await Promise.all([studentSession.logout(), clearPhoto]);
     if (current !== revision.current) return;
     if (portal) window.location.replace('/logout?source=student');
     else router.replace('/login');
@@ -139,14 +131,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const changePassword = async (currentPassword: string, newPassword: string, signal?: AbortSignal) => {
     const current = renderedRevision;
     if (current !== revision.current || signal?.aborted) throw new Error('Phiên đăng nhập đã thay đổi.');
-    const session = await tokenStorage.getSessionId();
+    const session = studentSession.getSessionId();
     if (current !== revision.current || signal?.aborted) throw new Error('Phiên đăng nhập đã thay đổi.');
     const config = { signal, _identity: session };
-    const { data } = await apiClient.post('/student/profile/password', { currentPassword, newPassword }, config);
-    if (current !== revision.current || signal?.aborted) throw new Error('Phiên đăng nhập đã thay đổi.');
-    if (!data.accessToken || !data.refreshToken) throw new Error('Chưa xác minh được phiên đăng nhập mới.');
-    await tokenStorage.saveTokens(data.accessToken, data.refreshToken, session);
-    if (current !== revision.current || signal?.aborted || await tokenStorage.getSessionId() !== session) throw new Error('Phiên đăng nhập đã thay đổi.');
+    const nextSession = await studentSession.establish('/student/profile/password', { currentPassword, newPassword }, config,
+      () => current === revision.current && !signal?.aborted);
+    if (current !== revision.current || signal?.aborted || studentSession.getSessionId() !== nextSession) throw new Error('Phiên đăng nhập đã thay đổi.');
+    clearMathGuideCheckpoint();
+    await imageDraftPersistence.activate(user?.id || user?.userId, false);
   };
   return <AuthContext.Provider value={{ user, isAuthenticated: user?.role === 'STUDENT' && user.active === true, isLoading, logout, refreshUser, changePassword }}>
     {(user && (!portal || !loginRoute)) || (!user && !isLoading && (publicWelcome || (!portal && loginRoute))) ? photoRecovery.restoring ?

@@ -6,6 +6,7 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_');
   const production = command === 'build';
   const config = resolveAppConfig(env, production);
+  const api = new URL(config.apiBaseUrl);
 
   return {
     plugins: [react()],
@@ -20,6 +21,10 @@ export default defineConfig(({ command, mode }) => {
       port: 5173,
       strictPort: true,
       host: true,
+      proxy: {
+        '/api/v1': { target: api.origin, changeOrigin: true,
+          rewrite: path => path.replace(/^\/api\/v1/, api.pathname.replace(/\/$/, '')) },
+      },
     },
   };
 })

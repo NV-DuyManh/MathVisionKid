@@ -68,6 +68,7 @@ export interface ImageDraft {
         width: number;
         height: number;
     }[];
+    privacyMaskDraft?: ImageDraft["masks"]; // Relative to the displayed source image.
     isMasked?: boolean;
     privacyConfirmed?: boolean;
     retrySubmissionId?: string;

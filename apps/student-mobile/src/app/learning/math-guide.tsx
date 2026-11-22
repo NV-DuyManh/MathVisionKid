@@ -24,7 +24,7 @@ import { HintCheckIn } from '../../features/tutoring/HintCheckIn';
 import { HintSheetContent } from '../../features/tutoring/HintSheetContent';
 import { buildHintVisual } from '../../features/tutoring/hintVisualModel';
 import { ProblemSummary } from '../../features/tutoring/ProblemSummary';
-import { StudentWorkReview } from '../../features/tutoring/StudentWorkReview';
+import { StudentWorkReview, type WorkReviewCheckpoint } from '../../features/tutoring/StudentWorkReview';
 import { WorkReviewPreparation } from '../../features/tutoring/WorkReviewPreparation';
 import { QuestionPicker } from '../../features/tutoring/QuestionPicker';
 import { sourceClarification } from '../../features/tutoring/sourceClarification';
@@ -43,6 +43,7 @@ import { NarrationPreparation, useNarrationPreparation } from '../../features/tu
 import { QuizAfterLearningButton } from '../../features/quiz/QuizInvitation';
 import { useQuizPreparation } from '../../features/quiz/useQuizPreparation';
 import { submissionId } from '../../features/quiz/quizInput';
+import { mathGuideScope, readMathGuideCheckpoint, saveMathGuideCheckpoint, type MathGuideCheckpoint } from '../../features/tutoring/mathGuideCheckpoint';
 import { getCurriculumProblem } from '../../data/primaryMathCurriculum';
 
 const MASCOT = require('../../../assets/illustrations/robot-mascot.png');
@@ -67,8 +68,9 @@ function checkedStudentAnswer(step: Pick<CompletedLessonStep, 'answer' | 'choice
   return !step.choices?.length && entered !== undefined && sameStoredAnswer(entered, step.answer) ? entered : step.answer;
 }
 
-type GuideParams = { problemText?: string; workText?: string; lessonId?: string; reflection?: string };
+type GuideParams = { problemText?: string; workText?: string; lessonId?: string; reflection?: string; guidePhotoId?: string; guideEntryId?: string };
 type GuideTask = 'read' | 'lesson' | 'answer' | 'hint';
+type EditableField = 'problem' | 'work';
 
 function startsWithFraction(step: LessonResponse['step']) {
   return step?.answerFormat === 'FRACTION' || (!!step && !step.answerFormat && (step.unit === 'phần' || /phân số|mấy phần/i.test(step.question)));
@@ -87,19 +89,37 @@ export default function MathGuideScreen() {
     }
     setDraftSource({ owner, draft: recognitionDraftStore.getDraft() });
   }, [owner]));
-  const draft = draftSource.owner === owner ? draftSource.draft : null;
-  const [resumePhoto, setResumePhoto] = useState(false);
+  const candidate = draftSource.owner === owner && !params.problemText && !params.workText ? draftSource.draft : null;
+  const draft = !params.guidePhotoId || candidate?.imageSessionId === params.guidePhotoId ? candidate : null;
+  const imageId = draft?.imageSessionId;
+  const checkpointScope = Platform.OS === 'web' ? mathGuideScope(owner) : null;
+  const checkpointRoute = JSON.stringify([params.guidePhotoId || imageId, params.guideEntryId, params.lessonId, params.problemText, params.workText]);
+  const checkpoint = checkpointScope ? readMathGuideCheckpoint(checkpointScope, checkpointRoute) : null;
+  const [photoChoice, setPhotoChoice] = useState<{ owner?: string; imageId: string; edit?: EditableField }>();
+  const choice = imageId && photoChoice?.imageId === imageId && photoChoice.owner === owner ? photoChoice : undefined;
   // Remount also aborts pending requests: answers/exploration belong to one source and account.
-  const sourceKey = JSON.stringify([owner, params.problemText, params.workText, params.lessonId, params.reflection, draft]);
-  if (Platform.OS === 'web' && draft?.recoveredAfterReload && draft.processingStarted && !resumePhoto) return <SafeAreaView>
-    <AppHeader title="Bài làm của em" showBack />
-    <RecoveryNotice title="Ảnh của em vẫn được giữ" message="Lần đọc trước chưa có kết quả xác nhận. Em có muốn tiếp tục đọc ảnh này không?"
-      actions={[{ label: 'Tiếp tục đọc ảnh', onPress: () => setResumePhoto(true) }]} />
-  </SafeAreaView>;
-  return <NarrationPreparation key={sourceKey} owner={owner}><MathGuideLesson owner={owner} params={params} sourceDraft={draft} /></NarrationPreparation>;
+  const sourceKey = JSON.stringify([owner, params.problemText, params.workText, params.lessonId, params.reflection, Platform.OS === 'web' ? [imageId, params.guideEntryId] : draft, choice?.edit]);
+  if (Platform.OS === 'web' && imageId && draft?.mode === 'MATH_TUTOR' && draft.recoveredAfterReload && draft.processingStarted && !choice && !checkpoint) {
+    const edit = draft.lessonContext?.purpose === 'ADD_WORK' ? 'work' : 'problem';
+    return <SafeAreaView>
+      <AppHeader title="Bài làm của em" showBack />
+      <RecoveryNotice title="Ảnh của em vẫn được giữ" message="Lần đọc trước chưa có kết quả xác nhận. Em có thể đọc lại ảnh hoặc nhập bằng chữ."
+        actions={[
+          { label: 'Tiếp tục đọc ảnh', onPress: () => setPhotoChoice({ owner, imageId }) },
+          { label: edit === 'work' ? 'Nhập bài làm bằng chữ' : 'Nhập đề bằng chữ', onPress: () => setPhotoChoice({ owner, imageId, edit }) },
+        ]} />
+    </SafeAreaView>;
+  }
+  return <NarrationPreparation key={sourceKey} owner={owner}>
+    <MathGuideLesson owner={owner} params={params} sourceDraft={draft} initialEdit={choice?.edit}
+      checkpoint={checkpoint} checkpointScope={checkpointScope} checkpointRoute={checkpointRoute} />
+  </NarrationPreparation>;
 }
 
-function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; params: GuideParams; sourceDraft: ImageDraft | null }) {
+function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, checkpointScope, checkpointRoute }: {
+  owner?: string; params: GuideParams; sourceDraft: ImageDraft | null; initialEdit?: EditableField;
+  checkpoint: MathGuideCheckpoint | null; checkpointScope: string | null; checkpointRoute: string;
+}) {
   const router = useRouter();
   const { width, height, fontScale } = useWindowDimensions();
   const spacious = width >= 1100 && fontScale <= 1.3;
@@ -107,26 +127,26 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const suppliedWork = typeof params.workText === 'string' ? params.workText.slice(0, 6000) : '';
   const draft = supplied || suppliedWork ? null : sourceDraft;
   const context = draft?.lessonContext;
-  const imageUri = draft?.mode === 'MATH_TUTOR' ? draft.croppedImageUri ?? '' : '';
+  const imageUri = !initialEdit && draft?.mode === 'MATH_TUTOR' ? draft.croppedImageUri ?? '' : '';
   const photoAllowed = !!imageUri && draft?.privacyConfirmed === true && !!draft.privacyImageUri;
-  const [reading, setReading] = useState<NotebookRead | null>(supplied || suppliedWork ? {
+  const [reading, setReading] = useState<NotebookRead | null>(checkpoint ? checkpoint.reading : supplied || suppliedWork ? {
     kind: suppliedWork ? 'MIXED' : 'PROBLEM', problemText: supplied,
     lines: savedDivision(suppliedWork) ? [{ text: suppliedWork, box: null, uncertain: true, division: savedDivision(suppliedWork) }] : [], needsProblem: !supplied,
   } : null);
-  const [problem, setProblem] = useState(supplied || context?.problemText || '');
-  const [work, setWork] = useState(suppliedWork || context?.workText || '');
-  const [workImage, setWorkImage] = useState(context?.workImageUri || '');
-  const [workImageCurrent, setWorkImageCurrent] = useState(context?.workImageCurrent !== false);
-  const [workLines, setWorkLines] = useState<NotebookLine[]>(context?.workLines || reading?.lines || []);
-  const [problemImage, setProblemImage] = useState(context?.problemImageUri || '');
-  const [uncertainWork, setUncertainWork] = useState(context?.uncertainWork || false);
-  const [problemConfirmed, setProblemConfirmed] = useState(context?.problemConfirmed === true);
-  const [sourceNeedsReview, setSourceNeedsReview] = useState(context?.problemNeedsReview === true);
-  const [quizPreparationKey] = useState(() => context?.quizPreparationKey || submissionId());
+  const [problem, setProblem] = useState(checkpoint?.problem ?? (supplied || context?.problemText || ''));
+  const [work, setWork] = useState(checkpoint?.work ?? (suppliedWork || context?.workText || ''));
+  const [workImage, setWorkImage] = useState(checkpoint ? (checkpoint.workPhoto && photoAllowed ? imageUri : '') : context?.workImageUri || '');
+  const [workImageCurrent, setWorkImageCurrent] = useState(checkpoint?.workImageCurrent ?? (context?.workImageCurrent !== false));
+  const [workLines, setWorkLines] = useState<NotebookLine[]>(checkpoint?.workLines ?? (context?.workLines || reading?.lines || []));
+  const [problemImage, setProblemImage] = useState(checkpoint ? (checkpoint.problemPhoto && photoAllowed ? imageUri : '') : context?.problemImageUri || '');
+  const [uncertainWork, setUncertainWork] = useState(checkpoint?.uncertainWork ?? (context?.uncertainWork || false));
+  const [problemConfirmed, setProblemConfirmed] = useState(checkpoint?.problemConfirmed ?? (context?.problemConfirmed === true));
+  const [sourceNeedsReview, setSourceNeedsReview] = useState(checkpoint?.sourceNeedsReview ?? (context?.problemNeedsReview === true));
+  const [quizPreparationKey] = useState(() => checkpoint?.quizPreparationKey || context?.quizPreparationKey || submissionId());
   const sourceIssue = sourceClarification(problem);
   const needsSourceClarification = sourceIssue !== null;
   useQuizPreparation(quizPreparationKey, problem, problemConfirmed && !needsSourceClarification);
-  const [workConfirmed, setWorkConfirmed] = useState(context?.workConfirmed === true);
+  const [workConfirmed, setWorkConfirmed] = useState(checkpoint?.workConfirmed ?? (context?.workConfirmed === true));
   const [lesson, setLesson] = useState<LessonResponse | null>(null);
   const [summaryStage, setSummaryStage] = useState<'summary' | 'solving' | undefined>();
   const [preparationPaused, setPreparationPaused] = useState(false);
@@ -158,20 +178,23 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const [failedTask, setFailedTask] = useState<GuideTask | null>(null);
   const [photoNeedsCrop, setPhotoNeedsCrop] = useState(false);
   const [expired, setExpired] = useState(false);
-  const [editing, setEditing] = useState<'problem' | 'work' | null>(null);
-  const [reviewFocused, setReviewFocused] = useState(false);
-  const [reviewStarted, setReviewStarted] = useState(false);
+  const [editing, setEditing] = useState<EditableField | null>(checkpoint ? checkpoint.editing : initialEdit ?? null);
+  const [reviewFocused, setReviewFocused] = useState(checkpoint?.reviewFocused ?? false);
+  const [reviewStarted, setReviewStarted] = useState(checkpoint?.reviewStarted ?? false);
+  const [workReviewCheckpoint, setWorkReviewCheckpoint] = useState<WorkReviewCheckpoint | null>(checkpoint?.workReview ?? null);
+  const [autoStartReview, setAutoStartReview] = useState(!checkpoint?.reviewStarted);
   const [workOptionsOpen, setWorkOptionsOpen] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(checkpoint?.savedToHistory ?? false);
   const [saving, setSaving] = useState(false);
   const [restoring,setRestoring]=useState(true),[progressNotice,setProgressNotice]=useState('');
   const progressDraft=useRef<LearningProgress|null>(null);
-  const [lessonId,setLessonId] = useState(() => context?.lessonId || (typeof params.lessonId === 'string' ? params.lessonId : `lesson_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`));
+  const [lessonId,setLessonId] = useState(() => checkpoint?.lessonId || context?.lessonId || (typeof params.lessonId === 'string' ? params.lessonId : `lesson_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`));
   const requestId = useRef(0);
   const controller = useRef<AbortController | null>(null);
   const running = useRef(false);
   const active = useRef(true);
-  const initialized = useRef(false);
+  const initialized = useRef(!!checkpoint?.reading || !!checkpoint?.editing);
+  const resumeProgress = useRef(checkpoint?.progress ?? null);
   const scroll = useRef<ScrollViewInstance>(null);
   const answerInput = useRef<TextInputInstance>(null);
   const firstChoice = useRef<ViewInstance>(null);
@@ -179,15 +202,27 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const previousHistoryIndex = useRef<number | null>(null);
   useEffect(()=>{
     const control=new AbortController();let live=true;
-    void loadLearningProgress(owner).then(async saved=>{
-      if(!live||work||!saved||saved.problemText!==problem||saved.workText!==work||params.lessonId&&saved.lessonId!==params.lessonId)return;
+    const savedProgress = checkpointScope && !params.lessonId
+      ? Promise.resolve(checkpoint?.progress ?? null)
+      : checkpoint ? Promise.resolve(checkpoint.progress) : loadLearningProgress(owner);
+    void savedProgress.then(async saved=>{
+      if(!live||(!checkpoint && work)||!saved||saved.problemText!==problem||saved.workText!==work||params.lessonId&&saved.lessonId!==params.lessonId)return;
       setProblemConfirmed(true);setWorkConfirmed(!!work);
       setLessonId(saved.lessonId);
       try{
         const result=await TutorService.resumeLesson(saved.sessionId,problem,control.signal);
         if (!live) return;
-        const restored = result.revision === saved.revision && result.stepIndex === saved.stepIndex ? saved.attempt : '';
-        const asFraction = startsWithFraction(result.step) || (!result.step?.answerFormat && restored.includes('/'));
+        resumeProgress.current = null;
+        const sameStep = result.revision === saved.revision && result.stepIndex === saved.stepIndex;
+        const restored = sameStep ? (checkpoint?.pendingAnswer ?? saved.attempt) : '';
+        const asFraction = sameStep && checkpoint ? checkpoint.fractionInput
+          : startsWithFraction(result.step) || (!result.step?.answerFormat && restored.includes('/'));
+        if (sameStep && checkpoint) {
+          setHistoryIndex(checkpoint.historyIndex !== null && checkpoint.historyIndex < result.completed.length ? checkpoint.historyIndex : null);
+          setHintOpen(checkpoint.hintOpen);
+          setHintPage(Math.min(checkpoint.hintPage, Math.max(0, (result.revealedHints?.length ?? 1) - 1)));
+          setAnswerEdited(checkpoint.answerEdited);
+        }
         setLesson(result);
         setSummaryStage(result.revision === saved.revision ? saved.summaryStage
           : result.understandingSteps === 3 && result.stepIndex === 3 ? 'summary' : undefined);
@@ -195,12 +230,19 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         setAttempt(asFraction && restored && !restored.includes('/') ? convertAnswerInput(restored, true) ?? restored : restored);
         setSubmittedAnswers(result.completed.map((item,index)=>checkedStudentAnswer(item,saved.completedAnswers?.[index])));
         setQuestionDraft(result.revision===saved.revision?saved.question||'':'');
-        if(saved.reviewing&&result.revision===saved.revision&&result.review&&result.completed.length){
-          setReviewedStep({...result.completed[result.completed.length-1],...result.review,
-            studentAnswer:checkedStudentAnswer({...result.completed[result.completed.length-1],...result.review},saved.attempt)});
+        if (saved.reviewing && sameStep && (checkpoint || result.review) && result.completed.length) {
+          const completed = result.completed[result.completed.length - 1];
+          const review = { ...completed, ...result.review };
+          setReviewedStep({ ...review, question: review.question || completed.title, choices: review.choices || [],
+            studentAnswer: checkedStudentAnswer(review, saved.attempt) });
         }
         setProgressNotice('Đã khôi phục bước đang học của em.');
-      }catch{if(live)setProgressNotice('Đề và bài làm đã được giữ. Em bắt đầu lại để mở phiên học mới nhé.');}
+      } catch (failure) {
+        if (!live) return;
+        const status = (failure as { response?: { status?: number } })?.response?.status;
+        if (status === 404 || status === 409 || status === 410) resumeProgress.current = null;
+        setProgressNotice('Đề và bài làm đã được giữ. Em bắt đầu lại để mở phiên học mới nhé.');
+      }
     }).finally(()=>{if(live)setRestoring(false);});
     return()=>{live=false;control.abort();};
     // Initial source only; edits create a new lesson rather than restoring the old source.
@@ -220,6 +262,26 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     if(typeof window!=='undefined'&&window.addEventListener)window.addEventListener('pagehide',flush);
     return()=>{listener.remove();if(typeof window!=='undefined'&&window.removeEventListener)window.removeEventListener('pagehide',flush);flush();};
   },[owner]);
+  useLayoutEffect(() => {
+    if (restoring || !checkpointScope || mathGuideScope(owner) !== checkpointScope) return;
+    if (!reading && !problem && !work && !editing) return;
+    const progress: LearningProgress | null = lesson ? {
+      version: 1, at: Date.now(), lessonId, sessionId: lesson.sessionId, revision: lesson.revision, stepIndex: lesson.stepIndex,
+      problemText: problem, workText: work, attempt: reviewedStep?.studentAnswer || attempt,
+      question: questionDraft, reviewing: !!reviewedStep, completedAnswers: submittedAnswers, summaryStage,
+    } : resumeProgress.current;
+    const savedCheckpoint = saveMathGuideCheckpoint(checkpointScope, checkpointRoute, {
+      lessonId, quizPreparationKey, reading, problem, work, workLines, problemConfirmed, sourceNeedsReview,
+      workConfirmed, workImageCurrent, uncertainWork, problemPhoto: !!imageUri && problemImage === imageUri,
+      workPhoto: !!imageUri && workImage === imageUri, editing, reviewStarted, reviewFocused,
+      progress, historyIndex, hintOpen, hintPage, fractionInput, answerEdited, pendingAnswer: attempt, savedToHistory: saved,
+      workReview: workReviewCheckpoint,
+    });
+    if (!savedCheckpoint) setProgressNotice('Chưa lưu được tiến độ trên thiết bị. Em dùng nút lưu bài nhé.');
+  }, [restoring, checkpointScope, checkpointRoute, owner, lesson, lessonId, quizPreparationKey, reading, problem, work,
+    workLines, problemConfirmed, sourceNeedsReview, workConfirmed, workImageCurrent, uncertainWork,
+    imageUri, problemImage, workImage, editing, reviewStarted, reviewFocused, attempt, questionDraft, reviewedStep,
+    submittedAnswers, summaryStage, historyIndex, hintOpen, hintPage, fractionInput, answerEdited, saved, workReviewCheckpoint]);
   const calculationPosition = useRef(0);
   const lessonPosition = useRef(0);
   const invalidPhoto = reading && ['MULTIPLE', 'UNREADABLE'].includes(reading.kind);
@@ -285,7 +347,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     : displayedReview ? completedNarration([displayedReview]) : step ? stepNarration(step, visibleHint)
     : lesson ? completedNarration(lesson.completed.filter(item => item.kind !== 'UNDERSTAND')) : [];
   const preparedCurriculumSpeech = !!getCurriculumProblem(problem);
-  useNarrationPreparation(owner && lesson ? { sessionId: lesson.sessionId, revision: lesson.revision,
+  useNarrationPreparation(owner && lesson && !(Platform.OS === 'web' && preparedCurriculumSpeech) ? { sessionId: lesson.sessionId, revision: lesson.revision,
     ...(preparedCurriculumSpeech ? { useFallback: true } : {}) } : null, narrationParts);
   useEffect(() => {
     if (!lessonSessionId) return;
@@ -430,7 +492,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
       return TutorService.inspect(imageUri, true, signal);
     }, result => {
       recognitionDraftStore.updateDraft({ processingStarted: false, recoveredAfterReload: false });
-      void imageDraftPersistence.complete();
+      // The Web checkpoint stores text only; the existing masked-photo store retains the preview.
+      if (Platform.OS !== 'web') void imageDraftPersistence.complete();
       setReading(result); setLesson(null);
       if (['MULTIPLE', 'UNREADABLE'].includes(result.kind)) return;
       const workRead = result.kind === 'WORK' || result.kind === 'MIXED';
@@ -456,8 +519,10 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
 
   useFocusEffect(useCallback(() => {
     active.current = true;
-    if (!initialized.current && photoAllowed) { initialized.current = true; void inspectPhoto(); }
     return () => { active.current = false; requestId.current += 1; controller.current?.abort(); running.current = false; };
+  }, []));
+  useFocusEffect(useCallback(() => {
+    if (!initialized.current && photoAllowed) { initialized.current = true; void inspectPhoto(); }
   }, [photoAllowed, inspectPhoto]));
 
   const capture = (purpose?: 'ADD_PROBLEM' | 'ADD_WORK') => {
@@ -472,6 +537,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   };
   const start = () => {
     if (restoring || needsSourceClarification || problem.trim().length < 3 || problem.includes('[?]') || !problemConfirmed) return;
+    resumeProgress.current = null;
     setTool(null);
     Keyboard.dismiss();
     const confirmedWork = workConfirmed && !work.includes('[?]') ? work : '';
@@ -486,6 +552,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
   const onHasSolution = () => {
     if (busy || expired || restoring || problem.includes('[?]') || work.includes('[?]') || sourceClarification(problem)) return;
     if (work && work.trim()) {
+      setWorkReviewCheckpoint(null);
+      setAutoStartReview(true);
       setProblemConfirmed(true);
       setWorkConfirmed(true);
       setReviewStarted(true);
@@ -546,6 +614,8 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
     finally { if (active.current) setSaving(false); }
   };
   const edit = (field: 'problem' | 'work') => {
+    resumeProgress.current = null;
+    setWorkReviewCheckpoint(null);
     cancel(); setError(''); setEditing(field); setLesson(null); setSaved(false); setReviewFocused(false); setReviewStarted(false);
     if (field === 'problem') setProblemConfirmed(false); else { setWorkConfirmed(false); setWorkLines([]); setWorkImageCurrent(false); }
   };
@@ -591,6 +661,7 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
 
   return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
     <View style={[styles.header, spacious && styles.headerWide]}><AppHeader title={reviewFocused ? 'Bài làm của em' : lesson ? 'Bài học' : division ? 'Kiểm tra phép chia' : work ? 'Cùng xem bài làm' : 'Cùng em tìm cách giải'} showBack
+      backFallback={Platform.OS === 'web' && supplied ? '/(tabs)/lessons' : undefined}
       rightIcon="calculator-outline" rightAccessibilityLabel="Mở máy tính bỏ túi" onRightPress={() => setCalculatorOpen(true)} /></View>
     <PocketCalculator visible={calculatorOpen} onClose={() => setCalculatorOpen(false)} />
     <View style={[styles.learningBody, spacious && styles.learningBodyWide]}>
@@ -751,10 +822,12 @@ function MathGuideLesson({ owner, params, sourceDraft }: { owner?: string; param
         {problem && work && !editing && !division && !invalidPhoto && !lesson && reviewStarted ? <View style={!reviewFocused ? styles.hidden : undefined}><StudentWorkReview
           problemText={problem} workText={work} imageUri={workImage} photoCurrent={workImageCurrent} lines={evidenceLines}
           enabled={problemConfirmed && workConfirmed && !problem.includes('[?]') && !work.includes('[?]')}
-          autoStart
+          autoStart={autoStartReview}
+          checkpoint={workReviewCheckpoint} onCheckpoint={checkpointScope ? setWorkReviewCheckpoint : undefined}
           disabled={!!busy || expired} onCaptureWork={() => capture('ADD_WORK')}
           onSessionExpired={() => { setExpired(true); setError('Phiên học đã hết hạn. Em đăng nhập lại để tiếp tục nhé.'); }}
           onReviseWork={text => {
+            setWorkReviewCheckpoint(null);
             cancel(); Keyboard.dismiss(); setWork(text); setWorkLines([]); setWorkImageCurrent(false);
             setWorkConfirmed(true); setUncertainWork(false); setSaved(false);
             requestAnimationFrame(() => scroll.current?.scrollTo({ y: 0, animated: false }));

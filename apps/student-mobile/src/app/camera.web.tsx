@@ -10,6 +10,7 @@ import { AppButton } from '../components/ui/AppButton';
 import { COLORS, FONTS, SIZES } from '../constants/theme';
 import { STUDENT_WEB } from '../constants/studentWebDesign';
 import { recognitionDraftStore, resolveFlowDomain } from '../features/recognition/state/recognitionDraftStore';
+import { imageDraftPersistence } from '../features/recognition/state/imageDraftPersistence';
 import { normalizeImageDraft } from '../features/recognition/image/imagePipeline';
 import type { ViewInstance } from 'react-native';
 
@@ -89,7 +90,9 @@ export default function WebCameraScreen() {
       draft.lessonContext = mode === 'MATH_TUTOR' ? context : undefined;
       draft.retrySubmissionId = mode === 'ARITHMETIC' ? params.retrySubmissionId : undefined;
       draft.problemText = typeof params.problemText === 'string' ? params.problemText.slice(0, 4000) : undefined;
-      recognitionDraftStore.setDraft(draft);
+      const selectedDraft = recognitionDraftStore.setDraft(draft);
+      await imageDraftPersistence.savePrivacy(selectedDraft);
+      if (!active.current || recognitionDraftStore.getDraft()?.imageSessionId !== selectedDraft.imageSessionId) return;
       // Stop the preview before opening privacy.
       setFocused(false);
       setReady(false);

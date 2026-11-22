@@ -13,7 +13,7 @@ function load(path, imports) {
   const exports = {};
   vm.runInNewContext(transpileModule(readFileSync(new URL(path, import.meta.url), 'utf8'), {
     compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.React, esModuleInterop: true },
-  }).outputText, { exports, require: id => imports[id] ?? require(id) });
+  }).outputText, { exports, window: globalThis.window, Event: globalThis.window.Event, require: id => imports[id] ?? require(id) });
   return exports;
 }
 
@@ -24,18 +24,22 @@ for (const source of ['', '?source=teacher', '?source=admin']) {
       const previous = { window: globalThis.window, document: globalThis.document,
         IS_REACT_ACT_ENVIRONMENT: globalThis.IS_REACT_ACT_ENVIRONMENT };
       Object.assign(globalThis, { window: dom.window, document: dom.window.document, IS_REACT_ACT_ENVIRONMENT: true });
-      let access = outcome === 'expired' ? null : 'old-access', refresh = 'old-refresh', requests = 0, finish;
+      let requests = 0, finish;
       const pending = new Promise(resolve => { finish = resolve; });
-      const tokenStore = { getAccessToken: () => access, clearTokens: () => { access = refresh = null; } };
-      const { authService } = load('../src/services/authService.ts', { './apiClient': { tokenStore, apiClient: {
-        post: (_path, _body, options) => {
+      const { createWebSession } = load('../../../packages/shared-contracts/src/webSession.ts', { axios: { create: () => ({
+        interceptors: { request: { use() {} }, response: { use() {} } },
+        post: (path, body, options) => {
           requests++;
-          assert.equal(access, null, 'clear local access before the server request');
-          assert.equal(options.headers.Authorization, 'Bearer old-access');
-          assert.equal(options.timeout, 5000);
+          assert.equal(path, '/auth/logout');
+          assert.equal(webSession.getSessionId(), null);
+          assert.equal(options._logoutSession, 'old-session');
+          assert.equal(options.timeout, 2000);
           return outcome === 'offline' ? Promise.reject(new Error('Network unavailable')) : pending;
         },
-      } } });
+      }) } });
+      if (outcome !== 'expired') dom.window.localStorage.setItem('mvk_portal_web_session', 'old-session');
+      const webSession = createWebSession('portal', []);
+      const { authService } = load('../src/services/authService.ts', { './apiClient': { webSession } });
       const { LogoutPage } = load('../src/pages/LogoutPage.tsx', { '../services/authService': { authService } });
       const router = createMemoryRouter([
         { path: '/', element: React.createElement('h1', null, 'Trang chủ') },
@@ -46,17 +50,16 @@ for (const source of ['', '?source=teacher', '?source=admin']) {
       try {
         await act(async () => root.render(React.createElement(React.StrictMode, null, React.createElement(RouterProvider, { router }))));
         assert.equal(router.state.location.pathname, '/');
-        assert.equal(access, null);
-        assert.equal(refresh, null);
+        assert.equal(webSession.getSessionId(), null);
         assert.equal(dom.window.document.body.textContent, 'Trang chủ');
         assert.equal(requests, outcome === 'expired' ? 0 : 1);
         // A late logout response must not clear a newly signed-in account.
-        access = 'new-access'; refresh = 'new-refresh';
+        dom.window.localStorage.setItem('mvk_portal_web_session', 'new-session');
         await act(async () => { finish({}); await pending; });
-        assert.equal(access, 'new-access');
+        assert.equal(webSession.getSessionId(), 'new-session');
         await act(async () => router.navigate(-1));
         assert.equal(router.state.location.pathname, '/login', 'replace the logout history entry');
-        assert.equal(access, 'new-access');
+        assert.equal(webSession.getSessionId(), 'new-session');
       } finally {
         await act(async () => root.unmount()); router.dispose(); dom.window.close();
         Object.assign(globalThis, previous);

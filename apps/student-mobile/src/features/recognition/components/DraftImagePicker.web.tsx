@@ -57,7 +57,12 @@ export function DraftImagePicker({ title = 'Chọn lại ảnh', mode, disabled,
       draft.mode = resolveFlowDomain(mode, old?.mode || 'MATH_TUTOR');
       draft.lessonContext = old?.lessonContext;
       draft.retrySubmissionId = old?.retrySubmissionId;
-      recognitionDraftStore.setDraft(draft);
+      const sourcePath = window.location.pathname;
+      const selectedDraft = recognitionDraftStore.setDraft(draft);
+      await imageDraftPersistence.savePrivacy(selectedDraft);
+      // Updating the draft can remount the crop screen before storage finishes.
+      if (window.location.pathname !== sourcePath || identity.current !== imageDraftPersistence.identity()
+          || recognitionDraftStore.getDraft()?.imageSessionId !== selectedDraft.imageSessionId) return;
       router.push('/privacy');
     } catch { if (active.current && id === request.current) setError(true); }
     finally { URL.revokeObjectURL(original); if (id === request.current) { locked.current = false; if (active.current) setBusy(false); } }

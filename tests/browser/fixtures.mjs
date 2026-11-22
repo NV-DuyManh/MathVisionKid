@@ -1,4 +1,5 @@
 import { test as base, expect } from '@playwright/test';
+import { randomUUID } from 'node:crypto';
 import { sites, apiOrigin, studentPort } from './sites.mjs';
 
 export { expect, sites };
@@ -16,6 +17,7 @@ export const test = base.extend({
   app: async ({ context }, use) => {
     const state = { requests: [], unexpected: [], errors: [], expired: false, classesDown: false, assignments: [], responses: new Map() };
     const tickets = new Map();
+    const sessions = new Map();
     const watch = page => page.on('pageerror', error => state.errors.push(error.message));
     context.pages().forEach(watch);
     context.on('page', watch);
@@ -42,12 +44,30 @@ export const test = base.extend({
       const path = url.pathname.replace(/^\/api\/v1/, '');
       const method = request.method();
       const body = request.headers()['content-type']?.includes('application/json') ? request.postDataJSON() : null;
-      const role = request.headers().authorization?.match(/^Bearer fixture\.(STUDENT|TEACHER|ADMIN)\.access$/)?.[1];
+      const headers = await request.allHeaders();
+      const client = headers['x-mathvision-web'];
+      const sessionId = headers['x-mathvision-session'];
+      const cookieName = `__Host-mvk_${client}_session`;
+      const secret = headers.cookie?.split('; ').find(value => value.startsWith(`${cookieName}=`))?.slice(cookieName.length + 1);
+      const session = sessions.get(sessionId);
+      const role = client ? (session?.client === client && session.secret === secret ? session.role : undefined)
+        : headers.authorization?.match(/^Bearer fixture\.(STUDENT|TEACHER|ADMIN)\.access$/)?.[1];
       const record = { method, path, body, role, origin: request.headers().origin, query: Object.fromEntries(url.searchParams) };
       state.requests.push(record);
       const json = (value, status = 200) => route.fulfill({ status, json: value,
         headers: { 'access-control-allow-origin': '*' } });
       const reject = (status = 401) => json({ error: { code: 'FIXTURE_REJECTED', message: 'Yêu cầu kiểm thử không hợp lệ.' } }, status);
+      const establish = newRole => {
+        if (!client) return json(tokens(newRole));
+        if (client !== 'portal' && client.toUpperCase() !== newRole) return reject(403);
+        if (role) sessions.delete(sessionId);
+        const id = randomUUID();
+        const browserSecret = secret || randomUUID();
+        sessions.set(id, { client, secret: browserSecret, role: newRole });
+        return route.fulfill({ status: 200, json: { sessionId: id }, headers: {
+          'set-cookie': `${cookieName}=${browserSecret}; Path=/; Secure; HttpOnly; SameSite=Strict`,
+        } });
+      };
       if (method === 'OPTIONS') return route.fulfill({ status: 204, headers: {
         'access-control-allow-origin': '*', 'access-control-allow-headers': 'authorization,content-type',
         'access-control-allow-methods': 'GET,POST,PATCH,DELETE,OPTIONS',
@@ -55,12 +75,17 @@ export const test = base.extend({
       if (path === '/auth/login' && method === 'POST') {
         const loginRole = body.email.split('@')[0].toUpperCase();
         return ['STUDENT', 'TEACHER', 'ADMIN'].includes(loginRole) && body.password === 'synthetic-password'
-          ? json(tokens(loginRole)) : reject();
+          ? establish(loginRole) : reject();
       }
       if (path === '/auth/refresh') return state.expired ? reject() : json(tokens(body.refreshToken.split('.')[1]));
-      if (path === '/auth/logout') return json({});
+      if (path === '/auth/logout') {
+        if (client && role) {
+          for (const [id, matching] of sessions) if (matching.role === role) sessions.delete(id);
+        }
+        return json({});
+      }
       const respond = state.responses.get(`${method} ${path}`);
-      if (path.startsWith('/auth/') && respond) return respond({ body, json, reject, route });
+      if (path.startsWith('/auth/') && respond) return respond({ body, json, reject, route, establish });
       if (path === '/auth/sso/ticket') {
         if (!role || role !== body.targetApp) return reject(403);
         const code = `ticket-${role}`;
@@ -71,7 +96,7 @@ export const test = base.extend({
         const ticketRole = tickets.get(body.code);
         if (!ticketRole || ticketRole !== body.targetApp) return reject(403);
         tickets.delete(body.code);
-        return json(tokens(ticketRole));
+        return establish(ticketRole);
       }
       if (state.expired || !role) return reject();
       if (path === '/me') return json(state.realStudent && role === 'STUDENT'
@@ -86,7 +111,7 @@ export const test = base.extend({
         titles: [], history: [{ source: 'LESSON', completedAt: '2026-11-13T06:00:00Z', stars: 1 }],
         };
         if (path === '/student/profile/password') return body.currentPassword === 'incorrect-password'
-          ? json({ error: { code: 'PASSWORD_CURRENT_INVALID' } }, 400) : json(tokens('STUDENT'));
+          ? json({ error: { code: 'PASSWORD_CURRENT_INVALID' } }, 400) : establish('STUDENT');
         if (path === '/student/profile/photo' && method === 'PUT') {
           const bytes = request.postDataBuffer();
           const start = bytes.indexOf('\r\n\r\n') + 4, end = bytes.lastIndexOf('\r\n--');

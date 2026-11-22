@@ -90,9 +90,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     const current = ++revision.current;
     setSessionUser(null);
-    const accessToken = await tokenStorage.getAccessToken();
+    const [accessToken, refreshToken] = await Promise.all([tokenStorage.getAccessToken(), tokenStorage.getRefreshToken()]);
     if (current !== revision.current) return;
-    const pending = authApi.logout(accessToken);
+    const pending = authApi.logout(accessToken, refreshToken);
     await tokenStorage.clearTokens();
     delete apiClient.defaults.headers.common.Authorization;
     if (current === revision.current) replace('/login');

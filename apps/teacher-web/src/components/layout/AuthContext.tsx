@@ -2,8 +2,7 @@ import { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { AppTeacherService } from '../../services/api/ServiceLocator';
-import { AuthTokenStore } from '../../services/api/AuthTokenStore';
-import axios from 'axios';
+import { AuthTokenStore, teacherSession } from '../../services/api/AuthTokenStore';
 import { appConfig } from '../../config/runtime';
 
 interface AuthContextType {
@@ -37,7 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       void queryClient.cancelQueries();
       queryClient.clear();
       setUser(null);
-      if (!loggingOut.current && !AuthTokenStore.getAccessToken() && !AuthTokenStore.getRefreshToken()) {
+      if (!loggingOut.current && !AuthTokenStore.hasSession()) {
         navigate('/login', { replace: true });
       }
     };
@@ -50,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const version = sessionVersion.current;
     const fetchMe = async () => {
       try {
-        if (!AuthTokenStore.getAccessToken() && !AuthTokenStore.getRefreshToken()) {
+        if (!AuthTokenStore.hasSession()) {
           if (active) navigate('/login', { replace: true });
           return;
         }
@@ -87,16 +86,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [navigate, isHandoff]);
 
   const logout = async () => {
-    const accessToken = AuthTokenStore.getAccessToken();
-    // Let the explicit Portal logout own navigation. Mounting /login here can
-    // redirect to the landing page before the Portal clears its own session.
     loggingOut.current = true;
-    AuthTokenStore.clearTokens();
     setUser(null);
-    // Give the captured session a bounded chance to be revoked before navigation.
-    if (accessToken) await axios.post(`${appConfig.apiBaseUrl}/auth/logout`, {}, {
-      headers: { Authorization: `Bearer ${accessToken}` }, timeout: 2000,
-    }).catch(() => {});
+    await teacherSession.logout();
+    window.dispatchEvent(new Event('teacher_auth_changed'));
     window.location.replace(`${appConfig.portalOrigin}/logout?source=teacher`);
   };
 

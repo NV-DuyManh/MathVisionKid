@@ -12,6 +12,7 @@ from pathlib import Path
 # ponytail: process-local setup lock; multi-host writes need the existing database.
 _schema_lock = threading.Lock()
 _SCHEMA_SETUP_WAIT_SECONDS = 1.0
+_SQLITE_BUSY_TIMEOUT_SECONDS = 2.0
 
 
 def normalized_source(text):
@@ -29,7 +30,7 @@ class CatalogStore:
             # An absent file needs initialization. Don't create it outside the
             # lock, where a second voice could probe it during the WAL transition.
             if self.path.is_file():
-                db = sqlite3.connect(self.path, timeout=.15)
+                db = sqlite3.connect(self.path, timeout=_SQLITE_BUSY_TIMEOUT_SECONDS)
                 db.execute('PRAGMA journal_size_limit=1048576')
                 if (db.execute('PRAGMA journal_mode').fetchone()[0] == 'wal'
                         and db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='entries'").fetchone()):
@@ -42,7 +43,7 @@ class CatalogStore:
             if not _schema_lock.acquire(timeout=_SCHEMA_SETUP_WAIT_SECONDS):
                 raise sqlite3.OperationalError('Catalog initialization busy')
             try:
-                db=sqlite3.connect(self.path,timeout=.15)
+                db=sqlite3.connect(self.path,timeout=_SQLITE_BUSY_TIMEOUT_SECONDS)
                 db.execute('PRAGMA journal_size_limit=1048576')
                 db.execute('PRAGMA journal_size_limit=1048576')
                 if db.execute('PRAGMA journal_mode').fetchone()[0] != 'wal':
@@ -100,7 +101,7 @@ class CatalogStore:
         if not self.path.is_file():return dict(expired=0,corrupt=0,pruned=prune,groups=[])
         now=time.time()
         # Inspecting the private inventory must not initialize/mutate a database.
-        connection=self.connect() if prune else sqlite3.connect(self.path.resolve().as_uri()+'?mode=ro',uri=True,timeout=.15)
+        connection=self.connect() if prune else sqlite3.connect(self.path.resolve().as_uri()+'?mode=ro',uri=True,timeout=_SQLITE_BUSY_TIMEOUT_SECONDS)
         with closing(connection) as db,db:
             expired=db.execute('SELECT count(*) FROM entries WHERE expires<=?',(now,)).fetchone()[0]
             corrupt=[row[0] for row in db.execute('SELECT rowid,payload,digest FROM entries')
