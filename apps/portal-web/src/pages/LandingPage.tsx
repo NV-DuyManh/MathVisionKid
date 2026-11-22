@@ -85,7 +85,7 @@ export const LandingPage: React.FC = () => {
 
         <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 5 }, position: 'relative', zIndex: 1 }}>
           <Grid container spacing={{ xs: 4, md: 3 }} sx={{ alignItems: 'center' }}>
-            
+
             {/* Hero Left Content */}
             <Grid size={{ xs: 12, md: 6.2 }}>
               <Typography
@@ -509,7 +509,7 @@ export const LandingPage: React.FC = () => {
       {/* ========================================================================= */}
       <Box id="lo-trinh" sx={{ py: { xs: 7, md: 10 }, bgcolor: '#FFFFFF' }}>
         <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 5 } }}>
-          
+
           {/* Header Section */}
           <Typography sx={{ color: '#9A50FF', fontWeight: 900, fontSize: '0.92rem', letterSpacing: '0.04em', textTransform: 'uppercase', mb: 1 }}>
             LỘ TRÌNH
@@ -836,7 +836,7 @@ export const LandingPage: React.FC = () => {
       {/* ========================================================================= */}
       <Box id="tinh-nang" sx={{ py: { xs: 7, md: 10 }, bgcolor: '#FAF8FE' }}>
         <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 5 } }}>
-          
+
           {/* Header */}
           <Typography sx={{ color: '#9A50FF', fontWeight: 900, fontSize: '0.92rem', letterSpacing: '0.04em', textTransform: 'uppercase', mb: 0.5 }}>
             TÍNH NĂNG
@@ -862,7 +862,7 @@ export const LandingPage: React.FC = () => {
 
           {/* 2x2 Grid of Feature Cards */}
           <Grid container spacing={3.5}>
-            
+
             {/* Feature 01: Luyện tập tương tác (Figma 2:118) */}
             <Grid size={{ xs: 12, md: 6 }}>
               <Box
@@ -1244,7 +1244,7 @@ export const LandingPage: React.FC = () => {
       {/* ========================================================================= */}
       <Box id="giai-dap" sx={{ py: { xs: 7, md: 10 }, bgcolor: '#EFEAFB' }}>
         <Container maxWidth="md" sx={{ px: { xs: 2.5, sm: 4 } }}>
-          
+
           <Box sx={{ textAlign: 'center', mb: 5.5 }}>
             <Typography sx={{ color: '#6C507F', fontWeight: 900, fontSize: '0.92rem', letterSpacing: '0.04em', textTransform: 'uppercase', mb: 1 }}>
               GIẢI ĐÁP CÙNG BA MẸ
@@ -1264,7 +1264,7 @@ export const LandingPage: React.FC = () => {
 
           {/* Accordion List */}
           <Box sx={{ display: 'grid', gap: 2.5 }}>
-            
+
             {/* FAQ 1 */}
             <Box
               sx={{
