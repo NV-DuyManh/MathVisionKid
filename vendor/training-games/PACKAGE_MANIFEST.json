@@ -1,10 +1,10 @@
 {
   "name": "@mathvisionkid/training-games",
-  "version": "0.1.8",
-  "filename": "mathvisionkid-training-games-0.1.8.tgz",
-  "sha256": "2168e3ffcdb296486eaebb7f799a1dab4fe3f6c56e7837c1c10fc0f3381e1b6d",
-  "bytes": 17100074,
-  "unpackedBytes": 17859834,
+  "version": "0.1.9",
+  "filename": "mathvisionkid-training-games-0.1.9.tgz",
+  "sha256": "daae86286c5a0d0dff72f67d2310a092d16d20673cd5c17c8d64159160599346",
+  "bytes": 17100016,
+  "unpackedBytes": 17859767,
   "entries": 223,
   "sourceFiles": 220,
   "games": [
@@ -15,16 +15,14 @@
     "block-island"
   ],
   "baseline": {
-    "filename": "mathvisionkid-training-games-0.1.2.tgz",
-    "sha256": "f6a319d1b61c53cdbe1331d9812c85a9813b3ead9841eb05c3c639b657186f9e"
+    "filename": "mathvisionkid-training-games-0.1.8.tgz",
+    "sha256": "2168e3ffcdb296486eaebb7f799a1dab4fe3f6c56e7837c1c10fc0f3381e1b6d"
   },
-  "sourceRevision": "27a9c10608fe405a37c961ca8e7157a1e0c04043",
+  "sourceRevision": "3e77f4afef7978a64772834f4a2b006b6b58e889",
   "canonicalReplacements": [
-    "src/games/race-to-finish/logic/cameraGeometry.ts",
     "src/games/race-to-finish/components/GameCamera.tsx"
   ],
   "integrationPatches": [
-    "src/games/block-island/components/IslandIntro.tsx",
     "src/shared/integration/contracts.ts"
   ],
   "npmFiles": [
@@ -715,7 +713,7 @@
     },
     {
       "path": "src/games/race-to-finish/components/GameCamera.tsx",
-      "size": 8931,
+      "size": 8864,
       "mode": 420
     },
     {

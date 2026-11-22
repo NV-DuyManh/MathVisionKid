@@ -44,3 +44,20 @@ builder recipe. `PACKAGE_MANIFEST.json` records baseline, source revision,
 replacement/patch paths and distribution SHA-256. All 216 other source files are
 byte-identical to 0.1.2. Host/native orientation, gameplay, storage and rewards
 are unchanged. Desktop guards use web and a fine primary pointer.
+
+## Desktop camera update 0.1.9
+
+The original 0.1.8 packaging checkout is unavailable on the canonical remote.
+The patch `desktop-layout-0.1.9-source.patch` applies to canonical revision
+`0a1d148198448fbdd83fbc40ac3ad9d0a2a7e255`. It contains the Race camera
+change, its geometry test, and the builder for this update. Apply it in a
+checkout of `deptraivodich/Tro_choi_cho_em` with `git apply --unidiff-zero` and
+commit it there so the builder can read the source from Git. Run the updater
+above with `--source` pointing to that checkout.
+
+The builder verifies the 0.1.8 archive and all 220 source hashes and stages
+the next npm package in a temporary directory. It replaces the Race camera
+from the committed canonical source and updates the embedded version. The
+other 218 source files retain their 0.1.8 hashes. Desktop keeps the full
+board after the intro even across resize or pause. Touch and native retain
+their focus zoom and pan controls.
