@@ -20,7 +20,7 @@ export function StudentDailyLimit({ children }: PropsWithChildren) {
   const pathname = usePathname();
   const router = useRouter();
   const inParentMode = pathname === '/parent-mode';
-  const inPrivacyReview = pathname === '/privacy';
+  const inPrivacyReview = /(?:^|\/)privacy\/?$/.test(pathname);
   const activeOwner = auth?.isAuthenticated ? owner : undefined;
   const previousParentContext = useRef({ activeOwner, inParentMode });
   const [decision, setDecision] = useState<{ owner: string; blocked: boolean; verified: boolean }>();
