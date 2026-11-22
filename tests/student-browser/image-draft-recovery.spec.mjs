@@ -160,7 +160,9 @@ test('The unapproved original is stored only as a short-lived privacy draft', as
   await page.reload();
   await expect(page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư')).toBeVisible();
   await expect(page.getByRole('checkbox')).not.toBeChecked();
-  expect(app.requests.filter(request => request.method === 'POST').map(request => request.path)).toEqual(['/auth/login']);
+  // The fixture checks that usage heartbeats contain only connection state.
+  expect(app.requests.filter(request => request.method === 'POST' && request.path !== '/student/app-usage/heartbeat')
+    .map(request => request.path)).toEqual(['/auth/login']);
 });
 
 test('Only approved Blob data and URI-free metadata are stored', async ({ page }) => {

@@ -20,7 +20,6 @@ export function StudentDailyLimit({ children }: PropsWithChildren) {
   const pathname = usePathname();
   const router = useRouter();
   const inParentMode = pathname === '/parent-mode';
-  const inPrivacyReview = /(?:^|\/)privacy\/?$/.test(pathname);
   const activeOwner = auth?.isAuthenticated ? owner : undefined;
   const previousParentContext = useRef({ activeOwner, inParentMode });
   const [decision, setDecision] = useState<{ owner: string; blocked: boolean; verified: boolean }>();
@@ -112,7 +111,7 @@ export function StudentDailyLimit({ children }: PropsWithChildren) {
 
   return <StudentGameAccess.Provider value={mayPlay}>
     <VerifyStudentGameAccess.Provider value={verify}>
-      <StudentUsageTracker enabled={!blocked && !inParentMode && !inPrivacyReview} />
+      <StudentUsageTracker enabled={!blocked && !inParentMode} />
       <View ref={content} style={{ flex: 1, minHeight: 0 }} pointerEvents={showRest ? 'none' : 'auto'}
         aria-hidden={showRest || undefined} accessibilityElementsHidden={showRest}
         importantForAccessibility={showRest ? 'no-hide-descendants' : 'auto'}>
