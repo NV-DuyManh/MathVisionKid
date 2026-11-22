@@ -1533,10 +1533,10 @@ export const LandingPage: React.FC = () => {
                 Thông tin
               </Typography>
               <Box sx={{ display: 'grid', gap: 1.25 }}>
-                <Box component="a" href="#" sx={{ color: '#71697A', fontSize: '0.92rem', textDecoration: 'none', '&:hover': { color: '#6500EF' } }}>
+                <Box component="span" sx={{ color: '#71697A', fontSize: '0.92rem' }}>
                   Quyền riêng tư
                 </Box>
-                <Box component="a" href="#" sx={{ color: '#71697A', fontSize: '0.92rem', textDecoration: 'none', '&:hover': { color: '#6500EF' } }}>
+                <Box component="span" sx={{ color: '#71697A', fontSize: '0.92rem' }}>
                   Điều khoản
                 </Box>
               </Box>
