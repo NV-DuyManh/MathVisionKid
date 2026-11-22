@@ -49,3 +49,18 @@ it('stops usage while the daily limit is reached and in parent mode, then resume
   await act(async () => { tree!.update(render()); });
   expect(jest.mocked(apiClient.post).mock.calls.some(([, body]) => body.active === true)).toBe(true);
 });
+
+it('does not count time while the learner is reviewing privacy before approval', async () => {
+  jest.useFakeTimers();
+  jest.mocked(apiClient.post).mockClear();
+  AppState.currentState = 'active';
+  mockPath = '/privacy';
+  const status = jest.mocked(readParentControlStatus);
+  status.mockResolvedValue({ pinConfigured: false, dailyLimitReached: false, activityVerified: true });
+  const auth = { isAuthenticated: true, user: { id: 'student', role: 'STUDENT', active: true } } as any;
+  await act(async () => {
+    tree = TestRenderer.create(<AuthContext.Provider value={auth}><StudentDailyLimit><Text>Privacy</Text></StudentDailyLimit></AuthContext.Provider>);
+  });
+  await act(async () => { jest.advanceTimersByTime(20000); });
+  expect(apiClient.post).not.toHaveBeenCalled();
+});
