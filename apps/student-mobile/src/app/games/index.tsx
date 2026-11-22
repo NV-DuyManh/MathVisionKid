@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { isCompactStudentWeb } from '../../components/ui/useIsCompactStudentWeb';
-import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Redirect, useFocusEffect, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,11 +14,13 @@ import { GAME_COVERS, GameCover } from '../../features/training-games/GameCover'
 import { trainingAccess } from '../../features/training-games/identity';
 import { trainingTrace } from '../../features/training-games/diagnostics';
 import { trainingResults } from '../../features/training-games/resultStore';
-import { enterGameDisplay } from '../../features/training-games/GameDisplay';
-import type { TrainingSessionResult } from '@mathvisionkid/training-games';
+import { cancelGameDisplay, enterGameDisplay } from '../../features/training-games/GameDisplay';
+import type { TrainingGameId, TrainingSessionResult } from '@mathvisionkid/training-games';
 import { useStudentProfile } from '../../features/student-profile/useStudentProfile';
 import { PersonalPanel } from '../../features/student-profile/PersonalWeb';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
+import { readGameTimeStatus } from '../../features/student-profile/studentUsage';
+import { StudentPauseScreen } from '../../features/student-profile/StudentPauseScreen';
 
 const gameFilters = [
   { label: 'Tất cả', ids: [] },
@@ -32,10 +34,14 @@ export default function GamesScreen() {
   const auth = useContext(AuthContext);
   const router = useRouter();
   const opening = useRef(false);
+  const gameCheck = useRef<AbortController | null>(null);
   const { width } = useWindowDimensions();
   const desktopWeb = IS_STUDENT_WEB && !isCompactStudentWeb(width);
   const access = trainingAccess(auth?.user, !!auth?.isAuthenticated);
   const studentId = access.kind === 'student' ? access.studentId : null;
+  const [notice, setNotice] = useState<{ owner: string; reason: 'game-limit' | 'connection' }>();
+  const dialog = notice?.owner === studentId ? notice : undefined;
+  const closeNotice = () => setNotice(undefined);
   const webProfile = useStudentProfile(desktopWeb ? studentId ?? undefined : undefined);
   const [filter, setFilter] = useState<number>(0);
   const [pageWidth, setPageWidth] = useState(0);
@@ -58,15 +64,46 @@ export default function GamesScreen() {
       } catch { if (active) setRecent({ owner: studentId, rows: {}, failed: true }); }
     };
     void read(); const unsubscribe = trainingResults.subscribe(() => { void read(); });
-    return () => { active = false; unsubscribe(); };
+    return () => {
+      active = false;
+      gameCheck.current?.abort();
+      gameCheck.current = null;
+      unsubscribe();
+    };
   }, [studentId]));
+
+  async function openGame(gameId: TrainingGameId | undefined, navigate: () => void) {
+    if (opening.current || dialog || access.kind === 'blocked') return;
+    opening.current = true;
+    if (access.kind === 'trial') { navigate(); return; }
+    if (gameId) enterGameDisplay(gameId);
+    const request = new AbortController();
+    gameCheck.current = request;
+    try {
+      const reached = await readGameTimeStatus(request.signal);
+      if (request.signal.aborted) { cancelGameDisplay(); return; }
+      if (!reached) { navigate(); return; }
+      cancelGameDisplay();
+      setNotice({ owner: access.studentId, reason: 'game-limit' });
+      opening.current = false;
+    } catch {
+      if (request.signal.aborted) { cancelGameDisplay(); return; }
+      cancelGameDisplay();
+      setNotice({ owner: access.studentId, reason: 'connection' });
+      opening.current = false;
+    } finally {
+      if (gameCheck.current === request) gameCheck.current = null;
+    }
+  }
 
   if (auth?.isLoading) return null;
   if (!auth?.isAuthenticated) return <Redirect href="/login" />;
 
   return <SafeAreaView style={styles.screen} edges={['top', 'left', 'right', 'bottom']}
     onLayout={desktopWeb ? event => setPageWidth(event.nativeEvent.layout.width) : undefined}>
-    <ScrollView contentContainerStyle={[styles.content, desktopWeb && styles.webContent]}>
+    <ScrollView aria-hidden={!!dialog || undefined} accessibilityElementsHidden={!!dialog}
+      importantForAccessibility={dialog ? 'no-hide-descendants' : 'auto'}
+      contentContainerStyle={[styles.content, desktopWeb && styles.webContent]}>
     <View style={[styles.header, desktopWeb && styles.webHeader]}>
       {!desktopWeb && <Pressable accessibilityRole="button" accessibilityLabel="Quay lại tab Của em"
         onPress={() => router.dismissTo('/(tabs)/profile')}
@@ -86,7 +123,7 @@ export default function GamesScreen() {
     <Layout {...(desktopWeb ? { style: styles.webMain } : {})}>
     {access.kind === 'student' && <Pressable testID="game-star-quest" accessibilityRole="button"
       accessibilityLabel={STAR_QUEST.title} accessibilityHint={STAR_QUEST.description}
-      onPress={() => { if (opening.current) return; opening.current = true; router.push('/games/arithmetic-quest'); }}
+      onPress={() => { void openGame(undefined, () => router.push('/games/arithmetic-quest')); }}
       style={({ pressed }) => [styles.card, desktopWeb && styles.featured, pressed && styles.pressed]}>
       {desktopWeb ? <>
         <Image source={GAME_COVERS['star-quest']} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition={{ left: '50%', top: '30%' }} accessible={false} />
@@ -120,11 +157,11 @@ export default function GamesScreen() {
       return <View key={game.id} testID={`training-card-${game.id}`} style={[styles.card, !desktopWeb && width >= 720 && styles.wideCard]}>
         <Pressable accessibilityRole="button" accessibilityLabel={`${access.kind === 'trial' ? 'Chơi thử' : 'Chơi'} ${game.title}`}
           accessibilityState={{ disabled: !playable }} disabled={!playable} testID={`training-play-${game.id}`} onPress={() => {
-            if (!playable || opening.current) return;
-            opening.current = true;
-            trainingTrace('play-press', { gameId: game.id, mode: access.kind });
-            enterGameDisplay(game.id);
-            router.push({ pathname: '/games/[gameId]', params: access.kind === 'trial' ? { gameId: game.id, playMode: 'trial' } : { gameId: game.id } });
+            if (!playable) return;
+            void openGame(game.id, () => {
+              trainingTrace('play-press', { gameId: game.id, mode: access.kind });
+              router.push({ pathname: '/games/[gameId]', params: access.kind === 'trial' ? { gameId: game.id, playMode: 'trial' } : { gameId: game.id } });
+            });
           }} style={({ pressed }) => [styles.playTarget, !playable && styles.disabled, pressed && styles.pressed]}>
           <GameCover id={game.id} title={game.title} />
         <View style={[styles.cardBody, desktopWeb && styles.webGameBody]}>
@@ -137,7 +174,7 @@ export default function GamesScreen() {
           {playable && access.kind === 'student' && <>
             <View style={[styles.challenge, desktopWeb && styles.webChallenge]}>
             <AppButton title="Mở thử thách tính sao" accessibilityLabel={`Mở thử thách tính sao · ${game.title}`} variant="secondary"
-              onPress={() => { if (opening.current) return; opening.current = true; router.push({ pathname: '/games/arithmetic-quest', params: { mode: game.id } }); }} />
+              onPress={() => { void openGame(undefined, () => router.push({ pathname: '/games/arithmetic-quest', params: { mode: game.id } })); }} />
             <Text style={styles.note}>Giải 5 câu để có cơ hội nhận sao vào hồ sơ.</Text>
             </View>
           </>}
@@ -162,6 +199,9 @@ export default function GamesScreen() {
     </View>}
     </Layout>
     </ScrollView>
+    {dialog && <Modal visible transparent animationType="none" onRequestClose={closeNotice} aria-labelledby="student-game-catalog-heading">
+      <StudentPauseScreen catalogDialog reason={dialog.reason} onContinue={closeNotice} onLeave={closeNotice} />
+    </Modal>}
   </SafeAreaView>;
 }
 
