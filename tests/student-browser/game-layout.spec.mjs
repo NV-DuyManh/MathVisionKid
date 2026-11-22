@@ -53,7 +53,7 @@ test('terrain answers, loss, replay, five stages, pause, resize and exit preserv
       await page.waitForTimeout(300); // Observe a frozen animation across real frames.
       expect(await page.getByTestId('supercar-hero').boundingBox()).toEqual(hero);
       const player = page.getByTestId('training-player-terrain-racing');
-      for (const width of [1000, 999, 1280]) {
+      for (const width of [1001, 1000, 999, 990, 1280]) {
         await page.setViewportSize({ width, height: 720 });
         await expect.poll(async () => {
           const box = await player.boundingBox();
