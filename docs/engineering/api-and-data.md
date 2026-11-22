@@ -8,6 +8,12 @@ Spring Boot là thẩm quyền xác thực/RBAC và quyền sở hữu tài nguy
 - Đăng nhập, đổi vé SSO và đổi mật khẩu trên Web trả về `{ sessionId }`. Các tab trong cùng hồ sơ trình duyệt và cùng origin chia sẻ mã phiên qua `localStorage`. Cookie `HttpOnly` và mã phiên phải khớp với bản ghi Spring Boot. Các tab đang mở tải lại khi phiên đổi để khôi phục đúng tài khoản. Bản nháp ảnh của Student Web vẫn gắn với mã tab trong `sessionStorage`. Phiên hết hạn sau tối đa 7 ngày tính từ lần cấp, với mã mới khi cấp lại. Đăng xuất Web thu hồi các phiên Web của tài khoản đó. Đổi mật khẩu và phát hiện refresh token bị dùng lại thu hồi các phiên theo chính sách tài khoản hiện có.
 - Mobile dùng Bearer access token và refresh token luân chuyển trên `/api/v1/auth/refresh`. Ứng dụng native giữ token trong `expo-secure-store`. Khi access token đã hết hạn, `/api/v1/auth/logout` dùng refresh token còn hiệu lực để thu hồi chính refresh token đó. Spring Boot kiểm tra role và trạng thái tài khoản ở cả hai luồng.
 
+## PIN Góc phụ huynh
+
+- Hai API học sinh đã đăng nhập `POST /api/v1/student/parent-control/pin-code/request` và `POST /api/v1/student/parent-control/pin-code/confirm` hỗ trợ mục đích `SETUP` hoặc `RESET`. Request chỉ nhận `purpose` và trả `maskedEmail`. Confirm nhận `purpose`, `code`, `pin` và trả 204 khi thành công. Backend lấy địa chỉ từ tài khoản, dùng chung cấu hình SMTP của khôi phục mật khẩu.
+- Mã email có sáu chữ số, hết hạn sau 10 phút, chỉ dùng một lần và chỉ có hiệu lực cho học sinh cùng mục đích. Mỗi tài khoản có tối đa ba lần gửi trong cửa sổ một giờ, cách nhau ít nhất 60 giây, và tối đa năm lần thử cho mỗi mã.
+- Ai có quyền vào hộp thư tài khoản đều có thể đặt và khôi phục PIN. PIN bảo vệ Góc phụ huynh khi người sử dụng app không đồng thời kiểm soát hộp thư. Đổi PIN giữ giới hạn, thời gian sử dụng và phiên đăng nhập học sinh. Phiên bản PIN thay đổi khiến quyền đọc cài đặt đã cấp bị từ chối ngay ở backend.
+
 ## Quy ước API
 
 - API nghiệp vụ dưới `/api/v1`, JSON camelCase. Dùng DTO và allowlist đầu vào, không bind entity hoặc nhận điểm/quyền đã duyệt từ client làm sự thật.
