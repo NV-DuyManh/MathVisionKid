@@ -17,6 +17,10 @@ spring:
         - classpath:db/migration/V33__student_account_photos.sql
         - classpath:db/migration/V34__verified_training_runs.sql
         - classpath:db/migration/V35__leaderboard_name_privacy.sql
+        - classpath:db/migration/V36__student_app_usage.sql
+        - classpath:db/migration/V37__student_parent_controls.sql
+        - classpath:db/migration/V38__parent_game_star_limit.sql
+        - classpath:db/migration/V39__student_game_time_limit.sql
   flyway:
     enabled: false
 
