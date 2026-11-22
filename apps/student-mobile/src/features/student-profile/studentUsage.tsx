@@ -41,6 +41,7 @@ export function StudentUsageTracker({ enabled = true }: { enabled?: boolean }) {
     const session = tokenStorage.getSessionId();
     const send = (id: string, active: boolean) => {
       requests = requests.catch(() => {}).then(async () => {
+        if (Platform.OS === 'web' && /(?:^|\/)privacy\/?$/.test(window.location.pathname)) return;
         if (active && (!mounted || id !== running)) return;
         const identity = await session;
         if (identity === null || identity !== await tokenStorage.getSessionId()) return;
