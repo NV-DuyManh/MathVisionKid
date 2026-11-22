@@ -8,6 +8,7 @@ import { WebAlerts } from '../components/ui/WebAlerts.web';
 import { StudentWebWorkspace } from '../components/ui/StudentWebWorkspace.web';
 import { COLORS } from '../constants/theme';
 import { observeLearningPerformance } from '../features/tutoring/webPerformance.web';
+import { StudentDailyLimit } from '../features/student-profile/StudentDailyLimit';
 
 export default function StudentWebLayout() {
   const pathname = usePathname().replace(/^\/(?:study|learn)(?=\/|$)/, '');
@@ -28,7 +29,9 @@ export default function StudentWebLayout() {
     {!inGame && <style>{`@media (min-width: 1100px) and (hover: hover) and (pointer: fine) { :root { zoom: 1.07; } }`}</style>}
     <WebAlerts />
     <View style={{ flex: 1, width: '100%', minWidth: 0 }}>
-      <AuthProvider><StudentWebWorkspace><Stack screenOptions={{ headerShown: false }} /></StudentWebWorkspace></AuthProvider>
+      <AuthProvider>
+        <StudentDailyLimit><StudentWebWorkspace><Stack screenOptions={{ headerShown: false }} /></StudentWebWorkspace></StudentDailyLimit>
+      </AuthProvider>
     </View>
   </View>;
 }

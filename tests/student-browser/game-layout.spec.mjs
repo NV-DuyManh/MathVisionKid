@@ -52,8 +52,15 @@ test('terrain answers, loss, replay, five stages, pause, resize and exit preserv
       const hero = await page.getByTestId('supercar-hero').boundingBox();
       await page.waitForTimeout(300); // Observe a frozen animation across real frames.
       expect(await page.getByTestId('supercar-hero').boundingBox()).toEqual(hero);
-      await page.setViewportSize({ width: 1280, height: 720 });
-      await inside(page, page.getByTestId('supercar-resume'));
+      const player = page.getByTestId('training-player-terrain-racing');
+      for (const width of [1000, 999, 1280]) {
+        await page.setViewportSize({ width, height: 720 });
+        await expect.poll(async () => {
+          const box = await player.boundingBox();
+          return box ? box.width / box.height : Number.POSITIVE_INFINITY;
+        }).toBeLessThan(.8);
+        await inside(page, page.getByTestId('supercar-resume'));
+      }
       await page.getByTestId('supercar-resume').click();
       await expect(page.locator('[data-testid^="supercar-state-"]')).toHaveAttribute('data-testid', state);
     }

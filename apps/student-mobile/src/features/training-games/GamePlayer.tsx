@@ -12,6 +12,7 @@ import { loadTrainingGame } from './gameEntries';
 import { trainingStatusBarHidden } from './presentation';
 import { useTrainingNativeDiagnostics } from './nativeDiagnostics';
 import { GameDisplay } from './GameDisplay';
+import { StudentGameTimeGate } from '../student-profile/StudentGameTimeGate';
 
 const GAMES = {
   'planet-rescue': lazy(() => loadTrainingGame('planet-rescue')),
@@ -37,7 +38,11 @@ function GameEntry({ Game, gameId, trial, onExit }: { Game: React.ComponentType<
   return <Game onExit={onExit} />;
 }
 export function GamePlayer({ studentId, gameId, trial = false, onExit }: { studentId: string; gameId: TrainingGameId; trial?: boolean; onExit: () => void }) {
-  return <GameDisplay key={gameId} gameId={gameId} onExit={onExit}><TrainingGameSession key={`${studentId}:${gameId}:${trial}`} studentId={studentId} trial={trial} gameId={gameId} onExit={onExit} Game={GAMES[gameId]} /></GameDisplay>;
+  const session = <TrainingGameSession key={`${studentId}:${gameId}:${trial}`} studentId={studentId}
+    trial={trial} gameId={gameId} onExit={onExit} Game={GAMES[gameId]} />;
+  return <GameDisplay key={gameId} gameId={gameId} onExit={onExit} pauseInPortrait={!trial}>
+    {trial ? session : <StudentGameTimeGate onLeave={onExit}>{session}</StudentGameTimeGate>}
+  </GameDisplay>;
 }
 export function TrainingGameSession({ studentId, gameId, trial = false, onExit, Game }: { studentId: string; gameId: TrainingGameId; trial?: boolean; onExit: () => void; Game: React.ComponentType<{ onExit: () => void }> }) {
   useTrainingNativeDiagnostics(gameId, trial);

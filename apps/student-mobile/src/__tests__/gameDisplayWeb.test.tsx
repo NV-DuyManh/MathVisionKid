@@ -1,14 +1,16 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
-import { enterGameDisplay, GameDisplay } from '../features/training-games/GameDisplay.web';
+import { cancelGameDisplay, enterGameDisplay, GameDisplay } from '../features/training-games/GameDisplay.web';
 import type { TrainingGameId } from '@mathvisionkid/training-games';
+
+jest.mock('react-native/Libraries/Utilities/useWindowDimensions', () => ({ __esModule: true, default: () => ({ width: 844, height: 390, scale: 1, fontScale: 1 }) }));
 
 const lock = jest.fn(), unlock = jest.fn(), fullscreen = jest.fn(), exit = jest.fn();
 const savedDocument = Object.getOwnPropertyDescriptor(globalThis, 'document');
 const savedScreen = Object.getOwnPropertyDescriptor(globalThis, 'screen');
 let view: TestRenderer.ReactTestRenderer | undefined;
 beforeEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
   Object.defineProperty(globalThis, 'document', { configurable: true, value: { documentElement: {} } });
   Object.defineProperty(globalThis, 'screen', { configurable: true, value: {} });
   Object.defineProperty(window, 'matchMedia', { configurable: true, value: () => ({ matches: true }) });
@@ -71,6 +73,16 @@ it('allows a new fullscreen gesture after the browser rejected the first attempt
   expect(lock).toHaveBeenCalledWith('landscape');
 });
 
+it('offers a fresh fullscreen gesture in landscape after a delayed navigation request is rejected', async () => {
+  fullscreen.mockRejectedValueOnce(new Error('User gesture expired')).mockResolvedValueOnce(undefined);
+  enterGameDisplay('race-to-finish');
+  await act(async () => { view = TestRenderer.create(<GameDisplay gameId="race-to-finish"><></></GameDisplay>); });
+  const button = view!.root.findByProps({ accessibilityLabel: 'Mở trò chơi toàn màn hình' });
+  await act(async () => button.props.onPress());
+  expect(fullscreen).toHaveBeenCalledTimes(2);
+  expect(lock).toHaveBeenCalledWith('landscape');
+});
+
 it('preserves fullscreen that was already active when the learner entered a game', async () => {
   Object.defineProperty(document, 'fullscreenElement', { value: document.documentElement });
   await act(async () => { view = TestRenderer.create(<GameDisplay gameId="race-to-finish"><></></GameDisplay>); });
@@ -85,6 +97,19 @@ it('keeps navigation usable when fullscreen throws immediately', async () => {
   expect(() => enterGameDisplay('race-to-finish')).not.toThrow();
   await act(async () => { view = TestRenderer.create(<GameDisplay gameId="race-to-finish"><></></GameDisplay>); });
   expect(lock).not.toHaveBeenCalled();
+});
+
+it('cancels a pending fullscreen request when the game preflight rejects access', async () => {
+  let finish!: () => void;
+  fullscreen.mockImplementation(() => new Promise<void>(resolve => { finish = resolve; }));
+  enterGameDisplay('race-to-finish');
+  cancelGameDisplay();
+  await act(async () => {
+    Object.defineProperty(document, 'fullscreenElement', { value: document.documentElement });
+    finish();
+  });
+  expect(lock).not.toHaveBeenCalled();
+  expect(exit).toHaveBeenCalledTimes(1);
 });
 
 it.each([

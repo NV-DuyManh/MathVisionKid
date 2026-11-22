@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -29,10 +30,13 @@ class StudentProfileIntegrationTest {
     @Autowired StudentRewards rewards;
     @Autowired StudentProfileService profiles;
     @Autowired StudentGameService games;
+    @Autowired StudentUsageService usage;
+    @Autowired StudentGameUsageService gameUsage;
     @Autowired QuizSources lessons;
     @Autowired JdbcTemplate db;
     @Autowired MockMvc mvc;
     @Autowired TransactionTemplate transaction;
+    @Autowired PasswordEncoder passwords;
     Student pupil;
     Student other;
 
@@ -49,6 +53,227 @@ class StudentProfileIntegrationTest {
         s.setRole("STUDENT");
         s.setGradeLevel(3);
         return students.saveAndFlush(s);
+    }
+
+    private void configureParentControl(UUID studentId, String pin) {
+        db.update("INSERT INTO student_parent_control(student_id, pin_hash) VALUES (?, ?)",
+                studentId, passwords.encode(pin));
+    }
+
+    @Test void studentCannotEnrollParentPinWithoutGuardianVerification() throws Exception {
+        mvc.perform(post("/api/v1/student/parent-control/pin")
+                        .with(user(pupil.getEmail()).roles("STUDENT"))
+                        .contentType("application/json")
+                        .content("{\"pin\":\"716025\"}"))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("PARENT_ENROLLMENT_REQUIRED"));
+        assertEquals(0, db.queryForObject("SELECT COUNT(*) FROM student_parent_control WHERE student_id = ?",
+                Integer.class, pupil.getId()));
+    }
+
+    @Test void statusWithoutParentControlPreservesUnconfiguredResponse() throws Exception {
+        mvc.perform(get("/api/v1/student/parent-control/status").with(user("no-profile@example.test").roles("STUDENT")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.pinConfigured").value(false))
+                .andExpect(jsonPath("$.dailyLimitConfigured").value(false));
+    }
+
+    @Test void expiredAppConnectionsAccountForBoundedTimeWithoutDoubleCounting() {
+        var start = java.time.LocalDate.of(2026, 11, 16).atStartOfDay(StudentRewards.ZONE).toInstant();
+        var id = pupil.getId();
+        var first = UUID.randomUUID();
+        var second = UUID.randomUUID();
+        usage.observeLocked(id, first, true, start);
+        usage.observeLocked(id, second, true, start.plusSeconds(5));
+        // Both clients disappear without sending a stop or a second heartbeat.
+        usage.observeLocked(id, UUID.randomUUID(), true, start.plusSeconds(50));
+        assertEquals(15_000, usage.weekFor(id, java.time.LocalDate.of(2026, 11, 16)).totalMillis());
+    }
+
+    @Test void statusAccountsExpiredConnectionBeforeCheckingDailyLimit() throws Exception {
+        var account = user(pupil.getEmail()).roles("STUDENT");
+        configureParentControl(pupil.getId(), "716025");
+        mvc.perform(put("/api/v1/student/parent-control/daily-limit").with(account).contentType("application/json")
+                .content("{\"pin\":\"716025\",\"minutes\":1}")).andExpect(status().isOk());
+        var day = java.time.LocalDate.now(StudentRewards.ZONE);
+        db.update("INSERT INTO student_usage_day (student_id, usage_day, elapsed_millis) VALUES (?, ?, ?)", pupil.getId(), day, 55_000);
+        db.update("INSERT INTO student_usage_connection (student_id, connection_id, last_seen_at) VALUES (?, ?, ?)", pupil.getId(), UUID.randomUUID(), java.sql.Timestamp.from(java.time.Instant.now().minusSeconds(50)));
+        mvc.perform(get("/api/v1/student/parent-control/status").with(account))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.dailyLimitReached").value(true));
+    }
+
+    @Test void appUsageCountsOverlappingConnectionsOnceAndSplitsAtVietnamMidnight() throws Exception {
+        var monday = java.time.LocalDate.of(2026, 11, 16);
+        var midnight = monday.atStartOfDay(StudentRewards.ZONE).toInstant();
+        UUID first = UUID.randomUUID(), second = UUID.randomUUID(), student = pupil.getId();
+        usage.observeLocked(student, first, true, midnight.minusSeconds(8));
+        usage.observeLocked(student, second, true, midnight.minusSeconds(4));
+        usage.observeLocked(student, second, true, midnight.plusSeconds(4));
+        usage.observeLocked(student, first, false, midnight.plusSeconds(8));
+        usage.observeLocked(student, second, true, midnight.plusSeconds(60));
+        usage.observeLocked(student, second, false, midnight.plusSeconds(65));
+
+        assertEquals(8_000, usage.weekFor(student, monday.minusDays(1)).totalMillis());
+        var week = usage.weekFor(student, monday);
+        assertEquals(19_000, week.totalMillis());
+        assertEquals(19_000, week.days().getFirst().elapsedMillis());
+        assertEquals(7, week.days().size());
+        assertEquals(0, usage.weekFor(other.getId(), monday).totalMillis());
+        mvc.perform(get("/api/v1/student/app-usage/week")).andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/v1/student/app-usage/week").with(user(pupil.getEmail()).roles("TEACHER")))
+                .andExpect(status().isForbidden());
+        mvc.perform(get("/api/v1/student/app-usage/week").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(header().string("Cache-Control", "no-store"))
+                .andExpect(jsonPath("$.days.length()").value(7));
+    }
+
+    @Test void parentPinGuardsSharedLimitAndLearningApiStopsAtDailyThreshold() throws Exception {
+        var account = user(pupil.getEmail()).roles("STUDENT");
+        String base = "/api/v1/student/parent-control";
+        String pin = "{\"pin\":\"716025\"}";
+        String cap = "{\"pin\":\"716025\",\"minutes\":1}";
+        configureParentControl(pupil.getId(), "716025");
+        mvc.perform(put(base + "/daily-limit").with(account).contentType("application/json")
+                        .content("{\"pin\":\"000000\",\"minutes\":1}"))
+                .andExpect(status().isForbidden());
+        mvc.perform(put(base + "/daily-limit").with(account).contentType("application/json").content(cap))
+                .andExpect(status().isOk());
+        mvc.perform(post("/api/v1/student/game-runs").with(account))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.error.code").value("STUDENT_ACTIVITY_REQUIRED"));
+        UUID connection = UUID.randomUUID();
+        mvc.perform(post("/api/v1/student/app-usage/heartbeat").with(account).contentType("application/json")
+                        .content("{\"connectionId\":\"" + connection + "\",\"active\":true}"))
+                .andExpect(status().isNoContent());
+        mvc.perform(post("/api/v1/student/game-runs").with(account)).andExpect(status().isOk());
+        db.update("UPDATE student_usage_connection SET last_seen_at = ? WHERE student_id = ?",
+                java.sql.Timestamp.from(java.time.Instant.now().minusSeconds(60)), pupil.getId());
+        mvc.perform(post("/api/v1/student/game-runs").with(account))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.error.code").value("STUDENT_ACTIVITY_REQUIRED"));
+        String stored = db.queryForObject("SELECT pin_hash FROM student_parent_control WHERE student_id = ?", String.class, pupil.getId());
+        assertNotEquals("716025", stored);
+        var day = java.time.LocalDate.now(StudentRewards.ZONE);
+        db.update("DELETE FROM student_usage_day WHERE student_id = ?", pupil.getId());
+        db.update("INSERT INTO student_usage_day (student_id, usage_day, elapsed_millis) VALUES (?, ?, 59999)", pupil.getId(), day);
+        mvc.perform(get(base + "/status").with(account)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.dailyLimitReached").value(false));
+        db.update("UPDATE student_usage_day SET elapsed_millis = 60000 WHERE student_id = ? AND usage_day = ?", pupil.getId(), day);
+        mvc.perform(get(base + "/status").with(account)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.dailyLimitReached").value(true));
+        mvc.perform(get(base + "/status").with(user(other.getEmail()).roles("STUDENT"))).andExpect(status().isOk())
+                .andExpect(jsonPath("$.pinConfigured").value(false));
+        mvc.perform(post("/api/v1/student/game-runs").with(account)).andExpect(status().isTooManyRequests())
+                .andExpect(jsonPath("$.error.code").value("STUDENT_DAILY_LIMIT"));
+        mvc.perform(post(base + "/unlock").with(account).contentType("application/json").content(pin))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.dailyMinutes").value(1));
+        mvc.perform(put(base + "/daily-limit").with(account).contentType("application/json")
+                        .content("{\"pin\":\"716025\",\"minutes\":null}"))
+                .andExpect(status().isOk());
+        mvc.perform(post("/api/v1/student/game-runs").with(account)).andExpect(status().isOk());
+
+        for (int attempt = 0; attempt < 4; attempt++) {
+            mvc.perform(post(base + "/unlock").with(account).contentType("application/json").content("{\"pin\":\"000000\"}"))
+                    .andExpect(status().isForbidden());
+        }
+        mvc.perform(post(base + "/unlock").with(account).contentType("application/json").content("{\"pin\":\"000000\"}"))
+                .andExpect(status().isTooManyRequests());
+        mvc.perform(post(base + "/unlock").with(account).contentType("application/json").content(pin))
+                .andExpect(status().isTooManyRequests());
+    }
+
+    @Test void gameTimeLimitRequiresPinAndBlocksGameApiWithoutBlockingOtherStudentApis() throws Exception {
+        var account = user(pupil.getEmail()).roles("STUDENT");
+        var differentAccount = user(other.getEmail()).roles("STUDENT");
+        String parent = "/api/v1/student/parent-control";
+        String heartbeat = "/api/v1/student/app-usage/game-heartbeat";
+        String gameStatus = "/api/v1/student/app-usage/game-status";
+        String active = "{\"connectionId\":\"" + UUID.randomUUID() + "\",\"active\":true}";
+        mvc.perform(post(heartbeat).contentType("application/json").content(active))
+                .andExpect(status().isUnauthorized());
+        mvc.perform(post(heartbeat).with(user(pupil.getEmail()).roles("TEACHER")).contentType("application/json").content(active))
+                .andExpect(status().isForbidden());
+        configureParentControl(pupil.getId(), "716025");
+        mvc.perform(put(parent + "/game-limit").with(account).contentType("application/json")
+                        .content("{\"pin\":\"000000\",\"minutes\":1}"))
+                .andExpect(status().isForbidden());
+        mvc.perform(put(parent + "/game-limit").with(account).contentType("application/json")
+                        .content("{\"pin\":\"716025\",\"minutes\":0}"))
+                .andExpect(status().isBadRequest());
+        mvc.perform(put(parent + "/game-limit").with(account).contentType("application/json")
+                        .content("{\"pin\":\"716025\",\"minutes\":1}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameMinutes").value(1))
+                .andExpect(jsonPath("$.dailyMinutes").isEmpty());
+        mvc.perform(post("/api/v1/student/game-runs").with(account))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.error.code").value("STUDENT_GAME_ACTIVITY_REQUIRED"));
+        mvc.perform(get(gameStatus)).andExpect(status().isUnauthorized());
+        mvc.perform(get(gameStatus).with(account)).andExpect(status().isOk())
+                .andExpect(header().string("Cache-Control", "no-store"))
+                .andExpect(jsonPath("$.gameLimitReached").value(false));
+        mvc.perform(post("/api/v1/student/game-runs").with(account)).andExpect(status().isServiceUnavailable());
+        mvc.perform(post(heartbeat).with(account).contentType("application/json").content(active))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Cache-Control", "no-store"))
+                .andExpect(jsonPath("$.remainingMillis").value(60000))
+                .andExpect(jsonPath("$.leaseMillis").value(10000))
+                .andExpect(jsonPath("$.gameLimitReached").value(false));
+        mvc.perform(post("/api/v1/student/game-runs").with(account)).andExpect(status().isOk());
+        var day = java.time.LocalDate.now(StudentRewards.ZONE);
+        db.update("DELETE FROM student_game_usage_day WHERE student_id = ?", pupil.getId());
+        db.update("INSERT INTO student_game_usage_day (student_id, usage_day, elapsed_millis) VALUES (?, ?, 60000)",
+                pupil.getId(), day);
+        mvc.perform(post(heartbeat).with(account).contentType("application/json").content(active))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.leaseMillis").value(0))
+                .andExpect(jsonPath("$.gameLimitReached").value(true));
+        mvc.perform(get(gameStatus).with(account)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameLimitReached").value(true));
+        mvc.perform(get(gameStatus).with(differentAccount)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameLimitReached").value(false));
+        mvc.perform(post("/api/v1/student/game-runs").with(account))
+                .andExpect(status().isTooManyRequests())
+                .andExpect(jsonPath("$.error.code").value("STUDENT_GAME_LIMIT"));
+        mvc.perform(get("/api/v1/student/rank-milestones").with(account)).andExpect(status().isOk());
+        mvc.perform(post("/api/v1/student/game-runs").with(differentAccount)).andExpect(status().isOk());
+        mvc.perform(get("/api/v1/student/app-usage/week").with(account))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.days[" + (day.getDayOfWeek().getValue() - 1) + "].gameElapsedMillis")
+                        .value(org.hamcrest.Matchers.greaterThanOrEqualTo(60000)));
+        mvc.perform(put(parent + "/game-limit").with(account).contentType("application/json")
+                        .content("{\"pin\":\"716025\",\"minutes\":null}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.gameMinutes").isEmpty());
+        mvc.perform(post("/api/v1/student/game-runs").with(account)).andExpect(status().isOk());
+    }
+
+    @Test void gameTimeUsesServerLeasesAndCountsConcurrentDevicesOnlyOnce() {
+        var day = java.time.LocalDate.of(2026, 11, 16);
+        var midnight = day.atStartOfDay(StudentRewards.ZONE).toInstant();
+        var id = pupil.getId();
+        UUID first = UUID.randomUUID(), second = UUID.randomUUID();
+        assertEquals(8_000, gameUsage.observeLocked(id, first, true, midnight.minusSeconds(8)).leaseMillis());
+        assertEquals(4_000, gameUsage.observeLocked(id, second, true, midnight.minusSeconds(4)).leaseMillis());
+        assertEquals(0, gameUsage.observeLocked(id, first, false, midnight.minusSeconds(2)).leaseMillis());
+        gameUsage.observeLocked(id, first, true, midnight.plusSeconds(2));
+        gameUsage.observeLocked(id, second, true, midnight.plusSeconds(6));
+        gameUsage.observeLocked(id, first, false, midnight.plusSeconds(8));
+        gameUsage.observeLocked(id, second, true, midnight.plusSeconds(60));
+        gameUsage.observeLocked(id, second, false, midnight.plusSeconds(65));
+
+        assertEquals(8_000, usage.weekFor(id, day.minusDays(1)).days().getLast().gameElapsedMillis());
+        assertEquals(19_000, usage.weekFor(id, day).days().getFirst().gameElapsedMillis());
+        assertEquals(0, usage.weekFor(id, day).totalMillis());
+        assertEquals(0, usage.weekFor(other.getId(), day).days().getFirst().gameElapsedMillis());
+
+        db.update("INSERT INTO student_parent_control(student_id, pin_hash, game_minutes) VALUES (?, ?, ?)",
+                id, "unused-test-hash", 1);
+        db.update("UPDATE student_game_usage_day SET elapsed_millis = 59500 WHERE student_id = ? AND usage_day = ?",
+                id, day);
+        assertEquals(500, gameUsage.observeLocked(id, first, true, midnight.plusSeconds(65)).leaseMillis());
+        var reached = gameUsage.observeLocked(id, first, true, midnight.plusSeconds(66));
+        assertEquals(0, reached.leaseMillis());
+        assertEquals(0L, reached.remainingMillis());
+        assertTrue(reached.gameLimitReached());
+        assertEquals(60_000, usage.weekFor(id, day).days().getFirst().gameElapsedMillis());
     }
 
     @Test void initialAvatarIsPersistedOnceAndExistingChoicesArePreserved() {
@@ -173,6 +398,19 @@ class StudentProfileIntegrationTest {
         assertEquals(GameRewardStatus.GAME_LIMIT, game.rewardStatus());
         assertEquals(game, games.get(owner, game.id()));
         assertEquals(4, profiles.get(owner).stats().games());
+    }
+
+    @Test void thirteenthRankedGameRunIsRejectedWithoutAffectingAnotherStudent() throws Exception {
+        String owner = pupil.getEmail();
+        for (int i = 0; i < 12; i++) {
+            Game game = games.start(owner, GameMode.ARITHMETIC_QUEST);
+            while (!game.completed()) {
+                game = games.answer(owner, game.id(), new GameAnswer(game.question(), answer(game.prompt())));
+            }
+        }
+        mvc.perform(post("/api/v1/student/game-runs").with(user(owner).roles("STUDENT")))
+                .andExpect(status().isTooManyRequests()).andExpect(jsonPath("$.error.code").value("GAME_LIMIT"));
+        assertFalse(games.start(other.getEmail(), GameMode.ARITHMETIC_QUEST).completed());
     }
 
     @Test void expiredRaceChallengeCannotBeAnsweredAndCanStartAgain() throws Exception {
