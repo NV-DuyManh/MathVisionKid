@@ -14,8 +14,8 @@ import { GAME_COVERS, GameCover } from '../../features/training-games/GameCover'
 import { trainingAccess } from '../../features/training-games/identity';
 import { trainingTrace } from '../../features/training-games/diagnostics';
 import { trainingResults } from '../../features/training-games/resultStore';
-import { enterGameDisplay } from '../../features/training-games/GameDisplay';
-import type { TrainingSessionResult } from '@mathvisionkid/training-games';
+import { cancelGameDisplay, enterGameDisplay } from '../../features/training-games/GameDisplay';
+import type { TrainingGameId, TrainingSessionResult } from '@mathvisionkid/training-games';
 import { useStudentProfile } from '../../features/student-profile/useStudentProfile';
 import { PersonalPanel } from '../../features/student-profile/PersonalWeb';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
@@ -72,20 +72,23 @@ export default function GamesScreen() {
     };
   }, [studentId]));
 
-  async function openGame(navigate: () => void) {
+  async function openGame(gameId: TrainingGameId | undefined, navigate: () => void) {
     if (opening.current || dialog || access.kind === 'blocked') return;
     opening.current = true;
     if (access.kind === 'trial') { navigate(); return; }
+    if (gameId) enterGameDisplay(gameId);
     const request = new AbortController();
     gameCheck.current = request;
     try {
       const reached = await readGameTimeStatus(request.signal);
-      if (request.signal.aborted) return;
+      if (request.signal.aborted) { cancelGameDisplay(); return; }
       if (!reached) { navigate(); return; }
+      cancelGameDisplay();
       setNotice({ owner: access.studentId, reason: 'game-limit' });
       opening.current = false;
     } catch {
-      if (request.signal.aborted) return;
+      if (request.signal.aborted) { cancelGameDisplay(); return; }
+      cancelGameDisplay();
       setNotice({ owner: access.studentId, reason: 'connection' });
       opening.current = false;
     } finally {
@@ -120,7 +123,7 @@ export default function GamesScreen() {
     <Layout {...(desktopWeb ? { style: styles.webMain } : {})}>
     {access.kind === 'student' && <Pressable testID="game-star-quest" accessibilityRole="button"
       accessibilityLabel={STAR_QUEST.title} accessibilityHint={STAR_QUEST.description}
-      onPress={() => { void openGame(() => router.push('/games/arithmetic-quest')); }}
+      onPress={() => { void openGame(undefined, () => router.push('/games/arithmetic-quest')); }}
       style={({ pressed }) => [styles.card, desktopWeb && styles.featured, pressed && styles.pressed]}>
       {desktopWeb ? <>
         <Image source={GAME_COVERS['star-quest']} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition={{ left: '50%', top: '30%' }} accessible={false} />
@@ -155,9 +158,8 @@ export default function GamesScreen() {
         <Pressable accessibilityRole="button" accessibilityLabel={`${access.kind === 'trial' ? 'Chơi thử' : 'Chơi'} ${game.title}`}
           accessibilityState={{ disabled: !playable }} disabled={!playable} testID={`training-play-${game.id}`} onPress={() => {
             if (!playable) return;
-            void openGame(() => {
+            void openGame(game.id, () => {
               trainingTrace('play-press', { gameId: game.id, mode: access.kind });
-              enterGameDisplay(game.id);
               router.push({ pathname: '/games/[gameId]', params: access.kind === 'trial' ? { gameId: game.id, playMode: 'trial' } : { gameId: game.id } });
             });
           }} style={({ pressed }) => [styles.playTarget, !playable && styles.disabled, pressed && styles.pressed]}>
@@ -172,7 +174,7 @@ export default function GamesScreen() {
           {playable && access.kind === 'student' && <>
             <View style={[styles.challenge, desktopWeb && styles.webChallenge]}>
             <AppButton title="Mở thử thách tính sao" accessibilityLabel={`Mở thử thách tính sao · ${game.title}`} variant="secondary"
-              onPress={() => { void openGame(() => router.push({ pathname: '/games/arithmetic-quest', params: { mode: game.id } })); }} />
+              onPress={() => { void openGame(undefined, () => router.push({ pathname: '/games/arithmetic-quest', params: { mode: game.id } })); }} />
             <Text style={styles.note}>Giải 5 câu để có cơ hội nhận sao vào hồ sơ.</Text>
             </View>
           </>}

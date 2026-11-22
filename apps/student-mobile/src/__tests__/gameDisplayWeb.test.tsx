@@ -1,6 +1,6 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
-import { enterGameDisplay, GameDisplay } from '../features/training-games/GameDisplay.web';
+import { cancelGameDisplay, enterGameDisplay, GameDisplay } from '../features/training-games/GameDisplay.web';
 import type { TrainingGameId } from '@mathvisionkid/training-games';
 
 jest.mock('react-native/Libraries/Utilities/useWindowDimensions', () => ({ __esModule: true, default: () => ({ width: 844, height: 390, scale: 1, fontScale: 1 }) }));
@@ -97,6 +97,19 @@ it('keeps navigation usable when fullscreen throws immediately', async () => {
   expect(() => enterGameDisplay('race-to-finish')).not.toThrow();
   await act(async () => { view = TestRenderer.create(<GameDisplay gameId="race-to-finish"><></></GameDisplay>); });
   expect(lock).not.toHaveBeenCalled();
+});
+
+it('cancels a pending fullscreen request when the game preflight rejects access', async () => {
+  let finish!: () => void;
+  fullscreen.mockImplementation(() => new Promise<void>(resolve => { finish = resolve; }));
+  enterGameDisplay('race-to-finish');
+  cancelGameDisplay();
+  await act(async () => {
+    Object.defineProperty(document, 'fullscreenElement', { value: document.documentElement });
+    finish();
+  });
+  expect(lock).not.toHaveBeenCalled();
+  expect(exit).toHaveBeenCalledTimes(1);
 });
 
 it.each([

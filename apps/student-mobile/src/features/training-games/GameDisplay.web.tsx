@@ -29,6 +29,19 @@ export function enterGameDisplay(gameId: TrainingGameId) {
   })().catch(() => {});
 }
 
+export function cancelGameDisplay() {
+  if (!requestedGame) return;
+  requestedGame = undefined;
+  ++generation;
+  const exitFullscreen = ownsFullscreen && typeof document !== 'undefined' &&
+    document.fullscreenElement === document.documentElement;
+  ownsFullscreen = false;
+  void (async () => {
+    if (exitFullscreen) await document.exitFullscreen();
+  })().catch(() => {});
+  try { screen.orientation?.unlock?.(); } catch { /* Orientation controls may be blocked by the browser. */ }
+}
+
 export function GameDisplay({ gameId, children, onExit, pauseInPortrait }: {
   gameId: TrainingGameId; children: React.ReactNode; onExit?: () => void; pauseInPortrait?: boolean;
 }) {
@@ -51,14 +64,7 @@ export function GameDisplay({ gameId, children, onExit, pauseInPortrait }: {
     if (requestedGame !== gameId) enterGameDisplay(gameId);
     return () => {
       if (requestedGame !== gameId) return;
-      requestedGame = undefined;
-      ++generation;
-      const exitFullscreen = ownsFullscreen && document.fullscreenElement === document.documentElement;
-      ownsFullscreen = false;
-      void (async () => {
-        if (exitFullscreen) await document.exitFullscreen();
-      })().catch(() => {});
-      try { screen.orientation?.unlock?.(); } catch { /* Orientation controls may be blocked by the browser. */ }
+      cancelGameDisplay();
     };
   }, [gameId]);
   return <View style={styles.root}>
