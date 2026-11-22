@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Stack } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import Head from 'expo-router/head';
 import { View } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -11,6 +11,8 @@ import { observeLearningPerformance } from '../features/tutoring/webPerformance.
 import { StudentDailyLimit } from '../features/student-profile/StudentDailyLimit';
 
 export default function StudentWebLayout() {
+  const pathname = usePathname().replace(/^\/(?:study|learn)(?=\/|$)/, '');
+  const inGame = /^\/games\/[^/]+/.test(pathname);
   useEffect(observeLearningPerformance, []);
   useEffect(() => { if (typeof document !== 'undefined') document.documentElement.lang = 'vi'; }, []);
   useFonts({
@@ -23,7 +25,8 @@ export default function StudentWebLayout() {
   });
   return <View style={{ flex: 1, backgroundColor: COLORS.background }}>
     <Head><title>MathVisionKid — Cùng em học toán</title></Head>
-    <style>{`@media (min-width: 1100px) and (hover: hover) and (pointer: fine) { :root { zoom: 1.07; } }`}</style>
+    {/* Game cameras and hit testing share unzoomed viewport coordinates. */}
+    {!inGame && <style>{`@media (min-width: 1100px) and (hover: hover) and (pointer: fine) { :root { zoom: 1.07; } }`}</style>}
     <WebAlerts />
     <View style={{ flex: 1, width: '100%', minWidth: 0 }}>
       <AuthProvider>

@@ -30,6 +30,20 @@ Lượt ổn định production tiếp theo ngày **13/11/2026** tích hợp cá
 
 Các thư viện, font, công cụ và phần mã bên thứ ba giữ thông báo tác giả/giấy phép riêng. Bảng này không thay đổi giấy phép hoặc tự xác lập quyền sở hữu pháp lý.
 
+Ngày **20/11/2026**, **Kha (deptraivodich)** sửa bố cục desktop của game cùng Codex.
+Nguồn camera và recipe đóng gói nằm trong `deptraivodich/Tro_choi_cho_em`, nền
+`0a1d148198448fbdd83fbc40ac3ad9d0a2a7e255`, bản sửa local
+`27a9c10608fe405a37c961ca8e7157a1e0c04043`. Package 0.1.8 giữ nguyên 216/220 file
+nguồn của bản tích hợp 0.1.2; chỉ sửa camera, trình bày màn mở đầu Đảo Khối và
+version kết quả. Lịch sử đầy đủ của phần tích hợp từng chưa commit không có trên
+remote nguồn; không gán lại tác giả cho phần đó. Xem patch và SHA-256 trong
+`vendor/training-games/` để review thay đổi thực tế.
+
+Trong [PR #113](https://github.com/NV-DuyManh/MathVisionKid/pull/113), **NV-DuyManh**
+đồng bộ `develop`, sửa vị trí nút toàn màn hình và bổ sung kiểm thử resize.
+Gói 0.1.9 tiếp nối mã camera của **Kha (deptraivodich)** tại `6576aba5`.
+Các bản sửa nguồn và script dựng gói được ghi lại ở `vendor/training-games/`.
+
 **Kha (deptraivodich)** nghiệm thu và tích hợp bản sửa khôi phục ảnh Student Web khi refresh với Codex, ngày **16/11/2026**. Commit nguồn `a02314c318cbd57bbce2b15dd0634cc62ddc220a` được chuyển bằng `cherry-pick -x` lên develop `a48397ef5d6de95a4179c91c2188d492827c0439`, giữ nguyên tác giả; bổ sung kiểm tra tác vụ khôi phục hết hiệu lực sau khi đổi phiên. PR hướng dẫn phần bài làm còn thiếu #90 được giữ riêng. Không thay ghi nhận nguồn của các đóng góp privacy, crop và Work Review trước đó.
 
 **Kha (deptraivodich)** nghiệm thu và tích hợp phần hướng dẫn bài làm chưa hoàn thành với Codex, ngày **16/11/2026**: xác định đại lượng còn thiếu, gợi ý bước tiếp theo có kiểm chứng và hợp đồng AI–Spring–Student. Nguồn là các thay đổi local trên nền `a48397ef5d6de95a4179c91c2188d492827c0439`, không có commit triển khai độc lập trước tích hợp; SHA này chỉ xác định nền nguồn. Giữ nguyên lịch sử và ghi nhận các sửa Work Review, privacy và Quiz đã có trong PR #72, #82 và #84.
