@@ -1,7 +1,7 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
 import { ParentModePreview, ParentProfilePinDialog } from '../features/student-profile/ParentModePreview';
-import { openParentMode, readParentControlStatus, saveParentDailyLimit, saveParentGameLimit } from '../features/student-profile/parentControlApi';
+import { confirmParentPinCode, requestParentPinCode, openParentMode, readParentControlStatus, readParentSettings, saveParentDailyLimit, saveParentGameLimit } from '../features/student-profile/parentControlApi';
 import { readStudentUsageWeek } from '../features/student-profile/studentUsage';
 import {
   clearParentModeSession,
@@ -14,6 +14,8 @@ import {
 // Exercise the workspace state without importing or timing native presentation primitives.
 jest.mock('react-native', () => ({
   ActivityIndicator: 'ActivityIndicator',
+  AppState: { currentState: 'active', addEventListener: () => ({ remove: jest.fn() }) },
+  Modal: 'Modal',
   KeyboardAvoidingView: 'View',
   Pressable: 'Pressable',
   ScrollView: 'ScrollView',
@@ -54,7 +56,11 @@ jest.mock('../features/student-profile/useStudentProfile', () => ({
 }));
 jest.mock('../features/student-profile/parentControlApi', () => ({
   openParentMode: jest.fn(),
+  requestParentPinCode: jest.fn(),
+  confirmParentPinCode: jest.fn(),
   readParentControlStatus: jest.fn(),
+  readParentSettings: jest.fn(),
+  isParentGrantRejected: (cause: unknown) => cause === 'expired',
   saveParentDailyLimit: jest.fn(),
   saveParentGameLimit: jest.fn(),
   parentControlError: (cause: any) =>
@@ -176,21 +182,45 @@ it('exits web Parent Mode immediately when opened without an unlocked profile se
   expect(text()).not.toContain('Nhập mã PIN');
 });
 
-it('shows verified use beside learning on native mobile, then confirms a limit change only after a successful PIN save', async () => {
-  jest.mocked(saveParentDailyLimit).mockRejectedValueOnce(new Error('offline')).mockResolvedValueOnce({ dailyMinutes: null });
-  await act(async () => {
-    view = TestRenderer.create(<ParentModePreview owner="student-a" onExit={jest.fn()} />);
+it('shows the no-PIN notice on Android with a live region and native-safe roles', async () => {
+  require('react-native').Platform.OS = 'android';
+  jest.mocked(readParentControlStatus).mockResolvedValueOnce({
+    pinConfigured: false, dailyLimitReached: false, activityVerified: true,
   });
-  expect(text()).not.toContain('Thời gian hôm nay');
+  await act(async () => {
+    view = TestRenderer.create(<ParentProfilePinDialog owner="student-a" onExit={jest.fn()} onOpen={jest.fn()} />);
+  });
+  const dialog = view.root.findByProps({ accessibilityViewIsModal: true });
+  expect(dialog.props.accessibilityRole).toBeUndefined();
+  const notice = dialog.findByProps({ accessibilityLiveRegion: 'polite' });
+  expect(notice.props.children).toContain('Tài khoản chưa có mã PIN');
+  expect(notice.props.accessibilityRole).toBeUndefined();
+});
+
+it('shows verified use beside learning on native mobile, then confirms a limit change only after a successful PIN save', async () => {
+  require('react-native').Platform.OS = 'android';
+  jest.mocked(saveParentDailyLimit).mockRejectedValueOnce(new Error('offline')).mockResolvedValueOnce({ dailyMinutes: null });
+  const open = jest.fn(settings => storeParentModeHandoff('student-a', settings));
+  await act(async () => {
+    view = TestRenderer.create(<ParentProfilePinDialog owner="student-a" onExit={jest.fn()} onOpen={open} />);
+  });
+  expect(view.root.findAllByType('Modal' as any)).toHaveLength(1);
   expect(readStudentUsageWeek).not.toHaveBeenCalled();
   type('Mã PIN', '864209');
   await press('Mở Góc phụ huynh');
+  expect(open).toHaveBeenCalledWith({ dailyMinutes: 45 });
+  await act(async () => view.update(<ParentModePreview owner="student-a" onExit={jest.fn()} />));
   expect(text()).toContain('Tiến độ học tập');
   expect(text()).toContain('Sử dụng an toàn');
   expect(text()).toContain('Chưa có hoạt động học tập');
   expect(text()).toContain('15 phút');
   await press('Đổi giới hạn');
   await press('Không giới hạn');
+  await press('Xác nhận thay đổi');
+  expect(view.root.findByProps({ accessibilityViewIsModal: true }).props.accessibilityLabel).toBe('Xác nhận bằng mã PIN');
+  expect(view.root.findAllByType('Modal' as any)).toHaveLength(1);
+  await press('Hủy xác nhận');
+  expect(saveParentDailyLimit).not.toHaveBeenCalled();
   await press('Xác nhận thay đổi');
   type('Mã PIN để lưu', '864209');
   await press('Lưu giới hạn');
@@ -201,34 +231,33 @@ it('shows verified use beside learning on native mobile, then confirms a limit c
   await press('Lưu giới hạn');
   expect(saveParentDailyLimit).toHaveBeenCalledWith('864209', null, expect.anything());
   expect(text()).toContain('Đã lưu giới hạn');
+  expect(view.root.findByProps({ accessibilityLiveRegion: 'polite' }).props.accessibilityRole).toBeUndefined();
   expect(text()).not.toContain('45 phút/ngày');
 });
 
-it('clears sensitive content on account change and discards an unlock response from the previous account', async () => {
+it('aborts an unlock when the account changes and ignores its response', async () => {
   let finish!: (value: { dailyMinutes: number }) => void;
+  const open = jest.fn();
   jest.mocked(openParentMode).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
   await act(async () => {
-    view = TestRenderer.create(<ParentModePreview owner="student-a" onExit={jest.fn()} />);
+    view = TestRenderer.create(<ParentProfilePinDialog key="student-a" owner="student-a" onExit={jest.fn()} onOpen={open} />);
   });
   type('Mã PIN', '864209');
   await press('Mở Góc phụ huynh');
   const request = jest.mocked(openParentMode).mock.calls[0][2];
-  await act(async () => view.update(<ParentModePreview owner="student-b" onExit={jest.fn()} />));
+  await act(async () => view.update(<ParentProfilePinDialog key="student-b" owner="student-b" onExit={jest.fn()} onOpen={open} />));
   await act(async () => finish({ dailyMinutes: 60 }));
   expect(request?.aborted).toBe(true);
+  expect(open).not.toHaveBeenCalled();
   expect(text()).toContain('Nhập mã PIN');
-  expect(text()).not.toContain('60 phút/ngày');
-  expect(readStudentUsageWeek).not.toHaveBeenCalled();
 });
 
 it('saves the game budget through its own PIN-protected API and retains the shared budget', async () => {
-  jest.mocked(openParentMode).mockResolvedValue({ dailyMinutes: 60, gameMinutes: 30 });
+  storeParentModeHandoff('student-a', { dailyMinutes: 60, gameMinutes: 30 });
   jest.mocked(saveParentGameLimit).mockResolvedValue({ dailyMinutes: 60, gameMinutes: 15 });
   await act(async () => {
     view = TestRenderer.create(<ParentModePreview owner="student-a" onExit={jest.fn()} />);
   });
-  type('Mã PIN', '864209');
-  await press('Mở Góc phụ huynh');
   await press('Đổi giới hạn');
   await press('Chơi trò chơi');
   expect(text()).toContain('30 phút/ngày');
@@ -250,4 +279,62 @@ it('saves the game budget through its own PIN-protected API and retains the shar
   expect(text()).toContain('Mức mới: 15 phút/ngày');
   await press('Tổng thời gian');
   expect(text()).toContain('60 phút/ngày');
+});
+
+
+it('polls the protected settings without overwriting a limit draft and prompts again after expiry', async () => {
+  jest.useFakeTimers();
+  try {
+    storeParentModeHandoff('student-a', { dailyMinutes: 45, gameMinutes: 30, grant: 'synthetic-grant' });
+    jest.mocked(readParentSettings)
+      .mockResolvedValueOnce({ dailyMinutes: 45, gameMinutes: 30 })
+      .mockResolvedValueOnce({ dailyMinutes: 90, gameMinutes: 15 })
+      .mockRejectedValueOnce('expired');
+    await act(async () => {
+      view = TestRenderer.create(<ParentModePreview owner="student-a" onExit={jest.fn()} />);
+    });
+    await press('Đổi giới hạn');
+    await press('Chọn 30 phút mỗi ngày');
+    await act(async () => { jest.advanceTimersByTime(5000); });
+    expect(text()).toContain('90 phút/ngày');
+    expect(text()).toContain('Lựa chọn đang chỉnh sửa vẫn được giữ.');
+    await press('Xác nhận thay đổi');
+    expect(text()).toContain('Tổng thời gian sử dụng · 30 phút/ngày');
+    await act(async () => { jest.advanceTimersByTime(5000); });
+    expect(text()).toContain('Phiên phụ huynh đã hết hạn');
+    expect(text()).not.toContain('90 phút/ngày');
+    expect(readParentModeSession('student-a')).toBeUndefined();
+  } finally {
+    jest.useRealTimers();
+  }
+});
+
+it.each([
+  [false, 'Thiết lập mã PIN', 'SETUP'],
+  [true, 'Quên mã PIN?', 'RESET'],
+] as const)('recovers the Android PIN using masked account email (configured = %s)', async (configured, title, purpose) => {
+  require('react-native').Platform.OS = 'android';
+  jest.mocked(readParentControlStatus).mockResolvedValueOnce({
+    pinConfigured: configured, dailyLimitReached: true, activityVerified: true,
+  });
+  jest.mocked(requestParentPinCode).mockResolvedValueOnce({ maskedEmail: 'st***@example.test' });
+  jest.mocked(confirmParentPinCode).mockResolvedValueOnce(undefined);
+  const onOpen = jest.fn();
+  await act(async () => {
+    view = TestRenderer.create(<ParentProfilePinDialog owner="student-a" onExit={jest.fn()} onOpen={onOpen} />);
+  });
+  await press(title);
+  await press('Gửi mã xác nhận');
+  expect(requestParentPinCode).toHaveBeenCalledWith(purpose, expect.anything());
+  expect(text()).toContain('st***@example.test');
+  type('Mã xác nhận từ email', '716025');
+  type('Mã PIN mới', '398451');
+  type('Nhập lại mã PIN mới', '398451');
+  await press('Lưu mã PIN mới');
+  expect(confirmParentPinCode).toHaveBeenCalledWith(purpose, '716025', '398451', expect.anything());
+  expect(onOpen).not.toHaveBeenCalled();
+  expect(text()).toContain('Đã lưu mã PIN mới');
+  type('Mã PIN', '398451');
+  await press('Mở Góc phụ huynh');
+  expect(onOpen).toHaveBeenCalled();
 });

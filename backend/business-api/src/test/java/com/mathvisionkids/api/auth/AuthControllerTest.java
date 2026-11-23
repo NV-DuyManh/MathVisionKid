@@ -231,6 +231,38 @@ public class AuthControllerTest {
     }
 
     @Test
+    void nativeLogoutPreservesWebAndOtherNativeSessionsForSameStudent() throws Exception {
+        String login = objectMapper.writeValueAsString(Map.of("email", testUser.getEmail(), "password", "password"));
+        var web = mockMvc.perform(post("/api/v1/auth/login").secure(true)
+                .header("X-MathVision-Web", "portal").contentType(MediaType.APPLICATION_JSON).content(login))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        var cookie = web.getCookie("__Host-mvk_portal_session");
+        String webId = objectMapper.readTree(web.getContentAsString()).get("sessionId").asText();
+        var first = objectMapper.readTree(mockMvc.perform(post("/api/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON).content(login))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString());
+        var second = objectMapper.readTree(mockMvc.perform(post("/api/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON).content(login))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString());
+        String firstAccess = first.get("accessToken").asText();
+        String firstRefresh = objectMapper.writeValueAsString(Map.of("refreshToken", first.get("refreshToken").asText()));
+        mockMvc.perform(post("/api/v1/auth/logout").header("Authorization", "Bearer " + firstAccess)
+                .contentType(MediaType.APPLICATION_JSON).content(firstRefresh)).andExpect(status().isOk());
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me")
+                .secure(true).cookie(cookie).header("X-MathVision-Web", "portal").header("X-MathVision-Session", webId))
+                .andExpect(status().isOk());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me")
+                .header("Authorization", "Bearer " + firstAccess)).andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON).content(firstRefresh))
+                .andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/v1/auth/logout").secure(true).cookie(cookie)
+                .header("X-MathVision-Web", "portal").header("X-MathVision-Session", webId)).andExpect(status().isOk());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me")
+                .header("Authorization", "Bearer " + second.get("accessToken").asText())).andExpect(status().isOk());
+    }
+
+    @Test
     public void testLogoutRevokesToken() throws Exception {
         // 1. Login
         Map<String, String> loginRequest = new HashMap<>();

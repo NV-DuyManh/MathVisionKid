@@ -1,7 +1,9 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  AppState,
   KeyboardAvoidingView,
+  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -19,9 +21,14 @@ import { COLORS, FONTS } from '../../constants/theme';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { ParentOverview, formatDailyLimit, formatUsage, useUsageWeek } from './ParentOverview';
 import {
+  confirmParentPinCode,
+  isParentGrantRejected,
   openParentMode,
   parentControlError,
   readParentControlStatus,
+  readParentSettings,
+  requestParentPinCode,
+  type ParentPinPurpose,
   saveParentDailyLimit,
   saveParentGameLimit,
   type ParentSettings,
@@ -30,15 +37,19 @@ import {
   clearParentModeSession,
   consumeParentModeHandoff,
   readParentModeSession,
+  storeParentModeHandoff,
   updateParentModeSession,
 } from './parentModeHandoff';
 
-type Gate = 'loading' | 'unavailable' | 'setup' | 'unlock' | 'open';
 type Section = 'overview' | 'limits';
 type LimitKind = 'total' | 'game';
 const PIN_LENGTH = 6;
 const LIMIT_PRESETS = [15, 30, 45, 60, 90, 120] as const;
 const GAME_LIMIT_PRESETS = [5, 10, 15, 20, 30, 45] as const;
+// Android's native accessibilityRole enum does not include the web status role.
+function statusRole() {
+  return Platform.OS === 'web' ? 'status' as const : undefined;
+}
 type InputInstance = React.ComponentRef<typeof TextInput>;
 
 export function ParentModePreview({ owner, onExit }: { owner: string; onExit: () => void }) {
@@ -46,38 +57,59 @@ export function ParentModePreview({ owner, onExit }: { owner: string; onExit: ()
 }
 
 function ParentWorkspace({ owner, onExit }: { owner: string; onExit: () => void }) {
-  const [handoff] = useState(() => consumeParentModeHandoff(owner) ?? readParentModeSession(owner));
   const web = Platform.OS === 'web';
-  const [gate, setGate] = useState<Gate>(handoff ? 'open' : 'loading');
-  const [retry, setRetry] = useState(0);
   const [section, setSection] = useState<Section>('overview');
-  const [settings, setSettings] = useState<ParentSettings | undefined>(handoff);
-  const [gateNotice, setGateNotice] = useState('');
+  const [settings, setSettings] = useState(() => consumeParentModeHandoff(owner) ?? readParentModeSession(owner));
+  const [needsPin, setNeedsPin] = useState(false);
   const [savingLimit, setSavingLimit] = useState(false);
   const [limitKind, setLimitKind] = useState<LimitKind>('total');
   const [uncertainLimits, setUncertainLimits] = useState<Partial<Record<LimitKind, boolean>>>({});
   const scroll = useRef<React.ComponentRef<typeof ScrollView>>(null);
   const { width } = useWindowDimensions();
-  const isOpen = gate === 'open' && settings !== undefined;
+  const hasSettings = settings !== undefined;
+  const grant = settings?.grant;
 
   useEffect(() => {
-    if (handoff) return;
-    if (web) {
-      // Web enters Parent Mode strictly after unlocking the PIN dialog on /profile.
-      clearParentModeSession();
-      onExit();
-      return;
-    }
+    if (!hasSettings && !needsPin) onExit();
+  }, [hasSettings, needsPin, onExit]);
+
+  useEffect(() => {
+    if (!grant || savingLimit) return;
+    const activeGrant = grant;
     const request = new AbortController();
-    void readParentControlStatus(request.signal)
-      .then(status => {
-        if (!request.signal.aborted) setGate(status.pinConfigured ? 'unlock' : 'setup');
-      })
-      .catch(() => {
-        if (!request.signal.aborted) setGate('unavailable');
-      });
-    return () => request.abort();
-  }, [retry, handoff, web, onExit]);
+    let fetching = false;
+    async function refresh() {
+      if (fetching || request.signal.aborted) return;
+      if (Platform.OS === 'web' ? document.visibilityState === 'hidden' : AppState.currentState === 'background') return;
+      fetching = true;
+      try {
+        const data = await readParentSettings(activeGrant, request.signal);
+        if (request.signal.aborted) return;
+        const latest = { ...data, grant };
+        setSettings(latest);
+        updateParentModeSession(owner, latest);
+        setUncertainLimits({});
+      } catch (cause) {
+        if (!request.signal.aborted && isParentGrantRejected(cause)) {
+          clearParentModeSession();
+          setNeedsPin(true);
+          setSettings(undefined);
+        }
+      } finally {
+        fetching = false;
+      }
+    }
+    void refresh();
+    const timer = setInterval(refresh, 5000);
+    const listener = AppState.addEventListener('change', state => { if (state === 'active') void refresh(); });
+    if (web) document.addEventListener('visibilitychange', refresh);
+    return () => {
+      request.abort();
+      clearInterval(timer);
+      listener.remove();
+      if (web) document.removeEventListener('visibilitychange', refresh);
+    };
+  }, [grant, savingLimit, owner, web]);
 
   function switchSection(next: Section) {
     setSection(next);
@@ -89,27 +121,22 @@ function ParentWorkspace({ owner, onExit }: { owner: string; onExit: () => void 
     onExit();
   }
 
-  function lock() {
-    clearParentModeSession();
-    setSettings(undefined);
-    setSavingLimit(false);
-    setLimitKind('total');
-    setUncertainLimits({});
-    setGateNotice('');
-    if (web) {
-      onExit();
-      return;
-    }
-    setGate('unlock');
-    switchSection('overview');
-  }
-
-  if (web && !isOpen) {
+  if (!settings) {
     return (
       <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
-        <View style={styles.webRedirectCenter}>
-          <ActivityIndicator color={COLORS.primary} accessibilityLabel="Đang quay lại hồ sơ" />
-        </View>
+        {needsPin ? (
+          <ParentProfilePinDialog owner={owner} notice="Phiên phụ huynh đã hết hạn. Nhập lại mã PIN để tiếp tục."
+            onExit={exitWorkspace} onOpen={updated => {
+              storeParentModeHandoff(owner, updated);
+              consumeParentModeHandoff(owner);
+              setSettings(updated);
+              setNeedsPin(false);
+            }} />
+        ) : (
+          <View style={styles.webRedirectCenter}>
+            <ActivityIndicator color={COLORS.primary} accessibilityLabel="Đang quay lại hồ sơ" />
+          </View>
+        )}
       </SafeAreaView>
     );
   }
@@ -125,7 +152,6 @@ function ParentWorkspace({ owner, onExit }: { owner: string; onExit: () => void 
               styles.page,
               width >= 700 && styles.pageWide,
               web && width >= 700 && styles.pageWebWide,
-              !isOpen && styles.gatePage,
             ]}
           >
             <View style={styles.toolbar}>
@@ -136,152 +162,97 @@ function ParentWorkspace({ owner, onExit }: { owner: string; onExit: () => void 
                 onPress={exitWorkspace}
                 icon={<Ionicons name="arrow-back" size={18} color={COLORS.primaryDark} accessible={false} aria-hidden />}
               />
-              {isOpen && (
-                <AppButton
-                  title="Khóa"
-                  accessibilityLabel="Khóa Góc phụ huynh"
-                  variant="outlined"
-                  style={styles.lockAction}
-                  textStyle={styles.lockActionText}
-                  onPress={lock}
-                  icon={<Ionicons name="lock-closed-outline" size={17} color={STUDENT_WEB.primary} accessible={false} aria-hidden />}
-                />
-              )}
+              <AppButton
+                title="Khóa"
+                accessibilityLabel="Khóa Góc phụ huynh"
+                variant="outlined"
+                style={styles.lockAction}
+                textStyle={styles.lockActionText}
+                onPress={exitWorkspace}
+                icon={<Ionicons name="lock-closed-outline" size={17} color={STUDENT_WEB.primary} accessible={false} aria-hidden />}
+              />
             </View>
 
-            {isOpen ? (
-              <>
-                <View style={[styles.headerRow, width >= 760 && styles.headerRowWide]}>
-                  <View style={styles.pageHeader}>
-                    <View style={styles.headerIcon}>
-                      <Ionicons name="shield-checkmark-outline" size={24} color={STUDENT_WEB.primary} accessible={false} aria-hidden />
-                    </View>
-                    <View style={styles.headerCopy}>
-                      <Text accessibilityRole="header" aria-level={1} style={styles.title}>
-                        Góc phụ huynh
-                      </Text>
-                      <Text style={styles.subtitle}>Theo dõi tiến độ học tập và thời gian sử dụng an toàn</Text>
-                    </View>
-                  </View>
-
-                  <View style={[styles.segment, width >= 760 && styles.segmentWide]}>
-                    <SelectionButton
-                      label="Tổng quan"
-                      icon="grid-outline"
-                      selected={section === 'overview'}
-                      disabled={savingLimit}
-                      onPress={() => switchSection('overview')}
-                    />
-                    <SelectionButton
-                      label="Giới hạn"
-                      icon="time-outline"
-                      selected={section === 'limits'}
-                      disabled={savingLimit}
-                      onPress={() => switchSection('limits')}
-                    />
-                  </View>
+            <View style={[styles.headerRow, width >= 760 && styles.headerRowWide]}>
+              <View style={styles.pageHeader}>
+                <View style={styles.headerIcon}>
+                  <Ionicons name="shield-checkmark-outline" size={24} color={STUDENT_WEB.primary} accessible={false} aria-hidden />
                 </View>
+                <View style={styles.headerCopy}>
+                  <Text accessibilityRole="header" aria-level={1} style={styles.title}>
+                    Góc phụ huynh
+                  </Text>
+                  <Text style={styles.subtitle}>Theo dõi tiến độ học tập và thời gian sử dụng an toàn</Text>
+                </View>
+              </View>
 
-                {section === 'overview' ? (
-                  <ParentOverview
-                    owner={owner}
-                    dailyMinutes={settings.dailyMinutes}
-                    limitUncertain={uncertainLimits.total === true}
-                    onEditLimit={() => {
-                      setLimitKind('total');
-                      switchSection('limits');
+              <View style={[styles.segment, width >= 760 && styles.segmentWide]}>
+                <SelectionButton
+                  label="Tổng quan"
+                  icon="grid-outline"
+                  selected={section === 'overview'}
+                  disabled={savingLimit}
+                  onPress={() => switchSection('overview')}
+                />
+                <SelectionButton
+                  label="Giới hạn"
+                  icon="time-outline"
+                  selected={section === 'limits'}
+                  disabled={savingLimit}
+                  onPress={() => switchSection('limits')}
+                />
+              </View>
+            </View>
+
+            {section === 'overview' ? (
+              <ParentOverview
+                owner={owner}
+                dailyMinutes={settings.dailyMinutes}
+                limitUncertain={uncertainLimits.total === true}
+                onEditLimit={() => {
+                  setLimitKind('total');
+                  switchSection('limits');
+                }}
+              />
+            ) : (
+              <>
+                <View style={styles.segment} role="group" accessibilityLabel="Loại thời gian cần giới hạn">
+                  <SelectionButton
+                    label="Tổng thời gian"
+                    icon="time-outline"
+                    selected={limitKind === 'total'}
+                    disabled={savingLimit}
+                    onPress={() => setLimitKind('total')}
+                  />
+                  <SelectionButton
+                    label="Chơi trò chơi"
+                    icon="game-controller-outline"
+                    selected={limitKind === 'game'}
+                    disabled={savingLimit}
+                    onPress={() => setLimitKind('game')}
+                  />
+                </View>
+                {limitKind === 'game' && settings.gameMinutes === undefined ? (
+                  <View style={styles.surface}>
+                    <Text accessibilityRole="alert" style={styles.body}>Chưa tải được cài đặt thời gian chơi trò chơi.</Text>
+                  </View>
+                ) : (
+                  <DailyUsageLimit
+                    key={limitKind}
+                    kind={limitKind}
+                    minutes={limitKind === 'game' ? settings.gameMinutes ?? null : settings.dailyMinutes}
+                    limitUncertain={uncertainLimits[limitKind] === true}
+                    onSaving={setSavingLimit}
+                    onUncertain={() => setUncertainLimits(previous => ({ ...previous, [limitKind]: true }))}
+                    onSave={updated => {
+                      const confirmed = { ...settings, ...updated };
+                      setSettings(confirmed);
+                      updateParentModeSession(owner, confirmed);
+                      setUncertainLimits(previous => updated.gameMinutes === undefined && previous.game ? { game: true } : {});
                     }}
                   />
-                ) : (
-                  <>
-                    <View style={styles.segment} role="group" accessibilityLabel="Loại thời gian cần giới hạn">
-                      <SelectionButton
-                        label="Tổng thời gian"
-                        icon="time-outline"
-                        selected={limitKind === 'total'}
-                        disabled={savingLimit}
-                        onPress={() => setLimitKind('total')}
-                      />
-                      <SelectionButton
-                        label="Chơi trò chơi"
-                        icon="game-controller-outline"
-                        selected={limitKind === 'game'}
-                        disabled={savingLimit}
-                        onPress={() => setLimitKind('game')}
-                      />
-                    </View>
-                    {limitKind === 'game' && settings.gameMinutes === undefined ? (
-                      <View style={styles.surface}>
-                        <Text accessibilityRole="alert" style={styles.body}>Chưa tải được cài đặt thời gian chơi trò chơi.</Text>
-                      </View>
-                    ) : (
-                      <DailyUsageLimit
-                        key={limitKind}
-                        kind={limitKind}
-                        minutes={limitKind === 'game' ? settings.gameMinutes ?? null : settings.dailyMinutes}
-                        limitUncertain={uncertainLimits[limitKind] === true}
-                        onSaving={setSavingLimit}
-                        onUncertain={() => setUncertainLimits(previous => ({ ...previous, [limitKind]: true }))}
-                        onSave={updated => {
-                          const confirmed = { ...settings, ...updated };
-                          setSettings(confirmed);
-                          updateParentModeSession(owner, confirmed);
-                          setUncertainLimits(previous => updated.gameMinutes === undefined && previous.game ? { game: true } : {});
-                        }}
-                      />
-                    )}
-                  </>
                 )}
               </>
-            ) : gate === 'setup' || gate === 'unlock' ? (
-              <>
-                <View style={styles.pageHeader}>
-                  <View style={styles.headerIcon}>
-                    <Ionicons name="shield-checkmark-outline" size={25} color={COLORS.primaryDark} accessible={false} aria-hidden />
-                  </View>
-                  <View style={styles.headerCopy}>
-                    <Text accessibilityRole="header" aria-level={1} style={styles.title}>
-                      Góc phụ huynh
-                    </Text>
-                  </View>
-                </View>
-                <PinGate
-                  key={gate}
-                  setup={gate === 'setup'}
-                  notice={gateNotice}
-                  onAlreadyConfigured={() => {
-                    setGateNotice('Mã PIN đã được thiết lập. Nhập mã hiện tại để tiếp tục.');
-                    setGate('unlock');
-                  }}
-                  onOpen={updated => {
-                    setSettings(updated);
-                    setGateNotice('');
-                    setGate('open');
-                    switchSection('overview');
-                  }}
-                />
-              </>
-            ) : (
-              <View style={styles.surface}>
-                {gate === 'unavailable' ? (
-                  <>
-                    <Text accessibilityRole="alert" style={styles.error}>
-                      Chưa kết nối được với tài khoản.
-                    </Text>
-                    <Text style={styles.body}>Kiểm tra kết nối, rồi thử mở lại Góc phụ huynh.</Text>
-                    <AppButton
-                      title="Thử lại"
-                      variant="secondary"
-                      onPress={() => {
-                        setGate('loading');
-                        setRetry(value => value + 1);
-                      }}
-                    />
-                  </>
-                ) : (
-                  <ActivityIndicator accessibilityLabel="Đang mở Góc phụ huynh" />
-                )}
-              </View>
             )}
           </ScrollView>
         </View>
@@ -298,7 +269,9 @@ function keepDialogFocus(event: any, onExit?: () => void) {
   }
   if (key !== 'Tab') return;
   const dialog = event.currentTarget.querySelector('[role="dialog"]');
-  const controls = dialog?.querySelectorAll('button:not([disabled]),input:not([disabled])');
+  const controls = dialog?.querySelectorAll(
+    'button:not([disabled]), input:not([disabled]), [role="button"]:not([aria-disabled="true"])',
+  );
   if (!controls?.length) return;
   const first = controls[0] as HTMLElement;
   const last = controls[controls.length - 1] as HTMLElement;
@@ -311,91 +284,257 @@ function keepDialogFocus(event: any, onExit?: () => void) {
   }
 }
 
+function PinModal({ children, title, label = title, onExit, busy = false, embedded = false }: {
+  children: React.ReactNode;
+  title: string;
+  label?: string;
+  onExit: () => void;
+  busy?: boolean;
+  embedded?: boolean;
+}) {
+  const web = Platform.OS === 'web';
+  const dialogRef = useRef<React.ComponentRef<typeof View>>(null);
+  const close = () => { if (!busy) onExit(); };
+  useEffect(() => {
+    if (!web || typeof document === 'undefined') return;
+    const previous = document.activeElement as HTMLElement | null;
+    const frame = requestAnimationFrame(() => {
+      const dialog = dialogRef.current as unknown as HTMLElement | null;
+      if (!dialog?.contains(document.activeElement)) dialog?.focus();
+    });
+    return () => {
+      cancelAnimationFrame(frame);
+      if (previous?.isConnected && document.activeElement === document.body) previous.focus();
+    };
+  }, [web]);
+
+  const card = (
+    <View ref={dialogRef} tabIndex={web ? -1 : undefined} accessibilityRole={web ? 'dialog' : undefined} accessibilityViewIsModal
+      accessibilityLabel={label} aria-modal aria-busy={busy} style={[styles.surface, styles.pinDialog]}>
+      <View style={styles.pinDialogHeader}>
+        <View style={styles.headerIcon}>
+          <Ionicons name="shield-checkmark-outline" size={22} color={COLORS.primaryDark} accessible={false} aria-hidden />
+        </View>
+        <Text accessibilityRole="header" aria-level={2} style={[styles.heading, styles.headerCopy]}>{title}</Text>
+      </View>
+      {children}
+    </View>
+  );
+  if (web) {
+    const content = (
+      <View style={styles.pinScrim} testID="parent-pin-scrim"
+        onKeyDown={embedded ? (event: any) => keepDialogFocus(event, close) : undefined}>
+        {card}
+      </View>
+    );
+    return embedded ? content : <Modal transparent visible onRequestClose={close}>{content}</Modal>;
+  }
+  const content = (
+    <KeyboardAvoidingView style={styles.nativePinKeyboard} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.nativePinScrim}>
+        {card}
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+  return embedded ? content : <Modal transparent visible onRequestClose={close}>{content}</Modal>;
+}
+
 export function ParentProfilePinDialog({
-  owner,
-  cancelLabel = 'Quay lại hồ sơ',
-  onExit,
-  onOpen,
+  owner, notice, embedded, cancelLabel = 'Quay lại hồ sơ', onExit, onOpen,
 }: {
   owner: string;
+  notice?: string;
+  embedded?: boolean;
   cancelLabel?: string;
   onExit: () => void;
   onOpen: (settings: ParentSettings) => void;
 }) {
-  const [status, setStatus] = useState<'loading' | 'unavailable' | 'setup' | 'unlock'>('loading');
-  const [notice, setNotice] = useState('');
+  const [recoveryPurpose, setRecoveryPurpose] = useState<ParentPinPurpose>();
+  const [pinChanged, setPinChanged] = useState(false);
+  const [status, setStatus] = useState<'loading' | 'unavailable' | 'unconfigured' | 'unlock'>('loading');
   const [retry, setRetry] = useState(0);
-  const dialogRef = useRef<React.ComponentRef<typeof View>>(null);
+  const [pin, setPin] = useState('');
+  const [error, setError] = useState<string>();
+  const [busy, setBusy] = useState(false);
+  const pending = useRef<AbortController | undefined>(undefined);
+  const pinInput = useRef<InputInstance>(null);
+  const web = Platform.OS === 'web';
 
   useEffect(() => {
     const request = new AbortController();
     void readParentControlStatus(request.signal)
       .then(value => {
-        if (!request.signal.aborted) setStatus(value.pinConfigured ? 'unlock' : 'setup');
+        if (!request.signal.aborted) setStatus(value.pinConfigured ? 'unlock' : 'unconfigured');
       })
       .catch(() => {
         if (!request.signal.aborted) setStatus('unavailable');
       });
     return () => request.abort();
   }, [owner, retry]);
+  useEffect(() => () => pending.current?.abort(), [owner]);
 
-  useEffect(() => {
-    if (Platform.OS === 'web' && status !== 'setup' && status !== 'unlock') {
-      (dialogRef.current as unknown as { focus?: () => void } | null)?.focus?.();
+  async function submit(candidate = pin) {
+    if (pending.current || status !== 'unlock') return;
+    if (candidate.length !== PIN_LENGTH) {
+      setError('Nhập đủ 6 chữ số của mã PIN.');
+      pinInput.current?.focus();
+      return;
     }
-  }, [status]);
+    const request = new AbortController();
+    pending.current = request;
+    setError(undefined);
+    setBusy(true);
+    try {
+      const updated = await openParentMode(candidate, false, request.signal);
+      if (!request.signal.aborted) onOpen(updated);
+    } catch (cause) {
+      if (!request.signal.aborted) setError(parentControlError(cause));
+    } finally {
+      pending.current = undefined;
+      if (!request.signal.aborted) {
+        setPin('');
+        setBusy(false);
+      }
+    }
+  }
 
-  if (status === 'setup' || status === 'unlock') {
-    return (
-      <PinGate
-        key={status}
-        setup={status === 'setup'}
-        notice={notice}
-        cancelLabel={cancelLabel}
-        webModal
-        onExit={onExit}
-        onAlreadyConfigured={() => {
-          setNotice('Mã PIN đã được thiết lập.');
-          setStatus('unlock');
-        }}
-        onOpen={onOpen}
-      />
-    );
+  if (recoveryPurpose) {
+    return <ParentPinRecovery purpose={recoveryPurpose} embedded={embedded}
+      onBack={() => setRecoveryPurpose(undefined)}
+      onFinish={() => {
+        setRecoveryPurpose(undefined);
+        setPinChanged(true);
+        setStatus('unlock');
+      }} />;
   }
 
   return (
-    <View style={styles.pinScrim} testID="parent-pin-scrim" onKeyDown={(event: any) => keepDialogFocus(event, onExit)}>
-      <View
-        ref={dialogRef}
-        tabIndex={-1}
-        accessibilityRole="dialog"
-        accessibilityLabel="Góc phụ huynh"
-        aria-modal
-        style={[styles.surface, styles.pinDialog]}
-      >
-        <Text accessibilityRole="header" aria-level={2} style={styles.heading}>
-          Góc phụ huynh
-        </Text>
-        {status === 'loading' ? (
-          <ActivityIndicator accessibilityLabel="Đang kiểm tra mã PIN" />
-        ) : (
-          <>
-            <Text accessibilityRole="alert" style={styles.error}>
-              Chưa kết nối được với tài khoản.
-            </Text>
-            <AppButton
-              title="Thử lại"
-              variant="secondary"
-              onPress={() => {
-                setStatus('loading');
-                setRetry(value => value + 1);
-              }}
-            />
-          </>
-        )}
-        <AppButton title={cancelLabel} variant="ghost" onPress={onExit} />
-      </View>
-    </View>
+    <PinModal title={status === 'unlock' ? 'Nhập mã PIN' : 'Góc phụ huynh'} label="Mở Góc phụ huynh" onExit={onExit} busy={busy} embedded={embedded}>
+      {(pinChanged || notice) && <Text accessibilityRole={statusRole()} accessibilityLiveRegion="polite" style={styles.body}>
+        {pinChanged ? 'Đã lưu mã PIN mới. Nhập PIN mới để mở Góc phụ huynh.' : notice}
+      </Text>}
+      {status === 'unlock' && (
+        <>
+          <PinCells label="Mã PIN" inputRef={pinInput} value={pin} disabled={busy} error={error}
+            onSubmit={() => void submit()}
+            onChange={value => {
+              setPin(value);
+              setError(undefined);
+              if (web && value.length === PIN_LENGTH) void submit(value);
+            }} />
+          {!web && <AppButton title="Mở Góc phụ huynh" onPress={() => void submit()} loading={busy} />}
+          <AppButton title="Quên mã PIN?" variant="ghost" disabled={busy} onPress={() => {
+            setPin('');
+            setError(undefined);
+            setRecoveryPurpose('RESET');
+          }} />
+        </>
+      )}
+      {status === 'loading' && <ActivityIndicator accessibilityLabel="Đang kiểm tra mã PIN" />}
+      {status === 'unconfigured' && (
+        <>
+          <Text accessibilityRole={statusRole()} accessibilityLiveRegion="polite" style={styles.body}>
+            Tài khoản chưa có mã PIN. Xác nhận email của tài khoản để thiết lập mã PIN cho Góc phụ huynh.
+          </Text>
+          <AppButton title="Thiết lập mã PIN" onPress={() => setRecoveryPurpose('SETUP')} />
+        </>
+      )}
+      {status === 'unavailable' && (
+        <>
+          <Text accessibilityRole="alert" style={styles.error}>Chưa kết nối được với tài khoản.</Text>
+          <AppButton title="Thử lại" variant="secondary" onPress={() => {
+            setStatus('loading');
+            setRetry(value => value + 1);
+          }} />
+        </>
+      )}
+      <AppButton title={cancelLabel} variant="ghost" disabled={busy} onPress={onExit} />
+    </PinModal>
+  );
+}
+
+function ParentPinRecovery({ purpose, embedded, onBack, onFinish }: {
+  purpose: ParentPinPurpose;
+  embedded?: boolean;
+  onBack: () => void;
+  onFinish: () => void;
+}) {
+  const [maskedEmail, setMaskedEmail] = useState<string>();
+  const [code, setCode] = useState('');
+  const [pin, setPin] = useState('');
+  const [confirmation, setConfirmation] = useState('');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+  const request = useRef<AbortController | undefined>(undefined);
+  const codeInput = useRef<InputInstance>(null);
+  const pinInput = useRef<InputInstance>(null);
+  const confirmationInput = useRef<InputInstance>(null);
+  useEffect(() => () => request.current?.abort(), []);
+
+  async function perform(action: (signal: AbortSignal) => Promise<void>) {
+    if (request.current) return;
+    const controller = new AbortController();
+    request.current = controller;
+    setError('');
+    setBusy(true);
+    try {
+      await action(controller.signal);
+    } catch (cause) {
+      if (!controller.signal.aborted) setError(parentControlError(cause));
+    } finally {
+      request.current = undefined;
+      if (!controller.signal.aborted) setBusy(false);
+    }
+  }
+
+  function send() {
+    void perform(async signal => {
+      const result = await requestParentPinCode(purpose, signal);
+      if (signal.aborted) return;
+      setMaskedEmail(result.maskedEmail);
+      setCode('');
+    });
+  }
+
+  function submit() {
+    if (code.length !== PIN_LENGTH || pin.length !== PIN_LENGTH || confirmation.length !== PIN_LENGTH) {
+      setError('Nhập đủ 6 chữ số cho mã xác nhận và mỗi ô PIN.');
+      return;
+    }
+    if (pin !== confirmation) {
+      setError('Hai mã PIN chưa giống nhau.');
+      confirmationInput.current?.focus();
+      return;
+    }
+    void perform(async signal => {
+      await confirmParentPinCode(purpose, code, pin, signal);
+      if (!signal.aborted) onFinish();
+    });
+  }
+
+  return (
+    <PinModal title={purpose === 'SETUP' ? 'Thiết lập mã PIN' : 'Đặt lại mã PIN'} embedded={embedded} onExit={onBack} busy={busy}>
+      {maskedEmail ? (
+        <>
+          <Text accessibilityLiveRegion="polite" style={styles.body}>
+            Mã xác nhận đã được gửi đến {maskedEmail}. Mã có hiệu lực trong 10 phút.
+          </Text>
+          <PinCells label="Mã xác nhận từ email" inputRef={codeInput} value={code} disabled={busy} onChange={setCode} />
+          <PinCells label="Mã PIN mới" inputRef={pinInput} value={pin} disabled={busy} onChange={setPin} />
+          <PinCells label="Nhập lại mã PIN mới" inputRef={confirmationInput} value={confirmation}
+            disabled={busy} onChange={setConfirmation} onSubmit={submit} />
+          <AppButton title="Lưu mã PIN mới" onPress={submit} loading={busy} />
+          <AppButton title="Gửi lại mã" variant="ghost" disabled={busy} onPress={send} />
+        </>
+      ) : (
+        <>
+          <Text style={styles.body}>Hệ thống sẽ gửi mã xác nhận tới email đã đăng ký của tài khoản này.</Text>
+          <AppButton title="Gửi mã xác nhận" onPress={send} loading={busy} />
+        </>
+      )}
+      {!!error && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
+      <AppButton title="Quay lại" variant="ghost" disabled={busy} onPress={onBack} />
+    </PinModal>
   );
 }
 
@@ -437,213 +576,23 @@ function SelectionButton({
   );
 }
 
-type FormError = { field: 'pin' | 'confirmation' | 'duration' | 'request'; message: string };
-function PinGate({
-  setup,
-  notice,
-  cancelLabel = 'Quay lại hồ sơ',
-  webModal = false,
-  onExit,
-  onOpen,
-  onAlreadyConfigured,
-}: {
-  setup: boolean;
-  notice: string;
-  cancelLabel?: string;
-  webModal?: boolean;
-  onExit?: () => void;
-  onOpen: (settings: ParentSettings) => void;
-  onAlreadyConfigured: () => void;
-}) {
-  const [pin, setPin] = useState('');
-  const [confirmation, setConfirmation] = useState('');
-  const [error, setError] = useState<FormError>();
-  const [busy, setBusy] = useState(false);
-  const pending = useRef<AbortController | undefined>(undefined);
-  const pinInput = useRef<InputInstance>(null);
-  const confirmationInput = useRef<InputInstance>(null);
-  const dialogRef = useRef<React.ComponentRef<typeof View>>(null);
-  const { width } = useWindowDimensions();
-  useEffect(() => () => pending.current?.abort(), []);
-  useEffect(() => {
-    if (webModal && width < 768) (dialogRef.current as unknown as { focus?: () => void } | null)?.focus?.();
-  }, [webModal, width]);
-
-  async function submit(candidatePin = pin, candidateConfirmation = confirmation) {
-    if (pending.current) return;
-    if (candidatePin.length !== PIN_LENGTH) {
-      setError({ field: 'pin', message: 'Nhập đủ 6 chữ số của mã PIN.' });
-      pinInput.current?.focus();
-      return;
-    }
-    if (setup && candidatePin !== candidateConfirmation) {
-      setError({ field: 'confirmation', message: 'Hai mã PIN chưa giống nhau.' });
-      confirmationInput.current?.focus();
-      return;
-    }
-    const request = new AbortController();
-    pending.current = request;
-    setError(undefined);
-    setBusy(true);
-    try {
-      const updated = await openParentMode(candidatePin, setup, request.signal);
-      if (!request.signal.aborted) onOpen(updated);
-    } catch (cause) {
-      if (request.signal.aborted) return;
-      setPin('');
-      setConfirmation('');
-      setError({ field: 'request', message: parentControlError(cause) });
-      if (setup) {
-        const status = await readParentControlStatus(request.signal).catch(() => null);
-        if (!request.signal.aborted && status?.pinConfigured) onAlreadyConfigured();
-      }
-    } finally {
-      pending.current = undefined;
-      if (!request.signal.aborted) setBusy(false);
-    }
-  }
-
-  function changePin(value: string) {
-    setPin(value);
-    setError(undefined);
-    if (!webModal || value.length !== PIN_LENGTH) return;
-    if (setup) confirmationInput.current?.focus();
-    else void submit(value);
-  }
-
-  function changeConfirmation(value: string) {
-    setConfirmation(value);
-    setError(undefined);
-    if (webModal && value.length === PIN_LENGTH) void submit(pin, value);
-  }
-
-  return (
-    <View
-      style={webModal ? styles.pinScrim : undefined}
-      testID={webModal ? 'parent-pin-scrim' : undefined}
-      onKeyDown={webModal ? (event: any) => keepDialogFocus(event, onExit) : undefined}
-    >
-      <View
-        ref={dialogRef}
-        tabIndex={webModal ? -1 : undefined}
-        accessibilityRole={webModal ? 'dialog' : undefined}
-        accessibilityLabel={webModal ? 'Mở Góc phụ huynh' : undefined}
-        aria-modal={webModal}
-        style={[styles.surface, webModal && styles.pinDialog]}
-        aria-busy={busy}
-      >
-        {webModal && (
-          <View style={styles.pinDialogHeader}>
-            <View style={styles.headerIcon}>
-              <Ionicons name="shield-checkmark-outline" size={22} color={COLORS.primaryDark} accessible={false} aria-hidden />
-            </View>
-            <View style={styles.headerCopy}>
-              <Text accessibilityRole="header" aria-level={2} style={styles.heading}>
-                {setup ? 'Thiết lập mã PIN' : 'Nhập mã PIN'}
-              </Text>
-            </View>
-          </View>
-        )}
-        {!webModal && (
-          <View style={styles.intro}>
-            <Text accessibilityRole="header" aria-level={2} style={styles.heading}>
-              {setup ? 'Thiết lập mã PIN' : 'Nhập mã PIN'}
-            </Text>
-            {setup && <Text style={styles.body}>Chọn 6 số.</Text>}
-          </View>
-        )}
-        {!!notice && (
-          <Text accessibilityRole="status" accessibilityLiveRegion="polite" style={styles.body}>
-            {notice}
-          </Text>
-        )}
-        {webModal ? (
-          <PinCells
-            label="Mã PIN"
-            inputRef={pinInput}
-            value={pin}
-            disabled={busy}
-            autoFocus={width >= 768}
-            error={error?.field === 'pin' || error?.field === 'request' ? error.message : undefined}
-            onChange={changePin}
-          />
-        ) : (
-          <NumericField
-            label="Mã PIN"
-            inputRef={pinInput}
-            value={pin}
-            onChange={changePin}
-            secret
-            nextField={setup}
-            disabled={busy}
-            error={error?.field === 'pin' ? error.message : undefined}
-            onSubmit={() => {
-              if (setup) confirmationInput.current?.focus();
-              else void submit();
-            }}
-          />
-        )}
-        {setup &&
-          (webModal ? (
-            <PinCells
-              label="Xác nhận mã PIN"
-              inputRef={confirmationInput}
-              value={confirmation}
-              disabled={busy}
-              error={error?.field === 'confirmation' ? error.message : undefined}
-              onChange={changeConfirmation}
-            />
-          ) : (
-            <NumericField
-              label="Xác nhận mã PIN"
-              inputRef={confirmationInput}
-              value={confirmation}
-              onChange={changeConfirmation}
-              secret
-              disabled={busy}
-              error={error?.field === 'confirmation' ? error.message : undefined}
-              onSubmit={() => {
-                void submit();
-              }}
-            />
-          ))}
-        {error?.field === 'request' && !webModal && (
-          <Text accessibilityRole="alert" style={styles.error}>
-            {error.message}
-          </Text>
-        )}
-        {!webModal && (
-          <AppButton
-            title={setup ? 'Lưu mã PIN' : 'Mở Góc phụ huynh'}
-            onPress={() => {
-              void submit();
-            }}
-            loading={busy}
-            loadingTitle={setup ? 'Đang lưu mã PIN…' : 'Đang mở Góc phụ huynh…'}
-          />
-        )}
-        {webModal && onExit && <AppButton title={cancelLabel} variant="ghost" disabled={busy} onPress={onExit} />}
-      </View>
-    </View>
-  );
-}
-
+type FormError = { field: 'pin' | 'duration' | 'request'; message: string };
 function PinCells({
   label,
   inputRef,
   value,
   disabled,
-  autoFocus = false,
   error,
   onChange,
+  onSubmit,
 }: {
   label: string;
   inputRef: React.Ref<InputInstance>;
   value: string;
   disabled?: boolean;
-  autoFocus?: boolean;
   error?: string;
   onChange: (value: string) => void;
+  onSubmit?: () => void;
 }) {
   const [focused, setFocused] = useState(false);
   const errorId = useId();
@@ -674,9 +623,9 @@ function PinCells({
           autoCapitalize="none"
           autoCorrect={false}
           autoComplete="off"
-          autoFocus={autoFocus}
           inputMode="numeric"
           maxLength={PIN_LENGTH}
+          onSubmitEditing={onSubmit}
           secureTextEntry
           editable={!disabled}
           value={value}
@@ -710,12 +659,13 @@ function DailyUsageLimit({
   onUncertain: () => void;
   onSave: (value: ParentSettings) => void;
 }) {
-  const [limited, setLimited] = useState(minutes !== null);
-  const [value, setValue] = useState(minutes?.toString() ?? '');
+  const [draft, setDraft] = useState<{ limited: boolean; value: string; base: number | null }>();
+  const limited = draft?.limited ?? minutes !== null;
+  const value = draft?.value ?? minutes?.toString() ?? '';
   const [pin, setPin] = useState('');
   const [confirming, setConfirming] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState<{ minutes: number | null }>();
   const [error, setError] = useState<FormError>();
   const pending = useRef<AbortController | undefined>(undefined);
   const durationInput = useRef<InputInstance>(null);
@@ -738,13 +688,12 @@ function DailyUsageLimit({
     setConfirming(false);
     setPin('');
     setError(undefined);
-    setSaved(false);
+    setSaved(undefined);
   }
 
   function applyMinutes(nextMinutes: number) {
     const clamped = Math.max(1, Math.min(1440, nextMinutes));
-    setLimited(true);
-    setValue(String(clamped));
+    setDraft({ limited: true, value: String(clamped), base: minutes });
     edit();
   }
 
@@ -765,7 +714,7 @@ function DailyUsageLimit({
   }
 
   async function save() {
-    if (!confirming || !changed || pending.current) return;
+    if (!confirming || pending.current) return;
     if (pin.length !== PIN_LENGTH) {
       setError({ field: 'pin', message: 'Nhập mã PIN 6 chữ số để lưu giới hạn.' });
       pinInput.current?.focus();
@@ -783,10 +732,9 @@ function DailyUsageLimit({
       const savedMinutes = game ? updated.gameMinutes : updated.dailyMinutes;
       if (savedMinutes === undefined) throw new Error('Missing saved limit');
       onSave(updated);
-      setLimited(savedMinutes !== null);
-      setValue(savedMinutes?.toString() ?? '');
+      setDraft(undefined);
       setConfirming(false);
-      setSaved(true);
+      setSaved({ minutes: savedMinutes });
     } catch (cause) {
       if (!request.signal.aborted) {
         const status = isAxiosError(cause) ? cause.response?.status : undefined;
@@ -849,7 +797,7 @@ function DailyUsageLimit({
             selected={limited}
             disabled={busy}
             onPress={() => {
-              setLimited(true);
+              setDraft({ limited: true, value, base: minutes });
               edit();
             }}
           />
@@ -860,7 +808,7 @@ function DailyUsageLimit({
             selected={!limited}
             disabled={busy}
             onPress={() => {
-              setLimited(false);
+              setDraft({ limited: false, value, base: minutes });
               edit();
             }}
           />
@@ -881,7 +829,7 @@ function DailyUsageLimit({
                   disabled={busy}
                   error={error?.field === 'duration' ? error.message : undefined}
                   onChange={nextValue => {
-                    setValue(nextValue);
+                    setDraft({ limited: true, value: nextValue, base: minutes });
                     edit();
                   }}
                   onSubmit={confirm}
@@ -961,52 +909,33 @@ function DailyUsageLimit({
           </View>
         )}
 
-        {confirming ? (
-          <View style={styles.confirm}>
-            <Text style={styles.fieldLabel}>Xác nhận bằng mã PIN</Text>
-            <NumericField
-              label="Mã PIN để lưu"
-              inputRef={pinInput}
-              value={pin}
+        {draft && draft.base !== minutes && (
+          <Text accessibilityRole={statusRole()} accessibilityLiveRegion="polite" style={styles.body}>
+            Giới hạn trên tài khoản vừa thay đổi. Lựa chọn đang chỉnh sửa vẫn được giữ.
+          </Text>
+        )}
+        {saved && saved.minutes === minutes && (
+          <View style={styles.successBanner}>
+            <Ionicons name="checkmark-circle" size={20} color="#166534" accessible={false} aria-hidden />
+            <Text accessibilityRole={statusRole()} accessibilityLiveRegion="polite" style={styles.successText}>
+              Đã lưu giới hạn trên tài khoản. Mức mới: {formatDailyLimit(minutes)}.
+            </Text>
+          </View>
+        )}
+        {changed && <AppButton title="Xác nhận thay đổi" disabled={busy} onPress={confirm} />}
+        {confirming && (
+          <PinModal title="Xác nhận bằng mã PIN" onExit={edit} busy={busy}>
+            <Text style={styles.body}>{game ? 'Thời gian chơi trò chơi' : 'Tổng thời gian sử dụng'} · {formatDailyLimit(next)}</Text>
+            <PinCells label="Mã PIN để lưu" inputRef={pinInput} value={pin} disabled={busy}
+              error={error?.field === 'pin' || error?.field === 'request' ? error.message : undefined}
+              onSubmit={() => void save()}
               onChange={nextPin => {
                 setPin(nextPin);
                 setError(undefined);
-              }}
-              secret
-              disabled={busy}
-              autoFocus={Platform.OS === 'web'}
-              error={error?.field === 'pin' ? error.message : undefined}
-              onSubmit={() => {
-                void save();
-              }}
-            />
-            {error?.field === 'request' && (
-              <Text accessibilityRole="alert" style={styles.error}>
-                {error.message}
-              </Text>
-            )}
-            <AppButton
-              title="Lưu giới hạn"
-              onPress={() => {
-                void save();
-              }}
-              loading={busy}
-              loadingTitle="Đang lưu giới hạn…"
-            />
+              }} />
+            <AppButton title="Lưu giới hạn" onPress={() => void save()} loading={busy} loadingTitle="Đang lưu giới hạn…" />
             <AppButton title="Hủy xác nhận" variant="ghost" disabled={busy} onPress={edit} />
-          </View>
-        ) : (
-          <>
-            {saved && (
-              <View style={styles.successBanner}>
-                <Ionicons name="checkmark-circle" size={20} color="#166534" accessible={false} aria-hidden />
-                <Text accessibilityRole="status" accessibilityLiveRegion="polite" style={styles.successText}>
-                  Đã lưu giới hạn trên tài khoản. Mức mới: {formatDailyLimit(minutes)}.
-                </Text>
-              </View>
-            )}
-            {changed && <AppButton title="Xác nhận thay đổi" onPress={confirm} />}
-          </>
+          </PinModal>
         )}
       </View>
 
@@ -1092,10 +1021,7 @@ function NumericField({
   visibleLabel,
   inputRef,
   value,
-  secret,
-  nextField,
   disabled,
-  autoFocus,
   error,
   onChange,
   onSubmit,
@@ -1104,16 +1030,12 @@ function NumericField({
   visibleLabel?: string;
   inputRef: React.Ref<InputInstance>;
   value: string;
-  secret?: boolean;
   disabled?: boolean;
-  autoFocus?: boolean;
-  nextField?: boolean;
   error?: string;
   onChange: (value: string) => void;
   onSubmit: () => void;
 }) {
   const [focused, setFocused] = useState(false);
-  const length = secret ? PIN_LENGTH : 4;
   const errorId = useId();
   return (
     <View style={styles.field}>
@@ -1125,17 +1047,14 @@ function NumericField({
         aria-describedby={error ? errorId : undefined}
         autoCapitalize="none"
         autoCorrect={false}
-        autoComplete={secret ? 'off' : undefined}
-        autoFocus={autoFocus}
         inputMode="numeric"
-        secureTextEntry={secret}
         editable={!disabled}
         style={[styles.input, focused && styles.inputFocused, !!error && styles.inputError]}
         value={value}
-        returnKeyType={nextField ? 'next' : 'done'}
+        returnKeyType="done"
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        onChangeText={text => onChange(text.replace(/[^0-9]/g, '').slice(0, length))}
+        onChangeText={text => onChange(text.replace(/[^0-9]/g, '').slice(0, 4))}
         onSubmitEditing={onSubmit}
       />
       {!!error && (
@@ -1155,7 +1074,6 @@ const styles = StyleSheet.create({
   page: { width: '100%', maxWidth: 1120, alignSelf: 'center', padding: 16, paddingBottom: 40, gap: 16 },
   pageWide: { paddingHorizontal: 28, paddingTop: 22, gap: 20 },
   pageWebWide: { maxWidth: 1280, paddingHorizontal: 36, paddingTop: 26, gap: 22 },
-  gatePage: { maxWidth: 550 },
   pinScrim: {
     position: 'fixed',
     top: 0,
@@ -1169,12 +1087,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(27, 19, 56, .48)',
     ...(Platform.OS === 'web' ? ({ backdropFilter: 'blur(5px)' } as object) : {}),
   } as any,
+  nativePinKeyboard: { flex: 1, backgroundColor: 'rgba(27, 19, 56, .48)' },
+  nativePinScrim: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: 16 },
   pinDialog: {
     width: '100%',
     maxWidth: 480,
-    maxHeight: 'calc(100vh - 40px)',
-    overflow: 'auto',
-    padding: 26,
+    ...(Platform.OS === 'web' ? { maxHeight: 'calc(100vh - 40px)', overflow: 'auto' } : {}),
+    padding: 20,
     borderRadius: 26,
     boxShadow: Platform.OS === 'web' ? '0 24px 70px rgba(27, 19, 56, .24)' : undefined,
   } as any,
@@ -1250,7 +1169,6 @@ const styles = StyleSheet.create({
   },
   selectionLabel: { flexShrink: 1, fontFamily: FONTS.extraBold, fontSize: 15 },
   pressed: { opacity: 0.78 },
-  intro: { gap: 5 },
   heading: { fontFamily: FONTS.extraBold, fontSize: 21, color: STUDENT_WEB.ink },
   sideHeading: { fontFamily: FONTS.extraBold, fontSize: 18, color: STUDENT_WEB.ink },
   body: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 21, color: STUDENT_WEB.muted },
@@ -1338,7 +1256,6 @@ const styles = StyleSheet.create({
   impactText: { flex: 1, minWidth: 0, fontFamily: FONTS.semiBold, fontSize: 13, lineHeight: 19 },
   impactTextSafe: { color: '#166534' },
   impactTextWarn: { color: '#92400E' },
-  confirm: { gap: 12, paddingTop: 14, borderTopWidth: 1, borderTopColor: STUDENT_WEB.border },
   successBanner: {
     flexDirection: 'row',
     alignItems: 'center',
