@@ -212,10 +212,12 @@ test('island pointer construction completes six missions and preserves blocks th
   const entities = page.getByTestId('island-play').locator('[data-testid^="island-entity-"]');
   for (let mission = 0; mission < 6; mission++) {
     await page.getByTestId('island-hint').click();
-    await expect.poll(async () => (await islandState(page))?.hint?.target?.length ?? 0).toBeGreaterThan(0);
-    const state = await islandState(page);
-    expect(state?.index).toBe(mission);
-    expect(state.hint).not.toBeNull();
+    let state;
+    await expect(async () => {
+      state = await islandState(page);
+      expect(state?.index).toBe(mission);
+      expect(state?.hint?.target?.length ?? 0).toBeGreaterThan(0);
+    }).toPass({ timeout: 10000 });
     const additions = state.hint.target.filter(point => !state.blocks.some(block =>
       block.blockType === 'floor' && point.x === block.x && point.y === block.y && point.floorIndex === block.floorIndex));
     for (const point of additions) {
