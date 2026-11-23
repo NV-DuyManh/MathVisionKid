@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Box,
   Container,
@@ -175,11 +175,22 @@ export const LandingPage: React.FC = () => {
     });
   };
 
+  // Helper to focus the next choice button only after real user interaction
+  const focusNextChoice = () => {
+    requestAnimationFrame(() => {
+      const firstButton = choiceContainerRef.current?.querySelector('button');
+      if (firstButton) {
+        firstButton.focus();
+      }
+    });
+  };
+
   // Socratic Interaction Handlers
   const handleSelectStep1 = (choice: number) => {
     if (choice === 2) {
       setDemoStep(2);
       setDemoHint(null);
+      focusNextChoice();
     } else if (choice === 3) {
       setDemoHint('Bé thử đếm nhé: 8 thêm 2 là vừa tròn 10, nếu thêm 3 thì quá rồi!');
     } else {
@@ -191,6 +202,7 @@ export const LandingPage: React.FC = () => {
     if (choice === 3) {
       setDemoStep(3);
       setDemoHint(null);
+      focusNextChoice();
     } else {
       setDemoHint('Có 5 que tính, con đã lấy ra 2 que để ghép với 8, vậy còn lại mấy que nhỉ?');
     }
@@ -199,24 +211,8 @@ export const LandingPage: React.FC = () => {
   const handleResetDemo = () => {
     setDemoStep(1);
     setDemoHint(null);
+    focusNextChoice();
   };
-
-  // Track initial mount to prevent autofocus on page open
-  const isFirstMount = useRef<boolean>(true);
-
-  // Focus management: ONLY when step changes after user interaction, NOT on initial mount
-  useEffect(() => {
-    if (isFirstMount.current) {
-      isFirstMount.current = false;
-      return;
-    }
-    if (choiceContainerRef.current) {
-      const firstButton = choiceContainerRef.current.querySelector('button');
-      if (firstButton) {
-        firstButton.focus();
-      }
-    }
-  }, [demoStep]);
 
   return (
     <Box sx={{ width: '100%', bgcolor: '#FAF8FE', color: '#190568', overflowX: 'hidden' }}>
@@ -428,7 +424,7 @@ export const LandingPage: React.FC = () => {
                     py: 1.3,
                     textTransform: 'none',
                     boxShadow: '0 4px 14px rgba(245, 158, 11, 0.35)',
-                    transition: 'all 180ms ease',
+                    transition: 'background-color 180ms ease, transform 180ms ease, box-shadow 180ms ease',
                     '&:hover': {
                       bgcolor: '#D97706',
                       transform: 'translateY(-2px)',
@@ -452,7 +448,7 @@ export const LandingPage: React.FC = () => {
                     py: 1.3,
                     textTransform: 'none',
                     boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-                    transition: 'all 180ms ease',
+                    transition: 'background-color 180ms ease, border-color 180ms ease, color 180ms ease',
                     '&:hover': {
                       bgcolor: '#F8FAFC',
                       borderColor: '#94A3B8',
@@ -601,7 +597,7 @@ export const LandingPage: React.FC = () => {
                     borderRadius: 3,
                     bgcolor: '#FEF3C7',
                     border: '1.5px solid #FCD34D',
-                    transition: 'all 200ms ease',
+                    transition: 'background-color 200ms ease, border-color 200ms ease',
                   }}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.75 }}>
@@ -1354,7 +1350,7 @@ export const LandingPage: React.FC = () => {
                       textTransform: 'none',
                       bgcolor: isActive ? '#190568' : 'transparent',
                       color: isActive ? '#FFFFFF' : '#475569',
-                      transition: 'all 160ms ease',
+                      transition: 'background-color 160ms ease, color 160ms ease',
                       '&:hover': {
                         bgcolor: isActive ? '#190568' : '#F1EAFA',
                         color: isActive ? '#FFFFFF' : '#190568',
@@ -1693,7 +1689,7 @@ export const LandingPage: React.FC = () => {
               py: 1.5,
               textTransform: 'none',
               boxShadow: '0 6px 20px rgba(245, 158, 11, 0.45)',
-              transition: 'all 180ms ease',
+              transition: 'background-color 180ms ease, transform 180ms ease, box-shadow 180ms ease',
               '&:hover': {
                 bgcolor: '#D97706',
                 transform: 'translateY(-2px)',

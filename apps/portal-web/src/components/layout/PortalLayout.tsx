@@ -369,7 +369,7 @@ export const PortalLayout: React.FC = () => {
                       textTransform: 'none',
                       fontSize: { xs: '0.98rem', sm: '1.05rem' },
                       whiteSpace: 'nowrap',
-                      transition: 'all 160ms ease',
+                      transition: 'background-color 160ms ease, transform 160ms ease',
                       '&:active': { transform: 'scale(0.98)' },
                     }}
                   >
