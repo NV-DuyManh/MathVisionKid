@@ -44,9 +44,7 @@ public class AuthController {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
-        String refreshToken = refreshTokenService.createRefreshToken(user.getId());
-        return ResponseEntity.ok(new AuthResponse(token, refreshToken));
+        return ResponseEntity.ok(refreshTokenService.createSession(user.getId()));
     }
 
     @GetMapping("/me")
@@ -86,11 +84,11 @@ public class AuthController {
             webSessions.logout(principal.getName(), request, client);
             return ResponseEntity.ok().build();
         }
-        if (principal != null) {
-            userRepository.findByEmail(principal.getName()).ifPresent(user -> {
-                refreshTokenService.deleteByUserId(user.getId());
-            });
-        } else if (credentials == null || !refreshTokenService.revokeForLogout(credentials.getRefreshToken())) {
+        String bearer = request.getHeader("Authorization");
+        var nativeSession = principal != null && bearer != null && bearer.startsWith("Bearer ")
+                ? jwtUtil.nativeSession(bearer.substring(7)) : null;
+        if (!refreshTokenService.revokeForLogout(credentials == null ? null : credentials.getRefreshToken(),
+                principal == null ? null : principal.getName(), nativeSession)) {
             throw new ApiException("UNAUTHORIZED", "Authentication required", HttpStatus.UNAUTHORIZED);
         }
         return ResponseEntity.ok().build();

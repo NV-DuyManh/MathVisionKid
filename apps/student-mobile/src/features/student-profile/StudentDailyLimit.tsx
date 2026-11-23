@@ -24,14 +24,15 @@ export function StudentDailyLimit({ children }: PropsWithChildren) {
   const previousParentContext = useRef({ activeOwner, inParentMode });
   const [decision, setDecision] = useState<{ owner: string; blocked: boolean; verified: boolean }>();
   if (decision && decision.owner !== activeOwner) setDecision(undefined);
-  const [showWebPin, setShowWebPin] = useState(false);
+  const [showParentPin, setShowParentPin] = useState(false);
   const requestCurrentStatus = useRef<(() => Promise<boolean>) | undefined>(undefined);
   const content = useRef<ComponentRef<typeof View>>(null);
   const verify = useCallback(async () => requestCurrentStatus.current?.() ?? false, []);
 
   useLayoutEffect(() => {
     const previous = previousParentContext.current;
-    if (Platform.OS === 'web' && (previous.activeOwner !== activeOwner || (previous.inParentMode && !inParentMode))) {
+    if (previous.activeOwner !== activeOwner) setShowParentPin(false);
+    if (previous.activeOwner !== activeOwner || (previous.inParentMode && !inParentMode)) {
       clearParentModeSession();
     }
     previousParentContext.current = { activeOwner, inParentMode };
@@ -117,25 +118,24 @@ export function StudentDailyLimit({ children }: PropsWithChildren) {
         importantForAccessibility={showRest ? 'no-hide-descendants' : 'auto'}>
         {children}
       </View>
-      {showRest && <Modal visible transparent animationType="none" onRequestClose={keepRestOpen} aria-labelledby="student-rest-heading">
-        {Platform.OS === 'web' && showWebPin && owner ? (
+      {showRest && <Modal visible transparent animationType="none" onRequestClose={showParentPin ? () => setShowParentPin(false) : keepRestOpen} aria-labelledby={showParentPin ? undefined : 'student-rest-heading'}>
+        {showParentPin && owner ? (
           <ParentProfilePinDialog
+            key={owner}
             owner={owner}
+            embedded
             cancelLabel="Quay lại"
-            onExit={() => setShowWebPin(false)}
+            onExit={() => setShowParentPin(false)}
             onOpen={settings => {
               storeParentModeHandoff(owner, settings);
-              setShowWebPin(false);
+              setShowParentPin(false);
               router.push('/parent-mode');
             }}
           />
         ) : (
           <StudentPauseScreen reason="daily-limit" working={activityPath.test(pathname)}
-            onContinue={() => {
-              if (Platform.OS === 'web') setShowWebPin(true);
-              else router.push('/parent-mode');
-            }}
-            onLeave={() => { setShowWebPin(false); void auth?.logout(); }} />
+            onContinue={() => setShowParentPin(true)}
+            onLeave={() => { setShowParentPin(false); void auth?.logout(); }} />
         )}
       </Modal>}
     </VerifyStudentGameAccess.Provider>

@@ -65,8 +65,20 @@ public class ParentControlService {
 
     // Failed attempts must persist even when the controller returns an error.
     @Transactional(noRollbackFor = ApiException.class)
-    public Settings unlock(String principal, String pin) {
+    public UnlockedSettings unlock(String principal, String pin) {
         var control = verify(lockedStudent(principal), pin);
+        return new UnlockedSettings(new Settings(control.dailyMinutes(), control.gameMinutes()), control.pinRevision());
+    }
+
+    @Transactional(readOnly = true)
+    public Settings settings(String principal, java.util.function.LongPredicate grantsAccess) {
+        var control = find(profiles.student(principal).getId());
+        if (control == null) {
+            throw new ApiException("PARENT_PIN_REQUIRED", "Chưa thiết lập mã PIN.", HttpStatus.CONFLICT);
+        }
+        if (!grantsAccess.test(control.pinRevision())) {
+            throw new ApiException("PARENT_GRANT_REQUIRED", "Nhập lại mã PIN để xem giới hạn.", HttpStatus.FORBIDDEN);
+        }
         return new Settings(control.dailyMinutes(), control.gameMinutes());
     }
 
@@ -122,16 +134,17 @@ public class ParentControlService {
 
     private Control find(UUID student) {
         return db.query("""
-                SELECT pin_hash, daily_minutes, game_minutes, failed_attempts, locked_until
+                SELECT pin_hash, daily_minutes, game_minutes, failed_attempts, locked_until, pin_revision
                 FROM student_parent_control WHERE student_id = ?
                 """, (row, index) -> {
             var lock = row.getTimestamp(5);
             return new Control(row.getString(1), row.getObject(2, Integer.class), row.getObject(3, Integer.class),
-                    row.getInt(4), lock == null ? null : lock.toInstant());
+                    row.getInt(4), lock == null ? null : lock.toInstant(), row.getLong(6));
         }, student).stream().findFirst().orElse(null);
     }
 
     public record Status(boolean pinConfigured, boolean dailyLimitReached, boolean dailyLimitConfigured, boolean activityVerified) {}
     public record Settings(Integer dailyMinutes, Integer gameMinutes) {}
-    private record Control(String hash, Integer dailyMinutes, Integer gameMinutes, int failedAttempts, Instant lockedUntil) {}
+    record UnlockedSettings(Settings settings, long pinRevision) {}
+    private record Control(String hash, Integer dailyMinutes, Integer gameMinutes, int failedAttempts, Instant lockedUntil, long pinRevision) {}
 }

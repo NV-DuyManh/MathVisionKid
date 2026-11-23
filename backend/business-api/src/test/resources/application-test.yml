@@ -21,6 +21,7 @@ spring:
         - classpath:db/migration/V37__student_parent_controls.sql
         - classpath:db/migration/V38__parent_game_star_limit.sql
         - classpath:db/migration/V39__student_game_time_limit.sql
+        - classpath:db/migration/V40__parent_pin_email_recovery.sql
   flyway:
     enabled: false
 

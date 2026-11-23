@@ -31,7 +31,6 @@ public class FacebookAuthService {
     private final StudentRepository students;
     private final TeacherRepository teachers;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokens;
     private final boolean enabled;
     private final com.mathvisionkids.api.studentprofile.StudentProfileService profiles;
@@ -39,11 +38,11 @@ public class FacebookAuthService {
     private FirebaseAuth firebaseAuth;
 
     public FacebookAuthService(UserRepository users, StudentRepository students, TeacherRepository teachers,
-                               PasswordEncoder passwordEncoder, JwtUtil jwtUtil, RefreshTokenService refreshTokens, com.mathvisionkids.api.studentprofile.StudentProfileService profiles,
+                               PasswordEncoder passwordEncoder, RefreshTokenService refreshTokens, com.mathvisionkids.api.studentprofile.StudentProfileService profiles,
                                @Value("${app.auth.facebook.enabled:false}") boolean enabled,
                                @Value("${app.auth.facebook.firebase-project-id:}") String projectId) {
         this.users = users; this.students = students; this.teachers = teachers;
-        this.passwordEncoder = passwordEncoder; this.jwtUtil = jwtUtil; this.refreshTokens = refreshTokens;
+        this.passwordEncoder = passwordEncoder; this.refreshTokens = refreshTokens;
         this.enabled = enabled; this.projectId = projectId; this.profiles = profiles;
     }
 
@@ -104,7 +103,7 @@ public class FacebookAuthService {
         if (!Boolean.TRUE.equals(user.getActive())) {
             throw new ApiException("ACCOUNT_INACTIVE", "Account is disabled", HttpStatus.FORBIDDEN);
         }
-        return new AuthResponse(jwtUtil.generateToken(user.getEmail(), user.getRole()), refreshTokens.createRefreshToken(user.getId()));
+        return refreshTokens.createSession(user.getId());
     }
 
     private User createAccount(FirebaseToken token, String email, String subject, FacebookLoginRequest request) {

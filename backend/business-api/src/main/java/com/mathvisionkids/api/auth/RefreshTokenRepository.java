@@ -16,6 +16,8 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, UUID
     void deleteByUser(User user);
 
     void deleteByTokenHash(String tokenHash);
+    boolean existsByUser_IdAndTokenHashStartingWithAndRevokedFalseAndExpiryDateAfter(UUID owner, String prefix, Instant now);
+    void deleteByUser_IdAndTokenHashStartingWith(UUID owner, String prefix);
 
     @Modifying
     @org.springframework.data.jpa.repository.Query("delete from RefreshToken t where t.user.id = :owner and t.tokenHash like 'web:%'")

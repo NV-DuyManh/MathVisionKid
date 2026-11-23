@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, Platform, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -23,10 +23,6 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
   const [showParentPin, setShowParentPin] = useState(false);
   const { value, failed, retry } = useStudentProfile(owner);
   const selectedTitle = value?.titles.find(title => title.id === value.selectedTitle);
-  function openParentMode() {
-    if (Platform.OS === 'web') setShowParentPin(true);
-    else router.push('/parent-mode');
-  }
   return <>
     <LinearGradient colors={['#FCFAFF', '#EDE3FD', '#D8C7F8']} start={{ x: 0, y: .3 }} end={{ x: 1, y: .8 }}
       style={[styles.hero, wide && styles.heroWide]}>
@@ -43,7 +39,7 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
           onPress={() => router.push('/account')} />
         {canOpenParentMode && <AppButton title="Góc phụ huynh" variant="secondary" style={styles.parentAction}
           icon={<Ionicons name="lock-closed-outline" size={18} color={STUDENT_WEB.primary} accessible={false} aria-hidden />}
-          onPress={openParentMode} />}
+          onPress={() => setShowParentPin(true)} />}
       </View>
     </LinearGradient>
     <PersonalMetrics metrics={[
@@ -52,7 +48,7 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
       { label: 'Danh hiệu mở khóa', amount: value?.titles.filter(title => title.unlocked).length, icon: 'medal-outline', tone: 'green' },
     ]} />
     <ProfileProgress value={value} failed={failed} retry={retry} wide={wide} />
-    {showParentPin && owner && <ParentProfilePinDialog owner={owner} onExit={() => setShowParentPin(false)} onOpen={settings => {
+    {showParentPin && canOpenParentMode && owner && <ParentProfilePinDialog key={owner} owner={owner} onExit={() => setShowParentPin(false)} onOpen={settings => {
       storeParentModeHandoff(owner, settings);
       setShowParentPin(false);
       router.push('/parent-mode');
