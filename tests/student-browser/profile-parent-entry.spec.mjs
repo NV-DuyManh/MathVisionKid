@@ -57,6 +57,12 @@ test('Student can open and complete the parent PIN gate from the profile on desk
     await confirmation.getByRole('button', { name: 'Lưu giới hạn', exact: true }).click();
     await expect(confirmation).toHaveCount(0);
     await expect(page.getByText(/Đã lưu giới hạn trên tài khoản/)).toBeVisible();
+
+    await page.getByRole('button', { name: 'Tổng quan', exact: true }).click();
+    await page.getByRole('button', { name: 'Chọn bài cùng con', exact: true }).click();
+    await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons`);
+    await page.goto(`${sites.portal.origin}/study/parent-mode`);
+    await expect(page).toHaveURL(`${sites.portal.origin}/study/profile`);
   }
 
   await page.setViewportSize({ width: 1280, height: 844 });

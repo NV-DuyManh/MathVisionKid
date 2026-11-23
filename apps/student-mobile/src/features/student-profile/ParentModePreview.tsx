@@ -52,11 +52,13 @@ function statusRole() {
 }
 type InputInstance = React.ComponentRef<typeof TextInput>;
 
-export function ParentModePreview({ owner, onExit }: { owner: string; onExit: () => void }) {
-  return <ParentWorkspace key={owner} owner={owner} onExit={onExit} />;
+type ParentWorkspaceProps = { owner: string; onExit: () => void; onChooseLesson?: () => void };
+
+export function ParentModePreview(props: ParentWorkspaceProps) {
+  return <ParentWorkspace key={props.owner} {...props} />;
 }
 
-function ParentWorkspace({ owner, onExit }: { owner: string; onExit: () => void }) {
+function ParentWorkspace({ owner, onExit, onChooseLesson }: ParentWorkspaceProps) {
   const web = Platform.OS === 'web';
   const [section, setSection] = useState<Section>('overview');
   const [settings, setSettings] = useState(() => consumeParentModeHandoff(owner) ?? readParentModeSession(owner));
@@ -209,6 +211,10 @@ function ParentWorkspace({ owner, onExit }: { owner: string; onExit: () => void 
                 owner={owner}
                 dailyMinutes={settings.dailyMinutes}
                 limitUncertain={uncertainLimits.total === true}
+                onChooseLesson={onChooseLesson ? () => {
+                  clearParentModeSession();
+                  onChooseLesson();
+                } : undefined}
                 onEditLimit={() => {
                   setLimitKind('total');
                   switchSection('limits');

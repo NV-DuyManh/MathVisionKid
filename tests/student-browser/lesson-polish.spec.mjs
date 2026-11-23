@@ -62,8 +62,9 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   const problemText = page.locator('#confirmed-problem-body').getByText('Vườn', { exact: true });
   await expect(problemText).toHaveCSS('font-family', /NunitoBold/);
   await expect(problemText).toHaveCSS('font-size', '16px');
-  await expect(page.getByText(/^Em kiểm tra lời văn, các số và đơn vị/)).toHaveCSS('font-family', /NunitoRegular/);
-  await expect(page.getByText(/^Em kiểm tra lời văn, các số và đơn vị/)).toHaveCSS('font-size', '14px');
+  const confirmationHelp = page.getByText(/^Bố mẹ và con có thể cùng đọc đề/);
+  await expect(confirmationHelp).toHaveCSS('font-family', /NunitoRegular/);
+  await expect(confirmationHelp).toHaveCSS('font-size', '14px');
   await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
   await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
   await page.getByRole('button', { name: asked, exact: true }).click();
@@ -447,6 +448,32 @@ async function stableDock(page, dock, area) {
   const after = await dock.boundingBox();
   expect(Math.abs(after.y - before.y)).toBeLessThan(2);
 }
+
+test('parent guidance stays on the current step and preserves the child’s draft', async ({ page, app }) => {
+  app.realStudent = true;
+  lessonFixtures(app);
+  await login(page, 'STUDENT');
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+  await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem })}`);
+  await expect(page.getByText(/Bố mẹ và con có thể cùng đọc đề/)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Bắt đầu từng bước' })).toBeDisabled();
+  await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
+  await page.getByRole('button', { name: 'Bắt đầu từng bước' }).click();
+
+  const numerator = page.getByRole('textbox', { name: 'Tử số câu trả lời' });
+  await numerator.fill('11');
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.getByRole('button', { name: 'Xem thêm', exact: true }).click();
+    await page.getByRole('button', { name: 'Gợi ý cho bố mẹ', exact: true }).click();
+    await expect(page.getByRole('heading', { name: `Bước 1/1 · ${firstStep.title}` })).toBeVisible();
+    await expect(page.getByText(/Cho con giải thích cách nghĩ và thử lại/)).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Bài giải', exact: true })).toHaveCount(0);
+    await page.getByRole('button', { name: 'Đóng Gợi ý cho bố mẹ', exact: true }).click();
+    await expect(numerator).toHaveValue('11');
+  }
+  expect(app.requests.filter(item => item.path === '/student/tutor/lesson/answer')).toHaveLength(0);
+});
 
 for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
   test(`guided lesson keeps current tools fixed and pages hints at ${width}px`, async ({ page, app }, testInfo) => {
