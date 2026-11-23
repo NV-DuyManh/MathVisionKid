@@ -62,8 +62,9 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   const problemText = page.locator('#confirmed-problem-body').getByText('Vườn', { exact: true });
   await expect(problemText).toHaveCSS('font-family', /NunitoBold/);
   await expect(problemText).toHaveCSS('font-size', '16px');
-  await expect(page.getByText(/^Em kiểm tra lời văn, các số và đơn vị/)).toHaveCSS('font-family', /NunitoRegular/);
-  await expect(page.getByText(/^Em kiểm tra lời văn, các số và đơn vị/)).toHaveCSS('font-size', '14px');
+  const confirmationHelp = page.getByText(/^Bố mẹ và con có thể cùng đọc đề/);
+  await expect(confirmationHelp).toHaveCSS('font-family', /NunitoRegular/);
+  await expect(confirmationHelp).toHaveCSS('font-size', '14px');
   await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
   await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
   await page.getByRole('button', { name: asked, exact: true }).click();
