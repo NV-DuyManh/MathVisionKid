@@ -1519,7 +1519,8 @@ def test_confirmed_wrong_or_incompatible_unit_conversion(text):
     assert 'đơn vị' in row.feedback
 
 @pytest.mark.parametrize('text', ['300 yến =', '10 m = ? cm', '300 ? = 30 tạ',
-    '1 tháng = 30 ngày', '1 năm = 365 ngày', 'Dự đoán: 10m = 1000cm', '10 m ≈ 1000 cm'])
+    '1 tháng = 30 ngày', '1 năm = 365 ngày', 'Dự đoán: 10m = 1000cm', '10 m ≈ 1000 cm',
+    '2⁰ m = 20 m', '2⁴ m = 24 m', '2₄ m = 24 m', '② m = 200 cm'])
 def test_unreadable_or_unsupported_conversion_stays_unsure(text):
     row = review._local_rows([text])[0]
     assert row.status == 'UNSURE' and row.arithmeticCorrect is None
@@ -1585,3 +1586,19 @@ def test_exact_conversion_still_requires_agreed_problem_context(error_kind):
     row = review._merge_rows(review._local_rows([source.workText]), judgment, judgment)[0]
     assert row.status == 'FIX' and row.errorKind == error_kind
     assert row.arithmeticCorrect is True and row.sourceText == source.workText
+
+
+@pytest.mark.parametrize('error_kind', ['UNIT', 'OPERAND'])
+def test_exact_conversion_reports_uncertain_problem_context_when_reviewers_disagree(error_kind):
+    source = request(workText='Đổi: 300 yến = 30 tạ.')
+    first = assessment(source)
+    second = deepcopy(first)
+    first['rows'][0].update(status='FIX', errorKind=error_kind,
+        feedback='Em đối chiếu lại với yêu cầu trong đề.')
+    second['rows'][0].update(status='UNSURE', feedback='Chưa rõ yêu cầu đổi đơn vị.')
+    row = review._merge_rows(
+        review._local_rows([source.workText]),
+        review._Assessment.model_validate(first),
+        review._Assessment.model_validate(second),
+    )[0]
+    assert row.status == 'UNSURE' and row.arithmeticCorrect is True

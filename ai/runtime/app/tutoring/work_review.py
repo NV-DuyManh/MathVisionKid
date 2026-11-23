@@ -335,9 +335,8 @@ def _exact_number(text: str) -> Fraction | None:
 
 
 def _unit_calculation(text: str) -> tuple[bool, Fraction] | None:
-    # Normalize only recognized notation; keep the confirmed transcript untouched.
-    text = normalized_units(''.join(
-        char if char in '²³' else unicodedata.normalize('NFKC', char) for char in text))
+    # Fold fullwidth ASCII without turning superscripts or subscripts into digits.
+    text = normalized_units(re.sub(r'[！-～]', lambda match: unicodedata.normalize('NFKC', match[0]), text))
     text = re.sub(r'^\s*doi(?:\s+don\s+vi)?(?:\s*[:：]\s*|\s+)(?=[+−-]?\d)', '', text)
     sides = re.split('[=＝]', text.rstrip(' .。．'))
     if len(sides) < 2:
@@ -677,6 +676,8 @@ def _merge_rows(local_rows: list[ReviewedRow], first: _Assessment, second: _Asse
     merged = []
     for row, teaching, verifier in zip(local_rows, first.rows, second.rows):
         agreed = (teaching.status, teaching.errorKind) == (verifier.status, verifier.errorKind)
+        contextual_error = any(candidate.errorKind in {'OPERAND', 'UNIT', 'EXPLANATION', 'DEPENDENT'}
+                               for candidate in (teaching, verifier))
         if row.rowKind == 'HEADING':
             merged.append(row)
         elif agreed and teaching.status == 'FIX' and (
@@ -688,13 +689,13 @@ def _merge_rows(local_rows: list[ReviewedRow], first: _Assessment, second: _Asse
                           if agreed and teaching.status == 'FIX' and teaching.errorKind in {'CALCULATION', 'NONE'} else row)
         elif agreed and teaching.status == 'OK' and (row.status == 'OK' or row.rowKind == 'ANSWER'):
             merged.append(row.model_copy(update=teaching.model_dump()))
-        elif row.arithmeticCorrect is True and _unit_calculation(row.sourceText) is not None and any(
-                candidate.status == 'UNSURE' for candidate in (teaching, verifier)):
+        elif (row.arithmeticCorrect is True and not contextual_error
+                and (teaching.status == 'UNSURE' or verifier.status == 'UNSURE')
+                and _unit_calculation(row.sourceText) is not None):
             # Provider uncertainty cannot erase a deterministic equality. Context
             # and completion still require independent agreement for the whole work.
             merged.append(row)
-        elif not agreed and any(candidate.errorKind in {'OPERAND', 'UNIT', 'EXPLANATION', 'DEPENDENT'}
-                                or candidate.status == 'UNSURE' for candidate in (teaching, verifier)):
+        elif not agreed and (contextual_error or teaching.status == 'UNSURE' or verifier.status == 'UNSURE'):
             merged.append(row.model_copy(update={'status': 'UNSURE',
                 'feedback': 'Chưa thống nhất cách dùng dữ kiện hoặc đơn vị ở dòng này.'}))
         elif teaching.status == verifier.status == 'UNSURE' and row.status == 'OK' and row.rowKind in {'CALCULATION', 'ANSWER'}:
