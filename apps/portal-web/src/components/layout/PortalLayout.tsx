@@ -334,29 +334,48 @@ export const PortalLayout: React.FC = () => {
                   </Box>
                 </Box>
               ) : (
-                <Button
-                  component={RouterLink}
-                  to="/login"
-                  aria-label="Đăng nhập"
-                  sx={{
-                    bgcolor: '#F5EEFD',
-                    '&:hover': { bgcolor: '#E1D2FF' },
-                    color: '#190568',
-                    border: '1.5px solid #E1D2FF',
-                    fontWeight: 800,
-                    px: { xs: 2.5, sm: 3.5 },
-                    py: 1,
-                    minHeight: 46,
-                    borderRadius: '25px',
-                    textTransform: 'none',
-                    fontSize: '1.08rem',
-                    whiteSpace: 'nowrap',
-                    transition: 'all 160ms ease',
-                    '&:active': { transform: 'scale(0.98)' },
-                  }}
-                >
-                  Vào lớp học →
-                </Button>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Button
+                    component={RouterLink}
+                    to="/login"
+                    sx={{
+                      color: '#190568',
+                      fontWeight: 800,
+                      fontSize: '1.02rem',
+                      textTransform: 'none',
+                      px: { xs: 1.5, sm: 2 },
+                      py: 0.8,
+                      borderRadius: '20px',
+                      whiteSpace: 'nowrap',
+                      '&:hover': { bgcolor: 'rgba(25, 5, 104, 0.05)' },
+                    }}
+                  >
+                    Đăng nhập
+                  </Button>
+                  <Button
+                    component={RouterLink}
+                    to="/login"
+                    aria-label="Vào lớp học"
+                    sx={{
+                      bgcolor: '#F5EEFD',
+                      '&:hover': { bgcolor: '#E1D2FF' },
+                      color: '#190568',
+                      border: '1.5px solid #E1D2FF',
+                      fontWeight: 800,
+                      px: { xs: 2.2, sm: 3 },
+                      py: 1,
+                      minHeight: 46,
+                      borderRadius: '25px',
+                      textTransform: 'none',
+                      fontSize: { xs: '0.98rem', sm: '1.05rem' },
+                      whiteSpace: 'nowrap',
+                      transition: 'all 160ms ease',
+                      '&:active': { transform: 'scale(0.98)' },
+                    }}
+                  >
+                    Vào lớp học →
+                  </Button>
+                </Box>
               )}
             </Box>
           </Toolbar>

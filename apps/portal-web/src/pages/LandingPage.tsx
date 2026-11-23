@@ -56,7 +56,7 @@ const GRADE_DATA: Record<number, GradeCurriculum> = {
     modules: [
       {
         title: 'Cộng, trừ có nhớ trong phạm vi 100',
-        desc: 'Phương pháp Socratic tách số: 8 + 5 = 8 + 2 + 3 = 10 + 3 = 13.',
+        desc: 'Phương pháp Socratic tách số: 8 + 5 = 8 + 2 + 3 = 10 + 3... để bé tự tìm ra kết quả.',
         tag: 'Kỹ thuật tính',
       },
       {
@@ -201,8 +201,15 @@ export const LandingPage: React.FC = () => {
     setDemoHint(null);
   };
 
-  // Focus management when step changes
+  // Track initial mount to prevent autofocus on page open
+  const isFirstMount = useRef<boolean>(true);
+
+  // Focus management: ONLY when step changes after user interaction, NOT on initial mount
   useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
     if (choiceContainerRef.current) {
       const firstButton = choiceContainerRef.current.querySelector('button');
       if (firstButton) {
@@ -407,7 +414,7 @@ export const LandingPage: React.FC = () => {
                 <Button
                   component={RouterLink}
                   to="/login"
-                  aria-label="Đăng nhập"
+                  aria-label="Học ngay cùng AI"
                   variant="contained"
                   endIcon={<ArrowForwardIcon />}
                   sx={{
@@ -1315,6 +1322,8 @@ export const LandingPage: React.FC = () => {
           {/* Grade Selector Tabs: min-height 44px for touch targets */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
             <Box
+              role="group"
+              aria-label="Chọn khối lớp rèn luyện"
               sx={{
                 display: 'inline-flex',
                 bgcolor: '#FFFFFF',
@@ -1333,6 +1342,7 @@ export const LandingPage: React.FC = () => {
                   <Button
                     key={grade}
                     onClick={() => setSelectedGrade(grade)}
+                    aria-pressed={isActive}
                     sx={{
                       minHeight: 44,
                       minWidth: { xs: 60, sm: 90 },
@@ -1649,6 +1659,7 @@ export const LandingPage: React.FC = () => {
               fontWeight: 900,
               letterSpacing: '-0.02em',
               mb: 2,
+              color: '#FFFFFF',
             }}
           >
             Sẵn sàng đồng hành cùng con?
@@ -1668,7 +1679,7 @@ export const LandingPage: React.FC = () => {
           <Button
             component={RouterLink}
             to="/login"
-            aria-label="Đăng nhập"
+            aria-label="Học ngay cùng AI"
             variant="contained"
             endIcon={<ArrowForwardIcon />}
             sx={{
