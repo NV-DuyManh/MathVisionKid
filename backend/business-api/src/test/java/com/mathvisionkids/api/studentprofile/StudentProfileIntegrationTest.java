@@ -34,6 +34,8 @@ class StudentProfileIntegrationTest {
     @Autowired StudentGameUsageService gameUsage;
     @Autowired QuizSources lessons;
     @Autowired JdbcTemplate db;
+    @Autowired com.mathvisionkids.api.auth.RefreshTokenService tokens;
+    @Autowired com.fasterxml.jackson.databind.ObjectMapper json;
     @Autowired MockMvc mvc;
     @Autowired TransactionTemplate transaction;
     @Autowired PasswordEncoder passwords;
@@ -69,6 +71,71 @@ class StudentProfileIntegrationTest {
                 .andExpect(jsonPath("$.error.code").value("PARENT_ENROLLMENT_REQUIRED"));
         assertEquals(0, db.queryForObject("SELECT COUNT(*) FROM student_parent_control WHERE student_id = ?",
                 Integer.class, pupil.getId()));
+    }
+
+    @Test void parentSettingsSyncAcrossRealWebAndNativeSessionsWithoutSharingTheirGrants() throws Exception {
+        String base = "/api/v1/student/parent-control";
+        String pin = "{\"pin\":\"716025\"}";
+        String grantHeader = "X-MathVision-Parent-Grant";
+        configureParentControl(pupil.getId(), "716025");
+        pupil.setPasswordHash(passwords.encode("parent-control-test-password"));
+        students.saveAndFlush(pupil);
+        var web = mvc.perform(post("/api/v1/auth/login").secure(true).header("X-MathVision-Web", "portal")
+                        .contentType("application/json").content(json.writeValueAsString(java.util.Map.of(
+                                "email", pupil.getEmail(), "password", "parent-control-test-password"))))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        var cookie = web.getCookie("__Host-mvk_portal_session");
+        String webId = json.readTree(web.getContentAsString()).get("sessionId").asText();
+        var nativeSession = tokens.createSession(pupil.getId());
+        String bearer = "Bearer " + nativeSession.getAccessToken();
+        var webRequest = (org.springframework.test.web.servlet.request.RequestPostProcessor) request -> {
+            request.setSecure(true);
+            request.setCookies(cookie);
+            request.addHeader("X-MathVision-Web", "portal");
+            request.addHeader("X-MathVision-Session", webId);
+            return request;
+        };
+        mvc.perform(get(base + "/settings").with(webRequest))
+                .andExpect(status().isForbidden()).andExpect(jsonPath("$.error.code").value("PARENT_GRANT_REQUIRED"));
+        mvc.perform(post(base + "/unlock").header("Authorization", bearer).contentType("application/json")
+                        .content("{\"pin\":\"000000\"}"))
+                .andExpect(status().isForbidden()).andExpect(header().doesNotExist(grantHeader));
+        String webGrant = mvc.perform(post(base + "/unlock").with(webRequest).contentType("application/json").content(pin))
+                .andExpect(status().isOk()).andExpect(header().exists(grantHeader)).andReturn().getResponse().getHeader(grantHeader);
+        String nativeGrant = mvc.perform(post(base + "/unlock").header("Authorization", bearer).contentType("application/json").content(pin))
+                .andExpect(status().isOk()).andExpect(header().exists(grantHeader)).andReturn().getResponse().getHeader(grantHeader);
+        mvc.perform(get(base + "/settings").header("Authorization", bearer).header(grantHeader, webGrant))
+                .andExpect(status().isForbidden());
+        mvc.perform(get(base + "/settings").with(webRequest).header(grantHeader, nativeGrant))
+                .andExpect(status().isForbidden());
+        mvc.perform(get(base + "/settings").header(grantHeader, nativeGrant)).andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/v1/me").header("Authorization", "Bearer " + nativeGrant)).andExpect(status().isUnauthorized());
+        mvc.perform(put(base + "/daily-limit").header("Authorization", bearer).header(grantHeader, nativeGrant)
+                        .contentType("application/json").content("{\"minutes\":1}"))
+                .andExpect(status().isBadRequest());
+        mvc.perform(put(base + "/daily-limit").with(webRequest).contentType("application/json")
+                        .content("{\"pin\":\"716025\",\"minutes\":1}")).andExpect(status().isOk());
+        mvc.perform(put(base + "/game-limit").header("Authorization", bearer).contentType("application/json")
+                        .content("{\"pin\":\"716025\",\"minutes\":10}")).andExpect(status().isOk());
+        var rotated = tokens.rotate(nativeSession.getRefreshToken());
+        mvc.perform(get(base + "/settings").header("Authorization", "Bearer " + rotated.getAccessToken())
+                        .header(grantHeader, nativeGrant))
+                .andExpect(status().isOk()).andExpect(header().string("Cache-Control", "no-store"))
+                .andExpect(jsonPath("$.dailyMinutes").value(1)).andExpect(jsonPath("$.gameMinutes").value(10));
+        mvc.perform(get(base + "/settings").with(webRequest).header(grantHeader, webGrant))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.dailyMinutes").value(1))
+                .andExpect(jsonPath("$.gameMinutes").value(10));
+        var day = java.time.LocalDate.now(StudentRewards.ZONE);
+        db.update("INSERT INTO student_usage_day (student_id, usage_day, elapsed_millis) VALUES (?, ?, 60000)", pupil.getId(), day);
+        mvc.perform(get(base + "/status").header("Authorization", bearer)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.dailyLimitReached").value(true));
+        mvc.perform(get(base + "/status").with(webRequest)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.dailyLimitReached").value(true));
+        String webWeek = mvc.perform(get("/api/v1/student/app-usage/week").with(webRequest))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        String mobileWeek = mvc.perform(get("/api/v1/student/app-usage/week").header("Authorization", bearer))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        assertEquals(json.readTree(webWeek), json.readTree(mobileWeek));
     }
 
     @Test void statusWithoutParentControlPreservesUnconfiguredResponse() throws Exception {

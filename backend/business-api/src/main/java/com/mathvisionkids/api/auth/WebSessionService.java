@@ -82,7 +82,7 @@ public class WebSessionService {
 
     @Transactional(noRollbackFor = ApiException.class)
     public Session establish(AuthResponse credentials, Client client, HttpServletRequest request, HttpServletResponse response) {
-        String mobileHash = RefreshTokenService.hashToken(credentials.getRefreshToken());
+        String mobileHash = RefreshTokenService.storageHash(credentials.getRefreshToken());
         var owner = tokens.findOwnerId(mobileHash).orElseThrow(WebSessionService::unauthorized);
         users.lockSessions(owner).orElseThrow(WebSessionService::unauthorized);
         var issued = tokens.findByTokenHash(mobileHash).filter(t -> valid(t, Instant.now()))

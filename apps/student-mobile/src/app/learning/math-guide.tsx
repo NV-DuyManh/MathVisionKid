@@ -171,7 +171,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
     const hidden = Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
     return () => { shown.remove(); hidden.remove(); };
   }, []);
-  const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'work' | 'summary' | 'hint' | null>(null);
+  const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'work' | 'summary' | 'hint' | 'parent' | null>(null);
   const [busy, setBusy] = useState<GuideTask | null>(null);
   const [finishing, setFinishing] = useState<{ kind: 'read' | 'lesson'; id: number } | null>(null);
   const [error, setError] = useState('');
@@ -791,7 +791,9 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
             </View> : null}
             {sourceNeedsReview && !problemConfirmed ? <Text style={styles.error} accessibilityRole="alert">Có chỗ cần kiểm tra lại với ảnh. Em đối chiếu số, đơn vị và hình; chỉnh lại nếu cần rồi xác nhận nhé.</Text> : null}
             {Platform.OS === 'web' && problem.includes('[?]') ? <Text style={styles.error} accessibilityRole="alert">Có chỗ chưa chắc trong đề. Em chọn chỉnh đề, đối chiếu với ảnh và bỏ dấu [?] sau khi sửa nhé.</Text> : null}
-            <Text style={styles.body}>Em kiểm tra lời văn, các số và đơn vị. Nếu chưa giống ảnh, chọn chỉnh đề trước nhé.</Text>
+            <Text style={styles.body}>{Platform.OS === 'web'
+              ? 'Bố mẹ và con có thể cùng đọc đề, đối chiếu các số và đơn vị rồi chỉnh chỗ chưa đúng. Khi đề đã đúng, để con tự trả lời từng bước nhé.'
+              : 'Em kiểm tra lời văn, các số và đơn vị. Nếu chưa giống ảnh, chọn chỉnh đề trước nhé.'}</Text>
             <Pressable accessibilityRole="checkbox" accessibilityLabel="Em đã kiểm tra đề bài và các số"
               aria-checked={problemConfirmed} accessibilityState={{ checked: problemConfirmed, disabled: !!busy || problem.includes('[?]') }}
               disabled={!!busy || problem.includes('[?]')} style={styles.confirm}
@@ -1002,7 +1004,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
       <AppButton title="Chụp thêm bài làm" onPress={() => { setWorkOptionsOpen(false); capture('ADD_WORK'); }} />
       <AppButton title="Nhập bài làm bằng chữ" variant="secondary" onPress={() => { setWorkOptionsOpen(false); edit('work'); }} />
     </LessonSheet> : null}
-    {lesson && tool && !expired && !editing ? <LessonSheet appearance={tool === 'hint' ? 'hint' : undefined} title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', hint: 'Cùng hiểu gợi ý' }[tool]} onClose={() => setTool(null)}>
+    {lesson && tool && !expired && !editing ? <LessonSheet compact={tool === 'parent'} appearance={tool === 'hint' ? 'hint' : undefined} title={{ audio: 'Nghe giảng', ask: 'Hỏi bài', menu: 'Em cần gì thêm?', work: 'Bài em đã viết', summary: 'Tóm tắt đề', hint: 'Cùng hiểu gợi ý', parent: 'Gợi ý cho bố mẹ' }[tool]} onClose={() => setTool(null)}>
       {tool === 'hint' && step ? <HintSheetContent key={`${owner}:${lesson.sessionId}:${lesson.stepIndex}:${hintPage}`}
         hint={visibleHint} visual={problemConfirmed && showCalculation && step.kind !== 'UNDERSTAND' && !displayedReview
           ? buildHintVisual(problem, step.expression) : null}>
@@ -1018,11 +1020,20 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
       {tool === 'ask' ? <LessonQuestion initialQuestion={viewingHistory ? '' : questionDraft} onDraftChange={viewingHistory ? undefined : setQuestionDraft} onReturn={returnFromTool} key={`${owner}:${lesson.sessionId}:${lesson.revision}:${visibleStepIndex}:${!!displayedReview}`} scope={`${owner}:${lesson.sessionId}:${lesson.revision}:${visibleStepIndex}:${!!displayedReview}`}
         sessionId={lesson.sessionId} revision={lesson.revision} stepIndex={summaryVisible ? 2 : Math.min(visibleStepIndex, Math.max(0, lesson.outline.length - 1))} /> : null}
       {tool === 'summary' ? <ProblemSummary lesson={lesson} compact /> : null}
+      {tool === 'parent' && step && !displayedReview && !summaryVisible ? <>
+        <Text accessibilityRole="header" style={styles.heading}>Bước {visibleStepIndex + 1}/{lesson.outline.length} · {step.title}</Text>
+        <MathText style={styles.body}>{step.question}</MathText>
+        <Text style={styles.body}>{step.kind === 'UNDERSTAND'
+          ? 'Hỏi con: “Đề cho biết gì? Đề hỏi gì?” Mời con chỉ vào câu trong đề và kể lại bằng lời của mình.'
+          : 'Hỏi con: “Con định làm thế nào?” Cho con giải thích cách nghĩ và thử lại. Nếu còn bí, mời con mở một gợi ý.'}</Text>
+      </> : null}
       {tool === 'work' ? <>{workImage ? <Image source={{ uri: workImage }} style={[styles.photo, { height: 220 }]} resizeMode="contain" accessibilityLabel={workImageCurrent ? 'Ảnh bài em đã làm' : 'Ảnh bài làm trước khi sửa bằng chữ'} /> : null}
         {!workConfirmed ? <Text style={styles.error}>Bài làm chưa được xác nhận; mình đang hướng dẫn từ đề đã kiểm tra. Có chỗ chưa đọc rõ, em đối chiếu lại với ảnh nhé.</Text> : null}
         <MathText style={styles.body}>{work}</MathText>
         <AppButton title="Chỉnh chỗ chưa đọc đúng" variant="secondary" onPress={() => { setTool(null); edit('work'); }} /></> : null}
       {tool === 'menu' ? <>
+        {Platform.OS === 'web' && step && !displayedReview && !summaryVisible
+          ? <AppButton title="Gợi ý cho bố mẹ" variant="secondary" onPress={() => setTool('parent')} /> : null}
         {work ? <AppButton title="Xem bài em đã viết" variant="secondary" onPress={() => setTool('work')} /> : null}
         {lesson.understandingSteps === 3 && lesson.stepIndex >= 2 ? <AppButton title="Xem lại tóm tắt đề" variant="secondary" onPress={() => setTool('summary')} /> : null}
         <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} loadingTitle="Đang lưu bài…" variant="secondary" disabled={saved || saving} loading={saving} onPress={() => void archive()} />

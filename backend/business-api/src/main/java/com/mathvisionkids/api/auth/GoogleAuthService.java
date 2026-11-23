@@ -28,7 +28,6 @@ public class GoogleAuthService {
     private final StudentRepository students;
     private final TeacherRepository teachers;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokens;
     private final String clientIds;
     private final boolean enabled;
@@ -36,11 +35,11 @@ public class GoogleAuthService {
     private GoogleIdTokenVerifier verifier;
 
     public GoogleAuthService(UserRepository users, StudentRepository students, TeacherRepository teachers,
-                             PasswordEncoder passwordEncoder, JwtUtil jwtUtil, RefreshTokenService refreshTokens, com.mathvisionkids.api.studentprofile.StudentProfileService profiles,
+                             PasswordEncoder passwordEncoder, RefreshTokenService refreshTokens, com.mathvisionkids.api.studentprofile.StudentProfileService profiles,
                              @Value("${app.auth.google.enabled:false}") boolean enabled,
                              @Value("${app.auth.google.client-id:}") String clientIds) {
         this.users = users; this.students = students; this.teachers = teachers;
-        this.passwordEncoder = passwordEncoder; this.jwtUtil = jwtUtil; this.refreshTokens = refreshTokens;
+        this.passwordEncoder = passwordEncoder; this.refreshTokens = refreshTokens;
         this.enabled = enabled; this.clientIds = clientIds; this.profiles = profiles;
     }
 
@@ -99,7 +98,7 @@ public class GoogleAuthService {
         if (!Boolean.TRUE.equals(user.getActive())) {
             throw new ApiException("ACCOUNT_INACTIVE", "Account is disabled", HttpStatus.FORBIDDEN);
         }
-        return new AuthResponse(jwtUtil.generateToken(user.getEmail(), user.getRole()), refreshTokens.createRefreshToken(user.getId()));
+        return refreshTokens.createSession(user.getId());
     }
 
     private User createAccount(GoogleIdToken.Payload payload, String email, String subject, GoogleLoginRequest request) {

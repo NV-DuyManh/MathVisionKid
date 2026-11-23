@@ -10,6 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 /** Opt-in, real Flyway upgrade with existing data. Never touches the public app schema. */
 @EnabledIfEnvironmentVariable(named = "MATHVISION_POSTGRES_UPGRADE", matches = "true")
 class PostgresUpgradeTest {
+    @Test void upgradeFrom39AddsRecoveryWithoutReplacingPinOrLimits() throws Exception {
+        verifyUpgrade("39");
+    }
+
     @Test void upgradeFrom38AddsGameTimeWithoutReplacingParentSettings() throws Exception {
         verifyUpgrade("38");
     }
@@ -70,9 +74,20 @@ class PostgresUpgradeTest {
                 sql.execute("INSERT INTO student_quizzes(id,student_id,source_type,source_id,source_fingerprint,topic_code,topic_name,skill_code,grade_level,question_text,unit,answer_spec,validated_solution,status,created_at,updated_at,generation_version) VALUES ('"+quiz+"','"+id+"','LESSON','source',repeat('a',64),'ADDITION','Addition','ADD',5,'2 + 2 = ?','','4','2 + 2 = 4','READY',now(),now(),'test')");
                 var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
-                assertEquals(39 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
-                assertEquals("39", upgrade.targetSchemaVersion);
+                assertEquals(40 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
+                assertEquals("40", upgrade.targetSchemaVersion);
                 assertTrue(latest.validateWithResult().validationSuccessful);
+                if (Integer.parseInt(startingVersion) >= 38) {
+                    try (var result = sql.executeQuery("SELECT pin_hash, pin_revision FROM student_parent_control WHERE student_id = '" + id + "'")) {
+                        assertTrue(result.next());
+                        assertEquals("synthetic-hash", result.getString("pin_hash"));
+                        assertEquals(0, result.getLong("pin_revision"));
+                    }
+                }
+                try (var result = sql.executeQuery("SELECT COUNT(*) FROM student_parent_pin_challenge")) {
+                    assertTrue(result.next());
+                    assertEquals(0, result.getInt(1));
+                }
                 assertEquals(0, latest.migrate().migrationsExecuted);
                 if (Integer.parseInt(startingVersion) >= 32) {
                     try (var rows = sql.executeQuery("SELECT leaderboard_visible,leaderboard_name_hidden FROM student_profile_preferences WHERE student_id='"+id+"'")) {

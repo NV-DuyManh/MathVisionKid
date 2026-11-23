@@ -40,7 +40,7 @@ export function formatUsage(milliseconds: number) {
 }
 
 function formatChartDayValue(milliseconds: number) {
-  if (milliseconds <= 0) return '0 phút';
+  if (milliseconds <= 0) return '0p';
   const minutes = Math.floor(milliseconds / 60_000);
   if (minutes === 0) return '<1p';
   if (minutes < 60) return `${minutes}p`;
@@ -172,11 +172,13 @@ export function ParentOverview({
   dailyMinutes,
   limitUncertain,
   onEditLimit,
+  onChooseLesson,
 }: {
   owner: string;
   dailyMinutes: number | null;
   limitUncertain: boolean;
   onEditLimit: () => void;
+  onChooseLesson?: () => void;
 }) {
   const profile = useStudentProfile(owner);
   const usage = useUsageWeek();
@@ -245,7 +247,10 @@ export function ParentOverview({
             </View>
             <View style={styles.guideCopy}>
               <Text style={styles.guideTitle}>Gợi ý đồng hành</Text>
-              <Text style={styles.body}>“Con muốn kể bố mẹ nghe bài toán nào?”</Text>
+              <Text style={styles.body}>{onChooseLesson
+                ? 'Chọn bài theo lớp của con, cùng đọc đề rồi để con tự trả lời từng bước.'
+                : '“Con muốn kể bố mẹ nghe bài toán nào?”'}</Text>
+              {onChooseLesson ? <AppButton title="Chọn bài cùng con" variant="secondary" onPress={onChooseLesson} /> : null}
             </View>
           </View>
         </View>
@@ -646,7 +651,7 @@ function UsageSummary({
       <View style={styles.group}>
         <View style={styles.chartSubHeader}>
           <Text accessibilityRole="header" aria-level={3} style={styles.sectionLabel}>
-            Biểu đồ thời gian theo ngày (T2 – CN)
+            Thời gian học theo ngày
           </Text>
         </View>
         {failed ? (
@@ -676,29 +681,16 @@ function UsageColumnChart({ week, compact }: { week: StudentUsageWeek; compact: 
         const today = day.date === week.today;
         const dayName = WEEKDAYS[index] ?? `N${index + 1}`;
         const valueLabel = future ? '—' : formatChartDayValue(day.elapsedMillis);
+        const accessibleDay = index === 6 ? 'Chủ nhật' : `Thứ ${index + 2}`;
         const description = future ? 'Chưa tới' : formatUsage(day.elapsedMillis);
         const barHeight = !future && day.elapsedMillis > 0 ? Math.max(8, Math.round((86 * day.elapsedMillis) / max)) : 4;
-
-        if (compact) return (
-          <View key={day.date} accessible accessibilityLabel={`${dayName}${today ? ', hôm nay' : ''}, ${description}`}
-            style={[styles.chartRow, today && styles.chartColToday]}>
-            <Text style={[styles.chartRowDay, today && styles.chartColTodayText]}>{today ? 'Hôm nay' : dayName}</Text>
-            <View style={styles.chartRowTrack} accessible={false} aria-hidden>
-              {!future && day.elapsedMillis > 0 && (
-                <View style={[styles.chartRowBar, today && styles.chartColBarToday,
-                  { width: `${Math.max(4, (100 * day.elapsedMillis) / max)}%` }]} />
-              )}
-            </View>
-            <Text style={[styles.chartRowValue, today && styles.chartColTodayText]}>{future ? '—' : description}</Text>
-          </View>
-        );
 
         return (
           <View
             key={day.date}
             accessible
-            accessibilityLabel={`${today ? 'Hôm nay' : dayName}, ${description}`}
-            style={[styles.chartCol, today && styles.chartColToday]}
+            accessibilityLabel={`${accessibleDay}${today ? ', hôm nay' : ''}, ${description}`}
+            style={[styles.chartCol, compact && styles.chartColCompact, today && styles.chartColToday]}
           >
             <Text
               numberOfLines={1}
@@ -723,13 +715,7 @@ function UsageColumnChart({ week, compact }: { week: StudentUsageWeek; compact: 
               )}
             </View>
             <Text style={[styles.chartColDay, today && styles.chartColTodayText]}>{dayName}</Text>
-            <View style={styles.todaySlot}>
-              {today ? (
-                <View style={styles.todayPill}>
-                  <Text style={styles.todayPillText}>Hôm nay</Text>
-                </View>
-              ) : null}
-            </View>
+
           </View>
         );
       })}
@@ -922,16 +908,7 @@ const styles = StyleSheet.create({
   chartSubHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6 },
 
   columnChart: { flexDirection: 'row', gap: 6, alignItems: 'stretch' },
-  columnChartCompact: { flexDirection: 'column', gap: 5 },
-  chartRow: {
-    flexDirection: 'row', alignItems: 'center', minHeight: 36, gap: 8,
-    paddingHorizontal: 8, paddingVertical: 5, borderRadius: 10,
-    borderWidth: 1, borderColor: '#EFEBF9', backgroundColor: '#FAF9FF',
-  },
-  chartRowDay: { flexBasis: 53, fontFamily: FONTS.extraBold, fontSize: 12, color: STUDENT_WEB.muted },
-  chartRowTrack: { flex: 1, height: 7, borderRadius: 4, backgroundColor: '#E7E1F4', overflow: 'hidden' },
-  chartRowBar: { height: '100%', borderRadius: 4, backgroundColor: '#8B75F8' },
-  chartRowValue: { flexBasis: 94, textAlign: 'right', fontFamily: FONTS.bold, fontSize: 12, color: STUDENT_WEB.ink },
+  columnChartCompact: { gap: 3 },
   chartCol: {
     flex: 1,
     minWidth: 0,
@@ -944,6 +921,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#EFEBF9',
   },
+  chartColCompact: { paddingHorizontal: 0, borderRadius: 8 },
   chartColToday: { backgroundColor: COLORS.primaryLight, borderColor: STUDENT_WEB.primary },
   chartColValue: { fontFamily: FONTS.bold, fontSize: 11, color: STUDENT_WEB.muted, textAlign: 'center' },
   chartColZeroText: { color: COLORS.textMuted },
@@ -962,10 +940,6 @@ const styles = StyleSheet.create({
   chartColBarToday: { backgroundColor: STUDENT_WEB.primary },
   chartColBarZero: { backgroundColor: '#CBD5E1', borderRadius: 2 },
   chartColDay: { fontFamily: FONTS.extraBold, fontSize: 12, color: STUDENT_WEB.muted },
-  todaySlot: { minHeight: 16, justifyContent: 'center', alignItems: 'center' },
-  todayPill: { backgroundColor: STUDENT_WEB.primary, borderRadius: 6, paddingHorizontal: 5, paddingVertical: 1 },
-  todayPillText: { fontFamily: FONTS.extraBold, fontSize: 9, color: '#FFFFFF' },
-
   progressBody: { gap: 14 },
   distList: { gap: 10 },
   distItem: { gap: 5 },

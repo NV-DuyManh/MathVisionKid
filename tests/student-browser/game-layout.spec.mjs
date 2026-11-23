@@ -127,7 +127,9 @@ test('race supports wrong and correct answers, turn handover, victory, replay an
   await open(page, 'race-to-finish');
   await page.getByText('Chơi cùng bạn', { exact: true }).click();
   await page.getByText('2 Người chơi', { exact: true }).click();
-  await page.getByTestId('start-race-button').click();
+  const startRace = page.getByTestId('start-race-button');
+  await expect(startRace).toContainText('XUẤT PHÁT ĐUA NGAY');
+  await startRace.click();
   await expect(page.getByTestId('roll-dice-button')).toBeEnabled({ timeout: 15000 });
   const camera = page.getByTestId('game-camera');
   const world = page.getByTestId('camera-world');
@@ -192,7 +194,7 @@ test('race supports wrong and correct answers, turn handover, victory, replay an
   await expect(page.getByTestId('training-play-race-to-finish')).toBeVisible();
   await expect.poll(() => page.locator('img').evaluateAll(images => images.every(image => image.complete))).toBe(true);
   await open(page, 'race-to-finish');
-  await expect(page.getByTestId('start-race-button')).toBeEnabled();
+  await expect(startRace).toContainText('XUẤT PHÁT ĐUA NGAY');
   expect(app.gameAssetFailures).toEqual([]);
 });
 
@@ -210,10 +212,12 @@ test('island pointer construction completes six missions and preserves blocks th
   const entities = page.getByTestId('island-play').locator('[data-testid^="island-entity-"]');
   for (let mission = 0; mission < 6; mission++) {
     await page.getByTestId('island-hint').click();
-    await expect.poll(async () => (await islandState(page))?.hint?.target?.length ?? 0).toBeGreaterThan(0);
-    const state = await islandState(page);
-    expect(state?.index).toBe(mission);
-    expect(state.hint).not.toBeNull();
+    let state;
+    await expect(async () => {
+      state = await islandState(page);
+      expect(state?.index).toBe(mission);
+      expect(state?.hint?.target?.length ?? 0).toBeGreaterThan(0);
+    }).toPass({ timeout: 10000 });
     const additions = state.hint.target.filter(point => !state.blocks.some(block =>
       block.blockType === 'floor' && point.x === block.x && point.y === block.y && point.floorIndex === block.floorIndex));
     for (const point of additions) {
@@ -337,9 +341,11 @@ for (const [width, height] of [...desktopSizes, ...zoomReflowSizes, ...mobileSiz
       await page.setViewportSize({ width: height, height: width });
     }
     await open(page, 'race-to-finish');
-    await expect(page.getByTestId('start-race-button')).toBeEnabled();
-    await inside(page, page.getByTestId('start-race-button'));
-    await page.getByTestId('start-race-button').click();
+    const startRace = page.getByTestId('start-race-button');
+    // The web TouchableOpacity remains in the tree while the map assets load.
+    await expect(startRace).toContainText('XUẤT PHÁT ĐUA NGAY');
+    await inside(page, startRace);
+    await startRace.click();
     await expect(page.getByTestId('roll-dice-button')).toBeEnabled({ timeout: 15000 });
     await capture(page, info, 'race-board');
     if (!isMobile) await inside(page, page.getByTestId('race-board'));

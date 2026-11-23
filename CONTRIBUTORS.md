@@ -53,3 +53,7 @@ Lượt tích hợp **14/11/2026** giữ nguyên các commit của **Nam (tranho
 Ngày **17/11/2026**, tích hợp các bản sửa Student App và gia sư từ nhánh Manh qua hai commit nguồn `ca454ff146cafd65a2a662971effdfe9755f432d` và `74600d467fceefafe7185f44af715eefaa801079`. Cherry-pick giữ thông tin tác giả của commit nguồn. Xử lý xung đột để giữ cả khôi phục ảnh từ PR #91 và điều hướng Student của Manh.
 
 Đợt tích hợp [PR #114](https://github.com/NV-DuyManh/MathVisionKid/pull/114) giữ các commit của **Lộc (Four-L)** về phiên đăng nhập web, ảnh nháp và tiến độ bài học Student, với head nguồn `809cbbc413766f6a47f626d1a486e9d4dfdd9dd9`. **NV-DuyManh** đồng bộ với develop và bổ sung sửa lỗi catalog cùng kiểm tra lưu ảnh nháp.
+
+Trong [PR #119](https://github.com/NV-DuyManh/MathVisionKid/pull/119), **Kha (deptraivodich)** sửa nhận xét phép đổi đơn vị ở commit nguồn `28acb97b0a1a7638600c9b03e990e8f68ebd6c9d`. **NV-DuyManh** bổ sung bản sửa giữ nghĩa của ký hiệu toán và kiểm thử hồi quy trước khi tích hợp.
+
+Trong [PR #120](https://github.com/NV-DuyManh/MathVisionKid/pull/120), **Lộc (Four-L)** triển khai xác nhận qua email để đặt và khôi phục mã PIN, cùng các thay đổi quản lý phiên liên quan, ở commit nguồn `1d8096e4fd297f5a15bc9a6b7293adb2c68c255e`. **NV-DuyManh** đồng bộ nhánh với develop và kiểm tra tích hợp trước khi merge.

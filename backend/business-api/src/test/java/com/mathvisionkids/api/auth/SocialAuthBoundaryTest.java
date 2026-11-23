@@ -16,11 +16,10 @@ class SocialAuthBoundaryTest {
     StudentRepository students=mock(StudentRepository.class);
     TeacherRepository teachers=mock(TeacherRepository.class);
     PasswordEncoder encoder=mock(PasswordEncoder.class);
-    JwtUtil jwt=mock(JwtUtil.class);
     RefreshTokenService refresh=mock(RefreshTokenService.class);
     GoogleIdTokenVerifier verifier=mock(GoogleIdTokenVerifier.class);
     com.mathvisionkids.api.studentprofile.StudentProfileService profiles=mock(com.mathvisionkids.api.studentprofile.StudentProfileService.class);
-    GoogleAuthService google=new GoogleAuthService(users,students,teachers,encoder,jwt,refresh,profiles,true,"configured-test-audience");
+    GoogleAuthService google=new GoogleAuthService(users,students,teachers,encoder,refresh,profiles,true,"configured-test-audience");
     GoogleLoginRequest googleRequest() {
         var request=new GoogleLoginRequest();request.setCredential("test-credential");request.setRole("TEACHER");return request;
     }
@@ -33,11 +32,11 @@ class SocialAuthBoundaryTest {
     @Test void unverifiedAndNonAuthoritativeEmailsCannotAutoLinkExistingAccounts() throws Exception {
         googlePayload("known@gmail.com",false);assertThrows(ApiException.class,()->google.login(googleRequest()));
         googlePayload("known@third-party.example",true);assertThrows(ApiException.class,()->google.login(googleRequest()));
-        verifyNoInteractions(users,jwt,refresh);
+        verifyNoInteractions(users,refresh);
     }
     @Test void invalidTokenCannotCreateASession() throws Exception {
         ReflectionTestUtils.setField(google,"verifier",verifier);
-        assertThrows(ApiException.class,()->google.login(googleRequest()));verifyNoInteractions(users,jwt,refresh);
+        assertThrows(ApiException.class,()->google.login(googleRequest()));verifyNoInteractions(users,refresh);
     }
     @Test void firstGoogleStudentSignupInitializesAvatarOnceAndLaterLoginsPreserveIt() throws Exception {
         googlePayload("newpupil@gmail.com",true);
@@ -57,7 +56,7 @@ class SocialAuthBoundaryTest {
 
     @Test void firstFacebookStudentSignupInitializesAvatarOnce() throws Exception {
         var firebase=mock(FirebaseAuth.class); var token=mock(FirebaseToken.class);
-        var service=new FacebookAuthService(users,students,teachers,encoder,jwt,refresh,profiles,true,"test-project");
+        var service=new FacebookAuthService(users,students,teachers,encoder,refresh,profiles,true,"test-project");
         ReflectionTestUtils.setField(service,"firebaseAuth",firebase);
         var request=new FacebookLoginRequest(); request.setCredential("test-credential"); request.setRole("STUDENT"); request.setGradeLevel(3);
         when(firebase.verifyIdToken("test-credential",true)).thenReturn(token);
@@ -74,17 +73,17 @@ class SocialAuthBoundaryTest {
         googlePayload("known@gmail.com",true);
         var pupil=new Student();pupil.setId(UUID.randomUUID());pupil.setEmail("known@gmail.com");pupil.setRole("STUDENT");pupil.setActive(true);
         when(users.findByGoogleSubject("verified-subject")).thenReturn(Optional.of(pupil));
-        google.login(googleRequest());verify(jwt).generateToken("known@gmail.com","STUDENT");
+        google.login(googleRequest());verify(refresh).createSession(pupil.getId());
     }
     @Test void disabledAccountCannotReceiveTokens() throws Exception {
         googlePayload("known@gmail.com",true);
         var pupil=new Student();pupil.setEmail("known@gmail.com");pupil.setRole("STUDENT");pupil.setActive(false);
         when(users.findByGoogleSubject("verified-subject")).thenReturn(Optional.of(pupil));
-        assertThrows(ApiException.class,()->google.login(googleRequest()));verifyNoInteractions(jwt,refresh);
+        assertThrows(ApiException.class,()->google.login(googleRequest()));verifyNoInteractions(refresh);
     }
     @Test void facebookRejectsOtherProvidersAndUnverifiedNewEmailsWithoutLinkingByEmail() throws Exception {
         var firebase=mock(FirebaseAuth.class);var token=mock(FirebaseToken.class);
-        var service=new FacebookAuthService(users,students,teachers,encoder,jwt,refresh,profiles,true,"test-project");
+        var service=new FacebookAuthService(users,students,teachers,encoder,refresh,profiles,true,"test-project");
         ReflectionTestUtils.setField(service,"firebaseAuth",firebase);
         var request=new FacebookLoginRequest();request.setCredential("test-credential");request.setRole("STUDENT");request.setGradeLevel(3);
         when(firebase.verifyIdToken("test-credential",true)).thenReturn(token);
@@ -93,7 +92,7 @@ class SocialAuthBoundaryTest {
         when(token.getClaims()).thenReturn(Map.of("firebase",Map.of("sign_in_provider","facebook.com")));
         when(token.getUid()).thenReturn("facebook-subject");when(token.getEmail()).thenReturn("known@example.test");
         assertThrows(ApiException.class,()->service.login(request));
-        verify(users,never()).findByEmail(anyString());verifyNoInteractions(jwt,refresh);
+        verify(users,never()).findByEmail(anyString());verifyNoInteractions(refresh);
         when(token.isEmailVerified()).thenReturn(true);when(users.findByEmail("known@example.test")).thenReturn(Optional.of(new User()));
         assertThrows(ApiException.class,()->service.login(request));verify(users,never()).save(any());
     }
