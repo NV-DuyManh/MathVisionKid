@@ -172,11 +172,13 @@ export function ParentOverview({
   dailyMinutes,
   limitUncertain,
   onEditLimit,
+  onChooseLesson,
 }: {
   owner: string;
   dailyMinutes: number | null;
   limitUncertain: boolean;
   onEditLimit: () => void;
+  onChooseLesson?: () => void;
 }) {
   const profile = useStudentProfile(owner);
   const usage = useUsageWeek();
@@ -245,7 +247,10 @@ export function ParentOverview({
             </View>
             <View style={styles.guideCopy}>
               <Text style={styles.guideTitle}>Gợi ý đồng hành</Text>
-              <Text style={styles.body}>“Con muốn kể bố mẹ nghe bài toán nào?”</Text>
+              <Text style={styles.body}>{onChooseLesson
+                ? 'Chọn bài theo lớp của con, cùng đọc đề rồi để con tự trả lời từng bước.'
+                : '“Con muốn kể bố mẹ nghe bài toán nào?”'}</Text>
+              {onChooseLesson ? <AppButton title="Chọn bài cùng con" variant="secondary" onPress={onChooseLesson} /> : null}
             </View>
           </View>
         </View>
