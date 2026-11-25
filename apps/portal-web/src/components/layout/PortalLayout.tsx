@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { isAxiosError } from 'axios';
 import {
   AppBar,
   Toolbar,
@@ -14,6 +15,7 @@ import {
 } from '@mui/material';
 import { Outlet, Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SchoolIcon from '@mui/icons-material/School';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import { RoleBadge } from '../common/RoleBadge';
 import { authService, type UserProfile } from '../../services/authService';
@@ -32,14 +34,23 @@ export const PortalLayout: React.FC = () => {
     const updateSession = () => {
       const request = ++version;
       setUser(null);
-      if (tokenStore.hasTokens()) {
+      const session = tokenStore.getSessionId();
+      if (session) {
         authService
           .getMe()
           .then((profile) => {
-            if (active && request === version && tokenStore.hasTokens()) setUser(profile);
+            if (active && request === version && session === tokenStore.getSessionId()) setUser(profile);
           })
-          .catch(() => {
-            if (active && request === version) tokenStore.clearTokens();
+          .catch((error) => {
+            if (
+              active &&
+              request === version &&
+              session === tokenStore.getSessionId() &&
+              isAxiosError(error) &&
+              error.response?.status === 401
+            ) {
+              tokenStore.clearTokens();
+            }
           });
       }
     };
@@ -57,82 +68,81 @@ export const PortalLayout: React.FC = () => {
 
   const isStudent = user && (user.role || '').toUpperCase().replace('ROLE_', '') === 'STUDENT';
   const isTeacher = user && (user.role || '').toUpperCase().replace('ROLE_', '') === 'TEACHER';
+  const isAdmin = user && (user.role || '').toUpperCase().replace('ROLE_', '') === 'ADMIN';
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: '#FFFFFF' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
       <a href="#main-content" className="skip-link">
         Đến nội dung chính
       </a>
 
-      {/* Top Banner / Announcement — Kid Safety & Pedagogical Standard (Only for non-landing pages) */}
-      {!isLandingPage && (
-        <Box
-          sx={{
-            display: { xs: 'none', md: 'block' },
-            bgcolor: '#0F172A',
-            color: '#F8FAFC',
-            py: 0.85,
-            px: 2,
-            fontSize: '0.8125rem',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-            position: 'relative',
-            zIndex: 1101,
-          }}
-        >
-          <Container maxWidth="xl" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
-            <Chip
-              size="small"
-              icon={
-                <Box
-                  component="span"
-                  aria-hidden="true"
-                  sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', ml: 0.5, color: '#FBBF24' }}
-                >
-                  ★
-                </Box>
-              }
-              label="TIÊU CHUẨN SƯ PHẠM TIỂU HỌC"
-              sx={{
-                height: 22,
-                bgcolor: 'rgba(255, 255, 255, 0.09)',
-                color: '#F1F5F9',
-                fontWeight: 800,
-                fontSize: '0.68rem',
-                letterSpacing: '0.04em',
-                border: '1px solid rgba(255, 255, 255, 0.14)',
-                borderRadius: 1,
-                '& .MuiChip-icon': { ml: 0.8 },
-                '& .MuiChip-label': { px: 0.8 },
-              }}
-            />
-            <Typography
-              variant="caption"
-              sx={{
-                color: '#E2E8F0',
-                fontWeight: 600,
-                fontSize: '0.8125rem',
-                display: { xs: 'none', sm: 'inline' },
-              }}
-            >
-              Bảo vệ quyền riêng tư học sinh & ứng dụng AI gợi mở tư duy cho giáo dục tiểu học Việt Nam
-            </Typography>
-          </Container>
-        </Box>
-      )}
+      {/* Top Banner / Announcement — Kid Safety & Pedagogical Standard (hidden to match video 100%) */}
+      <Box
+        sx={{
+          display: 'none',
+          bgcolor: '#0F172A',
+          color: '#F8FAFC',
+          py: 0.85,
+          px: 2,
+          fontSize: '0.8125rem',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          position: 'relative',
+          zIndex: 1101,
+        }}
+      >
+        <Container maxWidth="xl" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1.5 }}>
+          <Chip
+            size="small"
+            icon={
+              <Box
+                component="span"
+                aria-hidden="true"
+                sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', ml: 0.5, color: '#FBBF24' }}
+              >
+                ★
+              </Box>
+            }
+            label="TIÊU CHUẨN SƯ PHẠM TIỂU HỌC"
+            sx={{
+              height: 22,
+              bgcolor: 'rgba(255, 255, 255, 0.09)',
+              color: '#F1F5F9',
+              fontWeight: 800,
+              fontSize: '0.68rem',
+              letterSpacing: '0.04em',
+              border: '1px solid rgba(255, 255, 255, 0.14)',
+              borderRadius: 1,
+              '& .MuiChip-icon': { ml: 0.8 },
+              '& .MuiChip-label': { px: 0.8 },
+            }}
+          />
+          <Typography
+            variant="caption"
+            sx={{
+              color: '#E2E8F0',
+              fontWeight: 600,
+              fontSize: '0.8125rem',
+              display: { xs: 'none', sm: 'inline' },
+            }}
+          >
+            Bảo vệ quyền riêng tư học sinh & ứng dụng AI gợi mở tư duy cho giáo dục tiểu học Việt Nam
+          </Typography>
+        </Container>
+      </Box>
 
       {/* Main Navbar */}
       <AppBar
         position="sticky"
         elevation={0}
         sx={{
-          bgcolor: '#FFFFFF',
+          bgcolor: 'background.paper',
           borderBottom: '1px solid',
-          borderColor: '#D5C7F8',
+          borderColor: 'divider',
           zIndex: 1100,
         }}
       >
-        <Container maxWidth={isLandingPage ? 'lg' : 'xl'} sx={{ px: { xs: 2.5, sm: 4, md: 5 } }}>
-          <Toolbar disableGutters sx={{ justifyContent: 'space-between', height: { xs: 68, sm: 78 }, gap: 1 }}>
+        <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
+          <Toolbar disableGutters sx={{ justifyContent: 'space-between', height: { xs: 64, sm: 74 }, gap: 1 }}>
             {/* Brand Logo & Name */}
             <Box
               component={RouterLink}
@@ -140,118 +150,129 @@ export const PortalLayout: React.FC = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 1.5,
+                gap: { xs: 0.75, sm: 1.5 },
                 minWidth: 0,
                 textDecoration: 'none',
-                transition: 'transform 160ms ease',
+                transition: 'transform 160ms ease, opacity 160ms ease',
                 '&:hover': { transform: 'scale(1.02)' },
+                '&:active': { transform: 'scale(0.98)' },
+                '@media (prefers-reduced-motion: reduce)': { transition: 'none', '&:hover, &:active': { transform: 'none' } },
               }}
             >
               <Box
                 component="img"
-                src="/ui/planet-logo.png"
-                alt="MathVisionKid"
+                src="/ui/robot-mascot.webp"
+                alt="Robot MathVisionKid"
                 sx={{
-                  width: { xs: 38, sm: 46 },
-                  height: { xs: 29, sm: 35 },
+                  width: { xs: 32, sm: 42 },
+                  height: { xs: 32, sm: 42 },
                   objectFit: 'contain',
                 }}
               />
               <Box>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontFamily: 'Nunito, sans-serif',
-                    color: '#190568',
-                    fontWeight: 900,
-                    lineHeight: 1.15,
-                    fontSize: { xs: '1.35rem', sm: '1.6rem' },
-                    letterSpacing: '-0.02em',
-                  }}
-                >
-                  MathVisionKid
-                </Typography>
-                {!isLandingPage && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Typography
-                    variant="caption"
-                    sx={{ color: '#64748B', display: { xs: 'none', sm: 'block' }, fontWeight: 700, fontSize: '0.75rem' }}
+                    variant="h6"
+                    sx={{
+                      color: '#0F172A',
+                      fontWeight: 900,
+                      lineHeight: 1.15,
+                      fontSize: { xs: '1.15rem', sm: '1.45rem' },
+                      letterSpacing: '-0.025em',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 0.5,
+                    }}
                   >
-                    Trợ lý số học viết tay & gia sư thông minh
+                    <Box component="span" sx={{ color: '#2563EB', fontWeight: 900, fontStyle: 'italic' }}>∑</Box> MathVisionKids
                   </Typography>
-                )}
+                  <Chip
+                    label="Tiểu học"
+                    size="small"
+                    sx={{
+                      display: { xs: 'none', sm: 'inline-flex' },
+                      height: 24,
+                      fontSize: '0.78rem',
+                      fontWeight: 800,
+                      bgcolor: '#EFF6FF',
+                      color: '#2563EB',
+                      borderRadius: 1.5,
+                      border: '1px solid #BFDBFE',
+                    }}
+                  />
+                </Box>
+                <Typography
+                  variant="caption"
+                  sx={{ color: '#64748B', display: { xs: 'none', sm: 'block' }, fontWeight: 700, fontSize: '0.82rem', letterSpacing: '-0.01em' }}
+                >
+                  Trợ lý số học viết tay & gia sư thông minh
+                </Typography>
               </Box>
             </Box>
 
-            {/* In-page navigation (matching Figma 2:3 & User Mockup) */}
+            {/* In-page navigation (only visible on landing page on desktop) */}
             {isLandingPage && (
               <Box
                 sx={{
-                  display: { xs: 'none', md: 'flex' },
+                  display: { xs: 'none', md: user ? 'none' : 'flex', lg: 'flex' },
                   alignItems: 'center',
-                  gap: { md: 5, lg: 6.5 },
+                  gap: 0.75,
                 }}
               >
-                <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <Box
-                    component="a"
-                    href="#"
-                    sx={{
-                      color: '#190568',
-                      fontWeight: 800,
-                      fontSize: '1.18rem',
-                      textDecoration: 'none',
-                      pb: 0.6,
-                    }}
-                  >
-                    Trang chủ
-                  </Box>
-                  <Box sx={{ width: 76, height: 4, bgcolor: '#E6D5FF', borderRadius: '4px' }} />
-                </Box>
-                <Box
+                <Button
                   component="a"
-                  href="#lo-trinh"
+                  href="#phuong-phap"
+                  size="small"
                   sx={{
-                    color: '#190568',
-                    fontWeight: 800,
-                    fontSize: '1.18rem',
-                    textDecoration: 'none',
-                    py: 1,
-                    transition: 'color 160ms ease',
-                    '&:hover': { color: '#6500EF' },
+                    color: '#475569',
+                    fontWeight: 700,
+                    fontSize: '0.98rem',
+                    borderRadius: 2,
+                    px: 2,
+                    minHeight: 40,
+                    whiteSpace: 'nowrap',
+                    transition: 'color 160ms ease, background-color 160ms ease',
+                    '&:hover': { color: '#2563EB', bgcolor: 'rgba(37, 99, 235, 0.06)' },
                   }}
                 >
-                  Lộ trình
-                </Box>
-                <Box
+                  Phương pháp
+                </Button>
+                <Button
                   component="a"
-                  href="#tinh-nang"
+                  href="#khac-gi"
+                  size="small"
                   sx={{
-                    color: '#190568',
-                    fontWeight: 800,
-                    fontSize: '1.18rem',
-                    textDecoration: 'none',
-                    py: 1,
-                    transition: 'color 160ms ease',
-                    '&:hover': { color: '#6500EF' },
+                    color: '#475569',
+                    fontWeight: 700,
+                    fontSize: '0.98rem',
+                    borderRadius: 2,
+                    px: 2,
+                    minHeight: 40,
+                    whiteSpace: 'nowrap',
+                    transition: 'color 160ms ease, background-color 160ms ease',
+                    '&:hover': { color: '#2563EB', bgcolor: 'rgba(37, 99, 235, 0.06)' },
                   }}
                 >
-                  Tính năng
-                </Box>
-                <Box
+                  Khác gì giải hộ?
+                </Button>
+                <Button
                   component="a"
-                  href="#giai-dap"
+                  href="#an-toan"
+                  size="small"
                   sx={{
-                    color: '#190568',
-                    fontWeight: 800,
-                    fontSize: '1.18rem',
-                    textDecoration: 'none',
-                    py: 1,
-                    transition: 'color 160ms ease',
-                    '&:hover': { color: '#6500EF' },
+                    color: '#475569',
+                    fontWeight: 700,
+                    fontSize: '0.98rem',
+                    borderRadius: 2,
+                    px: 2,
+                    minHeight: 40,
+                    whiteSpace: 'nowrap',
+                    transition: 'color 160ms ease, background-color 160ms ease',
+                    '&:hover': { color: '#2563EB', bgcolor: 'rgba(37, 99, 235, 0.06)' },
                   }}
                 >
-                  Giải đáp
-                </Box>
+                  An toàn cho bé
+                </Button>
               </Box>
             )}
 
@@ -270,29 +291,61 @@ export const PortalLayout: React.FC = () => {
                 </Button>
               )}
 
-              {/* User profile or Vào lớp học CTA */}
+              {/* User profile or Login CTA */}
               {user ? (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                  <Button
-                    component={RouterLink}
-                    to={isStudent ? '/student' : isTeacher ? '/teacher-entry' : '/admin-entry'}
-                    variant="contained"
-                    sx={{
-                      bgcolor: '#F5EFFF',
-                      '&:hover': { bgcolor: '#E1D2FF' },
-                      color: '#190568',
-                      border: '1.5px solid #E1D2FF',
-                      fontWeight: 800,
-                      px: { xs: 2.5, sm: 3.5 },
-                      minHeight: 44,
-                      borderRadius: '25px',
-                      textTransform: 'none',
-                      whiteSpace: 'nowrap',
-                      fontSize: '1.05rem',
-                    }}
-                  >
-                    Vào lớp học →
-                  </Button>
+                  {isStudent && (
+                    <Button
+                      component={RouterLink}
+                      to="/student"
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      startIcon={<SchoolIcon />}
+                      sx={{
+                        display: { xs: 'none', sm: 'inline-flex' },
+                        whiteSpace: 'nowrap',
+                        fontWeight: 800,
+                        borderRadius: 2.5,
+                      }}
+                    >
+                      Bài học của tôi
+                    </Button>
+                  )}
+                  {isTeacher && (
+                    <Button
+                      component={RouterLink}
+                      to="/teacher-entry"
+                      variant="outlined"
+                      size="small"
+                      startIcon={
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                        </svg>
+                      }
+                      sx={{ display: { xs: 'none', sm: 'inline-flex' }, whiteSpace: 'nowrap', fontWeight: 800 }}
+                    >
+                      Vào lớp giảng dạy
+                    </Button>
+                  )}
+                  {isAdmin && (
+                    <Button
+                      component={RouterLink}
+                      to="/admin-entry"
+                      variant="outlined"
+                      size="small"
+                      startIcon={
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="3" />
+                          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                      }
+                      sx={{ display: { xs: 'none', sm: 'inline-flex' }, whiteSpace: 'nowrap', fontWeight: 800 }}
+                    >
+                      Bảng quản trị
+                    </Button>
+                  )}
                   <Box
                     sx={{
                       display: 'flex',
@@ -308,7 +361,7 @@ export const PortalLayout: React.FC = () => {
                   >
                     <Avatar
                       sx={{
-                        bgcolor: '#6D28D9',
+                        bgcolor: '#2563EB',
                         width: 32,
                         height: 32,
                         fontSize: '0.85rem',
@@ -334,48 +387,22 @@ export const PortalLayout: React.FC = () => {
                   </Box>
                 </Box>
               ) : (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Button
-                    component={RouterLink}
-                    to="/login"
-                    sx={{
-                      color: '#190568',
-                      fontWeight: 800,
-                      fontSize: '1.02rem',
-                      textTransform: 'none',
-                      px: { xs: 1.5, sm: 2 },
-                      py: 0.8,
-                      borderRadius: '20px',
-                      whiteSpace: 'nowrap',
-                      '&:hover': { bgcolor: 'rgba(25, 5, 104, 0.05)' },
-                    }}
-                  >
-                    Đăng nhập
-                  </Button>
-                  <Button
-                    component={RouterLink}
-                    to="/login"
-                    aria-label="Vào lớp học"
-                    sx={{
-                      bgcolor: '#F5EEFD',
-                      '&:hover': { bgcolor: '#E1D2FF' },
-                      color: '#190568',
-                      border: '1.5px solid #E1D2FF',
-                      fontWeight: 800,
-                      px: { xs: 2.2, sm: 3 },
-                      py: 1,
-                      minHeight: 46,
-                      borderRadius: '25px',
-                      textTransform: 'none',
-                      fontSize: { xs: '0.98rem', sm: '1.05rem' },
-                      whiteSpace: 'nowrap',
-                      transition: 'background-color 160ms ease, transform 160ms ease',
-                      '&:active': { transform: 'scale(0.98)' },
-                    }}
-                  >
-                    Vào lớp học →
-                  </Button>
-                </Box>
+                <Button
+                  component={RouterLink}
+                  to="/login"
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    fontWeight: 800,
+                    fontSize: '0.98rem',
+                    px: { xs: 1.75, sm: 3 },
+                    minHeight: 44,
+                    borderRadius: 2.5,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  Đăng nhập
+                </Button>
               )}
             </Box>
           </Toolbar>
@@ -383,33 +410,131 @@ export const PortalLayout: React.FC = () => {
       </AppBar>
 
       {/* Main Content Area */}
-      <Box component="main" id="main-content" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <Box component="main" id="main-content" tabIndex={-1} sx={{ flexGrow: 1, scrollMarginTop: 76 }}>
         <Outlet />
       </Box>
 
-      {/* Default Footer for non-landing pages */}
+      {/* Authentic Professional Educational Footer (only for inner portal pages) */}
       {!isLandingPage && (
         <Box
           component="footer"
-          sx={{
-            py: 4,
-            px: 2,
-            mt: 'auto',
-            bgcolor: 'background.paper',
-            borderTop: '1px solid',
-            borderColor: 'divider',
-          }}
-        >
-          <Container maxWidth="xl">
-            <Typography variant="body2" color="text.secondary" align="center">
-              © {new Date().getFullYear()} MathVisionKid — Nền tảng học toán tương tác cho học sinh tiểu học Việt Nam
+        sx={{
+          pt: 7,
+          pb: 5,
+          px: 2,
+          mt: 'auto',
+          bgcolor: '#FFFFFF',
+          borderTop: '1px solid #E2E8F0',
+        }}
+      >
+        <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '2fr 1fr 1fr' },
+              gap: { xs: 4, md: 5 },
+              mb: 5,
+            }}
+          >
+            {/* Col 1: Brand & Sứ mệnh */}
+            <Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.2, mb: 1.5 }}>
+                <Box
+                  component="img"
+                  src="/ui/robot-mascot.webp"
+                  alt="Robot MathVisionKid"
+                  sx={{ width: 36, height: 36 }}
+                />
+                <Typography variant="h6" sx={{ fontWeight: 900, color: '#0F172A', fontSize: '1.25rem', letterSpacing: '-0.02em' }}>
+                  MathVision<span style={{ color: '#2563EB' }}>Kids</span>
+                </Typography>
+              </Box>
+              <Typography variant="body2" sx={{ color: '#475569', lineHeight: 1.65, mb: 2.5, pr: { md: 4 } }}>
+                Nền tảng học toán số học và gợi mở tư duy trên trang vở ô ly, thiết kế chuyên biệt cho học sinh tiểu học Việt Nam từ Lớp 1 đến Lớp 5, đồng hành cùng thầy cô và phụ huynh.
+              </Typography>
+              <Chip
+                icon={<span aria-hidden="true" style={{ fontSize: '14px' }}>🛡️</span>}
+                label="Bảo vệ quyền riêng tư học sinh theo chuẩn giáo dục"
+                variant="outlined"
+                sx={{
+                  bgcolor: '#F8FAFC',
+                  borderColor: '#E2E8F0',
+                  fontWeight: 700,
+                  fontSize: '0.78rem',
+                  color: '#334155',
+                  borderRadius: 1.5,
+                }}
+              />
+            </Box>
+
+            {/* Năng lực sư phạm */}
+            <Box>
+              <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#0F172A', mb: 2, letterSpacing: '0.04em' }}>
+                NĂNG LỰC SƯ PHẠM
+              </Typography>
+              <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'grid', gap: 1.25 }}>
+                <li>
+                  <Typography variant="body2" sx={{ color: '#475569', fontWeight: 600 }}>
+                    Nhận diện chữ số & phép tính ô ly
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body2" sx={{ color: '#475569', fontWeight: 600 }}>
+                    Bảo vệ vùng thông tin cá nhân của bé
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body2" sx={{ color: '#475569', fontWeight: 600 }}>
+                    Gợi mở từng bước tính · Không làm hộ
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body2" sx={{ color: '#475569', fontWeight: 600 }}>
+                    Chấm bài theo đợt tự động cho giáo viên
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body2" sx={{ color: '#475569', fontWeight: 600 }}>
+                    Hàng đợi rà soát sư phạm minh bạch
+                  </Typography>
+                </li>
+              </Box>
+            </Box>
+
+            {/* Cam kết đạo đức AI */}
+            <Box>
+              <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#0F172A', mb: 2, letterSpacing: '0.04em' }}>
+                CAM KẾT GIÁO DỤC
+              </Typography>
+              <Typography variant="body2" sx={{ color: '#475569', lineHeight: 1.6, mb: 1.5 }}>
+                MathVision Kids kiên định nguyên tắc: AI là người bạn đồng hành gợi mở, không giải hộ để bé tự tư duy. Mọi thẩm định sư phạm chính thức luôn thuộc về thầy cô giáo.
+              </Typography>
+              <Typography variant="caption" sx={{ color: '#94A3B8', display: 'block', fontWeight: 600 }}>
+                Hỗ trợ trọn vẹn chương trình Toán Lớp 1 đến Lớp 5.
+              </Typography>
+            </Box>
+          </Box>
+
+          <Divider sx={{ borderColor: '#E2E8F0', mb: 3 }} />
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 2,
+            }}
+          >
+            <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 600 }}>
+              © 2026 MathVision Kids. Tất cả các quyền được bảo lưu.
             </Typography>
-            <Divider sx={{ my: 1.5, opacity: 0.6 }} />
-            <Typography variant="caption" color="text.secondary" align="center" sx={{ display: 'block' }}>
-              Chuẩn chương trình Giáo dục Phổ thông 2018 • Cam kết bảo mật & quyền riêng tư học sinh
+            <Typography variant="caption" sx={{ color: '#94A3B8' }}>
+              Nền tảng AI trợ lý toán học tiểu học Việt Nam
             </Typography>
-          </Container>
-        </Box>
+          </Box>
+        </Container>
+      </Box>
       )}
     </Box>
   );
