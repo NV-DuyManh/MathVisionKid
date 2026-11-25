@@ -32,7 +32,7 @@ test('Portal socratic method and philosophy sections are keyboard accessible and
   await expect(socraticSection).toBeVisible();
 
   // Test CTA button activates and navigates to login
-  const ctaLogin = page.getByRole('button', { name: 'Tiếp tục với Google' });
+  const ctaLogin = page.getByRole('link', { name: 'Tiếp tục với Google' });
   await expect(ctaLogin).toBeVisible();
   await ctaLogin.focus();
   await page.keyboard.press('Enter');
