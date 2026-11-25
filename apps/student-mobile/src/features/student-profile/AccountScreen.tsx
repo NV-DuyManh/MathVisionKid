@@ -80,7 +80,7 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
   const { width } = useWindowDimensions();
   const compact = width < 480;
   const [edit, setEdit] = useState<ProfileEdit>({ displayName: profile.displayName, avatar: profile.avatar,
-    leaderboardVisible: profile.leaderboardVisible, leaderboardNameHidden: profile.leaderboardNameHidden ?? true, selectedTitle: profile.selectedTitle });
+    leaderboardVisible: profile.leaderboardVisible, leaderboardNameHidden: profile.leaderboardNameHidden ?? true, selectedTitle: null });
   const [editingName, setEditingName] = useState(false);
   const [avatarHovered, setAvatarHovered] = useState(false), [avatarFocused, setAvatarFocused] = useState(false);
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState('');
@@ -96,7 +96,7 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
     });
     return () => cancelAnimationFrame(frame);
   }, [openPrivacy]);
-  const dirty = edit.displayName !== profile.displayName || edit.avatar !== profile.avatar || edit.selectedTitle !== profile.selectedTitle
+  const dirty = edit.displayName !== profile.displayName || edit.avatar !== profile.avatar
     || edit.leaderboardVisible !== profile.leaderboardVisible || edit.leaderboardNameHidden !== (profile.leaderboardNameHidden ?? true);
   const save = async () => {
     const signal = lifetime.current.signal;
@@ -159,12 +159,6 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
         </Pressable>
       </View>
     </View>
-    {profile.titles.some(title => title.unlocked) && <>
-      <Text style={s.label}>Danh hiệu yêu thích</Text>
-      <View style={s.avatars}>{[{ id: null, name: 'Chưa chọn' }, ...profile.titles.filter(title => title.unlocked)].map(title => <Pressable key={title.id ?? 'none'}
-        accessibilityRole="button" accessibilityState={{ selected: edit.selectedTitle === title.id, disabled: busy }} disabled={busy}
-        onPress={() => setEdit(value => ({ ...value, selectedTitle: title.id }))} style={[s.titleChoice, edit.selectedTitle === title.id && s.chosen, IS_STUDENT_WEB && edit.selectedTitle === title.id && s.webChosen]}><Text style={s.body}>{title.name}</Text></Pressable>)}</View>
-    </>}
     <View style={s.divider} />
     <View style={s.privacy}>
       <Ionicons accessible={false} aria-hidden name="shield-checkmark-outline" size={22} color={COLORS.primaryDark} />
@@ -272,7 +266,7 @@ const s = StyleSheet.create({
   body: { fontFamily: FONTS.regular, fontSize: 15, lineHeight: 23, color: COLORS.textSecondary }, hint: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 20, color: COLORS.textSecondary },
   input: { minHeight: 50, paddingHorizontal: 14, paddingVertical: 12, borderRadius: 14, borderWidth: 1, borderColor: COLORS.border, backgroundColor: COLORS.background, fontFamily: FONTS.semiBold, fontSize: 16, color: COLORS.textPrimary },
   avatars: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  titleChoice: { paddingVertical: 10, paddingHorizontal: 12, borderRadius: 12, borderWidth: 2, borderColor: COLORS.border }, chosen: { borderColor: COLORS.primary, backgroundColor: COLORS.primaryLight },
+  chosen: { borderColor: COLORS.primary, backgroundColor: COLORS.primaryLight },
   divider: { height: 1, backgroundColor: COLORS.border, marginVertical: 3 }, privacy: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   link: { fontFamily: FONTS.bold, fontSize: 14, color: COLORS.primaryDark }, passwordToggle: { minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 },
   error: { fontFamily: FONTS.semiBold, fontSize: 14, lineHeight: 21, color: COLORS.errorText }, success: { fontFamily: FONTS.semiBold, fontSize: 14, lineHeight: 21, color: '#176A50' },

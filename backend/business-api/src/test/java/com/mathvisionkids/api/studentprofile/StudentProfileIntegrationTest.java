@@ -565,6 +565,26 @@ class StudentProfileIntegrationTest {
         };
     }
 
+    @Test void singleRankPreservesProgressAndIgnoresRetiredTitle() throws Exception {
+        var first = profiles.get(pupil.getEmail());
+        assertEquals("Sắt III", first.rank().name());
+        assertEquals(0, first.stars());
+        rewards.record(pupil.getId(), StudentRewards.Source.LESSON, "single-rank-first", "content");
+        var before = profiles.get(pupil.getEmail());
+        assertEquals("Sắt III", before.rank().name());
+        var after = profiles.update(pupil.getEmail(), new Edit("Sao Sáng", "moon", false, "rookie"));
+        assertNull(after.selectedTitle());
+        assertTrue(after.titles().isEmpty());
+        assertEquals(before.stars(), after.stars());
+        assertEquals(before.history(), after.history());
+        assertEquals(before.rank(), after.rank());
+        mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.achievement").doesNotExist())
+                .andExpect(jsonPath("$.rank.name").value("Sắt III"));
+        mvc.perform(get("/api/v1/student/rank-milestones").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(26));
+    }
+
     @Test void profileAndBoardUseAuthorizationAndPrivacyDefaults() throws Exception {
         rewards.record(pupil.getId(), StudentRewards.Source.LESSON, "one", "content");
         assertNull(profiles.get(pupil.getEmail()).position());
@@ -575,10 +595,10 @@ class StudentProfileIntegrationTest {
                 .andExpect(status().isNotFound());
         mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")).contentType("application/json")
                 .content("{\"displayName\":\"Học Sinh\",\"avatar\":\"moon\",\"leaderboardVisible\":true,\"selectedTitle\":\"master\"}"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isOk());
         var profile = profiles.update(pupil.getEmail(), new Edit("Sao Sáng", "moon", true, "rookie"));
         assertEquals("Sao Sáng", students.findById(pupil.getId()).orElseThrow().getDisplayName());
-        assertEquals("rookie", profile.selectedTitle());
+        assertNull(profile.selectedTitle());
         mvc.perform(get("/api/v1/student/leaderboard").with(user(other.getEmail()).roles("STUDENT")))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.entries[?(@.alias == '" + profile.publicAlias() + "')].avatar").value("moon"))
                 .andExpect(jsonPath("$.entries[*].email").doesNotExist()).andExpect(jsonPath("$.entries[*].studentId").doesNotExist());
@@ -603,15 +623,15 @@ class StudentProfileIntegrationTest {
             rewards.rememberChallengers();
         });
         assertEquals(200L, profiles.get(pupil.getEmail()).position());
-        assertEquals("Thách Đấu", profiles.get(pupil.getEmail()).rank().name());
+        assertEquals("Huyền Thoại", profiles.get(pupil.getEmail()).rank().name());
         assertEquals(201L, profiles.get(other.getEmail()).position());
-        assertEquals("Chiến Tướng", profiles.get(other.getEmail()).rank().name());
+        assertEquals("Thách Đấu", profiles.get(other.getEmail()).rank().name());
         db.update("""
                 INSERT INTO student_verified_activities VALUES (?, 'QUIZ', 'rank-up', 'rank-up', CURRENT_TIMESTAMP, CURRENT_DATE, 1)
                 """, other.getId());
         assertEquals(201L, profiles.get(pupil.getEmail()).position());
-        assertEquals("Chiến Tướng", profiles.get(pupil.getEmail()).rank().name());
-        assertEquals("Thách Đấu", profiles.get(pupil.getEmail()).highestRank());
+        assertEquals("Thách Đấu", profiles.get(pupil.getEmail()).rank().name());
+        assertEquals("Huyền Thoại", profiles.get(pupil.getEmail()).highestRank());
     }
 
     @Test void explicitVisibleNameSurvivesHttpSaveAndSubsequentProfileReads() throws Exception {

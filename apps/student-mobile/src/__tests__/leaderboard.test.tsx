@@ -14,11 +14,11 @@ jest.mock('../context/AuthContext', () => ({ AuthContext: require('react').creat
 jest.mock('../features/student-profile/profileApi', () => ({ profileApi: { get: jest.fn(), leaderboard: jest.fn() } }));
 
 it('shows registered-grade ranking, keeps public names and handles an empty name', async () => {
-  const rank = { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 };
+  const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
   jest.mocked(profileApi.get).mockResolvedValue({
     displayName: 'Bạn nhỏ', gradeLevel: 5, joinedAt: null, classrooms: [], avatar: 'star',
     leaderboardVisible: true, leaderboardNameHidden: false, publicAlias: 'Hươu Sao', selectedTitle: null, stars: 1,
-    rank, highestRank: 'Đồng III', position: 1,
+    rank, highestRank: 'Sắt III', position: 1,
     stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 }, titles: [], history: [],
   });
   jest.mocked(profileApi.leaderboard).mockResolvedValue({
@@ -46,11 +46,11 @@ it('shows registered-grade ranking, keeps public names and handles an empty name
 it('keeps web privacy state explicit and protects the self row while preference responses settle', async () => {
   const previousPlatform = Platform.OS;
   Platform.OS = 'web';
-  const rank = { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 };
+  const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
   const profile = {
     displayName: 'Tên riêng của em', gradeLevel: 5, joinedAt: null, classrooms: [], avatar: 'star',
     leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null, stars: 1,
-    rank, highestRank: 'Đồng III', position: 1,
+    rank, highestRank: 'Sắt III', position: 1,
     stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 }, titles: [], history: [],
   };
   jest.mocked(profileApi.get).mockResolvedValue(profile);
@@ -81,11 +81,11 @@ it('keeps web privacy state explicit and protects the self row while preference 
 it('retries a mismatched grade and reveals the private self row beyond the first page on web', async () => {
   const previousPlatform = Platform.OS;
   Platform.OS = 'web';
-  const rank = { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 };
+  const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
   const profile = {
     displayName: 'Tên riêng của em', gradeLevel: 5, joinedAt: null, classrooms: [], avatar: 'star',
     leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null, stars: 1,
-    rank, highestRank: 'Đồng III', position: 12,
+    rank, highestRank: 'Sắt III', position: 12,
     stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 }, titles: [], history: [],
   };
   jest.mocked(profileApi.get).mockResolvedValue(profile);

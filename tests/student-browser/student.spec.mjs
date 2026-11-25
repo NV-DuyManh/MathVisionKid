@@ -532,7 +532,7 @@ test('Student Web forwards its old login route to the shared form', async ({ pag
 
 test('student can find registered-grade ranking, choose name privacy and open all six games on a narrow screen', async ({ page, app }, testInfo) => {
   app.realStudent = true;
-  const rank = { name: 'Chiến Thần', masterStars: 102, progress: 0, goal: 0 };
+  const rank = { name: 'Thách Đấu', masterStars: 127, progress: 0, goal: 0 };
   let profile = {
     displayName: 'Bạn nhỏ yêu toán', gradeLevel: 5, joinedAt: null, classrooms: [{ id: 'class-5a', name: 'Lớp 5A' }],
     avatar: 'star', leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Sư Tử', selectedTitle: null,
@@ -557,7 +557,7 @@ test('student can find registered-grade ranking, choose name privacy and open al
   });
   app.responses.set('GET /student/rank-milestones', ({ json }) => json([
     { name: 'Đồng', stars: 0, top: null },
-    { name: 'Thách Đấu', stars: 162, top: 200 },
+    { name: 'Huyền Thoại', stars: 162, top: 200 },
   ]));
   await page.setViewportSize({ width: 320, height: 660 });
   await login(page, 'STUDENT');
@@ -571,7 +571,7 @@ test('student can find registered-grade ranking, choose name privacy and open al
   await expect(page.getByRole('heading', { name: 'Bạn nhỏ thích tính nhẩm' })).toBeVisible();
   await testInfo.attach('Profile and rank at 320 px', { body: await page.screenshot(), contentType: 'image/png' });
   await page.goto(`${sites.portal.origin}/study/achievements`);
-  await expect(page.getByText('Đạt Top 200 toàn hệ thống để lên Thách Đấu.')).toBeVisible();
+  await expect(page.getByText('Đạt Top 200 toàn hệ thống để lên Huyền Thoại.')).toBeVisible();
   await page.getByRole('button', { name: 'Xem các bậc xếp hạng' }).click();
   await expect(page.getByText('Từ 162 sao và thuộc Top 200 toàn hệ thống')).toBeVisible();
   await testInfo.attach('Rank milestones at 320 px', { body: await page.screenshot(), contentType: 'image/png' });

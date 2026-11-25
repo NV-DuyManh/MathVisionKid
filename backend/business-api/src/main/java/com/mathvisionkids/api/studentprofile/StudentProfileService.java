@@ -67,13 +67,10 @@ public class StudentProfileService {
         ensurePreferences(id);
         if (Boolean.TRUE.equals(edit.leaderboardVisible()) && student.getEmail().toLowerCase(Locale.ROOT).endsWith("@mathvision.local"))
             throw invalid("Tài khoản này không tham gia bảng xếp hạng.");
-        String title = edit.selectedTitle();
-        if (title != null && titles(stats(days(id))).stream().noneMatch(t -> t.unlocked() && t.id().equals(title)))
-            throw invalid("Em hãy chọn danh hiệu đã mở khóa.");
         db.update("""
-                UPDATE student_profile_preferences SET avatar = ?, leaderboard_visible = ?, selected_title = ?,
+                UPDATE student_profile_preferences SET avatar = ?, leaderboard_visible = ?, selected_title = NULL,
                     leaderboard_name_hidden = COALESCE(?, leaderboard_name_hidden) WHERE student_id = ?
-                """, edit.avatar(), edit.leaderboardVisible(), title, edit.leaderboardNameHidden(), id);
+                """, edit.avatar(), edit.leaderboardVisible(), edit.leaderboardNameHidden(), id);
         rewards.rememberChallengers();
         if (Boolean.TRUE.equals(edit.removePhoto())) db.update("DELETE FROM student_profile_photos WHERE student_id = ?", id);
         return profile(student);
@@ -133,28 +130,17 @@ public class StudentProfileService {
         return new Stats(lesson, quiz, game, days.size(), week, month, daily, streak);
     }
 
-    private List<Title> titles(Stats s) {
-        return List.of(
-                title("rookie", "Tân Binh Tri Thức", "Phổ biến", "Hoàn thành bài học đầu tiên", s.lessons(), 1),
-                title("luyen-khi", "Luyện Khí", "Phổ biến", "Hoàn thành 3 bài học", s.lessons(), 3),
-                title("truc-co", "Trúc Cơ", "Hiếm", "Giải đúng 5 Quiz", s.quizzes(), 5),
-                title("kim-dan", "Kim Đan", "Hiếm", "Thắng 5 lượt chơi có xác minh", s.games(), 5),
-                title("nguyen-anh", "Nguyên Anh", "Sử thi", "Học trong 14 ngày khác nhau", s.days(), 14),
-                title("scholar", "Học Bá", "Sử thi", "Hoàn thành 20 bài học", s.lessons(), 20),
-                title("master", "Đại Sư Toán Học", "Huyền thoại", "Hoàn thành 30 bài học, 30 Quiz và 30 lượt chơi", Math.min(s.lessons(), Math.min(s.quizzes(), s.games())), 30));
-    }
-
-    private Title title(String id, String name, String rarity, String description, long progress, long goal) {
-        return new Title(id, name, rarity, description, Math.min(progress, goal), goal, progress >= goal);
-    }
-
-    private Profile profile(Student student) {
-        UUID id = student.getId();
-        var prefs = db.query("""
+    private Preferences preferences(UUID id) {
+        return db.query("""
                 SELECT avatar, public_alias, leaderboard_visible, selected_title, reached_challenger, leaderboard_name_hidden
                 FROM student_profile_preferences WHERE student_id = ?
                 """, (r, n) -> new Preferences(r.getString(1), r.getString(2), r.getBoolean(3), r.getString(4), r.getBoolean(5), r.getBoolean(6)), id)
                 .stream().findFirst().orElse(new Preferences("star", "", false, null, false, true));
+    }
+
+    private Profile profile(Student student) {
+        UUID id = student.getId();
+        var prefs = preferences(id);
         var classes = db.query("""
                 SELECT c.class_id, c.name FROM classrooms c JOIN classroom_students cs ON cs.class_id = c.class_id
                 WHERE cs.student_id = ? ORDER BY c.name, c.class_id
@@ -173,8 +159,8 @@ public class StudentProfileService {
                 (r, n) -> "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(r.getBytes(1)), id)
                 .stream().findFirst().orElse(null);
         return new Profile(student.getDisplayName(), student.getGradeLevel(), student.getCreatedAt(), classes, prefs.avatar(),
-                prefs.visible(), prefs.alias(), prefs.title(), stars, rank, prefs.reachedChallenger() ? "Thách Đấu" : rank.name(),
-                position, stats, titles(stats), history, photo, student.getGoogleSubject() == null && student.getFacebookSubject() == null,
+                prefs.visible(), prefs.alias(), null, stars, rank, prefs.reachedChallenger() ? "Huyền Thoại" : rank.name(),
+                position, stats, List.of(), history, photo, student.getGoogleSubject() == null && student.getFacebookSubject() == null,
                 prefs.nameHidden());
     }
 
@@ -215,7 +201,8 @@ public class StudentProfileService {
         return """
                 SELECT g.student_id, g.public_alias, g.board_name, g.avatar, g.stars, g.position AS global_position,
                     ROW_NUMBER() OVER (ORDER BY g.position) AS position
-                FROM (%s) g JOIN students s ON s.student_id = g.student_id WHERE s.grade_level = ?
+                FROM (%s) g JOIN students s ON s.student_id = g.student_id
+                    WHERE s.grade_level = ?
                 """.formatted(StudentRewards.GLOBAL_RANKING);
     }
 

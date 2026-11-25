@@ -10,6 +10,14 @@ import static org.junit.jupiter.api.Assertions.*;
 /** Opt-in, real Flyway upgrade with existing data. Never touches the public app schema. */
 @EnabledIfEnvironmentVariable(named = "MATHVISION_POSTGRES_UPGRADE", matches = "true")
 class PostgresUpgradeTest {
+    @Test void upgradeFrom40PreservesStarsAndRetiresSelectedTitle() throws Exception {
+        verifyUpgrade("40");
+    }
+
+    @Test void upgradeFrom41RemovesAchievementPathAndPreservesStars() throws Exception {
+        verifyUpgrade("41");
+    }
+
     @Test void upgradeFrom39AddsRecoveryWithoutReplacingPinOrLimits() throws Exception {
         verifyUpgrade("39");
     }
@@ -61,6 +69,12 @@ class PostgresUpgradeTest {
                 if (Integer.parseInt(startingVersion) >= 32) {
                     sql.execute("INSERT INTO student_profile_preferences(student_id,avatar,public_alias,leaderboard_visible)"
                             + " VALUES ('"+id+"','rocket','SyntheticStar',true)");
+                    sql.execute("UPDATE student_profile_preferences SET selected_title='luyen-khi', reached_challenger=true WHERE student_id='"+id+"'");
+                    sql.execute("INSERT INTO student_verified_activities(student_id,source,event_id,content_id,completed_at,activity_day,stars)"
+                            + " VALUES ('"+id+"','LESSON','synthetic-rank-event','synthetic-rank-content',now(),CURRENT_DATE,1)");
+                    if (Integer.parseInt(startingVersion) >= 41) {
+                        sql.execute("UPDATE student_profile_preferences SET achievement_path='RANK', achievement_path_changed_at=now() WHERE student_id='"+id+"'");
+                    }
                     sql.execute("INSERT INTO student_game_runs(id,student_id,level,started_at,activity_day,seed,answered,correct,last_answer)"
                             + " VALUES ('"+game+"','"+id+"',5,now(),CURRENT_DATE,12,2,1,10)");
                 }
@@ -74,8 +88,8 @@ class PostgresUpgradeTest {
                 sql.execute("INSERT INTO student_quizzes(id,student_id,source_type,source_id,source_fingerprint,topic_code,topic_name,skill_code,grade_level,question_text,unit,answer_spec,validated_solution,status,created_at,updated_at,generation_version) VALUES ('"+quiz+"','"+id+"','LESSON','source',repeat('a',64),'ADDITION','Addition','ADD',5,'2 + 2 = ?','','4','2 + 2 = 4','READY',now(),now(),'test')");
                 var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
-                assertEquals(40 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
-                assertEquals("40", upgrade.targetSchemaVersion);
+                assertEquals(42 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
+                assertEquals("42", upgrade.targetSchemaVersion);
                 assertTrue(latest.validateWithResult().validationSuccessful);
                 if (Integer.parseInt(startingVersion) >= 38) {
                     try (var result = sql.executeQuery("SELECT pin_hash, pin_revision FROM student_parent_control WHERE student_id = '" + id + "'")) {
@@ -92,6 +106,17 @@ class PostgresUpgradeTest {
                 if (Integer.parseInt(startingVersion) >= 32) {
                     try (var rows = sql.executeQuery("SELECT leaderboard_visible,leaderboard_name_hidden FROM student_profile_preferences WHERE student_id='"+id+"'")) {
                         assertTrue(rows.next()); assertTrue(rows.getBoolean(1)); assertTrue(rows.getBoolean(2));
+                    }
+                    try (var rows = sql.executeQuery("SELECT selected_title,avatar,public_alias,reached_challenger FROM student_profile_preferences WHERE student_id='"+id+"'")) {
+                        assertTrue(rows.next()); assertNull(rows.getString(1)); assertEquals("rocket", rows.getString(2));
+                        assertEquals("SyntheticStar", rows.getString(3)); assertTrue(rows.getBoolean(4));
+                    }
+                    try (var rows = sql.executeQuery("SELECT SUM(stars) FROM student_verified_activities WHERE student_id='"+id+"'")) {
+                        assertTrue(rows.next()); assertEquals(1, rows.getLong(1));
+                    }
+                    try (var rows = sql.executeQuery("SELECT COUNT(*) FROM information_schema.columns WHERE table_schema='"+schema+"'"
+                            + " AND table_name='student_profile_preferences' AND column_name IN ('achievement_path','achievement_path_changed_at')")) {
+                        assertTrue(rows.next()); assertEquals(0, rows.getInt(1));
                     }
                     sql.execute("UPDATE student_profile_preferences SET leaderboard_name_hidden=false WHERE student_id='"+id+"'");
                 }
@@ -131,6 +156,9 @@ class PostgresUpgradeTest {
                 if (Integer.parseInt(startingVersion) >= 32) {
                     try (var rows = sql.executeQuery("SELECT leaderboard_visible,leaderboard_name_hidden FROM student_profile_preferences WHERE student_id='"+id+"'")) {
                         assertTrue(rows.next()); assertTrue(rows.getBoolean(1)); assertFalse(rows.getBoolean(2));
+                    }
+                    try (var rows = sql.executeQuery("SELECT SUM(stars) FROM student_verified_activities WHERE student_id='"+id+"'")) {
+                        assertTrue(rows.next()); assertEquals(1, rows.getLong(1));
                     }
                     try (var rows = sql.executeQuery("SELECT mode,answered,correct,last_answer,reward_status FROM student_game_runs WHERE id='"+game+"'")) {
                         assertTrue(rows.next()); assertEquals("ARITHMETIC_QUEST", rows.getString(1));
