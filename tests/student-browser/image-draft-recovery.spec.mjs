@@ -258,7 +258,8 @@ test('Only approved image bytes and URI-free metadata are stored', async ({ page
     open.onsuccess = () => {
       const db = open.result, request = db.transaction('images').objectStore('images').getAll();
       request.onsuccess = async () => {
-        const uri = URL.createObjectURL(request.result[0].privacy);
+        const { bytes, type } = request.result[0].privacy;
+        const uri = URL.createObjectURL(new Blob([bytes], { type }));
         try {
           const photo = new Image(); photo.src = uri; await photo.decode();
           const canvas = document.createElement('canvas'); canvas.width = photo.width; canvas.height = photo.height;
