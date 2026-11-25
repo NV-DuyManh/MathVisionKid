@@ -30,6 +30,20 @@ Lượt ổn định production tiếp theo ngày **13/11/2026** tích hợp cá
 
 Các thư viện, font, công cụ và phần mã bên thứ ba giữ thông báo tác giả/giấy phép riêng. Bảng này không thay đổi giấy phép hoặc tự xác lập quyền sở hữu pháp lý.
 
+Ngày **20/11/2026**, **Kha (deptraivodich)** sửa bố cục desktop của game cùng Codex.
+Nguồn camera và recipe đóng gói nằm trong `deptraivodich/Tro_choi_cho_em`, nền
+`0a1d148198448fbdd83fbc40ac3ad9d0a2a7e255`, bản sửa local
+`27a9c10608fe405a37c961ca8e7157a1e0c04043`. Package 0.1.8 giữ nguyên 216/220 file
+nguồn của bản tích hợp 0.1.2; chỉ sửa camera, trình bày màn mở đầu Đảo Khối và
+version kết quả. Lịch sử đầy đủ của phần tích hợp từng chưa commit không có trên
+remote nguồn; không gán lại tác giả cho phần đó. Xem patch và SHA-256 trong
+`vendor/training-games/` để review thay đổi thực tế.
+
+Trong [PR #113](https://github.com/NV-DuyManh/MathVisionKid/pull/113), **NV-DuyManh**
+đồng bộ `develop`, sửa vị trí nút toàn màn hình và bổ sung kiểm thử resize.
+Gói 0.1.9 tiếp nối mã camera của **Kha (deptraivodich)** tại `6576aba5`.
+Các bản sửa nguồn và script dựng gói được ghi lại ở `vendor/training-games/`.
+
 **Kha (deptraivodich)** nghiệm thu và tích hợp bản sửa khôi phục ảnh Student Web khi refresh với Codex, ngày **16/11/2026**. Commit nguồn `a02314c318cbd57bbce2b15dd0634cc62ddc220a` được chuyển bằng `cherry-pick -x` lên develop `a48397ef5d6de95a4179c91c2188d492827c0439`, giữ nguyên tác giả; bổ sung kiểm tra tác vụ khôi phục hết hiệu lực sau khi đổi phiên. PR hướng dẫn phần bài làm còn thiếu #90 được giữ riêng. Không thay ghi nhận nguồn của các đóng góp privacy, crop và Work Review trước đó.
 
 **Kha (deptraivodich)** nghiệm thu và tích hợp phần hướng dẫn bài làm chưa hoàn thành với Codex, ngày **16/11/2026**: xác định đại lượng còn thiếu, gợi ý bước tiếp theo có kiểm chứng và hợp đồng AI–Spring–Student. Nguồn là các thay đổi local trên nền `a48397ef5d6de95a4179c91c2188d492827c0439`, không có commit triển khai độc lập trước tích hợp; SHA này chỉ xác định nền nguồn. Giữ nguyên lịch sử và ghi nhận các sửa Work Review, privacy và Quiz đã có trong PR #72, #82 và #84.
@@ -37,3 +51,9 @@ Các thư viện, font, công cụ và phần mã bên thứ ba giữ thông bá
 Lượt tích hợp **14/11/2026** giữ nguyên các commit của **Nam (tranhoainam298)** từ [PR #71](https://github.com/NV-DuyManh/MathVisionKid/pull/71) (nguồn `8e91629089a38c27d9b39164067951953daac8cb`) và **Kha (deptraivodich)** từ [PR #72](https://github.com/NV-DuyManh/MathVisionKid/pull/72) (nguồn `0052fef41e09634108c03f25c4d68dcbb7cd966a`). Bản ghép bổ sung độ khó theo khối lớp, kiểm thử điều hướng và ràng buộc bảo toàn VPS theo yêu cầu owner; không đổi tác giả hoặc viết lại lịch sử nguồn.
 
 Ngày **17/11/2026**, tích hợp các bản sửa Student App và gia sư từ nhánh Manh qua hai commit nguồn `ca454ff146cafd65a2a662971effdfe9755f432d` và `74600d467fceefafe7185f44af715eefaa801079`. Cherry-pick giữ thông tin tác giả của commit nguồn. Xử lý xung đột để giữ cả khôi phục ảnh từ PR #91 và điều hướng Student của Manh.
+
+Đợt tích hợp [PR #114](https://github.com/NV-DuyManh/MathVisionKid/pull/114) giữ các commit của **Lộc (Four-L)** về phiên đăng nhập web, ảnh nháp và tiến độ bài học Student, với head nguồn `809cbbc413766f6a47f626d1a486e9d4dfdd9dd9`. **NV-DuyManh** đồng bộ với develop và bổ sung sửa lỗi catalog cùng kiểm tra lưu ảnh nháp.
+
+Trong [PR #119](https://github.com/NV-DuyManh/MathVisionKid/pull/119), **Kha (deptraivodich)** sửa nhận xét phép đổi đơn vị ở commit nguồn `28acb97b0a1a7638600c9b03e990e8f68ebd6c9d`. **NV-DuyManh** bổ sung bản sửa giữ nghĩa của ký hiệu toán và kiểm thử hồi quy trước khi tích hợp.
+
+Trong [PR #120](https://github.com/NV-DuyManh/MathVisionKid/pull/120), **Lộc (Four-L)** triển khai xác nhận qua email để đặt và khôi phục mã PIN, cùng các thay đổi quản lý phiên liên quan, ở commit nguồn `1d8096e4fd297f5a15bc9a6b7293adb2c68c255e`. **NV-DuyManh** đồng bộ nhánh với develop và kiểm tra tích hợp trước khi merge.

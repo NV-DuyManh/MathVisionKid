@@ -2,11 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, type AccessibilityState } from 'react-native';
 import { FONTS, COLORS, SIZES, IS_STUDENT_WEB } from '../../constants/theme';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useRouter, type Href } from 'expo-router';
 
 interface AppHeaderProps {
   title: string;
   showBack?: boolean;
+  backFallback?: Href;
   rightIcon?: keyof typeof Ionicons.glyphMap;
   onRightPress?: () => void;
   rightAccessibilityLabel?: string;
@@ -16,6 +17,7 @@ interface AppHeaderProps {
 export const AppHeader: React.FC<AppHeaderProps> = ({
   title,
   showBack = false,
+  backFallback = '/',
   rightIcon,
   onRightPress,
   rightAccessibilityLabel,
@@ -28,7 +30,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
       {showBack ? (
         <TouchableOpacity
           style={styles.iconButton}
-          onPress={() => router.canGoBack() ? router.back() : router.replace('/')}
+          onPress={() => router.canGoBack() ? router.back() : router.replace(backFallback)}
           accessibilityRole="button"
           accessibilityLabel="Quay lại"
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}

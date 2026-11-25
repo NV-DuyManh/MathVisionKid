@@ -17,6 +17,9 @@ export function resolveApiBaseUrl(options?: ResolveOptions | string): string {
   const explicitApiUrl = process.env.EXPO_PUBLIC_API_OVERRIDE?.trim()
     || process.env.EXPO_PUBLIC_DEV_API_BASE_URL?.trim();
   const configuredApiUrl = process.env.EXPO_PUBLIC_API_BASE_URL?.trim();
+  const port = Number(process.env.EXPO_PUBLIC_DEV_API_PORT);
+  const localLauncher = Number.isInteger(port) && port >= 1024 && port <= 65535;
+  const devPort = localLauncher ? port : 8080;
 
   const cleanUrl = (url: string) => {
     let u = url.trim();
@@ -43,8 +46,8 @@ export function resolveApiBaseUrl(options?: ResolveOptions | string): string {
   const customArgOverride = typeof options === 'string' ? options : options?.manualOverride;
   const explicitOverride = 
     (customArgOverride && customArgOverride.trim()) ||
-    explicitApiUrl ||
-    (process.env.EXPO_PUBLIC_FORCE_API_URL === 'true' ? configuredApiUrl : '') ||
+    (localLauncher ? '' : explicitApiUrl ||
+      (process.env.EXPO_PUBLIC_FORCE_API_URL === 'true' ? configuredApiUrl : '')) ||
     '';
 
   // If explicit manual override is configured by developer, it takes precedence
@@ -82,7 +85,7 @@ export function resolveApiBaseUrl(options?: ResolveOptions | string): string {
       const host = match ? match[1] : metroHostUri.split(':')[0];
       
       if (host && !isLoopback(host)) {
-        resolvedUrl = `http://${host}:8080/api/v1`;
+        resolvedUrl = `http://${host}:${devPort}/api/v1`;
         selectedSource = 'METRO_LAN';
       }
     }
@@ -90,7 +93,7 @@ export function resolveApiBaseUrl(options?: ResolveOptions | string): string {
 
   // Priority 2: General Environment Override (fallback when Metro LAN host is not detected)
   if (!resolvedUrl) {
-    const generalEnvUrl = configuredApiUrl;
+    const generalEnvUrl = localLauncher ? undefined : configuredApiUrl;
     if (generalEnvUrl) {
       if (isPhysicalDevice && isLoopback(generalEnvUrl)) {
         // Reject loopback on physical device
@@ -104,15 +107,15 @@ export function resolveApiBaseUrl(options?: ResolveOptions | string): string {
   // Priority 3: Localhost / Emulator Fallbacks (NO hardcoded LAN IPs!)
   if (!resolvedUrl) {
     if (isWeb) {
-      resolvedUrl = 'http://127.0.0.1:8080/api/v1';
+      resolvedUrl = `http://127.0.0.1:${devPort}/api/v1`;
       selectedSource = 'WEB_LOCALHOST';
     } else if (!isPhysicalDevice) {
-      resolvedUrl = isAndroid ? 'http://10.0.2.2:8080/api/v1' : 'http://127.0.0.1:8080/api/v1';
+      resolvedUrl = `http://${isAndroid ? '10.0.2.2' : '127.0.0.1'}:${devPort}/api/v1`;
       selectedSource = 'EMULATOR_LOCALHOST';
     } else {
       // Physical device safe fallback: NEVER throw unhandled exception at top-level module load.
       // Fall back safely without hardcoding any temporary LAN IP.
-      resolvedUrl = 'http://127.0.0.1:8080/api/v1';
+      resolvedUrl = `http://127.0.0.1:${devPort}/api/v1`;
       selectedSource = 'LOCALHOST_FALLBACK';
       console.warn('[API_RESOLVER] Metro host unresolved dynamically; using safe fallback:', resolvedUrl);
     }

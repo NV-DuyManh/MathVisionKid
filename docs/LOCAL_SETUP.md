@@ -155,7 +155,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start-student-metr
 
 For a physical phone, scan the current QR using an Expo Go client compatible with **Expo SDK 58**. If a server was started before the SDK upgrade, close that owned student server and restart the launcher so the QR opens the updated project. The phone and computer must share Wi-Fi. The phone uses the computer's LAN address, not localhost. See [phone troubleshooting](TROUBLESHOOTING.md#phone-cannot-open-the-app).
 
-The student API resolver normally derives the development host from the server URL. For an explicit override, use `EXPO_PUBLIC_API_OVERRIDE=http://YOUR_COMPUTER_LAN_IP:8080/api/v1` in `apps/student-mobile/.env.local`, then restart the student server. Keep the `/api/v1` prefix. `EXPO_PUBLIC_API_BASE_URL` is a fallback and does not take priority over a detected development host. Do not put private service keys in `EXPO_PUBLIC_` variables.
+The table lists the default ports. The local launcher selects available ports for Spring, FastAPI, the three web portals, and Metro. Use the URLs printed by the launcher or read `infra/local-runtime/ports.json`. Metro passes the selected Spring port to the student app, and the Expo Go QR code uses the selected Metro port. PostgreSQL, Redis, and MinIO use their Compose mappings.
+
+The student API resolver normally derives the development host from the server URL. For an explicit override, use `EXPO_PUBLIC_API_OVERRIDE=http://YOUR_COMPUTER_LAN_IP:SPRING_PORT/api/v1` in `apps/student-mobile/.env.local`, then restart the student server. Keep the `/api/v1` prefix. `EXPO_PUBLIC_API_BASE_URL` is a fallback and does not take priority over a detected development host. Do not put private service keys in `EXPO_PUBLIC_` variables.
 
 ### Development-only accounts
 

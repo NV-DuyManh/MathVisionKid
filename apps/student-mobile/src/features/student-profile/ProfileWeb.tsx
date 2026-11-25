@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../../components/ui/AppButton';
 import { FONTS } from '../../constants/theme';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
@@ -9,23 +10,37 @@ import { PersonalMetrics, PersonalPanel, personalWebStyles as web } from './Pers
 import { StudentAvatar } from './ProfileCards';
 import { useStudentProfile } from './useStudentProfile';
 import { ProfileProgress } from './ProfileProgress';
+import { ParentProfilePinDialog } from './ParentModePreview';
+import { storeParentModeHandoff } from './parentModeHandoff';
 
 export type NotebookTab = 'saved' | 'work' | 'notes';
 export type NotebookCounts = Record<NotebookTab, number>;
 
-export function ProfileIdentity({ owner, counts, wide }: { owner?: string; counts?: NotebookCounts; wide: boolean }) {
+export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
+  owner?: string; counts?: NotebookCounts; wide: boolean; canOpenParentMode: boolean;
+}) {
   const router = useRouter();
+  const [showParentPin, setShowParentPin] = useState(false);
   const { value, failed, retry } = useStudentProfile(owner);
   const selectedTitle = value?.titles.find(title => title.id === value.selectedTitle);
   return <>
-    <LinearGradient colors={['#FCFAFF', '#EDE3FD', '#D8C7F8']} start={{ x: 0, y: .3 }} end={{ x: 1, y: .8 }} style={styles.hero}>
-      <View style={styles.avatar}><StudentAvatar id={value?.avatar ?? 'star'} photo={value?.avatarPhoto} size={64} /></View>
-      <View style={styles.heroInfo}>
-        <Text accessibilityRole="header" style={styles.heroName}>{value?.displayName || 'Hồ sơ học tập'}</Text>
-        {value?.gradeLevel && <Text style={styles.heroSub}>Khối {value.gradeLevel}{selectedTitle ? ' · ' + selectedTitle.name : ''}</Text>}
-        {!value?.gradeLevel && selectedTitle && <Text style={styles.heroSub}>{selectedTitle.name}</Text>}
+    <LinearGradient colors={['#FCFAFF', '#EDE3FD', '#D8C7F8']} start={{ x: 0, y: .3 }} end={{ x: 1, y: .8 }}
+      style={[styles.hero, wide && styles.heroWide]}>
+      <View style={styles.identity}>
+        <View style={styles.avatar}><StudentAvatar id={value?.avatar ?? 'star'} photo={value?.avatarPhoto} size={wide ? 64 : 52} /></View>
+        <View style={styles.heroInfo}>
+          <Text accessibilityRole="header" style={styles.heroName}>{value?.displayName || 'Hồ sơ học tập'}</Text>
+          {value?.gradeLevel && <Text style={styles.heroSub}>Khối {value.gradeLevel}{selectedTitle ? ' · ' + selectedTitle.name : ''}</Text>}
+          {!value?.gradeLevel && selectedTitle && <Text style={styles.heroSub}>{selectedTitle.name}</Text>}
+        </View>
       </View>
-      <AppButton title="Chỉnh sửa hồ sơ" variant="secondary" onPress={() => router.push('/account')} />
+      <View style={styles.heroActions}>
+        <AppButton title="Chỉnh sửa hồ sơ" variant="secondary" style={styles.heroAction}
+          onPress={() => router.push('/account')} />
+        {canOpenParentMode && <AppButton title="Góc phụ huynh" variant="secondary" style={styles.parentAction}
+          icon={<Ionicons name="lock-closed-outline" size={18} color={STUDENT_WEB.primary} accessible={false} aria-hidden />}
+          onPress={() => setShowParentPin(true)} />}
+      </View>
     </LinearGradient>
     <PersonalMetrics metrics={[
       { label: 'Bài đã lưu', amount: counts?.saved, icon: 'bookmark-outline', tone: 'purple' },
@@ -33,6 +48,11 @@ export function ProfileIdentity({ owner, counts, wide }: { owner?: string; count
       { label: 'Danh hiệu mở khóa', amount: value?.titles.filter(title => title.unlocked).length, icon: 'medal-outline', tone: 'green' },
     ]} />
     <ProfileProgress value={value} failed={failed} retry={retry} wide={wide} />
+    {showParentPin && canOpenParentMode && owner && <ParentProfilePinDialog key={owner} owner={owner} onExit={() => setShowParentPin(false)} onOpen={settings => {
+      storeParentModeHandoff(owner, settings);
+      setShowParentPin(false);
+      router.push('/parent-mode');
+    }} />}
   </>;
 }
 
@@ -57,9 +77,14 @@ export function NotebookAside({ counts, onCapture }: { counts?: NotebookCounts; 
 }
 
 const styles = StyleSheet.create({
-  hero: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 13, padding: 14, borderRadius: 18, borderWidth: 1, borderColor: STUDENT_WEB.border },
+  hero: { gap: 14, padding: 14, borderRadius: 18, borderWidth: 1, borderColor: STUDENT_WEB.border },
+  heroWide: { flexDirection: 'row', alignItems: 'center', padding: 18, gap: 18 },
+  identity: { flexDirection: 'row', alignItems: 'center', gap: 12, flexGrow: 1, minWidth: 0 },
   avatar: { padding: 4, borderRadius: 41, backgroundColor: '#FFFFFFB0' },
-  heroInfo: { flexGrow: 1, flexBasis: 155, minWidth: 0, gap: 5 },
+  heroInfo: { flex: 1, minWidth: 0, gap: 5 },
+  heroActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  heroAction: { paddingHorizontal: 12, flexGrow: 1, backgroundColor: STUDENT_WEB.surface },
+  parentAction: { paddingHorizontal: 12, flexGrow: 1, backgroundColor: STUDENT_WEB.soft, borderColor: STUDENT_WEB.primary },
   heroName: { color: STUDENT_WEB.ink, fontFamily: FONTS.black, fontSize: 24, lineHeight: 29 },
   heroSub: { color: STUDENT_WEB.muted, fontFamily: FONTS.bold, fontSize: 14, lineHeight: 21 },
   archiveMetric: { gap: 4 },

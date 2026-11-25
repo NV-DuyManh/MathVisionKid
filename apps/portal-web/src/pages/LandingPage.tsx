@@ -440,6 +440,7 @@ export const LandingPage: React.FC = () => {
                     <Button
                       size="small"
                       variant={gradeBand === 'early' ? 'contained' : 'outlined'}
+                      aria-pressed={gradeBand === 'early'}
                       onClick={() => {
                         setGradeBand('early');
                         setActiveColumn('all');
@@ -462,6 +463,7 @@ export const LandingPage: React.FC = () => {
                     <Button
                       size="small"
                       variant={gradeBand === 'upper' ? 'contained' : 'outlined'}
+                      aria-pressed={gradeBand === 'upper'}
                       onClick={() => {
                         setGradeBand('upper');
                         setActiveColumn('all');
@@ -513,14 +515,14 @@ export const LandingPage: React.FC = () => {
                       },
                     }}
                   >
-                    <Tab label="1. Trang vở ô ly" />
-                    <Tab label="2. AI nhận diện" />
-                    <Tab label="3. Bước giải sư phạm" />
+                    <Tab id="demo-notebook-tab" aria-controls="demo-notebook-panel" label="1. Trang vở ô ly" />
+                    <Tab id="demo-recognition-tab" aria-controls="demo-recognition-panel" label="2. AI nhận diện" />
+                    <Tab id="demo-guidance-tab" aria-controls="demo-guidance-panel" label="3. Bước giải sư phạm" />
                   </Tabs>
                 </Box>
 
                 {/* Tab 0: Authentic Vietnamese Grid Paper with Interactive Column Inspection */}
-                {demoTab === 0 && (
+                <Box role="tabpanel" id="demo-notebook-panel" aria-labelledby="demo-notebook-tab" hidden={demoTab !== 0} tabIndex={0}>{demoTab === 0 && (
                   <Box sx={{ p: { xs: 2.5, sm: 3.5 }, bgcolor: '#FFFFFF' }}>
                     {/* Privacy Mask Notice */}
                     <Box
@@ -665,10 +667,10 @@ export const LandingPage: React.FC = () => {
                       />
                     </Box>
                   </Box>
-                )}
+                )}</Box>
 
                 {/* Tab 1: AI Recognized Elements */}
-                {demoTab === 1 && (
+                <Box role="tabpanel" id="demo-recognition-panel" aria-labelledby="demo-recognition-tab" hidden={demoTab !== 1} tabIndex={0}>{demoTab === 1 && (
                   <Box sx={{ p: { xs: 2.5, sm: 3.5 }, bgcolor: '#F8FAFC' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                       <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#0F172A' }}>
@@ -709,10 +711,10 @@ export const LandingPage: React.FC = () => {
                       </Box>
                     </Box>
                   </Box>
-                )}
+                )}</Box>
 
                 {/* Tab 2: Step-by-Step Socratic Guidance */}
-                {demoTab === 2 && (
+                <Box role="tabpanel" id="demo-guidance-panel" aria-labelledby="demo-guidance-tab" hidden={demoTab !== 2} tabIndex={0}>{demoTab === 2 && (
                   <Box sx={{ p: { xs: 2.5, sm: 3.5 }, bgcolor: '#FFFFFF' }}>
                     {/* Stepper controls */}
                     <Box sx={{ display: 'flex', gap: 1, mb: 2.5 }}>
@@ -724,6 +726,7 @@ export const LandingPage: React.FC = () => {
                           key={label}
                           size="small"
                           variant={socraticStep === idx ? 'contained' : 'outlined'}
+                          aria-pressed={socraticStep === idx}
                           onClick={() => setSocraticStep(idx)}
                           sx={{
                             flex: 1,
@@ -828,7 +831,7 @@ export const LandingPage: React.FC = () => {
                       </Typography>
                     </Box>
                   </Box>
-                )}
+                )}</Box>
               </Box>
             </Grid>
           </Grid>
@@ -873,16 +876,21 @@ export const LandingPage: React.FC = () => {
                   return (
                     <Box
                       key={step.step}
+                      component="button"
+                      type="button"
+                      aria-pressed={isActive}
                       onClick={() => setActiveWorkflowStep(idx)}
                       sx={{
                         p: 2.5,
+                        font: 'inherit',
+                        textAlign: 'start',
                         borderRadius: 3,
                         cursor: 'pointer',
                         border: '1.5px solid',
                         borderColor: isActive ? '#2563EB' : '#E2E8F0',
                         bgcolor: isActive ? '#F8FAFC' : '#FFFFFF',
                         boxShadow: isActive ? '0 8px 24px -4px rgba(37, 99, 235, 0.12)' : 'none',
-                        transition: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
+                        transition: 'border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease',
                         display: 'flex',
                         gap: 2,
                         alignItems: 'flex-start',
@@ -892,7 +900,7 @@ export const LandingPage: React.FC = () => {
                         },
                       }}
                     >
-                      <Box
+                      <Box component="span"
                         sx={{
                           width: 44,
                           height: 44,
@@ -906,12 +914,12 @@ export const LandingPage: React.FC = () => {
                       >
                         {step.icon}
                       </Box>
-                      <Box sx={{ flexGrow: 1 }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.5 }}>
-                          <Typography variant="subtitle2" sx={{ fontWeight: 900, color: isActive ? '#2563EB' : '#0F172A', fontSize: '0.98rem' }}>
+                      <Box component="span" sx={{ flexGrow: 1 }}>
+                        <Box component="span" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.5 }}>
+                          <Typography component="span" variant="subtitle2" sx={{ fontWeight: 900, color: isActive ? '#2563EB' : '#0F172A', fontSize: '0.98rem' }}>
                             {step.step}. {step.title}
                           </Typography>
-                          <Chip
+                          <Chip component="span"
                             label={step.tag}
                             size="small"
                             sx={{
@@ -923,7 +931,7 @@ export const LandingPage: React.FC = () => {
                             }}
                           />
                         </Box>
-                        <Typography variant="body2" sx={{ color: '#475569', fontSize: '0.86rem', lineHeight: 1.55 }}>
+                        <Typography component="span" variant="body2" sx={{ color: '#475569', fontSize: '0.86rem', lineHeight: 1.55 }}>
                           {step.subtitle}
                         </Typography>
                       </Box>
@@ -1013,24 +1021,26 @@ export const LandingPage: React.FC = () => {
                     {WORKFLOW_STEPS.map((_, idx) => (
                       <Box
                         key={idx}
+                        component="button"
+                        type="button"
                         onClick={() => setActiveWorkflowStep(idx)}
-                        role="button"
                         aria-label={`Xem bước ${idx + 1}`}
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            setActiveWorkflowStep(idx);
-                          }
-                        }}
+                        aria-pressed={activeWorkflowStep === idx}
                         sx={{
                           flex: 1,
-                          height: 6,
-                          borderRadius: 1,
-                          bgcolor: activeWorkflowStep === idx ? '#2563EB' : '#CBD5E1',
+                          minHeight: 24,
+                          p: 0,
+                          border: 0,
+                          bgcolor: 'transparent',
                           cursor: 'pointer',
-                          transition: 'background-color 200ms ease',
-                          '&:focus-visible': { outline: '2px solid #2563EB' },
+                          '&::before': {
+                            content: '""',
+                            display: 'block',
+                            height: 6,
+                            borderRadius: 1,
+                            bgcolor: activeWorkflowStep === idx ? '#2563EB' : '#CBD5E1',
+                            transition: 'background-color 200ms ease',
+                          },
                         }}
                       />
                     ))}

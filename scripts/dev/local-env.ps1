@@ -15,13 +15,12 @@ function Invoke-WithLocalSpeechTools {
     } finally { $env:PATH = $previousPath }
 }
 
-# The unified launcher binds the AI service to 8000. Do not let a generic PORT
-# inherited from a shell or hosting tool override that service's settings.
+# Isolate the selected AI port from a generic inherited PORT.
 function Invoke-WithLocalAiPort {
-    param([scriptblock]$Action)
+    param([scriptblock]$Action, [int]$Port = 8000)
     $previousPort = [Environment]::GetEnvironmentVariable('PORT', 'Process')
     try {
-        $env:PORT = '8000'
+        $env:PORT = [string]$Port
         & $Action
     } finally {
         if ($null -eq $previousPort) {

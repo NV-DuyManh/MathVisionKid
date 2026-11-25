@@ -161,9 +161,9 @@ export default function LessonsScreen() {
   const hero = IS_STUDENT_WEB && <LinearGradient colors={[STUDENT_WEB.indigo, STUDENT_WEB.heroEnd]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.webHero, webThreeColumns && styles.webBanner]}>
     <View style={styles.copy}>
       <Text accessibilityRole="header" style={[styles.webHeroTitle, webWide && styles.webHeroTitleWide]}>Toán lớp {activeGrade}</Text>
-      <Text style={styles.webHeroDescription}>Tìm bài theo chủ đề rồi học từng bước.</Text>
-      {problems[0] && <Pressable accessibilityRole="button" style={styles.bannerAction}
-        onPress={() => router.push({ pathname: '/learning/math-guide', params: { problemText: (visibleProblems[0] ?? problems[0]).problemText } })}>
+      <Text style={styles.webHeroDescription}>Bố mẹ có thể cùng con chọn một bài theo chủ đề.</Text>
+      {visibleProblems[0] && <Pressable accessibilityRole="button" style={styles.bannerAction}
+        onPress={() => router.push({ pathname: '/learning/math-guide', params: { problemText: visibleProblems[0].problemText } })}>
         <Ionicons name="play" size={15} color={STUDENT_WEB.ink} accessible={false} />
         <Text style={styles.bannerActionLabel}>Bắt đầu học ngay</Text>
       </Pressable>}
@@ -237,7 +237,7 @@ export default function LessonsScreen() {
     ) : compactWeb ? <>
       <Text accessibilityRole="header" style={styles.heading}>Bài học theo chủ đề</Text>
       {hasRegisteredGrade ? <>
-        <Text style={styles.mobileIntro}>Chọn một bài phù hợp với chương trình của em, rồi cùng học từng bước nhé.</Text>
+        <Text style={styles.mobileIntro}>Toán lớp {activeGrade}. Bố mẹ có thể cùng con chọn một bài theo chủ đề.</Text>
         {progressCard}
       </> : gradeControls}
       {filters}

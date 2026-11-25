@@ -34,6 +34,13 @@ console.log('PASS: Expo Go uses the installed SDK, correct project, and LAN addr
   };
   assert.equal(getExpoGoUrl(await loadExpoManifest(address, request, wait), address), `exp://${address}:8081`);
   assert.equal(calls, 3);
+  const alternate = { extra: { expoClient: { ...manifest.extra.expoClient, hostUri: `${address}:8084` } } };
+  const moved = await loadExpoManifest(address, async url => {
+    assert.equal(url, `http://${address}:8084/`);
+    return { status: 200, ok: true, json: async () => alternate };
+  }, wait, 8084);
+  assert.equal(getExpoGoUrl(moved, address, 8084), `exp://${address}:8084`);
+  assert.throws(() => getExpoGoUrl(manifest, address, 8084), /Port 8084/);
   calls = 0;
   await assert.rejects(loadExpoManifest(address, async () => { calls++; throw new TypeError('offline'); }, wait), /offline/);
   assert.equal(calls, 3);

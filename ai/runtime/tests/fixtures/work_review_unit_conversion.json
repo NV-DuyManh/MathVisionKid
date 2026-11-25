@@ -1,0 +1,79 @@
+{
+  "Đổi: 300 yến = 30 tạ.": {
+    "summary": "Chưa kịp đối chiếu với đề. Em có thể thử lại trên bài này.",
+    "praise": "",
+    "rows": [
+      {
+        "lineIndex": 0,
+        "sourceText": "Đổi: 300 yến = 30 tạ.",
+        "status": "OK",
+        "errorKind": "NONE",
+        "feedback": "Hai vế có giá trị bằng nhau sau khi đổi đơn vị.",
+        "hints": [],
+        "rowKind": "CALCULATION",
+        "arithmeticCorrect": true
+      }
+    ],
+    "nextAction": "Em có thể thử nhận xét lại với đề và bài làm đã xác nhận.",
+    "alternative": "",
+    "complete": null,
+    "missingPart": "",
+    "missingParts": [],
+    "sourceId": "confirmed-conversion-regression-2026",
+    "status": "NEEDS_REVIEW",
+    "arithmeticVerified": true,
+    "completionVersion": 2
+  },
+  "10 m = 1000 cm": {
+    "summary": "Chưa kịp đối chiếu với đề. Em có thể thử lại trên bài này.",
+    "praise": "",
+    "rows": [
+      {
+        "lineIndex": 0,
+        "sourceText": "10 m = 1000 cm",
+        "status": "OK",
+        "errorKind": "NONE",
+        "feedback": "Hai vế có giá trị bằng nhau sau khi đổi đơn vị.",
+        "hints": [],
+        "rowKind": "CALCULATION",
+        "arithmeticCorrect": true
+      }
+    ],
+    "nextAction": "Em có thể thử nhận xét lại với đề và bài làm đã xác nhận.",
+    "alternative": "",
+    "complete": null,
+    "missingPart": "",
+    "missingParts": [],
+    "sourceId": "confirmed-conversion-regression-2026",
+    "status": "NEEDS_REVIEW",
+    "arithmeticVerified": true,
+    "completionVersion": 2
+  },
+  "300 yến = 3 tạ": {
+    "summary": "Em sửa các phép tính được đánh đỏ, rồi gửi lại các dòng đã sửa trong cùng một lượt nhé.",
+    "praise": "",
+    "rows": [
+      {
+        "lineIndex": 0,
+        "sourceText": "300 yến = 3 tạ",
+        "status": "FIX",
+        "errorKind": "CALCULATION",
+        "feedback": "Hai vế chưa tương đương. Em kiểm tra loại đại lượng và hệ số đổi đơn vị nhé.",
+        "hints": [
+          "Em đối chiếu loại đại lượng và hệ số đổi giữa các đơn vị."
+        ],
+        "rowKind": "CALCULATION",
+        "arithmeticCorrect": false
+      }
+    ],
+    "nextAction": "Em sửa bước sai trước, tính lại các dòng dùng kết quả đó, rồi kiểm tra và gửi lại bài cùng lúc nhé.",
+    "alternative": "",
+    "complete": null,
+    "missingPart": "",
+    "missingParts": [],
+    "sourceId": "confirmed-conversion-regression-2026",
+    "status": "NEEDS_REVISION",
+    "arithmeticVerified": false,
+    "completionVersion": 2
+  }
+}

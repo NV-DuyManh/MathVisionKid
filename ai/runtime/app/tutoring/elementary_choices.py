@@ -27,6 +27,20 @@ def verified_choice(text, options):
             return [False] * 4
         return [v == value for v in values]
 
+    comparison = re.fullmatch(r'so nao (lon|be) hon (\d{1,9})\?', text)
+    if comparison and all(re.fullmatch(r'\d{1,9}', option) for option in options):
+        limit = _number(comparison[2])
+        values = [_number(option) for option in options]
+        return choose('So sánh các số', 'So từng lựa chọn với số mốc trong đề.',
+            'Với các số tự nhiên, so số chữ số trước. Nếu có cùng số chữ số, so từng hàng từ trái sang phải.',
+            [value > limit if comparison[1] == 'lon' else value < limit for value in values])
+
+    equivalent = re.fullmatch(r'phan so nao bang (\d{1,9}\s*/\s*[1-9]\d{0,8})\?', text)
+    if equivalent and all(re.fullmatch(r'\d{1,9}\s*/\s*[1-9]\d{0,8}', option) for option in options):
+        return choose('Tìm phân số bằng nhau', 'Hai phân số có thể biểu diễn cùng một lượng dù tử và mẫu khác nhau.',
+            'Em rút gọn hoặc quy đồng hai phân số rồi đối chiếu. Luôn chia hoặc nhân cả tử và mẫu với cùng một số.',
+            [_number(option) == _number(equivalent[1]) for option in options])
+
     maximum_rounding = re.fullmatch(r'so thap phan lon nhat nao duoc lam tron den (' + _NUMBER +
         r') (?:khi lam tron )?(?:den )?so tu nhien gan nhat\?', text)
     if maximum_rounding:

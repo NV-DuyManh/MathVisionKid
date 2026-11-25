@@ -27,7 +27,7 @@ class RunLauncherTest(unittest.TestCase):
                 write(name, (source / name).read_text(encoding="utf-8")
                       .replace("pause >nul", "rem pause suppressed in test"))
             launcher = root / launcher_name
-            for name in ("scripts/dev/check-runtime.ps1", "scripts/dev/local-env.ps1"):
+            for name in ("scripts/dev/check-runtime.ps1", "scripts/dev/local-env.ps1", "scripts/dev/local-ports.ps1"):
                 write(name, (source / name).read_text(encoding="utf-8"))
             if internal_key is not None:
                 for name, key in ((".env", "synthetic-root"), (".env.local", "synthetic-root-local"),

@@ -13,17 +13,18 @@ import { saveNarration } from './narrationFile';
 import { AudioPlayback } from './AudioPlayback';
 import { TaskProgress } from '../../components/ui/TaskProgress';
 import { NARRATION_PROGRESS_STEPS } from './narration';
-import { DEFAULT_NARRATION_VOICE, isNarrationVoice, type NarrationChoice, type NarrationVoice, currentNarrationVoice, readNarrationVoice, saveNarrationVoice } from './narrationVoices';
+import { DEFAULT_NARRATION_VOICE, isNarrationVoice, type NarrationChoice, type NarrationVoice, currentNarrationVoice, currentOnlineNarrationVoice, readNarrationVoice, saveNarrationVoice } from './narrationVoices';
 import { DeviceNarration } from './DeviceNarration';
 import { VoicePicker } from './VoicePicker';
 
 type Props = { scope: string; source: NarrationSource; paragraphs: string[]; disabled?: boolean; compact?: boolean; onFinished?: () => void;
   preparedFallback?: boolean;
+  startWithDevice?: boolean;
   audioLoader?: (voice: NarrationVoice, signal: AbortSignal) => Promise<Uint8Array> };
 export function LessonNarration(props: Props) {
   return <Narration key={JSON.stringify([NARRATION_RENDER_POLICY, props.scope, props.source, props.paragraphs, props.disabled])} {...props} />;
 }
-function Narration({ source, paragraphs, disabled = false, compact = false, onFinished, audioLoader, preparedFallback = false }: Props) {
+function Narration({ source, paragraphs, disabled = false, compact = false, onFinished, audioLoader, preparedFallback = false, startWithDevice = false }: Props) {
   const cache = useContext(NarrationCacheContext);
   const bookmarks = useContext(PlaybackBookmarksContext);
   const [cues,setCues] = useState<AudioCue[]>([]), [initialPosition,setInitialPosition] = useState(0), [activeCue,setActiveCue] = useState(-1);
@@ -31,8 +32,8 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
   const [focusedCue,setFocusedCue]=useState<number|null>(null);
   const playerMeasure = useRef<ReturnType<typeof measureVoice> | null>(null);
   const [uri, setUri] = useState(''), [error, setError] = useState(''), [attempt, setAttempt] = useState(0), [expanded, setExpanded] = useState(false);
-  const [voice, setVoice] = useState<NarrationChoice | null>(currentNarrationVoice);
-  const [serverFallback, setServerFallback] = useState(preparedFallback);
+  const [voice, setVoice] = useState<NarrationChoice | null>(() => startWithDevice ? 'device' : currentNarrationVoice());
+  const [serverFallback, setServerFallback] = useState(preparedFallback && !startWithDevice);
   const onlineVoice = useRef<NarrationVoice>(isNarrationVoice(voice) ? voice : DEFAULT_NARRATION_VOICE);
   const [progress, setProgress] = useState<NarrationProgress | null>(null);
   const deviceVoice = voice === 'device';
@@ -66,9 +67,9 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
   }, [cache, sourceId, revision, text, voice, serverFallback]);
   useEffect(() => {
     let active = true;
-    void readNarrationVoice().then(saved => { if (active) setVoice(saved); });
+    void readNarrationVoice().then(saved => { if (active && !startWithDevice) setVoice(saved); });
     return () => { active = false; };
-  }, []);
+  }, [startWithDevice]);
   useEffect(() => {
     if (disabled || !isNarrationVoice(voice)) return;
     playbackStarted.current = Date.now(); readinessLogged.current = false;
@@ -104,6 +105,11 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
       clearTimeout(watchdog); clearTimeout(displayTimer);
       if (!active || controller.signal.aborted) return;
       const error = failure as { code?: string; response?: { status?: number } } | null;
+      if (error?.code === 'NARRATION_RENDER_FAILED' && !serverFallback && !audioLoader) {
+        setProgress(null);
+        setServerFallback(true);
+        return;
+      }
       const status = error?.response?.status;
       setError(status === 409 || status === 410 ? 'Phiên của bước này đã thay đổi. Em đóng lời giảng và mở lại bài học nhé.'
         : error?.code === 'ERR_NETWORK' ? 'Chưa có kết nối mạng. Em kiểm tra lại nhé.'
@@ -113,7 +119,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
     return () => { active = false; clearTimeout(watchdog); clearTimeout(displayTimer); controller.abort(); listener.remove(); asset?.dispose(); playerMeasure.current?.('cancelled');void bookmarks?.flush(); };
   }, [sourceId, revision, text, disabled, attempt, voice, cache, bookmarks, bookmarkId, audioLoader, serverFallback]);
   const chooseVoice = (selected: NarrationChoice) => {
-    if (!voice || disabled || voice === selected) return;
+    if (!voice || disabled || (voice === selected && !(Platform.OS === 'web' && serverFallback))) return;
     if (isNarrationVoice(voice)) onlineVoice.current = voice;
     if (isNarrationVoice(selected)) onlineVoice.current = selected;
     setServerFallback(false);
@@ -135,14 +141,14 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
     : progress?.totalChunks ? `Đã tạo ${progress.completedChunks}/${progress.totalChunks} đoạn giọng đọc.`
     : serverFallback ? 'Đang chuẩn bị giọng Việt dự phòng.' : 'Đang chuẩn bị đúng giọng em đã chọn.';
   return <View style={styles.stack}>
-    <VoicePicker value={voice} disabled={disabled || serverFallback} onChange={chooseVoice} />
+    <VoicePicker value={voice} disabled={disabled || (Platform.OS !== 'web' && serverFallback)} onChange={chooseVoice} />
     {serverFallback ? <View style={styles.currentWords} accessibilityLiveRegion="polite">
       <Text style={styles.body}>Đang dùng giọng Việt dự phòng.</Text>
       <Pressable accessibilityRole="button" onPress={() => changeFallback(false)} style={styles.transcript}>
         <Text style={styles.link}>Quay lại giọng đã chọn</Text>
       </Pressable>
     </View> : null}
-    {disabled ? <Text style={styles.link}>Đang chờ bài học</Text> : deviceVoice ? <DeviceNarration paragraphs={paragraphs} compact={compact} controlRef={audioControl} onReady={deviceReady} onPosition={onPosition} onFinished={onFinished} onReturn={() => chooseVoice(onlineVoice.current)} onFallback={Platform.OS === 'web' && !audioLoader ? () => { chooseVoice(onlineVoice.current); setServerFallback(true); } : undefined} /> : error ? <RecoveryNotice
+    {disabled ? <Text style={styles.link}>Đang chờ bài học</Text> : deviceVoice ? <DeviceNarration paragraphs={paragraphs} compact={compact} controlRef={audioControl} onReady={deviceReady} onPosition={onPosition} onFinished={onFinished} onReturn={() => chooseVoice(onlineVoice.current)} onFallback={Platform.OS === 'web' && !audioLoader ? () => chooseVoice(currentOnlineNarrationVoice()) : undefined} /> : error ? <RecoveryNotice
       title="Chưa mở được giọng đọc" message={error} actions={[
         { label: 'Thử lại', accessibilityLabel: 'Tải lại lời giảng', icon: 'refresh-outline', onPress: retry },
         ...(!serverFallback && !audioLoader ? [{ label: 'Dùng giọng Việt dự phòng', onPress: () => changeFallback(true) }] : []),
@@ -150,7 +156,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
     ]} /> : <>
       {!audioReady ? <View testID="narration-preparation" style={[styles.preparing, !showPreparation && styles.hidden]} aria-hidden={!showPreparation} importantForAccessibility={showPreparation ? 'auto' : 'no-hide-descendants'}>
         <Text style={styles.preparingTitle}>Chuẩn bị lời giảng</Text>
-        <TaskProgress compact key={`${voice}:${attempt}`} steps={NARRATION_PROGRESS_STEPS} activeStep={uri ? 2 : voice ? 1 : 0} percent={uri ? 95 : voice ? Math.max(10, Math.min(90, progress?.percent || 0)) : 0} timeoutSeconds={NARRATION_WAIT_SECONDS}
+        <TaskProgress compact key={`${voice}:${attempt}:${serverFallback}`} steps={NARRATION_PROGRESS_STEPS} activeStep={uri ? 2 : voice ? 1 : 0} percent={uri ? 95 : voice ? Math.max(10, Math.min(90, progress?.percent || 0)) : 0} timeoutSeconds={NARRATION_WAIT_SECONDS}
           complete={audioReady}
           detail={audioReady ? undefined : preparationDetail} />
       </View> : null}

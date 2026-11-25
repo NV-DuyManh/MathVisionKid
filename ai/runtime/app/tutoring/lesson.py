@@ -111,6 +111,7 @@ class Plan(TutorModel):
     goal: str = Field(min_length=1, max_length=220)
     steps: list[Step] = Field(min_length=1, max_length=9)
     finalAnswerStep: int | None = Field(default=None, ge=0, le=8)
+    readingFirst: StrictBool = Field(default=False, exclude=True)
 
     @model_validator(mode="after")
     def bounded_phases(self):
@@ -920,7 +921,7 @@ def completed_step(step: Step, session: Session, answer: str) -> CompletedStep:
             shown = ('-' if value < 0 else '') + (digits[:-places] + ',' + digits[-places:] if places else digits)
     return CompletedStep(kind=step.kind, title=step.title, expression=expression_at(step, session.answers, for_display=True),
         answer=shown, unit=step.unit, explanation=step.explanation, solutionSentence=solution_sentence(step),
-        calculationDetails=fraction_working(expression, solved=True) if step.expression and step.fractionNotation else [],
+        calculationDetails=fraction_working(expression, solved=True)[-5:] if step.expression and step.fractionNotation else [],
         guidance=guidance_at(step, session.answers), question=step.question, choices=list(step.choices))
 
 
@@ -1026,8 +1027,17 @@ def fraction_working(expression: str, solved=False) -> list[str]:
     left, right = pair(node.left), pair(node.right)
     if not left or not right:
         if solved and any(isinstance(term, ast.BinOp) and pair(term) is None for term in (node.left, node.right)):
-            details = [detail for term in (node.left, node.right) if isinstance(term, ast.BinOp)
-                       for detail in fraction_working(ast.unparse(term), solved=True)]
+            details = []
+            for term in (node.left, node.right):
+                if not isinstance(term, ast.BinOp) or pair(term) is not None:
+                    continue
+                whole, part = pair(term.left), pair(term.right)
+                if (isinstance(term.op, ast.Add) and whole and part and whole[1] == 1
+                        and 0 < part[0] < part[1]):
+                    n, d = part
+                    details.append(f'{whole[0]} {n}/{d} = {whole[0] * d + n}/{d} (đổi hỗn số thành phân số).')
+                else:
+                    details.extend(fraction_working(ast.unparse(term), solved=True))
             a, b = calculate_exact(ast.unparse(node.left)), calculate_exact(ast.unparse(node.right))
             symbol = {ast.Add: '+', ast.Sub: '-', ast.Mult: '*', ast.Div: '/'}[type(node.op)]
             reduced = f'({a}) {symbol} ({b})'
@@ -1564,15 +1574,16 @@ async def start_lesson(request: LessonRequest) -> LessonResponse:
     from app.tutoring.source_clarification import require_clear_source
     require_clear_source(request.problemText)
     comprehension = []
-    from app.tutoring.short_math import verified_plan as short_plan
-    # A standalone calculation/choice is already a complete task. Do not inflate
-    # it into three word-problem comprehension questions before the real work.
-    short = short_plan(request.problemText) is not None
-    if request.guidedUnderstanding and not short:
-        try:comprehension = source_understanding(request.problemText)
-        except UnderstandingUnsupported:
-            try:comprehension = labelled_understanding(request.problemText)
-            except UnderstandingUnsupported:pass
+    if request.guidedUnderstanding:
+        from app.tutoring.short_math import verified_plan as short_plan
+        exact = short_plan(request.problemText)
+        # A verified word problem can still teach reading before calculation.
+        # Standalone calculations and choices open directly at their math step.
+        if exact is None or exact.get('readingFirst'):
+            try:comprehension = source_understanding(request.problemText)
+            except UnderstandingUnsupported:
+                try:comprehension = labelled_understanding(request.problemText)
+                except UnderstandingUnsupported:pass
     early=request.startWithReading and bool(comprehension)
     logger.info('Lesson preparation mode=%s requested_reading=%s source_chars=%d',
                 'reading-first' if early else 'reviewed-plan', request.startWithReading, len(request.problemText))

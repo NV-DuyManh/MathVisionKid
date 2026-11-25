@@ -11,6 +11,7 @@ const firstStep = {
 };
 
 test('orchard lesson opens each calculation on hint two and checks an exact retry on a short phone', async ({ page, app }, testInfo) => {
+  test.setTimeout(90000);
   const source = 'Bài 6\nVườn cây nhà bác Nam có 1/3 số cây là cây táo, 2/5 số cây là cây xoài, còn lại là cây cam. Biết rằng số cây cam có trong vườn là 16 cây. Hỏi trong vườn nhà bác Nam có tất cả bao nhiêu cây?';
   const given = 'Vườn cây nhà bác Nam có (1)/(3) số cây là cây táo';
   const asked = 'Hỏi trong vườn nhà bác Nam có tất cả bao nhiêu cây?';
@@ -37,7 +38,7 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   app.realStudent = true;
   lessonFixtures(app);
   app.responses.set('POST /student/tutor/lesson', ({ json }) => json(state()));
-  app.responses.set('POST /student/tutor/lesson/resume', ({ json }) => json(state()));
+  app.responses.set('POST /student/tutor/lesson/resume', ({ json }) => json(state(completed.length === steps.length ? 'COMPLETE' : 'READY')));
   app.responses.set('POST /student/tutor/lesson/answer', ({ body, json }) => {
     expect(body.revision).toBe(completed.length);
     const index = completed.length;
@@ -61,8 +62,9 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   const problemText = page.locator('#confirmed-problem-body').getByText('Vườn', { exact: true });
   await expect(problemText).toHaveCSS('font-family', /NunitoBold/);
   await expect(problemText).toHaveCSS('font-size', '16px');
-  await expect(page.getByText(/^Em kiểm tra lời văn, các số và đơn vị/)).toHaveCSS('font-family', /NunitoRegular/);
-  await expect(page.getByText(/^Em kiểm tra lời văn, các số và đơn vị/)).toHaveCSS('font-size', '14px');
+  const confirmationHelp = page.getByText(/^Bố mẹ và con có thể cùng đọc đề/);
+  await expect(confirmationHelp).toHaveCSS('font-family', /NunitoRegular/);
+  await expect(confirmationHelp).toHaveCSS('font-size', '14px');
   await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
   await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
   await page.getByRole('button', { name: asked, exact: true }).click();
@@ -96,6 +98,10 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   await expect(page.getByRole('button', { name: 'Sai', exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'Bước trước', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Sai', exact: true })).toBeVisible();
+  const submittedCount = app.requests.filter(request => request.path === '/student/tutor/lesson/answer').length;
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Sai', exact: true })).toBeVisible();
+  expect(app.requests.filter(request => request.path === '/student/tutor/lesson/answer')).toHaveLength(submittedCount);
   await page.getByRole('button', { name: 'Tiếp tục', exact: true }).click();
   // Saving is debounced by the real progress store.
   await expect.poll(() => page.evaluate(() => Object.keys(localStorage).filter(key => key.startsWith('mathvision_progress_'))
@@ -109,6 +115,10 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   await expect(page.getByRole('textbox', { name: 'Tử số câu trả lời', exact: true })).toBeVisible();
   await page.getByRole('textbox', { name: 'Tử số câu trả lời', exact: true }).fill('1');
   await page.getByRole('textbox', { name: 'Mẫu số câu trả lời', exact: true }).fill('2');
+  await page.reload();
+  await expect(page.getByRole('textbox', { name: 'Tử số câu trả lời', exact: true })).toHaveValue('1');
+  await expect(page.getByRole('textbox', { name: 'Mẫu số câu trả lời', exact: true })).toHaveValue('2');
+  expect(app.requests.filter(request => request.path === '/student/tutor/lesson/answer')).toHaveLength(submittedCount);
   await page.getByRole('button', { name: 'Bước trước', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Tóm tắt bài toán', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Bắt đầu giải', exact: true }).click();
@@ -183,16 +193,18 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   await page.screenshot({ path: testInfo.outputPath('orchard-division-fraction.png') });
   await page.reload();
   await expect(page.getByText('Đã khôi phục bước đang học của em.', { exact: true })).toBeVisible();
-  await expect(finalFormula).toHaveCount(0);
-  await page.getByRole('button', { name: 'Gợi ý cách làm bước này', exact: true }).click();
-  await expect(hint).toContainText('CẤP 1/2');
-  await page.getByRole('button', { name: 'Gợi ý sau', exact: true }).click();
+  await expect(hint).toContainText('CẤP 2/2');
   await expect(finalFormula).toBeVisible();
+  await expect(hint).not.toContainText(/\b60\b|sáu mươi/);
   expect(app.requests.filter(item => item.path === '/student/tutor/lesson/answer' && item.body.hint)).toHaveLength(4);
   await page.getByRole('textbox', { name: 'Câu trả lời của em', exact: true }).fill('60');
   await check.click();
   await page.getByRole('button', { name: 'Xem bài giải', exact: true }).click();
   await expect(page.getByText('Đáp số: 60 cây.', { exact: true })).toBeVisible();
+  const finalSubmissionCount = app.requests.filter(request => request.path === '/student/tutor/lesson/answer').length;
+  await page.reload();
+  await expect(page.getByText('Đáp số: 60 cây.', { exact: true })).toBeVisible();
+  expect(app.requests.filter(request => request.path === '/student/tutor/lesson/answer')).toHaveLength(finalSubmissionCount);
 });
 
 test('centers a short hint, constrains long hints and preserves the other lesson sheets', async ({ page, app }, testInfo) => {
@@ -437,6 +449,32 @@ async function stableDock(page, dock, area) {
   expect(Math.abs(after.y - before.y)).toBeLessThan(2);
 }
 
+test('parent guidance stays on the current step and preserves the child’s draft', async ({ page, app }) => {
+  app.realStudent = true;
+  lessonFixtures(app);
+  await login(page, 'STUDENT');
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+  await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem })}`);
+  await expect(page.getByText(/Bố mẹ và con có thể cùng đọc đề/)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Bắt đầu từng bước' })).toBeDisabled();
+  await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
+  await page.getByRole('button', { name: 'Bắt đầu từng bước' }).click();
+
+  const numerator = page.getByRole('textbox', { name: 'Tử số câu trả lời' });
+  await numerator.fill('11');
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.getByRole('button', { name: 'Xem thêm', exact: true }).click();
+    await page.getByRole('button', { name: 'Gợi ý cho bố mẹ', exact: true }).click();
+    await expect(page.getByRole('heading', { name: `Bước 1/1 · ${firstStep.title}` })).toBeVisible();
+    await expect(page.getByText(/Cho con giải thích cách nghĩ và thử lại/)).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Bài giải', exact: true })).toHaveCount(0);
+    await page.getByRole('button', { name: 'Đóng Gợi ý cho bố mẹ', exact: true }).click();
+    await expect(numerator).toHaveValue('11');
+  }
+  expect(app.requests.filter(item => item.path === '/student/tutor/lesson/answer')).toHaveLength(0);
+});
+
 for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
   test(`guided lesson keeps current tools fixed and pages hints at ${width}px`, async ({ page, app }, testInfo) => {
     app.realStudent = true;
@@ -608,18 +646,17 @@ test('web work recovery offers capture and typing while retaining the original p
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem })}`);
   await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
+  await page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true }).click();
+  await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
+  await expect(page.getByRole('button', { name: 'Chọn ảnh từ thư viện', exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem })}`);
+  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Nhập bài làm bằng chữ', exact: true }).click();
   await page.getByRole('textbox', { name: 'Nội dung bài làm', exact: true }).fill('1/3 + 2/5 = 11/15');
   await page.getByRole('button', { name: 'Dùng nội dung này', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Đối chiếu đề bài', exact: true })).toBeVisible();
   expect(app.requests.filter(item => item.path === '/student/tutor/lesson')).toHaveLength(0);
-
-  await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem })}`);
-  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
-  await page.getByRole('button', { name: 'Chụp thêm bài làm', exact: true }).click();
-  await expect(page).toHaveURL(/\/study\/camera\?mode=MATH_TUTOR/);
-  await expect(page.getByRole('button', { name: 'Chọn ảnh từ thư viện', exact: true })).toBeVisible();
 });
 
 test('grade library topic links and keyboard accordions preserve search and grade boundaries', async ({ page, app }) => {

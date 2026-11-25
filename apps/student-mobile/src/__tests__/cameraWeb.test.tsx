@@ -2,7 +2,7 @@ import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
 import * as ImagePicker from 'expo-image-picker';
 import { useCameraPermissions } from 'expo-camera';
-import { Alert } from 'react-native';
+import { Text } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import WebCameraScreen from '../app/camera.web';
 import { normalizeImageDraft } from '../features/recognition/image/imagePipeline';
@@ -67,17 +67,19 @@ it('captures the live photo, retains lesson context and stops preview before pri
   expect(view.root.findAllByType('CameraView' as any)).toHaveLength(0);
 });
 it('keeps the image on normalization failure and allows a fresh live attempt', async () => {
-  const notice = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
   recognitionDraftStore.setDraft({ uri: 'blob:old', width: 20, height: 30 });
   const stored = recognitionDraftStore.getDraft();
   (normalizeImageDraft as jest.Mock).mockRejectedValueOnce(new Error('Image load timed out'));
   await render(); ready();
   await act(async () => button('Chụp ảnh bài toán').props.onPress());
   expect(recognitionDraftStore.getDraft()).toEqual(stored);
-  expect(push).not.toHaveBeenCalled(); expect(notice).toHaveBeenCalled();
+  expect(push).not.toHaveBeenCalled();
+  expect(view.root.findAllByType(Text).some(node =>
+    node.props.accessibilityRole === 'alert' && node.props.children.startsWith('Chưa chụp được ảnh'),
+  )).toBe(true);
   expect(button('Chụp ảnh bài toán').props.disabled).toBe(false);
   await act(async () => button('Chụp ảnh bài toán').props.onPress());
-  expect(push).toHaveBeenCalledWith('/privacy'); notice.mockRestore();
+  expect(push).toHaveBeenCalledWith('/privacy');
 });
 it('offers the rear system camera while the preview is starting or unavailable', async () => {
   (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue({ canceled: false, assets: [{ uri: 'blob:photo', width: 4000, height: 3000 }] });

@@ -10,6 +10,24 @@ async function noPageOverflow(page) {
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
 }
 
+test('library quick start follows the filter and disappears when no exercises match', async ({ page, app }) => {
+  app.realStudent = true;
+  app.responses.set('POST /student/tutor/lesson/prepare', ({ json }) => json({ phase: 'ready' }));
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await login(page, 'STUDENT');
+  await expect(page).toHaveURL(home);
+  await page.goto(home + 'lessons');
+  const search = page.getByRole('textbox', { name: 'Tìm bài học' });
+  const quickStart = page.getByRole('button', { name: 'Bắt đầu học ngay' });
+  await search.fill('zzzzzzzz');
+  await expect(page.getByText(/Chưa tìm thấy bài phù hợp/)).toBeVisible();
+  await expect(quickStart).toHaveCount(0);
+  const selected = gradeFive[1];
+  await search.fill(selected.title);
+  await quickStart.click();
+  await expect(page.locator('#confirmed-problem-body')).toHaveText(selected.problemText);
+});
+
 test('learning streak shows gold star and sparkles only on completed days', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   await page.setViewportSize({ width: 360, height: 640 });

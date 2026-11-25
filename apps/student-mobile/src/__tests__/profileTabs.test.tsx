@@ -3,12 +3,17 @@ import TestRenderer, { act } from 'react-test-renderer';
 import { useRouter } from 'expo-router';
 import ProfileScreen from '../app/(tabs)/profile';
 import { AuthContext } from '../context/AuthContext';
+import { openParentMode } from '../features/student-profile/parentControlApi';
 import { loadLessons } from '../features/tutoring/learningHistory';
 
 jest.mock('expo-router', () => ({ useRouter: jest.fn(), useFocusEffect: (fn: () => void) => require('react').useEffect(fn, [fn]) }));
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: require('react-native').View }));
 jest.mock('../context/AuthContext', () => ({ AuthContext: require('react').createContext(undefined) }));
 jest.mock('../features/student-profile/profileApi', () => ({ profileApi: { get: jest.fn().mockRejectedValue(new Error('offline')) } }));
+jest.mock('../features/student-profile/parentControlApi', () => ({
+  readParentControlStatus: jest.fn().mockResolvedValue({ pinConfigured: true }),
+  openParentMode: jest.fn().mockResolvedValue({ dailyMinutes: 45, gameMinutes: null }),
+}));
 jest.mock('../features/tutoring/learningHistory', () => ({ loadLessons: jest.fn() }));
 const saved = [
   { id: 'first', timestamp: Date.now() - 1000, problemText: 'Bài cộng số bút', workText: '36 + 27 = 63', reflection: '', reviewedSteps: 2 },
@@ -17,9 +22,26 @@ const saved = [
 let view: TestRenderer.ReactTestRenderer;
 const text = () => view.root.findAllByType('Text' as any).map(node => String(node.props.children)).join(' ');
 const press = async (label: string) => { await act(async () => view.root.findAll(node => node.props.accessibilityLabel === label && node.props.onPress)[0].props.onPress()); };
-const screen = (id: string) => <AuthContext.Provider value={{ user: { id }, isLoading: false, isAuthenticated: true, login: jest.fn(), logout: jest.fn() }}><ProfileScreen /></AuthContext.Provider>;
+const screen = (id: string, active?: boolean) => <AuthContext.Provider value={{ user: { id, role: 'STUDENT', active }, isLoading: false, isAuthenticated: true, login: jest.fn(), logout: jest.fn() }}><ProfileScreen /></AuthContext.Provider>;
 beforeEach(() => { jest.clearAllMocks(); (useRouter as jest.Mock).mockReturnValue({ push: jest.fn(), replace: jest.fn() }); (loadLessons as jest.Mock).mockResolvedValue(saved); });
 afterEach(() => { if (view) act(() => view.unmount()); });
+
+it('opens the parent gate from the profile only for an active student', async () => {
+  const parentButtons = () => view.root.findAll(node => node.props.accessibilityLabel === 'Góc phụ huynh' && node.props.onPress);
+  await act(async () => { view = TestRenderer.create(screen('pupil-a', true)); });
+  expect(parentButtons().length).toBeGreaterThan(0);
+  await press('Góc phụ huynh');
+  const router = (useRouter as jest.Mock).mock.results.at(-1)!.value;
+  expect(router.push).not.toHaveBeenCalled();
+  expect(view.root.findAllByProps({ accessibilityViewIsModal: true }).length).toBeGreaterThan(0);
+  const pin = view.root.findAll(node => node.props.accessibilityLabel === 'Mã PIN' && node.props.onChangeText)[0];
+  await act(async () => pin.props.onChangeText('716025'));
+  await press('Mở Góc phụ huynh');
+  expect(openParentMode).toHaveBeenCalledWith('716025', false, expect.anything());
+  expect(router.push).toHaveBeenCalledWith('/parent-mode');
+  await act(async () => view.update(screen('pupil-a', false)));
+  expect(parentButtons()).toHaveLength(0);
+});
 
 it('retries loading saved lessons for the same owner without deleting any saved work', async () => {
   (loadLessons as jest.Mock).mockRejectedValueOnce(new Error('storage unavailable'));

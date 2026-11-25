@@ -22,6 +22,7 @@ function Test-StartupProbe {
     $authWait = [PSCustomObject]@{ Elapsed = [PSCustomObject]@{ TotalSeconds = 0 } }
     $calls = [PSCustomObject]@{ Count = 0 }
     $FastApiLog = 'synthetic-fastapi.log'
+    $aiUrl = 'http://127.0.0.1:8003'
     $TrackedProcesses = @([PSCustomObject]@{
         Name = 'FastAPI AI Runtime'; Process = [PSCustomObject]@{ HasExited = $Exited }; ErrLog = 'synthetic-fastapi.err.log'
     })
@@ -29,7 +30,7 @@ function Test-StartupProbe {
     function Invoke-WebRequest {
         param($Uri, $Headers, $TimeoutSec, [switch]$UseBasicParsing)
         $calls.Count++
-        if ($Uri -ne 'http://127.0.0.1:8000/internal/v1/tutor/runtime' -or
+        if ($Uri -ne 'http://127.0.0.1:8003/internal/v1/tutor/runtime' -or
             $Headers['X-Internal-API-Key'] -ne 'synthetic-startup-key' -or -not $UseBasicParsing) {
             throw 'Probe lost the authenticated, non-interactive request'
         }

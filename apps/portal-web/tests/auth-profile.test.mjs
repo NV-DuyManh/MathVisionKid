@@ -20,7 +20,7 @@ test('portal logout clears the header, rejects late old profiles and updates it 
       compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.React, esModuleInterop: true },
     }).outputText;
     vm.runInNewContext(source, { exports, window: dom.window, document: dom.window.document,
-      sessionStorage: dom.window.sessionStorage, Event: dom.window.Event,
+      localStorage: dom.window.localStorage, Event: dom.window.Event,
       require: id => imports[id] ?? require(id) });
     return exports;
   };
@@ -28,13 +28,14 @@ test('portal logout clears the header, rejects late old profiles and updates it 
   const api = {
     interceptors: { request: { use() {} }, response: { use() {} } },
     get: () => new Promise(resolve => pendingProfiles.push(resolve)),
-    post: async () => ({ data: '' }),
+    post: async () => ({ data: { sessionId: 'new-session' } }),
   };
-  const { tokenStore } = load('../src/services/apiClient.ts', {
-    axios: { create: () => api }, '../config/runtime': { appConfig: { apiBaseUrl: 'https://api.mathvision.example/api/v1' } },
+  const { createWebSession } = load('../../../packages/shared-contracts/src/webSession.ts', { axios: { create: () => api } });
+  dom.window.localStorage.setItem('mvk_portal_web_session', 'old-session');
+  const { tokenStore, webSession } = load('../src/services/apiClient.ts', {
+    '../../../../packages/shared-contracts/src/webSession': { createWebSession },
   });
-  const { authService } = load('../src/services/authService.ts', { './apiClient': { apiClient: api, tokenStore } });
-  tokenStore.setTokens('old-access', 'old-refresh');
+  const { authService } = load('../src/services/authService.ts', { './apiClient': { apiClient: api, tokenStore, webSession } });
   const placeholder = ({ children }) => React.createElement('div', null, children);
   let showLogout = false;
   const params = new URLSearchParams();
@@ -65,7 +66,10 @@ test('portal logout clears the header, rejects late old profiles and updates it 
     assert.equal(dom.window.document.body.textContent.includes('Old Teacher'), false);
     showLogout = false;
     await act(async () => root.render(React.createElement(PortalLayout)));
-    await act(async () => tokenStore.setTokens('new-access', 'new-refresh', true));
+    await act(async () => {
+      await webSession.establish('/auth/login', {});
+      dom.window.dispatchEvent(new dom.window.Event('portal_auth_changed'));
+    });
     assert.equal(pendingProfiles.length, 2);
     await act(async () => pendingProfiles[1]({ data: { displayName: 'New Student', role: 'STUDENT', active: true } }));
     assert.ok(dom.window.document.body.textContent.includes('New Student'));

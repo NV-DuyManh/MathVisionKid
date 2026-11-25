@@ -6,7 +6,11 @@ async function expectRobotBranding(page) {
   await expect.poll(() => robots.evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0)),
     { message: 'Every rendered robot mascot loads successfully' }).toBe(true);
   await expect(page.locator('img[src*="mathvision-star"], img[src*="icon-v2"], img[alt="Star mascot"]')).toHaveCount(0);
-  await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/ui/robot-mascot.webp');
+  const expectedIcon = new URL(page.url()).origin === sites.portal.origin
+    ? '/favicon-robot.png?v=2'
+    : '/ui/robot-mascot.webp';
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', expectedIcon);
+  expect(await page.evaluate(async url => (await fetch(url)).ok, expectedIcon)).toBe(true);
 }
 
 test('Portal landing and shared login use the robot mascot', async ({ page, app }, testInfo) => {

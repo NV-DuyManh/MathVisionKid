@@ -1,12 +1,17 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { statSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync, statSync } from 'node:fs';
+import { randomUUID } from 'node:crypto';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
-import { JSDOM, VirtualConsole } from 'jsdom';
+import { chromium, expect } from '@playwright/test';
 
 // Opt-in live check: start the local stack before running test:student:local.
-const origin = process.env.LOCAL_STUDENT_WEB_URL || 'http://localhost:5172';
+const runtime = new URL('../../../infra/local-runtime/', import.meta.url);
+const portsFile = new URL('ports.json', runtime);
+const portalPort = existsSync(portsFile) ? JSON.parse(readFileSync(portsFile, 'utf8')).portal : 5172;
+const origin = process.env.LOCAL_STUDENT_WEB_URL || `http://localhost:${portalPort}`;
 const get = path => fetch(new URL(path, origin), { signal: AbortSignal.timeout(20000) });
 
 test('Student entry and protected deep links serve the real shared app and its assets', async () => {
@@ -22,6 +27,7 @@ test('Student entry and protected deep links serve the real shared app and its a
         const script = await get(entry);
         assert.equal(script.status, 200);
         assert.ok(!script.headers.get('content-type')?.includes('text/html'));
+        assert.match(script.headers.get('cache-control') || '', /\bimmutable\b/, entry);
         return script.text();
       }));
       const bundle = scripts.join('\n');
@@ -55,82 +61,72 @@ test('the Student API proxy validates the account with the backend and refuses a
   }
 });
 
-test('a new local Portal server reuses the unchanged Student preview', { timeout: 30000 }, async () => {
-  const index = new URL('../../../infra/local-runtime/student-web-preview/index.html', import.meta.url);
-  const previousBuild = statSync(index).mtimeMs;
-  const server = await createServer({
+test('a new local Portal server reuses the unchanged Student preview', { timeout: 90000 }, async () => {
+  const directory = mkdtempSync(fileURLToPath(new URL('student-preview-test-', runtime)));
+  const previousDirectory = process.env.MATHVISION_STUDENT_PREVIEW_DIR;
+  process.env.MATHVISION_STUDENT_PREVIEW_DIR = directory;
+  const startServer = () => createServer({
     root: fileURLToPath(new URL('../', import.meta.url)),
     configFile: fileURLToPath(new URL('../vite.config.ts', import.meta.url)),
     server: { host: '127.0.0.1', port: 0, strictPort: false },
     logLevel: 'error',
   });
   try {
-    await server.listen();
-    assert.equal(statSync(index).mtimeMs, previousBuild, 'unchanged sources must not start another Student export');
-    const address = server.httpServer.address();
-    const response = await fetch(`http://127.0.0.1:${address.port}/study/`, { signal: AbortSignal.timeout(10000) });
-    assert.equal(response.status, 200);
-    assert.ok(!(await response.text()).includes('/src/main.tsx'));
-  } finally { await server.close(); }
+    const initial = await startServer();
+    await initial.close();
+    const index = join(directory, 'index.html');
+    const previousBuild = statSync(index).mtimeMs;
+    const server = await startServer();
+    try {
+      await server.listen();
+      assert.equal(statSync(index).mtimeMs, previousBuild, 'unchanged sources must not start another Student export');
+      const address = server.httpServer.address();
+      const response = await fetch(`http://127.0.0.1:${address.port}/study/`, { signal: AbortSignal.timeout(10000) });
+      assert.equal(response.status, 200);
+      assert.ok(!(await response.text()).includes('/src/main.tsx'));
+    } finally {
+      await server.close();
+    }
+  } finally {
+    if (previousDirectory === undefined) delete process.env.MATHVISION_STUDENT_PREVIEW_DIR;
+    else process.env.MATHVISION_STUDENT_PREVIEW_DIR = previousDirectory;
+    rmSync(directory, { recursive: true, force: true });
+  }
 });
 
 test('the actual exported Student router renders home, lessons and Quiz under /study', { timeout: 45000 }, async () => {
-  const response = await fetch(new URL('/api/v1/auth/login', origin), {
+  const email = `student-router-${randomUUID()}@example.test`;
+  const password = 'Local.Student-Test81!';
+  const response = await fetch(new URL('/api/v1/auth/register', origin), {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'student', password: '123' }), signal: AbortSignal.timeout(15000),
+    body: JSON.stringify({
+      email, password, role: 'STUDENT', displayName: 'Học sinh kiểm thử',
+      gradeLevel: 1, phoneNumber: '0900000000', gender: 'PREFER_NOT_TO_SAY',
+    }),
+    signal: AbortSignal.timeout(15000),
   });
-  assert.equal(response.status, 200);
-  const tokens = await response.json();
+  assert.equal(response.status, 201);
+  const browser = await chromium.launch();
   try {
-    for (const [path, expected] of [['/study/', 'Tiện ích nhanh'], ['/study/lessons', 'Hôm nay em học gì?'], ['/study/quiz', 'Câu đố của em']]) {
-      const html = await (await get(path)).text(), errors = [];
-      const virtualConsole = new VirtualConsole();
-      virtualConsole.on('jsdomError', error => {
-        if (error.type === 'unhandled exception') errors.push(error.detail?.message || error.message);
-      });
-      const dom = new JSDOM(html, {
-        url: new URL(path, origin).href, runScripts: 'dangerously', resources: 'usable', pretendToBeVisual: true, virtualConsole,
-        beforeParse(window) {
-          window.sessionStorage.setItem('portal_access_token', tokens.accessToken);
-          window.sessionStorage.setItem('portal_refresh_token', tokens.refreshToken);
-          window.TextEncoder = TextEncoder; window.TextDecoder = TextDecoder;
-          window.fetch = (url, options) => fetch(new URL(url, window.location.href), options);
-          window.matchMedia = () => ({ matches: false, addListener() {}, removeListener() {}, addEventListener() {}, removeEventListener() {} });
-          window.ResizeObserver = class { observe() {} unobserve() {} disconnect() {} };
-          // jsdom has no font/image renderer: supply readiness, not app/router mocks.
-          window.CSSFontFaceRule = window.CSSRule;
-          Object.defineProperty(window.document, 'fonts', { value: { status: 'loaded', ready: Promise.resolve(), load: async () => [], check: () => true, addEventListener() {}, removeEventListener() {} } });
-          const src = Object.getOwnPropertyDescriptor(window.HTMLImageElement.prototype, 'src');
-          Object.defineProperty(window.HTMLImageElement.prototype, 'src', { get: src.get, set(value) {
-            src.set.call(this, value); queueMicrotask(() => this.dispatchEvent(new window.Event('load')));
-          } });
-          Object.defineProperties(window.HTMLImageElement.prototype, { naturalWidth: { get: () => 256 }, naturalHeight: { get: () => 256 }, decode: { value: async () => {} } });
-        },
-      });
-      try {
-        for (let attempt = 0; attempt < 100; attempt++) {
-          const text = dom.window.document.body.textContent;
-          if (text.includes(expected) || text.includes('Unmatched Route') || errors.length) break;
-          await new Promise(resolve => setTimeout(resolve, 100));
-        }
-        const text = dom.window.document.body.textContent;
-        assert.deepEqual(errors, [], path);
-        assert.ok(!text.includes('Unmatched Route'), `${path} did not match an application route`);
-        assert.ok(text.includes(expected), `${path} did not finish rendering ${expected}; body: ${text.slice(0, 400)}`);
-        if (path === '/study/') {
-          const lessonTab = [...dom.window.document.querySelectorAll('[role="tab"], a')]
-            .find(node => node.textContent.includes('Bài học'));
-          assert.ok(lessonTab, 'the actual home page must expose the lessons tab');
-          lessonTab.click();
-          for (let attempt = 0; attempt < 50 && !dom.window.document.body.textContent.includes('Hôm nay em học gì?'); attempt++) {
-            await new Promise(resolve => setTimeout(resolve, 100));
-          }
-          assert.equal(dom.window.location.pathname, '/study/lessons', 'internal navigation must retain the Student mount');
-          assert.ok(dom.window.document.body.textContent.includes('Hôm nay em học gì?'));
-        }
-      } finally { dom.window.close(); }
-    }
+    const page = await browser.newPage();
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto(new URL('/login', origin).href);
+    await page.getByLabel('Email', { exact: true }).fill(email);
+    await page.getByLabel('Mật khẩu', { exact: true }).fill(password);
+    await page.getByRole('button', { name: 'Đăng nhập', exact: true }).click();
+    await expect(page).toHaveURL(new URL('/study/', origin).href);
+    await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+
+    await page.getByRole('tab', { name: 'Bài học', exact: true })
+      .or(page.getByRole('link', { name: 'Bài học', exact: true })).first().click();
+    await expect(page).toHaveURL(new URL('/study/lessons', origin).href);
+    await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
+
+    await page.goto(new URL('/study/quiz', origin).href);
+    await expect(page.getByRole('heading', { name: 'Câu đố của em', exact: true })).toBeVisible();
+    assert.deepEqual(errors, []);
   } finally {
-    await fetch(new URL('/api/v1/auth/logout', origin), { method: 'POST', headers: { Authorization: `Bearer ${tokens.accessToken}` }, signal: AbortSignal.timeout(5000) });
+    await browser.close();
   }
 });
