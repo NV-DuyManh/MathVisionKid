@@ -8,6 +8,7 @@ import { FONTS, IS_STUDENT_WEB } from '../../constants/theme';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { PersonalMetrics, PersonalPanel, personalWebStyles as web } from './PersonalWeb';
 import { StudentAvatar } from './ProfileCards';
+import { RankEmblem } from './RankEmblem';
 import { useStudentProfile } from './useStudentProfile';
 import { ProfileProgress } from './ProfileProgress';
 import { ParentProfilePinDialog } from './ParentModePreview';
@@ -24,7 +25,6 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
   const [showParentPin, setShowParentPin] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
   const { value, failed, retry } = useStudentProfile(owner);
-  const selectedTitle = value?.titles.find(title => title.id === value.selectedTitle);
   return <>
     <LinearGradient colors={['#FCFAFF', '#EDE3FD', '#D8C7F8']} start={{ x: 0, y: .3 }} end={{ x: 1, y: .8 }}
       style={[styles.hero, wide && styles.heroWide]}>
@@ -32,8 +32,8 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
         <View style={styles.avatar}><StudentAvatar id={value?.avatar ?? 'star'} photo={value?.avatarPhoto} size={wide ? 64 : 52} /></View>
         <View style={styles.heroInfo}>
           <Text accessibilityRole="header" style={styles.heroName}>{value?.displayName || 'Hồ sơ học tập'}</Text>
-          {value?.gradeLevel && <Text style={styles.heroSub}>Khối {value.gradeLevel}{selectedTitle ? ' · ' + selectedTitle.name : ''}</Text>}
-          {!value?.gradeLevel && selectedTitle && <Text style={styles.heroSub}>{selectedTitle.name}</Text>}
+          {value?.gradeLevel && <Text style={styles.heroSub}>Khối {value.gradeLevel}</Text>}
+          {value && <View style={styles.titleBadge}><RankEmblem name={value.rank.name} size={30} /><Text style={styles.heroSub}>{value.rank.name}</Text></View>}
         </View>
       </View>
       <View style={styles.heroActions}>
@@ -51,7 +51,6 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
     <PersonalMetrics metrics={[
       { label: 'Bài đã lưu', amount: counts?.saved, icon: 'bookmark-outline', tone: 'purple' },
       { label: 'Bài làm', amount: counts?.work, icon: 'create-outline', tone: 'blue' },
-      { label: 'Danh hiệu mở khóa', amount: value?.titles.filter(title => title.unlocked).length, icon: 'medal-outline', tone: 'green' },
     ]} />
     <ProfileProgress value={value} failed={failed} retry={retry} wide={wide} />
     {showLogout && <LogoutSheet onClose={() => setShowLogout(false)} />}
@@ -95,6 +94,7 @@ const styles = StyleSheet.create({
   logoutAction: { paddingHorizontal: 12, flexGrow: 1, backgroundColor: '#FFF0F6', borderColor: '#F3CBDD' },
   logoutLabel: { color: '#9A3152' },
   heroName: { color: STUDENT_WEB.ink, fontFamily: FONTS.black, fontSize: 24, lineHeight: 29 },
+  titleBadge: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 5 },
   heroSub: { color: STUDENT_WEB.muted, fontFamily: FONTS.bold, fontSize: 14, lineHeight: 21 },
   archiveMetric: { gap: 4 },
   archiveMetricLabel: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },

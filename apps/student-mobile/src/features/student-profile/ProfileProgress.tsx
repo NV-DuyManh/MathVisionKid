@@ -52,7 +52,6 @@ export function ProfileProgress({ value, failed, retry, wide, hideHeading = fals
 }) {
   const router = useRouter();
   const stats = value?.stats;
-  const milestones = value?.titles.filter(title => title.unlocked) ?? [];
   return <View style={styles.section}>
     {!hideHeading && <Text accessibilityRole="header" aria-level={2} style={web.heading}>Tiến độ học tập</Text>}
     <PersonalMetrics metrics={[
@@ -77,12 +76,6 @@ export function ProfileProgress({ value, failed, retry, wide, hideHeading = fals
           <PersonalLink label="Mở bài học" icon="book-outline" tone="purple" onPress={() => router.push('/(tabs)/lessons')} />
           <PersonalLink label="Luyện Quiz" icon="flash-outline" tone="yellow" onPress={() => router.push('/quiz')} />
         </PersonalPanel>
-        <PersonalPanel title="Các mốc em đã đạt">
-          {milestones.length ? milestones.slice(0, 4).map(milestone => <View key={milestone.id} style={styles.milestone}>
-            <Text style={styles.milestoneTitle}>{milestone.name}</Text>
-            <Text style={web.body}>{milestone.description}</Text>
-          </View>) : <Text style={web.body}>Danh hiệu sẽ xuất hiện khi em hoàn thành các mốc học tập.</Text>}
-        </PersonalPanel>
       </View>
     </View> : !failed && <ActivityIndicator color={COLORS.primary} accessibilityLabel="Đang tải tiến độ" />}
     {failed && <RecoveryNotice title="Chưa tải được tiến độ" message="Em kiểm tra kết nối rồi thử lại nhé."
@@ -97,7 +90,5 @@ const styles = StyleSheet.create({
   barCount: { color: STUDENT_WEB.primary, fontFamily: FONTS.extraBold, fontSize: 14 },
   barArea: { width: '100%', height: 101, justifyContent: 'flex-end', alignItems: 'center' },
   bar: { width: '74%', maxWidth: 36, borderRadius: 7, backgroundColor: '#7043DC' },
-  milestone: { gap: 3, borderRadius: 12, padding: 10, backgroundColor: STUDENT_WEB.soft },
-  milestoneTitle: { fontFamily: FONTS.extraBold, fontSize: 14, lineHeight: 20, color: STUDENT_WEB.ink },
   dayLabel: { color: STUDENT_WEB.muted, fontFamily: FONTS.bold, fontSize: 12, textAlign: 'center' },
 });
