@@ -9,6 +9,7 @@ let mockFocus: () => void;
 let mockBlur: () => void;
 jest.mock('expo-router', () => ({
   useLocalSearchParams: () => ({}), useRouter: () => mockRouter,
+  useNavigation: () => ({ isFocused: () => true }),
   useFocusEffect: (callback: () => (() => void)) => require('react').useEffect(() => {
     mockFocus = () => { mockBlur = callback(); }; mockFocus(); return () => mockBlur();
   }, [callback]),
