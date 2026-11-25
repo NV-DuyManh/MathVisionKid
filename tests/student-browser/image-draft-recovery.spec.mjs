@@ -270,6 +270,27 @@ test('Only approved Blob data and URI-free metadata are stored', async ({ page }
   expect(pixel.every(channel => channel < 24)).toBe(true);
 });
 
+test('a browser that cannot store photo blobs restores the approved photo from bytes', async ({ page }) => {
+  await page.addInitScript(() => {
+    const put = IDBObjectStore.prototype.put;
+    IDBObjectStore.prototype.put = function (data, key) {
+      if (this.name === 'images' && Object.values(data).some(value => value instanceof Blob)) {
+        throw new DOMException('Blob storage unavailable', 'UnknownError');
+      }
+      return put.call(this, data, key);
+    };
+  });
+  await start(page);
+  await openCrop(page);
+  const label = 'Ảnh bài tập đang căn chỉnh';
+  const approved = await imageHash(page, label);
+  expect((await storage(page)).imageCount).toBe(1);
+  await page.reload();
+  await expect(page.getByLabel(label)).toBeVisible();
+  expect(await imageHash(page, label)).toBe(approved);
+  expect((await maskedPixels(page)).flat().every(channel => channel < 24)).toBe(true);
+});
+
 for (const [operation, message] of [['expire', 'Ảnh đã hết thời gian lưu tạm. Em chọn lại ảnh để tiếp tục nhé.'],
   ['corrupt', 'Ảnh lưu tạm không còn mở được. Em chọn lại ảnh nhé.']]) {
   test(`${operation} draft has a working recovery path and is cleaned up`, async ({ page }) => {

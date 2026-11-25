@@ -10,6 +10,8 @@ type Metadata = Pick<ImageDraft, 'width' | 'height' | 'source' | 'mode' | 'isMas
 type Record = { version: 1; scope: string; owner: string; session: string; id: string; imageRevision: string; createdAt: number;
   updatedAt: number; expiresAt: number; step: string; meta: Metadata };
 type Images = { privacy?: Blob; cropped?: Blob; original?: Blob };
+type StoredPhoto = Blob | { bytes: ArrayBuffer; type: string };
+type StoredImages = { [key in keyof Images]: StoredPhoto };
 type Masks = NonNullable<ImageDraft['masks']>;
 const PRIVACY_JOURNAL = 'mathvision-photo-privacy-v1', PRIVACY_TTL = 30000;
 let returnMode: ImageDraft['mode'];
@@ -42,10 +44,17 @@ async function transaction(mode: IDBTransactionMode, action: (tx: IDBTransaction
   const db = await open();
   await new Promise<void>((resolve, reject) => {
     const tx = db.transaction(['drafts', 'images'], mode);
-    const timer = setTimeout(() => { tx.abort(); }, 5000);
+    const abort = () => { try { tx.abort(); } catch { /* Already finished. */ } };
+    const timer = setTimeout(() => { abort(); reject(new Error('Storage unavailable')); }, 5000);
     tx.oncomplete = () => { clearTimeout(timer); resolve(); };
-    tx.onerror = tx.onabort = () => { clearTimeout(timer); reject(new Error('Storage unavailable')); };
-    try { action(tx); } catch (error) { tx.abort(); reject(error); }
+    tx.onerror = event => {
+      clearTimeout(timer);
+      const error = (event.target as IDBRequest | null)?.error ?? tx.error;
+      abort();
+      reject(error ?? new Error('Storage unavailable'));
+    };
+    tx.onabort = () => { clearTimeout(timer); reject(tx.error ?? new Error('Storage unavailable')); };
+    try { action(tx); } catch (error) { clearTimeout(timer); abort(); reject(error); }
   });
 }
 function forgetJournal(key: string) {
@@ -142,6 +151,26 @@ function valid(record: Record, images: Images) {
 function validPhoto(blob?: Blob): blob is Blob {
   return blob instanceof Blob && blob.size > 0 && blob.size <= MAX_BYTES && /^image\/(jpeg|png|webp)$/.test(blob.type);
 }
+function readPhoto(value?: StoredPhoto): Blob | undefined {
+  if (value instanceof Blob) return value;
+  if (value?.bytes instanceof ArrayBuffer && value.bytes.byteLength <= MAX_BYTES && typeof value.type === 'string') {
+    return new Blob([value.bytes], { type: value.type });
+  }
+}
+async function writePhotos(record: Record, images: Images, generation: number) {
+  const write = (data: StoredImages) => transaction('readwrite', tx => {
+    if (generation !== revision || recognitionDraftStore.getDraft()?.imageSessionId !== record.id) throw new Error('Photo changed');
+    tx.objectStore('drafts').put(record, record.scope);
+    tx.objectStore('images').put(data, record.scope);
+  });
+  try { await write(images); }
+  catch (error) {
+    // Some WebKit storage backends reject Blob writes but can store the same bytes.
+    if (!(error instanceof DOMException) || error.name !== 'UnknownError') throw error;
+    const buffer = async (blob?: Blob) => blob && { bytes: await blob.arrayBuffer(), type: blob.type };
+    await write({ privacy: await buffer(images.privacy), cropped: await buffer(images.cropped), original: await buffer(images.original) });
+  }
+}
 async function dimensions(blob: Blob) {
   const uri = URL.createObjectURL(blob);
   try {
@@ -202,7 +231,11 @@ async function activate(nextOwner?: string | null, restoreDraft = true) {
     let record: Record | undefined, images: Images | undefined;
     await transaction('readonly', tx => {
       const m = tx.objectStore('drafts').get(scope), b = tx.objectStore('images').get(scope);
-      m.onsuccess = () => { record = m.result; }; b.onsuccess = () => { images = b.result; };
+      m.onsuccess = () => { record = m.result; };
+      b.onsuccess = () => {
+        const stored = b.result as StoredImages | undefined;
+        if (stored) images = { privacy: readPhoto(stored.privacy), cropped: readPhoto(stored.cropped), original: readPhoto(stored.original) };
+      };
     });
     if (!await current(generation)) return;
     if (!record) {
@@ -282,11 +315,7 @@ async function savePrivacy(draft: ImageDraft) {
     const now = Date.now();
     const record: Record = { version: 1, scope: key, owner, session, id, imageRevision: id,
       createdAt: now, updatedAt: now, expiresAt: now + PRIVACY_TTL, step: 'privacy', meta: metadata(draft) };
-    await transaction('readwrite', tx => {
-      if (generation !== revision || recognitionDraftStore.getDraft()?.imageSessionId !== id) throw new Error('Photo changed');
-      tx.objectStore('drafts').put(record, key);
-      tx.objectStore('images').put({ original }, key);
-    });
+    await writePhotos(record, { original }, generation);
     if (!await current(generation) || recognitionDraftStore.getDraft()?.imageSessionId !== id) return;
     saved = record;
     schedulePrivacyExpiry(record);
@@ -313,10 +342,7 @@ async function confirm(draft: ImageDraft, step: string) {
       : globalThis.crypto?.randomUUID?.() || `${Date.now()}_${Math.random().toString(36).slice(2)}`;
     const record: Record = { version: 1, scope: key, owner, session, id: draft.imageSessionId, imageRevision,
       createdAt, updatedAt: now, expiresAt: Math.min(now + TTL, createdAt + MAX_LIFE), step, meta: metadata(draft) };
-    await transaction('readwrite', tx => {
-      if (generation !== revision) throw new Error('Session changed');
-      tx.objectStore('drafts').put(record, key); tx.objectStore('images').put(images, key);
-    });
+    await writePhotos(record, images, generation);
     if (!await current(generation)) return false;
     saved = record; privacyUri = draft.privacyImageUri; croppedUri = draft.croppedImageUri || '';
     publish('none'); void cleanup().catch(() => {}); return true;
