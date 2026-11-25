@@ -343,14 +343,22 @@ def _unit_calculation(text: str) -> tuple[bool, Fraction] | None:
         return None
     values = []
     for side in sides:
-        match = re.fullmatch(fr'\s*({_NUMBER})\s*([^\W\d_][\w\s^²³]*)\s*', side)
+        unit_text = r'[^\W\d_][^\W\d_]*(?:[²³])?'
+        match = re.fullmatch(fr'\s*({_NUMBER})\s*({unit_text})(?:\s+(\d+(?:[.,]\d+)?)\s*({unit_text}))?\s*', side)
         if not match or (unit := quantity_unit(match[2])) is None or (value := _exact_number(match[1])) is None:
             return None
         dimension, scale = unit
-        values.append((dimension, value * scale))
+        amount = value * scale
+        if match[3] is not None:
+            other = quantity_unit(match[4])
+            tail = _exact_number(match[3])
+            if value < 0 or tail is None or other is None or other[0] != dimension or scale <= other[1]:
+                return None
+            amount += tail * other[1]
+        values.append((dimension, amount))
     if any(dimension != values[0][0] for dimension, _ in values):
         return False, value
-    return all(amount == values[0][1] for _, amount in values), value
+    return all(amount == values[0][1] for _, amount in values), amount / scale
 
 
 def _dependent_correction(row: ReviewedRow) -> ReviewedRow:
