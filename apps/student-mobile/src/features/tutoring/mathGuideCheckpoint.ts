@@ -31,6 +31,7 @@ export type MathGuideCheckpoint = {
   fractionInput: boolean;
   answerEdited: boolean;
   pendingAnswer: string;
+  answerModeDrafts?: { number: string; fraction: string; showingFallback: boolean };
   savedToHistory: boolean;
   workReview: WorkReviewCheckpoint | null;
 };
@@ -63,6 +64,10 @@ export function readMathGuideCheckpoint(scope: string, route: string): MathGuide
         || row.reading && (!Array.isArray(row.reading.lines) || typeof row.reading.problemText !== 'string')
         || row.workReview?.result && !Array.isArray(row.workReview.result.rows)
         || row.progress && !validLearningProgress(row.progress)) return null;
+    const drafts = row.answerModeDrafts;
+    if (drafts && (typeof drafts.number !== 'string' || drafts.number.length > 500
+        || typeof drafts.fraction !== 'string' || drafts.fraction.length > 500
+        || typeof drafts.showingFallback !== 'boolean')) return { ...row, answerModeDrafts: undefined };
     return row;
   } catch { return null; }
 }
