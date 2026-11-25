@@ -50,7 +50,7 @@ Students can start with a photographed question, review their own handwritten so
   </tr>
 </table>
 
-The screenshots show the Vietnamese app in a phone-sized browser viewport. Minh Anh is a sample profile. See the [demo walkthrough](docs/DEMO_GUIDE.md).
+These screenshots come from the running app on a phone-sized browser viewport. Minh Anh is a demo account, and the photo step uses an owner-supplied handwritten problem. See the [demo walkthrough](docs/DEMO_GUIDE.md).
 
 ## From photo to learning
 
