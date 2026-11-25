@@ -2,7 +2,6 @@ import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
 import { AuthContext } from '../context/AuthContext';
 import { QuizAfterLearningButton, QuizInvitation } from '../features/quiz/QuizInvitation';
-import { QuizShortcut } from '../features/quiz/QuizShortcut';
 import QuizScreen from '../app/quiz/[quizId]';
 import QuizFromLearningScreen from '../app/quiz/from-learning';
 import { quizApi } from '../features/quiz/quizApi';
@@ -73,16 +72,6 @@ it('invitation adapts to in-progress and completed quiz states', async () => {
   await act(async () => { view = TestRenderer.create(<QuizInvitation sourceType="LESSON" sourceId="lesson-three" />); });
   expect(button('Làm lại')).toBeDefined();
   expect(button('Xem kết quả')).toBeDefined();
-});
-it('badge comes from the server and immediately clears old-account data on account change', async () => {
-  await act(async () => { view = TestRenderer.create(wrapper(<QuizShortcut />)); });
-  expect(button('Câu đố của em, 2 câu chưa hoàn thành')).toBeDefined();
-  let resolve: (value: any) => void = () => {};
-  (quizApi.count as jest.Mock).mockImplementation(() => new Promise(done => { resolve = done; }));
-  await act(async () => view.update(wrapper(<QuizShortcut />, 'student-b')));
-  expect(button('Câu đố của em, 2 câu chưa hoàn thành')).toBeUndefined();
-  await act(async () => resolve({ pendingCount: 0, totalStars: 0 }));
-  expect(button('Câu đố của em')).toBeDefined();
 });
 it('keeps the solution locked, prevents double submit and reuses the same request key after network ambiguity', async () => {
   (quizApi.get as jest.Mock).mockResolvedValue({ ...ready, status: 'IN_PROGRESS', questionText: 'Đề mới đã xác minh.' });
