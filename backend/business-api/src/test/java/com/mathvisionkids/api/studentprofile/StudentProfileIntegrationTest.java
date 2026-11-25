@@ -651,6 +651,38 @@ class StudentProfileIntegrationTest {
         assertFalse(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(entry -> entry.alias().equals("Minh Anh")));
     }
 
+    @Test void ranksAcrossGradesAndHonorsPrivacy() throws Exception {
+        pupil.setGradeLevel(5);
+        students.saveAndFlush(pupil);
+        rewards.record(pupil.getId(), StudentRewards.Source.LESSON, "rank-5", "rank-5");
+        rewards.record(pupil.getId(), StudentRewards.Source.LESSON, "rank-5-extra", "rank-5-extra");
+        rewards.record(other.getId(), StudentRewards.Source.LESSON, "rank-3", "rank-3");
+        var gradeFive = profiles.update(pupil.getEmail(), new Edit("Tên lớp năm", "moon", true, null, false, true));
+        var gradeThree = profiles.update(other.getEmail(), new Edit("Tên lớp ba", "star", true, null, false, true));
+
+        var all = profiles.leaderboard(other.getEmail(), null, true);
+        var firstStudent = all.entries().stream().filter(entry -> entry.alias().equals(gradeFive.publicAlias())).findFirst().orElseThrow();
+        var own = all.entries().stream().filter(Entry::self).findFirst().orElseThrow();
+        assertEquals(gradeThree.publicAlias(), own.alias());
+        assertEquals(own.position(), all.ownPosition());
+        assertTrue(firstStudent.position() < own.position());
+        assertFalse(profiles.leaderboard(other.getEmail(), null).entries().contains(firstStudent));
+        mvc.perform(get("/api/v1/student/leaderboard").param("allGrades", "true")
+                        .with(user(other.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.ownPosition").value(own.position()))
+                .andExpect(jsonPath("$.gradeLevel").doesNotExist())
+                .andExpect(jsonPath("$.entries[?(@.alias == '%s')]".formatted(gradeFive.publicAlias())).isNotEmpty());
+        mvc.perform(get("/api/v1/student/leaderboard").param("allGrades", "true")
+                        .param("classroom", UUID.randomUUID().toString()).with(user(other.getEmail()).roles("STUDENT")))
+                .andExpect(status().isBadRequest());
+
+        profiles.update(pupil.getEmail(), new Edit("Tên lớp năm", "moon", false, null));
+        assertFalse(profiles.leaderboard(other.getEmail(), null, true).entries().stream()
+                .anyMatch(entry -> entry.alias().equals(gradeFive.publicAlias())));
+        assertNull(profiles.leaderboard(pupil.getEmail(), null, true).ownPosition());
+    }
+
     @Test void legacyAliasesAreReplacedOnFirstProfileReadAndConcurrentReadsKeepOneAlias() throws Exception {
         db.update("INSERT INTO student_profile_preferences(student_id, public_alias) VALUES (?, ?)", pupil.getId(), "Sao abcdef123456");
         String alias = profiles.get(pupil.getEmail()).publicAlias();

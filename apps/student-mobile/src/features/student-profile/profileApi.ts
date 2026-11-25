@@ -63,8 +63,8 @@ export const profileApi = {
     const config = { signal, _identity: identity, transformRequest: [(value: unknown) => value], headers: { 'Content-Type': undefined } };
     return (await apiClient.put<StudentProfile>(root + '/profile/photo', form, config)).data;
   },
-  async leaderboard(classroom: string | undefined, signal: AbortSignal) {
-    return (await apiClient.get<Leaderboard>(root + '/leaderboard', { params: { classroom }, signal })).data;
+  async leaderboard(classroom: string | undefined, signal: AbortSignal, allGrades?: true) {
+    return (await apiClient.get<Leaderboard>(root + '/leaderboard', { params: { classroom, allGrades }, signal })).data;
   },
   async rankMilestones(signal: AbortSignal) {
     return (await apiClient.get<RankMilestone[]>(root + '/rank-milestones', { signal })).data;

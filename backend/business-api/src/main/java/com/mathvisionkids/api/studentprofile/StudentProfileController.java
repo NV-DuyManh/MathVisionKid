@@ -44,8 +44,9 @@ public class StudentProfileController {
     }
 
     @GetMapping("/leaderboard")
-    public Leaderboard leaderboard(Principal principal, @RequestParam(required = false) UUID classroom) {
-        return profiles.leaderboard(principal.getName(), classroom);
+    public Leaderboard leaderboard(Principal principal, @RequestParam(required = false) UUID classroom,
+                                   @RequestParam(defaultValue = "false") boolean allGrades) {
+        return profiles.leaderboard(principal.getName(), classroom, allGrades);
     }
 
     @GetMapping("/rank-milestones")

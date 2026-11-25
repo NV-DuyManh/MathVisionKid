@@ -187,11 +187,20 @@ public class StudentProfileService {
 
     @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
     public Leaderboard leaderboard(String principal, UUID classroom) {
+        return leaderboard(principal, classroom, false);
+    }
+
+    @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
+    public Leaderboard leaderboard(String principal, UUID classroom, boolean allGrades) {
+        if (allGrades && classroom != null) throw invalid("Em chỉ có thể xem một phạm vi xếp hạng mỗi lần.");
         Student student = student(principal);
         UUID id = student.getId();
-        if (student.getGradeLevel() == null) return new Leaderboard(List.of(), null, null);
-        String ranking = gradeRanking();
-        Object[] filters = { student.getGradeLevel() };
+        Integer grade = allGrades ? null : student.getGradeLevel();
+        if (!allGrades && grade == null) return new Leaderboard(List.of(), null, null);
+        String ranking = allGrades
+                ? "SELECT g.*, g.position AS global_position FROM (" + StudentRewards.GLOBAL_RANKING + ") g"
+                : gradeRanking();
+        Object[] filters = allGrades ? new Object[0] : new Object[] { grade };
         if (classroom != null) {
             if (db.queryForObject("SELECT COUNT(*) FROM classroom_students WHERE class_id = ? AND student_id = ?",
                     Long.class, classroom, id) == 0) {
@@ -201,14 +210,14 @@ public class StudentProfileService {
                     SELECT g.*, ROW_NUMBER() OVER (ORDER BY g.position) AS class_position
                     FROM (%s) g JOIN classroom_students cs ON cs.student_id = g.student_id WHERE cs.class_id = ?
                     """.formatted(ranking);
-            filters = new Object[] { student.getGradeLevel(), classroom };
+            filters = new Object[] { grade, classroom };
         }
         String order = classroom == null ? "position" : "class_position";
         var entries = db.query("SELECT * FROM (" + ranking + ") ranked ORDER BY " + order + " LIMIT 200",
                 (r, n) -> new Entry(r.getLong(order), r.getString("board_name"), r.getString("avatar"), r.getLong("stars"),
                         StudentRank.at(r.getLong("stars"), r.getLong("global_position")), id.equals(r.getObject("student_id", UUID.class))), filters);
         String ownRanking = classroom == null ? ranking : "SELECT student_id, class_position AS position FROM (" + ranking + ") by_class";
-        return new Leaderboard(entries, position(id, ownRanking, filters), student.getGradeLevel());
+        return new Leaderboard(entries, position(id, ownRanking, filters), grade);
     }
 
     private String gradeRanking() {
