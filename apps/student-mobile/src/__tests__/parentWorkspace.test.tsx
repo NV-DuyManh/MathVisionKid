@@ -111,6 +111,20 @@ afterEach(() => {
   require('react-native').Platform.OS = 'ios';
 });
 
+it('labels previously loaded limits when settings are unavailable and refreshes without another PIN', async () => {
+  storeParentModeHandoff('student-a', { dailyMinutes: 45, grant: 'parent-grant' });
+  jest.mocked(readParentSettings).mockRejectedValueOnce(new Error('network unavailable'))
+    .mockResolvedValueOnce({ dailyMinutes: 60 });
+  await act(async () => {
+    view = TestRenderer.create(<ParentModePreview owner="student-a" onExit={jest.fn()} />);
+  });
+  expect(text()).toContain('Số liệu giới hạn hiển thị là lần tải gần nhất');
+  await press('Tải lại cài đặt');
+  expect(text()).not.toContain('Số liệu giới hạn hiển thị là lần tải gần nhất');
+  expect(readParentModeSession('student-a')?.dailyMinutes).toBe(60);
+  expect(openParentMode).not.toHaveBeenCalled();
+});
+
 it('consumes the profile PIN handoff once, retains the active session until cleared, and expires handoff quickly', () => {
   jest.useFakeTimers();
   jest.setSystemTime(new Date('2026-11-20T04:00:00Z'));
