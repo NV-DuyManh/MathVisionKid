@@ -1,12 +1,12 @@
 <div align="center">
 
-![MathVision Kids — Hiểu từng bước, tự tin học Toán. Hai màn hình giới thiệu trang chủ học sinh và bài học.](docs/media/readme-hero.jpg)
+![MathVision Kids — Small steps. Big discoveries. Student Home and a completed lesson.](docs/media/readme-hero.jpg)
 
 # MathVision Kids
 
 ### From a notebook photo to a lesson the student can work through.
 
-A Vietnamese math learning app for grades 1–5. Students can photograph a problem, check the recognized text, and work through the reasoning with hints and narration. Families can follow learning activity and set time limits in Góc phụ huynh.
+A Vietnamese math learning app for grades 1–5. Students can photograph a problem, check the recognized text, and work through the reasoning with hints and narration. Families can follow learning activity and set time limits in Parent Mode.
 
 ![Expo 58](https://img.shields.io/badge/Expo-58-18164C?style=flat-square&logo=expo&logoColor=white)
 ![React Native](https://img.shields.io/badge/React_Native-0.88-7055F6?style=flat-square&logo=react&logoColor=white)
@@ -15,7 +15,7 @@ A Vietnamese math learning app for grades 1–5. Students can photograph a probl
 [![License: MIT](https://img.shields.io/badge/License-MIT-7055F6?style=flat-square)](LICENSE)
 [![Catalog Bot](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml/badge.svg)](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml)
 
-[Open MathVision Kids](https://edu.mathvision.online) · [Screenshots](#see-it-in-action) · [Run locally](#run-it-locally) · [Hướng dẫn tiếng Việt](docs/HUONG_DAN_CAI_DAT.md) · [Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md)
+[Open MathVision Kids](https://edu.mathvision.online) · [Screenshots](#see-it-in-action) · [Run locally](#run-it-locally) · [Vietnamese setup](docs/HUONG_DAN_CAI_DAT.md) · [Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md)
 
 </div>
 
@@ -31,34 +31,26 @@ Students can start with a photographed question, review their own handwritten so
 
 ## See it in action
 
-<p align="center">
-  <a href="docs/media/screenshots/portal-login-current.jpg"><img src="docs/media/screenshots/portal-login-current.jpg" width="860" alt="MathVision Kids web sign-in with the robot mascot, email form and Google sign-in" /></a><br />
-  <strong>Sign in to MathVision Kids</strong><br />
-  Use email and password or continue with Google on the public website.
-</p>
+### The student journey
 
 <table>
   <tr>
-    <td align="center" width="33%"><a href="docs/media/screenshots/student-lesson-current.png"><img src="docs/media/screenshots/student-lesson-current.png" width="240" alt="Student Web lesson with the original question, checked solution and narration controls" /></a><br /><strong>Work through a lesson</strong><br />Revisit the steps and listen to the explanation.</td>
-    <td align="center" width="33%"><a href="docs/media/screenshots/student-home-current.png"><img src="docs/media/screenshots/student-home-current.png" width="240" alt="Student home with the robot, camera shortcut and learning activities" /></a><br /><strong>Start on Student Home</strong><br />Capture a problem, practice, or revisit saved work.</td>
-    <td align="center" width="33%"><a href="docs/media/screenshots/parent-overview-current.png"><img src="docs/media/screenshots/parent-overview-current.png" width="240" alt="Parent overview with learning activity, streak, usage time and a limits tab" /></a><br /><strong>Góc phụ huynh</strong><br />Review progress and manage time limits.</td>
+    <td align="center" width="33%"><a href="docs/media/screenshots/student-home-current.png"><img src="docs/media/screenshots/student-home-current.png" width="230" alt="Student Home with the camera shortcut and learning activities" /></a><br /><strong>1. Start on Student Home</strong><br />Open the camera, practice by topic, or resume saved work.</td>
+    <td align="center" width="33%"><a href="docs/media/screenshots/student-photo-current.png"><img src="docs/media/screenshots/student-photo-current.png" width="230" alt="Worksheet photo with the crop and rotation controls" /></a><br /><strong>2. Prepare the photo</strong><br />Cover personal details and crop to the problem before review.</td>
+    <td align="center" width="33%"><a href="docs/media/screenshots/student-lesson-current.png"><img src="docs/media/screenshots/student-lesson-current.png" width="230" alt="Completed student lesson with the original question, answer, and narration controls" /></a><br /><strong>3. Work through the lesson</strong><br />Try the steps, check the result, and listen to the explanation.</td>
   </tr>
 </table>
 
-<details>
-<summary><strong>More screenshots: photo review, the practice library and a completed challenge</strong></summary>
+### Practice and follow progress
 
 <table>
   <tr>
-    <td align="center" width="33%"><a href="docs/media/screenshots/problem-android.png"><img src="docs/media/screenshots/problem-android.png" width="250" alt="Owner supplied Android screenshot of a photographed problem and editable transcription" /></a><br /><strong>Photo → readable problem</strong></td>
-    <td align="center" width="33%"><a href="docs/media/screenshots/lessons-web.jpg"><img src="docs/media/screenshots/lessons-web.jpg" width="250" alt="Grade five practice problems in the lesson library" /></a><br /><strong>Practice by grade</strong></td>
-    <td align="center" width="33%"><a href="docs/media/screenshots/student-challenge-current.png"><img src="docs/media/screenshots/student-challenge-current.png" width="250" alt="Completed math challenge with earned stars and the next challenge button" /></a><br /><strong>Try a short challenge</strong></td>
+    <td align="center" width="50%"><a href="docs/media/screenshots/student-challenge-current.png"><img src="docs/media/screenshots/student-challenge-current.png" width="230" alt="Completed math challenge with earned stars and the next challenge button" /></a><br /><strong>4. Try a short challenge</strong><br />Practice the skill and review the answer.</td>
+    <td align="center" width="50%"><a href="docs/media/screenshots/parent-overview-current.png"><img src="docs/media/screenshots/parent-overview-current.png" width="230" alt="Parent Mode overview with learning activity, streak, usage time, and daily limit" /></a><br /><strong>5. Review progress in Parent Mode</strong><br />See learning activity and set time limits from the student profile.</td>
   </tr>
 </table>
 
-</details>
-
-The sign-in screenshot was captured on the public website on **25 November 2026**. Student and parent screenshots show browser sessions with test data at a phone-sized viewport. The Android photo-review image was supplied by the project owner. Device frames on the cover are presentation artwork. See the [demo walkthrough](docs/DEMO_GUIDE.md).
+These screenshots come from the running app on a phone-sized browser viewport. Minh Anh is a demo account, and the photo step uses an owner-supplied handwritten problem. See the [demo walkthrough](docs/DEMO_GUIDE.md).
 
 ## From photo to learning
 
@@ -79,10 +71,10 @@ An isolated calculation can be checked arithmetically. Deciding whether an entir
 ## What is inside
 
 - **Student app:** direct camera access, photo import, crop and rotation controls, privacy masking, editable reading results, guided lessons, saved work, and learning progress.
-- **Góc phụ huynh:** open it from the student's profile to review activity and usage, or set daily and game time limits. The area is protected by a PIN, with email verification for setup and recovery where mail delivery is configured.
+- **Parent Mode:** open it from the student's profile to review activity and usage, or set daily and game time limits. The area is protected by a PIN, with email verification for setup and recovery where mail delivery is configured.
 - **Account access:** sign in with email and password or Google on Portal. Password recovery uses a verification code sent to the registered email address.
 - **Handwriting tools:** line localization, per-line Vietnamese OCR, review of uncertain readings, and optional cloud assistance.
-- **Practice library:** grade-based activities, including topics labeled Kết Nối Tri Thức and Cánh Diều. This is a practice collection, not a claim of full textbook coverage or publisher affiliation.
+- **Practice library:** browse exercises by grade and topic, then start a guided lesson from the selected problem.
 - **Teacher workspace:** classes, assignments, submission batches, and review workflows.
 - **Admin workspace:** role-based management through the business API.
 - **Catalog Bot:** reuses checked lessons and valid speech privately, with automated storage checks and a visible [GitHub Actions report](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml). Open `RUN_CATALOG_BOT.bat` for a read-only snapshot of this machine's catalog; see [catalog details and limits](catalog/README.md).
@@ -121,7 +113,7 @@ The local Portal also opens the shared Student interface at `http://localhost:51
 
 The root launchers have separate purposes: `RUN_MATHVISION.bat` runs the local app, `STOP_MATHVISION.bat` stops it, `RUN_CATALOG_BOT.bat` audits the lesson catalog, and `DEPLOY_WEB.bat` publishes the configured public trial. Maintenance commands live in `scripts/`; their PowerShell implementations live in `scripts/dev/`.
 
-For phone setup, development accounts, model files, and configuration, follow [English setup](docs/LOCAL_SETUP.md) or [hướng dẫn tiếng Việt](docs/HUONG_DAN_CAI_DAT.md). For errors, see [troubleshooting](docs/TROUBLESHOOTING.md).
+For phone setup, development accounts, model files, and configuration, follow [English setup](docs/LOCAL_SETUP.md) or [Vietnamese setup](docs/HUONG_DAN_CAI_DAT.md). For errors, see [troubleshooting](docs/TROUBLESHOOTING.md).
 
 ## Technology stack
 
@@ -170,7 +162,7 @@ MathVisionKid/
 
 | I want to… | Read this |
 | :--- | :--- |
-| Install and run the project | [Local setup](docs/LOCAL_SETUP.md) · [Tiếng Việt](docs/HUONG_DAN_CAI_DAT.md) |
+| Install and run the project | [Local setup](docs/LOCAL_SETUP.md) · [Vietnamese setup](docs/HUONG_DAN_CAI_DAT.md) |
 | Deploy the web workspaces | [Vercel and production setup](docs/PRODUCTION_DEPLOYMENT.md) · [API/OCR trial on your PC](docs/PC_PREVIEW_DEPLOYMENT.md) |
 | Clone on another computer or understand the shared link | [Clone and hosting behavior](docs/CLONE_AND_HOSTING.md) · [Free cloud trial](docs/FREE_CLOUD_DEPLOYMENT.md) |
 | Review the shared student website | [Student web parity and verification (local archive)](report/README.md#local-archive) (`student-web-parity-2026-10-09.md`) |

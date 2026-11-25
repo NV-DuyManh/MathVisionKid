@@ -5,7 +5,7 @@ These assets support the repository README and documentation. They contain real 
 | Asset | Capture / origin |
 | :--- | :--- |
 | `readme-hero.jpg` | 1600 × 860 cover rendered from `showcase.html` |
-| `screenshots/*-current.*` | November 2026 Portal, Student Web and Parent Mode screens. Authenticated screenshots use test data. |
+| `screenshots/*-current.*` | November 2026 Student Web and Parent Mode screens. The student profile uses sample data. |
 | `screenshots/*-web.jpg` | Student web preview at 390 × 844 on 5 October 2026 |
 | `screenshots/problem-android.png` | Original Android screenshot supplied by the project owner |
 
