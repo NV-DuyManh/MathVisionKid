@@ -15,6 +15,15 @@ import { analyzeRowPresentation, checkIncompleteWork, isWorkReviewIssue } from '
 import { CorrectAnswerFeedback } from './CorrectAnswerFeedback';
 import { WorkLineInput } from './WorkLineInput';
 
+export type WorkReviewCheckpoint = {
+  result: WorkReview | null;
+  selectedLine: number | null;
+  hintCount: number;
+  showAlternative: boolean;
+  showDetails: boolean;
+  rewrite: Record<number, string> | null;
+};
+
 type Props = {
   problemText: string;
   workText: string;
@@ -24,6 +33,8 @@ type Props = {
   disabled?: boolean;
   photoCurrent?: boolean;
   autoStart?: boolean;
+  checkpoint?: WorkReviewCheckpoint | null;
+  onCheckpoint?: (value: WorkReviewCheckpoint) => void;
   onReviseWork: (work: string) => void;
   onCaptureWork: () => void;
   onSessionExpired?: () => void;
@@ -44,21 +55,23 @@ function ReviewSession({
   disabled = false,
   photoCurrent = true,
   autoStart = false,
+  checkpoint,
+  onCheckpoint,
   onReviseWork,
   onCaptureWork,
   onSessionExpired,
   onReviewReady,
 }: Props) {
   const router = useRouter();
-  const [result, setResult] = useState<WorkReview | null>(null);
+  const [result, setResult] = useState<WorkReview | null>(checkpoint?.result ?? null);
   const [busy, setBusy] = useState(false);
   const [expired, setExpired] = useState(false);
   const [error, setError] = useState('');
-  const [selectedLine, setSelectedLine] = useState<number | null>(null);
-  const [hintCount, setHintCount] = useState(0);
-  const [showAlternative, setShowAlternative] = useState(false);
-  const [showDetails, setShowDetails] = useState(false);
-  const [rewrite, setRewrite] = useState<Record<number, string> | null>(null);
+  const [selectedLine, setSelectedLine] = useState<number | null>(checkpoint?.selectedLine ?? null);
+  const [hintCount, setHintCount] = useState(checkpoint?.hintCount ?? 0);
+  const [showAlternative, setShowAlternative] = useState(checkpoint?.showAlternative ?? false);
+  const [showDetails, setShowDetails] = useState(checkpoint?.showDetails ?? false);
+  const [rewrite, setRewrite] = useState<Record<number, string> | null>(checkpoint?.rewrite ?? null);
   const [focused, setFocused] = useState(false);
   const [sessionFocused, setSessionFocused] = useState(false);
   const controller = useRef<AbortController | null>(null);
@@ -69,6 +82,10 @@ function ReviewSession({
   const rewriteId = useId();
   const alternativeId = useId();
   const disabledNow = disabled || !enabled || expired;
+
+  useEffect(() => {
+    onCheckpoint?.({ result, selectedLine, hintCount, showAlternative, showDetails, rewrite });
+  }, [onCheckpoint, result, selectedLine, hintCount, showAlternative, showDetails, rewrite]);
 
   const stop = useCallback(() => {
     sequence.current += 1;

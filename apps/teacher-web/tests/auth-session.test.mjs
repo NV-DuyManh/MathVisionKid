@@ -18,9 +18,18 @@ function load(path, imports) {
     compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.ReactJSX, esModuleInterop: true },
   }).outputText;
   vm.runInNewContext(source, { exports, React, window: globalThis.window, document: globalThis.document,
-    sessionStorage: globalThis.window.sessionStorage, Event: globalThis.window.Event, URL, URLSearchParams,
+    localStorage: globalThis.window.localStorage, Event: globalThis.window.Event, URL, URLSearchParams,
     require: id => imports[id] ?? require(id) });
   return exports;
+}
+
+function loadTeacherSession() {
+  const { createWebSession } = load('../../../packages/shared-contracts/src/webSession.ts', {});
+  window.localStorage.setItem('mvk_teacher_web_session', 'teacher-a');
+  const session = load('../src/services/api/AuthTokenStore.ts', {
+    '../../../../../packages/shared-contracts/src/webSession': { createWebSession },
+  });
+  return session;
 }
 
 async function session(run, pendingMe = false) {
@@ -31,8 +40,8 @@ async function session(run, pendingMe = false) {
     IS_REACT_ACT_ENVIRONMENT: globalThis.IS_REACT_ACT_ENVIRONMENT };
   Object.assign(globalThis, { window: dom.window, document: dom.window.document, IS_REACT_ACT_ENVIRONMENT: true });
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  const { AuthTokenStore: tokens } = load('../src/services/api/AuthTokenStore.ts', {});
-  tokens.setTokens('teacher-a', 'refresh-a');
+  const { AuthTokenStore: tokens, teacherSession, establishTeacherSession } = loadTeacherSession();
+  teacherSession.apiClient.defaults.adapter = async config => ({ data: { sessionId: 'teacher-b' }, status: 200, headers: {}, config });
   client.setQueryData(['submissionImage', 'private-a'], new Blob(['teacher A private image']));
   let resolveMe;
   const me = new Promise(resolve => { resolveMe = resolve; });
@@ -42,14 +51,14 @@ async function session(run, pendingMe = false) {
   const context = load('../src/components/layout/AuthContext.tsx', {
     'react-router-dom': { useNavigate: () => navigate, useLocation: () => location },
     '../../services/api/ServiceLocator': { AppTeacherService: { getMe: () => pendingMe ? me : Promise.resolve(currentUser) } },
-    '../../services/api/AuthTokenStore': { AuthTokenStore: tokens },
+    '../../services/api/AuthTokenStore': { AuthTokenStore: tokens, teacherSession },
     '../../services/api/apiClient': { post: async () => ({ data: '' }) },
     '../../config/runtime': { appConfig: { portalOrigin: 'https://portal.mathvision.example' } },
   });
   const requests = [];
   const image = load('../src/components/common/SubmissionImage.tsx', {
     '../../services/api/apiClient': { get: async (_url, options) => {
-      requests.push({ token: tokens.getAccessToken(), signal: options.signal });
+      requests.push({ token: tokens.getSessionId(), signal: options.signal });
       throw new Error('Forbidden for current teacher');
     } },
     '../../config/runtime': { useMocks: false },
@@ -74,7 +83,7 @@ async function session(run, pendingMe = false) {
   try {
     await render();
     await run({ dom, client, tokens, requests, render, location, resolveMe,
-      getAuth: () => auth, setUser: user => { currentUser = user; } });
+      establishTeacherSession, getAuth: () => auth, setUser: user => { currentUser = user; } });
   } finally {
     await act(async () => root.unmount());
     client.clear();
@@ -84,14 +93,14 @@ async function session(run, pendingMe = false) {
 }
 
 test('teacher identity switch removes cached private images and aborts previous session requests', async () => {
-  await session(async ({ dom, client, tokens, requests, render, location, setUser }) => {
+  await session(async ({ dom, client, tokens, requests, render, location, setUser, establishTeacherSession }) => {
     assert.equal(dom.window.document.querySelectorAll('img').length, 1);
     let oldSignal;
     const pending = client.fetchQuery({ queryKey: ['old-session-request'], queryFn: ({ signal }) => {
       oldSignal = signal;
       return new Promise(() => {});
     } }).catch(() => {});
-    await act(async () => tokens.setTokens('teacher-b', 'refresh-b', true));
+    await act(async () => establishTeacherSession('/auth/login', {}));
     assert.equal(oldSignal.aborted, true);
     await pending;
     assert.equal(client.getQueryCache().getAll().length, 0);
@@ -122,13 +131,12 @@ test('authentication failure clears private data and a late previous /me respons
   }, true);
 });
 
-test('token refresh preserves the current teacher cache and logout removes it', async () => {
+test('the current teacher session preserves its cache and logout removes it', async () => {
   await session(async ({ client, tokens, getAuth, dom }) => {
     assert.equal(dom.window.document.querySelectorAll('img').length, 1);
-    await act(async () => tokens.setTokens('refreshed-teacher-a', 'refreshed-a'));
     assert.ok(client.getQueryData(['submissionImage', 'private-a']));
     await act(async () => getAuth().logout());
-    assert.equal(tokens.getAccessToken(), null);
+    assert.equal(tokens.getSessionId(), null);
     assert.equal(client.getQueryCache().getAll().length, 0);
     assert.equal(dom.window.document.querySelectorAll('img').length, 0);
   });
@@ -147,8 +155,7 @@ test('teacher SSO exchanges a scrubbed ticket once in StrictMode and starts a cl
     IS_REACT_ACT_ENVIRONMENT: globalThis.IS_REACT_ACT_ENVIRONMENT };
   Object.assign(globalThis, { window: dom.window, document: dom.window.document, IS_REACT_ACT_ENVIRONMENT: true });
   const client = new QueryClient();
-  const { AuthTokenStore: tokens } = load('../src/services/api/AuthTokenStore.ts', {});
-  tokens.setTokens('teacher-a', 'refresh-a');
+  const { AuthTokenStore: tokens, teacherSession, establishTeacherSession } = loadTeacherSession();
   client.setQueryData(['submissionImage', 'private-a'], new Blob(['old private image']));
   let finish;
   const response = new Promise(resolve => { finish = resolve; });
@@ -159,7 +166,7 @@ test('teacher SSO exchanges a scrubbed ticket once in StrictMode and starts a cl
   const context = load('../src/components/layout/AuthContext.tsx', {
     'react-router-dom': { useNavigate: () => navigate, useLocation: () => location },
     '../../services/api/ServiceLocator': { AppTeacherService: {} },
-    '../../services/api/AuthTokenStore': { AuthTokenStore: tokens },
+    '../../services/api/AuthTokenStore': { AuthTokenStore: tokens, teacherSession },
     '../../services/api/apiClient': {}, '../../config/runtime': {},
   });
   const placeholder = ({ children }) => React.createElement('div', null, children);
@@ -169,15 +176,18 @@ test('teacher SSO exchanges a scrubbed ticket once in StrictMode and starts a cl
     '@mui/icons-material': new Proxy({}, { get: () => placeholder }),
     'react-router-dom': { useNavigate: () => navigate, useSearchParams: () => [params] },
     '../services/api/ServiceLocator': { AppTeacherService: {} },
-    '../services/api/AuthTokenStore': { AuthTokenStore: tokens },
+    '../services/api/AuthTokenStore': { establishTeacherSession },
     '../config/runtime': { appConfig: { portalOrigin: 'https://portal.mathvision.example' }, showDevTools: false },
-    '../services/api/apiClient': { post: (url, payload) => {
+    '../services/api/apiClient': {},
+  });
+  teacherSession.apiClient.defaults.adapter = async config => {
+      const url = config.url;
+      const payload = JSON.parse(config.data);
       assert.equal(dom.window.location.hash, '');
       assert.deepEqual(dom.window.history.state, routerHistory);
       calls.push({ url, payload });
-      return response;
-    } },
-  });
+      return { ...await response, status: 200, headers: {}, config };
+  };
   const root = require('react-dom/client').createRoot(dom.window.document.getElementById('root'));
   try {
     await act(async () => root.render(React.createElement(React.StrictMode, null,
@@ -191,10 +201,10 @@ test('teacher SSO exchanges a scrubbed ticket once in StrictMode and starts a cl
     assert.equal(errors.length, 0);
     assert.equal(routes.length, 0);
     await act(async () => {
-      finish({ data: { accessToken: 'teacher-b', refreshToken: 'refresh-b' } });
+      finish({ data: { sessionId: 'teacher-b' } });
       await response;
     });
-    assert.equal(tokens.getAccessToken(), 'teacher-b');
+    assert.equal(tokens.getSessionId(), 'teacher-b');
     assert.equal(client.getQueryCache().getAll().length, 0);
     assert.equal(calls.length, 1);
     assert.equal(routes[0].to, '/dashboard');

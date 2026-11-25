@@ -1,7 +1,6 @@
 package com.mathvisionkids.api.auth.sso;
 
 import com.mathvisionkids.api.auth.AuthResponse;
-import com.mathvisionkids.api.auth.JwtUtil;
 import com.mathvisionkids.api.auth.RefreshTokenService;
 import com.mathvisionkids.api.common.ApiException;
 import com.mathvisionkids.api.user.User;
@@ -19,7 +18,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,9 +25,6 @@ class SsoHandoffServiceTest {
 
     @Mock
     private UserRepository userRepository;
-
-    @Mock
-    private JwtUtil jwtUtil;
 
     @Mock
     private RefreshTokenService refreshTokenService;
@@ -42,7 +37,7 @@ class SsoHandoffServiceTest {
 
     @BeforeEach
     void setUp() {
-        ssoHandoffService = new SsoHandoffService(userRepository, jwtUtil, refreshTokenService);
+        ssoHandoffService = new SsoHandoffService(userRepository, refreshTokenService);
 
         teacherUser = new User();
         teacherUser.setId(UUID.randomUUID());
@@ -68,8 +63,7 @@ class SsoHandoffServiceTest {
     void testTeacherSsoFlowSuccess() {
         when(userRepository.findByEmail("teacher@mathvision.local")).thenReturn(Optional.of(teacherUser));
         when(userRepository.findById(teacherUser.getId())).thenReturn(Optional.of(teacherUser));
-        when(jwtUtil.generateToken(eq(teacherUser.getEmail()), eq(teacherUser.getRole()))).thenReturn("mock-teacher-jwt");
-        when(refreshTokenService.createRefreshToken(teacherUser.getId())).thenReturn("mock-teacher-refresh");
+        when(refreshTokenService.createSession(teacherUser.getId())).thenReturn(new AuthResponse("mock-teacher-jwt", "mock-teacher-refresh"));
 
         SsoTicketResponse ticket = ssoHandoffService.createHandoffTicket("teacher@mathvision.local", "TEACHER");
         assertNotNull(ticket.getCode());
@@ -88,8 +82,7 @@ class SsoHandoffServiceTest {
     void testAdminSsoFlowSuccess() {
         when(userRepository.findByEmail("admin@mathvision.local")).thenReturn(Optional.of(adminUser));
         when(userRepository.findById(adminUser.getId())).thenReturn(Optional.of(adminUser));
-        when(jwtUtil.generateToken(eq(adminUser.getEmail()), eq(adminUser.getRole()))).thenReturn("mock-admin-jwt");
-        when(refreshTokenService.createRefreshToken(adminUser.getId())).thenReturn("mock-admin-refresh");
+        when(refreshTokenService.createSession(adminUser.getId())).thenReturn(new AuthResponse("mock-admin-jwt", "mock-admin-refresh"));
 
         SsoTicketResponse ticket = ssoHandoffService.createHandoffTicket("admin@mathvision.local", "ADMIN");
         assertNotNull(ticket.getCode());
@@ -117,8 +110,7 @@ class SsoHandoffServiceTest {
     void testSingleUseTicketReplayFails() {
         when(userRepository.findByEmail("teacher@mathvision.local")).thenReturn(Optional.of(teacherUser));
         when(userRepository.findById(teacherUser.getId())).thenReturn(Optional.of(teacherUser));
-        when(jwtUtil.generateToken(any(), any())).thenReturn("mock-jwt");
-        when(refreshTokenService.createRefreshToken(any())).thenReturn("mock-refresh");
+        when(refreshTokenService.createSession(any())).thenReturn(new AuthResponse("mock-jwt", "mock-refresh"));
 
         SsoTicketResponse ticket = ssoHandoffService.createHandoffTicket("teacher@mathvision.local", "TEACHER");
         AuthResponse firstExchange = ssoHandoffService.exchangeHandoffTicket(ticket.getCode(), "TEACHER");
@@ -200,6 +192,6 @@ class SsoHandoffServiceTest {
         SsoTicketResponse ticket = ssoHandoffService.createHandoffTicket(adminUser.getEmail(), "ADMIN");
         adminUser.setRole("STUDENT");
         assertThrows(ApiException.class, () -> ssoHandoffService.exchangeHandoffTicket(ticket.getCode(), "ADMIN"));
-        org.mockito.Mockito.verifyNoInteractions(jwtUtil, refreshTokenService);
+        org.mockito.Mockito.verifyNoInteractions(refreshTokenService);
     }
 }

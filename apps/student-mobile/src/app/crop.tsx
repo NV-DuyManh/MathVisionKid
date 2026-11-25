@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { View, Text, StyleSheet, Image, Alert, Platform, Pressable, ScrollView, useWindowDimensions } from 'react-native';
-import type { ViewStyle } from 'react-native';
+import type { ViewProps, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -20,29 +20,11 @@ import { DraftImagePicker } from '../features/recognition/components/DraftImageP
 const CORNERS = ['tl', 'tr', 'bl', 'br'] as const;
 const EDGES = ['top', 'right', 'bottom', 'left'] as const;
 const HANDLE_LABELS = { tl: 'góc trên trái', tr: 'góc trên phải', bl: 'góc dưới trái', br: 'góc dưới phải', top: 'cạnh trên', right: 'cạnh phải', bottom: 'cạnh dưới', left: 'cạnh trái' };
-const INSET = { x: 0.1, y: 0.1, w: 0.8, h: 0.8 };
+const FULL_IMAGE = { x: 0, y: 0, w: 1, h: 1 };
 type Edge = typeof EDGES[number];
 
-function WebCropControls({ disabled, onAdjust }: { disabled: boolean; onAdjust: (edge: Edge, inward: boolean) => void }) {
-  const [edge, setEdge] = useState<Edge>('left');
-  return <View style={styles.cropControls} role="group" aria-label="Chỉnh vùng cắt">
-    <select aria-label="Cạnh cần chỉnh" value={edge} disabled={disabled}
-      onChange={event => setEdge(event.currentTarget.value as Edge)}
-      style={{ minHeight: 44, maxWidth: '100%', color: COLORS.textPrimary, font: 'inherit', borderRadius: 8, paddingInline: 8 }}>
-      {EDGES.map(item => <option key={item} value={item}>{HANDLE_LABELS[item]}</option>)}
-    </select>
-    <Pressable accessibilityRole="button" disabled={disabled} style={styles.cropStep}
-      accessibilityLabel={`Thu hẹp từ ${HANDLE_LABELS[edge]}`} onPress={() => onAdjust(edge, true)}>
-      <Text style={styles.secondaryText}>Thu hẹp</Text>
-    </Pressable>
-    <Pressable accessibilityRole="button" disabled={disabled} style={styles.cropStep}
-      accessibilityLabel={`Mở rộng từ ${HANDLE_LABELS[edge]}`} onPress={() => onAdjust(edge, false)}>
-      <Text style={styles.secondaryText}>Mở rộng</Text>
-    </Pressable>
-  </View>;
-}
-
 const webRulerStyles = `
+  [data-crop-edge]:focus-visible { outline: 3px solid ${COLORS.primaryDark}; outline-offset: -4px; }
   .student-crop-ruler { position: relative; border-radius: 4px; }
   .student-crop-ruler:focus-within { outline: 2px solid ${COLORS.primaryDark}; outline-offset: 4px; }
   .student-crop-ruler input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; appearance: none; }
@@ -116,7 +98,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
   const viewport = useSharedValue({ w: 0, h: 0 });
   const size = useSharedValue({ w: 0, h: 0 });
   const fine = useSharedValue(draft?.cropEdit?.fine ?? 0), turns = useSharedValue(draft?.cropEdit?.turns ?? 0);
-  const remembered = useSharedValue(draft?.cropEdit?.selection ?? INSET);
+  const remembered = useSharedValue(draft?.cropEdit?.selection ?? FULL_IMAGE);
   const crop = useSharedValue<Rect>({ x: 0, y: 0, w: 0, h: 0 });
   const start = useSharedValue<Rect>({ x: 0, y: 0, w: 0, h: 0 });
   const dragHandle = useSharedValue<CropHandle | null>(null);
@@ -195,10 +177,9 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
       crop.set(handle ? calculateResize(handle, dx, dy, start.get(), bounds)
         : calculateDrag(dx, dy, start.get(), bounds));
     }).onEnd(() => { if (Platform.OS === 'web') runOnJS(remember)(); });
-  const select = (full = false) => {
-    const f = frame.get(), s = full ? { x: 0, y: 0, w: 1, h: 1 } : INSET;
-    crop.set({ x: f.x + f.w * s.x, y: f.y + f.h * s.y, w: f.w * s.w, h: f.h * s.h });
-    remember({}, s);
+  const selectFullImage = (rotation: { turns?: number; fine?: number } = {}) => {
+    crop.set(frame.get());
+    remember(rotation, FULL_IMAGE);
   };
   const adjustEdge = (edge: Edge, inward: boolean) => {
     if (disabled) return;
@@ -212,7 +193,19 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
       { minX: f.x, minY: f.y, maxX: f.x + f.w, maxY: f.y + f.h }));
     remember();
   };
-  const reset = () => { remember({ turns: 0, fine: 0 }, INSET); turns.set(0); fine.set(0); select(); };
+  const edgeKeyboardProps = (edge: Edge): Pick<ViewProps, 'tabIndex' | 'onKeyDown'> & { dataSet: { cropEdge: Edge } } => ({
+    tabIndex: disabled ? -1 : 0,
+    dataSet: { cropEdge: edge },
+    onKeyDown: event => {
+      const inwardKey = { top: 'ArrowDown', right: 'ArrowLeft', bottom: 'ArrowUp', left: 'ArrowRight' }[edge];
+      const outwardKey = { top: 'ArrowUp', right: 'ArrowRight', bottom: 'ArrowDown', left: 'ArrowLeft' }[edge];
+      const key = event.nativeEvent.key;
+      if (key !== inwardKey && key !== outwardKey) return;
+      event.preventDefault();
+      adjustEdge(edge, key === inwardKey);
+    },
+  });
+  const reset = () => { selectFullImage({ turns: 0, fine: 0 }); turns.set(0); fine.set(0); };
   const done = async () => {
     if (disabled || lock.current || !image) return;
     const f = frame.get(), c = crop.get();
@@ -232,7 +225,9 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
       const saved = recognitionDraftStore.getDraft();
       if (saved) await imageDraftPersistence.confirm(saved, path);
       if (!mounted.current || recognitionDraftStore.getDraft()?.imageSessionId !== draft?.imageSessionId) return;
-      router.push({ pathname: path as any, params: { retrySubmissionId, originalImageUri: original } });
+      const params = Platform.OS === 'web' && mode === 'MATH_TUTOR'
+        ? { guidePhotoId: saved?.imageSessionId, guideEntryId: String(Date.now()) } : { retrySubmissionId, originalImageUri: original };
+      router.push({ pathname: path as any, params });
     } catch {
       if (mounted.current) Alert.alert('Chưa cắt được ảnh', 'Ảnh của em vẫn được giữ. Em chọn vùng lớn hơn hoặc thử lại nhé.');
     } finally { lock.current = false; if (mounted.current) setProcessing(false); }
@@ -249,7 +244,8 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
               {[33.33, 66.67].map(n => <React.Fragment key={n}><View style={[styles.horizontal, { top: `${n}%` }]} /><View style={[styles.vertical, { left: `${n}%` }]} /></React.Fragment>)}
             </Animated.View>
             {EDGES.map(edge => <GestureDetector key={edge} gesture={gesture(edge)}>
-              <Animated.View accessibilityLabel={`Kéo ${HANDLE_LABELS[edge]}`} style={[styles.handle, styles[`${edge}Handle`]]}>
+              <Animated.View accessibilityLabel={`Kéo ${HANDLE_LABELS[edge]}`} style={[styles.handle, styles[`${edge}Handle`]]}
+                {...(Platform.OS === 'web' ? edgeKeyboardProps(edge) : undefined)}>
                 <View pointerEvents="none" style={edge === 'top' || edge === 'bottom' ? styles.horizontalGrip : styles.verticalGrip} />
               </Animated.View>
             </GestureDetector>)}
@@ -268,10 +264,9 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
           </Pressable>
           <StraightenRuler angle={fine} disabled={disabled} onChange={value => remember({ fine: value })} />
         </View>
-        {Platform.OS === 'web' && <WebCropControls disabled={disabled} onAdjust={adjustEdge} />}
         <View style={styles.secondaryRow}>
           <Pressable accessibilityRole="button" accessibilityLabel="Đặt lại ảnh và khung cắt" disabled={disabled} style={styles.secondary} onPress={reset}><Ionicons name="refresh" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Đặt lại</Text></Pressable>
-          <Pressable accessibilityRole="button" accessibilityLabel="Dùng toàn ảnh" disabled={disabled} style={styles.secondary} onPress={() => select(true)}><Ionicons name="expand" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Toàn ảnh</Text></Pressable>
+          <Pressable accessibilityRole="button" accessibilityLabel="Dùng toàn ảnh" disabled={disabled} style={styles.secondary} onPress={() => selectFullImage()}><Ionicons name="expand" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Toàn ảnh</Text></Pressable>
         </View>
         {Platform.OS === 'web' ? <>
           {recovery.issue === 'unavailable' && image ? <Text role="alert">Chưa lưu được ảnh trên thiết bị. Em vẫn có thể làm tiếp; tải lại trang có thể làm mất ảnh.</Text> : null}
@@ -283,7 +278,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
   return <GestureHandlerRootView style={styles.screen}><SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
     <AppHeader title="Cắt & căn thẳng" showBack />
     <View style={styles.tip}><Ionicons name="crop-outline" size={18} color={COLORS.primaryDark} /><Text style={styles.tipText}>{Platform.OS === 'web'
-      ? 'Kéo khung hoặc chọn cạnh để chỉnh. Kéo thước chia độ để căn thẳng.'
+      ? 'Kéo cạnh hoặc góc để cắt. Có thể dùng Tab để chọn cạnh, rồi nhấn phím mũi tên. Kéo thước chia độ để căn thẳng.'
       : 'Kéo cạnh hoặc góc để cắt. Kéo thước chia độ để căn thẳng.'}</Text></View>
     {Platform.OS === 'web' ? <ScrollView contentContainerStyle={styles.webEditor}>{editor}</ScrollView> : editor}
   </SafeAreaView></GestureHandlerRootView>;
@@ -323,8 +318,6 @@ const styles = StyleSheet.create({
   degreeLabels: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }, degreeText: { color: COLORS.textSecondary, fontFamily: FONTS.semiBold, fontSize: 10 },
   angleMarker: { position: 'absolute', top: 0, height: 31, width: 3, backgroundColor: COLORS.primary, transform: [{ translateX: -1.5 }] },
   markerDot: { width: 9, height: 9, borderRadius: 5, backgroundColor: COLORS.primary, marginLeft: -3, marginTop: -3 },
-  cropControls: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 8 },
-  cropStep: { minHeight: 44, justifyContent: 'center', paddingHorizontal: 10, borderRadius: 8, backgroundColor: COLORS.surfaceSubdued },
   secondaryRow: { flexDirection: 'row', justifyContent: 'space-between' }, secondary: { minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 14 },
   secondaryText: { fontFamily: FONTS.bold, fontSize: 13, color: COLORS.primaryDark },
 });

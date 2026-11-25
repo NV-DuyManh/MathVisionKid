@@ -19,7 +19,7 @@ it('confirms persisted false when an older update response omits the field', asy
   jest.mocked(apiClient.get).mockResolvedValue({ data: profile });
   const signal = new AbortController().signal;
   await expect(profileApi.update(edit, signal)).resolves.toEqual(profile);
-  expect(apiClient.get).toHaveBeenCalledWith('/student/profile', { signal, _identity: 'profile-owner-session' });
+  expect(apiClient.get).toHaveBeenCalledWith('/student/profile', { signal, _identity: 'profile-owner-session', headers: { 'X-MathVision-Client': 'student-rank-v2' } });
 });
 
 it.each([undefined, null, true])('rejects an unconfirmed saved name setting %s instead of silently turning it on', async hidden => {

@@ -29,7 +29,48 @@ public class RefreshTokenService {
         this.jwtUtil = jwtUtil;
     }
 
-    private String hashToken(String token) {
+    @Transactional
+    public boolean revokeForLogout(String rawToken, String principal, UUID authenticatedSession) {
+        if (authenticatedSession != null) {
+            var owner = userRepository.findByEmail(principal).orElseThrow();
+            if (rawToken != null && !authenticatedSession.equals(sessionOf(rawToken))) return false;
+            userRepository.lockSessions(owner.getId()).orElseThrow();
+            refreshTokenRepository.deleteByUser_IdAndTokenHashStartingWith(owner.getId(), nativePrefix(authenticatedSession));
+            return true;
+        }
+        if (rawToken == null || (rawToken.length() != 36 && sessionOf(rawToken) == null)) return false;
+        String hash = storageHash(rawToken);
+        var owner = refreshTokenRepository.findOwnerId(hash);
+        if (owner.isEmpty() || userRepository.lockSessions(owner.get()).isEmpty()) return false;
+        var active = refreshTokenRepository.findByTokenHash(hash)
+                .filter(token -> (principal == null || principal.equals(token.getUser().getEmail()))
+                        && token.getExpiryDate().isAfter(Instant.now()));
+        UUID session = sessionOf(rawToken);
+        if (active.isEmpty() || (session == null && active.get().isRevoked())) return false;
+        if (session == null) refreshTokenRepository.delete(active.get());
+        else refreshTokenRepository.deleteByUser_IdAndTokenHashStartingWith(owner.get(), nativePrefix(session));
+        return true;
+    }
+
+    static String nativePrefix(UUID session) {
+        return "native:" + session + ":";
+    }
+
+    private static UUID sessionOf(String rawToken) {
+        if (rawToken == null || rawToken.length() != 73 || rawToken.charAt(36) != '.') return null;
+        try {
+            return UUID.fromString(rawToken.substring(0, 36));
+        } catch (IllegalArgumentException invalid) {
+            return null;
+        }
+    }
+
+    static String storageHash(String rawToken) {
+        UUID session = sessionOf(rawToken);
+        return (session == null ? "" : nativePrefix(session)) + hashToken(rawToken);
+    }
+
+    static String hashToken(String token) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(token.getBytes(StandardCharsets.UTF_8));
@@ -41,30 +82,35 @@ public class RefreshTokenService {
 
     @Transactional
     public String createRefreshToken(UUID userId) {
+        return createSession(userId).getRefreshToken();
+    }
+
+    @Transactional
+    public AuthResponse createSession(UUID userId) {
         userRepository.lockSessions(userId).orElseThrow();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "User not found", HttpStatus.NOT_FOUND));
         if (!Boolean.TRUE.equals(user.getActive())) {
             throw new ApiException("UNAUTHORIZED", "Account is disabled.", HttpStatus.UNAUTHORIZED);
         }
-        return issueRefreshToken(user);
+        return issueSession(user, UUID.randomUUID());
     }
 
-    private String issueRefreshToken(User user) {
-        String rawToken = UUID.randomUUID().toString();
+    private AuthResponse issueSession(User user, UUID session) {
+        String rawToken = session + "." + UUID.randomUUID();
         
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUser(user);
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
-        refreshToken.setTokenHash(hashToken(rawToken));
+        refreshToken.setTokenHash(storageHash(rawToken));
         refreshTokenRepository.save(refreshToken);
 
-        return rawToken;
+        return new AuthResponse(jwtUtil.generateToken(user.getEmail(), user.getRole(), session), rawToken);
     }
 
     @Transactional(noRollbackFor = ApiException.class)
     public AuthResponse rotate(String rawToken) {
-        String tokenHash = hashToken(rawToken);
+        String tokenHash = storageHash(rawToken);
         UUID ownerId = refreshTokenRepository.findOwnerId(tokenHash)
                 .orElseThrow(() -> new ApiException("UNAUTHORIZED", "Refresh token is not in database!", HttpStatus.UNAUTHORIZED));
         // Serialize rotation and revocation on the root user row before loading
@@ -95,7 +141,8 @@ public class RefreshTokenService {
         refreshTokenRepository.save(token);
 
         User user = token.getUser();
-        return new AuthResponse(jwtUtil.generateToken(user.getEmail(), user.getRole()), issueRefreshToken(user));
+        UUID session = sessionOf(rawToken);
+        return issueSession(user, session == null ? UUID.randomUUID() : session);
     }
     
     @Transactional

@@ -1,0 +1,131 @@
+diff --git a/scripts/pack-training-games.cjs b/scripts/pack-training-games.cjs
+new file mode 100644
+index 0000000..92f9100
+--- /dev/null
++++ b/scripts/pack-training-games.cjs
+@@ -0,0 +1,78 @@
++const { execFileSync } = require('node:child_process');
++const { createHash } = require('node:crypto');
++const fs = require('node:fs');
++const os = require('node:os');
++const path = require('node:path');
++
++const sourceRoot = path.resolve(__dirname, '..');
++const outputIndex = process.argv.indexOf('--out');
++if (outputIndex === -1 || !process.argv[outputIndex + 1]) {
++  throw new Error('Provide --out <MathVisionKid vendor/training-games directory>');
++}
++const output = path.resolve(process.argv[outputIndex + 1]);
++const baseline = {
++  filename: 'mathvisionkid-training-games-0.1.8.tgz',
++  sha256: '2168e3ffcdb296486eaebb7f799a1dab4fe3f6c56e7837c1c10fc0f3381e1b6d',
++};
++const version = '0.1.9';
++const camera = 'src/games/race-to-finish/components/GameCamera.tsx';
++const contracts = 'src/shared/integration/contracts.ts';
++const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
++const readJson = file => JSON.parse(fs.readFileSync(file, 'utf8'));
++const writeJson = (file, data) => fs.writeFileSync(file, JSON.stringify(data, null, 2) + '\n');
++const git = args => execFileSync('git', args, { cwd: sourceRoot });
++const archive = path.join(output, baseline.filename);
++if (sha256(fs.readFileSync(archive)) !== baseline.sha256) throw new Error('Baseline archive hash mismatch');
++
++const staging = fs.mkdtempSync(path.join(os.tmpdir(), 'mvk-training-pack-'));
++try {
++  execFileSync('tar', ['-xf', archive, '-C', staging]);
++  const root = path.join(staging, 'package');
++  const internalFile = path.join(root, 'MANIFEST.json');
++  const internal = readJson(internalFile);
++  for (const entry of internal.files) {
++    const bytes = fs.readFileSync(path.join(root, entry.file));
++    if (bytes.length !== entry.bytes || sha256(bytes) !== entry.sha256) {
++      throw new Error('Baseline source mismatch: ' + entry.file);
++    }
++  }
++  const revision = git(['rev-parse', 'HEAD']).toString().trim();
++  fs.writeFileSync(path.join(root, camera), git(['show', revision + ':' + camera]));
++  const contractPath = path.join(root, contracts);
++  const previous = "export const TRAINING_GAME_VERSION = '0.1.8';";
++  const contract = fs.readFileSync(contractPath, 'utf8');
++  if (contract.split(previous).length !== 2) throw new Error('Unexpected baseline game version');
++  fs.writeFileSync(contractPath, contract.replace(previous, "export const TRAINING_GAME_VERSION = '" + version + "';"));
++  for (const entry of internal.files.filter(entry => entry.file === camera || entry.file === contracts)) {
++    const bytes = fs.readFileSync(path.join(root, entry.file));
++    entry.bytes = bytes.length;
++    entry.sha256 = sha256(bytes);
++  }
++  internal.version = version;
++  writeJson(internalFile, internal);
++  const packageFile = path.join(root, 'package.json');
++  const metadata = readJson(packageFile);
++  writeJson(packageFile, { ...metadata, version });
++
++  const npmSearchPaths = [path.dirname(process.execPath), path.resolve(path.dirname(process.execPath), '../lib'), ...require('node:module').globalPaths];
++  const npmCli = path.join(path.dirname(require.resolve('npm/package.json', { paths: npmSearchPaths })), 'bin/npm-cli.js');
++  const [packed] = JSON.parse(execFileSync(process.execPath,
++    [npmCli, 'pack', '--json', '--ignore-scripts', '--pack-destination', staging], { cwd: root }));
++  const stagedArchive = path.join(staging, packed.filename);
++  const outputArchive = path.join(output, packed.filename);
++  const hash = sha256(fs.readFileSync(stagedArchive));
++  if (fs.existsSync(outputArchive) && sha256(fs.readFileSync(outputArchive)) !== hash) {
++    throw new Error('This distribution version already exists with different bytes');
++  }
++  fs.copyFileSync(stagedArchive, outputArchive);
++  writeJson(path.join(output, 'PACKAGE_MANIFEST.json'), {
++    name: metadata.name, version, filename: packed.filename, sha256: hash,
++    bytes: packed.size, unpackedBytes: packed.unpackedSize, entries: packed.entryCount,
++    sourceFiles: internal.files.length, games: internal.games ?? Object.keys(metadata.exports).filter(key => key !== '.').map(key => key.slice(2)),
++    baseline, sourceRevision: revision, canonicalReplacements: [camera],
++    integrationPatches: [contracts], npmFiles: packed.files,
++  });
++  console.log('Packed ' + packed.filename + ' with SHA-256 ' + hash);
++} finally {
++  fs.rmSync(staging, { recursive: true, force: true });
++}
+diff --git a/src/games/race-to-finish/components/GameCamera.tsx b/src/games/race-to-finish/components/GameCamera.tsx
+index d674acb..e75dff5 100644
+--- a/src/games/race-to-finish/components/GameCamera.tsx
++++ b/src/games/race-to-finish/components/GameCamera.tsx
+@@ -2 +2 @@ import React, { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
+-import { View, Image, StyleSheet } from 'react-native';
++import { View, Image, Platform, StyleSheet } from 'react-native';
+@@ -20 +20,3 @@ export function GameCamera(props: Props) {
+-  const bounds = useMemo(() => fitToBoard(width, height), [width, height]);
++  const overview = Platform.OS === 'web' && typeof window !== 'undefined' &&
++    window.matchMedia?.('(pointer: fine)').matches;
++  const bounds = useMemo(() => fitToBoard(width, height, overview), [width, height, overview]);
+@@ -64 +66 @@ export function GameCamera(props: Props) {
+-  const pan = useMemo(() => Gesture.Pan().minDistance(8).enabled(props.panEnabled && !paused && !props.moving)
++  const pan = useMemo(() => Gesture.Pan().minDistance(8).enabled(props.panEnabled && !overview && !paused && !props.moving)
+@@ -73 +75 @@ export function GameCamera(props: Props) {
+-    }), [props.panEnabled, props.moving, paused, introDone, panStart, center, mode, frozen, scale, bounds]);
++    }), [props.panEnabled, props.moving, overview, paused, introDone, panStart, center, mode, frozen, scale, bounds]);
+@@ -110 +112,2 @@ export function GameCamera(props: Props) {
+-    const renderScale = Math.max(bounds.fit, scale.value);
++    // The desktop overview always fits the current viewport after the intro, even while paused.
++    const renderScale = overview && introDone.value ? bounds.fit : Math.max(bounds.fit, scale.value);
+diff --git a/src/games/race-to-finish/logic/cameraGeometry.ts b/src/games/race-to-finish/logic/cameraGeometry.ts
+index ec7a9bd..b2c88e9 100644
+--- a/src/games/race-to-finish/logic/cameraGeometry.ts
++++ b/src/games/race-to-finish/logic/cameraGeometry.ts
+@@ -5 +5 @@ export interface CameraBounds { width: number; height: number; worldWidth: numbe
+-export function fitToBoard(width: number, height: number): CameraBounds {
++export function fitToBoard(width: number, height: number, overview = false): CameraBounds {
+@@ -13 +13 @@ export function fitToBoard(width: number, height: number): CameraBounds {
+-    fit, zoom: Math.max(fit, Math.min(1.6, h / 315)) };
++    fit, zoom: overview ? fit : Math.max(fit, Math.min(1.6, h / 315)) };
+diff --git a/src/games/race-to-finish/tests/cameraGeometry.test.ts b/src/games/race-to-finish/tests/cameraGeometry.test.ts
+index baaf054..ce63435 100644
+--- a/src/games/race-to-finish/tests/cameraGeometry.test.ts
++++ b/src/games/race-to-finish/tests/cameraGeometry.test.ts
+@@ -20,0 +21,10 @@ test.each([[640, 360], [780, 360], [800, 360], [960, 432], [1280, 720], [360, 80
++test('desktop overview fits on either side of 1000px while touch retains focus zoom', () => {
++  for (const width of [999, 1000]) {
++    const overview = fitToBoard(width, 720, true);
++    expect(overview.zoom).toBe(overview.fit);
++    expect(overview.worldWidth * overview.zoom).toBeCloseTo(width);
++    expect(overview.worldHeight * overview.zoom).toBeCloseTo(720);
++    expect(fitToBoard(width, 720).zoom).toBeGreaterThan(overview.zoom);
++  }
++});
++

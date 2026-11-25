@@ -14,11 +14,11 @@ jest.mock('../context/AuthContext', () => ({ AuthContext: require('react').creat
 jest.mock('../features/student-profile/profileApi', () => ({ profileApi: { get: jest.fn(), leaderboard: jest.fn() } }));
 
 it('shows registered-grade ranking, keeps public names and handles an empty name', async () => {
-  const rank = { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 };
+  const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
   jest.mocked(profileApi.get).mockResolvedValue({
     displayName: 'Bạn nhỏ', gradeLevel: 5, joinedAt: null, classrooms: [], avatar: 'star',
     leaderboardVisible: true, leaderboardNameHidden: false, publicAlias: 'Hươu Sao', selectedTitle: null, stars: 1,
-    rank, highestRank: 'Đồng III', position: 1,
+    rank, highestRank: 'Sắt III', position: 1,
     stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 }, titles: [], history: [],
   });
   jest.mocked(profileApi.leaderboard).mockResolvedValue({
@@ -46,16 +46,16 @@ it('shows registered-grade ranking, keeps public names and handles an empty name
 it('keeps web privacy state explicit and protects the self row while preference responses settle', async () => {
   const previousPlatform = Platform.OS;
   Platform.OS = 'web';
-  const rank = { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 };
+  const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
   const profile = {
     displayName: 'Tên riêng của em', gradeLevel: 5, joinedAt: null, classrooms: [], avatar: 'star',
     leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null, stars: 1,
-    rank, highestRank: 'Đồng III', position: 1,
+    rank, highestRank: 'Sắt III', position: 1,
     stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 }, titles: [], history: [],
   };
   jest.mocked(profileApi.get).mockResolvedValue(profile);
   jest.mocked(profileApi.leaderboard).mockResolvedValue({
-    gradeLevel: 5, ownPosition: 1, entries: [{ position: 1, alias: profile.displayName, avatar: 'star', stars: 2, rank, self: true }],
+    gradeLevel: null, ownPosition: 1, entries: [{ position: 1, alias: profile.displayName, avatar: 'star', stars: 2, rank, self: true }],
   });
   const auth = { user: { id: 'private-student' }, isAuthenticated: true, isLoading: false, login: jest.fn(), logout: jest.fn() };
   let tree: TestRenderer.ReactTestRenderer | undefined;
@@ -63,6 +63,8 @@ it('keeps web privacy state explicit and protects the self row while preference 
     await act(async () => { tree = TestRenderer.create(<AuthContext.Provider value={auth}><AchievementsScreen /></AuthContext.Provider>); });
     const words = () => tree!.root.findAllByType('Text' as any).map(node => String(node.props.children)).join(' ');
     expect(words()).toContain('Em đang dùng bí danh');
+    expect(words()).toContain('Tất cả khối');
+    expect(profileApi.leaderboard).toHaveBeenCalledWith(undefined, expect.any(AbortSignal), true);
     expect(words()).toContain('Hươu Sao');
     expect(words()).not.toContain(profile.displayName);
     await act(async () => { tree!.unmount(); });
@@ -78,14 +80,14 @@ it('keeps web privacy state explicit and protects the self row while preference 
   }
 });
 
-it('retries a mismatched grade and reveals the private self row beyond the first page on web', async () => {
+it('retries after a grade-only response and reveals the private self row beyond the first page on web', async () => {
   const previousPlatform = Platform.OS;
   Platform.OS = 'web';
-  const rank = { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 };
+  const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
   const profile = {
     displayName: 'Tên riêng của em', gradeLevel: 5, joinedAt: null, classrooms: [], avatar: 'star',
     leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null, stars: 1,
-    rank, highestRank: 'Đồng III', position: 12,
+    rank, highestRank: 'Sắt III', position: 12,
     stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 }, titles: [], history: [],
   };
   jest.mocked(profileApi.get).mockResolvedValue(profile);
@@ -99,8 +101,8 @@ it('retries a mismatched grade and reveals the private self row beyond the first
     await act(async () => { tree = TestRenderer.create(<AuthContext.Provider value={auth}><AchievementsScreen /></AuthContext.Provider>); });
     const button = (label: string) => tree!.root.findAll(node => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0];
     expect(tree!.root.findAll(node => node.props.testID === 'leaderboard-entry')).toHaveLength(0);
-    jest.mocked(profileApi.leaderboard).mockResolvedValue({ gradeLevel: 5, ownPosition: 12, entries });
-    await act(async () => { button('Tải lại bảng xếp hạng đúng khối lớp').props.onPress(); });
+    jest.mocked(profileApi.leaderboard).mockResolvedValue({ gradeLevel: null, ownPosition: 12, entries });
+    await act(async () => { button('Tải lại bảng xếp hạng').props.onPress(); });
     expect(tree!.root.findAll(node => typeof node.type === 'string' && node.props.testID === 'leaderboard-entry')).toHaveLength(10);
     act(() => { button('Xem vị trí của em').props.onPress(); });
     expect(tree!.root.findAll(node => typeof node.type === 'string' && node.props.testID === 'leaderboard-entry')).toHaveLength(12);

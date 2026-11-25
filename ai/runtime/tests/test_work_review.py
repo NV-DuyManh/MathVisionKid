@@ -3,6 +3,7 @@ import json
 import asyncio
 from copy import deepcopy
 from fractions import Fraction
+from pathlib import Path
 from random import Random
 from unittest.mock import AsyncMock
 
@@ -1485,3 +1486,122 @@ def test_operation_consensus_preserves_fraction_and_remainder_meaning(first_inpu
     second = first.model_copy(update={'operands': second_inputs})
     gap = list(review.agreed_gaps([first], [second]))[0]
     assert gap.operation is None and not gap.operands
+
+
+# Confirmed transcription regression; providers below are synthetic/offline.
+_CONVERSION_OK = [
+    '300 yến = 30 tạ', 'Đổi: 300 yến = 30 tạ.', 'Đổi 300 yến = 30 tạ',
+    'Đổi đơn vị:300 yến＝30 tạ。', '10m = 1000cm', '10 m = 1000 cm',
+    '1,5 m = 150 cm', '1.5 m = 150 cm', '2 kg = 2000 g',
+    '3 m² = 30000 cm²', '1 giờ = 60 phút', '1 m^{2} = 10000 cm2',
+    '1 km = 10 hm', '1 hm = 10 dam', '1 dam = 10 m', '1 dm = 100 mm',
+    '1 tấn = 10 tạ', '1 kg = 10 hg', '1 hg = 10 dag', '1 dag = 10 g', '1 g = 1000 mg',
+    '1 km² = 100 hm²', '1 hm² = 100 dam²', '1 dam² = 100 m²',
+    '1 ha = 10000 m²', '1 dm² = 100 cm²', '1 cm² = 100 mm²',
+    '1 m³ = 1000 dm³', '1 dm³ = 1000 cm³', '1 cm³ = 1000 mm³',
+    '1 l = 1 dm³', '1 l = 1000 ml', '1 tuần = 7 ngày', '1 ngày = 24 giờ',
+    '1 phút = 60 giây', '1/2 kg = 500 g', 'ĐỔI：１０Ｍ＝１０００ＣＭ',
+    '3 m ² = 30000 cm ²', '1 m ³ = 1000 dm ³', '1 ki-lô-mét = 1000 mét',
+    '1 m = 100 cm = 1000 mm',
+    '8 m 27 cm = 827 cm', '2 giờ 37 phút = 157 phút', '827 cm = 8 m 27 cm',
+]
+
+@pytest.mark.parametrize('text', _CONVERSION_OK)
+def test_confirmed_unit_conversion_notation(text):
+    row = review._local_rows([text])[0]
+    assert (row.rowKind, row.status, row.errorKind, row.arithmeticCorrect) == ('CALCULATION', 'OK', 'NONE', True)
+    assert row.sourceText == text and not row.hints
+
+@pytest.mark.parametrize('text', ['300 yến = 3 tạ', '10 m = 100 cm', '2 kg = 200 g',
+    '1 giờ = 100 phút', '1 m² = 100 cm²', '1 m = 1 kg', '2 giờ = 120 cm',
+    '8 m 27 cm = 87 cm', '2 giờ 37 phút = 237 phút'])
+def test_confirmed_wrong_or_incompatible_unit_conversion(text):
+    row = review._local_rows([text])[0]
+    assert (row.rowKind, row.status, row.errorKind, row.arithmeticCorrect) == ('CALCULATION', 'FIX', 'CALCULATION', False)
+    assert 'đơn vị' in row.feedback
+
+@pytest.mark.parametrize('text', ['300 yến =', '10 m = ? cm', '300 ? = 30 tạ',
+    '1 tháng = 30 ngày', '1 năm = 365 ngày', 'Dự đoán: 10m = 1000cm', '10 m ≈ 1000 cm',
+    '2⁰ m = 20 m', '2⁴ m = 24 m', '2₄ m = 24 m', '② m = 200 cm',
+    '7 m 8 kg = 708 cm', '−7 m 8 cm = −708 cm'])
+def test_unreadable_or_unsupported_conversion_stays_unsure(text):
+    row = review._local_rows([text])[0]
+    assert row.status == 'UNSURE' and row.arithmeticCorrect is None
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('failure', [TimeoutError(), review.TutorUnavailable('rate_limit')])
+async def test_conversion_remains_local_during_provider_outage(monkeypatch, failure):
+    source = request(workText='Bài giải:\nĐổi: 300 yến = 30 tạ.\n30 + 2 = 32',
+        problemText='Đổi khối lượng rồi tính tổng. Viết riêng câu đáp số.')
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=failure))
+    result = await review.review_work(source)
+    assert [r.lineIndex for r in result.rows] == [0, 1, 2]
+    assert result.rows[1].status == 'OK' and result.rows[1].arithmeticCorrect is True
+    assert result.complete is not True and result.status != 'CORRECT'
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('both_unsure', [True, False])
+async def test_provider_uncertainty_does_not_erase_exact_conversion(monkeypatch, both_unsure):
+    source = request(workText='Đổi: 300 yến = 30 tạ.', problemText='Đổi khối lượng rồi viết kết luận.')
+    first = assessment(source, complete=False, praise='')
+    second = deepcopy(first)
+    first['rows'][0].update(status='UNSURE', feedback='Chưa đọc rõ cú pháp.')
+    if both_unsure: second['rows'][0].update(status='UNSURE', feedback='Cần kiểm tra lại dòng.')
+    providers = cloud(monkeypatch, first, second)
+    result = await review.review_work(source)
+    assert providers.await_count == 2
+    assert result.rows[0].status == 'OK' and result.rows[0].arithmeticCorrect is True
+    assert result.complete is not True and result.status != 'CORRECT'
+
+def test_wrong_conversion_keeps_causal_dependency_and_plain_math():
+    rows = review._dependent_rows(review._local_rows(['Đổi: 300 yến = 3 tạ.', '3 + 2 = 5']))
+    assert rows[0].status == 'FIX' and rows[0].arithmeticCorrect is False
+    assert rows[1].errorKind == 'DEPENDENT' and rows[1].arithmeticCorrect is True
+    assert review._local_rows(['2 + 3 = 5'])[0].status == 'OK'
+
+
+@pytest.mark.asyncio
+async def test_confirmed_conversion_api_source_and_offline_verdicts(monkeypatch):
+    captured = json.loads((Path(__file__).parent / 'fixtures/work_review_unit_conversion.json').read_text(encoding='utf-8'))
+    app = FastAPI()
+    app.include_router(tutor.router, prefix='/internal/v1/tutor')
+    monkeypatch.setattr(review, '_generate', AsyncMock(side_effect=TimeoutError()))
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='http://test') as client:
+        for text, status in [('Đổi: 300 yến = 30 tạ.', 'OK'), ('10 m = 1000 cm', 'OK'), ('300 yến = 3 tạ', 'FIX')]:
+            source = request(workText=text, problemText='Đổi khối lượng hoặc độ dài và viết kết luận.')
+            response = await client.post('/internal/v1/tutor/work-review', json=source.model_dump(),
+                headers={'X-Internal-API-Key': settings.internal_api_key})
+            assert response.status_code == 200
+            body = response.json()
+            assert body['sourceId'] == source.sourceId
+            assert body['rows'][0]['sourceText'] == text and body['rows'][0]['status'] == status
+            assert body['status'] != 'CORRECT' and body['complete'] is not True
+            assert body == {**captured[text], 'sourceId': source.sourceId}
+
+
+@pytest.mark.parametrize('error_kind', ['UNIT', 'OPERAND'])
+def test_exact_conversion_still_requires_agreed_problem_context(error_kind):
+    source = request(workText='Đổi: 300 yến = 30 tạ.')
+    first = assessment(source)
+    first['rows'][0].update(status='FIX', errorKind=error_kind,
+        feedback='Em đối chiếu lại đại lượng đề bài yêu cầu.')
+    judgment = review._Assessment.model_validate(first)
+    row = review._merge_rows(review._local_rows([source.workText]), judgment, judgment)[0]
+    assert row.status == 'FIX' and row.errorKind == error_kind
+    assert row.arithmeticCorrect is True and row.sourceText == source.workText
+
+
+@pytest.mark.parametrize('error_kind', ['UNIT', 'OPERAND'])
+def test_exact_conversion_reports_uncertain_problem_context_when_reviewers_disagree(error_kind):
+    source = request(workText='Đổi: 300 yến = 30 tạ.')
+    first = assessment(source)
+    second = deepcopy(first)
+    first['rows'][0].update(status='FIX', errorKind=error_kind,
+        feedback='Em đối chiếu lại với yêu cầu trong đề.')
+    second['rows'][0].update(status='UNSURE', feedback='Chưa rõ yêu cầu đổi đơn vị.')
+    row = review._merge_rows(
+        review._local_rows([source.workText]),
+        review._Assessment.model_validate(first),
+        review._Assessment.model_validate(second),
+    )[0]
+    assert row.status == 'UNSURE' and row.arithmeticCorrect is True

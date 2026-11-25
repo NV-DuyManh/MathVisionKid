@@ -1,7 +1,6 @@
 package com.mathvisionkids.api.studentprofile;
 
 import com.mathvisionkids.api.auth.AuthResponse;
-import com.mathvisionkids.api.auth.JwtUtil;
 import com.mathvisionkids.api.auth.RefreshTokenService;
 import com.mathvisionkids.api.common.ApiException;
 import com.mathvisionkids.api.user.UserRepository;
@@ -33,12 +32,11 @@ public class StudentAccountService {
     private final EntityManager em;
     private final PasswordEncoder encoder;
     private final RefreshTokenService tokens;
-    private final JwtUtil jwt;
 
     public StudentAccountService(StudentProfileService profiles, JdbcTemplate db, UserRepository users, EntityManager em,
-                                 PasswordEncoder encoder, RefreshTokenService tokens, JwtUtil jwt) {
+                                 PasswordEncoder encoder, RefreshTokenService tokens) {
         this.profiles = profiles; this.db = db; this.users = users; this.em = em;
-        this.encoder = encoder; this.tokens = tokens; this.jwt = jwt;
+        this.encoder = encoder; this.tokens = tokens;
     }
 
     @Transactional
@@ -114,7 +112,7 @@ public class StudentAccountService {
         db.update("DELETE FROM student_password_attempts WHERE student_id = ?", student.getId());
         db.update("UPDATE password_reset_codes SET consumed = TRUE WHERE user_id = ?", student.getId());
         em.flush();
-        return new AuthResponse(jwt.generateToken(student.getEmail(), student.getRole()), tokens.createRefreshToken(student.getId()));
+        return tokens.createSession(student.getId());
     }
 
     private ApiException invalidPhoto(String message) {

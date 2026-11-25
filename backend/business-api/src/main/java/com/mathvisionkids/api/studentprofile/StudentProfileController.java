@@ -28,14 +28,15 @@ public class StudentProfileController {
     }
 
     @GetMapping("/profile")
-    public Profile profile(Principal principal) { return profiles.get(principal.getName()); }
+    public Profile profile(Principal principal, @RequestHeader(value = "X-MathVision-Client", required = false) String client) { return RankScheme.profile(profiles.get(principal.getName()), client); }
 
     @PutMapping("/profile")
-    public Profile update(Principal principal, @Valid @RequestBody Edit edit) { return profiles.update(principal.getName(), edit); }
+    public Profile update(Principal principal, @Valid @RequestBody Edit edit, @RequestHeader(value = "X-MathVision-Client", required = false) String client) { return RankScheme.profile(profiles.update(principal.getName(), edit), client); }
 
     @PutMapping(value = "/profile/photo", consumes = "multipart/form-data")
-    public Profile photo(Principal principal, @RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
-        return account.photo(principal.getName(), file);
+    public Profile photo(Principal principal, @RequestParam("file") org.springframework.web.multipart.MultipartFile file,
+                         @RequestHeader(value = "X-MathVision-Client", required = false) String client) {
+        return RankScheme.profile(account.photo(principal.getName(), file), client);
     }
 
     @PostMapping("/profile/password")
@@ -44,12 +45,16 @@ public class StudentProfileController {
     }
 
     @GetMapping("/leaderboard")
-    public Leaderboard leaderboard(Principal principal, @RequestParam(required = false) UUID classroom) {
-        return profiles.leaderboard(principal.getName(), classroom);
+    public Leaderboard leaderboard(Principal principal, @RequestParam(required = false) UUID classroom,
+                                   @RequestParam(defaultValue = "false") boolean allGrades,
+                                   @RequestHeader(value = "X-MathVision-Client", required = false) String client) {
+        return RankScheme.board(profiles.leaderboard(principal.getName(), classroom, allGrades), client);
     }
 
     @GetMapping("/rank-milestones")
-    public List<StudentRank.Milestone> rankMilestones() { return StudentRank.milestones(); }
+    public List<StudentRank.Milestone> rankMilestones(@RequestHeader(value = "X-MathVision-Client", required = false) String client) {
+        return RankScheme.modern(client) ? StudentRank.milestones() : LegacyStudentRank.milestones();
+    }
 
     @PostMapping("/game-runs")
     public Game start(Principal principal, @RequestParam(defaultValue = "ARITHMETIC_QUEST") GameMode mode) {

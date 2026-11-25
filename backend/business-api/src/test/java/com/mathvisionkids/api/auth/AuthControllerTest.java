@@ -93,6 +93,56 @@ public class AuthControllerTest {
     }
 
     @Test
+    void webSessionRequiresTabIdAndRevokesItWithoutReturningTokens() throws Exception {
+        String login = objectMapper.writeValueAsString(Map.of("email", testUser.getEmail(), "password", "password"));
+        var result = mockMvc.perform(post("/api/v1/auth/login").secure(true)
+                .header("X-MathVision-Web", "portal").contentType(MediaType.APPLICATION_JSON).content(login))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken").doesNotExist())
+                .andExpect(jsonPath("$.refreshToken").doesNotExist())
+                .andExpect(jsonPath("$.sessionId").isString())
+                .andReturn();
+        var cookie = result.getResponse().getCookie("__Host-mvk_portal_session");
+        org.junit.jupiter.api.Assertions.assertNotNull(cookie);
+        org.junit.jupiter.api.Assertions.assertTrue(cookie.isHttpOnly() && cookie.getSecure());
+        org.junit.jupiter.api.Assertions.assertEquals(7 * 24 * 60 * 60, cookie.getMaxAge());
+        String id = objectMapper.readTree(result.getResponse().getContentAsString()).get("sessionId").asText();
+        var me = org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me");
+        mockMvc.perform(me.secure(true).cookie(cookie).header("X-MathVision-Web", "portal").header("X-MathVision-Session", id))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.userId").value(testUser.getId().toString()));
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me")
+                .secure(true).cookie(cookie).header("X-MathVision-Web", "portal"))
+                .andExpect(status().isUnauthorized());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me")
+                .secure(true).cookie(cookie).header("X-MathVision-Web", "teacher").header("X-MathVision-Session", id))
+                .andExpect(status().isUnauthorized());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me").secure(true)
+                .cookie(cookie).header("X-MathVision-Web", "portal").header("X-MathVision-Session", "different"))
+                .andExpect(status().isUnauthorized());
+        var otherTab = mockMvc.perform(post("/api/v1/auth/login").secure(true).cookie(cookie)
+                .header("X-MathVision-Web", "portal").contentType(MediaType.APPLICATION_JSON).content(login))
+                .andExpect(status().isOk()).andReturn();
+        String otherId = objectMapper.readTree(otherTab.getResponse().getContentAsString()).get("sessionId").asText();
+        assertNotEquals(id, otherId);
+        org.junit.jupiter.api.Assertions.assertEquals(cookie.getValue(), otherTab.getResponse().getCookie(cookie.getName()).getValue());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me").secure(true)
+                .cookie(cookie).header("X-MathVision-Web", "portal").header("X-MathVision-Session", otherId))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/api/v1/auth/logout").secure(true).cookie(cookie)
+                .header("X-MathVision-Web", "portal").header("X-MathVision-Session", id)
+                .header("Sec-Fetch-Site", "cross-site")).andExpect(status().isForbidden());
+        mockMvc.perform(post("/api/v1/auth/logout").secure(true).cookie(cookie)
+                .header("X-MathVision-Web", "portal").header("X-MathVision-Session", id))
+                .andExpect(status().isOk());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me").secure(true)
+                .cookie(cookie).header("X-MathVision-Web", "portal").header("X-MathVision-Session", id))
+                .andExpect(status().isUnauthorized());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me").secure(true)
+                .cookie(cookie).header("X-MathVision-Web", "portal").header("X-MathVision-Session", otherId))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     public void testValidRefreshSucceedsAndRotates() throws Exception {
         // 1. Login
         Map<String, String> loginRequest = new HashMap<>();
@@ -165,6 +215,51 @@ public class AuthControllerTest {
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me")
                 .header("Authorization", "Bearer " + rotatedTokens.get("accessToken")))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void mobileLogoutRevokesRefreshWithoutAValidAccessToken() throws Exception {
+        String login = objectMapper.writeValueAsString(Map.of("email", testUser.getEmail(), "password", "password"));
+        var result = mockMvc.perform(post("/api/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON).content(login)).andExpect(status().isOk()).andReturn();
+        String refreshToken = objectMapper.readTree(result.getResponse().getContentAsString()).get("refreshToken").asText();
+        String body = objectMapper.writeValueAsString(Map.of("refreshToken", refreshToken));
+        mockMvc.perform(post("/api/v1/auth/logout").contentType(MediaType.APPLICATION_JSON).content(body))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON).content(body))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void nativeLogoutPreservesWebAndOtherNativeSessionsForSameStudent() throws Exception {
+        String login = objectMapper.writeValueAsString(Map.of("email", testUser.getEmail(), "password", "password"));
+        var web = mockMvc.perform(post("/api/v1/auth/login").secure(true)
+                .header("X-MathVision-Web", "portal").contentType(MediaType.APPLICATION_JSON).content(login))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        var cookie = web.getCookie("__Host-mvk_portal_session");
+        String webId = objectMapper.readTree(web.getContentAsString()).get("sessionId").asText();
+        var first = objectMapper.readTree(mockMvc.perform(post("/api/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON).content(login))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString());
+        var second = objectMapper.readTree(mockMvc.perform(post("/api/v1/auth/login")
+                .contentType(MediaType.APPLICATION_JSON).content(login))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString());
+        String firstAccess = first.get("accessToken").asText();
+        String firstRefresh = objectMapper.writeValueAsString(Map.of("refreshToken", first.get("refreshToken").asText()));
+        mockMvc.perform(post("/api/v1/auth/logout").header("Authorization", "Bearer " + firstAccess)
+                .contentType(MediaType.APPLICATION_JSON).content(firstRefresh)).andExpect(status().isOk());
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me")
+                .secure(true).cookie(cookie).header("X-MathVision-Web", "portal").header("X-MathVision-Session", webId))
+                .andExpect(status().isOk());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me")
+                .header("Authorization", "Bearer " + firstAccess)).andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON).content(firstRefresh))
+                .andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/v1/auth/logout").secure(true).cookie(cookie)
+                .header("X-MathVision-Web", "portal").header("X-MathVision-Session", webId)).andExpect(status().isOk());
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/me")
+                .header("Authorization", "Bearer " + second.get("accessToken").asText())).andExpect(status().isOk());
     }
 
     @Test

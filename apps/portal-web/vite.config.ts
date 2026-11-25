@@ -23,7 +23,8 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, portalRoot, 'VITE_');
   const production = command === 'build';
   const config = resolveAppConfig(env, production);
-  const studentWebRoot = resolve(portalRoot, '../../infra/local-runtime/student-web-preview');
+  const studentWebRoot = resolve(portalRoot, process.env.MATHVISION_STUDENT_PREVIEW_DIR ||
+    '../../infra/local-runtime/student-web-preview');
   const api = new URL(config.apiBaseUrl);
 
   return {
@@ -73,6 +74,9 @@ export default defineConfig(({ command, mode }) => {
               requestedFile = resolve(studentWebRoot, 'index.html');
             }
             // Serve outside Vite's cached public-file list and production publicDir.
+            if (/^\/study\/_expo\/static\/js\/web\/[^/]+-[a-f0-9]{32}\.js$/.test(pathname)) {
+              response.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+            }
             response.setHeader('Content-Type', contentType(requestedFile) || 'application/octet-stream');
             const stream = createReadStream(requestedFile);
             stream.on('error', () => { response.statusCode = 404; response.end(); });

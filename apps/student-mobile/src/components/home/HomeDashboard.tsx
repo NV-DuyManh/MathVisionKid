@@ -78,25 +78,24 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
   const registeredGrade = Number(profile.value?.gradeLevel ?? auth?.user?.gradeLevel ?? auth?.user?.grade);
   const hasRegisteredGrade = Number.isInteger(registeredGrade) && registeredGrade >= 1 && registeredGrade <= 5;
   const gradeLessons = hasRegisteredGrade ? getProblemsByGrade(registeredGrade as 1 | 2 | 3 | 4 | 5) : [];
-  const [ranking, setRanking] = useState<{ owner: string; grade: number; data: Leaderboard }>();
+  const [ranking, setRanking] = useState<{ owner: string; data: Leaderboard }>();
   useFocusEffect(useCallback(() => {
-    if (!desktop || !userKey || !hasRegisteredGrade) return;
+    if (!desktopWeb || !userKey) return;
     const request = new AbortController();
-    void profileApi.leaderboard(undefined, request.signal).then(data => {
-      if (!request.signal.aborted && (!data.gradeLevel || data.gradeLevel === registeredGrade)) setRanking({ owner: userKey, grade: registeredGrade, data });
+    void profileApi.leaderboard(undefined, request.signal, true).then(data => {
+      if (!request.signal.aborted && data.gradeLevel == null) setRanking({ owner: userKey, data });
     }).catch(() => {});
     return () => request.abort();
-  }, [desktop, hasRegisteredGrade, registeredGrade, userKey]));
-  const leaders = ranking?.owner === userKey && ranking?.grade === registeredGrade
+  }, [desktopWeb, userKey, profile.value?.leaderboardVisible, profile.value?.leaderboardNameHidden, profile.value?.publicAlias]));
+  const leaders = ranking && ranking.owner === userKey
     ? ranking.data.entries.filter(entry => !entry.self || profile.value?.leaderboardVisible === true).slice(0, 3) : undefined;
   const weeklyProgress = Math.min(profile.value?.stats.week ?? 0, WEEKLY_ACTIVITY_GOAL);
-  const titles = desktopWeb ? profile.value?.titles?.filter(item => item.unlocked).slice(0, 3) ?? [] : [];
   const quickActions = [
     { title: 'Bài đã lưu', label: 'Bài đã lưu. Xem lại bài làm của em', image: ART.saved, color: '#FDE7F2', action: () => router.push(desktopWeb ? '/saved' as never : '/(tabs)/profile') },
     { title: 'Luyện tập', label: 'Luyện tập. Làm bài theo chủ đề', image: ART.practice, color: '#E2F3FF', action: () => router.push('/(tabs)/lessons') },
     { title: 'Tiến bộ', label: 'Tiến bộ. Xem hành trình học tập', image: ART.progress, color: '#DEF6EE', action: () => router.push(desktopWeb ? '/(tabs)/profile' : '/(tabs)/achievements') },
     desktopWeb
-      ? { title: 'Thành tích', label: 'Thành tích. Xem danh hiệu của em', image: ART.crown, color: '#FFF2CC', action: () => router.push('/(tabs)/achievements') }
+      ? { title: 'Thành tích', label: 'Thành tích. Xem xếp hạng của em', image: ART.crown, color: '#FFF2CC', action: () => router.push('/(tabs)/achievements') }
       : { title: 'Máy tính', label: 'Mở máy tính bỏ túi', image: ART.calculator, color: '#EFE6FC', action: () => setCalculatorOpen(true) },
   ];
   const accountAction = () => router.push('/account');
@@ -211,17 +210,16 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       </Pressable>
     </View> : null}
     {desktopWeb && profile.value ? <View style={styles.desktopProgress}>
-      <View style={styles.panelTitleRow}><Ionicons name="star" size={20} color="#A76405" accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Danh hiệu của em</Text></View>
-      {titles.length ? <View style={styles.progressMetrics}>{titles.map(item => <View key={item.id} style={styles.titleTile}>
-        <Ionicons name="ribbon" size={24} color={COLORS.primaryDark} accessible={false} /><Text style={styles.progressLabel}>{item.name}</Text>
-      </View>)}</View> : <Text style={styles.caption}>Chưa có danh hiệu.</Text>}
-      <Pressable accessibilityRole="button" onPress={() => router.push('/(tabs)/achievements')} style={styles.textButton}><Text style={styles.link}>Xem danh hiệu</Text></Pressable>
+      <View style={styles.panelTitleRow}><Ionicons name="trophy-outline" size={20} color="#A76405" accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Hạng của em</Text></View>
+      <Text style={styles.caption}>{profile.value.rank.name} · {profile.value.stars} sao</Text>
+      <Pressable accessibilityRole="button" onPress={() => router.push('/(tabs)/achievements')} style={styles.textButton}><Text style={styles.link}>Xem xếp hạng</Text></Pressable>
     </View> : null}
-    {desktopWeb && hasRegisteredGrade ? <View style={[styles.desktopProgress, styles.leaderPanel]}>
+    {desktopWeb ? <View style={[styles.desktopProgress, styles.leaderPanel]}>
       <LinearGradient colors={['#643BD3', '#814CEB']} start={{ x: 0, y: 0 }} end={{ x: 1, y: .5 }} style={styles.leaderHeading}>
         <Ionicons name="trophy-outline" size={21} color="#FFE888" accessible={false} />
-        <Text accessibilityRole="header" style={styles.leaderTitle}>Bảng xếp hạng</Text><Text style={styles.leaderGrade}>Khối {registeredGrade}</Text>
+        <Text accessibilityRole="header" style={styles.leaderTitle}>Bảng xếp hạng</Text><Text style={styles.leaderGrade}>Tất cả khối</Text>
       </LinearGradient>
+      {leaders?.length === 0 && <Text style={styles.leaderEmpty}>Chưa có bạn nào được xếp hạng.</Text>}
       {leaders?.map((entry, index) => <View key={entry.position} style={[styles.leader, index === 0 && styles.leaderTop]}>
         <Text style={styles.link}>#{entry.position}</Text>
         <StudentAvatar id={entry.avatar} size={25} />
@@ -262,6 +260,7 @@ const styles = StyleSheet.create({
   progressLabel: { color: STUDENT_WEB.muted, fontFamily: FONTS.semiBold, fontSize: 12 },
   titleTile: { flex: 1, alignItems: 'center', padding: 8, gap: 5, borderRadius: 12, backgroundColor: STUDENT_WEB.soft },
   leaderPanel: { paddingHorizontal: 0, paddingTop: 0, overflow: 'hidden' },
+  leaderEmpty: { paddingHorizontal: 12, color: COLORS.textSecondary, fontFamily: FONTS.semiBold, fontSize: 12, textAlign: 'center' },
   leaderHeading: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 12 },
   leaderTitle: { flex: 1, fontFamily: FONTS.extraBold, fontSize: 16, color: '#FFF' },
   leaderGrade: { color: '#FFF', backgroundColor: '#FFFFFF26', fontFamily: FONTS.bold, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 10, fontSize: 12 },

@@ -1,7 +1,6 @@
 package com.mathvisionkids.api.auth.sso;
 
 import com.mathvisionkids.api.auth.AuthResponse;
-import com.mathvisionkids.api.auth.JwtUtil;
 import com.mathvisionkids.api.auth.RefreshTokenService;
 import com.mathvisionkids.api.common.ApiException;
 import com.mathvisionkids.api.user.User;
@@ -25,12 +24,10 @@ public class SsoHandoffService {
     private final SecureRandom secureRandom = new SecureRandom();
 
     private final UserRepository userRepository;
-    private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
 
-    public SsoHandoffService(UserRepository userRepository, JwtUtil jwtUtil, RefreshTokenService refreshTokenService) {
+    public SsoHandoffService(UserRepository userRepository, RefreshTokenService refreshTokenService) {
         this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
         this.refreshTokenService = refreshTokenService;
     }
 
@@ -132,11 +129,8 @@ public class SsoHandoffService {
             throw new ApiException("FORBIDDEN", "User role changed since ticket creation", HttpStatus.FORBIDDEN);
         }
 
-        String accessToken = jwtUtil.generateToken(user.getEmail(), user.getRole());
-        String refreshToken = refreshTokenService.createRefreshToken(user.getId());
-
         log.info("Successfully exchanged SSO handoff ticket for user {} to portal {}", user.getEmail(), ticket.targetApp());
-        return new AuthResponse(accessToken, refreshToken);
+        return refreshTokenService.createSession(user.getId());
     }
 
     @org.springframework.scheduling.annotation.Scheduled(fixedRate = 60000)

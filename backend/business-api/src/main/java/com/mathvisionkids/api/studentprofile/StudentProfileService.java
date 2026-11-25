@@ -20,7 +20,7 @@ import static com.mathvisionkids.api.studentprofile.ProfileDtos.*;
 public class StudentProfileService {
     static final Set<String> AVATARS = Set.of("star", "planet", "leaf", "rocket", "moon", "sun");
     private static final List<String> INITIAL_AVATARS = List.of("star", "planet", "leaf", "rocket", "moon", "sun");
-    private record Preferences(String avatar, String alias, boolean visible, String title, boolean reachedChallenger, boolean nameHidden) {}
+    private record Preferences(String avatar, String alias, boolean visible, boolean reachedChallenger, boolean nameHidden) {}
     private record Day(LocalDate date, long lessons, long quizzes, long games, long stars) {
         long total() { return lessons + quizzes + games; }
     }
@@ -67,13 +67,10 @@ public class StudentProfileService {
         ensurePreferences(id);
         if (Boolean.TRUE.equals(edit.leaderboardVisible()) && student.getEmail().toLowerCase(Locale.ROOT).endsWith("@mathvision.local"))
             throw invalid("Tài khoản này không tham gia bảng xếp hạng.");
-        String title = edit.selectedTitle();
-        if (title != null && titles(stats(days(id))).stream().noneMatch(t -> t.unlocked() && t.id().equals(title)))
-            throw invalid("Em hãy chọn danh hiệu đã mở khóa.");
         db.update("""
-                UPDATE student_profile_preferences SET avatar = ?, leaderboard_visible = ?, selected_title = ?,
+                UPDATE student_profile_preferences SET avatar = ?, leaderboard_visible = ?,
                     leaderboard_name_hidden = COALESCE(?, leaderboard_name_hidden) WHERE student_id = ?
-                """, edit.avatar(), edit.leaderboardVisible(), title, edit.leaderboardNameHidden(), id);
+                """, edit.avatar(), edit.leaderboardVisible(), edit.leaderboardNameHidden(), id);
         rewards.rememberChallengers();
         if (Boolean.TRUE.equals(edit.removePhoto())) db.update("DELETE FROM student_profile_photos WHERE student_id = ?", id);
         return profile(student);
@@ -84,6 +81,21 @@ public class StudentProfileService {
         lockStudent(id);
         rewards.lock();
         ensurePreferences(id);
+    }
+
+    // Admin eligibility changes share the same student -> reward lock order as award/profile writes.
+    // Capture both sides of the transition in the admin transaction, including pupils entering
+    // the Top 200 without making another request or earning another star.
+    @Transactional(propagation = org.springframework.transaction.annotation.Propagation.MANDATORY)
+    public void changeRankingEligibility(UUID id, boolean active) {
+        Student student = em.find(Student.class, id, LockModeType.PESSIMISTIC_WRITE);
+        if (student == null) throw new ApiException("NOT_FOUND", "Student not found", HttpStatus.NOT_FOUND);
+        em.refresh(student, LockModeType.PESSIMISTIC_WRITE);
+        rewards.lock();
+        rewards.rememberChallengers();
+        student.setActive(active);
+        students.saveAndFlush(student);
+        rewards.rememberChallengers();
     }
 
     private void ensurePreferences(UUID id) {
@@ -133,28 +145,17 @@ public class StudentProfileService {
         return new Stats(lesson, quiz, game, days.size(), week, month, daily, streak);
     }
 
-    private List<Title> titles(Stats s) {
-        return List.of(
-                title("rookie", "Tân Binh Tri Thức", "Phổ biến", "Hoàn thành bài học đầu tiên", s.lessons(), 1),
-                title("luyen-khi", "Luyện Khí", "Phổ biến", "Hoàn thành 3 bài học", s.lessons(), 3),
-                title("truc-co", "Trúc Cơ", "Hiếm", "Giải đúng 5 Quiz", s.quizzes(), 5),
-                title("kim-dan", "Kim Đan", "Hiếm", "Thắng 5 lượt chơi có xác minh", s.games(), 5),
-                title("nguyen-anh", "Nguyên Anh", "Sử thi", "Học trong 14 ngày khác nhau", s.days(), 14),
-                title("scholar", "Học Bá", "Sử thi", "Hoàn thành 20 bài học", s.lessons(), 20),
-                title("master", "Đại Sư Toán Học", "Huyền thoại", "Hoàn thành 30 bài học, 30 Quiz và 30 lượt chơi", Math.min(s.lessons(), Math.min(s.quizzes(), s.games())), 30));
-    }
-
-    private Title title(String id, String name, String rarity, String description, long progress, long goal) {
-        return new Title(id, name, rarity, description, Math.min(progress, goal), goal, progress >= goal);
+    private Preferences preferences(UUID id) {
+        return db.query("""
+                SELECT avatar, public_alias, leaderboard_visible, reached_challenger, leaderboard_name_hidden
+                FROM student_profile_preferences WHERE student_id = ?
+                """, (r, n) -> new Preferences(r.getString(1), r.getString(2), r.getBoolean(3), r.getBoolean(4), r.getBoolean(5)), id)
+                .stream().findFirst().orElse(new Preferences("star", "", false, false, true));
     }
 
     private Profile profile(Student student) {
         UUID id = student.getId();
-        var prefs = db.query("""
-                SELECT avatar, public_alias, leaderboard_visible, selected_title, reached_challenger, leaderboard_name_hidden
-                FROM student_profile_preferences WHERE student_id = ?
-                """, (r, n) -> new Preferences(r.getString(1), r.getString(2), r.getBoolean(3), r.getString(4), r.getBoolean(5), r.getBoolean(6)), id)
-                .stream().findFirst().orElse(new Preferences("star", "", false, null, false, true));
+        var prefs = preferences(id);
         var classes = db.query("""
                 SELECT c.class_id, c.name FROM classrooms c JOIN classroom_students cs ON cs.class_id = c.class_id
                 WHERE cs.student_id = ? ORDER BY c.name, c.class_id
@@ -173,8 +174,8 @@ public class StudentProfileService {
                 (r, n) -> "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(r.getBytes(1)), id)
                 .stream().findFirst().orElse(null);
         return new Profile(student.getDisplayName(), student.getGradeLevel(), student.getCreatedAt(), classes, prefs.avatar(),
-                prefs.visible(), prefs.alias(), prefs.title(), stars, rank, prefs.reachedChallenger() ? "Thách Đấu" : rank.name(),
-                position, stats, titles(stats), history, photo, student.getGoogleSubject() == null && student.getFacebookSubject() == null,
+                prefs.visible(), prefs.alias(), null, stars, rank, prefs.reachedChallenger() ? "Huyền Thoại" : rank.name(),
+                position, stats, List.of(), history, photo, student.getGoogleSubject() == null && student.getFacebookSubject() == null,
                 prefs.nameHidden());
     }
 
@@ -187,11 +188,20 @@ public class StudentProfileService {
 
     @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
     public Leaderboard leaderboard(String principal, UUID classroom) {
+        return leaderboard(principal, classroom, false);
+    }
+
+    @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
+    public Leaderboard leaderboard(String principal, UUID classroom, boolean allGrades) {
+        if (allGrades && classroom != null) throw invalid("Em chỉ có thể xem một phạm vi xếp hạng mỗi lần.");
         Student student = student(principal);
         UUID id = student.getId();
-        if (student.getGradeLevel() == null) return new Leaderboard(List.of(), null, null);
-        String ranking = gradeRanking();
-        Object[] filters = { student.getGradeLevel() };
+        Integer grade = allGrades ? null : student.getGradeLevel();
+        if (!allGrades && grade == null) return new Leaderboard(List.of(), null, null);
+        String ranking = allGrades
+                ? "SELECT g.*, g.position AS global_position FROM (" + StudentRewards.GLOBAL_RANKING + ") g"
+                : gradeRanking();
+        Object[] filters = allGrades ? new Object[0] : new Object[] { grade };
         if (classroom != null) {
             if (db.queryForObject("SELECT COUNT(*) FROM classroom_students WHERE class_id = ? AND student_id = ?",
                     Long.class, classroom, id) == 0) {
@@ -201,21 +211,22 @@ public class StudentProfileService {
                     SELECT g.*, ROW_NUMBER() OVER (ORDER BY g.position) AS class_position
                     FROM (%s) g JOIN classroom_students cs ON cs.student_id = g.student_id WHERE cs.class_id = ?
                     """.formatted(ranking);
-            filters = new Object[] { student.getGradeLevel(), classroom };
+            filters = new Object[] { grade, classroom };
         }
         String order = classroom == null ? "position" : "class_position";
         var entries = db.query("SELECT * FROM (" + ranking + ") ranked ORDER BY " + order + " LIMIT 200",
                 (r, n) -> new Entry(r.getLong(order), r.getString("board_name"), r.getString("avatar"), r.getLong("stars"),
                         StudentRank.at(r.getLong("stars"), r.getLong("global_position")), id.equals(r.getObject("student_id", UUID.class))), filters);
         String ownRanking = classroom == null ? ranking : "SELECT student_id, class_position AS position FROM (" + ranking + ") by_class";
-        return new Leaderboard(entries, position(id, ownRanking, filters), student.getGradeLevel());
+        return new Leaderboard(entries, position(id, ownRanking, filters), grade);
     }
 
     private String gradeRanking() {
         return """
                 SELECT g.student_id, g.public_alias, g.board_name, g.avatar, g.stars, g.position AS global_position,
                     ROW_NUMBER() OVER (ORDER BY g.position) AS position
-                FROM (%s) g JOIN students s ON s.student_id = g.student_id WHERE s.grade_level = ?
+                FROM (%s) g JOIN students s ON s.student_id = g.student_id
+                    WHERE s.grade_level = ?
                 """.formatted(StudentRewards.GLOBAL_RANKING);
     }
 

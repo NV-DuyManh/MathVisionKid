@@ -1,4 +1,5 @@
 import { test as base, expect } from '@playwright/test';
+import { randomUUID } from 'node:crypto';
 import { sites, apiOrigin, studentPort } from './sites.mjs';
 
 export { expect, sites };
@@ -16,6 +17,7 @@ export const test = base.extend({
   app: async ({ context }, use) => {
     const state = { requests: [], unexpected: [], errors: [], expired: false, classesDown: false, assignments: [], responses: new Map() };
     const tickets = new Map();
+    const sessions = new Map();
     const watch = page => page.on('pageerror', error => state.errors.push(error.message));
     context.pages().forEach(watch);
     context.on('page', watch);
@@ -28,7 +30,9 @@ export const test = base.extend({
       const site = Object.values(sites).find(site => site.origin === url.origin);
       if (site && !url.pathname.startsWith('/api/v1/')) {
         const port = state.realStudent && url.pathname.startsWith('/study/') ? studentPort : site.port;
-        const response = await route.fetch({ url: `http://127.0.0.1:${port}${url.pathname}${url.search}` });
+        // Retry only ECONNRESET on local keep-alive connections; HTTP failures
+        // and missing assets still propagate to the browser assertions.
+        const response = await route.fetch({ url: `http://127.0.0.1:${port}${url.pathname}${url.search}`, maxRetries: 2 });
         return route.fulfill({ response });
       }
       if (url.origin !== apiOrigin && !(site && url.pathname.startsWith('/api/v1/'))) {
@@ -40,12 +44,30 @@ export const test = base.extend({
       const path = url.pathname.replace(/^\/api\/v1/, '');
       const method = request.method();
       const body = request.headers()['content-type']?.includes('application/json') ? request.postDataJSON() : null;
-      const role = request.headers().authorization?.match(/^Bearer fixture\.(STUDENT|TEACHER|ADMIN)\.access$/)?.[1];
+      const headers = await request.allHeaders();
+      const client = headers['x-mathvision-web'];
+      const sessionId = headers['x-mathvision-session'];
+      const cookieName = `__Host-mvk_${client}_session`;
+      const secret = headers.cookie?.split('; ').find(value => value.startsWith(`${cookieName}=`))?.slice(cookieName.length + 1);
+      const session = sessions.get(sessionId);
+      const role = client ? (session?.client === client && session.secret === secret ? session.role : undefined)
+        : headers.authorization?.match(/^Bearer fixture\.(STUDENT|TEACHER|ADMIN)\.access$/)?.[1];
       const record = { method, path, body, role, origin: request.headers().origin, query: Object.fromEntries(url.searchParams) };
       state.requests.push(record);
       const json = (value, status = 200) => route.fulfill({ status, json: value,
         headers: { 'access-control-allow-origin': '*' } });
       const reject = (status = 401) => json({ error: { code: 'FIXTURE_REJECTED', message: 'Yêu cầu kiểm thử không hợp lệ.' } }, status);
+      const establish = newRole => {
+        if (!client) return json(tokens(newRole));
+        if (client !== 'portal' && client.toUpperCase() !== newRole) return reject(403);
+        if (role) sessions.delete(sessionId);
+        const id = randomUUID();
+        const browserSecret = secret || randomUUID();
+        sessions.set(id, { client, secret: browserSecret, role: newRole });
+        return route.fulfill({ status: 200, json: { sessionId: id }, headers: {
+          'set-cookie': `${cookieName}=${browserSecret}; Path=/; Secure; HttpOnly; SameSite=Strict`,
+        } });
+      };
       if (method === 'OPTIONS') return route.fulfill({ status: 204, headers: {
         'access-control-allow-origin': '*', 'access-control-allow-headers': 'authorization,content-type',
         'access-control-allow-methods': 'GET,POST,PATCH,DELETE,OPTIONS',
@@ -53,12 +75,17 @@ export const test = base.extend({
       if (path === '/auth/login' && method === 'POST') {
         const loginRole = body.email.split('@')[0].toUpperCase();
         return ['STUDENT', 'TEACHER', 'ADMIN'].includes(loginRole) && body.password === 'synthetic-password'
-          ? json(tokens(loginRole)) : reject();
+          ? establish(loginRole) : reject();
       }
       if (path === '/auth/refresh') return state.expired ? reject() : json(tokens(body.refreshToken.split('.')[1]));
-      if (path === '/auth/logout') return json({});
+      if (path === '/auth/logout') {
+        if (client && role) {
+          for (const [id, matching] of sessions) if (matching.role === role) sessions.delete(id);
+        }
+        return json({});
+      }
       const respond = state.responses.get(`${method} ${path}`);
-      if (path.startsWith('/auth/') && respond) return respond({ body, json, reject, route });
+      if (path.startsWith('/auth/') && respond) return respond({ body, json, reject, route, establish });
       if (path === '/auth/sso/ticket') {
         if (!role || role !== body.targetApp) return reject(403);
         const code = `ticket-${role}`;
@@ -69,7 +96,7 @@ export const test = base.extend({
         const ticketRole = tickets.get(body.code);
         if (!ticketRole || ticketRole !== body.targetApp) return reject(403);
         tickets.delete(body.code);
-        return json(tokens(ticketRole));
+        return establish(ticketRole);
       }
       if (state.expired || !role) return reject();
       if (path === '/me') return json(state.realStudent && role === 'STUDENT'
@@ -78,13 +105,13 @@ export const test = base.extend({
         state.studentProfile ??= {
         displayName: 'Kiểm thử STUDENT', gradeLevel: 5, joinedAt: null, classrooms: [],
         avatar: 'star', leaderboardVisible: false, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null,
-        stars: 1, rank: { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 },
-        highestRank: 'Đồng III', position: null,
+        stars: 1, rank: { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 },
+        highestRank: 'Sắt III', position: null,
         stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
         titles: [], history: [{ source: 'LESSON', completedAt: '2026-11-13T06:00:00Z', stars: 1 }],
         };
         if (path === '/student/profile/password') return body.currentPassword === 'incorrect-password'
-          ? json({ error: { code: 'PASSWORD_CURRENT_INVALID' } }, 400) : json(tokens('STUDENT'));
+          ? json({ error: { code: 'PASSWORD_CURRENT_INVALID' } }, 400) : establish('STUDENT');
         if (path === '/student/profile/photo' && method === 'PUT') {
           const bytes = request.postDataBuffer();
           const start = bytes.indexOf('\r\n\r\n') + 4, end = bytes.lastIndexOf('\r\n--');
@@ -96,12 +123,24 @@ export const test = base.extend({
         }
         return json(state.studentProfile);
       }
-      if (state.realStudent && path === '/student/leaderboard') return json({ entries: [], ownPosition: null, gradeLevel: state.studentProfile?.gradeLevel ?? 5 });
+      if (state.realStudent && path === '/student/leaderboard') return json({ entries: [], ownPosition: null, gradeLevel: url.searchParams.get('allGrades') === 'true' ? null : state.studentProfile?.gradeLevel ?? 5 });
       if (state.realStudent && path === '/student/quizzes/pending-count') return json({ pendingCount: 0, totalStars: 0 });
       if (state.realStudent && path === '/student/quizzes') return json({ items: [], page: 0, totalPages: 0, totalElements: 0 });
       if (path.startsWith('/teacher/') && role !== 'TEACHER') return reject(403);
       if (path.startsWith('/admin/') && role !== 'ADMIN') return reject(403);
       if (respond) return respond({ body, json, reject, route });
+      if (role === 'STUDENT' && path === '/student/parent-control/status' && method === 'GET')
+        return json({ pinConfigured: false, dailyLimitReached: false, dailyLimitConfigured: false, activityVerified: true });
+      if (role === 'STUDENT' && path === '/student/app-usage/game-status' && method === 'GET')
+        return json({ gameLimitReached: false });
+      if (role === 'STUDENT' && path === '/student/app-usage/game-heartbeat' && method === 'POST')
+        return json({ remainingMillis: null, leaseMillis: body.active ? 10000 : 0, gameLimitReached: false });
+      if (role === 'STUDENT' && path === '/student/app-usage/heartbeat' && method === 'POST') {
+        expect(Object.keys(body ?? {}).sort()).toEqual(['active', 'connectionId']);
+        expect(typeof body.active).toBe('boolean');
+        expect(body.connectionId).toMatch(/^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i);
+        return route.fulfill({ status: 204, headers: { 'access-control-allow-origin': '*' } });
+      }
       if (path === '/teacher/dashboard') return json({ todayTotal: 0, processedCount: 0, reviewRequiredCount: 0, recentBatches: [] });
       if (path === '/teacher/classes') return state.classesDown ? reject(503) : json([{ classId: 'class-5a', name: '5A', studentCount: 2 }]);
       if (path === '/teacher/assignments' && method === 'POST') {

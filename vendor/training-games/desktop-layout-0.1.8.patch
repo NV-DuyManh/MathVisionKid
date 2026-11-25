@@ -1,0 +1,35 @@
+--- a/src/games/block-island/components/IslandIntro.tsx
++++ b/src/games/block-island/components/IslandIntro.tsx
+@@ -2 +2 @@
+-import { StyleSheet, Text, View } from 'react-native';
++import { Platform, StyleSheet, Text, View } from 'react-native';
+@@ -11 +11,2 @@
+-  return <View testID="island-intro" style={[s.root,wide&&s.wide]}>
++  const desktop=wide&&Platform.OS==='web'&&typeof window!=='undefined'&&window.matchMedia?.('(pointer: fine)').matches;
++  return <View testID="island-intro" style={[s.root,wide&&s.wide,desktop&&{alignItems:'stretch'}]}>
+@@ -13 +14 @@
+-    <View style={[s.copy,wide&&{width:390,padding:24},short&&{gap:6,padding:12}]}>
++    <View style={[s.copy,wide&&{width:390,padding:24},desktop&&{justifyContent:'center'},short&&{gap:6,padding:12}]}>
+--- a/src/games/race-to-finish/components/GameCamera.tsx
++++ b/src/games/race-to-finish/components/GameCamera.tsx
+@@ -2 +2 @@
+-import { View, Image, StyleSheet } from 'react-native';
++import { View, Image, Platform, StyleSheet } from 'react-native';
+@@ -20 +20,3 @@
+-  const bounds = useMemo(() => fitToBoard(width, height), [width, height]);
++  // Desktop has room for the whole board; phone focus/follow framing stays unchanged.
++  const overview = Platform.OS === 'web' && width >= 1000 && typeof window !== 'undefined' && window.matchMedia?.('(pointer: fine)').matches;
++  const bounds = useMemo(() => fitToBoard(width, height, overview), [width, height, overview]);
+--- a/src/games/race-to-finish/logic/cameraGeometry.ts
++++ b/src/games/race-to-finish/logic/cameraGeometry.ts
+@@ -5 +5 @@
+-export function fitToBoard(width: number, height: number): CameraBounds {
++export function fitToBoard(width: number, height: number, overview = false): CameraBounds {
+@@ -13 +13 @@
+-    fit, zoom: Math.max(fit, Math.min(1.6, h / 315)) };
++    fit, zoom: overview ? fit : Math.max(fit, Math.min(1.6, h / 315)) };
+--- a/src/shared/integration/contracts.ts
++++ b/src/shared/integration/contracts.ts
+@@ -3 +3 @@
+-export const TRAINING_GAME_VERSION = '0.1.2';
++export const TRAINING_GAME_VERSION = '0.1.8';

@@ -2,13 +2,14 @@
 import asyncio
 import json
 import re
+import unicodedata
 from fractions import Fraction
 from typing import Annotated, Literal
 
 from pydantic import Field, StrictBool, StringConstraints, ValidationError, field_validator, model_validator
 
 from app.tutoring.lesson import calculate_exact, checked_written_calculation, safe_public, written_calculation_sides
-from app.tutoring.math_knowledge import quantity_unit
+from app.tutoring.math_knowledge import normalized_units, quantity_unit
 from app.tutoring.work_completion import (CompletionGap, MissingPart, requirements, agreed_gaps,
                                          legacy_gaps, not_started, missing_parts)
 from app.tutoring.service import (
@@ -334,19 +335,30 @@ def _exact_number(text: str) -> Fraction | None:
 
 
 def _unit_calculation(text: str) -> tuple[bool, Fraction] | None:
-    sides = re.split('[=＝]', text.rstrip('.'))
+    # Fold fullwidth ASCII without turning superscripts or subscripts into digits.
+    text = normalized_units(re.sub(r'[！-～]', lambda match: unicodedata.normalize('NFKC', match[0]), text))
+    text = re.sub(r'^\s*doi(?:\s+don\s+vi)?(?:\s*[:：]\s*|\s+)(?=[+−-]?\d)', '', text)
+    sides = re.split('[=＝]', text.rstrip(' .。．'))
     if len(sides) < 2:
         return None
     values = []
     for side in sides:
-        match = re.fullmatch(fr'\s*({_NUMBER})\s*([^\W\d_][\w\s^²³]*)\s*', side)
+        unit_text = r'[^\W\d_][^\W\d_]*(?:[²³])?'
+        match = re.fullmatch(fr'\s*({_NUMBER})\s*({unit_text})(?:\s+(\d+(?:[.,]\d+)?)\s*({unit_text}))?\s*', side)
         if not match or (unit := quantity_unit(match[2])) is None or (value := _exact_number(match[1])) is None:
             return None
         dimension, scale = unit
-        values.append((dimension, value * scale))
+        amount = value * scale
+        if match[3] is not None:
+            other = quantity_unit(match[4])
+            tail = _exact_number(match[3])
+            if value < 0 or tail is None or other is None or other[0] != dimension or scale <= other[1]:
+                return None
+            amount += tail * other[1]
+        values.append((dimension, amount))
     if any(dimension != values[0][0] for dimension, _ in values):
-        return None
-    return all(amount == values[0][1] for _, amount in values), value
+        return False, value
+    return all(amount == values[0][1] for _, amount in values), amount / scale
 
 
 def _dependent_correction(row: ReviewedRow) -> ReviewedRow:
@@ -381,15 +393,19 @@ def _local_rows(rows: list[str]) -> list[ReviewedRow]:
     last_result = None
     for index, text in enumerate(rows):
         fields = dict(lineIndex=index, sourceText=text)
+        unit_calculation = _unit_calculation(text)
         if _WORK_HEADING.fullmatch(_fold(text)):
             row = ReviewedRow(**fields, rowKind='HEADING', status='OK', feedback='Đây là tiêu đề bài giải.')
-        elif calculation := _unit_calculation(text) or checked_written_calculation(text):
+        elif calculation := unit_calculation or checked_written_calculation(text):
             valid, last_result = calculation
             row = ReviewedRow(**fields, rowKind='CALCULATION', arithmeticCorrect=valid,
                 status='OK' if valid else 'FIX', errorKind='NONE' if valid else 'CALCULATION',
-                feedback='Các vế bằng nhau theo các số em viết.' if valid else
+                feedback=('Hai vế có giá trị bằng nhau sau khi đổi đơn vị.' if valid else
+                          'Hai vế chưa tương đương. Em kiểm tra loại đại lượng và hệ số đổi đơn vị nhé.') if unit_calculation else
+                         'Các vế bằng nhau theo các số em viết.' if valid else
                          'Hai vế phép tính em viết chưa bằng nhau. Em kiểm tra lại cách tính nhé.',
-                hints=[] if valid else ['Em thực hiện lại phép tính rồi đối chiếu từng dấu bằng.'])
+                hints=[] if valid else ['Em đối chiếu loại đại lượng và hệ số đổi giữa các đơn vị.'] if unit_calculation else
+                      ['Em thực hiện lại phép tính rồi đối chiếu từng dấu bằng.'])
         elif _ANSWER_LABEL.match(text):
             answer = _ANSWER_LINE.match(text)
             matches = bool(answer and last_result is not None and last_result == _exact_number(answer[1])
@@ -668,6 +684,8 @@ def _merge_rows(local_rows: list[ReviewedRow], first: _Assessment, second: _Asse
     merged = []
     for row, teaching, verifier in zip(local_rows, first.rows, second.rows):
         agreed = (teaching.status, teaching.errorKind) == (verifier.status, verifier.errorKind)
+        contextual_error = any(candidate.errorKind in {'OPERAND', 'UNIT', 'EXPLANATION', 'DEPENDENT'}
+                               for candidate in (teaching, verifier))
         if row.rowKind == 'HEADING':
             merged.append(row)
         elif agreed and teaching.status == 'FIX' and (
@@ -679,8 +697,13 @@ def _merge_rows(local_rows: list[ReviewedRow], first: _Assessment, second: _Asse
                           if agreed and teaching.status == 'FIX' and teaching.errorKind in {'CALCULATION', 'NONE'} else row)
         elif agreed and teaching.status == 'OK' and (row.status == 'OK' or row.rowKind == 'ANSWER'):
             merged.append(row.model_copy(update=teaching.model_dump()))
-        elif not agreed and any(candidate.errorKind in {'OPERAND', 'UNIT', 'EXPLANATION', 'DEPENDENT'}
-                                or candidate.status == 'UNSURE' for candidate in (teaching, verifier)):
+        elif (row.arithmeticCorrect is True and not contextual_error
+                and (teaching.status == 'UNSURE' or verifier.status == 'UNSURE')
+                and _unit_calculation(row.sourceText) is not None):
+            # Provider uncertainty cannot erase a deterministic equality. Context
+            # and completion still require independent agreement for the whole work.
+            merged.append(row)
+        elif not agreed and (contextual_error or teaching.status == 'UNSURE' or verifier.status == 'UNSURE'):
             merged.append(row.model_copy(update={'status': 'UNSURE',
                 'feedback': 'Chưa thống nhất cách dùng dữ kiện hoặc đơn vị ở dòng này.'}))
         elif teaching.status == verifier.status == 'UNSURE' and row.status == 'OK' and row.rowKind in {'CALCULATION', 'ANSWER'}:

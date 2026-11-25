@@ -1,0 +1,68 @@
+name: Dọn nhánh sau merge
+on:
+  pull_request:
+    branches: [develop]
+    types: [closed]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  delete-branch:
+    if: github.event.pull_request.merged && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Xóa nhánh đã hợp nhất
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          case "$PR_BRANCH" in
+            feature/*|bugfix/*|release/*|hotfix/*) ;;
+            *) exit 0 ;;
+          esac
+          ref="refs/heads/$PR_BRANCH"
+          git check-ref-format "$ref"
+          repo="repos/$GITHUB_REPOSITORY"
+          remote="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git"
+          gh auth setup-git
+
+          contains_pr_head() {
+            local tip status
+            tip=$(gh api "$repo/git/ref/heads/$1" --jq '.object.sha') || return 2
+            status=$(gh api "$repo/compare/$PR_HEAD_SHA...$tip" --jq '.status') || return 2
+            [[ "$status" == ahead || "$status" == identical ]]
+          }
+
+          required_branches=(develop)
+          case "$PR_BRANCH" in
+            release/*|hotfix/*) required_branches+=(main) ;;
+          esac
+          for base in "${required_branches[@]}"; do
+            if contains_pr_head "$base"; then continue; else result=$?; fi
+            if [[ "$result" == 2 ]]; then exit 1; fi
+            echo "Giữ nhánh vì commit gốc của PR chưa nằm trong $base."
+            exit 0
+          done
+
+          owner="${GITHUB_REPOSITORY%%/*}"
+          open_as_head=$(gh api --method GET "$repo/pulls" -f state=open -f "head=$owner:$PR_BRANCH" --jq '.[0].number // empty')
+          open_as_base=$(gh api --method GET "$repo/pulls" -f state=open -f "base=$PR_BRANCH" --jq '.[0].number // empty')
+          if [[ -n "$open_as_head" || -n "$open_as_base" ]]; then
+            echo "Giữ nhánh vì còn PR mở."
+            exit 0
+          fi
+
+          current=$(git ls-remote --heads "$remote" "$ref" | cut -f1)
+          if [[ "$current" != "$PR_HEAD_SHA" ]]; then
+            echo "Giữ nhánh vì nhánh đã đổi commit hoặc đã được xóa."
+            exit 0
+          fi
+
+          # Lease ràng buộc việc xóa với đúng commit đã kiểm tra.
+          git init --quiet
+          git push --force-with-lease="$ref:$PR_HEAD_SHA" "$remote" ":$ref"

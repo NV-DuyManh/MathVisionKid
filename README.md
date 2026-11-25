@@ -1,21 +1,21 @@
 <div align="center">
 
-![MathVision Kids — Little steps. Big discoveries.](docs/media/readme-hero.jpg)
+![MathVision Kids — Small steps. Big discoveries. Student Home and a completed lesson.](docs/media/readme-hero.jpg)
 
 # MathVision Kids
 
-### Turn a notebook photo into a moment of understanding.
+### From a notebook photo to a lesson the student can work through.
 
-A Vietnamese math learning companion for primary school students: capture a problem, review what was read, and learn through small, guided steps.
+A Vietnamese math learning app for grades 1–5. Students can photograph a problem, check the recognized text, and work through the reasoning with hints and narration. Families can follow learning activity and set time limits in Parent Mode.
 
 ![Expo 58](https://img.shields.io/badge/Expo-58-18164C?style=flat-square&logo=expo&logoColor=white)
 ![React Native](https://img.shields.io/badge/React_Native-0.88-7055F6?style=flat-square&logo=react&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3-166534?style=flat-square&logo=springboot&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5-166534?style=flat-square&logo=springboot&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.12-0369A1?style=flat-square&logo=python&logoColor=white)
 [![License: MIT](https://img.shields.io/badge/License-MIT-7055F6?style=flat-square)](LICENSE)
 [![Catalog Bot](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml/badge.svg)](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml)
 
-[Explore the app](#see-it-in-action) · [Get started](#run-it-locally) · [Tiếng Việt](docs/HUONG_DAN_CAI_DAT.md) · [Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md) · [Drive data & recovery](DU_LIEU_GOOGLE_DRIVE.md)
+[Open MathVision Kids](https://edu.mathvision.online) · [Screenshots](#see-it-in-action) · [Run locally](#run-it-locally) · [Vietnamese setup](docs/HUONG_DAN_CAI_DAT.md) · [Architecture](docs/ARCHITECTURE_LOCAL_RUNTIME.md)
 
 </div>
 
@@ -23,7 +23,7 @@ A Vietnamese math learning companion for primary school students: capture a prob
 
 ## A little more confidence, one step at a time
 
-MathVision Kids brings camera input, Vietnamese handwriting recognition, and interactive math guidance into a friendly learning experience. Students can work with a question or their own solution; teachers and administrators have separate web workspaces.
+Students can start with a photographed question, review their own handwritten solution, or choose a topic from the practice library. The same website provides the sign-in page and opens the Student workspace after sign-in. Teacher and administrator accounts have separate workspaces.
 
 | Capture with care | Understand the work | Learn by doing |
 | :--- | :--- | :--- |
@@ -31,28 +31,26 @@ MathVision Kids brings camera input, Vietnamese handwriting recognition, and int
 
 ## See it in action
 
-<table>
-  <tr>
-    <td align="center" width="33%"><a href="docs/media/screenshots/home-web.jpg"><img src="docs/media/screenshots/home-web.jpg" width="250" alt="MathVision Kids home with camera action and learning shortcuts" /></a><br /><strong>A welcoming start</strong><br />One clear action: capture a problem.</td>
-    <td align="center" width="33%"><a href="docs/media/screenshots/lessons-web.jpg"><img src="docs/media/screenshots/lessons-web.jpg" width="250" alt="Grade five practice problems in the lesson library" /></a><br /><strong>Practice by grade</strong><br />Browse activities for grades 1–5.</td>
-    <td align="center" width="33%"><a href="docs/media/screenshots/guided-step-web.jpg"><img src="docs/media/screenshots/guided-step-web.jpg" width="250" alt="Interactive guided step explaining place value" /></a><br /><strong>Think through each step</strong><br />Understand before calculating.</td>
-  </tr>
-</table>
-
-<details>
-<summary><strong>More screenshots: a photographed problem, a completed lesson, and learning progress</strong></summary>
+### The student journey
 
 <table>
   <tr>
-    <td align="center" width="33%"><a href="docs/media/screenshots/problem-android.png"><img src="docs/media/screenshots/problem-android.png" width="250" alt="Owner supplied Android screenshot of a photographed problem and editable transcription" /></a><br /><strong>Photo → readable problem</strong></td>
-    <td align="center" width="33%"><a href="docs/media/screenshots/completed-lesson-web.jpg"><img src="docs/media/screenshots/completed-lesson-web.jpg" width="250" alt="Completed guided lesson with calculations and answer" /></a><br /><strong>A solution built together</strong></td>
-    <td align="center" width="33%"><a href="docs/media/screenshots/progress-web.jpg"><img src="docs/media/screenshots/progress-web.jpg" width="250" alt="Learning progress screen in its initial state" /></a><br /><strong>Keep learning</strong></td>
+    <td align="center" width="33%"><a href="docs/media/screenshots/student-home-current.png"><img src="docs/media/screenshots/student-home-current.png" width="230" alt="Student Home with the camera shortcut and learning activities" /></a><br /><strong>1. Start on Student Home</strong><br />Open the camera, practice by topic, or resume saved work.</td>
+    <td align="center" width="33%"><a href="docs/media/screenshots/student-photo-current.png"><img src="docs/media/screenshots/student-photo-current.png" width="230" alt="Worksheet photo with the crop and rotation controls" /></a><br /><strong>2. Prepare the photo</strong><br />Cover personal details and crop to the problem before review.</td>
+    <td align="center" width="33%"><a href="docs/media/screenshots/student-lesson-current.png"><img src="docs/media/screenshots/student-lesson-current.png" width="230" alt="Completed student lesson with the original question, answer, and narration controls" /></a><br /><strong>3. Work through the lesson</strong><br />Try the steps, check the result, and listen to the explanation.</td>
   </tr>
 </table>
 
-</details>
+### Practice and follow progress
 
-These are real app screens. Web captures were taken on **5 October 2026** at a mobile viewport; the Android image was supplied by the project owner. Device frames in the cover are presentation artwork. See [screenshot provenance and the demo walkthrough](docs/DEMO_GUIDE.md).
+<table>
+  <tr>
+    <td align="center" width="50%"><a href="docs/media/screenshots/student-challenge-current.png"><img src="docs/media/screenshots/student-challenge-current.png" width="230" alt="Completed math challenge with earned stars and the next challenge button" /></a><br /><strong>4. Try a short challenge</strong><br />Practice the skill and review the answer.</td>
+    <td align="center" width="50%"><a href="docs/media/screenshots/parent-overview-current.png"><img src="docs/media/screenshots/parent-overview-current.png" width="230" alt="Parent Mode overview with learning activity, streak, usage time, and daily limit" /></a><br /><strong>5. Review progress in Parent Mode</strong><br />See learning activity and set time limits from the student profile.</td>
+  </tr>
+</table>
+
+These screenshots come from the running app on a phone-sized browser viewport. Minh Anh is a demo account, and the photo step uses an owner-supplied handwritten problem. See the [demo walkthrough](docs/DEMO_GUIDE.md).
 
 ## From photo to learning
 
@@ -73,8 +71,10 @@ An isolated calculation can be checked arithmetically. Deciding whether an entir
 ## What is inside
 
 - **Student app:** direct camera access, photo import, crop and rotation controls, privacy masking, editable reading results, guided lessons, saved work, and learning progress.
+- **Parent Mode:** open it from the student's profile to review activity and usage, or set daily and game time limits. The area is protected by a PIN, with email verification for setup and recovery where mail delivery is configured.
+- **Account access:** sign in with email and password or Google on Portal. Password recovery uses a verification code sent to the registered email address.
 - **Handwriting tools:** line localization, per-line Vietnamese OCR, review of uncertain readings, and optional cloud assistance.
-- **Practice library:** grade-based activities, including topics labeled Kết Nối Tri Thức and Cánh Diều. This is a practice collection, not a claim of full textbook coverage or publisher affiliation.
+- **Practice library:** browse exercises by grade and topic, then start a guided lesson from the selected problem.
 - **Teacher workspace:** classes, assignments, submission batches, and review workflows.
 - **Admin workspace:** role-based management through the business API.
 - **Catalog Bot:** reuses checked lessons and valid speech privately, with automated storage checks and a visible [GitHub Actions report](https://github.com/NV-DuyManh/MathVisionKid/actions/workflows/lesson-catalog.yml). Open `RUN_CATALOG_BOT.bat` for a read-only snapshot of this machine's catalog; see [catalog details and limits](catalog/README.md).
@@ -92,19 +92,19 @@ cd MathVisionKid
 
 On a freshly cloned Windows machine, double-click **`SETUP_MATHVISION.bat`** first. It installs missing prerequisites through WinGet, installs all JavaScript workspaces and locked Python libraries (including speech), prepares FFmpeg, and compiles the backend. Allow the Windows installer prompts when needed. Then open Docker Desktop and run **`RUN_MATHVISION.bat`**. Private cloud keys and model weights are described in the [setup guide](docs/HUONG_DAN_CAI_DAT.md).
 
-Use **`RUN_MATHVISION.bat`** to start the local stack and display the student app QR code. **Keep its terminal open to scan the QR code.** The separate student development terminal also remains available. Open **http://localhost:8081/login** for the Student login page in a browser. Local web portals are available at the addresses below; this local launcher does not publish a website.
+Use **`RUN_MATHVISION.bat`** to start the local stack. For the web experience, open [Portal sign-in](http://localhost:5172/login). For Expo Go, keep the launcher terminal open and scan the displayed QR code. Use the addresses printed by the launcher when a port has been configured differently.
 
-Use **`DEPLOY_WEB.bat`** only when you want to deploy or resume the public websites. It builds the backend/OCR services, starts the configured public API connection, checks readiness, and publishes the three Vercel websites. It does not launch Expo Go/Metro. First-time setup is documented in [PC preview setup](docs/PC_PREVIEW_DEPLOYMENT.md); deployment requires the private preview configuration and an authenticated Vercel CLI. Login/OCR still require the PC and Docker to remain running.
+The public [MathVision Kids website](https://edu.mathvision.online) serves Portal and Student Web from Vercel and connects to the deployed business API. **`DEPLOY_WEB.bat`** is the separate PC-hosted preview workflow. The preview needs its configured public connection, Docker, and a running PC. See [production deployment](docs/PRODUCTION_DEPLOYMENT.md) and [PC preview setup](docs/PC_PREVIEW_DEPLOYMENT.md).
 
 > **Fresh clone expectations:** source code and model manifests are included; trained weights and API keys are not. The default asynchronous grading mode uses synthetic fixtures. Real handwriting OCR requires the supplied CRNN checkpoint. Reading a photographed math question uses configured cloud vision. Set up those capabilities with the [installation guide](docs/LOCAL_SETUP.md#enable-real-recognition-and-guidance).
 
-| Entry point | Address / command |
+| Entry point | Default address or command |
 | :--- | :--- |
 | Unified web portal | `http://localhost:5172` |
 | Teacher workspace | `http://localhost:5173` |
 | Admin workspace | `http://localhost:5174` |
 | Student app | Scan the launcher QR in a compatible Expo Go client |
-| Student web login | `http://localhost:8081/login` |
+| Student Web | `http://localhost:5172/login` → `/study/` |
 | Runtime health | `.\scripts\health-check.bat` |
 | First-time dependency setup | `.\SETUP_MATHVISION.bat` |
 | Stop the local stack | `.\STOP_MATHVISION.bat` |
@@ -113,7 +113,7 @@ The local Portal also opens the shared Student interface at `http://localhost:51
 
 The root launchers have separate purposes: `RUN_MATHVISION.bat` runs the local app, `STOP_MATHVISION.bat` stops it, `RUN_CATALOG_BOT.bat` audits the lesson catalog, and `DEPLOY_WEB.bat` publishes the configured public trial. Maintenance commands live in `scripts/`; their PowerShell implementations live in `scripts/dev/`.
 
-For phone setup, development accounts, model files, and configuration, follow [English setup](docs/LOCAL_SETUP.md) or [hướng dẫn tiếng Việt](docs/HUONG_DAN_CAI_DAT.md). For errors, see [troubleshooting](docs/TROUBLESHOOTING.md).
+For phone setup, development accounts, model files, and configuration, follow [English setup](docs/LOCAL_SETUP.md) or [Vietnamese setup](docs/HUONG_DAN_CAI_DAT.md). For errors, see [troubleshooting](docs/TROUBLESHOOTING.md).
 
 ## Technology stack
 
@@ -122,7 +122,7 @@ For phone setup, development accounts, model files, and configuration, follow [E
 | Student experience | Expo SDK 58, React Native 0.88, React 19, TypeScript, Expo Router | Mobile navigation, camera input, and shared web preview |
 | Image interaction | Expo Camera, Image Picker, Image Manipulator, Gesture Handler, Reanimated | Capture, crop, rotation, and touch feedback |
 | Web workspaces | React, TypeScript, Vite | Portal, teacher, and admin interfaces |
-| Business API | Java 21, Spring Boot 3.3, Spring Security, JWT, JPA, Flyway | Authentication, authorization, records, and orchestration |
+| Business API | Java 21, Spring Boot 3.5, Spring Security, JWT, JPA, Flyway | Authentication, authorization, records, and orchestration |
 | AI runtime | Python 3.12, FastAPI, Pydantic, PyTorch, OpenCV | Recognition endpoints, image processing, and lesson logic |
 | Local recognition | Vietnamese CRNN, optional PP-OCR text detector, YOLO arithmetic detector | Different models for different recognition tasks |
 | Cloud assistance | Groq; configurable Gemini fallback | Notebook reading and assistance where enabled |
@@ -162,7 +162,7 @@ MathVisionKid/
 
 | I want to… | Read this |
 | :--- | :--- |
-| Install and run the project | [Local setup](docs/LOCAL_SETUP.md) · [Tiếng Việt](docs/HUONG_DAN_CAI_DAT.md) |
+| Install and run the project | [Local setup](docs/LOCAL_SETUP.md) · [Vietnamese setup](docs/HUONG_DAN_CAI_DAT.md) |
 | Deploy the web workspaces | [Vercel and production setup](docs/PRODUCTION_DEPLOYMENT.md) · [API/OCR trial on your PC](docs/PC_PREVIEW_DEPLOYMENT.md) |
 | Clone on another computer or understand the shared link | [Clone and hosting behavior](docs/CLONE_AND_HOSTING.md) · [Free cloud trial](docs/FREE_CLOUD_DEPLOYMENT.md) |
 | Review the shared student website | [Student web parity and verification (local archive)](report/README.md#local-archive) (`student-web-parity-2026-10-09.md`) |

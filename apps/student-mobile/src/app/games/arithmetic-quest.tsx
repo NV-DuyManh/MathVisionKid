@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ScrollView, Text, TextInput, View } from 'react-native';
-import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
+import { Redirect, useIsFocused, useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 import { StudentPageHeader } from '../../components/ui/StudentPageHeader';
@@ -11,6 +11,7 @@ import { STAR_QUEST, TRAINING_CATALOG } from '../../features/training-games/cata
 import { GameIcon } from '../../features/training-games/GameIcon';
 import { trainingAccess } from '../../features/training-games/identity';
 import { tokenStorage } from '../../services/auth/tokenStorage';
+import { StudentGameTimeGate } from '../../features/student-profile/StudentGameTimeGate';
 import { isAxiosError } from 'axios';
 
 const rewardMessages = {
@@ -22,6 +23,8 @@ const rewardMessages = {
 
 export default function ArithmeticQuestScreen() {
   const auth = useContext(AuthContext);
+  const router = useRouter();
+  const focused = useIsFocused();
   const { mode } = useLocalSearchParams<{ mode?: string }>();
   const access = trainingAccess(auth?.user, !!auth?.isAuthenticated);
   if (auth?.isLoading) return null;
@@ -30,7 +33,10 @@ export default function ArithmeticQuestScreen() {
   const training = TRAINING_CATALOG.find(item => item.id === mode);
   if (mode && !training) return <Redirect href="/games" />;
   const gameMode = training?.mode ?? 'ARITHMETIC_QUEST';
-  return <Quest key={`${access.studentId}:${gameMode}`} mode={gameMode} />;
+  if (!focused) return null;
+  return <StudentGameTimeGate key={`${access.studentId}:${gameMode}`} onLeave={() => router.dismissTo('/games')}>
+    <Quest mode={gameMode} />
+  </StudentGameTimeGate>;
 }
 
 function Quest({ mode }: { mode: GameMode }) {
@@ -66,6 +72,8 @@ function Quest({ mode }: { mode: GameMode }) {
         setError('Hôm nay em đã chơi đủ lượt tính sao. Em có thể quay lại vào ngày mai.');
       } else if (code === 'GAME_NOT_AVAILABLE') {
         setError('Tài khoản này chưa mở được lượt chơi tính sao.');
+      } else if (code === 'STUDENT_GAME_LIMIT') {
+        setError('Đã hết giờ chơi hôm nay.');
       } else {
         setError('Chưa nhận được kết quả. Em kiểm tra kết nối rồi thử lại nhé.');
       }

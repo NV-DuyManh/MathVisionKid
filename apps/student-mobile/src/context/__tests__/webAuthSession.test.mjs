@@ -18,6 +18,7 @@ test('student web session validates the backend, rejects cached authority, and s
   const workspaceEnvironment = { EXPO_PUBLIC_TEACHER_URL: 'https://teacher.mathvision.example', EXPO_PUBLIC_ADMIN_URL: 'https://admin.mathvision.example' };
   const browser = {
     sessionStorage: dom.window.sessionStorage,
+    localStorage: dom.window.localStorage,
     location: { get pathname() { return dom.window.location.pathname; }, get search() { return dom.window.location.search; }, replace: path => redirects.push(path) },
     addEventListener: (...args) => dom.window.addEventListener(...args),
     removeEventListener: (...args) => dom.window.removeEventListener(...args),
@@ -30,11 +31,18 @@ test('student web session validates the backend, rejects cached authority, and s
       compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.React, esModuleInterop: true },
     }).outputText;
     vm.runInNewContext(source, { exports, window: browserWindow === 'server' ? undefined : browserWindow, Event: dom.window.Event,
-      AbortController, setTimeout, clearTimeout, URL, __DEV__: development, process: { env: workspaceEnvironment },
+      AbortController, crypto: globalThis.crypto, setTimeout, clearTimeout, URL, __DEV__: development, process: { env: workspaceEnvironment },
       require: id => imports[id] ?? require(id) });
     return exports;
   };
-  const { tokenStorage } = load('../../services/auth/tokenStorage.web.ts');
+  const sharedSessionPath = '../../../../../packages/shared-contracts/src/webSession';
+  const sharedSourcePath = '../../../../../packages/shared-contracts/src/webSession.ts';
+  const createStorage = (browserWindow = browser) => {
+    const { createWebSession } = load(sharedSourcePath, {}, browserWindow);
+    return load('../../services/auth/tokenStorage.web.ts', { [sharedSessionPath]: { createWebSession } }, browserWindow);
+  };
+  const { tokenStorage, studentSession } = createStorage();
+  const seedSession = id => studentSession.establish('/auth/login', { id });
   const { workspaceOrigin } = load('../../config/workspaceOrigin.web.ts');
   const profile = { userId: 'student-id', displayName: 'Bình Minh', email: 'private-account@example.com',
     role: 'STUDENT', active: true, gradeLevel: 3 };
@@ -42,9 +50,7 @@ test('student web session validates the backend, rejects cached authority, and s
   let getProfile;
   let expireSession;
   let logoutCalls = 0;
-  let logoutError;
   const logoutRequests = [];
-  let sharedPostCalls = 0;
   let clearDraftCalls = 0;
   const photoOwners = [], photoListeners = new Set();
   let photoRecovery = { restoring: false, issue: 'none' }, recoveryGate;
@@ -52,29 +58,27 @@ test('student web session validates the backend, rejects cached authority, and s
   const api = { defaults: { headers: { common: {} } }, get: path => {
     assert.equal(path, '/me');
     return getProfile();
-  }, post: async () => {
-    sharedPostCalls++;
-    return { data: { accessToken: 'login-access', refreshToken: 'login-refresh' } };
   } };
+  studentSession.apiClient.defaults.adapter = async config => {
+    if (config.url === '/auth/login') return { data: { sessionId: JSON.parse(config.data).id }, status: 200, headers: {}, config };
+    logoutCalls++;
+    logoutRequests.push(config);
+    throw new Error('Simulated logout transport failure');
+  };
   const placeholder = ({ children }) => React.createElement('div', null, children);
   const routeReplacements = [];
   const router = { replace: path => routeReplacements.push(path) };
   const { AuthProvider, AuthContext } = load('../AuthContext.web.tsx', {
     'react-native': { View: placeholder, Text: placeholder, ActivityIndicator: placeholder, Pressable: placeholder },
     'expo-router': { useRouter: () => router, usePathname: () => dom.window.location.pathname },
-    '../services/auth/tokenStorage': { tokenStorage },
+    '../services/auth/tokenStorage.web': { tokenStorage, studentSession },
     '../services/auth/sessionEvents': { sessionEvents: { subscribe: listener => {
       expireSession = listener;
       return () => { expireSession = null; };
     } } },
     '../services/api/apiClient': api,
-    axios: { post: async (url, body, config) => {
-      logoutCalls++;
-      logoutRequests.push({ url, body, config });
-      if (logoutError) throw logoutError;
-    } },
-    '../config/env': { ENV: { API_BASE_URL: 'https://api.mathvision.example/api/v1' } },
     '../features/recognition/api/RecognitionService': { RecognitionService: { clearCache() {} } },
+    '../features/tutoring/mathGuideCheckpoint': { clearMathGuideCheckpoint() {} },
     '../features/recognition/state/recognitionDraftStore': { recognitionDraftStore: { clearDraft: () => { clearDraftCalls++; } } },
     '../features/recognition/state/imageDraftPersistence': { imageDraftPersistence: {
       subscribe: listener => { photoListeners.add(listener); return () => photoListeners.delete(listener); },
@@ -99,13 +103,11 @@ test('student web session validates the backend, rejects cached authority, and s
   };
   const unmount = async () => { await act(async () => root.unmount()); root = null; };
   try {
-    await t.test('storage reads the portal session and remains safe for static rendering', async () => {
-      dom.window.sessionStorage.setItem('portal_access_token', 'portal-access');
-      dom.window.sessionStorage.setItem('portal_refresh_token', 'portal-refresh');
-      assert.equal(await tokenStorage.getAccessToken(), 'portal-access');
-      assert.equal(await tokenStorage.getRefreshToken(), 'portal-refresh');
-      const serverStorage = load('../../services/auth/tokenStorage.web.ts', {}, 'server').tokenStorage;
-      assert.equal(await serverStorage.getAccessToken(), null);
+    await t.test('storage shares authentication and derives a tab-specific draft scope and remains safe for static rendering', async () => {
+      await seedSession('portal-tab-id');
+      assert.equal(studentSession.getSessionId(), 'portal-tab-id');
+      assert.match(await tokenStorage.getDraftScopeId(), /^portal-tab-id:[0-9a-f]{32}$/);
+      assert.equal(await createStorage('server').tokenStorage.getSessionId(), null);
     });
 
     await t.test('protected deep links wait for the backend and show a safe mapped profile', async () => {
@@ -127,14 +129,13 @@ test('student web session validates the backend, rejects cached authority, and s
       await mount();
       assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
       assert.equal(redirects.at(-1), '/login?session=expired');
-      assert.equal(await tokenStorage.getAccessToken(), null);
-      assert.equal(await tokenStorage.getRefreshToken(), null);
+      assert.equal(await tokenStorage.getSessionId(), null);
       assert.equal(await tokenStorage.getUser(), null);
       await unmount();
     });
 
     await t.test('photo restoration uses verified ownership and finishes before protected screens mount', async () => {
-      await tokenStorage.saveTokens('valid-access', 'valid-refresh');
+      await seedSession('valid-access-tab');
       getProfile = async () => ({ data: profile });
       let finish;
       recoveryGate = new Promise(resolve => { finish = resolve; });
@@ -149,7 +150,7 @@ test('student web session validates the backend, rejects cached authority, and s
 
     await t.test('an interceptor expiry during restore reaches login while an active session expiry uses the recovery page', async () => {
       dom.window.history.replaceState({}, '', '/study/onboarding');
-      await tokenStorage.saveTokens('expired-access', 'expired-refresh');
+      await seedSession('expired-access-tab');
       getProfile = async () => {
         await tokenStorage.clearTokens();
         expireSession('expired');
@@ -159,12 +160,11 @@ test('student web session validates the backend, rejects cached authority, and s
       assert.equal(redirects.at(-1), '/login?session=expired');
       assert.equal(currentContext.isAuthenticated, false);
       assert.equal(currentContext.isLoading, false);
-      assert.equal(await tokenStorage.getAccessToken(), null);
-      assert.equal(await tokenStorage.getRefreshToken(), null);
+      assert.equal(await tokenStorage.getSessionId(), null);
       await unmount();
 
       for (const [reason, destination] of [['expired', '/session-expired'], ['forbidden', '/access-denied']]) {
-        await tokenStorage.saveTokens('active-access', 'active-refresh');
+        await seedSession('active-access-tab');
         getProfile = async () => ({ data: profile });
         await mount();
         assert.equal(currentContext.isAuthenticated, true);
@@ -180,44 +180,42 @@ test('student web session validates the backend, rejects cached authority, and s
     });
 
     await t.test('offline restore clears cached authority and explains the connection failure', async () => {
-      await tokenStorage.saveTokens('offline-access', 'offline-refresh');
+      await seedSession('offline-access-tab');
       await tokenStorage.saveUser(profile);
       getProfile = async () => { throw new Error('Network Error'); };
       await mount();
       assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
       assert.equal(redirects.at(-1), '/login?connection=failed');
-      assert.equal(await tokenStorage.getAccessToken(), null);
+      assert.equal(await tokenStorage.getSessionId(), null);
       assert.equal(await tokenStorage.getUser(), null);
       await unmount();
     });
 
     await t.test('nonstudent and inactive profiles never enter the student app', async () => {
       for (const rejected of [{ ...profile, role: 'ADMIN' }, { ...profile, role: 'TEACHER' }, { ...profile, active: false }]) {
-        await tokenStorage.saveTokens('valid-other-access', 'valid-other-refresh');
+        await seedSession('valid-other-access-tab');
         getProfile = async () => ({ data: rejected });
         await mount();
         assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
         assert.equal(redirects.at(-1), '/access-denied');
-        assert.equal(await tokenStorage.getAccessToken(), null);
+        assert.equal(await tokenStorage.getSessionId(), null);
         await unmount();
       }
     });
 
     await t.test('logout clears the shared portal session, drafts, and returns to the portal root', async () => {
-      await tokenStorage.saveTokens('valid-other-access', 'valid-other-refresh');
+      await seedSession('valid-other-access-tab');
       getProfile = async () => ({ data: { ...profile, displayName: profile.email } });
       await mount();
       assert.equal(currentContext.user.name, 'Học sinh');
       await act(async () => currentContext.logout());
       assert.equal(logoutCalls, 1);
-      assert.equal(logoutRequests[0].url, 'https://api.mathvision.example/api/v1/auth/logout');
-      assert.equal(JSON.stringify(logoutRequests[0].body), '{}');
-      assert.equal(logoutRequests[0].config.timeout, 2000);
-      assert.equal(logoutRequests[0].config.headers.Authorization, 'Bearer valid-other-access');
-      assert.equal(sharedPostCalls, 0);
+      assert.equal(logoutRequests[0].baseURL + logoutRequests[0].url, '/api/v1/auth/logout');
+      assert.equal(logoutRequests[0].timeout, 2000);
+      assert.equal(logoutRequests[0].headers.get('X-MathVision-Session'), 'valid-other-access-tab');
+      assert.equal(logoutRequests[0].headers.has('Authorization'), false);
       assert.equal(clearDraftCalls, 1);
-      assert.equal(await tokenStorage.getAccessToken(), null);
-      assert.equal(await tokenStorage.getRefreshToken(), null);
+      assert.equal(await tokenStorage.getSessionId(), null);
       assert.equal(await tokenStorage.getUser(), null);
       assert.equal(redirects.at(-1), '/logout?source=student');
       assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
@@ -225,16 +223,13 @@ test('student web session validates the backend, rejects cached authority, and s
     });
 
     await t.test('a failed logout still clears local access and does not attempt token refresh', async () => {
-      await tokenStorage.saveTokens('valid-other-access', 'valid-other-refresh');
-      logoutError = { response: { status: 401 } };
+      await seedSession('valid-other-access-tab');
       await mount();
       await act(async () => currentContext.logout());
       assert.equal(logoutCalls, 2);
-      assert.equal(logoutRequests[1].config.timeout, 2000);
-      assert.equal(sharedPostCalls, 0);
+      assert.equal(logoutRequests[1].timeout, 2000);
       assert.equal(clearDraftCalls, 2);
-      assert.equal(await tokenStorage.getAccessToken(), null);
-      assert.equal(await tokenStorage.getRefreshToken(), null);
+      assert.equal(await tokenStorage.getSessionId(), null);
       assert.equal(await tokenStorage.getUser(), null);
       assert.equal(redirects.at(-1), '/logout?source=student');
       assert.equal(dom.window.document.body.textContent.includes('Protected'), false);
@@ -254,7 +249,7 @@ test('student web session validates the backend, rejects cached authority, and s
       for (const path of ['/login', '/study/login', '/learn/login']) {
         dom.reconfigure({ url: `https://mathvision.example${path}` });
         routeReplacements.length = 0;
-        await tokenStorage.saveTokens('valid-student-access', 'valid-student-refresh');
+        await seedSession('valid-student-access-tab');
         getProfile = async () => ({ data: profile });
         await mount();
         assert.equal(currentContext.isAuthenticated, true);

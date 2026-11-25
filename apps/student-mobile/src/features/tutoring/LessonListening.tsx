@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AppState, Pressable, StyleSheet, Text, View } from 'react-native';
+import { AppState, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../../components/ui/AppButton';
 import { MathText } from '../../components/domain/MathText';
@@ -67,7 +67,8 @@ function ListeningStep({ scope, sessionId, revision, stepIndex, step, paragraphs
     {!choosing ? <>
       {reply ? <View style={styles.explanation} accessibilityLiveRegion="polite"><Text style={styles.eyebrow}>CHỖ EM ĐANG HỎI</Text><Text style={styles.title}>{selected}</Text>
         <MathText style={styles.body}>{reply.answer}</MathText>{reply.followUp ? <MathText style={styles.followUp}>{reply.followUp}</MathText> : null}</View> : null}
-      <LessonNarration key={reply ? selected : 'original'} scope={`${scope}:${selected}`} source={{ sessionId, revision }} paragraphs={reply ? [reply.spokenExplanation, reply.followUp] : paragraphs} preparedFallback={!reply && preparedFallback} onFinished={() => setReady(true)} />
+      <LessonNarration key={reply ? selected : 'original'} scope={`${scope}:${selected}`} source={{ sessionId, revision }} paragraphs={reply ? [reply.spokenExplanation, reply.followUp] : paragraphs} preparedFallback={!reply && preparedFallback}
+        startWithDevice={Platform.OS === 'web' && !reply && preparedFallback} onFinished={() => setReady(true)} />
       {ready ? <View style={styles.checkIn} accessibilityLiveRegion="polite">
         <Pressable accessibilityRole="button" accessibilityLabel="Em đã hiểu" onPress={onReturn} style={({ pressed }) => [styles.understood, pressed && { opacity: .7 }]}>
           <Ionicons name="checkmark-circle" size={20} color="#236747" accessible={false} /><Text style={styles.understoodText}>Đã hiểu</Text>

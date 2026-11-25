@@ -51,24 +51,10 @@ export const AuthProvider: React.FC<{ children: ReactNode; onSessionChange?: () 
       setLoading(false);
       setSessionError(forbidden ? 'Tài khoản không còn quyền quản trị. Vui lòng đăng nhập bằng tài khoản phù hợp.' : 'Phiên đăng nhập đã hết hạn hoặc đã thay đổi. Vui lòng đăng nhập lại.');
     };
-    const storageChanged = (event: StorageEvent) => {
-      if (event.key !== null && !['mvk_admin_access_token', 'mvk_admin_refresh_token', 'mvk_admin_session_id'].includes(event.key)) return;
-      if (event.newValue !== null && (event.key === 'mvk_admin_access_token' || event.key === 'mvk_admin_refresh_token')) return;
-      if (event.key === null || event.key.startsWith('mvk_admin_')) {
-        revision.current++;
-        authService.cancelPending(false);
-        clearCache.current?.();
-        setUser(null);
-        setLoading(false);
-        setSessionError('Tài khoản đã thay đổi trong cửa sổ khác. Vui lòng tải lại hoặc đăng nhập lại.');
-      }
-    };
     window.addEventListener('admin_auth_required', clearSession);
-    window.addEventListener('storage', storageChanged);
     return () => {
       active = false;
       window.removeEventListener('admin_auth_required', clearSession);
-      window.removeEventListener('storage', storageChanged);
     };
   }, []);
   const authenticate = useCallback(async (action: () => Promise<AdminUserResponse>) => {

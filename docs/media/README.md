@@ -5,12 +5,13 @@ These assets support the repository README and documentation. They contain real 
 | Asset | Capture / origin |
 | :--- | :--- |
 | `readme-hero.jpg` | 1600 × 860 cover rendered from `showcase.html` |
+| `screenshots/*-current.*` | November 2026 Student Web and Parent Mode screens. The student profile uses sample data. |
 | `screenshots/*-web.jpg` | Student web preview at 390 × 844 on 5 October 2026 |
 | `screenshots/problem-android.png` | Original Android screenshot supplied by the project owner |
 
 See [DEMO_GUIDE.md](../DEMO_GUIDE.md#screenshot-provenance) for individual screenshot context and limitations. Empty progress is an actual initial state. The completed lesson was reached through real UI interactions with the typed sample question.
 
-The cover's phone frames are decorative presentation frames. App pixels inside them are real screenshots. Existing brand assets and font files are referenced from `apps/student-mobile/assets/`; they have not been replaced or altered.
+The cover places screenshots of Student Home and a lesson in phone frames. It uses the current Portal robot and the app's Nunito fonts.
 
 ## Refreshing
 

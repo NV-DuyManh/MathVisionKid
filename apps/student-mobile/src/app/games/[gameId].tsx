@@ -25,5 +25,6 @@ export default function TrainingGameRoute() {
   if (access.kind === 'trial' && playMode !== 'trial') return <GameFallback message="Tài khoản này chỉ có thể chơi thử không lưu thành tích. Em trở về danh sách và chọn Chơi thử nhé." onBack={back} />;
   const trial = access.kind === 'trial';
   const studentId = access.kind === 'student' ? access.studentId : access.owner;
-  return <><Stack.Screen options={trainingScreenOptions(gameId)} />{focused && <GamePlayer key={`${studentId}:${gameId}`} studentId={studentId} trial={trial} gameId={gameId} onExit={back} />}</>;
+  return <><Stack.Screen options={trainingScreenOptions(gameId)} />{focused &&
+    <GamePlayer key={`${studentId}:${gameId}`} studentId={studentId} trial={trial} gameId={gameId} onExit={back} />}</>;
 }
