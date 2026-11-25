@@ -60,15 +60,17 @@ try {
     },$true)
     if($spring.Count -ne 1) { throw 'Expected one Spring launch' }
     function Start-TrackedService {
-        param($Name,$FilePath,$ArgumentList,$WorkingDirectory,$LogFile,$PidFile,$PortCheck,$IdentityKind)
+        param($Name,$FilePath,$ArgumentList,$WorkingDirectory,$LogFile,$PidFile,$PortCheck,$IdentityKind,[switch]$Refresh)
         $script:capturedSpringArguments=$ArgumentList
     }
     $SpringDir='unused'; $SpringLog='unused'; $SpringPid='unused'; $env:PORT='8000'
+    $springPort=8082; $aiUrl='http://127.0.0.1:8003'
     & ([scriptblock]::Create($spring[0].Extent.Text))
-    if($script:capturedSpringArguments -notmatch '(?:^|\s)--server\.port=8080(?:\s|"|$)') {
-        throw 'Spring could inherit the AI port instead of listening on 8080'
+    if($script:capturedSpringArguments -notmatch '(?:^|\s)--server\.port=8082(?:\s|"|$)' -or
+        $script:capturedSpringArguments -notmatch 'http://127\.0\.0\.1:8003/internal/v1/jobs') {
+        throw 'Spring did not use the selected local API and AI ports'
     }
-    Write-Output 'PASS: actual Spring launch keeps port 8080 when inherited PORT is 8000.'
+    Write-Output 'PASS: actual Spring launch uses alternate API and AI ports when inherited PORT is 8000.'
 } finally {
     if ($null -eq $oldPort) { Remove-Item -LiteralPath 'Env:PORT' -ErrorAction SilentlyContinue }
     else { [Environment]::SetEnvironmentVariable('PORT', $oldPort, 'Process') }

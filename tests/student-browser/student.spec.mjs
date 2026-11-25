@@ -2,6 +2,33 @@ import { test, expect, sites, login } from '../browser/fixtures.mjs';
 import { fileURLToPath } from 'node:url';
 import { studentPort } from '../browser/sites.mjs';
 
+test('Student can open and close camera tips and recover from an unreadable file', async ({ page, app }) => {
+  app.realStudent = true;
+  await page.setViewportSize({ width: 390, height: 844 });
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/camera?mode=MATH_TUTOR`);
+  const help = page.getByRole('button', { name: 'Xem hướng dẫn chụp ảnh' });
+  await help.focus();
+  await page.keyboard.press('Enter');
+  const openHelp = page.getByRole('button', { name: 'Ẩn hướng dẫn chụp ảnh' });
+  await expect(openHelp).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByText(/Chọn nơi đủ sáng, giữ chắc tay/)).toBeVisible();
+  await page.keyboard.press('Enter');
+  await expect(help).toHaveAttribute('aria-expanded', 'false');
+
+  const gallery = page.getByRole('button', { name: 'Chọn ảnh từ thư viện' });
+  let chooser = page.waitForEvent('filechooser');
+  await gallery.click();
+  await (await chooser).setFiles({ name: 'unreadable.jpg', mimeType: 'image/jpeg', buffer: Buffer.from('invalid image') });
+  await expect(page.getByRole('alert').filter({ hasText: 'Chưa mở được ảnh này' })).toBeVisible();
+  chooser = page.waitForEvent('filechooser');
+  await gallery.click();
+  await (await chooser).setFiles(fileURLToPath(new URL('../../backend/business-api/src/test/resources/fixtures/worksheet-addition.jpg', import.meta.url)));
+  await expect(page).toHaveURL(/\/study\/privacy/);
+  expect(app.requests.some(request => request.path === '/student/tutor/inspect')).toBe(false);
+});
+
 test('Student can add missing written work from the solved-work action on web', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   app.responses.set('POST /student/quizzes/prepare', ({ json }) => json({ status: 'READY' }));
@@ -214,7 +241,7 @@ test('Student previews and crops a local worksheet without sending it', async ({
     const image = element instanceof HTMLImageElement ? element : element.querySelector('img');
     await image.decode();
     return image.naturalHeight;
-  })).toBe(Math.round(sourceHeight * 0.7));
+  })).toBe(Math.round(sourceHeight * 0.9));
   await expect(page.getByRole('button', { name: 'Chỉnh lại vùng bài toán' })).toBeVisible();
   await testInfo.attach('Student worksheet preview fixture', { body: await page.screenshot(), contentType: 'image/png' });
   expect(app.requests.filter(({ method, path }) => method === 'POST' && path !== '/student/app-usage/heartbeat')

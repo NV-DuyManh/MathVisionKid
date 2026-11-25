@@ -157,6 +157,7 @@ if ($nativeResult.Success -or $nativeResult.TimedOut -or -not $nativeResult.Stde
 Write-Host 'PASS: Real taskkill process-not-found stderr captured without terminating PowerShell.'
 
 $listener = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, 0)
+. (Join-Path $repoRoot 'scripts/dev/local-ports.ps1')
 try {
     $listener.Start()
     $port = $listener.LocalEndpoint.Port
@@ -170,9 +171,13 @@ try {
         $rejected = $true
     }
     if (-not $rejected) { throw 'A foreign listener was incorrectly accepted as Spring Boot.' }
+    $alternative = Select-LocalPort -Name 'Spring Boot test' -Preferred $port -Default 18080 -Reserved @(18080)
+    if ($alternative -eq $port -or $alternative -eq 18080 -or -not (Test-FreeLocalPort $alternative)) {
+        throw 'Port selection did not skip an occupied port and a reserved port.'
+    }
     $connection = [System.Net.Sockets.TcpClient]::new('127.0.0.1', $port)
     $connection.Close()
-    Write-Host 'PASS: Real foreign TCP listener rejected and left running; no replacement process started.'
+    Write-Host 'PASS: Selected a free fallback while leaving the real foreign TCP listener running.'
 } finally {
     $listener.Stop()
 }

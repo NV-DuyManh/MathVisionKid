@@ -11,6 +11,33 @@ def verified_plan(text, options):
     from app.tutoring.short_math import _NUMBER, _result, _plan, _measurement_expression
     from app.tutoring.math_knowledge import normalized_units
     text = normalized_units(text)
+    length_unit = r'(km|m|dm|cm|mm)'
+    rectangle = re.fullmatch(r'hinh chu nhat dai (' + _NUMBER + r') ' + length_unit +
+        r', rong (' + _NUMBER + r') \2\. tinh (chu vi|dien tich) hinh chu nhat theo (\2²?)\.', text)
+    if rectangle:
+        length, unit, width, requested, target = rectangle.groups()
+        perimeter = requested == 'chu vi'
+        if target != (unit if perimeter else unit + '²') or min(Fraction(v.replace(',', '.')) for v in (length, width)) <= 0:
+            return None
+        length, width = [v.replace(',', '.') for v in (length, width)]
+        return _result('Tính chu vi hình chữ nhật' if perimeter else 'Tính diện tích hình chữ nhật',
+            'Chu vi đo độ dài đường bao quanh; cần cộng chiều dài và chiều rộng rồi tính cả hai cặp cạnh.'
+            if perimeter else 'Diện tích đo phần mặt phẳng bên trong hình. Hai kích thước trong đề đã cùng đơn vị.',
+            'Cộng chiều dài với chiều rộng rồi nhân tổng với hai.' if perimeter else
+            'Lấy chiều dài nhân chiều rộng. Đáp số có đơn vị đo diện tích.',
+            f'({length}+{width})*2' if perimeter else f'{length}*{width}', options, target, reading_first=True)
+
+    cube = re.fullmatch(r'hinh lap phuong canh (' + _NUMBER + r') ' + length_unit + r'\. tinh the tich theo \2³\.', text)
+    box = re.fullmatch(r'(?:mot )?(?:hinh )?hop chu nhat dai (' + _NUMBER + r') ' + length_unit +
+        r', rong (' + _NUMBER + r')(?: \2)? va cao (' + _NUMBER + r') \2\. tinh the tich (?:hinh )?hop theo \2³\.', text)
+    if cube or box:
+        length, unit = (cube or box).groups()[:2]
+        dimensions = [length, *(box.groups()[2:] if box else (length, length))]
+        if any(Fraction(v.replace(',', '.')) <= 0 for v in dimensions):
+            return None
+        return _result('Tính thể tích', 'Thể tích cho biết khối chứa được bao nhiêu đơn vị khối.',
+            'Nhân chiều dài, chiều rộng và chiều cao. Với hình lập phương, ba kích thước đều bằng cạnh.',
+            '*'.join(v.replace(',', '.') for v in dimensions), options, unit + '³', reading_first=True)
     rice = re.fullmatch(r'gia dinh ([a-z]{1,20}) co mot thua ruong dang hinh chu nhat co chieu dai (' + _NUMBER +
         r') m, chieu dai gap (' + _NUMBER + r') lan chieu rong\. gia dinh \1 trong lua tren thua ruong do\. '
         r'cu (' + _NUMBER + r') m² thu hoach duoc (\d{1,3}/[1-9]\d{0,2}) kg thoc\. hoi: '

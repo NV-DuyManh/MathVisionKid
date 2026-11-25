@@ -81,6 +81,6 @@ The screenshots do not establish that every device or every question works. This
 
 ## Recreate the cover
 
-Serve the repository locally, open `docs/media/showcase.html`, and capture its 1600 × 860 artwork at 100% scale after fonts and images load. The cover uses the app's existing Nunito font, purple/navy palette, star mascot, and screenshots. No generated app UI is used.
+Serve the repository locally, open `docs/media/showcase.html`, and capture its 1600 × 860 artwork at 100% scale after fonts and images load. The cover combines the robot mascot, Nunito typography, and screenshots of Student Home and a completed lesson.
 
 Keep source screenshots and provenance together when refreshing the cover. Replace screenshots after significant UI changes and recheck both the README and gallery.

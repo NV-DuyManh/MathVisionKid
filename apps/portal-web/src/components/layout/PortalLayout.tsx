@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { isAxiosError } from 'axios';
 import {
   AppBar,
   Toolbar,
@@ -33,14 +34,18 @@ export const PortalLayout: React.FC = () => {
     const updateSession = () => {
       const request = ++version;
       setUser(null);
-      if (tokenStore.hasTokens()) {
+      const session = tokenStore.getSessionId();
+      if (session) {
         authService
           .getMe()
           .then((profile) => {
-            if (active && request === version && tokenStore.hasTokens()) setUser(profile);
+            if (active && request === version && session === tokenStore.getSessionId()) setUser(profile);
           })
-          .catch(() => {
-            if (active && request === version) tokenStore.clearTokens();
+          .catch(error => {
+            if (active && request === version && session === tokenStore.getSessionId()
+                && isAxiosError(error) && error.response?.status === 401) {
+              tokenStore.clearTokens();
+            }
           });
       }
     };

@@ -35,6 +35,15 @@ it('does not publish malformed progress or let a broken observer cancel valid au
   (apiClient.post as jest.Mock).mockImplementation((url: string) => Promise.resolve({ data: url.endsWith('/prepare') ? {} : url.endsWith('/status') ? ready : wav.buffer }));
   await expect(downloadNarration(source, ['Em đọc lại nhé.'], new AbortController().signal, 'vi-VN-NamMinhNeural', () => { throw new Error('Observer unavailable'); })).resolves.toEqual(wav);
 });
+
+it('identifies a terminal render failure without retrying the same job', async () => {
+  (apiClient.post as jest.Mock).mockImplementation((url: string) => Promise.resolve({
+    data: url.endsWith('/prepare') ? {} : { ...ready, phase: 'failed' },
+  }));
+  await expect(downloadNarration(source, ['Em đọc lại nhé.'], new AbortController().signal))
+    .rejects.toMatchObject({ code: 'NARRATION_RENDER_FAILED' });
+  expect(apiClient.post).toHaveBeenCalledTimes(2);
+});
 it('promotes only the same owned preparation using explicit foreground intent and a bounded request', async () => {
   const signal=new AbortController().signal;
   await prioritizeNarration({ ...source,prefetch:true },[' Em đọc lại nhé. ',''],signal,'vi-VN-HoaiMyNeural',8000);

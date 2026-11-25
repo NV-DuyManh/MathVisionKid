@@ -66,6 +66,9 @@ function ParentWorkspace({ owner, onExit, onChooseLesson }: ParentWorkspaceProps
   const [savingLimit, setSavingLimit] = useState(false);
   const [limitKind, setLimitKind] = useState<LimitKind>('total');
   const [uncertainLimits, setUncertainLimits] = useState<Partial<Record<LimitKind, boolean>>>({});
+  const [settingsUnavailable, setSettingsUnavailable] = useState(false);
+  const [refreshAttempt, setRefreshAttempt] = useState(0);
+  const [retryingSettings, setRetryingSettings] = useState(false);
   const scroll = useRef<React.ComponentRef<typeof ScrollView>>(null);
   const { width } = useWindowDimensions();
   const hasSettings = settings !== undefined;
@@ -91,14 +94,18 @@ function ParentWorkspace({ owner, onExit, onChooseLesson }: ParentWorkspaceProps
         setSettings(latest);
         updateParentModeSession(owner, latest);
         setUncertainLimits({});
+        setSettingsUnavailable(false);
       } catch (cause) {
-        if (!request.signal.aborted && isParentGrantRejected(cause)) {
+        if (request.signal.aborted) return;
+        if (isParentGrantRejected(cause)) {
           clearParentModeSession();
+          setSettingsUnavailable(false);
           setNeedsPin(true);
           setSettings(undefined);
-        }
+        } else setSettingsUnavailable(true);
       } finally {
         fetching = false;
+        if (!request.signal.aborted) setRetryingSettings(false);
       }
     }
     void refresh();
@@ -111,7 +118,7 @@ function ParentWorkspace({ owner, onExit, onChooseLesson }: ParentWorkspaceProps
       listener.remove();
       if (web) document.removeEventListener('visibilitychange', refresh);
     };
-  }, [grant, savingLimit, owner, web]);
+  }, [grant, savingLimit, owner, web, refreshAttempt]);
 
   function switchSection(next: Section) {
     setSection(next);
@@ -188,7 +195,7 @@ function ParentWorkspace({ owner, onExit, onChooseLesson }: ParentWorkspaceProps
                 </View>
               </View>
 
-              <View style={[styles.segment, width >= 760 && styles.segmentWide]}>
+              <View style={[styles.segment, width >= 760 && styles.segmentWide]} role="group" accessibilityLabel="Nội dung Góc phụ huynh">
                 <SelectionButton
                   label="Tổng quan"
                   icon="grid-outline"
@@ -205,6 +212,20 @@ function ParentWorkspace({ owner, onExit, onChooseLesson }: ParentWorkspaceProps
                 />
               </View>
             </View>
+
+            {settingsUnavailable ? (
+              <View style={styles.surface}>
+                <Text accessibilityRole="alert" style={styles.error}>
+                  Chưa cập nhật được cài đặt. Số liệu giới hạn hiển thị là lần tải gần nhất.
+                </Text>
+                <AppButton title="Tải lại cài đặt" variant="secondary" disabled={savingLimit}
+                  loading={retryingSettings} loadingTitle="Đang tải lại…"
+                  onPress={() => {
+                    setRetryingSettings(true);
+                    setRefreshAttempt(value => value + 1);
+                  }} />
+              </View>
+            ) : null}
 
             {section === 'overview' ? (
               <ParentOverview

@@ -15,7 +15,6 @@ import {
   AccordionDetails,
 } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import GoogleIcon from '@mui/icons-material/Google';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import { authService } from '../services/authService';
@@ -26,7 +25,6 @@ import './studentAuth.css';
 
 const studyIcons = {
   planet: 62659,
-  school: 62812,
   'shapes-outline': 62831,
   'person-outline': 62636,
   'lock-closed-outline': 62408,
@@ -35,6 +33,34 @@ const studyIcons = {
   'arrow-forward': 61747,
   'shield-checkmark-outline': 62841,
 } as const;
+
+const authIntro = {
+  login: {
+    title: 'Mỗi bài toán,',
+    highlight: 'một khám phá.',
+    description: 'Cùng MathVisionKid học Toán qua luyện tập, trò chơi và khám phá AI.',
+  },
+  register: {
+    title: 'Học Toán vui,',
+    highlight: 'giỏi từng ngày.',
+    description: 'Tạo tài khoản để luyện tập theo lớp và lưu kết quả của em.',
+  },
+  'request-reset': {
+    title: 'Quên mật khẩu?',
+    highlight: 'Lấy lại nhé!',
+    description: 'Nhập email đã đăng ký để nhận mã xác nhận.',
+  },
+  'confirm-reset': {
+    title: 'Mật khẩu mới,',
+    highlight: 'học tiếp thôi!',
+    description: 'Dùng mã 6 chữ số trong email để đặt lại mật khẩu.',
+  },
+  'social-student-setup': {
+    title: 'Em học lớp mấy?',
+    highlight: 'Chọn lớp nhé!',
+    description: 'Chọn lớp hiện tại để xem các bài Toán phù hợp.',
+  },
+};
 
 function StudyIcon({ name, size, color }: { name: keyof typeof studyIcons; size: number; color?: string }) {
   return <span className="student-auth-icon" style={{ fontSize: size, color }} aria-hidden="true">{String.fromCodePoint(studyIcons[name])}</span>;
@@ -46,14 +72,14 @@ export const LoginPage: React.FC = () => {
   const [displayName, setDisplayName] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
   const [confirmRegisterPassword, setConfirmRegisterPassword] = useState('');
-  const [gender, setGender] = useState<'MALE' | 'FEMALE' | 'OTHER' | 'PREFER_NOT_TO_SAY'>('PREFER_NOT_TO_SAY');
+  const [gender, setGender] = useState<'' | 'MALE' | 'FEMALE' | 'OTHER'>('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [gradeLevel, setGradeLevel] = useState('1');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [authView, setAuthView] = useState<'login' | 'register' | 'request-reset' | 'confirm-reset' | 'social-student-setup'>('login');
+  const [authView, setAuthView] = useState<keyof typeof authIntro>('login');
   const [resetCode, setResetCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [socialSetupCredential, setSocialSetupCredential] = useState('');
@@ -247,6 +273,10 @@ export const LoginPage: React.FC = () => {
       setError('Vui lòng nhập họ tên và email hợp lệ.');
       return;
     }
+    if (!gender) {
+      setError('Vui lòng chọn giới tính.');
+      return;
+    }
     if (registerPassword.length < 8 || registerPassword.length > 72) {
       setError('Mật khẩu phải có từ 8 đến 72 ký tự.');
       return;
@@ -355,6 +385,8 @@ export const LoginPage: React.FC = () => {
     setError(null);
   };
 
+  const intro = authIntro[authView];
+
   return (
     <main className="student-auth">
       <div className="student-auth-layout">
@@ -363,14 +395,18 @@ export const LoginPage: React.FC = () => {
             <StudyIcon name="planet" size={25} color="#FFE07C" />
             <span>MathVisionKid</span>
           </div>
-          <div className="student-auth-intro">
-            <p className="student-auth-slogan">Mỗi bài toán,<br /><span>một khám phá.</span></p>
-            <p className="student-auth-description">Cùng MathVisionKid học Toán qua luyện tập, trò chơi và khám phá AI.</p>
+          <div className="student-auth-hero-content">
+            <div className="student-auth-intro">
+              <p className="student-auth-slogan">{intro.title}<br /><span>{intro.highlight}</span></p>
+              <p className="student-auth-description">{intro.description}</p>
+            </div>
+            <div className="student-auth-illustration" aria-hidden="true">
+              <span className="student-auth-math"><b>8 + 5 = 13</b><StudyIcon name="shapes-outline" size={30} color="#D7F6FF" /></span>
+              <div className="student-auth-art">
+                <img src="/ui/robot-mascot.webp" alt="" />
+              </div>
+            </div>
           </div>
-          <div className="student-auth-art" aria-hidden="true">
-            <img src="/ui/robot-mascot.webp" alt="" />
-          </div>
-          <span className="student-auth-math" aria-hidden><b>8 + 5 = 13</b><StudyIcon name="shapes-outline" size={30} color="#D7F6FF" /></span>
         </section>
         <div className="student-auth-main">
           <Box className="student-auth-card" sx={{
@@ -390,7 +426,6 @@ export const LoginPage: React.FC = () => {
           '& .MuiButton-contained.Mui-disabled': { background: '#E4DCFF', color: '#625A86' },
           }}>
         <div className="student-auth-heading">
-          <span className="student-auth-emblem" aria-hidden="true"><StudyIcon name="school" size={27} /></span>
           <h1>{authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}</h1>
           {authView === 'login' && <p>Đăng nhập để tiếp tục khám phá kiến thức cùng MathVisionKid.</p>}
           {authView === 'social-student-setup' && <p>Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.</p>}
@@ -520,13 +555,13 @@ export const LoginPage: React.FC = () => {
             data-cy="register-gender"
             margin="normal" required fullWidth select
             id="register-gender" label="Giới tính" name="gender"
-            slotProps={{ select: { native: true } }}
+            slotProps={{ select: { native: true }, inputLabel: { shrink: true } }}
             value={gender} disabled={loading} onChange={(event) => setGender(event.target.value as typeof gender)}
           >
+            <option value="" disabled hidden>Chọn giới tính</option>
             <option value="MALE">Nam</option>
             <option value="FEMALE">Nữ</option>
             <option value="OTHER">Khác</option>
-            <option value="PREFER_NOT_TO_SAY">Không muốn tiết lộ</option>
           </TextField>
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" }, gap: { xs: 0, sm: 1.5 } }}>
           <TextField
@@ -608,11 +643,12 @@ export const LoginPage: React.FC = () => {
           </Button>
         </Box>}
 
-        {authView === 'login' && googleConfigured && <Box sx={{ mt: 2 }}>
-          <Divider sx={{ mb: 2, color: 'text.secondary', fontSize: '0.875rem' }}>Hoặc</Divider>
+        {authView === 'login' && googleConfigured && <Box sx={{ mb: 1.5 }}>
+          <Divider sx={{ mb: 2.5, color: 'text.secondary', fontSize: '0.875rem' }}>Hoặc</Divider>
           <Box sx={{ display: 'grid', justifyItems: 'center', gap: 1.25, minWidth: 0 }}>
             {googleConfigured && <Button type="button" variant="outlined" fullWidth disabled={loading} onClick={() => void handleGoogleLogin()}
-              startIcon={<GoogleIcon aria-hidden="true" />} sx={{ maxWidth: 400, minHeight: 44, textTransform: 'none' }}>
+              startIcon={<img src="/ui/google-g.png" alt="" width={18} height={18} style={{ objectFit: 'contain' }} />}
+              sx={{ maxWidth: 400, minHeight: 44, textTransform: 'none', bgcolor: '#fff' }}>
               Tiếp tục với Google
             </Button>}
 

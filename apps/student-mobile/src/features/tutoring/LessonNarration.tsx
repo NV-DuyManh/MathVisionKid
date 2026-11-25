@@ -105,6 +105,11 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
       clearTimeout(watchdog); clearTimeout(displayTimer);
       if (!active || controller.signal.aborted) return;
       const error = failure as { code?: string; response?: { status?: number } } | null;
+      if (error?.code === 'NARRATION_RENDER_FAILED' && !serverFallback && !audioLoader) {
+        setProgress(null);
+        setServerFallback(true);
+        return;
+      }
       const status = error?.response?.status;
       setError(status === 409 || status === 410 ? 'Phiên của bước này đã thay đổi. Em đóng lời giảng và mở lại bài học nhé.'
         : error?.code === 'ERR_NETWORK' ? 'Chưa có kết nối mạng. Em kiểm tra lại nhé.'
@@ -151,7 +156,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
     ]} /> : <>
       {!audioReady ? <View testID="narration-preparation" style={[styles.preparing, !showPreparation && styles.hidden]} aria-hidden={!showPreparation} importantForAccessibility={showPreparation ? 'auto' : 'no-hide-descendants'}>
         <Text style={styles.preparingTitle}>Chuẩn bị lời giảng</Text>
-        <TaskProgress compact key={`${voice}:${attempt}`} steps={NARRATION_PROGRESS_STEPS} activeStep={uri ? 2 : voice ? 1 : 0} percent={uri ? 95 : voice ? Math.max(10, Math.min(90, progress?.percent || 0)) : 0} timeoutSeconds={NARRATION_WAIT_SECONDS}
+        <TaskProgress compact key={`${voice}:${attempt}:${serverFallback}`} steps={NARRATION_PROGRESS_STEPS} activeStep={uri ? 2 : voice ? 1 : 0} percent={uri ? 95 : voice ? Math.max(10, Math.min(90, progress?.percent || 0)) : 0} timeoutSeconds={NARRATION_WAIT_SECONDS}
           complete={audioReady}
           detail={audioReady ? undefined : preparationDetail} />
       </View> : null}

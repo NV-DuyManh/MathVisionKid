@@ -54,6 +54,12 @@ describe('apiResolver - Dynamic Mobile API Host Resolution', () => {
     expect(resolved).toBe('http://192.168.1.25:8080/api/v1');
   });
 
+  test('follows the LAN host with the API port selected by the local launcher', () => {
+    process.env.EXPO_PUBLIC_DEV_API_PORT = '8082';
+    process.env.EXPO_PUBLIC_API_OVERRIDE = 'https://old-preview.example.test/api/v1';
+    expect(resolveApiBaseUrl()).toBe('http://192.168.1.14:8082/api/v1');
+  });
+
   test('Test C1: Manual override via parameter -> override works', () => {
     const resolved = resolveApiBaseUrl('http://10.20.30.40:8080/api/v1');
     expect(resolved).toBe('http://10.20.30.40:8080/api/v1');
