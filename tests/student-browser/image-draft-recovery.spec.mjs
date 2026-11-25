@@ -120,6 +120,13 @@ async function storage(page, operation = 'read') {
 
 test('Crop edges, quarter turn and fine angle survive an immediate real reload', async ({ page }, testInfo) => {
   await start(page); await openCrop(page);
+  const photo = page.getByLabel('Ảnh bài tập đang căn chỉnh');
+  await expect.poll(async () => {
+    const image = await photo.boundingBox();
+    const [left, right, top, bottom] = await edges(page);
+    return Math.max(Math.abs(left.x - image.x), Math.abs(right.x - image.x - image.width),
+      Math.abs(top.y - image.y), Math.abs(bottom.y - image.y - image.height));
+  }).toBeLessThan(3);
   await page.getByRole('button', { name: 'Thu hẹp từ cạnh trái', exact: true }).click();
   await page.getByRole('button', { name: 'Xoay ảnh 90 độ', exact: true }).click();
   const angle = page.getByRole('slider', { name: 'Góc căn thẳng ảnh', exact: true });

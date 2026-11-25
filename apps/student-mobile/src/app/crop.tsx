@@ -20,7 +20,7 @@ import { DraftImagePicker } from '../features/recognition/components/DraftImageP
 const CORNERS = ['tl', 'tr', 'bl', 'br'] as const;
 const EDGES = ['top', 'right', 'bottom', 'left'] as const;
 const HANDLE_LABELS = { tl: 'góc trên trái', tr: 'góc trên phải', bl: 'góc dưới trái', br: 'góc dưới phải', top: 'cạnh trên', right: 'cạnh phải', bottom: 'cạnh dưới', left: 'cạnh trái' };
-const INSET = { x: 0.1, y: 0.1, w: 0.8, h: 0.8 };
+const FULL_IMAGE = { x: 0, y: 0, w: 1, h: 1 };
 type Edge = typeof EDGES[number];
 
 function WebCropControls({ disabled, onAdjust }: { disabled: boolean; onAdjust: (edge: Edge, inward: boolean) => void }) {
@@ -116,7 +116,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
   const viewport = useSharedValue({ w: 0, h: 0 });
   const size = useSharedValue({ w: 0, h: 0 });
   const fine = useSharedValue(draft?.cropEdit?.fine ?? 0), turns = useSharedValue(draft?.cropEdit?.turns ?? 0);
-  const remembered = useSharedValue(draft?.cropEdit?.selection ?? INSET);
+  const remembered = useSharedValue(draft?.cropEdit?.selection ?? FULL_IMAGE);
   const crop = useSharedValue<Rect>({ x: 0, y: 0, w: 0, h: 0 });
   const start = useSharedValue<Rect>({ x: 0, y: 0, w: 0, h: 0 });
   const dragHandle = useSharedValue<CropHandle | null>(null);
@@ -195,10 +195,9 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
       crop.set(handle ? calculateResize(handle, dx, dy, start.get(), bounds)
         : calculateDrag(dx, dy, start.get(), bounds));
     }).onEnd(() => { if (Platform.OS === 'web') runOnJS(remember)(); });
-  const select = (full = false) => {
-    const f = frame.get(), s = full ? { x: 0, y: 0, w: 1, h: 1 } : INSET;
-    crop.set({ x: f.x + f.w * s.x, y: f.y + f.h * s.y, w: f.w * s.w, h: f.h * s.h });
-    remember({}, s);
+  const selectFullImage = (rotation: { turns?: number; fine?: number } = {}) => {
+    crop.set(frame.get());
+    remember(rotation, FULL_IMAGE);
   };
   const adjustEdge = (edge: Edge, inward: boolean) => {
     if (disabled) return;
@@ -212,7 +211,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
       { minX: f.x, minY: f.y, maxX: f.x + f.w, maxY: f.y + f.h }));
     remember();
   };
-  const reset = () => { remember({ turns: 0, fine: 0 }, INSET); turns.set(0); fine.set(0); select(); };
+  const reset = () => { selectFullImage({ turns: 0, fine: 0 }); turns.set(0); fine.set(0); };
   const done = async () => {
     if (disabled || lock.current || !image) return;
     const f = frame.get(), c = crop.get();
@@ -273,7 +272,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
         {Platform.OS === 'web' && <WebCropControls disabled={disabled} onAdjust={adjustEdge} />}
         <View style={styles.secondaryRow}>
           <Pressable accessibilityRole="button" accessibilityLabel="Đặt lại ảnh và khung cắt" disabled={disabled} style={styles.secondary} onPress={reset}><Ionicons name="refresh" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Đặt lại</Text></Pressable>
-          <Pressable accessibilityRole="button" accessibilityLabel="Dùng toàn ảnh" disabled={disabled} style={styles.secondary} onPress={() => select(true)}><Ionicons name="expand" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Toàn ảnh</Text></Pressable>
+          <Pressable accessibilityRole="button" accessibilityLabel="Dùng toàn ảnh" disabled={disabled} style={styles.secondary} onPress={() => selectFullImage()}><Ionicons name="expand" size={17} color={COLORS.primaryDark} /><Text style={styles.secondaryText}>Toàn ảnh</Text></Pressable>
         </View>
         {Platform.OS === 'web' ? <>
           {recovery.issue === 'unavailable' && image ? <Text role="alert">Chưa lưu được ảnh trên thiết bị. Em vẫn có thể làm tiếp; tải lại trang có thể làm mất ảnh.</Text> : null}

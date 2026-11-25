@@ -23,6 +23,19 @@ from pathlib import Path
 # Paths
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 AI_SERVICE_DIR = REPO_ROOT / "ai" / "runtime"
+PORTS = dict(spring=8080, ai=8000, portal=5172, teacher=5173, admin=5174, metro=8081)
+port_file = REPO_ROOT / "infra" / "local-runtime" / "ports.json"
+configured_ports = os.getenv("MATHVISION_LOCAL_PORTS")
+if configured_ports is None and port_file.is_file():
+    configured_ports = port_file.read_text(encoding="utf-8-sig")
+if configured_ports:
+    saved = json.loads(configured_ports)
+    for name in PORTS:
+        port = saved.get(name)
+        if type(port) is int and 1024 <= port <= 65535:
+            PORTS[name] = port
+SPRING_URL = "http://127.0.0.1:" + str(PORTS["spring"])
+AI_URL = "http://127.0.0.1:" + str(PORTS["ai"])
 AI_VENV_PYTHON = AI_SERVICE_DIR / ".venv" / "Scripts" / "python.exe"
 if not AI_VENV_PYTHON.exists():
     AI_VENV_PYTHON = AI_SERVICE_DIR / ".venv" / "bin" / "python"
@@ -155,7 +168,7 @@ def check_redis():
 
 def check_spring():
     try:
-        req = urllib.request.Request("http://127.0.0.1:8080/actuator/health", method="GET")
+        req = urllib.request.Request(SPRING_URL + "/actuator/health", method="GET")
         with urllib.request.urlopen(req, timeout=3.0) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             if data.get("status") == "UP":
@@ -166,8 +179,8 @@ def check_spring():
                 else:
                     record_result(
                         "Spring Boot", "FAIL",
-                        detail="Port 8080 responds, but its backend working directory is not this MathVision checkout.",
-                        fix="Stop the other backend, then run RUN_MATHVISION.bat to start this checkout and apply its migrations."
+                        detail=f"Port {PORTS['spring']} responds, but its backend working directory is not this MathVision checkout.",
+                        fix="Run RUN_MATHVISION.bat to choose an available port for this checkout."
                     )
             else:
                 record_result(
@@ -178,7 +191,7 @@ def check_spring():
     except urllib.error.URLError as e:
         record_result(
             "Spring Boot", "FAIL",
-            detail=f"Spring Boot not reachable at http://127.0.0.1:8080: {e}",
+            detail=f"Spring Boot not reachable at {SPRING_URL}: {e}",
             fix="Start Spring Boot: scripts/start-all.bat or cd backend/business-api && .\\gradlew.bat bootRun"
         )
     except Exception as e:
@@ -191,7 +204,7 @@ def check_spring():
 
 def check_fastapi():
     try:
-        req_health = urllib.request.Request("http://127.0.0.1:8000/health", method="GET")
+        req_health = urllib.request.Request(AI_URL + "/health", method="GET")
         with urllib.request.urlopen(req_health, timeout=2.0) as resp:
             if resp.status != 200:
                 record_result(
@@ -201,7 +214,7 @@ def check_fastapi():
                 )
                 return
 
-        req_ready = urllib.request.Request("http://127.0.0.1:8000/ready", method="GET")
+        req_ready = urllib.request.Request(AI_URL + "/ready", method="GET")
         with urllib.request.urlopen(req_ready, timeout=5.0) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             FASTAPI_INFO.update(data)
@@ -216,7 +229,7 @@ def check_fastapi():
     except urllib.error.URLError as e:
         record_result(
             "FastAPI", "FAIL",
-            detail=f"FastAPI not reachable at http://127.0.0.1:8000: {e}",
+            detail=f"FastAPI not reachable at {AI_URL}: {e}",
             fix="Start FastAPI: scripts/start-all.bat or cd ai/runtime && .\\.venv\\Scripts\\uvicorn app.main:app --port 8000"
         )
     except Exception as e:
@@ -233,7 +246,7 @@ def check_tutor_auth():
     if not key:
         record_result('Tutor internal auth', 'BLOCKED', 'Internal credential not provided to this diagnostic (value withheld).', fix)
         return
-    request = urllib.request.Request('http://127.0.0.1:8000/internal/v1/tutor/runtime',
+    request = urllib.request.Request(AI_URL + "/internal/v1/tutor/runtime",
                                      headers={'X-Internal-API-Key': key}, method='GET')
     try:
         with urllib.request.urlopen(request, timeout=5.0) as response:
@@ -286,7 +299,7 @@ def check_celery():
 
 
 def check_portal_web():
-    port = 5172
+    port = PORTS["portal"]
     url = f"http://localhost:{port}"
     try:
         req = urllib.request.Request(url, method="GET")
@@ -315,7 +328,7 @@ def check_portal_web():
 
 def check_teacher_web():
     # Check port 5173 or probe
-    port = 5173
+    port = PORTS["teacher"]
     url = f"http://localhost:{port}"
     try:
         req = urllib.request.Request(url, method="GET")
@@ -343,7 +356,7 @@ def check_teacher_web():
 
 
 def check_admin_web():
-    port = 5174
+    port = PORTS["admin"]
     url = f"http://localhost:{port}"
     try:
         req = urllib.request.Request(url, method="GET")
@@ -377,13 +390,14 @@ def check_student_metro():
         return
 
     # Check if port 8081 is open
-    if not check_port("localhost", 8081, timeout=0.8):
+    port = PORTS["metro"]
+    if not check_port("localhost", port, timeout=0.8):
         record_result("Student Metro", "NOT_RUNNING")
         return
 
     # Verify Metro bundler /status or root response
     try:
-        req = urllib.request.Request("http://localhost:8081/status", method="GET")
+        req = urllib.request.Request(f"http://localhost:{port}/status", method="GET")
         with urllib.request.urlopen(req, timeout=2.0) as resp:
             content = resp.read().decode("utf-8")
             if "packager-status:running" in content or resp.status == 200:
@@ -393,14 +407,14 @@ def check_student_metro():
         pass
 
     try:
-        req = urllib.request.Request("http://localhost:8081/", method="GET")
+        req = urllib.request.Request(f"http://localhost:{port}/", method="GET")
         with urllib.request.urlopen(req, timeout=2.0) as resp:
             if resp.status in (200, 404):
                 record_result("Student Metro", "PASS")
             else:
                 record_result("Student Metro", "WARN", detail=f"Metro returned HTTP {resp.status}")
     except Exception as e:
-        record_result("Student Metro", "NOT_RUNNING", detail=f"Port 8081 open but Metro probe failed: {e}")
+        record_result("Student Metro", "NOT_RUNNING", detail=f"Port {port} open but Metro probe failed: {e}")
 
 
 def check_lan_diagnostics():
@@ -416,7 +430,7 @@ def check_lan_diagnostics():
         except Exception:
             pass
 
-    metro_port = 8081
+    metro_port = PORTS["metro"]
     metro_local_reach = check_port("localhost", metro_port, timeout=0.8)
 
     # Discover actual Metro bind address via subprocess
@@ -449,8 +463,8 @@ def check_lan_diagnostics():
     else:
         metro_state = f"LOOPBACK_ONLY (bind={metro_bind_addr}, port={metro_port})"
 
-    spring_host_reach = check_port("localhost", 8080, timeout=1.0)
-    spring_lan_reach = check_port(lan_ip, 8080, timeout=1.0) if lan_ip != "127.0.0.1" else spring_host_reach
+    spring_host_reach = check_port("localhost", PORTS["spring"], timeout=1.0)
+    spring_lan_reach = check_port(lan_ip, PORTS["spring"], timeout=1.0) if lan_ip != "127.0.0.1" else spring_host_reach
 
     configured_url = os.environ.get("EXPO_PUBLIC_API_BASE_URL", "")
     config_source = "environment"
@@ -595,8 +609,8 @@ def main():
     print(f"Metro State ........... {lan_info['metro_state']}")
     print(f"Metro Bind Address .... {lan_info['metro_bind_addr']}")
     print(f"Metro LAN Reach ....... {lan_info['metro_lan_reach']}")
-    print(f"Spring (localhost:8080) {lan_info['spring_host_reach']}")
-    print(f"Spring (LAN IPv4:8080)  {lan_info['spring_lan_reach']}")
+    print(f"Spring (localhost:{PORTS['spring']}) {lan_info['spring_host_reach']}")
+    print(f"Spring (LAN IPv4:{PORTS['spring']})  {lan_info['spring_lan_reach']}")
     print(f"Configured API Host ... {lan_info['configured_host']} (from {lan_info['config_source']})")
     if lan_info['mismatch_warning']:
         print(f"LAN Warning ........... WARN: {lan_info['mismatch_warning']}")

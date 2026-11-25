@@ -10,13 +10,13 @@ const sdkMajor = require(expoPackage).version.split('.')[0];
 const expoRequire = createRequire(expoPackage);
 const cliRequire = createRequire(expoRequire.resolve('@expo/cli/package.json'));
 
-function getExpoGoUrl(manifest, address) {
+function getExpoGoUrl(manifest, address, port = 8081) {
   if (isIP(address) !== 4 || address.startsWith('127.') || address === '0.0.0.0') {
     throw new Error('No usable LAN address. Connect this computer to Wi-Fi and try again.');
   }
   const client = manifest?.extra?.expoClient;
-  if (client?.slug !== expo.slug || client.hostUri !== `${address}:8081`) {
-    throw new Error('Port 8081 did not return the MathVisionKid LAN manifest. Check the Metro terminal.');
+  if (client?.slug !== expo.slug || client.hostUri !== `${address}:${port}`) {
+    throw new Error(`Port ${port} did not return the MathVisionKid LAN manifest. Check the Metro terminal.`);
   }
   if (typeof client.sdkVersion !== 'string' || client.sdkVersion.split('.')[0] !== sdkMajor) {
     throw new Error(`The running Student server does not use installed Expo SDK ${sdkMajor}. Close the old Student Metro terminal and restart RUN_MATHVISION.bat.`);
@@ -24,12 +24,12 @@ function getExpoGoUrl(manifest, address) {
   return `exp://${client.hostUri}`;
 }
 
-async function loadExpoManifest(address, request = fetch, wait = delay) {
+async function loadExpoManifest(address, request = fetch, wait = delay, port = 8081) {
   // The TCP listener can open before Metro is ready to serve its manifest.
   for (let attempt = 0; attempt < 3; attempt++) {
     let response;
     try {
-      response = await request(`http://${address}:8081/`, {
+      response = await request(`http://${address}:${port}/`, {
         headers: { accept: 'application/expo+json', 'expo-platform': 'android' },
         signal: AbortSignal.timeout(15000),
       });
@@ -52,7 +52,9 @@ async function main() {
   const { getIpAddressAsync } = cliRequire('./build/src/utils/ip.js');
   const { printQRCode } = cliRequire('./build/src/utils/qr.js');
   const address = process.env.REACT_NATIVE_PACKAGER_HOSTNAME?.trim() || await getIpAddressAsync();
-  const url = getExpoGoUrl(await loadExpoManifest(address), address);
+  const port = process.argv[2] === undefined ? 8081 : Number(process.argv[2]);
+  if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid Metro port.');
+  const url = getExpoGoUrl(await loadExpoManifest(address, fetch, delay, port), address, port);
   console.log('\nScan with Expo Go. Keep your phone and computer on the same Wi-Fi.\n');
   printQRCode(url).print();
   console.log(`Expo Go: ${url}`);

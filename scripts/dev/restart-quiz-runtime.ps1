@@ -35,10 +35,7 @@ if ($Service -eq 'fastapi') {
     $process = $script:startedFastApi
 } elseif ($Service -eq 'spring') {
     $working = Join-Path $RepoRoot 'backend/business-api'
-    $allowed = @('DB_URL','DB_USERNAME','DB_PASSWORD','JWT_SECRET','JWT_EXPIRATION','UPLOAD_ROOT','CORS_ALLOWED_ORIGINS','MINIO_ENDPOINT','MINIO_ACCESS_KEY','MINIO_SECRET_KEY','MINIO_BUCKET','AI_GATEWAY_MODE','AI_SERVICE_URL','AI_SERVICE_BASE_URL','INTERNAL_API_KEY',
-        'AUTH_EMAIL_ENABLED','AUTH_EMAIL_FROM','MAIL_HOST','MAIL_PORT','MAIL_USERNAME',
-        'MAIL_PASSWORD','MAIL_SMTP_AUTH','MAIL_SMTP_STARTTLS',
-        'GOOGLE_AUTH_ENABLED','GOOGLE_CLIENT_ID','GOOGLE_ANDROID_CLIENT_ID','GOOGLE_IOS_CLIENT_ID')
+    $allowed = @('DB_URL','DB_USERNAME','DB_PASSWORD','JWT_SECRET','JWT_EXPIRATION','UPLOAD_ROOT','CORS_ALLOWED_ORIGINS','MINIO_ENDPOINT','MINIO_ACCESS_KEY','MINIO_SECRET_KEY','MINIO_BUCKET','AI_GATEWAY_MODE','AI_SERVICE_URL','AI_SERVICE_BASE_URL','INTERNAL_API_KEY')
     Invoke-WithLocalEnvironment -Files @((Join-Path $RepoRoot '.env'),(Join-Path $working '.env')) -AllowedKeys $allowed -Action {
         $builtJar = Join-Path $working 'build/libs/business-api.jar'
         $digest = (Get-FileHash -LiteralPath $builtJar -Algorithm SHA256).Hash.Substring(0,16).ToLowerInvariant()

@@ -8,13 +8,14 @@ import ast
 from fractions import Fraction
 
 from app.tutoring.choice_source import numeric_notation, split_choices
-from app.tutoring.math_knowledge import normalized_units, unit_conversions
+from app.tutoring.math_knowledge import average_quantities, normalized_units, unit_conversions
 from app.tutoring.service import _fold
 
 
 _NUMBER = r'\d{1,9}(?:[.,]\d{1,9})?'
-_UNITS = r'(?:km|hm|dam|m|dm|cm|mm)(?:[²³])?|ha|kg|hg|dag|g|mg|tan|ta|yen|l|dl|cl|ml|dong'
-_UNIT_LABELS = {'tan': 'tấn', 'ta': 'tạ', 'yen': 'yến', 'dong': 'đồng'}
+_UNITS = r'(?:km|hm|dam|m|dm|cm|mm)(?:[²³])?|ha|kg|hg|dag|g|mg|tan|ta|yen|l|dl|cl|ml|dong|tuan|ngay|gio|phut|giay'
+_UNIT_LABELS = {'tan': 'tấn', 'ta': 'tạ', 'yen': 'yến', 'dong': 'đồng',
+                'tuan': 'tuần', 'ngay': 'ngày', 'gio': 'giờ', 'phut': 'phút', 'giay': 'giây'}
 
 
 def _number(text):
@@ -32,7 +33,7 @@ def _plan(title, why, how, *, expression='', unit='', options=(), selected='', f
                             initialGuidance=[why, how], guidance=[why, how], hints=[why, how])])
 
 
-def _result(title, why, how, expression, options, unit='', fraction=False):
+def _result(title, why, how, expression, options, unit='', fraction=False, *, reading_first=False):
     from app.tutoring.lesson import calculate_exact
     value = calculate_exact(expression)
     if options:
@@ -47,8 +48,12 @@ def _result(title, why, how, expression, options, unit='', fraction=False):
             values.append(_number(option))
         if len(set(values)) != len(values) or values.count(value) != 1:
             return None
-        return _plan(title, why, how, options=options, selected=options[values.index(value)], unit=unit, fraction=fraction)
-    return _plan(title, why, how, expression=expression, unit=unit, fraction=fraction)
+        plan = _plan(title, why, how, options=options, selected=options[values.index(value)], unit=unit, fraction=fraction)
+    else:
+        plan = _plan(title, why, how, expression=expression, unit=unit, fraction=fraction)
+    if reading_first:
+        plan['readingFirst'] = True
+    return plan
 
 
 def _measurement_expression(source, target):
@@ -161,6 +166,63 @@ def _daily_sales_plan(text, options):
     return dict(topic='Rút về đơn vị', goal=f'Tìm lượng {label} bán được theo số ngày.', finalAnswerStep=1, steps=steps)
 
 
+def _one_step_count(source):
+    match = re.fullmatch(
+        r'(?P<child>[^\W\d_]+(?: [^\W\d_]+){0,2}) có (?P<start>\d{1,6}) (?P<item>[^.\d?!]{2,20})\. '
+        r'(?:(?:Mẹ cho thêm|Bé nhặt thêm|(?P=child) nhặt thêm) (?P<added>\d{1,6})|'
+        r'(?P=child) cho bạn (?P<removed>\d{1,6})) (?P=item)\. '
+        r'Hỏi (?P=child) (?P<question>có tất cả|còn lại) bao nhiêu (?P=item)\?', source.strip(), re.I)
+    if not match or bool(match['added']) != (match['question'].lower() == 'có tất cả'):
+        return None
+    if match['added']:
+        return _result('Tìm số lượng có tất cả', 'Đề cho số lượng ban đầu và số lượng được thêm vào.',
+            'Lấy số lượng có lúc đầu cộng với số lượng được thêm để biết có tất cả bao nhiêu.',
+            f"{match['start']}+{match['added']}", (), match['item'].strip(), reading_first=True)
+    if int(match['removed']) <= int(match['start']):
+        return _result('Tìm số lượng còn lại', 'Sau khi cho bạn, số lượng còn lại sẽ giảm đi.',
+            'Lấy số lượng có lúc đầu trừ số lượng đã cho. Giữ nguyên đơn vị của đề.',
+            f"{match['start']}-{match['removed']}", (), match['item'].strip(), reading_first=True)
+    return None
+
+
+def _remaining_amount(text):
+    grouped = re.fullmatch(r'(?:mot )?thung co (\d{1,6}) tui bi, moi tui (\d{1,6}) vien\. '
+                           r'[a-z ]+ lay ra (\d{1,6}) vien\. hoi trong thung con bao nhieu vien bi\?', text)
+    if grouped:
+        bags, per_bag, removed = grouped.groups()
+        if int(removed) > int(bags) * int(per_bag):
+            return None
+        unit = 'viên bi'
+        steps = [
+            _plan('Tìm tổng số viên bi', 'Mỗi túi có cùng một số viên bi.',
+                  'Nhân số túi với số viên bi trong mỗi túi.', expression=f'{bags}*{per_bag}', unit=unit)['steps'][0],
+            _plan('Tìm số viên bi còn lại', 'Số viên còn lại giảm đi đúng bằng số viên được lấy ra.',
+                  'Lấy tổng số viên ở bước trước trừ số viên đã lấy.', expression=f'{{s0}}-{removed}', unit=unit)['steps'][0],
+        ]
+    else:
+        poured = re.fullmatch(r'(?:mot )?binh co (' + _NUMBER + r') l nuoc\. '
+                             r'rot ra (\d{1,6}) coc, moi coc (' + _NUMBER + r') ml\. '
+                             r'hoi binh con bao nhieu ml nuoc\?', normalized_units(text))
+        if not poured:
+            return None
+        volume, cups, per_cup = (value.replace(',', '.') for value in poured.groups())
+        if _number(volume) * 1000 < int(cups) * _number(per_cup):
+            return None
+        unit = 'ml'
+        steps = [
+            _plan('Tính lượng nước ban đầu theo mi-li-lít', 'Cần dùng cùng đơn vị trước khi lấy lượng ban đầu trừ đi lượng đã rót.',
+                  'Một lít bằng một nghìn mi-li-lít. Nhân số lít với một nghìn.', expression=f'{volume}*1000', unit=unit)['steps'][0],
+            _plan('Tính lượng nước đã rót', 'Các cốc chứa cùng một lượng nước.',
+                  'Nhân số cốc với số mi-li-lít trong mỗi cốc.', expression=f'{cups}*{per_cup}', unit=unit)['steps'][0],
+            _plan('Tính lượng nước còn trong bình', 'Cả hai lượng đã cùng tính theo mi-li-lít.',
+                  'Lấy lượng ban đầu ở bước đầu trừ lượng đã rót ở bước tiếp theo.', expression='{s0}-{s1}', unit=unit)['steps'][0],
+        ]
+    for step in steps:
+        step['solutionSentence'] = step['title'].removeprefix('Tìm ').removeprefix('Tính ') + ' là:'
+    return dict(topic='Tìm lượng còn lại', goal='Tính cả lượng ban đầu và lượng đã bớt.',
+                finalAnswerStep=len(steps) - 1, steps=steps, readingFirst=True)
+
+
 _DIGITS = dict(zip('khong mot hai ba bon nam sau bay tam chin'.split(), range(10)))
 
 
@@ -207,6 +269,10 @@ def _verified_plan(problem):
     if opened is not None:
         return opened
     multiple = split_choices(problem, allow_statement=True)
+    if not multiple:
+        count = _one_step_count(problem)
+        if count is not None:
+            return count
     stem, options = multiple if multiple else (problem, [])
     # Blank working rows are page layout, not additional operands or tasks.
     stem = '\n'.join(row for row in stem.splitlines() if not re.fullmatch(r'[\s=. …]+', row))
@@ -236,15 +302,57 @@ def _verified_plan(problem):
     daily_sales = _daily_sales_plan(text, options)
     if daily_sales:
         return daily_sales
+    remaining = _remaining_amount(text) if not options else None
+    if remaining:
+        return remaining
 
     from app.tutoring.area_tasks import verified_plan as area_plan
     area = area_plan(text, options)
     if area is not None:
         return area
 
+    percent = re.fullmatch(r'tinh\s*:?\s*(' + _NUMBER + r')% cua (' + _NUMBER + r')(?:\s*(' + _UNITS + r'))?\.?', normalized_units(text))
+    if percent:
+        rate, amount, unit = percent.groups()
+        return _result('Tìm giá trị phần trăm', 'Tỉ lệ phần trăm cho biết lấy bao nhiêu phần trong một trăm phần bằng nhau.',
+            'Nhân lượng ban đầu với số phần trăm, sau đó chia cho một trăm. Đáp số dùng đơn vị của lượng ban đầu.',
+            f'{amount.replace(",", ".")}*{rate.replace(",", ".")}/100', options, unit or '')
+
+    percent_share = re.fullmatch(r'(?:mot )?lop co (\d{1,6}) hoc sinh, (\d{1,6}) em ([a-z ]{2,55}?)(?: den truong)?\. '
+                                 r'hoi so em \3 chiem bao nhieu phan tram (?:cua )?lop\?', text)
+    if percent_share:
+        total, part = percent_share.groups()[:2]
+        if 0 <= int(part) <= int(total) and int(total) > 0:
+            return _result('Tìm tỉ số phần trăm', 'Số học sinh được hỏi là một phần của cả lớp. Cần so số em trong nhóm với tổng số học sinh.',
+                'Chia số học sinh trong nhóm cho tổng số học sinh rồi nhân với một trăm để viết theo phần trăm.',
+                f'{part}/{total}*100', options, '%', reading_first=True)
+
+    average = average_quantities(stem)
+    if average:
+        amounts, unit = average
+        return _result('Tìm trung bình cộng', 'Trung bình cộng là số lượng mỗi phần nhận được nếu chia đều tổng.',
+            'Cộng tất cả các số trong đề rồi chia tổng cho số lượng số hạng.',
+            f'({"+".join(amounts)})/{len(amounts)}', options, unit, reading_first=bool(unit))
+
+    distance = re.fullmatch(r'(?:mot )?([a-z ]{2,50}) chay deu voi van toc (' + _NUMBER + r') km/gio trong (' +
+                            _NUMBER + r') gio\. hoi \1 di duoc bao nhieu km\?', normalized_units(text))
+    speed = re.fullmatch(r'(?:mot )?[a-z ]{2,50} di duoc (' + _NUMBER + r') km trong (' +
+                         _NUMBER + r') gio\. hoi van toc la bao nhieu km/gio\?', normalized_units(text))
+    movement = distance or speed
+    if movement:
+        length_or_speed, duration = movement.groups()[-2:]
+        if _number(duration) > 0:
+            return _result('Tính quãng đường' if distance else 'Tính vận tốc trung bình',
+                'Nếu đi đều, mỗi giờ đi được một đoạn bằng vận tốc đã cho.' if distance else
+                'Vận tốc trung bình cho biết mỗi giờ đi được bao nhiêu ki-lô-mét nếu chia đều quãng đường theo thời gian.',
+                'Nhân vận tốc theo ki-lô-mét mỗi giờ với thời gian tính theo giờ.' if distance else
+                'Chia quãng đường tính theo ki-lô-mét cho thời gian tính theo giờ.',
+                length_or_speed.replace(',', '.') + ('*' if distance else '/') + duration.replace(',', '.'),
+                options, 'km' if distance else 'km/giờ', reading_first=True)
+
     # Exact arithmetic, including a single operation, decimals and fractions.
-    arithmetic = re.fullmatch(r'(?:tinh\s*:?\s*|(?:ket qua (?:cua )?phep tinh)\s*)?'
-                              r'([\d\s.,()+*/×÷−–:\-x]+?)\s*(?:(?:=\s*(?:\?|\.{2,}|…+)?)|(?:la\s*[:?]))?\s*[.?]?\s*', text)
+    arithmetic = re.fullmatch(r'(?:tinh\s*:?\s*|ket qua (?:cua )?(?:phep tinh )?)?'
+                              r'([\d\s.,()+*/×÷−–:\-x]+?)\s*(?:(?:=\s*(?:\?|\.{2,}|…+)?)|la\s*(?:bao nhieu\?|[:?]))?\s*[.?]?\s*', text)
     if arithmetic:
         expression = arithmetic[1].strip().replace(',', '.')
         expression = re.sub(r'\b(\d+)\s+(\d+)\s*/\s*([1-9]\d*)\b', r'(\1+\2/\3)', expression)

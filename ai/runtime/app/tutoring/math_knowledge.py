@@ -66,6 +66,27 @@ def quantity_unit(text):
     return _UNITS.get(unit)
 
 
+def average_quantities(problem):
+    """Recognize a complete average exercise with an explicit list of quantities."""
+    text = ' '.join(_fold(problem).split())
+    count_words = {'hai': 2, 'ba': 3, 'bon': 4, 'nam': 5, 'sau': 6, 'bay': 7, 'tam': 8}
+    words = '|'.join(count_words)
+    average = re.fullmatch(r'tinh trung binh cong cua (?:(' + words + r') so|cac so) (.+?)\.?', text)
+    daily = re.fullmatch(r'(?:mot ban|[a-z]+) doc duoc (.+?) trang trong (' + words + r') ngay\. '
+                         r'hoi trung binh moi ngay doc bao nhieu trang\?', text)
+    if average:
+        count_word, series = average.groups()
+    elif daily:
+        series, count_word = daily.groups()
+    else:
+        return None
+    amounts = re.split(r';\s*|,\s+|\s+va\s+', series)
+    if 2 <= len(amounts) <= 8 and count_words.get(count_word, len(amounts)) == len(amounts) and all(
+            re.fullmatch(r'\d{1,9}(?:[.,]\d{1,9})?', amount) for amount in amounts):
+        return [amount.replace(',', '.') for amount in amounts], 'trang' if daily else ''
+    return None
+
+
 def unit_conversions(problem):
     text=normalized_units(problem)
     units=set()
@@ -115,6 +136,9 @@ def formula_constants(problem):
     constants={'1','2'}
     constants.update(row['factor'] for row in unit_conversions(problem))
     constants.update(value for fact in contextual_facts(problem) for value in fact['constants'])
+    average = average_quantities(problem)
+    if average:
+        constants.add(str(len(average[0])))
     return frozenset(constants)
 
 

@@ -5,6 +5,7 @@ $RepoRoot = if (Test-Path "$PSScriptRoot\..\..\package.json") {
     (Resolve-Path "$PSScriptRoot\..").Path
 }
 Set-Location $RepoRoot
+. (Join-Path $PSScriptRoot 'local-ports.ps1')
 
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host " MathVision Kids -- Stopping Local Stack" -ForegroundColor Cyan
@@ -32,7 +33,8 @@ if (Test-Path $PidDir) {
 }
 
 # 2. Check MathVision specific ports and terminate lingering processes only if verified MathVision
-$PortsToCheck = @(8080, 8000, 5172, 5173, 5174, 8081)
+$ports = Get-LocalPorts
+$PortsToCheck = @($ports.spring, $ports.ai, $ports.portal, $ports.teacher, $ports.admin, $ports.metro)
 foreach ($port in $PortsToCheck) {
     try {
         $conns = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue

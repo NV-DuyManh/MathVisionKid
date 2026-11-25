@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
@@ -34,8 +34,11 @@ export default function WebCameraScreen() {
   const [ready, setReady] = useState(false);
   const [error, setError] = useState(false);
   const [torch, setTorch] = useState(false);
-  const [busy, setBusy] = useState(false);
+  const [acquisition, setAcquisition] = useState<'LIVE' | 'CAMERA' | 'GALLERY'>();
+  const busy = acquisition !== undefined;
   const [askingPermission, setAskingPermission] = useState(false);
+  const [actionError, setActionError] = useState('');
+  const [showHelp, setShowHelp] = useState(false);
   const active = useRef(true);
   const lock = useRef(false);
   const permissionLock = useRef(false);
@@ -43,6 +46,8 @@ export default function WebCameraScreen() {
     active.current = true;
     setFocused(true);
     setError(false);
+    setActionError('');
+    setShowHelp(false);
     return () => {
       active.current = false;
       setFocused(false);
@@ -59,6 +64,7 @@ export default function WebCameraScreen() {
     if (desktop) setDesktopPreview(true);
     setReady(false);
     setError(false);
+    setActionError('');
     try {
       // A granted preview can restart directly. A second permission probe would
       // open another camera stream while Android is still releasing the first.
@@ -71,7 +77,8 @@ export default function WebCameraScreen() {
   const acquire = async (source: 'LIVE' | 'CAMERA' | 'GALLERY') => {
     if (lock.current || !active.current || (source === 'LIVE' && (!ready || error || !focused || !camera.current))) return;
     lock.current = true;
-    setBusy(true);
+    setAcquisition(source);
+    setActionError('');
     try {
       const options: ImagePicker.ImagePickerOptions = { mediaTypes: ['images'], allowsEditing: false, quality: 1, cameraType: ImagePicker.CameraType.back };
       let asset;
@@ -98,17 +105,20 @@ export default function WebCameraScreen() {
       setReady(false);
       router.push('/privacy');
     } catch {
-      if (active.current) Alert.alert('Chưa chụp được ảnh', 'Em giữ chắc tay rồi thử lại, hoặc chọn ảnh trong thư viện nhé.');
-    } finally { lock.current = false; if (active.current) setBusy(false); }
+      if (active.current) setActionError(source === 'GALLERY'
+        ? 'Chưa mở được ảnh này. Em thử chọn một ảnh JPG hoặc PNG khác nhé.'
+        : 'Chưa chụp được ảnh. Em thử lại hoặc chọn ảnh trong thư viện nhé.');
+    } finally { lock.current = false; if (active.current) setAcquisition(undefined); }
   };
   const toggleTorch = () => {
     const video = (preview.current as unknown as HTMLElement | null)?.querySelector?.('video');
     const stream = video?.srcObject as MediaStream | null;
     const capabilities = stream?.getVideoTracks()[0]?.getCapabilities?.() as (MediaTrackCapabilities & { torch?: boolean }) | undefined;
     if (!capabilities?.torch) {
-      Alert.alert('Chưa bật được đèn', 'Máy ảnh này chưa hỗ trợ bật đèn tại đây. Em chọn nơi đủ sáng để chụp nhé.');
+      setActionError('Máy ảnh này chưa bật được đèn. Em chọn nơi đủ sáng để chụp nhé.');
       return;
     }
+    setActionError('');
     setTorch(value => !value);
   };
   const unavailable = error || permission?.status === 'denied';
@@ -142,14 +152,17 @@ export default function WebCameraScreen() {
           <View style={styles.webCameraIcon}><Ionicons name="scan-outline" size={34} color={STUDENT_WEB.primary} accessible={false} /></View>
           <Text accessibilityRole="header" style={styles.webPanelTitle}>Thêm ảnh của em</Text>
           <Text style={styles.webCenteredText}>Chọn một ảnh có bài toán em muốn đọc.</Text>
-          {unavailable ? <Text accessibilityRole="alert" style={styles.webCenteredText}>Chưa mở được máy ảnh. Em thử lại hoặc chọn ảnh đã chụp nhé.</Text> : null}
+          {actionError || unavailable ? <Text accessibilityRole="alert" style={[styles.webCenteredText, styles.webError]}>
+            {actionError || 'Chưa mở được máy ảnh. Em thử lại hoặc chọn ảnh đã chụp nhé.'}
+          </Text> : null}
           <View style={styles.webUploadActions}>
-            <AppButton title="Chọn ảnh từ thư viện" onPress={() => void acquire('GALLERY')} disabled={busy}
+            <AppButton title="Chọn ảnh từ thư viện" onPress={() => void acquire('GALLERY')} disabled={busy} loading={acquisition === 'GALLERY'} loadingTitle="Đang mở ảnh…"
               icon={<Ionicons name="images-outline" size={20} color="white" accessible={false} />} />
             <AppButton title={unavailable ? 'Thử mở lại máy ảnh' : 'Cho phép mở máy ảnh'} variant="secondary"
               loading={askingPermission} loadingTitle="Đang mở máy ảnh…" disabled={busy} onPress={() => void openCamera()} />
           </View>
-          <AppButton title="Chụp bằng máy ảnh điện thoại" variant="ghost" disabled={busy} onPress={() => void acquire('CAMERA')} />
+          <AppButton title="Chụp bằng máy ảnh điện thoại" variant="ghost" disabled={busy}
+            loading={acquisition === 'CAMERA'} loadingTitle="Đang mở ảnh…" onPress={() => void acquire('CAMERA')} />
         </View>
         <View style={styles.webAside}>
           <View style={styles.webPanel}>
@@ -194,9 +207,10 @@ export default function WebCameraScreen() {
           <Ionicons name="close" size={26} color="white" />
         </TouchableOpacity>
         <View style={styles.badge}><Ionicons name="bulb-outline" size={18} color="white" /><Text style={styles.badgeText}>{label}</Text></View>
-        <TouchableOpacity style={styles.iconButton} accessibilityRole="button" accessibilityLabel="Xem hướng dẫn chụp ảnh"
-          onPress={() => Alert.alert('Chụp rõ bài toán', 'Đặt trọn một bài toán vào khung. Chọn nơi đủ sáng, giữ chắc tay và đợi chữ rõ rồi chụp. Em sẽ cắt ảnh và che thông tin riêng tư ở bước tiếp theo.')}>
-          <Ionicons name="help-circle-outline" size={26} color="white" />
+        <TouchableOpacity style={styles.iconButton} accessibilityRole="button" accessibilityLabel={showHelp ? 'Ẩn hướng dẫn chụp ảnh' : 'Xem hướng dẫn chụp ảnh'}
+          aria-expanded={showHelp} aria-controls={showHelp ? 'camera-help' : undefined}
+          onPress={() => setShowHelp(value => !value)}>
+          <Ionicons name="help-circle-outline" size={26} color="white" accessible={false} />
         </TouchableOpacity>
       </View>
       <View style={styles.scanArea}>
@@ -206,13 +220,17 @@ export default function WebCameraScreen() {
           <View pointerEvents="none" style={[styles.corner, styles.bottomLeft]} /><View pointerEvents="none" style={[styles.corner, styles.bottomRight]} />
           {!canCapture ? <View style={[styles.notice, compact && styles.compactNotice]}>
             {!compact ? <Ionicons name="camera-outline" size={36} color="white" /> : null}
-            <Text style={[styles.noticeText, compact && styles.compactNoticeText]}>{unavailable ? 'Chưa mở được máy ảnh. Em thử lại hoặc chụp bằng máy ảnh của điện thoại nhé.' : live ? 'Đang mở máy ảnh…' : askingPermission ? 'Chọn cho phép máy ảnh trong thông báo đang mở. Em cũng có thể chọn ảnh từ thư viện.' : 'Cho phép mở máy ảnh để ngắm và chụp bài toán nhé.'}</Text>
+            <Text accessibilityRole={unavailable ? 'alert' : undefined} accessibilityLiveRegion="polite" style={[styles.noticeText, compact && styles.compactNoticeText]}>{unavailable ? 'Chưa mở được máy ảnh. Em thử lại hoặc chọn ảnh từ thư viện nhé.' : live ? 'Đang mở máy ảnh…' : askingPermission ? 'Chọn cho phép máy ảnh trong thông báo đang mở. Em cũng có thể chọn ảnh từ thư viện.' : 'Cho phép mở máy ảnh để ngắm và chụp bài toán nhé.'}</Text>
             {live || busy || askingPermission ? <ActivityIndicator color="white" /> : <AppButton title={unavailable ? 'Thử mở lại máy ảnh' : 'Cho phép mở máy ảnh'} onPress={() => void openCamera()} />}
             <AppButton title="Chụp bằng máy ảnh điện thoại" disabled={busy} onPress={() => void acquire('CAMERA')} />
           </View> : null}
         </View>
         {!compact ? <View style={styles.pill}><Ionicons name="information-circle-outline" size={16} color="white" /><Text style={styles.instruction}>Chỉ chụp một bài toán mỗi lần</Text></View> : null}
       </View>
+      {showHelp || actionError ? <View style={styles.cameraFeedback}>
+        {showHelp ? <Text nativeID="camera-help" accessibilityLiveRegion="polite" style={styles.noticeText}>Chọn nơi đủ sáng, giữ chắc tay và chụp trọn một bài toán. Em có thể cắt ảnh và che tên ở bước sau.</Text> : null}
+        {actionError ? <Text accessibilityRole="alert" style={styles.noticeText}>{actionError}</Text> : null}
+      </View> : null}
       <View style={[styles.footer, compact && styles.compactFooter]}>
         <TouchableOpacity style={[styles.footerAction, compact && styles.compactFooterAction]} accessibilityRole="button" accessibilityLabel="Chọn ảnh từ thư viện" disabled={busy} onPress={() => void acquire('GALLERY')}>
           <View style={styles.iconButton}><Ionicons name="images-outline" size={24} color="white" /></View><Text style={styles.footerText}>Thư viện</Text>
@@ -253,6 +271,7 @@ const styles = StyleSheet.create({
   webPanelTitle: { fontFamily: FONTS.extraBold, fontSize: 19, lineHeight: 25, color: STUDENT_WEB.ink },
   webPanelText: { fontFamily: FONTS.regular, fontSize: 15, lineHeight: 23, color: STUDENT_WEB.muted },
   webCenteredText: { fontFamily: FONTS.regular, fontSize: 15, lineHeight: 23, color: STUDENT_WEB.muted, textAlign: 'center' },
+  webError: { color: COLORS.error },
   webTips: { gap: 10 },
   webTipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
   webTip: { flexGrow: 1, flexBasis: 210, flexDirection: 'row', alignItems: 'flex-start', gap: 10, padding: 14,
@@ -275,6 +294,7 @@ const styles = StyleSheet.create({
   bottomRight: { bottom: 0, right: 0, borderBottomWidth: 4, borderRightWidth: 4, borderBottomRightRadius: 16 },
   notice: { width: '100%', maxWidth: 290, padding: 16, gap: 14, alignItems: 'center', borderRadius: 20, backgroundColor: 'rgba(15,23,42,0.9)' },
   noticeText: { fontFamily: FONTS.regular, fontSize: 15, lineHeight: 22, color: 'white', textAlign: 'center' },
+  cameraFeedback: { marginHorizontal: SIZES.medium, padding: 10, gap: 8, borderRadius: 12, backgroundColor: 'rgba(15,23,42,0.9)' },
   footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', padding: SIZES.medium, marginTop: 12, backgroundColor: 'rgba(15,23,42,0.75)' },
   footerAction: { alignItems: 'center', width: 80, minHeight: 64, gap: 6 }, footerText: { fontFamily: FONTS.semiBold, color: 'white', fontSize: 12 },
   shutter: { width: 76, height: 76, borderRadius: 38, borderWidth: 3, borderColor: 'white', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.3)' },

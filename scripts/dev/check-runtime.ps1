@@ -4,9 +4,14 @@ param([switch]$ShowStudentQr)
 $ErrorActionPreference = 'Stop'
 $RepoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 . (Join-Path $PSScriptRoot 'local-env.ps1')
+. (Join-Path $PSScriptRoot 'local-ports.ps1')
+$ports = Get-LocalPorts
 
 if ($ShowStudentQr) {
-    & node (Join-Path $RepoRoot 'scripts/dev/show-student-qr.cjs')
+    Write-Host "Unified Portal: http://localhost:$($ports.portal)"
+    Write-Host "Teacher Portal: http://localhost:$($ports.teacher)"
+    Write-Host "Admin Portal:   http://localhost:$($ports.admin)"
+    & node (Join-Path $RepoRoot 'scripts/dev/show-student-qr.cjs') $ports.metro
     exit $LASTEXITCODE
 }
 
@@ -20,7 +25,7 @@ $envFiles = @(
 )
 $script:diagnosticExitCode = 1
 Invoke-WithLocalEnvironment -Files $envFiles -AllowedKeys @('INTERNAL_API_KEY') -Action {
-    Invoke-WithLocalAiPort -Action {
+    Invoke-WithLocalAiPort -Port $ports.ai -Action {
         & $python (Join-Path $RepoRoot 'tools/diagnostics/check_runtime.py')
         $script:diagnosticExitCode = $LASTEXITCODE
     }
