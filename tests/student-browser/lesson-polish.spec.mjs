@@ -355,6 +355,58 @@ function lessonFixtures(app) {
   app.responses.set('POST /student/quizzes/from-learning', ({ json }) => json({ offered: false, quiz: null }));
 }
 
+test('refreshing a guided lesson preserves both answer input drafts', async ({ page, app }) => {
+  app.realStudent = true;
+  lessonFixtures(app);
+  const startLesson = app.responses.get('POST /student/tutor/lesson');
+  app.responses.set('POST /student/tutor/lesson/resume', startLesson);
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  const params = new URLSearchParams({ problemText: problem });
+  await page.goto(`${sites.portal.origin}/study/learning/math-guide?${params}`);
+  await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
+  await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
+  await expect(page.getByText(firstStep.question, { exact: true })).toBeVisible();
+  const number = page.getByRole('textbox', { name: 'Câu trả lời của em', exact: true });
+  const numerator = page.getByRole('textbox', { name: 'Tử số câu trả lời', exact: true });
+  const denominator = page.getByRole('textbox', { name: 'Mẫu số câu trả lời', exact: true });
+  await page.getByRole('button', { name: 'Nhập số thường', exact: true }).click();
+  await number.fill('2');
+  await page.getByRole('button', { name: 'Nhập kết quả phân số', exact: true }).click();
+  await numerator.fill('11');
+  await denominator.fill('15');
+
+  await page.reload();
+  await expect(page.getByText('Đã khôi phục bước đang học của em.', { exact: true })).toBeVisible();
+  await expect(numerator).toHaveValue('11');
+  await expect(denominator).toHaveValue('15');
+  await page.getByRole('button', { name: 'Nhập số thường', exact: true }).click();
+  await expect(number).toHaveValue('2');
+  await page.getByRole('button', { name: 'Nhập kết quả phân số', exact: true }).click();
+  await expect(numerator).toHaveValue('11');
+  await expect(denominator).toHaveValue('15');
+  expect(app.requests.filter(request => request.path === '/student/tutor/lesson')).toHaveLength(1);
+});
+
+test('device speech recovery returns to the last selected online voice', async ({ page, app }) => {
+  app.realStudent = true;
+  lessonFixtures(app);
+  await page.addInitScript(() => {
+    if (window.speechSynthesis) Object.defineProperty(window.speechSynthesis, 'getVoices', { value: () => [] });
+    localStorage.setItem('mathvision.lesson-voice', JSON.stringify({
+      voiceId: 'device', onlineVoiceId: 'vi-VN-HoaiMyNeural',
+    }));
+  });
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem })}`);
+  await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
+  await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
+  await page.getByRole('button', { name: 'Nghe giảng', exact: true }).click();
+  await page.getByRole('button', { name: 'Quay lại giọng đã chọn', exact: true }).click();
+  await expect(page.getByRole('radio', { name: 'Giọng nữ', exact: true })).toBeChecked();
+});
+
 test('lesson preparation recovers two temporary service failures without a manual retry', async ({ page, app }) => {
   app.realStudent = true;
   lessonFixtures(app);

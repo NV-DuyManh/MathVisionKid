@@ -139,14 +139,14 @@ it('opens the default online male voice when the web learner requests device fal
   }
 });
 
-it('opens the last online female voice when returning from device mode in a new sheet', async () => {
+it.each(['onFallback', 'onReturn'] as const)('opens the last online female voice from device mode via %s', async action => {
   const previous = Platform.OS;
   Platform.OS = 'web';
   await saveNarrationVoice('vi-VN-HoaiMyNeural');
   await saveNarrationVoice('device');
   try {
     await render();
-    await act(async () => view.root.findByType(DeviceNarration).props.onFallback());
+    await act(async () => view.root.findByType(DeviceNarration).props[action]());
     expect(downloadNarration).toHaveBeenCalledTimes(1);
     expect(downloadNarration).toHaveBeenCalledWith(source, paragraphs, expect.any(AbortSignal), 'vi-VN-HoaiMyNeural', expect.any(Function));
     expect(button('Giọng nữ').props.accessibilityState.checked).toBe(true);

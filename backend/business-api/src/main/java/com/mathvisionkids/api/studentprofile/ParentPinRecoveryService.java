@@ -1,16 +1,18 @@
 package com.mathvisionkids.api.studentprofile;
 
 import com.mathvisionkids.api.common.ApiException;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -79,20 +81,58 @@ public class ParentPinRecoveryService {
                     """, purpose.name(), hash, issued, window, sends, id);
         }
 
-        var message = new SimpleMailMessage();
-        message.setFrom(from);
-        message.setTo(student.getEmail());
-        message.setSubject("Mã xác nhận Góc phụ huynh MathVision Kids");
-        message.setText("Mã xác nhận để " + (purpose == Purpose.SETUP ? "thiết lập" : "đặt lại") +
-                " mã PIN phụ huynh là " + code + ". Mã có hiệu lực trong 10 phút. Nếu bạn không yêu cầu, hãy bỏ qua thư này.");
         try {
-            mail.send(message);
-        } catch (MailException failure) {
+            sendCode(student.getEmail(), purpose, code);
+        } catch (MailException | MessagingException failure) {
             consume(id);
             org.slf4j.LoggerFactory.getLogger(ParentPinRecoveryService.class).warn("Parent PIN code delivery failed.");
             throw error("PARENT_PIN_EMAIL_UNAVAILABLE", "Chưa gửi được mã xác nhận. Vui lòng thử lại sau.", HttpStatus.SERVICE_UNAVAILABLE);
         }
         return new Destination(mask(student.getEmail()));
+    }
+
+    private void sendCode(String recipient, Purpose purpose, String code) throws MessagingException {
+        String title = purpose == Purpose.SETUP ? "Thiết lập mã PIN" : "Đặt lại mã PIN";
+        String instruction = "Nhập mã bên dưới vào Góc phụ huynh để "
+                + (purpose == Purpose.SETUP ? "thiết lập" : "đặt lại") + " mã PIN.";
+        String expiry = "Mã có hiệu lực trong " + LIFETIME.toMinutes() + " phút.";
+        String footer = "Nếu bạn không yêu cầu mã, hãy bỏ qua email này.";
+
+        var message = mail.createMimeMessage();
+        var helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED, StandardCharsets.UTF_8.name());
+        helper.setFrom(from);
+        helper.setTo(recipient);
+        helper.setSubject(title + " · Góc phụ huynh MathVision Kids");
+        helper.setText(String.join("\n\n", title, instruction, code, expiry, "Không chia sẻ mã này.", footer), """
+                <!doctype html>
+                <html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+                <body style="margin:0;padding:0;background:#f3efff;color:#24184b;font-family:Arial,sans-serif">
+                  <table role="presentation" width="100%%" cellspacing="0" cellpadding="0" bgcolor="#f3efff">
+                    <tr><td align="center" style="padding:24px 12px">
+                      <table role="presentation" width="100%%" cellspacing="0" cellpadding="0"
+                             style="max-width:520px;background:#ffffff;border:1px solid #e5dbfa;border-radius:20px">
+                        <tr><td bgcolor="#29165c" style="padding:22px 24px;border-radius:19px 19px 0 0;color:#ffffff">
+                          <div style="font-size:20px;font-weight:bold;line-height:1.4">MathVision <span style="color:#ffda78">Kids</span></div>
+                          <div style="margin-top:4px;color:#e5d9ff;font-size:13px;line-height:1.5">Góc phụ huynh</div>
+                        </td></tr>
+                        <tr><td style="padding:24px">
+                          <h1 style="margin:0 0 10px;font-size:25px;line-height:1.25;color:#24184b">%s</h1>
+                          <p style="margin:0 0 20px;color:#514567;font-size:16px;line-height:1.55">%s</p>
+                          <table role="presentation" width="100%%" cellspacing="0" cellpadding="0">
+                            <tr><td align="center" bgcolor="#f1eaff" style="padding:16px 8px;border:1px solid #d9c8fa;border-radius:14px">
+                              <div style="color:#503788;font-size:13px;font-weight:bold;line-height:1.5">Mã xác nhận</div>
+                              <div style="margin-top:4px;color:#5129ad;font-family:Consolas,monospace;font-size:34px;font-weight:bold;line-height:1.25;letter-spacing:4px;white-space:nowrap">%s</div>
+                            </td></tr>
+                          </table>
+                          <p style="margin:16px 0 0;color:#514567;font-size:14px;line-height:1.55"><strong>%s</strong> Không chia sẻ mã này.</p>
+                        </td></tr>
+                        <tr><td style="padding:16px 24px;border-top:1px solid #ede5fa;color:#514567;font-size:13px;line-height:1.55">%s</td></tr>
+                      </table>
+                    </td></tr>
+                  </table>
+                </body></html>
+                """.formatted(title, instruction, code, expiry, footer));
+        mail.send(message);
     }
 
     @Transactional(noRollbackFor = ApiException.class)

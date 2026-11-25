@@ -128,6 +128,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
     setAudioReady(false); setShowPreparation(false);
     void saveNarrationVoice(selected).catch(() => {});
   };
+  const returnToOnlineVoice = () => chooseVoice(Platform.OS === 'web' ? currentOnlineNarrationVoice() : onlineVoice.current);
   const retry = () => {
     setUri(''); setError(''); setProgress(null);
     setAudioReady(false); setShowPreparation(false); setAttempt(value => value + 1);
@@ -148,7 +149,7 @@ function Narration({ source, paragraphs, disabled = false, compact = false, onFi
         <Text style={styles.link}>Quay lại giọng đã chọn</Text>
       </Pressable>
     </View> : null}
-    {disabled ? <Text style={styles.link}>Đang chờ bài học</Text> : deviceVoice ? <DeviceNarration paragraphs={paragraphs} compact={compact} controlRef={audioControl} onReady={deviceReady} onPosition={onPosition} onFinished={onFinished} onReturn={() => chooseVoice(onlineVoice.current)} onFallback={Platform.OS === 'web' && !audioLoader ? () => chooseVoice(currentOnlineNarrationVoice()) : undefined} /> : error ? <RecoveryNotice
+    {disabled ? <Text style={styles.link}>Đang chờ bài học</Text> : deviceVoice ? <DeviceNarration paragraphs={paragraphs} compact={compact} controlRef={audioControl} onReady={deviceReady} onPosition={onPosition} onFinished={onFinished} onReturn={returnToOnlineVoice} onFallback={Platform.OS === 'web' && !audioLoader ? returnToOnlineVoice : undefined} /> : error ? <RecoveryNotice
       title="Chưa mở được giọng đọc" message={error} actions={[
         { label: 'Thử lại', accessibilityLabel: 'Tải lại lời giảng', icon: 'refresh-outline', onPress: retry },
         ...(!serverFallback && !audioLoader ? [{ label: 'Dùng giọng Việt dự phòng', onPress: () => changeFallback(true) }] : []),

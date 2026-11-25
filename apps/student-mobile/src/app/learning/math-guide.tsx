@@ -164,6 +164,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
   const [fractionInput, setFractionInput] = useState(false);
   const [answerModeNotice, setAnswerModeNotice] = useState('');
   const answerModeDrafts = useRef({ number: '', fraction: '', showingFallback: false });
+  const restoredAnswerModeDrafts = useRef<MathGuideCheckpoint['answerModeDrafts']>(undefined);
   const [calculatorOpen, setCalculatorOpen] = useState(false);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   useEffect(() => {
@@ -213,11 +214,13 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
         const result=await TutorService.resumeLesson(saved.sessionId,problem,control.signal);
         if (!live) return;
         resumeProgress.current = null;
-        const sameStep = result.revision === saved.revision && result.stepIndex === saved.stepIndex;
+        const sameStep = result.sessionId === saved.sessionId
+          && result.revision === saved.revision && result.stepIndex === saved.stepIndex;
         const restored = sameStep ? (checkpoint?.pendingAnswer ?? saved.attempt) : '';
         const asFraction = sameStep && checkpoint ? checkpoint.fractionInput
           : startsWithFraction(result.step) || (!result.step?.answerFormat && restored.includes('/'));
         if (sameStep && checkpoint) {
+          restoredAnswerModeDrafts.current = checkpoint.answerModeDrafts;
           setHistoryIndex(checkpoint.historyIndex !== null && checkpoint.historyIndex < result.completed.length ? checkpoint.historyIndex : null);
           setHintOpen(checkpoint.hintOpen);
           setHintPage(Math.min(checkpoint.hintPage, Math.max(0, (result.revealedHints?.length ?? 1) - 1)));
@@ -262,6 +265,12 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
     if(typeof window!=='undefined'&&window.addEventListener)window.addEventListener('pagehide',flush);
     return()=>{listener.remove();if(typeof window!=='undefined'&&window.removeEventListener)window.removeEventListener('pagehide',flush);flush();};
   },[owner]);
+  const lessonSessionId = lesson?.sessionId;
+  const lessonStepIndex = lesson?.stepIndex;
+  useLayoutEffect(() => {
+    answerModeDrafts.current = restoredAnswerModeDrafts.current ?? { number: '', fraction: '', showingFallback: false };
+    restoredAnswerModeDrafts.current = undefined;
+  }, [lessonSessionId, lessonStepIndex]);
   useLayoutEffect(() => {
     if (restoring || !checkpointScope || mathGuideScope(owner) !== checkpointScope) return;
     if (!reading && !problem && !work && !editing) return;
@@ -275,7 +284,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
       workConfirmed, workImageCurrent, uncertainWork, problemPhoto: !!imageUri && problemImage === imageUri,
       workPhoto: !!imageUri && workImage === imageUri, editing, reviewStarted, reviewFocused,
       progress, historyIndex, hintOpen, hintPage, fractionInput, answerEdited, pendingAnswer: attempt, savedToHistory: saved,
-      workReview: workReviewCheckpoint,
+      workReview: workReviewCheckpoint, answerModeDrafts: lesson ? answerModeDrafts.current : undefined,
     });
     if (!savedCheckpoint) setProgressNotice('Chưa lưu được tiến độ trên thiết bị. Em dùng nút lưu bài nhé.');
   }, [restoring, checkpointScope, checkpointRoute, owner, lesson, lessonId, quizPreparationKey, reading, problem, work,
@@ -301,9 +310,6 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
   const step = publishedStep && publishedStep.kind !== 'UNDERSTAND' && lesson?.revealedHints == null ? {
     ...publishedStep, explanation: 'Em xác định đại lượng cần tìm rồi nhập kết quả của bước này.', guidance: [], workExcerpt: '',
   } : publishedStep;
-  const lessonSessionId = lesson?.sessionId;
-  const lessonStepIndex = lesson?.stepIndex;
-  useEffect(() => { answerModeDrafts.current = { number: '', fraction: '', showingFallback: false }; }, [lessonSessionId, lessonStepIndex]);
   const changeAttempt = (value: string) => {
     answerModeDrafts.current.showingFallback = false;
     setAttempt(value); setAnswerEdited(true); setAnswerModeNotice('');
