@@ -337,6 +337,20 @@ test('Back in a reopened preview returns to the crop for the restored photo', as
   await reopened.getByRole('button', { name: 'Quay lại', exact: true }).click();
   await expect(reopened).toHaveURL(/\/study\/privacy(?:\?|$)/);
   expect(await imageHash(reopened, 'Ảnh gốc để kiểm tra thông tin riêng tư')).toBe(approved);
+  await reopened.getByRole('button', { name: 'Chụp lại ảnh khác', exact: true }).click();
+  await expect(reopened).toHaveURL(/\/study\/camera\?mode=ARITHMETIC/);
+  const chooser = reopened.waitForEvent('filechooser');
+  await reopened.getByRole('button', { name: 'Chọn ảnh từ thư viện', exact: true }).click();
+  await (await chooser).setFiles(await picture(reopened, 'replacement.png', 'image/png', 480, 360));
+  const replacement = reopened.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư');
+  await expect(replacement).toBeVisible();
+  expect(await imageHash(reopened, 'Ảnh gốc để kiểm tra thông tin riêng tư')).not.toBe(approved);
+  const consent = reopened.getByRole('checkbox', { name: 'Tôi đã kiểm tra và che thông tin riêng tư trong ảnh' });
+  await expect(consent).not.toBeChecked();
+  await consent.click();
+  await reopened.getByRole('button', { name: 'Tiếp tục xem lại', exact: true }).click();
+  await reopened.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  await expect(reopened.getByLabel('Ảnh bài toán em đã chọn')).toBeVisible();
 });
 
 test('An EXIF-oriented JPEG is normalized and retains its orientation after F5', async ({ page }) => {

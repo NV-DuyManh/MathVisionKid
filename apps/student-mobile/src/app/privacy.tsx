@@ -120,6 +120,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   }, [activeUri, fittedStyle.width, fittedStyle.height, masks, draft?.privacyConfirmed, draft?.imageSessionId]);
 
   const effectiveMode = resolveFlowDomain(null, draft?.mode);
+  const cameraRoute = { pathname: '/camera' as const, params: { mode: effectiveMode, retrySubmissionId, problemText: draft?.problemText } };
 
   useEffect(() => {
     logFlowDomain('PRIVACY', effectiveMode);
@@ -628,7 +629,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
-        <AppHeader title="Che thông tin riêng tư" showBack />
+        <AppHeader title="Che thông tin riêng tư" showBack backFallback={Platform.OS === 'web' ? cameraRoute : undefined} />
 
         {/* Child-friendly explanation */}
         <View style={[styles.instructionCard, IS_STUDENT_WEB && styles.webInstructions]}>
@@ -792,7 +793,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
           <AppButton
             title="Chụp lại ảnh khác"
             variant="secondary"
-            onPress={() => router.back()}
+            onPress={() => Platform.OS === 'web' ? router.replace(cameraRoute) : router.back()}
           />
         </View>
         </View>
