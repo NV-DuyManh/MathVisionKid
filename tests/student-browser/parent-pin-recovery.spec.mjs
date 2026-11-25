@@ -50,3 +50,27 @@ test('sets and recovers the parent PIN with the account email in one dialog', as
   await page.getByLabel('Mã PIN', { exact: true }).fill('516824');
   await expect(page).toHaveURL(`${sites.portal.origin}/study/parent-mode`);
 });
+
+test('browser Back and Forward do not reopen the parent dashboard without the PIN', async ({ page, app }) => {
+  app.realStudent = true;
+  app.responses.set('GET /student/parent-control/status', ({ json }) =>
+    json({ pinConfigured: true, dailyLimitReached: false, activityVerified: true }));
+  app.responses.set('POST /student/parent-control/unlock', ({ json }) => json({ dailyMinutes: 45 }));
+  app.responses.set('GET /student/app-usage/week', ({ json }) =>
+    json({ today: '2026-11-20', totalMillis: 0, days: [] }));
+  await login(page, 'STUDENT');
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+  await page.goto(`${sites.portal.origin}/study/profile`);
+  const profileEntry = page.getByRole('button', { name: 'Góc phụ huynh', exact: true });
+  await profileEntry.click();
+  await page.getByLabel('Mã PIN', { exact: true }).fill('516824');
+  const lock = page.getByRole('button', { name: 'Khóa Góc phụ huynh' });
+  await expect(lock).toBeVisible();
+  await page.goBack();
+  await expect(profileEntry).toBeVisible();
+  await page.goForward();
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/profile`);
+  await expect(lock).toHaveCount(0);
+  await profileEntry.click();
+  await expect(page.getByRole('dialog', { name: 'Mở Góc phụ huynh' })).toBeVisible();
+});

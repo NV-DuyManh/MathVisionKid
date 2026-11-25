@@ -64,6 +64,51 @@ test('F5 restores the approved photo and both baked privacy masks', async ({ pag
     .map(request => request.path)).toEqual(['/auth/login']);
 });
 
+test('browser Back from crop keeps private areas covered before and after refresh', async ({ page }) => {
+  await start(page);
+  await openCrop(page);
+  const approved = await imageHash(page, 'Ảnh bài tập đang căn chỉnh');
+  const angle = page.getByRole('slider', { name: 'Góc căn thẳng ảnh', exact: true });
+  await angle.press('ArrowRight');
+  await expect(angle).toHaveValue('0.1');
+
+  await page.goBack();
+  await expect(page).toHaveURL(/\/study\/privacy/);
+  expect(await imageHash(page, 'Ảnh gốc để kiểm tra thông tin riêng tư')).toBe(approved);
+  await page.reload();
+  await expect(page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư')).toBeVisible();
+  expect(await imageHash(page, 'Ảnh gốc để kiểm tra thông tin riêng tư')).toBe(approved);
+  await page.getByRole('checkbox', { name: 'Tôi đã kiểm tra và che thông tin riêng tư trong ảnh' }).click();
+  await page.getByRole('button', { name: 'Tiếp tục xem lại', exact: true }).click();
+  await expect(page.getByLabel('Ảnh bài tập đang căn chỉnh')).toBeVisible();
+  expect(await imageHash(page, 'Ảnh bài tập đang căn chỉnh')).toBe(approved);
+  await expect(angle).toHaveValue('0.1');
+});
+
+test('returning to privacy can cover one more area without uncovering previous masks', async ({ page }) => {
+  await start(page);
+  await openCrop(page);
+  const approved = await imageHash(page, 'Ảnh bài tập đang căn chỉnh');
+  await page.goBack();
+  const photo = page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư');
+  const consent = page.getByRole('checkbox', { name: 'Tôi đã kiểm tra và che thông tin riêng tư trong ảnh' });
+  await expect(consent).toBeEnabled();
+  const box = await photo.boundingBox();
+  await page.mouse.move(box.x + box.width * 0.43, box.y + box.height * 0.36);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.57, box.y + box.height * 0.55, { steps: 4 });
+  await page.mouse.up();
+  await consent.click();
+  await page.getByRole('button', { name: 'Tiếp tục xem lại', exact: true }).click();
+  await expect(page.getByLabel('Ảnh bài tập đang căn chỉnh')).toBeVisible();
+  const updated = await imageHash(page, 'Ảnh bài tập đang căn chỉnh');
+  expect(updated).not.toBe(approved);
+  await page.reload();
+  await expect(page.getByLabel('Ảnh bài tập đang căn chỉnh')).toBeVisible();
+  expect(await imageHash(page, 'Ảnh bài tập đang căn chỉnh')).toBe(updated);
+  expect((await maskedPixels(page)).flat().every(channel => channel < 24)).toBe(true);
+});
+
 test('An empty crop opens a real image picker instead of navigating back', async ({ page, app }) => {
   app.realStudent = true;
   await login(page, 'STUDENT');

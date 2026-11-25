@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, Platform, useWindowDimensions } from 'react-native';
 import { ActivityRail } from '../components/ui/ActivityRail';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
+import { Redirect, useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import ViewShot from 'react-native-view-shot';
 import {
   Gesture,
@@ -48,7 +48,9 @@ export default function PrivacyGateScreen() {
   const draft = useSyncExternalStore(recognitionDraftStore.subscribe, recognitionDraftStore.getSnapshot, recognitionDraftStore.getSnapshot);
 
   const recovery = useSyncExternalStore(imageDraftPersistence.subscribe, imageDraftPersistence.getSnapshot, imageDraftPersistence.getSnapshot);
-  const rawUri = draft?.sourceImageUri || draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
+  const approvedOnWeb = Platform.OS === 'web' && draft?.privacyConfirmed;
+  const rawUri = approvedOnWeb ? draft.privacyImageUri
+    : draft?.sourceImageUri || draft?.uri || (Array.isArray(params.uri) ? params.uri[0] : params.uri);
   const activeUri = rawUri ? ensureFileUri(rawUri) : '';
   const retrySubmissionId = draft?.retrySubmissionId || (Array.isArray(params.retrySubmissionId) ? params.retrySubmissionId[0] : params.retrySubmissionId);
 
@@ -60,6 +62,7 @@ export default function PrivacyGateScreen() {
 
 function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: string; draft: ReturnType<typeof recognitionDraftStore.getDraft>; retrySubmissionId?: string }) {
   const router = useRouter();
+  const navigation = useNavigation();
   const window = useWindowDimensions();
   const landscape = window.width > window.height && window.height < 550;
   const webColumns = IS_STUDENT_WEB && window.width >= 840;
@@ -476,6 +479,11 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
       const postPrivacyMode = resolveFlowDomain(null, draft?.mode);
       logFlowDomain('POST_PRIVACY', postPrivacyMode);
 
+      if (Platform.OS === 'web' && draft?.privacyConfirmed && masks.length === 0) {
+        router.push({ pathname: '/crop', params: { retrySubmissionId } });
+        return;
+      }
+
       // If no masks were drawn, do NOT rasterize via ViewShot!
       if (masks.length === 0) {
         recognitionDraftStore.updateDraft({ privacyImageUri: activeUri, uri: activeUri, croppedImageUri: undefined,
@@ -528,10 +536,18 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
           isMasked: true,
           privacyConfirmed: true,
           mode: postPrivacyMode,
+          ...(Platform.OS === 'web' && {
+            arithmeticSubmissionId: undefined, processingStarted: false, recoveredAfterReload: false,
+          }),
         });
         const approved = recognitionDraftStore.getDraft();
         if (approved) await imageDraftPersistence.confirm(approved, 'crop');
-        if (!image.isCurrent()) return;
+        if (Platform.OS === 'web') {
+          // Switching to the approved pixels remounts the editor, so check the route and draft instead.
+          const current = recognitionDraftStore.getDraft();
+          if (!navigation.isFocused() || !current || current.imageSessionId !== approved?.imageSessionId ||
+            current.privacyImageUri !== finalMaskedUri) return;
+        } else if (!image.isCurrent()) return;
 
         logStageDiagnostic('PRIVACY_OUTPUT', {
           uri: finalMaskedUri,
