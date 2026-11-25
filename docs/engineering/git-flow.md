@@ -34,6 +34,8 @@ PR ghi nguồn yêu cầu thật, trước/sau, kiểm thử và bằng chứng 
 
 Bot trong CI kiểm tra policy, dữ liệu riêng tư, workflow an toàn và chọn test. Bot không phải mô hình AI review ngữ nghĩa; AI review được agent/người thực hiện ghi kết quả và revision trong PR. Không tuyên bố có dịch vụ AI review tự động khi chưa cấu hình dịch vụ đó.
 
+Workflow dọn nhánh chạy sau khi PR từ nhánh cùng kho được merge vào `develop`. Workflow chỉ xóa nhánh task có commit gốc đã vào `develop`, tip vẫn khớp với PR và không còn PR mở dùng nhánh đó. Nhánh release/hotfix phải có commit gốc trong cả `main` và `develop`. Giữ cài đặt tự xóa nhánh toàn kho của GitHub ở trạng thái tắt để áp dụng các điều kiện này.
+
 ## Chốt phiên bản và hotfix
 
 1. Merge task đã review vào develop. Chạy lại luồng chính, chốt scope rồi tách `release/1.0.1` từ develop. Với lỗi production, tách `hotfix/1.0.2_fix-description` từ main/tag.
