@@ -1,5 +1,63 @@
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
+test('a Google-linked student can set a MathVisionKid password using email verification', async ({ page, app }) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect.poll(() => app.studentProfile).toBeDefined();
+  Object.assign(app.studentProfile, { googleLinked: true, passwordLoginAvailable: false });
+  app.responses.set('POST /auth/password-reset/request', ({ body, json }) => {
+    expect(body.email).toBe('student@example.test');
+    return json({});
+  });
+  app.responses.set('POST /auth/password-reset/confirm', ({ body, json }) => {
+    expect(body.email).toBe('student@example.test');
+    return body.code === '123456' ? json({}) : json({}, 400);
+  });
+
+  await page.goto(`${sites.portal.origin}/study/account`);
+  await page.getByRole('button', { name: 'Đổi mật khẩu MathVisionKid' }).click();
+  const email = page.getByRole('textbox', { name: 'Email đã đăng ký' });
+  await expect(email).toHaveValue('student@example.test');
+  await expect(email).toHaveAttribute('readonly', '');
+  await page.getByRole('button', { name: 'Gửi mã xác nhận' }).click();
+  const code = page.getByRole('textbox', { name: 'Mã xác nhận 6 chữ số' });
+  await code.fill('000000');
+  await page.getByLabel('Mật khẩu mới').fill('synthetic-new-password');
+  const submit = page.getByRole('button', { name: 'Xác nhận và đổi mật khẩu' });
+  await submit.click();
+  await expect(page.getByRole('alert')).toContainText('Mã không đúng hoặc đã hết hạn');
+  await code.fill('123456');
+  await submit.click();
+  await expect(page.getByRole('status')).toContainText('Đổi mật khẩu thành công');
+  expect(await page.evaluate(() => localStorage.getItem('mvk_portal_web_session'))).toBeNull();
+});
+
+test('the student profile loads a Google avatar and falls back if the image is unavailable', async ({ page, app }) => {
+  const picture = 'https://lh3.googleusercontent.com/a/synthetic-avatar';
+  app.realStudent = true;
+  await page.route(picture, route => route.fulfill({
+    contentType: 'image/svg+xml',
+    body: '<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="blue"/></svg>',
+  }));
+
+  await login(page, 'STUDENT');
+  await expect.poll(() => app.studentProfile).toBeDefined();
+  app.studentProfile.avatarPhoto = picture;
+  await page.goto(`${sites.portal.origin}/study/profile`);
+  const images = page.locator(`img[src="${picture}"]`);
+  const avatar = images.filter({ visible: true }).first();
+  await expect(avatar).toBeVisible();
+  await expect.poll(() => avatar.evaluate(image => image.naturalWidth)).toBe(8);
+
+  await page.unroute(picture);
+  await page.route(picture, route => route.abort());
+  const failedImage = page.waitForEvent('requestfailed', request => request.url() === picture);
+  await page.reload();
+  await failedImage;
+  await expect(images).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Kiểm thử STUDENT', exact: true })).toBeVisible();
+});
+
 for (const width of [320, 390, 1024]) {
   test(`compact profile supports avatar hover/focus and cancellable name editing at ${width}px`, async ({ page, app }, testInfo) => {
     app.realStudent = true;

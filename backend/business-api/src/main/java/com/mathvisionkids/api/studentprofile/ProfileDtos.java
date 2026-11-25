@@ -25,7 +25,7 @@ final class ProfileDtos {
     record Profile(String displayName, Integer gradeLevel, Instant joinedAt, List<Classroom> classrooms, String avatar,
                    boolean leaderboardVisible, String publicAlias, String selectedTitle, long stars, StudentRank.Rank rank,
                    String highestRank, Long position, Stats stats, List<Title> titles, List<Activity> history,
-                   String avatarPhoto, boolean passwordLoginAvailable, boolean leaderboardNameHidden) {}
+                   String avatarPhoto, boolean passwordLoginAvailable, boolean leaderboardNameHidden, boolean googleLinked) {}
     record Entry(long position, String alias, String avatar, long stars, StudentRank.Rank rank, boolean self) {}
     record Leaderboard(List<Entry> entries, Long ownPosition, Integer gradeLevel) {}
     record GameAnswer(@NotNull @Min(0) @Max(4) Integer question, @NotNull @Min(-10000) @Max(10000) Integer answer) {}

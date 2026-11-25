@@ -393,9 +393,12 @@ class StudentProfileIntegrationTest {
         }));
         assertEquals(1, profiles.get(pupil.getEmail()).stars());
         assertEquals(1, profiles.get(pupil.getEmail()).stats().quizzes());
-        for (int i = 2; i <= 5; i++) rewards.record(id, StudentRewards.Source.QUIZ, "event-" + i, "quiz-" + i);
-        assertEquals(3, profiles.get(pupil.getEmail()).stars());
-        assertEquals(5, profiles.get(pupil.getEmail()).stats().quizzes());
+        for (int i = 2; i <= 8; i++) {
+            assertEquals(1, rewards.record(id, StudentRewards.Source.QUIZ, "event-" + i, "quiz-" + i));
+        }
+        var profile = profiles.get(pupil.getEmail());
+        assertEquals(8, profile.stars());
+        assertEquals(8, profile.stats().quizzes());
     }
 
     @Test void gameGradesOnServerAndReplaysOnlyItsOwnResult() throws Exception {
@@ -453,7 +456,7 @@ class StudentProfileIntegrationTest {
         assertEquals(1, profiles.get(owner).stars());
     }
 
-    @Test void raceChallengeReportsGameCapAndRecordsTheWin() {
+    @Test void raceChallengeAwardsAStarAfterThreeOtherWins() {
         for (int i = 0; i < 3; i++) {
             rewards.record(pupil.getId(), StudentRewards.Source.GAME, "existing-" + i, "game-" + i);
         }
@@ -462,8 +465,8 @@ class StudentProfileIntegrationTest {
         while (!game.completed()) {
             game = games.answer(owner, game.id(), new GameAnswer(game.question(), answer(game.prompt())));
         }
-        assertEquals(0, game.stars());
-        assertEquals(GameRewardStatus.GAME_LIMIT, game.rewardStatus());
+        assertEquals(1, game.stars());
+        assertEquals(GameRewardStatus.AWARDED, game.rewardStatus());
         assertEquals(game, games.get(owner, game.id()));
         assertEquals(4, profiles.get(owner).stats().games());
     }
@@ -496,7 +499,7 @@ class StudentProfileIntegrationTest {
         assertEquals(0, profiles.get(owner).stars());
     }
 
-    @Test void everyTrainingModeGradesItsOwnQuestionsAndSharesTheStarCap() {
+    @Test void everyTrainingModeGradesItsOwnQuestionsAndAwardsAStar() {
         pupil.setGradeLevel(5);
         students.saveAndFlush(pupil);
         String owner = pupil.getEmail();
@@ -508,10 +511,10 @@ class StudentProfileIntegrationTest {
                 game = games.answer(owner, game.id(), new GameAnswer(game.question(), expected));
             }
             assertEquals(5, game.correct(), modes[mode].name());
-            assertEquals(mode < 3 ? GameRewardStatus.AWARDED : GameRewardStatus.GAME_LIMIT, game.rewardStatus());
+            assertEquals(GameRewardStatus.AWARDED, game.rewardStatus());
         }
         var profile = profiles.get(owner);
-        assertEquals(3, profile.stars());
+        assertEquals(4, profile.stars());
         assertEquals(4, profile.stats().games());
     }
 

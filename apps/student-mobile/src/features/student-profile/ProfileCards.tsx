@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -18,7 +18,12 @@ export const avatars = [
 ] as const;
 
 export function StudentAvatar({ id, size = 54, photo }: { id: string; size?: number; photo?: string | null }) {
+  const [failedPhoto, setFailedPhoto] = useState<string>();
   if (photo && /^data:image\/(?:jpeg|png);base64,/.test(photo)) return <Image source={{ uri: photo }} style={{ width: size, height: size, borderRadius: size / 2 }} accessible={false} />;
+  if (IS_STUDENT_WEB && photo && photo !== failedPhoto && /^https:\/\/[a-z0-9.-]+\.googleusercontent\.com\//.test(photo)) {
+    return <img src={photo} alt="" referrerPolicy="no-referrer" onError={() => setFailedPhoto(photo)}
+      style={{ width: size, height: size, borderRadius: size / 2, objectFit: 'cover' }} />;
+  }
   const avatar = avatars.find(item => item.id === id) ?? avatars[0];
   return <View accessible={false} aria-hidden style={[styles.avatar, { width: size, height: size, backgroundColor: avatar.background }]}>
     <Ionicons name={avatar.icon} size={size * .53} color={avatar.color} />
