@@ -42,12 +42,16 @@
 
 .student-auth-hero {
   position: relative;
+  container-type: inline-size;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 24px;
   isolation: isolate;
   overflow: hidden;
   border-radius: 30px;
   min-height: 485px;
   box-sizing: border-box;
-  padding: 32px 34px 180px;
+  padding: 32px 34px;
   background:
     radial-gradient(ellipse 42% 23% at 3% 108%, #DCC7FB 0 70%, transparent 71%),
     radial-gradient(ellipse 55% 29% at 71% 111%, #CDB1FA 0 75%, transparent 76%),
@@ -63,22 +67,36 @@
   gap: 8px;
   font: 20px StudyAuthBlack, system-ui, sans-serif;
 }
-.student-auth-intro { position: relative; z-index: 1; padding-block-start: 20px; }
-.student-auth-slogan { margin: 0; font: clamp(37px, 3.35vw, 52px)/1.075 StudyAuthBlack, system-ui, sans-serif; letter-spacing: -.035em; }
+.student-auth-hero-content {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.student-auth-slogan {
+  margin: 0;
+  font: 900 clamp(30px, 9.5cqi, 46px)/1.14 StudyAuthBlack, system-ui, sans-serif;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
 .student-auth-slogan span { color: var(--auth-gold); }
-.student-auth-description { margin: 14px 0 0; max-width: 280px; font-size: 15px; line-height: 1.47; color: #fff; }
+.student-auth-description {
+  margin: 16px 0 0;
+  max-inline-size: 34ch;
+  font-size: 16px;
+  line-height: 1.5;
+  text-wrap: balance;
+}
+.student-auth-illustration {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: 8px;
+  padding-inline-start: 12%;
+}
 .student-auth-art {
-  position: absolute;
-  z-index: 1;
-  right: 3%;
-  bottom: 16.5%;
-  inline-size: min(58%, 312px);
+  inline-size: min(68%, 300px);
   pointer-events: none;
 }
 .student-auth-math {
-  position:absolute;
-  bottom: 21%;
-  left: 12%;
   display:grid;
   gap:5px;
   justify-items:center;
@@ -114,10 +132,6 @@
 .student-auth-heading { display: grid; justify-items: center; gap: 4px; margin-bottom: 16px; text-align: center; }
 .student-auth-heading h1 { margin: 0; color: #1C174C; font: 900 27px/34px StudyAuthBlack, Nunito, sans-serif; }
 .student-auth-heading p { margin: 0; color: #625A86; font-size: 14px; line-height: 19px; }
-.student-auth-emblem {
-  display: grid; place-items: center; width: 46px; height: 44px; margin-bottom: 6px; border-radius: 15px;
-  background: #EEE8FF; color: #66568C;
-}
 .student-auth-control-label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 700; }
 .student-auth-note {
   display: flex; align-items: center; justify-content: center; gap: 8px; padding: 9px;
@@ -133,11 +147,12 @@
   .student-auth-layout {
     display: flex; flex-direction: column; width: 100%; max-width: 540px; padding: 12px; gap: 12px;
   }
-  .student-auth-hero { min-height: 0; border-radius: 21px; padding: 15px 19px 20px; }
+  .student-auth-hero { display: block; min-height: 0; border-radius: 21px; padding: 15px 19px 20px; }
   .student-auth-brand { font-size: 17px; }
-  .student-auth-intro { padding-block-start: 10px; padding-inline-end: 26%; }
-  .student-auth-slogan { font-size: clamp(20px, 5.8vw, 30px); }
-  .student-auth-art { top: 50%; bottom: auto; inline-size: min(26%, 96px); transform: translateY(-50%); }
+  .student-auth-intro { padding-block-start: 12px; padding-inline-end: 28%; }
+  .student-auth-slogan { font-size: clamp(19px, 6.5cqi, 28px); }
+  .student-auth-illustration { display: contents; }
+  .student-auth-art { position: absolute; top: 50%; right: 3%; inline-size: min(26%, 96px); transform: translateY(-50%); }
   .student-auth-description, .student-auth-math { display: none; }
   .student-auth-card { padding: 18px; border-radius: 21px; }
 }
