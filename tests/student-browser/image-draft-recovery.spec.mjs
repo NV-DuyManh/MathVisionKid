@@ -157,7 +157,8 @@ async function storage(page, operation = 'read') {
       };
       const blobs = tx.objectStore('images').getAll(); blobs.onsuccess = () => { pictures = blobs.result; };
       tx.oncomplete = () => { db.close(); resolve({ rows, imageCount: pictures.length,
-        hasOnlyBlobs: pictures.every(image => image.privacy instanceof Blob && (!image.cropped || image.cropped instanceof Blob)) }); };
+        hasOnlyApprovedImages: pictures.every(image => image.privacy?.bytes instanceof ArrayBuffer && !image.original &&
+          (!image.cropped || image.cropped.bytes instanceof ArrayBuffer)) }); };
       tx.onerror = () => { db.close(); reject(tx.error); };
     };
   }), operation);
@@ -235,7 +236,7 @@ test('The unapproved original is stored only as a short-lived privacy draft', as
   await start(page); await openPrivacy(page);
   const pending = await storage(page);
   expect(pending.imageCount).toBe(1);
-  expect(pending.hasOnlyBlobs).toBe(false);
+  expect(pending.hasOnlyApprovedImages).toBe(false);
   const [record] = pending.rows;
   expect(record.step).toBe('privacy');
   expect(record.expiresAt - record.createdAt).toBe(30000);
@@ -247,10 +248,10 @@ test('The unapproved original is stored only as a short-lived privacy draft', as
     .map(request => request.path)).toEqual(['/auth/login']);
 });
 
-test('Only approved Blob data and URI-free metadata are stored', async ({ page }) => {
+test('Only approved image bytes and URI-free metadata are stored', async ({ page }) => {
   await start(page); await openCrop(page);
   const stored = await storage(page);
-  expect(stored.imageCount).toBe(1); expect(stored.hasOnlyBlobs).toBe(true);
+  expect(stored.imageCount).toBe(1); expect(stored.hasOnlyApprovedImages).toBe(true);
   expect(JSON.stringify(stored.rows)).not.toMatch(/blob:|data:image|originalImageUri|rawUri/);
   const pixel = await page.evaluate(() => new Promise((resolve, reject) => {
     const open = indexedDB.open('mathvision-private-photo-v1');
@@ -321,7 +322,7 @@ test('Cancel and reselecting the same file preserve the old draft until a new so
   const pending = await storage(page);
   expect(pending.imageCount).toBe(1);
   expect(pending.rows[0].step).toBe('privacy');
-  expect(pending.hasOnlyBlobs).toBe(false);
+  expect(pending.hasOnlyApprovedImages).toBe(false);
 });
 
 test('A reopened tab restores the approved photo when the browser restores the same verified session', async ({ page, context }) => {

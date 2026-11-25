@@ -158,18 +158,14 @@ function readPhoto(value?: StoredPhoto): Blob | undefined {
   }
 }
 async function writePhotos(record: Record, images: Images, generation: number) {
-  const write = (data: StoredImages) => transaction('readwrite', tx => {
+  // Raw bytes avoid the additional Blob/File storage backend required by WebKit.
+  const buffer = async (blob?: Blob) => blob && { bytes: await blob.arrayBuffer(), type: blob.type };
+  const [privacy, cropped, original] = await Promise.all([buffer(images.privacy), buffer(images.cropped), buffer(images.original)]);
+  await transaction('readwrite', tx => {
     if (generation !== revision || recognitionDraftStore.getDraft()?.imageSessionId !== record.id) throw new Error('Photo changed');
     tx.objectStore('drafts').put(record, record.scope);
-    tx.objectStore('images').put(data, record.scope);
+    tx.objectStore('images').put({ privacy, cropped, original }, record.scope);
   });
-  try { await write(images); }
-  catch (error) {
-    // Some WebKit storage backends reject Blob writes but can store the same bytes.
-    if (!(error instanceof DOMException) || error.name !== 'UnknownError') throw error;
-    const buffer = async (blob?: Blob) => blob && { bytes: await blob.arrayBuffer(), type: blob.type };
-    await write({ privacy: await buffer(images.privacy), cropped: await buffer(images.cropped), original: await buffer(images.original) });
-  }
 }
 async function dimensions(blob: Blob) {
   const uri = URL.createObjectURL(blob);
