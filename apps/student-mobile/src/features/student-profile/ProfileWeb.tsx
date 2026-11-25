@@ -57,7 +57,7 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
     {showParentPin && canOpenParentMode && owner && <ParentProfilePinDialog key={owner} owner={owner} onExit={() => setShowParentPin(false)} onOpen={settings => {
       storeParentModeHandoff(owner, settings);
       setShowParentPin(false);
-      router.push('/parent-mode');
+      router.push('/parent-mode' as any);
     }} />}
   </>;
 }

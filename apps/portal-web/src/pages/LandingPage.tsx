@@ -810,6 +810,7 @@ export const LandingPage: React.FC = () => {
               return (
                 <Button
                   key={grade}
+                  aria-pressed={isSelected ? 'true' : 'false'}
                   onClick={() => handleSelectGrade(grade)}
                   sx={{
                     px: { xs: 2.6, sm: 4.6 },
