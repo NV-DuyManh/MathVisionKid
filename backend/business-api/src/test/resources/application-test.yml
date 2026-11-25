@@ -22,6 +22,8 @@ spring:
         - classpath:db/migration/V38__parent_game_star_limit.sql
         - classpath:db/migration/V39__student_game_time_limit.sql
         - classpath:db/migration/V40__parent_pin_email_recovery.sql
+        - classpath:db/migration/V41__student_achievement_path.sql
+        - classpath:db/migration/V42__single_student_rank.sql
   flyway:
     enabled: false
 

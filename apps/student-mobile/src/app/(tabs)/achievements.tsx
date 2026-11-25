@@ -109,26 +109,6 @@ function Achievements({ owner }: { owner?: string }) {
             <AppButton title="Chơi luyện toán" variant="secondary" onPress={() => router.push('/games/arithmetic-quest')} />
           </View>
         </View>;
-  const titleItems = value?.titles.map(title => {
-    const icon = <Ionicons name={title.unlocked ? 'ribbon' : 'lock-closed-outline'} size={web ? 20 : 25} color={web && title.unlocked ? '#8B4E06' : '#5B339D'} accessible={false} aria-hidden />;
-    return <View key={title.id} style={[s.row, s.chip, web && styles.webTitle, web && title.unlocked && styles.webTitleUnlocked]}>
-      {web ? <View style={[styles.titleIcon, title.unlocked && styles.titleIconUnlocked]}>{icon}</View> : icon}
-      <View style={web ? styles.titleCopy : { flex: 1, minWidth: 150 }}>
-        <Text style={web ? styles.titleName : s.heading}>{title.name}</Text>
-        <Text style={web ? styles.titleMeta : s.body}>{title.rarity} · {title.unlocked ? 'Đã mở khóa' : title.progress + '/' + title.goal}</Text>
-        <Text style={web ? styles.titleDetail : s.body}>{title.description}</Text>
-        {web && !title.unlocked && title.goal > 0 && <View style={styles.titleTrack} aria-hidden>
-          <View style={[styles.titleFill, { width: `${Math.min(100, Math.max(0, 100 * title.progress / title.goal))}%` }]} />
-        </View>}
-      </View>
-    </View>;
-  });
-  const titles = value && <View style={[s.card, web && styles.webPanel]}>
-    <Text accessibilityRole="header" style={s.heading}>Bộ sưu tập danh hiệu</Text>
-    {desktopWeb ? (titleItems?.length ? <View style={styles.titleGrid} {...{ dataSet: { studentTitleGrid: 'true' } }}>{titleItems}</View>
-      : <Text style={s.body}>Danh hiệu sẽ xuất hiện khi em đạt các mốc học tập.</Text>) : titleItems}
-    <AppButton title="Chọn danh hiệu trên hồ sơ" variant="secondary" style={desktopWeb ? styles.titleAction : undefined} onPress={() => router.push('/account')} />
-  </View>;
   const history = value && <View style={[s.card, web && styles.webPanel]}>
           <Text accessibilityRole="header" style={s.heading}>Những lần em nhận sao</Text>
           {value.history.length === 0 && <Text style={s.body}>Sao sẽ xuất hiện khi em hoàn thành hoạt động đủ điều kiện.</Text>}
@@ -162,11 +142,12 @@ function Achievements({ owner }: { owner?: string }) {
       contentContainerStyle={[s.content, desktopWeb ? styles.webContent : styles.compactContent, wide && styles.wideContent]}>
       {desktopWeb ? <PersonalPageHeader title="Thành tích của em" backLabel="Về trang chủ" onBack={() => router.replace('/(tabs)')} />
         : <StudentPageHeader compact title="Thành tích" onBack={() => router.replace('/(tabs)')} onAvatar={() => router.push('/account')} />}
+      <AppButton title="Lộ trình rank" variant="secondary" onPress={() => setGuideOpen(true)} />
       {wide ? <View style={[styles.mainColumns, styles.wideColumns]}>
         <View style={[styles.mainColumn, styles.rankColumn]}>
           {rank}
           {metrics}
-          {titles}
+
           {tasks}
         </View>
         <View style={[styles.mainColumn, styles.boardColumn]}>
@@ -176,7 +157,7 @@ function Achievements({ owner }: { owner?: string }) {
       </View> : desktopWeb ? <>
         {rank}
         {leaderboard}
-        {titles}
+
         {metrics}
         {tasks}
         {history}
@@ -187,7 +168,7 @@ function Achievements({ owner }: { owner?: string }) {
         </View>}
         {value && <ProfileStats profile={value} />}
         {tasks}
-        {titles}
+
         {history}
       </>}
       {!value && !profile.failed && <ActivityIndicator accessibilityLabel="Đang tải thành tích" />}
@@ -195,7 +176,7 @@ function Achievements({ owner }: { owner?: string }) {
         message={value ? 'Em đang xem thành tích đã tải trước đó.' : 'Em kiểm tra kết nối rồi thử lại nhé.'}
         actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại thành tích', icon: 'refresh-outline', onPress: profile.retry }]} />}
     </ScrollView>
-    {guideOpen && <RankGuide onClose={() => setGuideOpen(false)} />}
+    {guideOpen && <RankGuide profile={value} onClose={() => setGuideOpen(false)} />}
   </SafeAreaView>;
 }
 
@@ -210,18 +191,8 @@ const styles = StyleSheet.create({
   wideContent: { paddingBottom: 38 },
   mainColumns: { gap: 16 }, wideColumns: { flexDirection: 'row', alignItems: 'flex-start', gap: 24 },
   mainColumn: { gap: 16, minWidth: 0 }, rankColumn: { flex: 1.65 }, boardColumn: { flex: 1 },
-  titleGrid: { gap: 8 },
-  webTitle: { flexWrap: 'nowrap', alignItems: 'flex-start', justifyContent: 'flex-start', gap: 8, padding: 10, borderWidth: 1, borderColor: '#E8E0F5', minWidth: 0, backgroundColor: '#F8F6FC' },
-  titleCopy: { flex: 1, minWidth: 0, gap: 4 },
-  webTitleUnlocked: { backgroundColor: '#FFF9EA', borderColor: '#F3E1B4' },
-  titleIcon: { borderRadius: 10, backgroundColor: '#EEE6FF', padding: 6 },
-  titleIconUnlocked: { backgroundColor: '#FFEDBA' },
   titleName: { color: COLORS.textPrimary, fontFamily: FONTS.extraBold, fontSize: 14, lineHeight: 18 },
-  titleMeta: { color: STUDENT_WEB.primary, fontFamily: FONTS.bold, fontSize: 12, lineHeight: 16 },
   titleDetail: { color: STUDENT_WEB.muted, fontFamily: FONTS.semiBold, fontSize: 12, lineHeight: 17 },
-  titleAction: { alignSelf: 'flex-start', maxWidth: '100%' },
-  titleTrack: { height: 4, borderRadius: 4, overflow: 'hidden', backgroundColor: '#E9DFF9', marginTop: 3 },
-  titleFill: { height: '100%', borderRadius: 4, backgroundColor: '#7A49D9' },
   historyRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 7, borderTopWidth: 1, borderColor: '#EEE8F7' },
   historyIcon: { backgroundColor: '#F1EAFF', borderRadius: 10, padding: 8 },
   historyStars: { color: '#855100', backgroundColor: '#FFF3D5', borderRadius: 10, paddingHorizontal: 8, paddingVertical: 5, fontFamily: FONTS.extraBold, fontSize: 12 },

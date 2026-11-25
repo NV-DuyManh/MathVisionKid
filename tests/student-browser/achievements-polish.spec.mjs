@@ -3,7 +3,7 @@ import { test, expect, sites, login } from '../browser/fixtures.mjs';
 for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
   test(`leaderboard and privacy controls at ${width}px`, async ({ page, app }, testInfo) => {
     app.realStudent = true;
-    const rank = { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 };
+    const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
     let profile = {
       displayName: 'Tên riêng của em', gradeLevel: 5, joinedAt: null, classrooms: [], avatar: 'star',
       leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null,
@@ -70,7 +70,7 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
 
 test('retries ranking and locates the student', async ({ page, app }, testInfo) => {
   app.realStudent = true;
-  const rank = { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 };
+  const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
   const profile = {
     displayName: 'Tên riêng của em', gradeLevel: 5, joinedAt: null, classrooms: [], avatar: 'star',
     leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null,

@@ -8,6 +8,7 @@ import com.mathvisionkids.api.classroom.Classroom;
 import com.mathvisionkids.api.classroom.ClassroomRepository;
 import com.mathvisionkids.api.common.ApiException;
 import com.mathvisionkids.api.user.*;
+import com.mathvisionkids.api.studentprofile.StudentProfileService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,6 +31,7 @@ public class AdminService {
     private final AuditEventRepository auditEventRepository;
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
+    private final StudentProfileService studentProfiles;
 
     public AdminService(UserRepository userRepository,
                         StudentRepository studentRepository,
@@ -37,7 +39,7 @@ public class AdminService {
                         ClassroomRepository classroomRepository,
                         AuditEventRepository auditEventRepository,
                         RefreshTokenService refreshTokenService,
-                        PasswordEncoder passwordEncoder) {
+                        PasswordEncoder passwordEncoder, StudentProfileService studentProfiles) {
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
@@ -45,6 +47,7 @@ public class AdminService {
         this.auditEventRepository = auditEventRepository;
         this.refreshTokenService = refreshTokenService;
         this.passwordEncoder = passwordEncoder;
+        this.studentProfiles = studentProfiles;
     }
 
     private void recordAudit(User actor, String eventType, Map<String, Object> metadata) {
@@ -272,8 +275,12 @@ public class AdminService {
         User target = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "User not found", HttpStatus.NOT_FOUND));
 
-        target.setActive(false);
-        userRepository.save(target);
+        if ("STUDENT".equals(target.getRole())) {
+            studentProfiles.changeRankingEligibility(userId, false);
+        } else {
+            target.setActive(false);
+            userRepository.save(target);
+        }
 
         // Revoke active refresh tokens immediately
         refreshTokenService.deleteByUserId(userId);
@@ -290,8 +297,12 @@ public class AdminService {
         User target = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException("NOT_FOUND", "User not found", HttpStatus.NOT_FOUND));
 
-        target.setActive(true);
-        userRepository.save(target);
+        if ("STUDENT".equals(target.getRole())) {
+            studentProfiles.changeRankingEligibility(userId, true);
+        } else {
+            target.setActive(true);
+            userRepository.save(target);
+        }
 
         Map<String, Object> meta = new HashMap<>();
         meta.put("targetUserId", userId.toString());

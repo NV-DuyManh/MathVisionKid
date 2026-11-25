@@ -1,0 +1,56 @@
+[
+  {
+    "path": "rank/01_dong.png",
+    "source_sha256": "3177593b9bccd253b08b2816ebf2e1d29f0e4d0b2a5ce13865d0408b754e19d2",
+    "sha256": "c29d109a84050d232326fbea66203372fc8b6bfdcf26b9878826d1e10b1435db",
+    "transparent_fraction": 0.7884114583333334
+  },
+  {
+    "path": "rank/02_bac.png",
+    "source_sha256": "84158121c48430e3314ebc70c3f7b414afc6750a423e484ba843547932c0e5b6",
+    "sha256": "be4a58ba1e4fda2750691489f9d9b0dcb7e47f2abaf1055fc3c4106e05f3191b",
+    "transparent_fraction": 0.7796495225694444
+  },
+  {
+    "path": "rank/03_vang.png",
+    "source_sha256": "bb2c159453323abfe3129b2c3fc482bfbdafe28d603157d052f9962605969985",
+    "sha256": "527eb092a0e511aa47cf9ac718c4652e621f9b3ca2f2acaa7edf6a63b132a045",
+    "transparent_fraction": 0.6937934027777778
+  },
+  {
+    "path": "rank/04_bach-kim.png",
+    "source_sha256": "a9f0d2a20829d9ecffb41c3f31d6e4b9a997461e6319403454ff0422e670528d",
+    "sha256": "4ae45e65deb9b5d8bf6001c77c64996e2912ae9fca614bda7361509b55a05f6c",
+    "transparent_fraction": 0.6106770833333334
+  },
+  {
+    "path": "rank/05_kim-cuong.png",
+    "source_sha256": "ee6e7b9f32d6000ed553944fbee683e56baaa547ba33ad158497c1279fd0de07",
+    "sha256": "4843223430d8806f508c8d5b37f9e0935e819c1736141c8ef51b43049f281985",
+    "transparent_fraction": 0.5978190104166666
+  },
+  {
+    "path": "rank/06_cao-thu.png",
+    "source_sha256": "ae7287d74cb5c2709d790e640be624a25575714fa194a5a528b857c8acdb43ea",
+    "sha256": "64fa27c2c24848f1efd09283f9f82bbed04d7a9360623ea0b8fdf5052bed377c",
+    "transparent_fraction": 0.6466742621527778
+  },
+  {
+    "path": "rank/07_dai-cao-thu.png",
+    "source_sha256": "a9e311c95762d2a9e481e177ddae4ea7804f2c832d7c911e4abbb337c645e599",
+    "sha256": "378fca5fd5dfaebc7702d293f7fe614219efdd16307485de0f1cc03dc9a5ccaf",
+    "transparent_fraction": 0.5786404079861112
+  },
+  {
+    "path": "rank/08_thach-dau.png",
+    "source_sha256": "347016968131c7499379eaeea4a974d2a3331efb96e676aaec495bb48f9d38ab",
+    "sha256": "d18beb1cde68395bee2923631473f6ea13e77135c0c2507698b7a3673faadc26",
+    "transparent_fraction": 0.6050889756944444
+  },
+  {
+    "path": "rank/09_huyen-thoai.png",
+    "source_sha256": "3dd9fbe43e8226530c89b8f41b905a9dc2fcbabbe3c2deb3008e8cb9b8e3488b",
+    "sha256": "bd203d9d4db5a18a6eb55b6049800c791de3564981095dbc7168c481a8c57f34",
+    "transparent_fraction": 0.3913302951388889
+  }
+]

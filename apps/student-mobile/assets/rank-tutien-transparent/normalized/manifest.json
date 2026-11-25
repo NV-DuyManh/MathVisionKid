@@ -1,0 +1,35 @@
+[
+  {
+    "file": "01_dong.png",
+    "source_sha256": "c29d109a84050d232326fbea66203372fc8b6bfdcf26b9878826d1e10b1435db",
+    "sha256": "69b86be61c980b6bcf3ae12688815edf0ee79eb33fc206a33458d49b00f659a8",
+    "visible_bounds": [
+      26,
+      22,
+      167,
+      170
+    ]
+  },
+  {
+    "file": "02_bac.png",
+    "source_sha256": "be4a58ba1e4fda2750691489f9d9b0dcb7e47f2abaf1055fc3c4106e05f3191b",
+    "sha256": "3a4d6603cfc8218363c2ce9c11213a99c09d387c3794eb328d302abe4f07836b",
+    "visible_bounds": [
+      26,
+      21,
+      164,
+      169
+    ]
+  },
+  {
+    "file": "03_vang.png",
+    "source_sha256": "527eb092a0e511aa47cf9ac718c4652e621f9b3ca2f2acaa7edf6a63b132a045",
+    "sha256": "5066ac9e5bd9069a077f64c7ba84a6bd320226505262e642cec43719af4c1ccf",
+    "visible_bounds": [
+      22,
+      32,
+      170,
+      159
+    ]
+  }
+]
