@@ -89,7 +89,7 @@ class PostgresUpgradeTest {
                 var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
                 assertEquals(41 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
-                assertEquals("41", upgrade.targetSchemaVersion);
+                assertEquals("41", latest.info().current().getVersion().getVersion());
                 assertTrue(latest.validateWithResult().validationSuccessful);
                 if (Integer.parseInt(startingVersion) >= 38) {
                     try (var result = sql.executeQuery("SELECT pin_hash, pin_revision FROM student_parent_control WHERE student_id = '" + id + "'")) {
