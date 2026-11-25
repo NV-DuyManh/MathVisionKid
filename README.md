@@ -1,6 +1,6 @@
 <div align="center">
 
-![MathVision Kids — Little steps. Big discoveries.](docs/media/readme-hero.jpg)
+![MathVision Kids — Hiểu từng bước, tự tin học Toán. Hai màn hình giới thiệu bài học và Góc phụ huynh.](docs/media/readme-hero.jpg)
 
 # MathVision Kids
 
