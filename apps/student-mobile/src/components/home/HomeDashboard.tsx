@@ -78,16 +78,16 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
   const registeredGrade = Number(profile.value?.gradeLevel ?? auth?.user?.gradeLevel ?? auth?.user?.grade);
   const hasRegisteredGrade = Number.isInteger(registeredGrade) && registeredGrade >= 1 && registeredGrade <= 5;
   const gradeLessons = hasRegisteredGrade ? getProblemsByGrade(registeredGrade as 1 | 2 | 3 | 4 | 5) : [];
-  const [ranking, setRanking] = useState<{ owner: string; grade: number; data: Leaderboard }>();
+  const [ranking, setRanking] = useState<{ owner: string; data: Leaderboard }>();
   useFocusEffect(useCallback(() => {
-    if (!desktop || !userKey || !hasRegisteredGrade) return;
+    if (!desktopWeb || !userKey) return;
     const request = new AbortController();
-    void profileApi.leaderboard(undefined, request.signal).then(data => {
-      if (!request.signal.aborted && (!data.gradeLevel || data.gradeLevel === registeredGrade)) setRanking({ owner: userKey, grade: registeredGrade, data });
+    void profileApi.leaderboard(undefined, request.signal, true).then(data => {
+      if (!request.signal.aborted && data.gradeLevel == null) setRanking({ owner: userKey, data });
     }).catch(() => {});
     return () => request.abort();
-  }, [desktop, hasRegisteredGrade, registeredGrade, userKey]));
-  const leaders = ranking?.owner === userKey && ranking?.grade === registeredGrade
+  }, [desktopWeb, userKey, profile.value?.leaderboardVisible, profile.value?.leaderboardNameHidden, profile.value?.publicAlias]));
+  const leaders = ranking && ranking.owner === userKey
     ? ranking.data.entries.filter(entry => !entry.self || profile.value?.leaderboardVisible === true).slice(0, 3) : undefined;
   const weeklyProgress = Math.min(profile.value?.stats.week ?? 0, WEEKLY_ACTIVITY_GOAL);
   const quickActions = [
@@ -214,11 +214,12 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       <Text style={styles.caption}>{profile.value.rank.name} · {profile.value.stars} sao</Text>
       <Pressable accessibilityRole="button" onPress={() => router.push('/(tabs)/achievements')} style={styles.textButton}><Text style={styles.link}>Xem xếp hạng</Text></Pressable>
     </View> : null}
-    {desktopWeb && hasRegisteredGrade ? <View style={[styles.desktopProgress, styles.leaderPanel]}>
+    {desktopWeb ? <View style={[styles.desktopProgress, styles.leaderPanel]}>
       <LinearGradient colors={['#643BD3', '#814CEB']} start={{ x: 0, y: 0 }} end={{ x: 1, y: .5 }} style={styles.leaderHeading}>
         <Ionicons name="trophy-outline" size={21} color="#FFE888" accessible={false} />
-        <Text accessibilityRole="header" style={styles.leaderTitle}>Bảng xếp hạng</Text><Text style={styles.leaderGrade}>Khối {registeredGrade}</Text>
+        <Text accessibilityRole="header" style={styles.leaderTitle}>Bảng xếp hạng</Text><Text style={styles.leaderGrade}>Tất cả khối</Text>
       </LinearGradient>
+      {leaders?.length === 0 && <Text style={styles.leaderEmpty}>Chưa có bạn nào được xếp hạng.</Text>}
       {leaders?.map((entry, index) => <View key={entry.position} style={[styles.leader, index === 0 && styles.leaderTop]}>
         <Text style={styles.link}>#{entry.position}</Text>
         <StudentAvatar id={entry.avatar} size={25} />
@@ -259,6 +260,7 @@ const styles = StyleSheet.create({
   progressLabel: { color: STUDENT_WEB.muted, fontFamily: FONTS.semiBold, fontSize: 12 },
   titleTile: { flex: 1, alignItems: 'center', padding: 8, gap: 5, borderRadius: 12, backgroundColor: STUDENT_WEB.soft },
   leaderPanel: { paddingHorizontal: 0, paddingTop: 0, overflow: 'hidden' },
+  leaderEmpty: { paddingHorizontal: 12, color: COLORS.textSecondary, fontFamily: FONTS.semiBold, fontSize: 12, textAlign: 'center' },
   leaderHeading: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 12 },
   leaderTitle: { flex: 1, fontFamily: FONTS.extraBold, fontSize: 16, color: '#FFF' },
   leaderGrade: { color: '#FFF', backgroundColor: '#FFFFFF26', fontFamily: FONTS.bold, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 10, fontSize: 12 },

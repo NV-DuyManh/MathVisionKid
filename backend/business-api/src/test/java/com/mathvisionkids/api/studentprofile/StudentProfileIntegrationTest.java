@@ -27,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class StudentProfileIntegrationTest {
     @Autowired StudentRepository students;
+    @Autowired com.mathvisionkids.api.user.UserRepository users;
     @Autowired StudentRewards rewards;
     @Autowired StudentProfileService profiles;
     @Autowired StudentGameService games;
@@ -578,11 +579,18 @@ class StudentProfileIntegrationTest {
         assertEquals(before.stars(), after.stars());
         assertEquals(before.history(), after.history());
         assertEquals(before.rank(), after.rank());
-        mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
+        mvc.perform(get("/api/v1/student/profile").header("X-MathVision-Client", "student-rank-v2").with(user(pupil.getEmail()).roles("STUDENT")))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.achievement").doesNotExist())
                 .andExpect(jsonPath("$.rank.name").value("Sắt III"));
+        mvc.perform(get("/api/v1/student/rank-milestones").header("X-MathVision-Client", "student-rank-v2").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(26))
+                .andExpect(jsonPath("$[0].scheme").value(2));
+        mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.rank.name").value("Đồng III"))
+                .andExpect(jsonPath("$.rank.scheme").value(1));
         mvc.perform(get("/api/v1/student/rank-milestones").with(user(pupil.getEmail()).roles("STUDENT")))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(26));
+                .andExpect(status().isOk()).andExpect(jsonPath("$[0].name").value("Đồng"))
+                .andExpect(jsonPath("$[0].scheme").value(1));
     }
 
     @Test void profileAndBoardUseAuthorizationAndPrivacyDefaults() throws Exception {
@@ -607,7 +615,7 @@ class StudentProfileIntegrationTest {
         assertFalse(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(e -> e.alias().equals(profile.publicAlias())));
     }
 
-    @Test void tiedPositionsAreStableAndChallengerFallsBackWhenAnotherPupilPasses() {
+    @Test void tiedPositionsAreStableAndChallengerFallsBackWhenAnotherPupilPasses() throws Exception {
         // Synthetic ranking history goes straight to the test database to exercise all 201 positions.
         transaction.executeWithoutResult(status -> {
             db.update("UPDATE student_profile_preferences SET leaderboard_visible = FALSE");
@@ -626,12 +634,49 @@ class StudentProfileIntegrationTest {
         assertEquals("Huyền Thoại", profiles.get(pupil.getEmail()).rank().name());
         assertEquals(201L, profiles.get(other.getEmail()).position());
         assertEquals("Thách Đấu", profiles.get(other.getEmail()).rank().name());
+        // Position 201 enters the Top 200 and then drops out without ever opening
+        // their profile or making an award during that interval.
+        var admin = new com.mathvisionkids.api.user.User();
+        admin.setEmail(UUID.randomUUID() + "@admin-ranking.test");
+        admin.setPasswordHash("unused");
+        admin.setRole("ADMIN");
+        admin.setDisplayName("Test Admin");
+        users.saveAndFlush(admin);
+        var adminRequest = user(admin.getEmail()).roles("ADMIN");
+        mvc.perform(post("/api/v1/admin/users/" + pupil.getId() + "/disable").with(adminRequest))
+                .andExpect(status().isOk());
+        mvc.perform(post("/api/v1/admin/users/" + pupil.getId() + "/enable").with(adminRequest))
+                .andExpect(status().isOk());
+        var former = profiles.get(other.getEmail());
+        assertEquals(201L, former.position());
+        assertEquals("Thách Đấu", former.rank().name());
+        assertEquals("Huyền Thoại", former.highestRank());
+        mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.rank.name").value("Thách Đấu"));
+        mvc.perform(get("/api/v1/student/profile").with(user(other.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.rank.name").value("Chiến Tướng"));
+        mvc.perform(get("/api/v1/student/profile").header("X-MathVision-Client", "student-rank-v2")
+                        .with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.rank.name").value("Huyền Thoại"));
+        mvc.perform(get("/api/v1/student/leaderboard").param("allGrades", "true").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.entries[199].rank.name").value("Thách Đấu"));
+        mvc.perform(get("/api/v1/student/leaderboard").param("allGrades", "true").header("X-MathVision-Client", "student-rank-v2")
+                        .with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.entries[199].rank.name").value("Huyền Thoại"));
         db.update("""
                 INSERT INTO student_verified_activities VALUES (?, 'QUIZ', 'rank-up', 'rank-up', CURRENT_TIMESTAMP, CURRENT_DATE, 1)
                 """, other.getId());
         assertEquals(201L, profiles.get(pupil.getEmail()).position());
         assertEquals("Thách Đấu", profiles.get(pupil.getEmail()).rank().name());
         assertEquals("Huyền Thoại", profiles.get(pupil.getEmail()).highestRank());
+        mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.rank.name").value("Chiến Tướng"))
+                .andExpect(jsonPath("$.highestRank").value("Thách Đấu"));
+        var hidden = profiles.update(pupil.getEmail(), new Edit("Sao Sáng", "moon", false, null));
+        assertNull(hidden.position());
+        assertEquals("Thách Đấu", hidden.rank().name());
+        assertEquals("Huyền Thoại", hidden.highestRank());
+        assertFalse(hidden.leaderboardVisible());
     }
 
     @Test void explicitVisibleNameSurvivesHttpSaveAndSubsequentProfileReads() throws Exception {
@@ -669,6 +714,38 @@ class StudentProfileIntegrationTest {
         students.saveAndFlush(other);
         assertEquals(4, profiles.leaderboard(other.getEmail(), null).gradeLevel());
         assertFalse(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(entry -> entry.alias().equals("Minh Anh")));
+    }
+
+    @Test void ranksAcrossGradesAndHonorsPrivacy() throws Exception {
+        pupil.setGradeLevel(5);
+        students.saveAndFlush(pupil);
+        rewards.record(pupil.getId(), StudentRewards.Source.LESSON, "rank-5", "rank-5");
+        rewards.record(pupil.getId(), StudentRewards.Source.LESSON, "rank-5-extra", "rank-5-extra");
+        rewards.record(other.getId(), StudentRewards.Source.LESSON, "rank-3", "rank-3");
+        var gradeFive = profiles.update(pupil.getEmail(), new Edit("Tên lớp năm", "moon", true, null, false, true));
+        var gradeThree = profiles.update(other.getEmail(), new Edit("Tên lớp ba", "star", true, null, false, true));
+
+        var all = profiles.leaderboard(other.getEmail(), null, true);
+        var firstStudent = all.entries().stream().filter(entry -> entry.alias().equals(gradeFive.publicAlias())).findFirst().orElseThrow();
+        var own = all.entries().stream().filter(Entry::self).findFirst().orElseThrow();
+        assertEquals(gradeThree.publicAlias(), own.alias());
+        assertEquals(own.position(), all.ownPosition());
+        assertTrue(firstStudent.position() < own.position());
+        assertFalse(profiles.leaderboard(other.getEmail(), null).entries().contains(firstStudent));
+        mvc.perform(get("/api/v1/student/leaderboard").param("allGrades", "true")
+                        .with(user(other.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.ownPosition").value(own.position()))
+                .andExpect(jsonPath("$.gradeLevel").doesNotExist())
+                .andExpect(jsonPath("$.entries[?(@.alias == '%s')]".formatted(gradeFive.publicAlias())).isNotEmpty());
+        mvc.perform(get("/api/v1/student/leaderboard").param("allGrades", "true")
+                        .param("classroom", UUID.randomUUID().toString()).with(user(other.getEmail()).roles("STUDENT")))
+                .andExpect(status().isBadRequest());
+
+        profiles.update(pupil.getEmail(), new Edit("Tên lớp năm", "moon", false, null));
+        assertFalse(profiles.leaderboard(other.getEmail(), null, true).entries().stream()
+                .anyMatch(entry -> entry.alias().equals(gradeFive.publicAlias())));
+        assertNull(profiles.leaderboard(pupil.getEmail(), null, true).ownPosition());
     }
 
     @Test void legacyAliasesAreReplacedOnFirstProfileReadAndConcurrentReadsKeepOneAlias() throws Exception {

@@ -27,7 +27,7 @@ export function StudentAvatar({ id, size = 54, photo }: { id: string; size?: num
 
 export function ProfileRankCard({ profile, compactWeb = false }: { profile: StudentProfile; compactWeb?: boolean }) {
   const { stars, position, rank, highestRank } = profile;
-  const topName = "Huyền Thoại";
+  const topName = rank.scheme === 2 ? "Huyền Thoại" : "Thách Đấu";
   const next = rank.goal > 0 ? rank.goal - rank.progress : 0;
   const progressStars = rank.progress;
   const goalStars = rank.goal;
@@ -47,9 +47,10 @@ export function ProfileRankCard({ profile, compactWeb = false }: { profile: Stud
       <Text style={styles.light}><Text style={styles.webRankProgressCount}>{progressStars}/{goalStars} sao trong bậc · </Text>Còn {next} sao để lên bậc tiếp theo</Text>
     </> : <Text style={styles.light}>{rank.name === topName
       ? 'Em đang ở bậc ' + topName + '.'
-      : 'Đạt Top 200 toàn hệ thống để lên ' + topName + '.'}</Text>}
+      : rank.scheme === 2 || rank.scheme === 1 || rank.scheme === undefined
+        ? 'Đạt Top 200 toàn hệ thống để lên ' + topName + '.' : 'Xem lộ trình xếp hạng để biết điều kiện tiếp theo.'}</Text>}
     <Text style={styles.light}>Hạng cao nhất · {highestRank}</Text>
-    {position !== null && <Text style={styles.light}>Vị trí khối {profile.gradeLevel} · #{position}</Text>}
+    {!IS_STUDENT_WEB && position !== null && <Text style={styles.light}>Vị trí khối {profile.gradeLevel} · #{position}</Text>}
   </>;
   return IS_STUDENT_WEB && !compactWeb ? <LinearGradient colors={['#4A2DAD', '#6944DD', '#8A4FE9']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
     style={[styles.rankCard, styles.webRankCard]}>

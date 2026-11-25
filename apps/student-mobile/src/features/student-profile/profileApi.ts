@@ -2,7 +2,7 @@ import apiClient from '../../services/api/apiClient';
 import { Platform } from 'react-native';
 import { tokenStorage } from '../../services/auth/tokenStorage';
 
-export type Rank = { name: string; masterStars: number; progress: number; goal: number };
+export type Rank = { name: string; masterStars: number; progress: number; goal: number; scheme?: number };
 export type StudentTitle = { id: string; name: string; rarity: string; description: string; progress: number; goal: number; unlocked: boolean };
 export type StudentProfile = {
   displayName: string;
@@ -30,19 +30,20 @@ export type Leaderboard = {
   ownPosition: number | null;
   entries: { position: number; alias: string; avatar: string; stars: number; rank: Rank; self: boolean }[];
 };
-export type RankMilestone = { name: string; stars: number; top: number | null };
+export type RankMilestone = { name: string; stars: number; top: number | null; scheme?: number };
 export type GameMode = 'ARITHMETIC_QUEST' | 'RACE_TO_FINISH' | 'TERRAIN_RACING' | 'ENERGY_DEFENSE' | 'PLANET_RESCUE' | 'BLOCK_ISLAND';
 export type GameRun = {
   id: string; question: number; prompt: string | null; correct: number; length: number; completed: boolean; stars: number;
   rewardStatus?: 'AWARDED' | 'REPEAT' | 'DAILY_LIMIT' | 'GAME_LIMIT' | 'UNAVAILABLE' | null;
 };
 const root = '/student';
+const rankHeaders = { 'X-MathVision-Client': 'student-rank-v2' };
 export const profileApi = {
   async get(signal: AbortSignal) {
-    return (await apiClient.get<StudentProfile>(root + '/profile', { signal })).data;
+    return (await apiClient.get<StudentProfile>(root + '/profile', { signal, headers: rankHeaders })).data;
   },
   async update(edit: ProfileEdit, signal: AbortSignal) {
-    const config = { signal, _identity: await tokenStorage.getSessionId() };
+    const config = { signal, _identity: await tokenStorage.getSessionId(), headers: rankHeaders };
     let next = (await apiClient.put<StudentProfile>(root + '/profile', edit, config)).data;
     const matchesPrivacy = (value: StudentProfile) => value?.leaderboardVisible === edit.leaderboardVisible
       && (edit.leaderboardNameHidden === undefined || value?.leaderboardNameHidden === edit.leaderboardNameHidden);
@@ -60,14 +61,14 @@ export const profileApi = {
       if (!response.ok) throw new Error('Chưa mở được ảnh đã chọn.');
       form.append('file', await response.blob(), 'avatar.png');
     } else form.append('file', { uri, name: 'avatar.png', type: 'image/png' } as any);
-    const config = { signal, _identity: identity, transformRequest: [(value: unknown) => value], headers: { 'Content-Type': undefined } };
+    const config = { signal, _identity: identity, transformRequest: [(value: unknown) => value], headers: { ...rankHeaders, 'Content-Type': undefined } };
     return (await apiClient.put<StudentProfile>(root + '/profile/photo', form, config)).data;
   },
-  async leaderboard(classroom: string | undefined, signal: AbortSignal) {
-    return (await apiClient.get<Leaderboard>(root + '/leaderboard', { params: { classroom }, signal })).data;
+  async leaderboard(classroom: string | undefined, signal: AbortSignal, allGrades?: true) {
+    return (await apiClient.get<Leaderboard>(root + '/leaderboard', { params: { classroom, allGrades }, signal, headers: rankHeaders })).data;
   },
   async rankMilestones(signal: AbortSignal) {
-    return (await apiClient.get<RankMilestone[]>(root + '/rank-milestones', { signal })).data;
+    return (await apiClient.get<RankMilestone[]>(root + '/rank-milestones', { signal, headers: rankHeaders })).data;
   },
   async startGame(mode: GameMode, signal: AbortSignal, identity: string | null) {
     const config = { params: { mode }, signal, _identity: identity };

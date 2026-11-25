@@ -33,3 +33,16 @@ it('renders all 26 rank divisions with shared major rank art', () => {
   expect(icons.slice(0,3).every(icon => icon.props.source === icons[0].props.source)).toBe(true);
   act(() => tree.unmount());
 });
+
+it.each([
+  [undefined, 'Thách Đấu', 'Em đang ở bậc Thách Đấu.'],
+  [1, 'Chiến Thần', 'Đạt Top 200 toàn hệ thống để lên Thách Đấu.'],
+  [2, 'Thách Đấu', 'Đạt Top 200 toàn hệ thống để lên Huyền Thoại.'],
+  [2, 'Huyền Thoại', 'Em đang ở bậc Huyền Thoại.'],
+] as const)('shows terminal guidance for scheme %s / %s', (scheme, name, expected) => {
+  let tree!: TestRenderer.ReactTestRenderer;
+  act(() => { tree = TestRenderer.create(<ProfileRankCard profile={{ ...profile, stars: 162,
+    rank: { name, masterStars: 75, progress: 0, goal: 0, scheme } }} />); });
+  expect(JSON.stringify(tree.toJSON())).toContain(expected);
+  act(() => tree.unmount());
+});

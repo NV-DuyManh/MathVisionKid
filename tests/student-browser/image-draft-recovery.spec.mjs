@@ -127,7 +127,13 @@ test('Crop edges, quarter turn and fine angle survive an immediate real reload',
     return Math.max(Math.abs(left.x - image.x), Math.abs(right.x - image.x - image.width),
       Math.abs(top.y - image.y), Math.abs(bottom.y - image.y - image.height));
   }).toBeLessThan(3);
-  await page.getByRole('button', { name: 'Thu hẹp từ cạnh trái', exact: true }).click();
+  await page.getByLabel('Kéo cạnh trái', { exact: true }).scrollIntoViewIfNeeded();
+  const [left] = await edges(page);
+  await page.mouse.move(left.x, left.y);
+  await page.mouse.down();
+  await page.mouse.move(left.x + 18, left.y, { steps: 5 });
+  await page.mouse.up();
+  await expect.poll(async () => (await edges(page))[0].x - left.x).toBeGreaterThan(12);
   await page.getByRole('button', { name: 'Xoay ảnh 90 độ', exact: true }).click();
   const angle = page.getByRole('slider', { name: 'Góc căn thẳng ảnh', exact: true });
   await angle.focus(); await angle.press('ArrowRight');
@@ -279,7 +285,8 @@ test('Editing changes metadata without rewriting photo blobs', async ({ page }) 
   });
   await start(page); await openCrop(page);
   const before = await page.evaluate(() => window.photoBlobWrites);
-  for (let i = 0; i < 5; i++) await page.getByRole('button', { name: 'Thu hẹp từ cạnh trái', exact: true }).click();
+  const edge = page.getByLabel('Kéo cạnh trái', { exact: true });
+  for (let i = 0; i < 5; i++) await edge.press('ArrowRight');
   expect(await page.evaluate(() => window.photoBlobWrites)).toBe(before);
 });
 

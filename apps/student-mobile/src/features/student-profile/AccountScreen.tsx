@@ -15,28 +15,21 @@ import { COLORS, FONTS, IS_STUDENT_WEB } from '../../constants/theme';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { StudentAvatar } from './ProfileCards';
 import { PersonalPageHeader } from './PersonalWeb';
+import { LogoutSheet } from './LogoutSheet';
 import { useStudentProfile } from './useStudentProfile';
 import { profileApi, type ProfileEdit, type StudentProfile } from './profileApi';
 import { tokenStorage } from '../../services/auth/tokenStorage';
 
 export function AccountScreen({ owner, openPrivacy = false, openLogout = false }: { owner: string; openPrivacy?: boolean; openLogout?: boolean }) {
-  const router = useRouter(), auth = useContext(AuthContext), profile = useStudentProfile(owner);
+  const router = useRouter(), profile = useStudentProfile(owner);
   const { width } = useWindowDimensions();
   const desktopWeb = IS_STUDENT_WEB && !isCompactStudentWeb(width);
   const [contentWidth, setContentWidth] = useState(0);
   const wide = desktopWeb ? contentWidth >= 850 : width >= 900;
-  const [confirmLogout, setConfirmLogout] = useState(false), [leaving, setLeaving] = useState(false);
-  const [logoutError, setLogoutError] = useState(false);
-  const logoutLock = useRef(false);
+  const [confirmLogout, setConfirmLogout] = useState(false);
   const closeLogout = () => {
-    if (leaving) return;
     setConfirmLogout(false);
     if (openLogout) router.setParams({ section: undefined });
-  };
-  const logout = async () => {
-    if (logoutLock.current) return;
-    logoutLock.current = true; setLeaving(true); setLogoutError(false);
-    try { await auth?.logout(); } catch { setLogoutError(true); } finally { logoutLock.current = false; setLeaving(false); }
   };
   const goBack = () => router.canGoBack() ? router.back() : router.replace('/(tabs)/profile');
   return <SafeAreaView style={[s.screen, desktopWeb && s.webScreen]} edges={['top', 'bottom']}>
@@ -62,12 +55,7 @@ export function AccountScreen({ owner, openPrivacy = false, openLogout = false }
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
-    {(confirmLogout || openLogout) && <LessonSheet title="Đăng xuất" compact onClose={closeLogout}>
-      <Text style={s.body}>Em có muốn đăng xuất khỏi tài khoản này?</Text>
-      {logoutError && <Text accessibilityRole="alert" style={s.error}>Chưa đăng xuất được. Em thử lại nhé.</Text>}
-      <AppButton title="Xác nhận đăng xuất" variant="danger" loading={leaving} loadingTitle="Đang đăng xuất…" onPress={() => { void logout(); }} />
-      <AppButton title="Ở lại" variant="secondary" disabled={leaving} onPress={closeLogout} />
-    </LessonSheet>}
+    {(confirmLogout || openLogout) && <LogoutSheet onClose={closeLogout} />}
   </SafeAreaView>;
 }
 

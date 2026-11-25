@@ -45,17 +45,23 @@ export function RankGuide({ onClose, profile }: { onClose: () => void; profile?:
     }).catch(() => { if (!call.signal.aborted) setFailed(true); });
     return () => call.abort();
   }, [retry]);
+  const scheme = rows?.[0]?.scheme ?? 1;
+  const consistent = !!rows?.length && (scheme === 1 || scheme === 2)
+    && rows.every(row => (row.scheme ?? 1) === scheme)
+    && (!profile || (profile.rank.scheme ?? 1) === scheme);
   return <LessonSheet title="Các bậc xếp hạng" onClose={onClose}>
     <Text style={s.body}>Hoàn thành bài học, Quiz và lượt chơi đủ điều kiện để tích sao và tiến lên các bậc xếp hạng.</Text>
     {failed ? <RecoveryNotice title="Chưa tải được các bậc" message="Em kiểm tra kết nối rồi thử lại nhé."
       actions={[{ label: 'Thử lại', onPress: () => { setFailed(false); setRetry(n => n + 1); } }]} />
+      : rows && !consistent ? <RecoveryNotice title="Chưa đồng bộ được các bậc" message="Em đóng lộ trình, tải lại thành tích rồi mở lại nhé." />
       : rows ? <View style={styles.journey}>{rows.map((row, index) => {
-        const current = profile?.rank.name === row.name;
-        const reached = !!profile && profile.stars >= row.stars && (!row.top || profile.rank.name === row.name);
+        const current = profile?.rank.name === row.name || (!!profile && scheme === 1 && profile.rank.name.replace(/ [IV]+$/, '') === row.name);
+        const everTop = !!profile && !!row.top && profile.highestRank === row.name;
+        const reached = !!profile && profile.stars >= row.stars && (!row.top || current || everTop);
         const major = row.name.replace(/ [IV]+$/, '');
         const tone = rankTones[rankNames.indexOf(major)] ?? rankTones[0];
         const nextRow = rows[index + 1];
-        const cost = nextRow ? nextRow.stars - row.stars : 0;
+        const cost = scheme === 2 && nextRow ? Math.max(0, nextRow.stars - row.stars) : 0;
         const earned = profile ? Math.min(cost, Math.max(0, profile.stars - row.stars)) : undefined;
         return <View key={row.name} testID="rank-milestone" style={styles.step}>
           <View style={styles.track}>
@@ -69,8 +75,8 @@ export function RankGuide({ onClose, profile }: { onClose: () => void; profile?:
               <View style={styles.copy}><Text style={styles.levelName}>{row.name}</Text>
                 <Text style={styles.requirement}>{row.top ? 'Từ ' + row.stars + ' sao và thuộc Top ' + row.top + ' toàn hệ thống' : row.stars === 0 ? 'Khởi đầu · 0 sao' : 'Từ ' + row.stars + ' sao'}</Text>
                 {nextRow && cost > 0 ? <Text style={styles.requirement}>{cost} sao để lên {nextRow.name}</Text> : null}
-                {nextRow?.top ? <Text style={styles.requirement}>Đạt Top {nextRow.top} để lên {nextRow.name}</Text> : null}
-                {current ? <Text style={[styles.status, { color: tone.text }]}>Cấp hiện tại</Text> : reached ? <Text style={[styles.status, { color: tone.text }]}>Đã đạt</Text> : null}
+                {scheme === 2 && nextRow?.top ? <Text style={styles.requirement}>Đạt Top {nextRow.top} để lên {nextRow.name}</Text> : null}
+                {current ? <Text style={[styles.status, { color: tone.text }]}>Cấp hiện tại</Text> : reached ? <Text style={[styles.status, { color: tone.text }]}>{everTop && !current ? 'Đã từng đạt · hiện chưa giữ hạng' : 'Đã đạt'}</Text> : null}
               </View>
               {profile && <View style={styles.endMark}><Ionicons name={current ? 'flag' : reached ? 'checkmark-circle' : 'lock-closed-outline'} size={18} color={tone.text} accessible={false} aria-hidden /></View>}
             </View>

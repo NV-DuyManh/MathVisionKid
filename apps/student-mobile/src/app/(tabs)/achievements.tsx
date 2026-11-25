@@ -19,16 +19,17 @@ import { PersonalMetrics, PersonalPageHeader } from '../../features/student-prof
 import { WEEKLY_ACTIVITY_GOAL } from '../../features/home/learningActivity';
 
 const LEADERBOARD_PAGE_SIZE = 10;
+const placeColors = ['#8B4E06', '#465779', '#91451E'];
+const historyLabels = { LESSON: 'Hoàn thành bài học', QUIZ: 'Giải đúng Quiz', GAME: 'Thắng lượt chơi' };
+const historyIcons = { LESSON: 'book-outline', QUIZ: 'checkmark-circle-outline', GAME: 'game-controller-outline' } as const;
 
 export default function AchievementsScreen() {
   const auth = useContext(AuthContext);
   const owner = auth?.user?.id ?? auth?.user?.userId;
-  const grade = Number(auth?.user?.gradeLevel ?? auth?.user?.grade);
-  const registeredGrade = Number.isInteger(grade) && grade >= 1 && grade <= 5 ? grade : undefined;
-  return <Achievements key={owner ?? 'signed-out'} owner={owner} registeredGrade={registeredGrade} />;
+  return <Achievements key={owner ?? 'signed-out'} owner={owner} />;
 }
 
-function Achievements({ owner, registeredGrade }: { owner?: string; registeredGrade?: number }) {
+function Achievements({ owner }: { owner?: string }) {
   const router = useRouter();
   const [width, setWidth] = useState(0);
   const web = Platform.OS === 'web';
@@ -43,9 +44,10 @@ function Achievements({ owner, registeredGrade }: { owner?: string; registeredGr
   useFocusEffect(useCallback(() => {
     if (!owner) return;
     const call = new AbortController();
-    if (Platform.OS === 'web') setVisibleEntries(LEADERBOARD_PAGE_SIZE);
+    if (web) setVisibleEntries(LEADERBOARD_PAGE_SIZE);
     setBoard(undefined);
-    void profileApi.leaderboard(undefined, call.signal).then(data => {
+    const loadBoard = web ? profileApi.leaderboard(undefined, call.signal, true) : profileApi.leaderboard(undefined, call.signal);
+    void loadBoard.then(data => {
       if (!call.signal.aborted) setBoard({ data });
     }).catch(() => {
       if (!call.signal.aborted) setBoard({ error: true });
@@ -53,45 +55,43 @@ function Achievements({ owner, registeredGrade }: { owner?: string; registeredGr
     return () => call.abort();
     // The retry counter intentionally reloads the focused request.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [owner, profile.value?.publicAlias, profile.value?.gradeLevel, profile.value?.leaderboardVisible, retry]));
+  }, [owner, web, profile.value?.publicAlias, profile.value?.gradeLevel, profile.value?.leaderboardVisible, profile.value?.leaderboardNameHidden, retry]));
   const current = board;
   const value = profile.value;
-  // The profile is the source of truth for the registered grade. A stale board
-  // response must not make the heading show a different grade.
-  const expectedGrade = value?.gradeLevel ?? registeredGrade;
-  const grade = web ? expectedGrade ?? current?.data?.gradeLevel : current?.data?.gradeLevel ?? value?.gradeLevel;
+  const grade = current?.data?.gradeLevel ?? value?.gradeLevel;
   const rankingPrivate = web && value?.leaderboardVisible === false;
   const listedEntries = current?.data?.entries.filter(item => !rankingPrivate || !item.self) ?? [];
-  const boardMatchesGrade = !web || !expectedGrade || !current?.data?.gradeLevel || expectedGrade === current.data.gradeLevel;
   const ownEntryIndex = listedEntries.findIndex(item => item.self);
-  const leaderboard = <View style={[s.card, desktopWeb && styles.webPanel]}>
+  const leaderboard = <View style={[s.card, web && styles.webPanel]}>
         <View style={styles.boardHeader}>
-          <View style={styles.grow}><Text accessibilityRole="header" style={s.heading}>Bảng xếp hạng{grade ? ` khối ${grade}` : ''}</Text>
-            <Text style={s.body}>Cùng các bạn chăm học mỗi ngày</Text></View>
+          {web && <View style={styles.boardIcon}><Ionicons name="trophy-outline" size={23} color="#895500" accessible={false} /></View>}
+          <View style={styles.grow}><Text accessibilityRole="header" style={s.heading}>Bảng xếp hạng{!web && grade ? ` khối ${grade}` : ''}</Text>
+            <Text style={web ? styles.boardScope : s.body}>{web ? 'Tất cả khối · Theo tổng số sao' : 'Cùng các bạn chăm học mỗi ngày'}</Text></View>
           <Pressable accessibilityRole="button" accessibilityLabel="Xem các bậc xếp hạng" onPress={() => setGuideOpen(true)} style={styles.rankHelp}>
             <Ionicons name="help-circle-outline" size={25} color={COLORS.primaryDark} accessible={false} /></Pressable>
         </View>
-        {!boardMatchesGrade ? <RecoveryNotice title="Bảng xếp hạng chưa đúng khối lớp" message="Em tải lại để xem các bạn cùng khối nhé."
-          actions={[{ label: 'Tải lại', accessibilityLabel: 'Tải lại bảng xếp hạng đúng khối lớp', icon: 'refresh-outline', onPress: () => setRetry(n => n + 1) }]} />
-          : current?.error ? <RecoveryNotice title="Chưa mở được bảng xếp hạng" message="Em kiểm tra kết nối rồi thử lại nhé."
+        {current?.error || (web && current?.data?.gradeLevel != null) ? <RecoveryNotice title="Chưa mở được bảng xếp hạng" message="Em thử tải lại bảng xếp hạng nhé."
           actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại bảng xếp hạng', icon: 'refresh-outline', onPress: () => setRetry(n => n + 1) }]} />
           : current?.data ? <>
-            <View style={styles.ownPosition}><Ionicons name="podium-outline" size={19} color={COLORS.primaryDark} accessible={false} />
+            <View style={[styles.ownPosition, web && styles.webOwnPosition]}><Ionicons name="podium-outline" size={19} color={COLORS.primaryDark} accessible={false} />
               <Text accessibilityLiveRegion="polite" style={styles.positionText}>{!rankingPrivate && current.data.ownPosition
                 ? `Vị trí của em · #${current.data.ownPosition}` : rankingPrivate
                   ? 'Em chưa tham gia bảng xếp hạng' : 'Hoàn thành hoạt động để nhận sao nhé'}</Text></View>
-            {listedEntries.length === 0 && <Text style={s.body}>{grade ? 'Chưa có bạn nào được xếp hạng trong khối này.' : 'Em cập nhật khối lớp trong hồ sơ để mở bảng xếp hạng nhé.'}</Text>}
+            {listedEntries.length === 0 && <Text style={s.body}>{web ? 'Chưa có bạn nào được xếp hạng.' : grade ? 'Chưa có bạn nào được xếp hạng trong khối này.' : 'Em cập nhật khối lớp trong hồ sơ để mở bảng xếp hạng nhé.'}</Text>}
             {web && ownEntryIndex >= visibleEntries && <AppButton title="Xem vị trí của em" variant="secondary"
               onPress={() => setVisibleEntries(Math.ceil((ownEntryIndex + 1) / LEADERBOARD_PAGE_SIZE) * LEADERBOARD_PAGE_SIZE)} />}
             {listedEntries.slice(0, visibleEntries).map(item => <View key={item.position} testID="leaderboard-entry" style={[styles.boardRow, web && styles.webBoardRow, item.self && styles.selfRow]}>
-              <View accessible={web} accessibilityLabel={`Vị trí ${item.position}`} style={[styles.positionBadge, web && item.position <= 3 && styles.topPosition]}>{web && item.position <= 3 && <Ionicons name={item.position === 1 ? 'trophy-outline' : 'medal-outline'} size={17} color={item.position === 1 ? '#A56200' : '#667085'} accessible={false} />}<Text style={styles.position}>{`#${item.position}`}</Text></View><StudentAvatar id={item.avatar} size={40} />
+              <View accessible={web} accessibilityLabel={`Vị trí ${item.position}`} style={[styles.positionBadge, web && styles.webPosition, web && placeStyles[item.position - 1]]}>
+                <Text style={[styles.position, web && styles.webPositionText, web && { color: placeColors[item.position - 1] ?? COLORS.primaryDark }]}>{`#${item.position}`}</Text>
+              </View>
+              <StudentAvatar id={item.avatar} size={web && compactWeb ? 34 : 40} />
               <View style={styles.grow}>
                 <View style={styles.nameRow}><Text style={styles.alias}>{web && item.self
                   ? value?.leaderboardNameHidden === false ? value.displayName : value?.publicAlias?.trim() || 'Bạn chăm học'
                   : item.alias?.trim() || 'Bạn chăm học'}</Text>{item.self && <Text style={styles.selfBadge}>Em</Text>}</View>
                 <View style={styles.rankRow}><RankEmblem name={item.rank.name} size={22} /><Text style={styles.rankName}>{item.rank.name}</Text></View>
               </View>
-              <View accessibilityLabel={`${item.stars} sao`} style={styles.stars}><Ionicons name="star" size={14} color="#A56200" accessible={false} /><Text style={styles.starCount}>{web ? item.stars.toLocaleString('vi-VN') : item.stars}</Text></View>
+              <View accessible={web} accessibilityLabel={`${item.stars} sao`} style={[styles.stars, web && styles.webStars]}><Ionicons name="star" size={14} color="#A56200" accessible={false} /><Text style={styles.starCount}>{web ? item.stars.toLocaleString('vi-VN') : item.stars}</Text></View>
             </View>)}
             {listedEntries.length > visibleEntries && <AppButton title="Xem thêm xếp hạng" variant="secondary"
               onPress={() => setVisibleEntries(count => count + LEADERBOARD_PAGE_SIZE)} />}
@@ -109,12 +109,18 @@ function Achievements({ owner, registeredGrade }: { owner?: string; registeredGr
             <AppButton title="Chơi luyện toán" variant="secondary" onPress={() => router.push('/games/arithmetic-quest')} />
           </View>
         </View>;
-  const history = value && <View style={[s.card, desktopWeb && styles.webPanel]}>
+  const history = value && <View style={[s.card, web && styles.webPanel]}>
           <Text accessibilityRole="header" style={s.heading}>Những lần em nhận sao</Text>
           {value.history.length === 0 && <Text style={s.body}>Sao sẽ xuất hiện khi em hoàn thành hoạt động đủ điều kiện.</Text>}
-          {value.history.map((item, index) => <Text key={item.completedAt + item.source + index} style={s.body}>
-            +{item.stars} sao · {{ LESSON: 'Hoàn thành bài học', QUIZ: 'Giải đúng Quiz', GAME: 'Thắng lượt chơi' }[item.source]} · {new Date(item.completedAt).toLocaleDateString('vi-VN')}
-          </Text>)}
+          {value.history.map((item, index) => {
+            const key = item.completedAt + item.source + index;
+            const date = new Date(item.completedAt).toLocaleDateString('vi-VN', web ? { timeZone: 'Asia/Ho_Chi_Minh' } : undefined);
+            return web ? <View key={key} style={styles.historyRow}>
+              <View style={styles.historyIcon}><Ionicons name={historyIcons[item.source]} size={17} color={COLORS.primaryDark} accessible={false} /></View>
+              <View style={styles.grow}><Text style={styles.titleName}>{historyLabels[item.source]}</Text><Text style={styles.titleDetail}>{date}</Text></View>
+              <Text style={styles.historyStars}>+{item.stars} sao</Text>
+            </View> : <Text key={key} style={s.body}>+{item.stars} sao · {historyLabels[item.source]} · {date}</Text>;
+          })}
         </View>;
   const rank = value && <ProfileRankCard profile={value} compactWeb={compactWeb} />;
   const compactIdentity = compactWeb && value && <View style={styles.compactIdentity}>
@@ -156,7 +162,7 @@ function Achievements({ owner, registeredGrade }: { owner?: string; registeredGr
         {tasks}
         {history}
       </> : <>
-        {compactWeb ? <>{rank}{compactIdentity}{leaderboard}</> : <View style={styles.mainColumns}>
+        {compactWeb ? <>{rank}{leaderboard}{compactIdentity}</> : <View style={styles.mainColumns}>
           <View style={styles.mainColumn}>{rank}</View>
           <View style={styles.mainColumn}>{leaderboard}</View>
         </View>}
@@ -181,20 +187,36 @@ const styles = StyleSheet.create({
   webScreen: { backgroundColor: STUDENT_WEB.background },
   compactContent: { paddingTop: 12 },
   webContent: { maxWidth: '100%', paddingTop: 18, paddingHorizontal: 22, gap: 12 },
-  webPanel: { borderColor: STUDENT_WEB.border, borderRadius: STUDENT_WEB.radius, padding: 20 },
+  webPanel: { borderColor: STUDENT_WEB.border, borderRadius: STUDENT_WEB.radius, padding: 16, gap: 10 },
   wideContent: { paddingBottom: 38 },
   mainColumns: { gap: 16 }, wideColumns: { flexDirection: 'row', alignItems: 'flex-start', gap: 24 },
   mainColumn: { gap: 16, minWidth: 0 }, rankColumn: { flex: 1.65 }, boardColumn: { flex: 1 },
+  titleName: { color: COLORS.textPrimary, fontFamily: FONTS.extraBold, fontSize: 14, lineHeight: 18 },
+  titleDetail: { color: STUDENT_WEB.muted, fontFamily: FONTS.semiBold, fontSize: 12, lineHeight: 17 },
+  historyRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 7, borderTopWidth: 1, borderColor: '#EEE8F7' },
+  historyIcon: { backgroundColor: '#F1EAFF', borderRadius: 10, padding: 8 },
+  historyStars: { color: '#855100', backgroundColor: '#FFF3D5', borderRadius: 10, paddingHorizontal: 8, paddingVertical: 5, fontFamily: FONTS.extraBold, fontSize: 12 },
   boardHeader: { flexDirection: 'row', alignItems: 'center', gap: 10 }, grow: { flex: 1, minWidth: 0, gap: 4 },
+  boardIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF1CB' },
+  boardScope: { color: STUDENT_WEB.muted, fontFamily: FONTS.bold, fontSize: 12, lineHeight: 17 },
   rankHelp: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.surfaceSubdued },
   ownPosition: { minHeight: 48, borderRadius: 14, padding: 12, backgroundColor: COLORS.primaryLight, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  webOwnPosition: { backgroundColor: '#F1EAFF', borderColor: '#E5D9FC', borderWidth: 1, minHeight: 42, padding: 9 },
   positionText: { flex: 1, fontFamily: FONTS.bold, fontSize: 14, color: COLORS.primaryDark },
   boardRow: { minHeight: 84, flexDirection: 'row', alignItems: 'center', gap: 10, padding: 12, borderRadius: 16, backgroundColor: COLORS.background, borderWidth: 1, borderColor: 'transparent' },
-  webBoardRow: { minHeight: 57, paddingVertical: 5, paddingHorizontal: 10, gap: 8, backgroundColor: STUDENT_WEB.background, borderColor: STUDENT_WEB.border },
-  positionBadge: { minWidth: 28, alignItems: 'center' }, topPosition: { borderRadius: 12, backgroundColor: '#FFF1CC', minHeight: 36, justifyContent: 'center', gap: 3, paddingHorizontal: 6 },
+  webBoardRow: { minHeight: 60, paddingVertical: 6, paddingHorizontal: 7, gap: 7, backgroundColor: '#FBF9FF', borderColor: '#ECE4F8' },
+  positionBadge: { minWidth: 28, alignItems: 'center' },
+  webPosition: { minWidth: 38, minHeight: 38, paddingHorizontal: 3, borderRadius: 10, justifyContent: 'center', backgroundColor: '#F0EAF9' },
+  webPositionText: { textAlign: 'center' },
   selfRow: { borderColor: '#BCA8F6', backgroundColor: '#F2ECFF' }, position: { minWidth: 28, fontFamily: FONTS.extraBold, fontSize: 16, color: COLORS.primaryDark },
   nameRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6 }, alias: { flexShrink: 1, fontFamily: FONTS.bold, fontSize: 15, lineHeight: 22, color: COLORS.textPrimary },
   selfBadge: { fontFamily: FONTS.bold, fontSize: 11, color: COLORS.primaryDark, backgroundColor: '#E2D6FF', paddingHorizontal: 7, paddingVertical: 2, borderRadius: 8 },
   rankRow: { flexDirection: 'row', alignItems: 'center', gap: 5 }, rankName: { fontFamily: FONTS.regular, fontSize: 12, color: COLORS.textSecondary },
   stars: { flexDirection: 'row', alignItems: 'center', gap: 4 }, starCount: { fontFamily: FONTS.extraBold, fontSize: 15, color: '#8C5400' },
+  webStars: { backgroundColor: '#FFF3D5', borderRadius: 10, paddingHorizontal: 6, paddingVertical: 4 },
+  goldPlace: { backgroundColor: '#FFF0C8' },
+  silverPlace: { backgroundColor: '#E9EFFA' },
+  bronzePlace: { backgroundColor: '#FBE7DA' },
 });
+
+const placeStyles = [styles.goldPlace, styles.silverPlace, styles.bronzePlace];

@@ -20,8 +20,12 @@ public final class StudentRank {
     public static final int CHALLENGER_SIZE = 200;
     public static final long CHALLENGER_MIN_STARS = 162;
 
-    public record Rank(String name, long masterStars, long progress, long goal) {}
-    public record Milestone(String name, long stars, Integer top) {}
+    public record Rank(String name, long masterStars, long progress, long goal, int scheme) {
+        public Rank(String name, long masterStars, long progress, long goal) { this(name, masterStars, progress, goal, 2); }
+    }
+    public record Milestone(String name, long stars, Integer top, int scheme) {
+        public Milestone(String name, long stars, Integer top) { this(name, stars, top, 2); }
+    }
 
     private static final List<Milestone> MILESTONES = buildMilestones();
 

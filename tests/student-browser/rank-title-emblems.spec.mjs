@@ -5,14 +5,14 @@ const milestones = [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 37, 42, 47, 52, 
 for (const width of [360, 768, 1440]) {
   test('single rank guide renders at '+width+'px', async ({ page, app }, testInfo) => {
     app.realStudent = true;
-    const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
+    const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3, scheme: 2 };
     let profile = { displayName:'Bạn nhỏ',gradeLevel:5,joinedAt:null,classrooms:[],avatar:'star',leaderboardVisible:true,leaderboardNameHidden:true,publicAlias:'Hươu Sao',selectedTitle:null,stars:1,rank,highestRank:rank.name,position:1,stats:{lessons:3,quizzes:0,games:0,days:1,week:3,month:3,today:3,streak:1},titles:[],history:[] };
     await page.route('**/api/v1/student/profile', async route => {
       if(route.request().method()==='PUT') profile={...profile,...route.request().postDataJSON()};
       await route.fulfill({json:profile});
     });
-    await page.route('**/api/v1/student/leaderboard*',route=>route.fulfill({json:{gradeLevel:5,ownPosition:1,entries:names.map((name,i)=>({position:i+1,alias:'Bạn '+(i+1),avatar:'star',stars:1,rank:{...rank,name},self:i===0}))}}));
-    await page.route('**/api/v1/student/rank-milestones',route=>route.fulfill({json:names.map((name,i)=>({name,stars:milestones[i],top:i===25?200:null}))}));
+    await page.route('**/api/v1/student/leaderboard*',route=>route.fulfill({json:{gradeLevel:null,ownPosition:1,entries:names.map((name,i)=>({position:i+1,alias:'Bạn '+(i+1),avatar:'star',stars:1,rank:{...rank,name},self:i===0}))}}));
+    await page.route('**/api/v1/student/rank-milestones',route=>route.fulfill({json:names.map((name,i)=>({name,stars:milestones[i],top:i===25?200:null,scheme:2}))}));
     await page.setViewportSize({width,height:900});
     await login(page,'STUDENT');
     await expect(page.getByText('Tiện ích nhanh',{exact:true})).toBeVisible();
@@ -49,5 +49,34 @@ for (const width of [360, 768, 1440]) {
     await page.screenshot({path:testInfo.outputPath('rank-guide.png'),fullPage:true});
     await guide.getByRole('button',{name:'Đóng Các bậc xếp hạng',exact:true}).click();
     await expect(page.getByRole('button',{name:'Lộ trình rank',exact:true})).toBeVisible();
+  });
+}
+
+for (const position of [201, null]) {
+  test('keeps historical top rank distinct from current rank at position ' + position, async ({ page, app }) => {
+    app.realStudent = true;
+    const rank = { name: 'Thách Đấu', masterStars: 75, progress: 0, goal: 0, scheme: 2 };
+    const profile = { displayName:'Bạn nhỏ',gradeLevel:5,joinedAt:null,classrooms:[],avatar:'star',
+      leaderboardVisible:position !== null,leaderboardNameHidden:true,publicAlias:'Hươu Sao',selectedTitle:null,
+      stars:162,rank,highestRank:'Huyền Thoại',position,stats:{lessons:3,quizzes:0,games:0,days:1,week:3,month:3,today:3,streak:1},titles:[],history:[] };
+    await page.route('**/api/v1/student/profile', route => route.fulfill({json:profile}));
+    await page.route('**/api/v1/student/leaderboard*',route=>route.fulfill({json:{gradeLevel:null,ownPosition:position,entries:[]}}));
+    let scheme = 2;
+    await page.route('**/api/v1/student/rank-milestones',route=>route.fulfill({json:names.map((name,i)=>({name,stars:milestones[i],top:i===25?200:null,scheme}))}));
+    await page.setViewportSize({width:390,height:900});
+    await login(page,'STUDENT');
+    await expect(page.getByText('Tiện ích nhanh',{exact:true})).toBeVisible();
+    await page.goto(sites.portal.origin+'/study/achievements');
+    await page.getByRole('button',{name:'Lộ trình rank',exact:true}).click();
+    const guide=page.getByRole('dialog');
+    const rows=guide.getByTestId('rank-milestone');
+    await expect(rows.nth(24).getByText('Cấp hiện tại',{exact:true})).toBeVisible();
+    await expect(rows.last().getByText('Đã từng đạt · hiện chưa giữ hạng',{exact:true})).toBeVisible();
+    await expect(rows.last().getByText('Cấp hiện tại',{exact:true})).toHaveCount(0);
+    await guide.getByRole('button',{name:'Đóng Các bậc xếp hạng',exact:true}).click();
+    scheme=1;
+    await page.getByRole('button',{name:'Lộ trình rank',exact:true}).click();
+    await expect(guide.getByText('Chưa đồng bộ được các bậc',{exact:true})).toBeVisible();
+    await expect(rows).toHaveCount(0);
   });
 }

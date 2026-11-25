@@ -1,7 +1,7 @@
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
-  test(`grade leaderboard and privacy controls remain usable at ${width}px`, async ({ page, app }, testInfo) => {
+  test(`leaderboard and privacy controls at ${width}px`, async ({ page, app }, testInfo) => {
     app.realStudent = true;
     const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
     let profile = {
@@ -9,25 +9,41 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
       leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null,
       stars: 1, rank, highestRank: rank.name, position: 1,
       stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
-      titles: [], history: [],
+      titles: [
+        { id: 'first', name: 'Tân Binh Tri Thức', rarity: 'Phổ biến', description: 'Hoàn thành bài học đầu tiên', unlocked: true, progress: 1, goal: 1 },
+        { id: 'quiz', name: 'Trúc Cơ', rarity: 'Hiếm', description: 'Giải đúng 5 Quiz', unlocked: false, progress: 2, goal: 5 },
+      ],
+      history: [{ source: 'LESSON', completedAt: '2026-11-24T20:00:00Z', stars: 1 }],
     };
     await page.route('**/api/v1/student/profile', async route => {
       if (route.request().method() === 'PUT') profile = { ...profile, ...route.request().postDataJSON() };
       await route.fulfill({ json: profile });
     });
-    await page.route('**/api/v1/student/leaderboard*', route => route.fulfill({ json: {
-      gradeLevel: 5, ownPosition: profile.leaderboardVisible ? 1 : null,
-      entries: profile.leaderboardVisible ? [{ position: 1, alias: profile.leaderboardNameHidden ? profile.publicAlias : profile.displayName,
-        avatar: 'star', stars: 1, rank, self: true }] : [],
-    } }));
+    await page.route('**/api/v1/student/leaderboard*', route => {
+      expect(new URL(route.request().url()).searchParams.get('allGrades')).toBe('true');
+      const leaders = [
+        { position: 1, alias: 'Mèo Mun', avatar: 'moon', stars: 12, rank: { ...rank, name: 'Bạc III' }, self: false },
+        { position: 2, alias: 'Sóc Nâu', avatar: 'leaf', stars: 8, rank: { ...rank, name: 'Đồng I' }, self: false },
+      ];
+      if (profile.leaderboardVisible) leaders.push({ position: 3, alias: profile.publicAlias, avatar: 'star', stars: 1, rank, self: true });
+      return route.fulfill({ json: { gradeLevel: null, ownPosition: profile.leaderboardVisible ? 3 : null, entries: leaders } });
+    });
     await page.setViewportSize({ width, height: 900 });
     await login(page, 'STUDENT');
     await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
-    await page.goto(`${sites.portal.origin}/study/achievements`);
-    await expect(page.getByRole('heading', { name: 'Bảng xếp hạng khối 5', exact: true })).toBeVisible();
+    if (width >= 768) {
+      await expect(page.getByText('Tất cả khối', { exact: true })).toBeVisible();
+      await expect(page.getByText('Mèo Mun', { exact: true })).toBeVisible();
+      await page.getByRole('button', { name: 'Xem bảng xếp hạng', exact: true }).click();
+    } else {
+      await page.goto(`${sites.portal.origin}/study/achievements`);
+    }
+    await expect(page.getByRole('heading', { name: 'Bảng xếp hạng', exact: true })).toBeVisible();
+    await expect(page.getByText('Tất cả khối · Theo tổng số sao', { exact: true })).toBeVisible();
     if (width < 768) await expect(page.getByRole('heading', { name: 'Em đang dùng bí danh', exact: true })).toBeVisible();
-    await expect(page.getByTestId('leaderboard-entry')).toContainText('Hươu Sao');
-    await expect(page.getByTestId('leaderboard-entry')).not.toContainText(profile.displayName);
+    await expect(page.getByTestId('leaderboard-entry')).toContainText(['Mèo Mun', 'Sóc Nâu', 'Hươu Sao']);
+    await expect(page.getByTestId('leaderboard-entry').last()).not.toContainText(profile.displayName);
+    await expect(page.getByText('25/11/2026', { exact: true })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
     await testInfo.attach(`achievements-${width}`, { body: await page.screenshot(), contentType: 'image/png' });
     if (width < 768) {
@@ -46,12 +62,13 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
     if (width < 768) await expect(page.getByRole('heading', { name: 'Em đang ẩn khỏi bảng xếp hạng', exact: true })).toBeVisible();
     await expect(page.getByText('Em chưa tham gia bảng xếp hạng', { exact: true })).toBeVisible();
     // Expo retains the previous, aria-hidden stack screen after opening a fresh tab route.
-    await expect(page.getByTestId('leaderboard-entry').filter({ visible: true })).toHaveCount(0);
+    await expect(page.getByTestId('leaderboard-entry').filter({ visible: true })).toHaveCount(2);
+    await expect(page.getByTestId('leaderboard-entry').getByText('Hươu Sao', { exact: true })).toHaveCount(0);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
   });
 }
 
-test('rejects a wrong-grade board and opens the private self row beyond the first page', async ({ page, app }, testInfo) => {
+test('retries ranking and locates the student', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
   const profile = {
@@ -69,10 +86,10 @@ test('rejects a wrong-grade board and opens the private self row beyond the firs
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/achievements`);
-  await expect(page.getByText('Bảng xếp hạng chưa đúng khối lớp', { exact: true })).toBeVisible();
+  await expect(page.getByText('Chưa mở được bảng xếp hạng', { exact: true })).toBeVisible();
   await expect(page.getByTestId('leaderboard-entry')).toHaveCount(0);
-  gradeLevel = 5;
-  await page.getByRole('button', { name: 'Tải lại bảng xếp hạng đúng khối lớp', exact: true }).click();
+  gradeLevel = null;
+  await page.getByRole('button', { name: 'Tải lại bảng xếp hạng', exact: true }).click();
   await expect(page.getByTestId('leaderboard-entry')).toHaveCount(10);
   await page.getByRole('button', { name: 'Xem vị trí của em', exact: true }).click();
   await expect(page.getByTestId('leaderboard-entry')).toHaveCount(12);
