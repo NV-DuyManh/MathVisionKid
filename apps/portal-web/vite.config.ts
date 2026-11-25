@@ -23,7 +23,8 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, portalRoot, 'VITE_');
   const production = command === 'build';
   const config = resolveAppConfig(env, production);
-  const studentWebRoot = resolve(portalRoot, '../../infra/local-runtime/student-web-preview');
+  const studentWebRoot = resolve(portalRoot, process.env.MATHVISION_STUDENT_PREVIEW_DIR ||
+    '../../infra/local-runtime/student-web-preview');
   const api = new URL(config.apiBaseUrl);
 
   return {

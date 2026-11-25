@@ -10,6 +10,20 @@ test('Portal offers one shared sign-in route before the visitor chooses an accou
   expect(app.requests.filter(request => request.path === '/auth/me')).toEqual([]);
 });
 
+test('Portal can retry opening Student without losing the session when the connection drops', async ({ page, app }) => {
+  await login(page, 'STUDENT');
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+  const requestsBeforeRetry = app.requests.filter(({ path }) => path === '/me').length;
+  const profileEndpoint = '**/api/v1/me';
+  await page.route(profileEndpoint, route => route.abort('internetdisconnected'));
+  await page.goto(`${sites.portal.origin}/student`);
+  await expect(page.getByRole('heading', { name: 'Chưa mở được bài học' })).toBeVisible();
+  await page.unroute(profileEndpoint);
+  await page.getByRole('button', { name: 'Thử lại', exact: true }).click();
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+  expect(app.requests.filter(({ path }) => path === '/me')).toHaveLength(requestsBeforeRetry + 1);
+});
+
 test('admin account confirmation can cancel, recover from a failure and lock the fixture account', async ({ page, app }, testInfo) => {
   let user = profile('TEACHER');
   let writes = 0;

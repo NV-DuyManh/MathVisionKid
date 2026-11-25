@@ -40,6 +40,33 @@ it('opens prepared curriculum speech with an explicit Vietnamese fallback label'
 });
 
 it.each([
+  'vi-VN-NamMinhNeural', 'vi-VN-HoaiMyNeural',
+] as const)('prepares one labelled fallback without changing the preferred voice when %s fails', async selected => {
+  await saveNarrationVoice(selected);
+  const failed = Object.assign(new Error('provider returned no audio'), { code: 'NARRATION_RENDER_FAILED' });
+  const download = downloadNarration as jest.Mock;
+  download.mockRejectedValueOnce(failed);
+  try {
+    await render();
+    expect(download).toHaveBeenCalledTimes(2);
+    expect(download).toHaveBeenNthCalledWith(1, source, paragraphs, expect.any(AbortSignal), selected, expect.any(Function));
+    expect(download).toHaveBeenNthCalledWith(2, { ...source, useFallback: true }, paragraphs, expect.any(AbortSignal), selected, expect.any(Function));
+    expect(text()).toContain('Đang dùng giọng Việt dự phòng.');
+    expect(view.root.findByType(AudioPlayback).props.uri).toBe('file:///private-speech.wav');
+    expect(download.mock.calls[0][2].aborted).toBe(true);
+  } finally { await saveNarrationVoice('vi-VN-NamMinhNeural'); }
+});
+
+it('shows recovery controls when the fallback render also fails', async () => {
+  const failed = Object.assign(new Error('provider returned no audio'), { code: 'NARRATION_RENDER_FAILED' });
+  (downloadNarration as jest.Mock).mockRejectedValue(failed);
+  await render();
+  expect(downloadNarration).toHaveBeenCalledTimes(2);
+  expect(text()).toContain('Chưa mở được giọng đọc');
+  expect(button('Tải lại lời giảng')).toBeTruthy();
+});
+
+it.each([
   ['Giọng nam', 'vi-VN-NamMinhNeural'],
   ['Giọng nữ', 'vi-VN-HoaiMyNeural'],
   ['Giọng thiết bị', 'device'],

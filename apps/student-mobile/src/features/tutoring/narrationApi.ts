@@ -68,7 +68,9 @@ export async function downloadNarration(source: NarrationSource, paragraphs: str
       // A view observing the shared download must not start another polling loop.
       notify(state);
       if (state.phase === 'ready') break;
-      if (state.phase === 'failed') throw new Error('Chưa chuẩn bị được âm thanh. Em thử lại nhé.');
+      if (state.phase === 'failed') {
+        throw Object.assign(new Error('Chưa chuẩn bị được âm thanh. Em thử lại nhé.'), { code: 'NARRATION_RENDER_FAILED' });
+      }
       // A completed job's WAV may have expired/been evicted. Idempotent prepare
       // can restore it; merely polling waiting would otherwise exhaust the deadline.
       if (state.phase === 'waiting') started = false;

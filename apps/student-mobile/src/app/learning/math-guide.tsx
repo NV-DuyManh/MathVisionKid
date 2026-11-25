@@ -841,7 +841,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
           <View style={styles.progressRow}><View style={styles.rail} accessible accessibilityRole="progressbar" accessibilityLabel="Tiến trình bài học"
             accessibilityValue={{ min: 0, max: lesson.outline.length, now: lesson.stepIndex, text: `Đã hoàn thành ${lesson.stepIndex} trên ${lesson.outline.length} bước` }}>
             {lesson.outline.map((_, index) => <View key={index} style={[styles.railStep, index < lesson.stepIndex && styles.railActive]} />)}
-          </View><Text style={styles.progressCount}>{summaryVisible ? lesson.stepIndex : Math.min(visibleStepIndex + 1, lesson.outline.length)}/{lesson.outline.length}</Text></View>
+          </View><Text style={styles.progressCount}>Đã xong {lesson.stepIndex}/{lesson.outline.length} bước</Text></View>
           {currentViewIndex > 0 ? <View style={styles.stepNavigation}>
             <Pressable accessibilityRole="button" accessibilityLabel="Bước trước" disabled={!!busy || visibleStepIndex === 0}
               accessibilityState={{ disabled: !!busy || visibleStepIndex === 0 }} onPress={() => {
