@@ -221,13 +221,11 @@ test('Student previews and crops a local worksheet without sending it', async ({
   await expect(angle).toHaveAttribute('aria-valuetext', '0,1 độ');
   await angle.press('ArrowLeft');
   await expect(angle).toHaveValue('0');
-  const edge = page.getByRole('combobox', { name: 'Cạnh cần chỉnh' });
+  await expect(page.getByRole('combobox', { name: 'Cạnh cần chỉnh' })).toHaveCount(0);
+  const edge = page.getByLabel('Kéo cạnh trên', { exact: true });
   await edge.focus();
-  await edge.press('Home');
-  await expect(edge).toHaveValue('top');
-  const shrink = page.getByRole('button', { name: 'Thu hẹp từ cạnh trên' });
-  await shrink.focus();
-  for (let i = 0; i < 5; i++) await shrink.press('Enter');
+  await expect(edge).toBeFocused();
+  for (let i = 0; i < 5; i++) await edge.press('ArrowDown');
   const sourceHeight = await cropImage.evaluate(async element => {
     const image = element instanceof HTMLImageElement ? element : element.querySelector('img');
     await image.decode();
