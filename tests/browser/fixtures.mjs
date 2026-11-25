@@ -105,8 +105,8 @@ export const test = base.extend({
         state.studentProfile ??= {
         displayName: 'Kiểm thử STUDENT', gradeLevel: 5, joinedAt: null, classrooms: [],
         avatar: 'star', leaderboardVisible: false, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null,
-        stars: 1, rank: { name: 'Đồng III', masterStars: 0, progress: 1, goal: 3 },
-        highestRank: 'Đồng III', position: null,
+        stars: 1, rank: { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 },
+        highestRank: 'Sắt III', position: null,
         stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
         titles: [], history: [{ source: 'LESSON', completedAt: '2026-11-13T06:00:00Z', stars: 1 }],
         };

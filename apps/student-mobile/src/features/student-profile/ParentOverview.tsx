@@ -106,7 +106,6 @@ export function ParentHeroBanner({
 }) {
   const { width } = useWindowDimensions();
   const wide = width >= 760;
-  const unlockedTitles = student?.titles.filter(title => title.unlocked).length ?? 0;
 
   return (
     <LinearGradient
@@ -138,7 +137,6 @@ export function ParentHeroBanner({
           <Text style={styles.heroMeta}>
             {student?.gradeLevel !== null && student?.gradeLevel !== undefined ? `Lớp ${student.gradeLevel}` : 'Tài khoản học sinh'}
             {student?.classrooms?.length ? ` · ${student.classrooms.map(c => c.name).join(', ')}` : ''}
-            {unlockedTitles > 0 ? ` · ${unlockedTitles} danh hiệu` : ''}
           </Text>
         </View>
       </View>

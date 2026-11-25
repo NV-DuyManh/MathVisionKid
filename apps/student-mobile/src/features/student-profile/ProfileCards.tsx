@@ -26,17 +26,16 @@ export function StudentAvatar({ id, size = 54, photo }: { id: string; size?: num
 }
 
 export function ProfileRankCard({ profile, compactWeb = false }: { profile: StudentProfile; compactWeb?: boolean }) {
-  const { rank, stars, highestRank, position } = profile;
+  const { stars, position, rank, highestRank } = profile;
+  const topName = rank.scheme === 2 ? "Huyền Thoại" : "Thách Đấu";
   const next = rank.goal > 0 ? rank.goal - rank.progress : 0;
-  const progressStars = IS_STUDENT_WEB ? stars : rank.progress;
-  const goalStars = IS_STUDENT_WEB ? stars + next : rank.goal;
-  const title = profile.titles.find(t => t.id === profile.selectedTitle);
+  const progressStars = rank.progress;
+  const goalStars = rank.goal;
   const identity = <View style={styles.heroRow}>
     <RankEmblem name={rank.name} size={IS_STUDENT_WEB && !compactWeb ? 94 : undefined} />
     <View style={styles.grow}>
-      <Text style={styles.rankCaption}>HẠNG CỦA EM</Text>
+      <Text style={styles.rankCaption}>HẠNG THEO SAO</Text>
       <Text accessibilityRole="header" style={styles.rank}>{rank.name}</Text>
-      {title && <Text style={styles.light}>{title.name}</Text>}
       <Text style={styles.stars}>{stars} sao</Text>
     </View>
   </View>;
@@ -45,10 +44,11 @@ export function ProfileRankCard({ profile, compactWeb = false }: { profile: Stud
       <View accessibilityRole="progressbar" accessibilityLabel="Tiến độ lên hạng" accessibilityValue={{ min: 0, max: goalStars, now: progressStars }}
         aria-valuemin={0} aria-valuemax={goalStars} aria-valuenow={progressStars}
         style={styles.track}><View style={[styles.bar, { width: (100 * progressStars / goalStars) + '%' }]} /></View>
-      <Text style={styles.light}>{IS_STUDENT_WEB && <Text style={styles.webRankProgressCount}>{stars}/{goalStars} sao · </Text>}Còn {next} sao để lên bậc tiếp theo</Text>
-    </> : <Text style={styles.light}>{rank.name === 'Thách Đấu'
-      ? 'Em đang ở bậc Thách Đấu.'
-      : 'Đạt Top 200 toàn hệ thống để lên Thách Đấu.'}</Text>}
+      <Text style={styles.light}><Text style={styles.webRankProgressCount}>{progressStars}/{goalStars} sao trong bậc · </Text>Còn {next} sao để lên bậc tiếp theo</Text>
+    </> : <Text style={styles.light}>{rank.name === topName
+      ? 'Em đang ở bậc ' + topName + '.'
+      : rank.scheme === 2 || rank.scheme === 1 || rank.scheme === undefined
+        ? 'Đạt Top 200 toàn hệ thống để lên ' + topName + '.' : 'Xem lộ trình xếp hạng để biết điều kiện tiếp theo.'}</Text>}
     <Text style={styles.light}>Hạng cao nhất · {highestRank}</Text>
     {!IS_STUDENT_WEB && position !== null && <Text style={styles.light}>Vị trí khối {profile.gradeLevel} · #{position}</Text>}
   </>;
@@ -68,7 +68,7 @@ export function ProfileStats({ profile }: { profile: StudentProfile }) {
       [s.lessons, 'Bài đã hoàn thành'], [s.quizzes, 'Quiz giải đúng'], [s.games, 'Lượt chơi đạt yêu cầu'],
       [s.days, 'Ngày có hoạt động'], [s.week, 'Hoạt động trong 7 ngày'], [s.month, 'Hoạt động trong 30 ngày'],
     ].map(([value, label]) => <View key={label} style={styles.metric}><Text style={styles.metricValue}>{value}</Text><Text style={styles.body}>{label}</Text></View>)}</View>
-    <Text style={styles.body}>Học liên tiếp · {s.streak} ngày    Danh hiệu · {profile.titles.filter(t => t.unlocked).length}</Text>
+    <Text style={styles.body}>Học liên tiếp · {s.streak} ngày</Text>
   </View>;
 }
 
