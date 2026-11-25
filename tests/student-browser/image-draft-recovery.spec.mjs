@@ -207,6 +207,26 @@ test('Preview reload preserves the cropped bytes and a second reload keeps baked
   expect((await maskedPixels(page)).flat().every(channel => channel < 24)).toBe(true);
 });
 
+test('rotating in preview preserves the new orientation when reopening the crop', async ({ page }) => {
+  await start(page);
+  await openCrop(page);
+  await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  const preview = page.getByLabel('Ảnh bài toán em đã chọn');
+  await expect(preview).toBeVisible();
+  const original = await imageHash(page, 'Ảnh bài toán em đã chọn');
+  const rotate = page.getByRole('button', { name: 'Xoay ảnh 90 độ', exact: true });
+  await rotate.click();
+  await expect.poll(() => imageHash(page, 'Ảnh bài toán em đã chọn')).not.toBe(original);
+  await page.getByRole('button', { name: 'Chỉnh lại vùng bài toán', exact: true }).click();
+  const crop = page.getByLabel('Ảnh bài tập đang căn chỉnh').filter({ visible: true });
+  await expect(crop).toBeVisible();
+  const transform = () => crop.evaluate(image => getComputedStyle(image).transform);
+  await expect.poll(transform).toBe('matrix(0, 1, -1, 0, 0, 0)');
+  await page.reload();
+  await expect(crop).toBeVisible();
+  await expect.poll(transform).toBe('matrix(0, 1, -1, 0, 0, 0)');
+});
+
 test('The unapproved original is stored only as a short-lived privacy draft', async ({ page, app }) => {
   await start(page); await openPrivacy(page);
   const pending = await storage(page);

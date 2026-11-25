@@ -102,6 +102,8 @@ export default function PreviewScreen() {
       if (!current()) { imageDraftPersistence.releaseUrl(rotatedUri); return; }
       imageDraftPersistence.ownUrl(rotatedUri);
       setImageUri(rotatedUri);
+      const cropEdit = recognitionDraftStore.getDraft()?.cropEdit;
+      const selection = cropEdit?.selection ?? { x: 0, y: 0, w: 1, h: 1 };
       recognitionDraftStore.updateDraft({
         uri: rotatedUri,
         croppedImageUri: rotatedUri,
@@ -110,6 +112,11 @@ export default function PreviewScreen() {
         recoveredAfterReload: false,
         width: manipResult.width,
         height: manipResult.height,
+        ...(Platform.OS === 'web' && { cropEdit: {
+          turns: ((cropEdit?.turns ?? 0) + 1) % 4,
+          fine: cropEdit?.fine ?? 0,
+          selection: { x: Math.max(0, 1 - selection.y - selection.h), y: selection.x, w: selection.h, h: selection.w },
+        } }),
       });
       const updated = recognitionDraftStore.getDraft();
       if (updated) await imageDraftPersistence.confirm(updated, 'preview');
