@@ -16,50 +16,34 @@ $PidDir = Join-Path $RepoRoot "infra\local-runtime\pids"
 if (-not (Test-Path $PidDir)) { New-Item -ItemType Directory -Path $PidDir -Force | Out-Null }
 $MetroPidFile = Join-Path $PidDir "student-metro.pid"
 
-# Check if port 8081 is already running and identify the process
-$portInUse = $false
-$pidHoldingPort = $null
-
-$netstatOutput = netstat -ano | Select-String "\s+TCP\s+.*:8081\s+.*\s+LISTENING\s+(\d+)"
-if ($netstatOutput) {
-    if ($netstatOutput.Matches.Groups.Count -ge 2) {
-        $pidHoldingPort = $netstatOutput.Matches.Groups[1].Value
-        $portInUse = $true
+. (Join-Path $PSScriptRoot 'local-ports.ps1')
+$ports = Get-LocalPorts
+$metroPort = Select-LocalPort -Name 'Student Metro' -Preferred $ports.metro -Default 8081 `
+    -Reserved @($ports.spring, $ports.ai, $ports.portal, $ports.teacher, $ports.admin) -IsOwned {
+        param($ownerId)
+        $ownerId -eq (Get-TrackedMetroListener -Port $ports.metro -PidFile $MetroPidFile)
     }
+$running = Get-TrackedMetroListener -Port $metroPort -PidFile $MetroPidFile
+if ($running -and $ports.metroSpring -eq $ports.spring) {
+    Write-Host "  Student Metro is already running on port $metroPort (PID: $running)." -ForegroundColor Green
+    & node (Join-Path $RepoRoot 'scripts/dev/show-student-qr.cjs') $metroPort
+    exit $LASTEXITCODE
 }
-
-if ($portInUse) {
-    try {
-        $proc = Get-Process -Id $pidHoldingPort
-        $wmiProc = Get-CimInstance Win32_Process -Filter "ProcessId = $pidHoldingPort"
-        $isMetro = $false
-        
-        if ($proc.ProcessName -match "node" -and $wmiProc.CommandLine -match "react-native|expo|metro") {
-            $isMetro = $true
-        }
-
-        if ($isMetro) {
-            Write-Host "  Student Metro is already running on port 8081 (PID: $pidHoldingPort)." -ForegroundColor Green
-            & node (Join-Path $RepoRoot 'scripts\dev\show-student-qr.cjs')
-            exit $LASTEXITCODE
-        } else {
-            Write-Host "  PORT_CONFLICT: Port 8081 is occupied by a NON_METRO_PROCESS ($($proc.ProcessName), PID: $pidHoldingPort)." -ForegroundColor Red
-            Write-Host "  Student Metro launcher exiting safely without killing the unrelated process." -ForegroundColor Red
-            exit 1
-        }
-    } catch {
-        Write-Host "  PORT_CONFLICT: Port 8081 is occupied by an unknown process (PID: $pidHoldingPort)." -ForegroundColor Red
-        Write-Host "  Student Metro launcher exiting safely." -ForegroundColor Red
-        exit 1
+if ($running) {
+    $original = Get-Process -Id $running -ErrorAction SilentlyContinue
+    if ($original -and $running -eq (Get-TrackedMetroListener -Port $metroPort -PidFile $MetroPidFile)) {
+        Stop-Process -InputObject $original
+        $original.WaitForExit(5000) | Out-Null
     }
+    if (-not (Test-FreeLocalPort $metroPort)) { throw 'Metro could not reload the new API port.' }
 }
-
+$env:EXPO_PUBLIC_DEV_API_PORT = [string]$ports.spring
 Write-Host "  Launching Student Metro in visible LAN terminal..." -ForegroundColor Cyan
 
 # Launch in a visible cmd window so Expo's REAL LAN QR code is directly visible to the user
 $windowTitle = "MathVision Kids - Student Mobile (Metro LAN)"
 $proc = Start-Process -FilePath "cmd.exe" `
-    -ArgumentList "/k `"title $windowTitle && npm run start:device -- --go --port 8081`"" `
+    -ArgumentList "/k `"title $windowTitle && npm run start:device -- --go --port $metroPort`"" `
     -WorkingDirectory (Join-Path $RepoRoot "apps\student-mobile") `
     -PassThru
 
@@ -68,27 +52,26 @@ if ($proc) {
     Write-Host "  Student Metro launched (PID: $($proc.Id), title: '$windowTitle')" -ForegroundColor Green
 }
 
-# Wait for Metro Bundler on port 8081 (up to 45s)
-Write-Host "  Waiting for Metro Bundler to accept connections on port 8081..." -ForegroundColor Yellow
+# Wait for this Metro process to own the selected listener.
+Write-Host "  Waiting for Metro Bundler to accept connections on port $metroPort..." -ForegroundColor Yellow
 $metroReady = $false
 for ($i = 0; $i -lt 45; $i++) {
     Start-Sleep -Seconds 1
-    try {
-        $tcp = New-Object System.Net.Sockets.TcpClient
-        $tcp.Connect("127.0.0.1", 8081)
-        if ($tcp.Connected) {
-            $tcp.Close()
-            $metroReady = $true
-            break
-        }
-    } catch {}
+    if (Get-TrackedMetroListener -Port $metroPort -PidFile $MetroPidFile) {
+        $metroReady = $true
+        break
+    }
 }
 
 if ($metroReady) {
-    Write-Host "  Student Metro Bundler is READY on port 8081 (LAN mode)." -ForegroundColor Green
-    & node (Join-Path $RepoRoot 'scripts\dev\show-student-qr.cjs')
-    exit $LASTEXITCODE
+    Write-Host "  Student Metro Bundler is READY on port $metroPort (LAN mode)." -ForegroundColor Green
+    & node (Join-Path $RepoRoot 'scripts/dev/show-student-qr.cjs') $metroPort
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    $ports.metro = $metroPort
+    $ports.metroSpring = $ports.spring
+    Save-LocalPorts $ports
+    exit 0
 } else {
-    Write-Host "  WARN: Student Metro took longer than 45s to open port 8081. Check visible terminal." -ForegroundColor DarkYellow
+    Write-Host "  WARN: Student Metro took longer than 45s to open port $metroPort. Check visible terminal." -ForegroundColor DarkYellow
     exit 1
 }

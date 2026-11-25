@@ -8,6 +8,7 @@ $RepoRoot = if (Test-Path "$PSScriptRoot\..\..\package.json") {
 }
 Set-Location $RepoRoot
 . (Join-Path $PSScriptRoot 'local-env.ps1')
+. (Join-Path $PSScriptRoot 'local-ports.ps1')
 
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host " MathVision Kids -- Unified Local Launcher" -ForegroundColor Cyan
@@ -455,6 +456,10 @@ function Test-ServiceCommandIdentity {
     $normalizedCommand = $CommandLine.Replace('\', '/').ToLowerInvariant()
     $expectedPath = $WorkingDirectory.Replace('\', '/').TrimEnd('/').ToLowerInvariant()
     $pathMatches = $normalizedCommand -match ('(?:^|[\s";])' + [regex]::Escape($expectedPath) + '(?:/|[\s";]|$)')
+    if ($IdentityKind -eq 'vite') {
+        return $pathMatches -and $normalizedCommand -match '\bvite(?:\.js)?\b' -and
+            $normalizedCommand.Contains("$expectedPath/vite.config.ts")
+    }
     if ($IdentityKind -eq 'spring') {
         return $pathMatches -and $normalizedCommand -match 'com\.mathvisionkids\.api\.businessapiapplication|business-api[^\s"]*\.jar'
     }
@@ -550,7 +555,8 @@ function Start-TrackedService {
         [string]$LogFile,
         [string]$PidFile,
         [int]$PortCheck = 0,
-        [string]$IdentityKind = ''
+        [string]$IdentityKind = '',
+        [switch]$Refresh
     )
     if ($PortCheck -gt 0) {
         $portOpen = $false
@@ -574,11 +580,13 @@ function Start-TrackedService {
                     throw "PORT_CONFLICT: Could not verify the runtime on port $PortCheck."
                 }
             }
+            $stale = @()
             if ($IdentityKind -in @('spring','fastapi')) {
                 $sourceDir = if ($IdentityKind -eq 'spring') { Join-Path $WorkingDirectory 'src/main' } else { Join-Path $WorkingDirectory 'app' }
                 $inputs = @(Get-ChildItem -LiteralPath $sourceDir -Recurse -File | Where-Object { $_.Extension -in @('.java','.sql','.yml','.properties','.py') })
                 $inputs += Get-Item -LiteralPath $PSCommandPath
                 $inputs += Get-Item -LiteralPath (Join-Path $PSScriptRoot 'local-env.ps1')
+                $inputs += Get-Item -LiteralPath (Join-Path $PSScriptRoot 'local-ports.ps1')
                 foreach ($envName in @('.env','.env.local')) {
                     $envPath = Join-Path $WorkingDirectory $envName
                     if (Test-Path -LiteralPath $envPath) { $inputs += Get-Item -LiteralPath $envPath }
@@ -587,7 +595,8 @@ function Start-TrackedService {
                 }
                 $newest = ($inputs | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1).LastWriteTimeUtc
                 $stale = @($ownerIds | Where-Object { (Get-Process -Id $_).StartTime.ToUniversalTime() -lt $newest })
-                if ($stale.Count -gt 0) {
+            }
+            if ($Refresh -or $stale.Count -gt 0) {
                     Write-Host "  $Name has older loaded code/configuration; restarting this verified checkout." -ForegroundColor Yellow
                     foreach ($ownerId in $ownerIds) { Stop-Process -Id $ownerId -ErrorAction Stop }
                     for ($attempt=0; $attempt -lt 30; $attempt++) {
@@ -597,7 +606,6 @@ function Start-TrackedService {
                     if (Get-NetTCPConnection -LocalPort $PortCheck -State Listen -ErrorAction SilentlyContinue) { throw "STALE_RUNTIME: Port $PortCheck was not released" }
                     Start-TrackedService @PSBoundParameters
                     return
-                }
             }
             Write-Host "  $Name is already running on port $PortCheck with current source timestamps." -ForegroundColor Green
             return
@@ -640,6 +648,44 @@ Write-Host "`n[4/6] Starting application services..." -ForegroundColor Yellow
 
 # A. Spring Boot
 $SpringDir = Join-Path $RepoRoot "backend\business-api"
+$AiDir = Join-Path $RepoRoot "ai\runtime"
+$PortalDir = Join-Path $RepoRoot "apps\portal-web"
+$TeacherDir = Join-Path $RepoRoot "apps\teacher-web"
+$AdminDir = Join-Path $RepoRoot "apps\admin-web"
+$defaults = Get-LocalPorts -Defaults
+$previousPorts = Get-LocalPorts
+$ports = @{}
+foreach ($service in @(
+    @{ Key = 'spring'; Name = 'Spring Boot'; Directory = $SpringDir; Kind = 'spring' },
+    @{ Key = 'ai'; Name = 'FastAPI AI Runtime'; Directory = $AiDir; Kind = 'fastapi' },
+    @{ Key = 'portal'; Name = 'Unified Portal Web'; Directory = $PortalDir; Kind = 'vite' },
+    @{ Key = 'teacher'; Name = 'Teacher Web Portal'; Directory = $TeacherDir; Kind = 'vite' },
+    @{ Key = 'admin'; Name = 'Admin Web Portal'; Directory = $AdminDir; Kind = 'vite' }
+)) {
+    $key = $service.Key
+    $reserved = @($ports.Values) + @($defaults.Keys | Where-Object { $_ -notin @($key, 'metroSpring') } |
+        ForEach-Object { $defaults[$_]; $previousPorts[$_] })
+    $ports[$key] = Select-LocalPort -Name $service.Name -Preferred $previousPorts[$key] -Default $defaults[$key] -Reserved $reserved -IsOwned {
+        param($ownerId)
+        $owner = Get-CimInstance Win32_Process -Filter "ProcessId = $ownerId"
+        Test-ServiceProcessIdentity -Process $owner -WorkingDirectory $service.Directory -IdentityKind $service.Kind
+    }
+}
+$ports.metro = $previousPorts.metro
+$ports.metroSpring = $previousPorts.metroSpring
+$springPort = $ports.spring
+$aiPort = $ports.ai
+$springUrl = "http://127.0.0.1:$springPort"
+$aiUrl = "http://127.0.0.1:$aiPort"
+$env:SPRING_CALLBACK_BASE_URL = "$springUrl/internal/v1/ai/jobs"
+$env:VITE_API_BASE_URL = "http://localhost:$springPort/api/v1"
+$env:VITE_PORTAL_URL = "http://localhost:$($ports.portal)"
+$env:VITE_TEACHER_URL = "http://localhost:$($ports.teacher)"
+$env:VITE_ADMIN_URL = "http://localhost:$($ports.admin)"
+$springChanged = $springPort -ne $previousPorts.spring
+$aiChanged = $aiPort -ne $previousPorts.ai
+$webChanged = $springChanged -or @('portal','teacher','admin' | Where-Object { $ports[$_] -ne $previousPorts[$_] }).Count -gt 0
+
 $sharedInternalEnvFiles = @(
     (Join-Path $RepoRoot '.env'), (Join-Path $RepoRoot '.env.local'),
     (Join-Path $SpringDir '.env'), (Join-Path $SpringDir '.env.local')
@@ -651,31 +697,34 @@ if (-not $env:INTERNAL_API_KEY) { throw 'INTERNAL_API_KEY is required for the co
 $SpringPid = Join-Path $PidDir "spring.pid"
 $SpringLog = Join-Path $LogDir "spring.log"
 # Spring Boot does not read dotenv automatically. Scope these values to its child
-# process so keys cannot leak into AI, Vite, or Student processes. Its CLI pins
-# the local API to 8080 because a root-level PORT can belong to the AI runtime.
+# process so keys cannot leak into AI, Vite, or Student processes.
 $springEnvKeys = @(
     'SPRING_PROFILES_ACTIVE', 'PORT', 'SERVER_ADDRESS', 'DB_URL', 'DB_USERNAME',
     'DB_PASSWORD', 'JWT_SECRET', 'JWT_EXPIRATION', 'UPLOAD_ROOT', 'CORS_ALLOWED_ORIGINS',
     'MINIO_ENDPOINT', 'MINIO_ACCESS_KEY', 'MINIO_SECRET_KEY', 'MINIO_BUCKET',
     'AI_GATEWAY_MODE', 'AI_SERVICE_URL', 'AI_SERVICE_BASE_URL', 'INTERNAL_API_KEY',
     'AUTH_EMAIL_ENABLED', 'AUTH_EMAIL_FROM', 'MAIL_HOST', 'MAIL_PORT', 'MAIL_USERNAME',
-    'MAIL_PASSWORD', 'MAIL_SMTP_AUTH', 'MAIL_SMTP_STARTTLS',
-    'GOOGLE_AUTH_ENABLED', 'GOOGLE_CLIENT_ID', 'GOOGLE_ANDROID_CLIENT_ID', 'GOOGLE_IOS_CLIENT_ID'
+    'MAIL_PASSWORD', 'MAIL_SMTP_AUTH', 'MAIL_SMTP_STARTTLS'
 )
-Invoke-WithLocalEnvironment -Files @((Join-Path $RepoRoot '.env'), (Join-Path $SpringDir '.env')) -AllowedKeys $springEnvKeys -Action {
+Invoke-WithLocalEnvironment -Files $sharedInternalEnvFiles -AllowedKeys $springEnvKeys -Action {
+$cors = @(($env:CORS_ALLOWED_ORIGINS -split ',') | Where-Object { $_ }) +
+    @(foreach ($webPort in @(3000, $ports.portal, $ports.teacher, $ports.admin, $ports.metro)) {
+        "http://localhost:$webPort"
+        "http://127.0.0.1:$webPort"
+    })
+$env:CORS_ALLOWED_ORIGINS = ($cors | Select-Object -Unique) -join ','
 Start-TrackedService -Name "Spring Boot" `
     -FilePath "cmd.exe" `
-    -ArgumentList '/c gradlew.bat bootRun --args="--ai.gateway.mode=FASTAPI --spring.profiles.active=dev --server.port=8080"' `
+    -ArgumentList ('/c gradlew.bat bootRun --args="--ai.gateway.mode=FASTAPI --spring.profiles.active=dev --server.port={0} --ai.service.base-url={1} --ai.gateway.url={1}/internal/v1/jobs"' -f $springPort, $aiUrl) `
     -WorkingDirectory $SpringDir `
     -LogFile $SpringLog `
     -PidFile $SpringPid `
-    -PortCheck 8080 `
+    -PortCheck $springPort -Refresh:($aiChanged -or $webChanged) `
     -IdentityKind 'spring'
 }
 
 # B. FastAPI
-Invoke-WithLocalAiPort -Action {
-$AiDir = Join-Path $RepoRoot "ai\runtime"
+Invoke-WithLocalAiPort -Port $aiPort -Action {
 $FastApiPid = Join-Path $PidDir "fastapi.pid"
 $FastApiLog = Join-Path $LogDir "fastapi.log"
 $UvicornExe = Join-Path $AiDir ".venv\Scripts\uvicorn.exe"
@@ -683,11 +732,11 @@ if (-not (Test-Path $UvicornExe)) { $UvicornExe = "uvicorn" }
 Invoke-WithLocalSpeechTools -Action {
 Start-TrackedService -Name "FastAPI AI Runtime" `
     -FilePath $UvicornExe `
-    -ArgumentList "app.main:app --host 127.0.0.1 --port 8000" `
+    -ArgumentList "app.main:app --host 127.0.0.1 --port $aiPort" `
     -WorkingDirectory $AiDir `
     -LogFile $FastApiLog `
     -PidFile $FastApiPid `
-    -PortCheck 8000 `
+    -PortCheck $aiPort -Refresh:$springChanged `
     -IdentityKind 'fastapi'
 }
 
@@ -714,7 +763,7 @@ $workerConfig = @($sharedInternalEnvFiles + @(
     $PSCommandPath, (Join-Path $PSScriptRoot 'local-env.ps1')
 ) | Where-Object { Test-Path -LiteralPath $_ } | ForEach-Object { Get-Item -LiteralPath $_ })
 $newestWorkerConfig = ($workerConfig | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1).LastWriteTimeUtc
-if (@($celeryOwners | Where-Object { $_.CreationDate.ToUniversalTime() -lt $newestWorkerConfig }).Count -gt 0) {
+if ($celeryOwners.Count -gt 0 -and ($springChanged -or @($celeryOwners | Where-Object { $_.CreationDate.ToUniversalTime() -lt $newestWorkerConfig }).Count -gt 0)) {
     Write-Host '  Restarting verified project workers to load current shared configuration.' -ForegroundColor Yellow
     foreach ($owner in $celeryOwners) {
         Stop-VerifiedWorkerTree -ObservedProcess $owner -WorkingDirectory $AiDir
@@ -755,7 +804,7 @@ while ($authWait.Elapsed.TotalSeconds -lt $authTimeoutSeconds) {
         }
     }
     try {
-        $null = Invoke-WebRequest -Uri 'http://127.0.0.1:8000/internal/v1/tutor/runtime' `
+        $null = Invoke-WebRequest -Uri "$aiUrl/internal/v1/tutor/runtime" `
             -Headers @{ 'X-Internal-API-Key' = $env:INTERNAL_API_KEY } -TimeoutSec 2 -UseBasicParsing
         $authReady = $true
         break
@@ -770,40 +819,37 @@ if (-not $authReady) { throw "AI authenticated runtime did not become ready with
 }
 
 # D. Unified Portal Web
-$PortalDir = Join-Path $RepoRoot "apps\portal-web"
 $PortalPid = Join-Path $PidDir "portal-web.pid"
 $PortalLog = Join-Path $LogDir "portal-web.log"
 Start-TrackedService -Name "Unified Portal Web" `
     -FilePath "cmd.exe" `
-    -ArgumentList "/c npm run dev" `
+    -ArgumentList ('/c npm run dev -- --port {0} --strictPort --config "{1}\vite.config.ts"' -f $ports.portal, $PortalDir) `
     -WorkingDirectory $PortalDir `
     -LogFile $PortalLog `
     -PidFile $PortalPid `
-    -PortCheck 5172
+    -PortCheck $ports.portal -IdentityKind 'vite' -Refresh:$webChanged
 
 # E. Teacher Web
-$TeacherDir = Join-Path $RepoRoot "apps\teacher-web"
 $TeacherPid = Join-Path $PidDir "teacher-web.pid"
 $TeacherLog = Join-Path $LogDir "teacher-web.log"
 Start-TrackedService -Name "Teacher Web Portal" `
     -FilePath "cmd.exe" `
-    -ArgumentList "/c npm run dev" `
+    -ArgumentList ('/c npm run dev -- --port {0} --strictPort --config "{1}\vite.config.ts"' -f $ports.teacher, $TeacherDir) `
     -WorkingDirectory $TeacherDir `
     -LogFile $TeacherLog `
     -PidFile $TeacherPid `
-    -PortCheck 5173
+    -PortCheck $ports.teacher -IdentityKind 'vite' -Refresh:$webChanged
 
 # F. Admin Web
-$AdminDir = Join-Path $RepoRoot "apps\admin-web"
 $AdminPid = Join-Path $PidDir "admin-web.pid"
 $AdminLog = Join-Path $LogDir "admin-web.log"
 Start-TrackedService -Name "Admin Web Portal" `
     -FilePath "cmd.exe" `
-    -ArgumentList "/c npm run dev" `
+    -ArgumentList ('/c npm run dev -- --port {0} --strictPort --config "{1}\vite.config.ts"' -f $ports.admin, $AdminDir) `
     -WorkingDirectory $AdminDir `
     -LogFile $AdminLog `
     -PidFile $AdminPid `
-    -PortCheck 5174
+    -PortCheck $ports.admin -IdentityKind 'vite' -Refresh:$webChanged
 
 # 5. Wait for readiness with early-exit detection
 Write-Host "`n[5/6] Waiting for application services readiness..." -ForegroundColor Yellow
@@ -839,23 +885,23 @@ while ((Get-Date) - $startTime -lt (New-TimeSpan -Seconds $timeoutSeconds)) {
     $teacherUp = $false
     $adminUp = $false
     try {
-        $resp = Invoke-RestMethod -Uri "http://127.0.0.1:8080/actuator/health" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
+        $resp = Invoke-RestMethod -Uri "$springUrl/actuator/health" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.status -eq "UP") { $springUp = $true }
     } catch {}
     try {
-        $resp = Invoke-RestMethod -Uri "http://127.0.0.1:8000/ready" -TimeoutSec 5 -UseBasicParsing -ErrorAction SilentlyContinue
+        $resp = Invoke-RestMethod -Uri "$aiUrl/ready" -TimeoutSec 5 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.status -eq "ready") { $fastapiUp = $true }
     } catch {}
     try {
-        $resp = Invoke-WebRequest -Uri "http://localhost:5172" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
+        $resp = Invoke-WebRequest -Uri $env:VITE_PORTAL_URL -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.StatusCode -eq 200) { $portalUp = $true }
     } catch {}
     try {
-        $resp = Invoke-WebRequest -Uri "http://localhost:5173" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
+        $resp = Invoke-WebRequest -Uri $env:VITE_TEACHER_URL -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.StatusCode -eq 200) { $teacherUp = $true }
     } catch {}
     try {
-        $resp = Invoke-WebRequest -Uri "http://localhost:5174" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
+        $resp = Invoke-WebRequest -Uri $env:VITE_ADMIN_URL -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($resp.StatusCode -eq 200) { $adminUp = $true }
     } catch {}
 
@@ -872,23 +918,26 @@ if (-not $allReady) {
 # 6. Run Diagnostic
 Write-Host "`n[6/6] Running system diagnostics..." -ForegroundColor Yellow
 $DiagScript = Join-Path $RepoRoot "tools\diagnostics\check_runtime.py"
+$env:MATHVISION_LOCAL_PORTS = $ports | ConvertTo-Json -Compress
 Invoke-WithLocalEnvironment -Files $sharedInternalEnvFiles -AllowedKeys @('INTERNAL_API_KEY') -Action {
-    Invoke-WithLocalAiPort -Action {
+    Invoke-WithLocalAiPort -Port $aiPort -Action {
         Write-Host "Diagnostic internal authentication configured: $([bool]$env:INTERNAL_API_KEY)"
         & $PyVenvExe $DiagScript
         $script:diagCode = $LASTEXITCODE
     }
 }
+if ($diagCode -ne 0) { exit $diagCode }
+Save-LocalPorts $ports
 
 Write-Host "`n============================================" -ForegroundColor Cyan
 Write-Host " MathVision Kids -- Core Stack Services" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
-Write-Host "Unified Portal Web:  http://localhost:5172  <-- [MAIN ENTRY]"
-Write-Host "Admin Web Portal:    http://localhost:5174"
-Write-Host "Teacher Web Portal:  http://localhost:5173"
+Write-Host "Unified Portal Web:  $env:VITE_PORTAL_URL  <-- [MAIN ENTRY]"
+Write-Host "Admin Web Portal:    $env:VITE_ADMIN_URL"
+Write-Host "Teacher Web Portal:  $env:VITE_TEACHER_URL"
 Write-Host "Student Mobile:      Metro LAN (launch via RUN_MATHVISION.bat)"
-Write-Host "Spring Business API: http://127.0.0.1:8080"
-Write-Host "FastAPI AI Runtime:  http://127.0.0.1:8000"
+Write-Host "Spring Business API: $springUrl"
+Write-Host "FastAPI AI Runtime:  $aiUrl"
 Write-Host "MinIO Web Console:   http://127.0.0.1:9001 (minioadmin / minioadmin123)"
 Write-Host "Logs:                infra\local-runtime\logs\"
 Write-Host "Stop:                scripts\stop-all.bat"
