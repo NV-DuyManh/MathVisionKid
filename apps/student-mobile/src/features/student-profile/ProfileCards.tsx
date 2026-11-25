@@ -50,7 +50,7 @@ export function ProfileRankCard({ profile, compactWeb = false }: { profile: Stud
       ? 'Em đang ở bậc Thách Đấu.'
       : 'Đạt Top 200 toàn hệ thống để lên Thách Đấu.'}</Text>}
     <Text style={styles.light}>Hạng cao nhất · {highestRank}</Text>
-    {position !== null && <Text style={styles.light}>Vị trí khối {profile.gradeLevel} · #{position}</Text>}
+    {!IS_STUDENT_WEB && position !== null && <Text style={styles.light}>Vị trí khối {profile.gradeLevel} · #{position}</Text>}
   </>;
   return IS_STUDENT_WEB && !compactWeb ? <LinearGradient colors={['#4A2DAD', '#6944DD', '#8A4FE9']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
     style={[styles.rankCard, styles.webRankCard]}>

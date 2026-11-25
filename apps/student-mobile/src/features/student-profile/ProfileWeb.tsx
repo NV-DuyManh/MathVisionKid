@@ -4,13 +4,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../../components/ui/AppButton';
-import { FONTS } from '../../constants/theme';
+import { FONTS, IS_STUDENT_WEB } from '../../constants/theme';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { PersonalMetrics, PersonalPanel, personalWebStyles as web } from './PersonalWeb';
 import { StudentAvatar } from './ProfileCards';
 import { useStudentProfile } from './useStudentProfile';
 import { ProfileProgress } from './ProfileProgress';
 import { ParentProfilePinDialog } from './ParentModePreview';
+import { LogoutSheet } from './LogoutSheet';
 import { storeParentModeHandoff } from './parentModeHandoff';
 
 export type NotebookTab = 'saved' | 'work' | 'notes';
@@ -21,6 +22,7 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
 }) {
   const router = useRouter();
   const [showParentPin, setShowParentPin] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
   const { value, failed, retry } = useStudentProfile(owner);
   const selectedTitle = value?.titles.find(title => title.id === value.selectedTitle);
   return <>
@@ -40,6 +42,10 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
         {canOpenParentMode && <AppButton title="Góc phụ huynh" variant="secondary" style={styles.parentAction}
           icon={<Ionicons name="lock-closed-outline" size={18} color={STUDENT_WEB.primary} accessible={false} aria-hidden />}
           onPress={() => setShowParentPin(true)} />}
+        {IS_STUDENT_WEB && owner && <AppButton title="Đăng xuất" variant="secondary" style={styles.logoutAction}
+          textStyle={styles.logoutLabel}
+          icon={<Ionicons name="log-out-outline" size={18} color={styles.logoutLabel.color} accessible={false} aria-hidden />}
+          onPress={() => setShowLogout(true)} />}
       </View>
     </LinearGradient>
     <PersonalMetrics metrics={[
@@ -48,6 +54,7 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
       { label: 'Danh hiệu mở khóa', amount: value?.titles.filter(title => title.unlocked).length, icon: 'medal-outline', tone: 'green' },
     ]} />
     <ProfileProgress value={value} failed={failed} retry={retry} wide={wide} />
+    {showLogout && <LogoutSheet onClose={() => setShowLogout(false)} />}
     {showParentPin && canOpenParentMode && owner && <ParentProfilePinDialog key={owner} owner={owner} onExit={() => setShowParentPin(false)} onOpen={settings => {
       storeParentModeHandoff(owner, settings);
       setShowParentPin(false);
@@ -85,6 +92,8 @@ const styles = StyleSheet.create({
   heroActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   heroAction: { paddingHorizontal: 12, flexGrow: 1, backgroundColor: STUDENT_WEB.surface },
   parentAction: { paddingHorizontal: 12, flexGrow: 1, backgroundColor: STUDENT_WEB.soft, borderColor: STUDENT_WEB.primary },
+  logoutAction: { paddingHorizontal: 12, flexGrow: 1, backgroundColor: '#FFF0F6', borderColor: '#F3CBDD' },
+  logoutLabel: { color: '#9A3152' },
   heroName: { color: STUDENT_WEB.ink, fontFamily: FONTS.black, fontSize: 24, lineHeight: 29 },
   heroSub: { color: STUDENT_WEB.muted, fontFamily: FONTS.bold, fontSize: 14, lineHeight: 21 },
   archiveMetric: { gap: 4 },

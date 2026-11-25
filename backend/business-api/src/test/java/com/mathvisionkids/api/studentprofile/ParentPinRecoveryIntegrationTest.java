@@ -3,13 +3,16 @@ package com.mathvisionkids.api.studentprofile;
 import com.mathvisionkids.api.auth.RefreshTokenService;
 import com.mathvisionkids.api.user.Student;
 import com.mathvisionkids.api.user.StudentRepository;
+import jakarta.mail.Multipart;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -17,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Properties;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,6 +45,11 @@ class ParentPinRecoveryIntegrationTest {
     @Autowired RefreshTokenService sessions;
     @MockitoBean JavaMailSender mail;
 
+    @BeforeEach
+    void createMailMessages() {
+        when(mail.createMimeMessage()).thenAnswer(call -> new MimeMessage(Session.getInstance(new Properties())));
+    }
+
     @Test
     void emailCodeSetsAndRecoversPinWhileKeepingLimitsAndInvalidatingOldAccess() throws Exception {
         var student = student();
@@ -50,7 +59,7 @@ class ParentPinRecoveryIntegrationTest {
                 .andExpect(status().isUnauthorized());
         request(auth, "SETUP").andExpect(status().isOk())
                 .andExpect(jsonPath("$.maskedEmail").value(student.getEmail().substring(0, 2) + "***@example.test"));
-        String firstCode = lastCode(student);
+        String firstCode = lastCode(student, "Thiết lập mã PIN");
         request(auth, "SETUP").andExpect(status().isTooManyRequests());
         request(bearer(other), "RESET").andExpect(status().isConflict());
         confirm(bearer(other), "SETUP", firstCode, "123456").andExpect(status().isForbidden());
@@ -70,7 +79,7 @@ class ParentPinRecoveryIntegrationTest {
         ageCode(student, 61);
         clearInvocations(mail);
         request(auth, "RESET").andExpect(status().isOk());
-        String resetCode = lastCode(student);
+        String resetCode = lastCode(student, "Đặt lại mã PIN");
         confirm(auth, "RESET", resetCode.equals("999999") ? "999998" : "999999", "654321").andExpect(status().isForbidden());
         confirm(auth, "RESET", resetCode, "654321").andExpect(status().isNoContent());
         confirm(auth, "RESET", resetCode, "234567").andExpect(status().isForbidden());
@@ -89,17 +98,17 @@ class ParentPinRecoveryIntegrationTest {
         var student = student();
         String auth = bearer(student);
         request(auth, "SETUP").andExpect(status().isOk());
-        String code = lastCode(student);
+        String code = lastCode(student, "Thiết lập mã PIN");
         ageCode(student, 601);
         confirm(auth, "SETUP", code, "123456").andExpect(status().isForbidden());
         clearInvocations(mail);
         request(auth, "SETUP").andExpect(status().isOk());
-        code = lastCode(student);
+        code = lastCode(student, "Thiết lập mã PIN");
         String wrong = code.equals("999999") ? "999998" : "999999";
         for (int n = 0; n < 5; n++) confirm(auth, "SETUP", wrong, "123456").andExpect(status().isForbidden());
         confirm(auth, "SETUP", code, "123456").andExpect(status().isTooManyRequests());
         ageCode(student, 61);
-        doThrow(new org.springframework.mail.MailSendException("fixture")).when(mail).send(any(SimpleMailMessage.class));
+        doThrow(new org.springframework.mail.MailSendException("fixture")).when(mail).send(any(MimeMessage.class));
         request(auth, "SETUP").andExpect(status().isServiceUnavailable());
         assertNull(db.queryForObject("SELECT code_hash FROM student_parent_pin_challenge WHERE student_id = ?", String.class, student.getId()));
         ageCode(student, 61);
@@ -135,13 +144,29 @@ class ParentPinRecoveryIntegrationTest {
                 .content("{\"pin\":\"%s\"}".formatted(pin)));
     }
 
-    private String lastCode(Student student) {
-        var message = ArgumentCaptor.forClass(SimpleMailMessage.class);
-        verify(mail).send(message.capture());
-        assertArrayEquals(new String[]{ student.getEmail() }, message.getValue().getTo());
-        var matcher = java.util.regex.Pattern.compile("\\b[0-9]{6}\\b").matcher(message.getValue().getText());
+    private String lastCode(Student student, String title) throws Exception {
+        var sent = ArgumentCaptor.forClass(MimeMessage.class);
+        verify(mail).send(sent.capture());
+        var message = sent.getValue();
+        message.saveChanges();
+        assertEquals(student.getEmail(), message.getAllRecipients()[0].toString());
+        assertEquals(title + " · Góc phụ huynh MathVision Kids", message.getSubject());
+        var mixed = (Multipart) message.getContent();
+        var body = mixed.getBodyPart(0);
+        assertTrue(body.isMimeType("multipart/alternative"));
+        var alternatives = (Multipart) body.getContent();
+        assertTrue(alternatives.getBodyPart(0).isMimeType("text/plain"));
+        assertTrue(alternatives.getBodyPart(1).isMimeType("text/html"));
+        var plain = (String) alternatives.getBodyPart(0).getContent();
+        var html = (String) alternatives.getBodyPart(1).getContent();
+        var matcher = java.util.regex.Pattern.compile("\\b[0-9]{6}\\b").matcher(plain);
         assertTrue(matcher.find());
-        return matcher.group();
+        String code = matcher.group();
+        assertTrue(html.contains(">" + code + "</div>"));
+        assertTrue(html.contains(">" + title + "</h1>"));
+        assertTrue(html.contains("Mã có hiệu lực trong 10 phút."));
+        assertTrue(plain.contains("Mã có hiệu lực trong 10 phút."));
+        return code;
     }
 
     private void ageCode(Student student, long seconds) {

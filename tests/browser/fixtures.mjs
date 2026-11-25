@@ -123,7 +123,7 @@ export const test = base.extend({
         }
         return json(state.studentProfile);
       }
-      if (state.realStudent && path === '/student/leaderboard') return json({ entries: [], ownPosition: null, gradeLevel: state.studentProfile?.gradeLevel ?? 5 });
+      if (state.realStudent && path === '/student/leaderboard') return json({ entries: [], ownPosition: null, gradeLevel: url.searchParams.get('allGrades') === 'true' ? null : state.studentProfile?.gradeLevel ?? 5 });
       if (state.realStudent && path === '/student/quizzes/pending-count') return json({ pendingCount: 0, totalStars: 0 });
       if (state.realStudent && path === '/student/quizzes') return json({ items: [], page: 0, totalPages: 0, totalElements: 0 });
       if (path.startsWith('/teacher/') && role !== 'TEACHER') return reject(403);
