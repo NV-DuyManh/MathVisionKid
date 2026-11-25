@@ -1,6 +1,6 @@
 <div align="center">
 
-![MathVision Kids — Hiểu từng bước, tự tin học Toán. Hai màn hình giới thiệu bài học và Góc phụ huynh.](docs/media/readme-hero.jpg)
+![MathVision Kids — Hiểu từng bước, tự tin học Toán. Hai màn hình giới thiệu trang chủ học sinh và bài học.](docs/media/readme-hero.jpg)
 
 # MathVision Kids
 
@@ -40,19 +40,19 @@ Students can start with a photographed question, review their own handwritten so
 <table>
   <tr>
     <td align="center" width="33%"><a href="docs/media/screenshots/student-lesson-current.png"><img src="docs/media/screenshots/student-lesson-current.png" width="240" alt="Student Web lesson with the original question, checked solution and narration controls" /></a><br /><strong>Work through a lesson</strong><br />Revisit the steps and listen to the explanation.</td>
-    <td align="center" width="33%"><a href="docs/media/screenshots/student-challenge-current.png"><img src="docs/media/screenshots/student-challenge-current.png" width="240" alt="Completed math challenge with earned stars and the next challenge button" /></a><br /><strong>Try a short challenge</strong><br />Practice again or review the solution.</td>
+    <td align="center" width="33%"><a href="docs/media/screenshots/student-home-current.png"><img src="docs/media/screenshots/student-home-current.png" width="240" alt="Student home with the robot, camera shortcut and learning activities" /></a><br /><strong>Start on Student Home</strong><br />Capture a problem, practice, or revisit saved work.</td>
     <td align="center" width="33%"><a href="docs/media/screenshots/parent-overview-current.png"><img src="docs/media/screenshots/parent-overview-current.png" width="240" alt="Parent overview with learning activity, streak, usage time and a limits tab" /></a><br /><strong>Góc phụ huynh</strong><br />Review progress and manage time limits.</td>
   </tr>
 </table>
 
 <details>
-<summary><strong>More screenshots: photo review, the practice library and a guided step</strong></summary>
+<summary><strong>More screenshots: photo review, the practice library and a completed challenge</strong></summary>
 
 <table>
   <tr>
     <td align="center" width="33%"><a href="docs/media/screenshots/problem-android.png"><img src="docs/media/screenshots/problem-android.png" width="250" alt="Owner supplied Android screenshot of a photographed problem and editable transcription" /></a><br /><strong>Photo → readable problem</strong></td>
     <td align="center" width="33%"><a href="docs/media/screenshots/lessons-web.jpg"><img src="docs/media/screenshots/lessons-web.jpg" width="250" alt="Grade five practice problems in the lesson library" /></a><br /><strong>Practice by grade</strong></td>
-    <td align="center" width="33%"><a href="docs/media/screenshots/guided-step-web.jpg"><img src="docs/media/screenshots/guided-step-web.jpg" width="250" alt="Interactive guided step explaining place value" /></a><br /><strong>Think through a step</strong></td>
+    <td align="center" width="33%"><a href="docs/media/screenshots/student-challenge-current.png"><img src="docs/media/screenshots/student-challenge-current.png" width="250" alt="Completed math challenge with earned stars and the next challenge button" /></a><br /><strong>Try a short challenge</strong></td>
   </tr>
 </table>
 
