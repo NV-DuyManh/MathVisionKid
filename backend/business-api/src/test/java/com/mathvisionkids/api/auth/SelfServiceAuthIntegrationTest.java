@@ -93,7 +93,9 @@ class SelfServiceAuthIntegrationTest {
             .content("{\"email\":\"unknown@example.test\"}")).andExpect(status().isAccepted());
         verifyNoInteractions(mail);
     }
-    @Test void resetCodeIsHashedAndCannotBeReused() {
+    @Test void googleLinkedStudentCanSetPasswordWithSingleUseCode() throws Exception {
+        pupil.setGoogleSubject(UUID.randomUUID().toString());
+        users.saveAndFlush(pupil);
         String oldAccess = jwt.generateToken(pupil.getEmail(), pupil.getRole());
         String oldRefresh = sessions.createRefreshToken(pupil.getId());
         assertTrue(jwt.validateToken(oldAccess, pupil.getEmail()));
@@ -101,6 +103,9 @@ class SelfServiceAuthIntegrationTest {
         assertNotEquals(code,stored.getCodeHash()); assertTrue(encoder.matches(code,stored.getCodeHash()));
         assertTrue(service.confirmPasswordReset(reset(code))); assertFalse(service.confirmPasswordReset(reset(code)));
         assertTrue(encoder.matches("new-password",users.findById(pupil.getId()).orElseThrow().getPasswordHash()));
+        mvc.perform(post("/api/v1/auth/login").contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(Map.of("email", pupil.getEmail(), "password", "new-password"))))
+                .andExpect(status().isOk());
         assertFalse(jwt.validateToken(oldAccess, pupil.getEmail()));
         assertThrows(com.mathvisionkids.api.common.ApiException.class, () -> sessions.rotate(oldRefresh));
         assertTrue(jwt.validateToken(jwt.generateToken(pupil.getEmail(), pupil.getRole()), pupil.getEmail()));
