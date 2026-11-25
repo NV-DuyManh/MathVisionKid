@@ -64,6 +64,51 @@ test('F5 restores the approved photo and both baked privacy masks', async ({ pag
     .map(request => request.path)).toEqual(['/auth/login']);
 });
 
+test('browser Back from crop keeps private areas covered before and after refresh', async ({ page }) => {
+  await start(page);
+  await openCrop(page);
+  const approved = await imageHash(page, 'Ảnh bài tập đang căn chỉnh');
+  const angle = page.getByRole('slider', { name: 'Góc căn thẳng ảnh', exact: true });
+  await angle.press('ArrowRight');
+  await expect(angle).toHaveValue('0.1');
+
+  await page.goBack();
+  await expect(page).toHaveURL(/\/study\/privacy/);
+  expect(await imageHash(page, 'Ảnh gốc để kiểm tra thông tin riêng tư')).toBe(approved);
+  await page.reload();
+  await expect(page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư')).toBeVisible();
+  expect(await imageHash(page, 'Ảnh gốc để kiểm tra thông tin riêng tư')).toBe(approved);
+  await page.getByRole('checkbox', { name: 'Tôi đã kiểm tra và che thông tin riêng tư trong ảnh' }).click();
+  await page.getByRole('button', { name: 'Tiếp tục xem lại', exact: true }).click();
+  await expect(page.getByLabel('Ảnh bài tập đang căn chỉnh')).toBeVisible();
+  expect(await imageHash(page, 'Ảnh bài tập đang căn chỉnh')).toBe(approved);
+  await expect(angle).toHaveValue('0.1');
+});
+
+test('returning to privacy can cover one more area without uncovering previous masks', async ({ page }) => {
+  await start(page);
+  await openCrop(page);
+  const approved = await imageHash(page, 'Ảnh bài tập đang căn chỉnh');
+  await page.goBack();
+  const photo = page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư');
+  const consent = page.getByRole('checkbox', { name: 'Tôi đã kiểm tra và che thông tin riêng tư trong ảnh' });
+  await expect(consent).toBeEnabled();
+  const box = await photo.boundingBox();
+  await page.mouse.move(box.x + box.width * 0.43, box.y + box.height * 0.36);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.57, box.y + box.height * 0.55, { steps: 4 });
+  await page.mouse.up();
+  await consent.click();
+  await page.getByRole('button', { name: 'Tiếp tục xem lại', exact: true }).click();
+  await expect(page.getByLabel('Ảnh bài tập đang căn chỉnh')).toBeVisible();
+  const updated = await imageHash(page, 'Ảnh bài tập đang căn chỉnh');
+  expect(updated).not.toBe(approved);
+  await page.reload();
+  await expect(page.getByLabel('Ảnh bài tập đang căn chỉnh')).toBeVisible();
+  expect(await imageHash(page, 'Ảnh bài tập đang căn chỉnh')).toBe(updated);
+  expect((await maskedPixels(page)).flat().every(channel => channel < 24)).toBe(true);
+});
+
 test('An empty crop opens a real image picker instead of navigating back', async ({ page, app }) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
@@ -112,7 +157,8 @@ async function storage(page, operation = 'read') {
       };
       const blobs = tx.objectStore('images').getAll(); blobs.onsuccess = () => { pictures = blobs.result; };
       tx.oncomplete = () => { db.close(); resolve({ rows, imageCount: pictures.length,
-        hasOnlyBlobs: pictures.every(image => image.privacy instanceof Blob && (!image.cropped || image.cropped instanceof Blob)) }); };
+        hasOnlyApprovedImages: pictures.every(image => image.privacy?.bytes instanceof ArrayBuffer && !image.original &&
+          (!image.cropped || image.cropped.bytes instanceof ArrayBuffer)) }); };
       tx.onerror = () => { db.close(); reject(tx.error); };
     };
   }), operation);
@@ -162,11 +208,35 @@ test('Preview reload preserves the cropped bytes and a second reload keeps baked
   expect((await maskedPixels(page)).flat().every(channel => channel < 24)).toBe(true);
 });
 
+test('rotating in preview preserves the new orientation when reopening the crop', async ({ page }) => {
+  await start(page);
+  await openCrop(page);
+  await page.getByLabel('Kéo cạnh trái', { exact: true }).press('ArrowRight');
+  await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  const preview = page.getByLabel('Ảnh bài toán em đã chọn');
+  await expect(preview).toBeVisible();
+  const original = await imageHash(page, 'Ảnh bài toán em đã chọn');
+  const rotate = page.getByRole('button', { name: 'Xoay ảnh 90 độ', exact: true });
+  await rotate.click();
+  await expect.poll(() => imageHash(page, 'Ảnh bài toán em đã chọn')).not.toBe(original);
+  await page.getByRole('button', { name: 'Chỉnh lại vùng bài toán', exact: true }).click();
+  const crop = page.getByLabel('Ảnh bài tập đang căn chỉnh').filter({ visible: true });
+  await expect(crop).toBeVisible();
+  const transform = () => crop.evaluate(image => getComputedStyle(image).transform);
+  await expect.poll(transform).toBe('matrix(0, 1, -1, 0, 0, 0)');
+  await page.reload();
+  await expect(crop).toBeVisible();
+  await expect.poll(transform).toBe('matrix(0, 1, -1, 0, 0, 0)');
+  const [{ meta: { cropEdit: { selection } } }] = (await storage(page)).rows;
+  expect(selection.y).toBeCloseTo(0.02);
+  expect(selection.h).toBeCloseTo(0.98);
+});
+
 test('The unapproved original is stored only as a short-lived privacy draft', async ({ page, app }) => {
   await start(page); await openPrivacy(page);
   const pending = await storage(page);
   expect(pending.imageCount).toBe(1);
-  expect(pending.hasOnlyBlobs).toBe(false);
+  expect(pending.hasOnlyApprovedImages).toBe(false);
   const [record] = pending.rows;
   expect(record.step).toBe('privacy');
   expect(record.expiresAt - record.createdAt).toBe(30000);
@@ -178,17 +248,18 @@ test('The unapproved original is stored only as a short-lived privacy draft', as
     .map(request => request.path)).toEqual(['/auth/login']);
 });
 
-test('Only approved Blob data and URI-free metadata are stored', async ({ page }) => {
+test('Only approved image bytes and URI-free metadata are stored', async ({ page }) => {
   await start(page); await openCrop(page);
   const stored = await storage(page);
-  expect(stored.imageCount).toBe(1); expect(stored.hasOnlyBlobs).toBe(true);
+  expect(stored.imageCount).toBe(1); expect(stored.hasOnlyApprovedImages).toBe(true);
   expect(JSON.stringify(stored.rows)).not.toMatch(/blob:|data:image|originalImageUri|rawUri/);
   const pixel = await page.evaluate(() => new Promise((resolve, reject) => {
     const open = indexedDB.open('mathvision-private-photo-v1');
     open.onsuccess = () => {
       const db = open.result, request = db.transaction('images').objectStore('images').getAll();
       request.onsuccess = async () => {
-        const uri = URL.createObjectURL(request.result[0].privacy);
+        const { bytes, type } = request.result[0].privacy;
+        const uri = URL.createObjectURL(new Blob([bytes], { type }));
         try {
           const photo = new Image(); photo.src = uri; await photo.decode();
           const canvas = document.createElement('canvas'); canvas.width = photo.width; canvas.height = photo.height;
@@ -199,6 +270,27 @@ test('Only approved Blob data and URI-free metadata are stored', async ({ page }
     };
   }));
   expect(pixel.every(channel => channel < 24)).toBe(true);
+});
+
+test('a browser that cannot store photo blobs restores the approved photo from bytes', async ({ page }) => {
+  await page.addInitScript(() => {
+    const put = IDBObjectStore.prototype.put;
+    IDBObjectStore.prototype.put = function (data, key) {
+      if (this.name === 'images' && Object.values(data).some(value => value instanceof Blob)) {
+        throw new DOMException('Blob storage unavailable', 'UnknownError');
+      }
+      return put.call(this, data, key);
+    };
+  });
+  await start(page);
+  await openCrop(page);
+  const label = 'Ảnh bài tập đang căn chỉnh';
+  const approved = await imageHash(page, label);
+  expect((await storage(page)).imageCount).toBe(1);
+  await page.reload();
+  await expect(page.getByLabel(label)).toBeVisible();
+  expect(await imageHash(page, label)).toBe(approved);
+  expect((await maskedPixels(page)).flat().every(channel => channel < 24)).toBe(true);
 });
 
 for (const [operation, message] of [['expire', 'Ảnh đã hết thời gian lưu tạm. Em chọn lại ảnh để tiếp tục nhé.'],
@@ -231,7 +323,7 @@ test('Cancel and reselecting the same file preserve the old draft until a new so
   const pending = await storage(page);
   expect(pending.imageCount).toBe(1);
   expect(pending.rows[0].step).toBe('privacy');
-  expect(pending.hasOnlyBlobs).toBe(false);
+  expect(pending.hasOnlyApprovedImages).toBe(false);
 });
 
 test('A reopened tab restores the approved photo when the browser restores the same verified session', async ({ page, context }) => {
@@ -247,6 +339,41 @@ test('A reopened tab restores the approved photo when the browser restores the s
   await expect(reopened.getByLabel('Ảnh bài tập đang căn chỉnh')).toBeVisible();
   expect(await imageHash(reopened, 'Ảnh bài tập đang căn chỉnh')).toBe(hash);
   await reopened.close();
+});
+
+test('Back in a reopened preview returns to the crop for the restored photo', async ({ page, context }) => {
+  await start(page);
+  await openCrop(page);
+  const approved = await imageHash(page, 'Ảnh bài tập đang căn chỉnh');
+  await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  await expect(page.getByLabel('Ảnh bài toán em đã chọn')).toBeVisible();
+  const session = await page.evaluate(() => Object.entries(sessionStorage));
+  await page.close();
+
+  const reopened = await context.newPage();
+  await reopened.addInitScript(entries => { for (const [key, value] of entries) sessionStorage.setItem(key, value); }, session);
+  await reopened.goto(`${sites.portal.origin}/study/preview`);
+  await expect(reopened.getByLabel('Ảnh bài toán em đã chọn')).toBeVisible();
+  await reopened.getByRole('button', { name: 'Quay lại', exact: true }).click();
+  await expect(reopened).toHaveURL(/\/study\/crop(?:\?|$)/);
+  expect(await imageHash(reopened, 'Ảnh bài tập đang căn chỉnh')).toBe(approved);
+  await reopened.getByRole('button', { name: 'Quay lại', exact: true }).click();
+  await expect(reopened).toHaveURL(/\/study\/privacy(?:\?|$)/);
+  expect(await imageHash(reopened, 'Ảnh gốc để kiểm tra thông tin riêng tư')).toBe(approved);
+  await reopened.getByRole('button', { name: 'Chụp lại ảnh khác', exact: true }).click();
+  await expect(reopened).toHaveURL(/\/study\/camera\?mode=ARITHMETIC/);
+  const chooser = reopened.waitForEvent('filechooser');
+  await reopened.getByRole('button', { name: 'Chọn ảnh từ thư viện', exact: true }).click();
+  await (await chooser).setFiles(await picture(reopened, 'replacement.png', 'image/png', 480, 360));
+  const replacement = reopened.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư');
+  await expect(replacement).toBeVisible();
+  expect(await imageHash(reopened, 'Ảnh gốc để kiểm tra thông tin riêng tư')).not.toBe(approved);
+  const consent = reopened.getByRole('checkbox', { name: 'Tôi đã kiểm tra và che thông tin riêng tư trong ảnh' });
+  await expect(consent).not.toBeChecked();
+  await consent.click();
+  await reopened.getByRole('button', { name: 'Tiếp tục xem lại', exact: true }).click();
+  await reopened.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  await expect(reopened.getByLabel('Ảnh bài toán em đã chọn')).toBeVisible();
 });
 
 test('An EXIF-oriented JPEG is normalized and retains its orientation after F5', async ({ page }) => {

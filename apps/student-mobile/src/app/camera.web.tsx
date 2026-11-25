@@ -3,7 +3,6 @@ import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacit
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppButton } from '../components/ui/AppButton';
@@ -12,6 +11,7 @@ import { STUDENT_WEB } from '../constants/studentWebDesign';
 import { recognitionDraftStore, resolveFlowDomain } from '../features/recognition/state/recognitionDraftStore';
 import { imageDraftPersistence } from '../features/recognition/state/imageDraftPersistence';
 import { normalizeImageDraft } from '../features/recognition/image/imagePipeline';
+import { pickWebPhoto } from '../features/recognition/image/pickWebPhoto';
 import type { ViewInstance } from 'react-native';
 
 export default function WebCameraScreen() {
@@ -79,20 +79,22 @@ export default function WebCameraScreen() {
     lock.current = true;
     setAcquisition(source);
     setActionError('');
+    let temporaryUri: string | undefined;
     try {
-      const options: ImagePicker.ImagePickerOptions = { mediaTypes: ['images'], allowsEditing: false, quality: 1, cameraType: ImagePicker.CameraType.back };
       let asset;
       if (source === 'LIVE') {
         asset = await camera.current!.takePictureAsync({ quality: 1, base64: false });
       } else {
         // Keep the fallback chooser inside the tap's user activation.
-        const result = await (source === 'CAMERA' ? ImagePicker.launchCameraAsync(options) : ImagePicker.launchImageLibraryAsync(options));
-        if (result.canceled || !result.assets?.[0]) return;
-        asset = result.assets[0];
+        const file = await pickWebPhoto(source === 'CAMERA');
+        if (!file || !active.current) return;
+        temporaryUri = URL.createObjectURL(file);
+        asset = { uri: temporaryUri, width: undefined, height: undefined };
       }
       if (!asset || !active.current) return;
       const draft = await normalizeImageDraft(asset.uri, asset.width, asset.height, source === 'GALLERY' ? 'GALLERY' : 'CAMERA');
-      if (!active.current) return;
+      if (!active.current) { imageDraftPersistence.releaseUrl(draft.uri); return; }
+      if (temporaryUri) draft.rawUri = draft.uri;
       draft.mode = mode;
       draft.lessonContext = mode === 'MATH_TUTOR' ? context : undefined;
       draft.retrySubmissionId = mode === 'ARITHMETIC' ? params.retrySubmissionId : undefined;
@@ -108,7 +110,11 @@ export default function WebCameraScreen() {
       if (active.current) setActionError(source === 'GALLERY'
         ? 'Chưa mở được ảnh này. Em thử chọn một ảnh JPG hoặc PNG khác nhé.'
         : 'Chưa chụp được ảnh. Em thử lại hoặc chọn ảnh trong thư viện nhé.');
-    } finally { lock.current = false; if (active.current) setAcquisition(undefined); }
+    } finally {
+      if (temporaryUri) URL.revokeObjectURL(temporaryUri);
+      lock.current = false;
+      if (active.current) setAcquisition(undefined);
+    }
   };
   const toggleTorch = () => {
     const video = (preview.current as unknown as HTMLElement | null)?.querySelector?.('video');

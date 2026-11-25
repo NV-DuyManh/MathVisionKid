@@ -4,7 +4,7 @@ Sau khi xác nhận riêng tư, tải lại màn crop khôi phục ảnh đã x�
 
 ## Dữ liệu và quyền riêng tư
 
-- `imageDraftPersistence.web.ts` dùng IndexedDB `mathvision-private-photo-v1`, version 1. Store `drafts` chứa metadata; `images` chứa Blob ảnh đã xác nhận và ảnh crop nếu có. Không lưu chuỗi URL tạm để thay cho dữ liệu ảnh.
+- `imageDraftPersistence.web.ts` dùng IndexedDB `mathvision-private-photo-v1`, version 1. Store `drafts` chứa metadata. Store `images` lưu dữ liệu ảnh dưới dạng `ArrayBuffer` kèm MIME type và vẫn đọc được bản nháp cũ lưu dưới dạng Blob. URL tạm chỉ tồn tại trong phiên đang mở.
 - Trước khi xác nhận, trình chỉnh riêng tư trên Student Web giữ tối đa một Blob ảnh nguồn theo phiên đã xác minh trong 30 giây. Tab giữ định danh ảnh, chế độ chụp và các vùng che tương đối trong sessionStorage. Chỉ màn Privacy có thể phục hồi ảnh nguồn nếu phiên và định danh khớp. F5 luôn yêu cầu xác nhận riêng tư lại. Khi ảnh hết hạn, tải lại màn Privacy đưa học sinh về Camera cùng chế độ. Editor đã mở vẫn giữ ảnh trong bộ nhớ để học sinh hoàn tất thao tác.
 - Khi xác nhận, vùng che được raster hóa vào pixel. Bản đã duyệt thay bản gốc trong cùng giao dịch. Luồng crop, gửi bài và đọc ảnh chỉ tiếp tục với ảnh đã xác nhận. Khi khôi phục bản đã duyệt, các alias nguồn ảnh đều trỏ đến bản đã xác nhận.
 - AuthProvider xác minh tài khoản từ backend trước khi đọc scope theo tài khoản, phiên đăng nhập và mã tab. Profile cache không có thẩm quyền cấp quyền. Kiểm tra version, owner, session, source/revision, hạn, Blob và khả năng giải mã trước khi dùng.
