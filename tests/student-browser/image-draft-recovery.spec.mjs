@@ -318,6 +318,27 @@ test('A reopened tab restores the approved photo when the browser restores the s
   await reopened.close();
 });
 
+test('Back in a reopened preview returns to the crop for the restored photo', async ({ page, context }) => {
+  await start(page);
+  await openCrop(page);
+  const approved = await imageHash(page, 'Ảnh bài tập đang căn chỉnh');
+  await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  await expect(page.getByLabel('Ảnh bài toán em đã chọn')).toBeVisible();
+  const session = await page.evaluate(() => Object.entries(sessionStorage));
+  await page.close();
+
+  const reopened = await context.newPage();
+  await reopened.addInitScript(entries => { for (const [key, value] of entries) sessionStorage.setItem(key, value); }, session);
+  await reopened.goto(`${sites.portal.origin}/study/preview`);
+  await expect(reopened.getByLabel('Ảnh bài toán em đã chọn')).toBeVisible();
+  await reopened.getByRole('button', { name: 'Quay lại', exact: true }).click();
+  await expect(reopened).toHaveURL(/\/study\/crop(?:\?|$)/);
+  expect(await imageHash(reopened, 'Ảnh bài tập đang căn chỉnh')).toBe(approved);
+  await reopened.getByRole('button', { name: 'Quay lại', exact: true }).click();
+  await expect(reopened).toHaveURL(/\/study\/privacy(?:\?|$)/);
+  expect(await imageHash(reopened, 'Ảnh gốc để kiểm tra thông tin riêng tư')).toBe(approved);
+});
+
 test('An EXIF-oriented JPEG is normalized and retains its orientation after F5', async ({ page }) => {
   await start(page);
   const file = await picture(page, 'portrait-exif.jpeg', 'image/jpeg', 600, 800);

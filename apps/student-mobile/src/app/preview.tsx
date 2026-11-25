@@ -143,7 +143,7 @@ export default function PreviewScreen() {
   </View>;
   return (
     <View style={styles.container}>
-      <AppHeader title="Xem lại bài đã chụp" showBack />
+      <AppHeader title="Xem lại bài đã chụp" showBack backFallback={Platform.OS === 'web' ? '/crop' : undefined} />
 
       <ScrollView contentContainerStyle={[styles.content, { minHeight: Math.max(0, height - 90) }, wide && styles.contentWide, IS_STUDENT_WEB && styles.webContent]}>
         {/* Preview image box with quality badge overlay */}
