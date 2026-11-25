@@ -276,7 +276,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
       </View>
     </View>;
   return <GestureHandlerRootView style={styles.screen}><SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
-    <AppHeader title="Cắt & căn thẳng" showBack />
+    <AppHeader title="Cắt & căn thẳng" showBack backFallback={Platform.OS === 'web' && draft?.privacyConfirmed ? '/privacy' : undefined} />
     <View style={styles.tip}><Ionicons name="crop-outline" size={18} color={COLORS.primaryDark} /><Text style={styles.tipText}>{Platform.OS === 'web'
       ? 'Kéo cạnh hoặc góc để cắt. Có thể dùng Tab để chọn cạnh, rồi nhấn phím mũi tên. Kéo thước chia độ để căn thẳng.'
       : 'Kéo cạnh hoặc góc để cắt. Kéo thước chia độ để căn thẳng.'}</Text></View>

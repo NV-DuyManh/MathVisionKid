@@ -1,6 +1,6 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
-import * as ImagePicker from 'expo-image-picker';
+import { pickWebPhoto } from '../features/recognition/image/pickWebPhoto';
 import { useCameraPermissions } from 'expo-camera';
 import { Text } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
@@ -19,7 +19,7 @@ jest.mock('expo-camera', () => {
     }),
   };
 });
-jest.mock('expo-image-picker', () => ({ launchCameraAsync: jest.fn(), launchImageLibraryAsync: jest.fn(), CameraType: { back: 'back' } }));
+jest.mock('../features/recognition/image/pickWebPhoto', () => ({ pickWebPhoto: jest.fn() }));
 jest.mock('../features/recognition/image/imagePipeline', () => ({ normalizeImageDraft: jest.fn() }));
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: 'SafeAreaView' }));
 jest.mock('../components/ui/AppButton', () => ({ AppButton: 'AppButton' }));
@@ -32,6 +32,20 @@ const button = (label: string) => view.root.findAll(node => (node.props.title ==
 const preview = () => view.root.findByType('CameraView' as any);
 const ready = () => act(() => preview().props.onCameraReady());
 const failCamera = () => act(() => preview().props.onMountError({ message: 'No camera' }));
+const originalUrlMethods = Object.getOwnPropertyDescriptors(URL);
+beforeAll(() => {
+  Object.defineProperties(URL, {
+    createObjectURL: { configurable: true, value: jest.fn(() => 'blob:photo') },
+    revokeObjectURL: { configurable: true, value: jest.fn() },
+  });
+});
+afterAll(() => {
+  for (const name of ['createObjectURL', 'revokeObjectURL'] as const) {
+    const descriptor = originalUrlMethods[name];
+    if (descriptor) Object.defineProperty(URL, name, descriptor);
+    else Reflect.deleteProperty(URL, name);
+  }
+});
 beforeEach(() => {
   jest.clearAllMocks(); recognitionDraftStore.clearDraft();
   (useRouter as jest.Mock).mockReturnValue({ push, back: jest.fn(), replace: jest.fn(), canGoBack: () => true });
@@ -49,7 +63,7 @@ it('opens the rear live preview by default and enables the shutter only when rea
   await render();
   expect(preview().props.facing).toBe('back');
   expect(button('Chụp ảnh bài toán').props.disabled).toBe(true);
-  expect(ImagePicker.launchCameraAsync).not.toHaveBeenCalled();
+  expect(pickWebPhoto).not.toHaveBeenCalled();
   ready();
   expect(button('Chụp ảnh bài toán').props.disabled).toBe(false);
   expect(button('Chụp bằng máy ảnh điện thoại')).toBeUndefined();
@@ -60,7 +74,7 @@ it('captures the live photo, retains lesson context and stops preview before pri
   await render(); ready();
   await act(async () => button('Chụp ảnh bài toán').props.onPress());
   expect(mockTakePicture).toHaveBeenCalledWith({ quality: 1, base64: false });
-  expect(ImagePicker.launchCameraAsync).not.toHaveBeenCalled();
+  expect(pickWebPhoto).not.toHaveBeenCalled();
   expect(normalizeImageDraft).toHaveBeenCalledWith('data:image/jpeg;base64,photo', 1920, 1080, 'CAMERA');
   expect(recognitionDraftStore.getDraft()).toMatchObject({ lessonContext, mode: 'MATH_TUTOR', problemText: 'Question retained', isMasked: false });
   expect(push).toHaveBeenCalledWith('/privacy');
@@ -82,13 +96,14 @@ it('keeps the image on normalization failure and allows a fresh live attempt', a
   expect(push).toHaveBeenCalledWith('/privacy');
 });
 it('offers the rear system camera while the preview is starting or unavailable', async () => {
-  (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue({ canceled: false, assets: [{ uri: 'blob:photo', width: 4000, height: 3000 }] });
+  (pickWebPhoto as jest.Mock).mockResolvedValue(new Blob(['photo'], { type: 'image/jpeg' }));
   await render();
   expect(button('Chụp bằng máy ảnh điện thoại')).toBeDefined();
   failCamera();
   expect(button('Chụp ảnh bài toán').props.disabled).toBe(true);
   await act(async () => button('Chụp bằng máy ảnh điện thoại').props.onPress());
-  expect(ImagePicker.launchCameraAsync).toHaveBeenCalledWith(expect.objectContaining({ cameraType: 'back', allowsEditing: false }));
+  expect(pickWebPhoto).toHaveBeenCalledWith(true);
+  expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:photo');
   expect(push).toHaveBeenCalledWith('/privacy');
 });
 
@@ -112,7 +127,7 @@ it('keeps gallery and the camera permission action available before permission i
 it('keeps the library usable if the browser cannot query camera permission', async () => {
   getPermission.mockRejectedValueOnce(new Error('NotSupportedError'));
   (useCameraPermissions as jest.Mock).mockReturnValue([null, requestPermission, getPermission]);
-  (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue({ canceled: false, assets: [{ uri: 'blob:photo' }] });
+  (pickWebPhoto as jest.Mock).mockResolvedValue(new Blob(['photo'], { type: 'image/jpeg' }));
   await render();
   expect(useCameraPermissions).toHaveBeenCalledWith({ get: false });
   expect(getPermission).toHaveBeenCalledTimes(1);
@@ -122,7 +137,7 @@ it('keeps the library usable if the browser cannot query camera permission', asy
 it('keeps the previous image and navigation unchanged on library cancellation', async () => {
   recognitionDraftStore.setDraft({ uri: 'blob:old', width: 20, height: 30 });
   const stored = recognitionDraftStore.getDraft();
-  (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue({ canceled: true });
+  (pickWebPhoto as jest.Mock).mockResolvedValue(undefined);
   await render();
   await act(async () => button('Chọn ảnh từ thư viện').props.onPress());
   expect(recognitionDraftStore.getDraft()).toEqual(stored);
@@ -132,12 +147,12 @@ it('keeps the library usable while a browser permission prompt is unanswered', a
   let finish!: (value: unknown) => void;
   (useCameraPermissions as jest.Mock).mockReturnValue([null, requestPermission, getPermission]);
   requestPermission.mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
-  (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue({ canceled: true });
+  (pickWebPhoto as jest.Mock).mockResolvedValue(undefined);
   await render();
   act(() => button('Cho phép mở máy ảnh').props.onPress());
   expect(button('Chọn ảnh từ thư viện').props.disabled).toBe(false);
   await act(async () => button('Chọn ảnh từ thư viện').props.onPress());
-  expect(ImagePicker.launchImageLibraryAsync).toHaveBeenCalledTimes(1);
+  expect(pickWebPhoto).toHaveBeenCalledTimes(1);
   await act(async () => finish({ granted: false }));
 });
 it('ignores a second shutter tap while a photo is being captured', async () => {
