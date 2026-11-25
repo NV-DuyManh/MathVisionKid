@@ -12,6 +12,7 @@ export type StudentProfile = {
   avatar: string;
   avatarPhoto?: string | null;
   passwordLoginAvailable?: boolean;
+  googleLinked?: boolean;
   leaderboardVisible: boolean;
   leaderboardNameHidden?: boolean;
   publicAlias: string;

@@ -18,7 +18,7 @@ final class RankScheme {
         return new Profile(p.displayName(), p.gradeLevel(), p.joinedAt(), p.classrooms(), p.avatar(),
                 p.leaderboardVisible(), p.publicAlias(), p.selectedTitle(), p.stars(), rank,
                 "Huyền Thoại".equals(p.highestRank()) ? "Thách Đấu" : rank.name(), p.position(), p.stats(),
-                p.titles(), p.history(), p.avatarPhoto(), p.passwordLoginAvailable(), p.leaderboardNameHidden());
+                p.titles(), p.history(), p.avatarPhoto(), p.passwordLoginAvailable(), p.leaderboardNameHidden(), p.googleLinked());
     }
 
     static Leaderboard board(Leaderboard board, String client) {

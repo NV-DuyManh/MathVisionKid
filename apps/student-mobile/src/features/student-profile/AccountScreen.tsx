@@ -47,7 +47,8 @@ export function AccountScreen({ owner, openPrivacy = false, openLogout = false }
               actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại hồ sơ', icon: 'refresh-outline', onPress: profile.retry }]} />}
           </View>
           <View style={[s.side, wide && (desktopWeb ? s.webSide : { flex: 1, maxWidth: 320 })]}>
-            {profile.value && <PasswordCard available={profile.value.passwordLoginAvailable !== false} />}
+            {profile.value && <PasswordCard available={profile.value.passwordLoginAvailable !== false}
+              googleLinked={profile.value.googleLinked === true} />}
             <AppButton title="Đăng xuất" variant="ghost" style={desktopWeb ? s.webLogout : undefined}
               icon={<Ionicons accessible={false} aria-hidden name="log-out-outline" color={desktopWeb ? '#9A3152' : COLORS.textSecondary} size={20} />}
               onPress={() => setConfirmLogout(true)} />
@@ -173,7 +174,7 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
   </View>;
 }
 
-function PasswordCard({ available }: { available: boolean }) {
+function PasswordCard({ available, googleLinked }: { available: boolean; googleLinked: boolean }) {
   const auth = useContext(AuthContext);
   const [expanded, setExpanded] = useState(false), [show, setShow] = useState(false), [busy, setBusy] = useState(false);
   const [current, setCurrent] = useState(''), [next, setNext] = useState(''), [confirmation, setConfirmation] = useState('');
@@ -207,7 +208,11 @@ function PasswordCard({ available }: { available: boolean }) {
   };
   return <View style={[s.card, IS_STUDENT_WEB && s.webCard]}>
     <View style={[s.sectionTitle, IS_STUDENT_WEB && s.webSectionTitle]}><Ionicons accessible={false} aria-hidden name="lock-closed-outline" size={22} color={COLORS.primaryDark} /><Text accessibilityRole="header" style={s.heading}>An toàn tài khoản</Text></View>
-    {!available ? <Text style={s.body}>Em đang dùng tài khoản liên kết. Em đổi mật khẩu tại dịch vụ em dùng để đăng nhập nhé.</Text> : <>
+    {!available && IS_STUDENT_WEB && googleLinked ? <>
+      <Text style={s.hint}>Dùng mã xác nhận gửi qua email để đặt hoặc đổi mật khẩu MathVisionKid.</Text>
+      <AppButton title="Đổi mật khẩu MathVisionKid" variant="secondary"
+        onPress={() => window.location.assign('/login?reset=password')} />
+    </> : !available ? <Text style={s.body}>Em đang dùng tài khoản liên kết. Em đổi mật khẩu tại dịch vụ em dùng để đăng nhập nhé.</Text> : <>
       <Text style={s.hint}>Giữ mật khẩu cho riêng mình. Em có thể nhờ bố mẹ hỗ trợ.</Text>
       <Pressable accessibilityRole="button" accessibilityLabel="Đổi mật khẩu" accessibilityState={{ expanded, disabled: busy }} aria-expanded={expanded} aria-controls="account-password-fields"
         disabled={busy} style={[s.passwordToggle, IS_STUDENT_WEB && s.webPasswordToggle]} onPress={() => { setExpanded(value => !value); setError(''); setNotice(''); }}><Text style={s.link}>Đổi mật khẩu</Text><Ionicons accessible={false} aria-hidden name={expanded ? 'chevron-up' : 'chevron-forward'} size={18} color={COLORS.primaryDark} /></Pressable>

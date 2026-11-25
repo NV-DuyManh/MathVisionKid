@@ -59,6 +59,15 @@ class StudentAccountIntegrationTest {
         return output.toByteArray();
     }
     @Test void photoIsNormalizedOwnedPrivateAndCanReturnToPreset() throws Exception {
+        String googlePhoto = "https://lh3.googleusercontent.com/a/synthetic-avatar";
+        profiles.captureGoogleAvatar(pupil.getId(), googlePhoto);
+        profiles.captureGoogleAvatar(pupil.getId(), null);
+        profiles.captureGoogleAvatar(pupil.getId(), "https://lh3.googleusercontent.com.example.test/other");
+        assertEquals(googlePhoto, profiles.get(pupil.getEmail()).avatarPhoto());
+        assertNull(profiles.get(other.getEmail()).avatarPhoto());
+        profiles.update(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", true, null));
+        assertFalse(mapper.writeValueAsString(profiles.leaderboard(pupil.getEmail(), null)).contains(googlePhoto));
+
         var result = mvc.perform(multipart("/api/v1/student/profile/photo").file(new MockMultipartFile("file", "phone.png", "image/png", picture()))
                 .with(request -> { request.setMethod("PUT"); return request; }).with(user(pupil.getEmail()).roles("STUDENT")))
                 .andExpect(status().isOk()).andExpect(header().string("Cache-Control", "no-store")).andReturn();
@@ -67,11 +76,13 @@ class StudentAccountIntegrationTest {
         var normalized = ImageIO.read(new ByteArrayInputStream(bytes));
         assertEquals(256, normalized.getWidth()); assertEquals(256, normalized.getHeight());
         assertFalse(new String(bytes, StandardCharsets.ISO_8859_1).contains("PRIVATE_METADATA_MARKER"));
+        profiles.captureGoogleAvatar(pupil.getId(), googlePhoto + "-updated");
         assertEquals(photo, profiles.get(pupil.getEmail()).avatarPhoto());
         assertNull(profiles.get(other.getEmail()).avatarPhoto());
         profiles.update(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", true, null));
         assertFalse(mapper.writeValueAsString(profiles.leaderboard(pupil.getEmail(), null)).contains("data:image"));
         profiles.update(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", false, null, true));
+        profiles.captureGoogleAvatar(pupil.getId(), googlePhoto);
         assertNull(profiles.get(pupil.getEmail()).avatarPhoto());
     }
     @Test void invalidPhotoAndWrongRoleCannotWrite() throws Exception {
@@ -121,6 +132,7 @@ class StudentAccountIntegrationTest {
         change(PASSWORD, "ế".repeat(40)).andExpect(status().isBadRequest());
         pupil.setGoogleSubject(UUID.randomUUID().toString()); students.saveAndFlush(pupil);
         assertFalse(profiles.get(pupil.getEmail()).passwordLoginAvailable());
+        assertTrue(profiles.get(pupil.getEmail()).googleLinked());
         change(PASSWORD, "NewSecret-123").andExpect(status().isConflict());
     }
     org.springframework.test.web.servlet.ResultActions change(String current, String next) throws Exception {

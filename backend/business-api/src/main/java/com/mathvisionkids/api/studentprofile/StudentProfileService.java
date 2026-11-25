@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Isolation;
 
+import java.net.URI;
 import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.*;
@@ -20,7 +21,8 @@ import static com.mathvisionkids.api.studentprofile.ProfileDtos.*;
 public class StudentProfileService {
     static final Set<String> AVATARS = Set.of("star", "planet", "leaf", "rocket", "moon", "sun");
     private static final List<String> INITIAL_AVATARS = List.of("star", "planet", "leaf", "rocket", "moon", "sun");
-    private record Preferences(String avatar, String alias, boolean visible, boolean reachedChallenger, boolean nameHidden) {}
+    private record Preferences(String avatar, String alias, boolean visible, boolean reachedChallenger,
+                               boolean nameHidden, String googleAvatarUrl) {}
     private record Day(LocalDate date, long lessons, long quizzes, long games, long stars) {
         long total() { return lessons + quizzes + games; }
     }
@@ -72,7 +74,13 @@ public class StudentProfileService {
                     leaderboard_name_hidden = COALESCE(?, leaderboard_name_hidden) WHERE student_id = ?
                 """, edit.avatar(), edit.leaderboardVisible(), edit.leaderboardNameHidden(), id);
         rewards.rememberChallengers();
-        if (Boolean.TRUE.equals(edit.removePhoto())) db.update("DELETE FROM student_profile_photos WHERE student_id = ?", id);
+        if (Boolean.TRUE.equals(edit.removePhoto())) {
+            db.update("DELETE FROM student_profile_photos WHERE student_id = ?", id);
+            db.update("""
+                    UPDATE student_profile_preferences SET google_avatar_url = NULL, google_avatar_enabled = FALSE
+                    WHERE student_id = ?
+                    """, id);
+        }
         return profile(student);
     }
 
@@ -81,6 +89,28 @@ public class StudentProfileService {
         lockStudent(id);
         rewards.lock();
         ensurePreferences(id);
+    }
+
+    @Transactional
+    public void captureGoogleAvatar(UUID id, Object pictureClaim) {
+        if (!(pictureClaim instanceof String url) || url.length() > 2048) return;
+        URI picture;
+        try {
+            picture = URI.create(url);
+        } catch (IllegalArgumentException exception) {
+            return;
+        }
+        String host = picture.getHost();
+        if (!"https".equals(picture.getScheme()) || host == null || !host.endsWith(".googleusercontent.com")
+                || picture.getUserInfo() != null || picture.getPort() != -1) return;
+
+        lockStudent(id);
+        ensurePreferences(id);
+        db.update("""
+                UPDATE student_profile_preferences SET google_avatar_url = ?
+                WHERE student_id = ? AND google_avatar_enabled AND google_avatar_url IS DISTINCT FROM ?
+                    AND NOT EXISTS (SELECT 1 FROM student_profile_photos WHERE student_id = ?)
+                """, url, id, url, id);
     }
 
     // Admin eligibility changes share the same student -> reward lock order as award/profile writes.
@@ -147,10 +177,11 @@ public class StudentProfileService {
 
     private Preferences preferences(UUID id) {
         return db.query("""
-                SELECT avatar, public_alias, leaderboard_visible, reached_challenger, leaderboard_name_hidden
+                SELECT avatar, public_alias, leaderboard_visible, reached_challenger, leaderboard_name_hidden, google_avatar_url
                 FROM student_profile_preferences WHERE student_id = ?
-                """, (r, n) -> new Preferences(r.getString(1), r.getString(2), r.getBoolean(3), r.getBoolean(4), r.getBoolean(5)), id)
-                .stream().findFirst().orElse(new Preferences("star", "", false, false, true));
+                """, (r, n) -> new Preferences(r.getString(1), r.getString(2), r.getBoolean(3), r.getBoolean(4),
+                r.getBoolean(5), r.getString(6)), id)
+                .stream().findFirst().orElse(new Preferences("star", "", false, false, true, null));
     }
 
     private Profile profile(Student student) {
@@ -172,11 +203,11 @@ public class StudentProfileService {
         var rank = StudentRank.at(stars, globalPosition);
         String photo = db.query("SELECT image_bytes FROM student_profile_photos WHERE student_id = ?",
                 (r, n) -> "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(r.getBytes(1)), id)
-                .stream().findFirst().orElse(null);
+                .stream().findFirst().orElse(prefs.googleAvatarUrl());
         return new Profile(student.getDisplayName(), student.getGradeLevel(), student.getCreatedAt(), classes, prefs.avatar(),
                 prefs.visible(), prefs.alias(), null, stars, rank, prefs.reachedChallenger() ? "Huyền Thoại" : rank.name(),
                 position, stats, List.of(), history, photo, student.getGoogleSubject() == null && student.getFacebookSubject() == null,
-                prefs.nameHidden());
+                prefs.nameHidden(), student.getGoogleSubject() != null);
     }
 
     private Long position(UUID student, String ranking, Object... filters) {

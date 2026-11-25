@@ -23,11 +23,12 @@ class SocialAuthBoundaryTest {
     GoogleLoginRequest googleRequest() {
         var request=new GoogleLoginRequest();request.setCredential("test-credential");request.setRole("TEACHER");return request;
     }
-    void googlePayload(String email,boolean verified) throws Exception {
+    GoogleIdToken.Payload googlePayload(String email,boolean verified) throws Exception {
         var token=mock(GoogleIdToken.class);
         var payload=new GoogleIdToken.Payload().setEmail(email).setEmailVerified(verified).setSubject("verified-subject");
         when(token.getPayload()).thenReturn(payload);when(verifier.verify("test-credential")).thenReturn(token);
         ReflectionTestUtils.setField(google,"verifier",verifier);
+        return payload;
     }
     @Test void unverifiedAndNonAuthoritativeEmailsCannotAutoLinkExistingAccounts() throws Exception {
         googlePayload("known@gmail.com",false);assertThrows(ApiException.class,()->google.login(googleRequest()));
@@ -39,7 +40,8 @@ class SocialAuthBoundaryTest {
         assertThrows(ApiException.class,()->google.login(googleRequest()));verifyNoInteractions(users,refresh);
     }
     @Test void firstGoogleStudentSignupInitializesAvatarOnceAndLaterLoginsPreserveIt() throws Exception {
-        googlePayload("newpupil@gmail.com",true);
+        String picture = "https://lh3.googleusercontent.com/a/synthetic-avatar";
+        googlePayload("newpupil@gmail.com",true).set("picture", picture);
         var request=googleRequest(); request.setRole("STUDENT"); request.setGradeLevel(3);
         UUID id=UUID.randomUUID();
         when(students.saveAndFlush(any(Student.class))).thenAnswer(invocation -> {
@@ -47,10 +49,12 @@ class SocialAuthBoundaryTest {
         });
         google.login(request);
         verify(profiles).initialize(id);
+        verify(profiles).captureGoogleAvatar(id, picture);
         var existing=new Student(); existing.setId(id); existing.setEmail("newpupil@gmail.com"); existing.setRole("STUDENT"); existing.setActive(true);
         when(users.findByGoogleSubject("verified-subject")).thenReturn(Optional.of(existing));
         google.login(request);
         verify(profiles,times(1)).initialize(id);
+        verify(profiles, times(2)).captureGoogleAvatar(id, picture);
         verify(students,times(1)).saveAndFlush(any(Student.class));
     }
 
@@ -79,7 +83,7 @@ class SocialAuthBoundaryTest {
         googlePayload("known@gmail.com",true);
         var pupil=new Student();pupil.setEmail("known@gmail.com");pupil.setRole("STUDENT");pupil.setActive(false);
         when(users.findByGoogleSubject("verified-subject")).thenReturn(Optional.of(pupil));
-        assertThrows(ApiException.class,()->google.login(googleRequest()));verifyNoInteractions(refresh);
+        assertThrows(ApiException.class,()->google.login(googleRequest()));verifyNoInteractions(refresh, profiles);
     }
     @Test void facebookRejectsOtherProvidersAndUnverifiedNewEmailsWithoutLinkingByEmail() throws Exception {
         var firebase=mock(FirebaseAuth.class);var token=mock(FirebaseToken.class);

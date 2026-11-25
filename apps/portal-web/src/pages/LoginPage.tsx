@@ -67,7 +67,11 @@ function StudyIcon({ name, size, color }: { name: keyof typeof studyIcons; size:
 }
 
 export const LoginPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const resetFromAccount = searchParams.get('reset') === 'password';
   const [email, setEmail] = useState('');
+  const [accountResetEmail, setAccountResetEmail] = useState('');
+  const [checkingResetAccount, setCheckingResetAccount] = useState(() => resetFromAccount && tokenStore.hasTokens());
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
@@ -79,7 +83,7 @@ export const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [authView, setAuthView] = useState<keyof typeof authIntro>('login');
+  const [authView, setAuthView] = useState<keyof typeof authIntro>(() => resetFromAccount ? 'request-reset' : 'login');
   const [resetCode, setResetCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [socialSetupCredential, setSocialSetupCredential] = useState('');
@@ -94,13 +98,24 @@ export const LoginPage: React.FC = () => {
   };
 
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const requestedRole = searchParams.get('role') === 'TEACHER' ? 'TEACHER' : undefined;
 
   // Display session expired notice if redirected after expiry
   useEffect(() => {
     const controller = new AbortController();
     sessionCheck.current = controller;
+    if (resetFromAccount) {
+      if (tokenStore.hasTokens()) {
+        authService.getMe(controller.signal).then(user => {
+          if (controller.signal.aborted || !user.active || user.role !== 'STUDENT') return;
+          setAccountResetEmail(user.email);
+          setEmail(user.email);
+        }).catch(() => {}).finally(() => {
+          if (!controller.signal.aborted) setCheckingResetAccount(false);
+        });
+      }
+      return () => controller.abort();
+    }
     if (searchParams.get('connection') === 'failed') {
       setError('Chưa kết nối được máy chủ. Vui lòng kiểm tra kết nối và đăng nhập lại.');
       return () => controller.abort();
@@ -133,7 +148,7 @@ export const LoginPage: React.FC = () => {
       });
     }
     return () => controller.abort();
-  }, [searchParams, navigate]);
+  }, [searchParams, navigate, resetFromAccount]);
 
   const handleGoogleLogin = async () => {
     if (!beginSubmission()) return;
@@ -323,6 +338,7 @@ export const LoginPage: React.FC = () => {
 
   const handleRequestPasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (checkingResetAccount) return;
     if (!email.trim()) {
       setError('Nhập email đã đăng ký để nhận mã xác nhận.');
       return;
@@ -364,6 +380,11 @@ export const LoginPage: React.FC = () => {
     setSuccess(null);
     try {
       await authService.confirmPasswordReset(email.trim(), resetCode, newPassword);
+      if (accountResetEmail) tokenStore.clearTokens();
+      if (resetFromAccount) {
+        setAccountResetEmail('');
+        navigate('/login', { replace: true });
+      }
       setAuthView('login');
       setPassword('');
       setResetCode('');
@@ -426,7 +447,7 @@ export const LoginPage: React.FC = () => {
           '& .MuiButton-contained.Mui-disabled': { background: '#E4DCFF', color: '#625A86' },
           }}>
         <div className="student-auth-heading">
-          <h1>{authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản' : authView === 'social-student-setup' ? 'Chọn lớp của em' : 'Khôi phục mật khẩu'}</h1>
+          <h1>{authView === 'login' ? 'Đăng nhập' : authView === 'register' ? 'Tạo tài khoản' : authView === 'social-student-setup' ? 'Chọn lớp của em' : resetFromAccount ? 'Đổi mật khẩu MathVisionKid' : 'Khôi phục mật khẩu'}</h1>
           {authView === 'login' && <p>Đăng nhập để tiếp tục khám phá kiến thức cùng MathVisionKid.</p>}
           {authView === 'social-student-setup' && <p>Chọn khối lớp hiện tại để hoàn tất tài khoản học sinh.</p>}
         </div>
@@ -592,13 +613,20 @@ export const LoginPage: React.FC = () => {
             data-cy="reset-email"
             margin="normal" required fullWidth autoFocus
             id="reset-email" label="Email đã đăng ký" name="email" type="email" autoComplete="email"
-            value={email} disabled={loading} onChange={(event) => setEmail(event.target.value)}
+            value={email} disabled={loading || checkingResetAccount} onChange={(event) => setEmail(event.target.value)}
+            slotProps={{ htmlInput: { readOnly: Boolean(accountResetEmail) } }}
           />
-          <Button data-cy="send-reset-code" type="submit" fullWidth variant="contained" size="large" disabled={loading} aria-busy={loading} startIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden /> : undefined} sx={{ mt: 2, py: 1.4 }}>
+          <Button data-cy="send-reset-code" type="submit" fullWidth variant="contained" size="large" disabled={loading || checkingResetAccount} aria-busy={loading} startIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden /> : undefined} sx={{ mt: 2, py: 1.4 }}>
             {loading ? 'Đang gửi mã…' : 'Gửi mã xác nhận'}
           </Button>
-          <Button data-cy="back-to-login" type="button" fullWidth disabled={loading} onClick={() => { setAuthView('login'); setError(null); setSuccess(null); }} sx={{ mt: 1, textTransform: 'none' }}>
-            Quay lại đăng nhập
+          <Button data-cy="back-to-login" type="button" fullWidth disabled={loading} onClick={() => {
+            if (resetFromAccount && tokenStore.hasTokens()) window.location.assign('/study/account');
+            else {
+              if (resetFromAccount) navigate('/login', { replace: true });
+              setAuthView('login'); setError(null); setSuccess(null);
+            }
+          }} sx={{ mt: 1, textTransform: 'none' }}>
+            {resetFromAccount && tokenStore.hasTokens() ? 'Quay lại hồ sơ' : 'Quay lại đăng nhập'}
           </Button>
         </Box>}
 
@@ -622,7 +650,7 @@ export const LoginPage: React.FC = () => {
             {loading ? 'Đang đổi mật khẩu…' : 'Xác nhận và đổi mật khẩu'}
           </Button>
           <Button type="button" fullWidth disabled={loading} onClick={() => { setAuthView('request-reset'); setError(null); setSuccess(null); }} sx={{ mt: 1, textTransform: 'none' }}>
-            Gửi mã đến email khác
+            {accountResetEmail ? 'Gửi lại mã' : 'Gửi mã đến email khác'}
           </Button>
         </Box>}
 
