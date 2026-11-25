@@ -19,6 +19,88 @@ def turn(value, answer):
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize('source,answer', [
+    ('Số nào lớn hơn 53?\nA. 35\nB. 54\nC. 52\nD. 53', '54'),
+    ('Phân số nào bằng 18/42?\nA. 2/7\nB. 4/7\nC. 3/7\nD. 7/3', '3/7'),
+    ('Kết quả của 8 × 9 − 5 là bao nhiêu?\nA. 65\nB. 67\nC. 71\nD. 77', '67'),
+    ('2 giờ 37 phút = ? phút', '157'),
+    ('Bé Hà có 9 viên sỏi trắng. Bé nhặt thêm 7 viên sỏi trắng. Hỏi bé Hà có tất cả bao nhiêu viên sỏi trắng?', '16'),
+    ('Mai có 32 chiếc kẹp giấy. Mai cho bạn 13 chiếc kẹp giấy. Hỏi Mai còn lại bao nhiêu chiếc kẹp giấy?', '19'),
+    ('Hình chữ nhật dài 17 cm, rộng 9 cm. Tính chu vi hình chữ nhật theo cm.', '52'),
+    ('Một hộp chữ nhật dài 13 cm, rộng 7 cm và cao 5 cm. Tính thể tích hộp theo cm³.', '455'),
+    ('Tính 16% của 225 kg.', '36'),
+    ('Tính trung bình cộng của ba số 17, 28 và 45.', '30'),
+    ('Tính trung bình cộng của các số 14,5; 18,5 và 21.', '18'),
+    ('Tính trung bình cộng của các số 2,4; 6,6; 8,1 và 2,9.', '5'),
+    ('Tính trung bình cộng của các số 3,25; 4,75; 6,25; 9,75.', '6'),
+    ('Một bạn đọc được 12, 18, 23 và 31 trang trong bốn ngày. Hỏi trung bình mỗi ngày đọc bao nhiêu trang?', '21'),
+    ('Một lớp có 40 học sinh, 14 em đi bộ đến trường. Hỏi số em đi bộ chiếm bao nhiêu phần trăm của lớp?', '35'),
+    ('Một người đi xe đạp đi được 54 km trong 3 giờ. Hỏi vận tốc là bao nhiêu km/giờ?', '18'),
+    ('Một xe chạy đều với vận tốc 42 km/giờ trong 2,5 giờ. Hỏi xe đi được bao nhiêu ki-lô-mét?', '105'),
+    ('Có 47 học sinh, mỗi xe chở tối đa 8 học sinh. Cần ít nhất bao nhiêu xe để chở hết?', '6'),
+    ('Có 48 học sinh, mỗi xe chở tối đa 8 học sinh. Cần ít nhất bao nhiêu xe để chở hết?', '6'),
+    ('Có 53 quả cam, mỗi giỏ xếp đủ 6 quả. Hỏi xếp được bao nhiêu giỏ đầy?', '8'),
+    ('Có 5 quả cam, mỗi giỏ xếp đủ 6 quả. Hỏi xếp được bao nhiêu giỏ đầy?', '0'),
+])
+async def test_elementary_sources_prepare_without_provider(monkeypatch, source, answer):
+    generation = AsyncMock(side_effect=TutorUnavailable('rate_limit'))
+    monkeypatch.setattr(lesson, 'generate_plan', generation)
+    state = await start_lesson(request(source))
+    assert turn(state, '999999').status == 'TRY_AGAIN'
+    complete = turn(state, answer)
+    assert complete.status == 'COMPLETE'
+    assert complete.completed[-1].answer == answer
+    generation.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('source,answers', [
+    ('Một thùng có 6 túi bi, mỗi túi 12 viên. Bạn nhỏ lấy ra 19 viên. Hỏi trong thùng còn bao nhiêu viên bi?', ['72', '53']),
+    ('Một bình có 3 lít nước. Rót ra 6 cốc, mỗi cốc 350 ml. Hỏi bình còn bao nhiêu ml nước?', ['3000', '2100', '900']),
+])
+async def test_remaining_amount_uses_previous_calculations(monkeypatch, source, answers):
+    generation = AsyncMock(side_effect=TutorUnavailable('rate_limit'))
+    monkeypatch.setattr(lesson, 'generate_plan', generation)
+    state = await start_lesson(request(source))
+    for answer in answers:
+        assert not state.conclusion
+        assert turn(state, '999999').status == 'TRY_AGAIN'
+        state = turn(state, answer)
+    assert state.status == 'COMPLETE'
+    assert state.completed[-1].answer == answers[-1]
+    generation.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_locally_solved_word_problem_keeps_reading_before_calculation(monkeypatch):
+    source = 'Một thùng có 8 túi bi, mỗi túi 13 viên. An lấy ra 37 viên. Hỏi trong thùng còn bao nhiêu viên bi?'
+    generation = AsyncMock(side_effect=TutorUnavailable('rate_limit'))
+    monkeypatch.setattr(lesson, 'generate_plan', generation)
+    req = request(source).model_copy(update={'guidedUnderstanding': True, 'startWithReading': True})
+    response = await start_lesson(req)
+    assert response.understandingSteps == 3
+    assert response.step.kind == 'UNDERSTAND'
+    assert response.preparingMath and not response.conclusion
+    await asyncio.wait_for(lesson._sessions[response.sessionId].preparation_task, timeout=1)
+    session = lesson._sessions[response.sessionId]
+    assert [step.kind for step in session.plan.steps] == ['UNDERSTAND'] * 3 + ['MATH'] * 2
+    generation.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('source,answer', [('Tính: 2 3/8 + 1 5/12', '91/24'), ('Tính: 6 1/6 − 2 3/4', '41/12')])
+async def test_mixed_number_working_fits_business_api_response(source, answer):
+    state = await start_lesson(request(source))
+    assert not state.step.expression and not state.conclusion
+    complete = turn(state, answer)
+    assert complete.status == 'COMPLETE'
+    details = complete.completed[-1].calculationDetails
+    assert len(details) == 5
+    assert all('đổi hỗn số' in detail for detail in details[:2])
+    assert details[-1].endswith('= ' + answer)
+
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize('source,operations,expected,units', [
     ('Tìm một số biết rằng viết thêm chữ số 4 vào bên phải thì số mới hơn số phải tìm 112 đơn vị.', ['10-1','112-4','{s1}/{s0}'], ['9','108','12'], ['phần','','']),
     ('Vườn có 1/4 số cây là táo, 1/2 là xoài, còn lại 12 cây cam. Hỏi có tất cả bao nhiêu cây?', ['1/4+1/2','1-{s0}','12/{s1}'], ['3/4','1/4','48'], ['phần','phần','cây']),

@@ -1503,6 +1503,7 @@ _CONVERSION_OK = [
     '1 phút = 60 giây', '1/2 kg = 500 g', 'ĐỔI：１０Ｍ＝１０００ＣＭ',
     '3 m ² = 30000 cm ²', '1 m ³ = 1000 dm ³', '1 ki-lô-mét = 1000 mét',
     '1 m = 100 cm = 1000 mm',
+    '8 m 27 cm = 827 cm', '2 giờ 37 phút = 157 phút', '827 cm = 8 m 27 cm',
 ]
 
 @pytest.mark.parametrize('text', _CONVERSION_OK)
@@ -1512,7 +1513,8 @@ def test_confirmed_unit_conversion_notation(text):
     assert row.sourceText == text and not row.hints
 
 @pytest.mark.parametrize('text', ['300 yến = 3 tạ', '10 m = 100 cm', '2 kg = 200 g',
-    '1 giờ = 100 phút', '1 m² = 100 cm²', '1 m = 1 kg', '2 giờ = 120 cm'])
+    '1 giờ = 100 phút', '1 m² = 100 cm²', '1 m = 1 kg', '2 giờ = 120 cm',
+    '8 m 27 cm = 87 cm', '2 giờ 37 phút = 237 phút'])
 def test_confirmed_wrong_or_incompatible_unit_conversion(text):
     row = review._local_rows([text])[0]
     assert (row.rowKind, row.status, row.errorKind, row.arithmeticCorrect) == ('CALCULATION', 'FIX', 'CALCULATION', False)
@@ -1520,7 +1522,8 @@ def test_confirmed_wrong_or_incompatible_unit_conversion(text):
 
 @pytest.mark.parametrize('text', ['300 yến =', '10 m = ? cm', '300 ? = 30 tạ',
     '1 tháng = 30 ngày', '1 năm = 365 ngày', 'Dự đoán: 10m = 1000cm', '10 m ≈ 1000 cm',
-    '2⁰ m = 20 m', '2⁴ m = 24 m', '2₄ m = 24 m', '② m = 200 cm'])
+    '2⁰ m = 20 m', '2⁴ m = 24 m', '2₄ m = 24 m', '② m = 200 cm',
+    '7 m 8 kg = 708 cm', '−7 m 8 cm = −708 cm'])
 def test_unreadable_or_unsupported_conversion_stays_unsure(text):
     row = review._local_rows([text])[0]
     assert row.status == 'UNSURE' and row.arithmeticCorrect is None

@@ -53,6 +53,24 @@ def _verified_plan(problem):
     text = re.sub(r'^\(\d+(?:[.,]\d+)? diem\)\s*', '', text)
     text = re.sub(r'^[a-h][.)]\s*', '', text)
 
+    transport = re.fullmatch(r'co (\d{1,6}) hoc sinh, moi xe cho toi da (\d{1,6}) hoc sinh\. '
+                             r'can it nhat bao nhieu xe de cho het\?', text)
+    packing = re.fullmatch(r'co (\d{1,6}) qua [a-z ]+, moi gio xep du (\d{1,6}) qua\. '
+                           r'hoi xep duoc bao nhieu gio day\?', text)
+    groups = transport or packing
+    if groups:
+        total, capacity = map(int, groups.groups())
+        if total <= 0 or capacity <= 0:
+            return None
+        quotient, remainder = divmod(total, capacity)
+        result = quotient + (1 if transport and remainder else 0)
+        return _choices('Tìm số xe ít nhất' if transport else 'Tìm số giỏ đầy',
+            'Mỗi xe có số chỗ giới hạn, nhưng tất cả học sinh đều phải có chỗ.' if transport else
+            'Mỗi giỏ đầy phải có đủ số quả ghi trong đề. Giỏ chưa đầy không được tính.',
+            'Chia số học sinh cho số chỗ trên một xe. Nếu còn dư học sinh, phải thêm một xe nữa.' if transport else
+            'Chia số quả cho số quả trong một giỏ đầy. Lấy phần thương nguyên, để riêng số quả dư.',
+            [str(answer) for answer in (result, result - 1, result + 1, result + 2) if answer >= 0])
+
     sorting = re.fullmatch(r'(?:viet|sap xep) cac so (?:thap phan )?(' + _NUMBER +
         r'(?:\s*;\s*' + _NUMBER + r'){1,9}) theo thu tu (tu lon den be|tu be den lon|tang dan|giam dan)[.]?', text)
     if sorting:
