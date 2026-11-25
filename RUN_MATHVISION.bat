@@ -73,9 +73,6 @@ echo.
 echo ============================================================
 echo  MathVision Kids -- Local Ecosystem Ready!
 echo ============================================================
-echo  - Unified Portal:  http://localhost:5172  (Main Entry)
-echo  - Teacher Portal:  http://localhost:5173
-echo  - Admin Portal:    http://localhost:5174
 echo  - Student Mobile:  Scan the Expo Go QR code below
 echo  - Stop All:        STOP_MATHVISION.bat
 echo  - Deploy Web:      DEPLOY_WEB.bat
