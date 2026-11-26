@@ -4,6 +4,9 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { checkPullRequestRepository } from './git-flow.mjs';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const checkNames = ['web', 'student', 'backend', 'ai', 'launcher'];
+const githubFreeRunnerLimit = 20;
+const isRequired = value => value === true || value === 'true';
 export function validateTitle(title) {
   return /^(feat|fix|docs|test|refactor|perf|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: \S.{7,}$/u.test(title) && !/[\r\n]/.test(title);
 }
@@ -33,6 +36,12 @@ export function planChecks(paths, full = false) {
       || /^ai\/runtime\/(?:pyproject\.toml|uv\.lock|requirements(?:-lock)?\.txt)$/.test(p)),
   };
 }
+export function countStudentBrowserShards(plan) {
+  // Governance and the gate run outside the parallel check phase.
+  return isRequired(plan.student)
+    ? githubFreeRunnerLimit - checkNames.filter(name => isRequired(plan[name])).length
+    : 0;
+}
 export function checkNewPaths(paths) {
   const forbidden = paths.filter(p => /(?:^|\/)(?:node_modules|\.venv|demoUI)\/|(?:^|\/)\.env(?:$|\.)|\.(?:pem|pfx|sqlite3?|db|pt|pth|safetensors)$/i.test(p)
     && !/(?:^|\/)\.env(?:\.[a-z-]+)?\.(?:example|sample|template)$|(?:^|\/)\.env\.(?:example|sample|template)$/.test(p));
@@ -56,10 +65,20 @@ export function verifyWorkflow(source) {
 }
 export function checkGate(results, plan) {
   if (results.governance !== 'success') throw new Error('Governance failed or was cancelled');
-  for (const name of ['web', 'student', 'backend', 'ai', 'launcher']) {
+  for (const name of checkNames) {
     if (![true, false, 'true', 'false'].includes(plan?.[name])) throw new Error(`Missing or invalid ${name} check plan`);
-    const required = plan[name] === true || plan[name] === 'true';
+    const required = isRequired(plan[name]);
     if (results[name] !== 'success' && !(results[name] === 'skipped' && !required)) throw new Error(`${name} checks did not pass`);
+  }
+  const shardCount = countStudentBrowserShards(plan);
+  if (shardCount > 0 && String(plan.student_shards) !== String(shardCount)) {
+    throw new Error(`Invalid Student browser shard plan: expected ${shardCount}`);
+  }
+  for (let shard = 1; shard <= shardCount; shard++) {
+    const result = results[`student-browser-${shard}`];
+    if (result !== 'success') {
+      throw new Error(`Student browser shard ${shard}/${shardCount} did not pass (${result ?? 'missing'})`);
+    }
   }
 }
 function changedPaths(base, filter) {
@@ -84,7 +103,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
       const full = process.env.GITHUB_EVENT_NAME !== 'pull_request';
       const paths = full ? [] : changedPaths(process.env.BASE_SHA);
       const plan = planChecks(paths, full);
-      for (const [key, value] of Object.entries(plan)) {
+      const studentShards = countStudentBrowserShards(plan);
+      for (const [key, value] of Object.entries({ ...plan, student_shards: studentShards })) {
         const line = `${key}=${value}\n`;
         if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, line);
         else process.stdout.write(line);
@@ -92,10 +112,12 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
       if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY,
         `## MathVision Review Bot\n\nPhân tích ${full ? 'toàn bộ kiểm tra' : paths.length + ' đường dẫn thay đổi'}.\n\n` +
         Object.entries(plan).map(([key, value]) => `- ${key}: ${value ? 'cần kiểm tra' : 'không bị ảnh hưởng'}`).join('\n') +
+        (studentShards ? `\n- Student Playwright: ${studentShards} phần chạy song song` : '') +
         '\n\nBot chọn kiểm thử và tổng hợp kết quả; không tự review ngữ nghĩa, approve, merge hay gọi dịch vụ AI/TTS. Xem PR checklist và kết quả Quality gate.\n');
     } else if (command === 'gate') {
       const plan = JSON.parse(process.env.CHECK_PLAN);
-      const results = JSON.parse(process.env.CHECK_RESULTS);
+      const needs = JSON.parse(process.env.CHECK_NEEDS);
+      const results = Object.fromEntries(Object.entries(needs).map(([job, check]) => [job, check.result]));
       checkGate(results, plan);
       console.log('Required checks passed for the affected scope.');
       if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, '\n## Quality gate\n\n' + Object.entries(results).map(([key,value]) => `- ${key}: ${value}`).join('\n') + '\n');

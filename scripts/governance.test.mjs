@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
-import { validateTitle, validatePullRequestLabels, planChecks, checkNewPaths, checkTrackedArtifacts, verifyWorkflow, checkGate } from './governance.mjs';
+import { validateTitle, validatePullRequestLabels, planChecks, countStudentBrowserShards, checkNewPaths, checkTrackedArtifacts, verifyWorkflow, checkGate } from './governance.mjs';
 import { checkRegistry, routeSkills } from './skills.mjs';
 
 test('registry resolves backend/review without unrelated UI or complexity-only review', async () => {
@@ -130,6 +130,34 @@ test('gate never turns failure, cancellation or unexpectedly skipped checks into
     assert.throws(() => checkGate(results, malformed), /plan/);
   }
   checkGate(results, {web:'true',student:'false',backend:'false',ai:'false',launcher:'false'});
+});
+
+test('Student browser shards fill the runner budget and every scheduled shard must pass', () => {
+  const otherChecks = ['web', 'backend', 'ai', 'launcher'];
+  for (let active = 0; active <= otherChecks.length; active++) {
+    const plan = {
+      student: 'true',
+      ...Object.fromEntries(otherChecks.map((name, index) => [name, String(index < active)])),
+    };
+    const shardCount = countStudentBrowserShards(plan);
+    assert.equal(shardCount, 19 - active);
+    plan.student_shards = String(shardCount);
+    const results = {
+      governance: 'success',
+      student: 'success',
+      ...Object.fromEntries(otherChecks.map(name => [name, plan[name] === 'true' ? 'success' : 'skipped'])),
+    };
+    for (let shard = 1; shard <= shardCount; shard++) results[`student-browser-${shard}`] = 'success';
+    checkGate(results, plan);
+    assert.throws(() => checkGate(results, { ...plan, student_shards: String(shardCount + 1) }), /Invalid Student browser shard plan/);
+    for (const status of ['failure', 'cancelled', 'skipped', undefined]) {
+      assert.throws(
+        () => checkGate({ ...results, [`student-browser-${shardCount}`]: status }, plan),
+        /Student browser shard .* did not pass/,
+      );
+    }
+  }
+  assert.equal(countStudentBrowserShards(planChecks(['docs/engineering/naming-conventions.md'])), 0);
 });
 
 test('owner approval exemption never bypasses PR, CI or history protections', () => {
