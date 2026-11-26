@@ -2,6 +2,7 @@ package com.mathvisionkids.api.quiz;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mathvisionkids.api.common.ApiException;
+import com.mathvisionkids.api.studentprofile.StudentRewards;
 import com.mathvisionkids.api.user.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ class QuizIntegrationTest {
     @Autowired QuizPreparationRepository prepared;
     @Autowired QuizGenerator generator;
     @Autowired org.springframework.jdbc.core.JdbcTemplate db;
+    @Autowired StudentRewards rewards;
     String owner, other;
     Preparation prepareAndWait(String principal, Prepare request) {
         var response=preparations.prepare(principal,request);
@@ -440,14 +442,23 @@ class QuizIntegrationTest {
         assertEquals(revealed.explanationText(),service.authorizedSolution(owner,q.quizId()));
         var completed=service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),answer(q.quizId()))).quiz();
         assertEquals("COMPLETED",completed.status()); assertTrue(completed.completedWithSolution()); assertEquals(1,completed.stars());
+        assertEquals(0, completed.verifiedStars());
+        assertEquals(0, service.counts(owner).verifiedStars());
     }
-    @Test void wrongThenCorrectStillRewardsIndependentWorkAndHistorySurvivesReload() {
+    @Test void wrongThenCorrectStillRewardsIndependentWorkAndHistorySurvivesReload() throws Exception {
         var q=ready(); service.start(owner,q.quizId());
         service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),"999999")); allowNext(q.quizId());
         var result=service.submit(owner,q.quizId(),new Submission(UUID.randomUUID(),answer(q.quizId()))).quiz();
         assertEquals(3,result.stars()); assertEquals(2,result.attempts().size());
+        assertEquals(1, result.verifiedStars());
         var reloaded=service.get(owner,q.quizId()); assertEquals(result.attempts(),reloaded.attempts());
         assertEquals(3,service.reveal(owner,q.quizId()).stars()); assertEquals(3,service.counts(owner).totalStars());
+        rewards.record(sources.student(owner), StudentRewards.Source.LESSON, "other-source-event", "other-source-content");
+        assertEquals(1, service.counts(owner).verifiedStars());
+        mvc.perform(get("/api/v1/student/quizzes/pending-count")
+                        .with(SecurityMockMvcRequestPostProcessors.user(owner).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.verifiedStars").value(1));
+        assertEquals(0, service.counts(other).verifiedStars());
     }
     @Test void concurrentRepeatedSubmissionDoesNotDuplicateAttemptsOrRewards() throws Exception {
         var q=ready(); service.start(owner,q.quizId()); var request=new Submission(UUID.randomUUID(),answer(q.quizId()));
@@ -458,6 +469,7 @@ class QuizIntegrationTest {
             assertEquals(3,a.get(15,TimeUnit.SECONDS).quiz().stars()); assertEquals(3,b.get(15,TimeUnit.SECONDS).quiz().stars());
         }
         assertEquals(1,attempts.countByQuizId(q.quizId())); assertEquals(3,service.counts(owner).totalStars());
+        assertEquals(1, service.counts(owner).verifiedStars());
         assertEquals(1L, db.queryForObject("""
                 SELECT SUM(a.stars) FROM student_verified_activities a JOIN users u ON u.id = a.student_id
                 WHERE u.email = ? AND a.source = 'QUIZ'

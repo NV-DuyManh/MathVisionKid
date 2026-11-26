@@ -22,6 +22,9 @@ import { IS_STUDENT_WEB } from '../../constants/theme';
 
 const QUIZ_ICON_COLOR = C.deepPurple;
 const QUIZ_LINK_COLOR = C.deepPurple;
+const QUIZ_SCORE_UNIT = IS_STUDENT_WEB ? 'điểm luyện tập' : 'sao';
+const QUIZ_CHALLENGE_TITLE = IS_STUDENT_WEB ? 'Thử sức với câu mới' : 'Thử thách nâng sao';
+const SCORE_ICONS = IS_STUDENT_WEB ? ['ellipse-outline', 'checkmark-circle'] as const : ['star-outline', 'star'] as const;
 
 function Reward({ stars }: { stars: number }) {
   const [opacity] = useState(() => new Animated.Value(1));
@@ -33,8 +36,8 @@ function Reward({ stars }: { stars: number }) {
     });
     return () => { active = false; opacity.stopAnimation(); };
   }, [opacity, stars]);
-  return <Animated.View style={[s.stars, { opacity }]} accessibilityLabel={`${stars} sao`}>
-    {[0, 1, 2].map(index => <View key={index} style={s.resultMedal} accessible={false}><Ionicons name={index < stars ? 'star' : 'star-outline'} color={index < stars ? '#A66800' : '#88769C'} size={30} accessible={false} /></View>)}
+  return <Animated.View style={[s.stars, { opacity }]} accessibilityLabel={`${stars} ${QUIZ_SCORE_UNIT}`}>
+    {[0, 1, 2].map(index => <View key={index} style={s.resultMedal} accessible={false}><Ionicons name={SCORE_ICONS[index < stars ? 1 : 0]} color={index < stars ? '#A66800' : '#88769C'} size={30} accessible={false} /></View>)}
   </Animated.View>;
 }
 export default function QuizScreen() {
@@ -159,12 +162,12 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
               <View style={s.resultPanel}>
               {quiz.replayMode !== 'PRACTICE' ? <Reward stars={earnedStars}/> : null}
               <Text accessibilityLiveRegion={IS_STUDENT_WEB ? 'polite' : undefined} style={[s.heading,{textAlign:'center'}]}>{quiz.completedWithSolution ? 'Mình cùng hiểu thêm một bài!' : 'Em đã hoàn thành rồi!'}</Text>
-              <Text style={[s.body,{textAlign:'center'}]}>{quiz.replayMode === 'PRACTICE' ? 'Em đã ôn lại bài cũ. Thành tích của em được giữ nguyên.' : `Lượt này: ${earnedStars} sao · Kỷ lục: ${quiz.stars} sao`}</Text>
+              <Text style={[s.body,{textAlign:'center'}]}>{quiz.replayMode === 'PRACTICE' ? 'Em đã ôn lại bài cũ. Thành tích của em được giữ nguyên.' : `Lượt này: ${earnedStars} ${QUIZ_SCORE_UNIT} · Kỷ lục: ${quiz.stars} ${QUIZ_SCORE_UNIT}`}</Text>
               </View>
-              <AppButton title="Thử thách nâng sao" loadingTitle="Đang chuẩn bị câu mới…" style={s.workButton} disabled={busy} loading={task === 'challenge'} onPress={() => replayQuiz('CHALLENGE')}/>
+              <AppButton title={QUIZ_CHALLENGE_TITLE} loadingTitle="Đang chuẩn bị câu mới…" style={s.workButton} disabled={busy} loading={task === 'challenge'} onPress={() => replayQuiz('CHALLENGE')}/>
               {task === 'challenge' || task === 'practice' ? <PendingTask key={task} title={task === 'challenge' ? 'Đang tạo câu mới cùng dạng' : 'Đang mở lại bài cũ'} detail="Em có thể xem lại cách giải hoặc về trang chủ trong lúc chờ. Bài đã làm vẫn được giữ."/> : null}
             </View> : running ? <>
-              {quiz.replayMode === 'CHALLENGE' ? <Text style={s.small}>Thử thách nâng sao · Câu hỏi mới cho em</Text> : quiz.replayMode === 'PRACTICE' ? <Text style={s.small}>Ôn lại bài cũ · Giữ nguyên thành tích</Text> : null}
+              {quiz.replayMode === 'CHALLENGE' ? <Text style={s.small}>{QUIZ_CHALLENGE_TITLE} · Câu hỏi mới cho em</Text> : quiz.replayMode === 'PRACTICE' ? <Text style={s.small}>Ôn lại bài cũ · Giữ nguyên thành tích</Text> : null}
               <Text nativeID="quiz-answer-label" style={s.title}>Đáp án của em{quiz.unit ? ` (${quiz.unit})` : ''}</Text>
               {choices.length ? <View accessibilityRole="radiogroup" accessibilityLabel="Chọn đáp án của em" style={s.choiceList}
                 onKeyDown={IS_STUDENT_WEB ? event => {
@@ -200,7 +203,7 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
               {!IS_STUDENT_WEB && feedback ? <Text accessibilityLiveRegion="polite" style={s.error}>{feedback}</Text> : null}
               <AppButton title="Hoàn thành" loadingTitle="Đang kiểm tra đáp án…" style={s.workButton} disabled={busy || !answer.trim()} loading={task === 'submit'} onPress={submit}/>
               {IS_STUDENT_WEB ? <Text accessibilityLiveRegion="polite" style={feedback ? [s.error, s.webFeedback] : s.emptyFeedback}>{feedback}</Text> : null}
-              {quiz.solutionViewed ? <Text style={s.small}>{quiz.replayMode === 'PRACTICE' ? 'Em cứ luyện theo nhịp của mình nhé.' : 'Em đang luyện cùng hướng dẫn. Hoàn thành lượt này em nhận 1 sao.'}</Text> : null}
+              {quiz.solutionViewed ? <Text style={s.small}>{quiz.replayMode === 'PRACTICE' ? 'Em cứ luyện theo nhịp của mình nhé.' : IS_STUDENT_WEB ? 'Em đang luyện cùng hướng dẫn.' : 'Em đang luyện cùng hướng dẫn. Hoàn thành lượt này em nhận 1 sao.'}</Text> : null}
             </> : <>
               <View style={s.readyNote}><Ionicons name="bulb-outline" size={24} color={C.deepPurple} accessible={false}/><Text style={[s.body,s.readyCopy]}>Đọc kỹ đề, chọn cách làm của em. Đồng hồ bắt đầu khi em mở thử thách.</Text></View>
               <AppButton title="Bắt đầu thử thách" loadingTitle="Đang mở câu đố…" style={s.workButton} disabled={busy} loading={task === 'start'} icon={<Ionicons name="play" size={18} color="#FFFFFF" accessible={false}/>} onPress={() => void perform('start', signal => quizApi.start(id, signal))}/>
@@ -218,8 +221,14 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
               <Text style={s.timerHint}>{done ? 'Kết quả đã được ghi nhận.' : 'Đồng hồ chỉ tính khi em đang làm trong Quiz; rời màn hình sẽ tạm dừng.'}</Text>
             </View> : null}
             <View style={s.supportCard}>
-              <Text style={s.supportTitle}>{quiz.replayMode === 'PRACTICE' ? 'Luyện tập theo nhịp của em' : done ? 'Thành tích lượt này' : 'Chinh phục những ngôi sao'}</Text>
-              {quiz.replayMode === 'PRACTICE' ? <Text style={s.small}>Ôn lại bài cũ không chấm sao mới. Thành tích của em được giữ nguyên.</Text> : done ? <><View style={s.earnedRow}><Ionicons name="star" size={26} color="#906112" accessible={false}/><Text style={s.earnedNumber}>{earnedStars} sao</Text></View><Text style={s.small}>{quiz.completedWithSolution ? 'Hoàn thành cùng hướng dẫn.' : 'Số sao đã được xác nhận cho lượt này.'} Kỷ lục: {quiz.stars} sao.</Text></> : quiz.solutionViewed ? <Text style={s.small}>Em đang luyện cùng hướng dẫn. Hoàn thành lượt này em nhận 1 sao.</Text> : <>
+              <Text style={s.supportTitle}>{IS_STUDENT_WEB ? 'Sao từ câu đố' : quiz.replayMode === 'PRACTICE' ? 'Luyện tập theo nhịp của em' : done ? 'Thành tích lượt này' : 'Chinh phục những ngôi sao'}</Text>
+              {IS_STUDENT_WEB ? done && quiz.verifiedStars != null ? <>
+                <View style={s.earnedRow}><Ionicons name="star" size={26} color="#906112" accessible={false}/><Text style={s.earnedNumber}>{quiz.verifiedStars} sao</Text></View>
+                <Text style={s.small}>Sao đã cộng vào hồ sơ từ câu này.</Text>
+              </> : <Text style={s.small}>{done ? 'Chưa tải được số sao đã cộng.' : quiz.replayMode === 'PRACTICE' || quiz.replayMode === 'CHALLENGE' || quiz.solutionViewed
+                ? 'Làm lại hoặc xem cách giải vẫn giúp em luyện tập. Điểm luyện tập được ghi riêng.'
+                : 'Em nhận 1 sao vào hồ sơ khi tự giải đúng câu đủ điều kiện lần đầu.'}</Text>
+              : quiz.replayMode === 'PRACTICE' ? <Text style={s.small}>Ôn lại bài cũ không chấm sao mới. Thành tích của em được giữ nguyên.</Text> : done ? <><View style={s.earnedRow}><Ionicons name="star" size={26} color="#906112" accessible={false}/><Text style={s.earnedNumber}>{earnedStars} sao</Text></View><Text style={s.small}>{quiz.completedWithSolution ? 'Hoàn thành cùng hướng dẫn.' : 'Số sao đã được xác nhận cho lượt này.'} Kỷ lục: {quiz.stars} sao.</Text></> : quiz.solutionViewed ? <Text style={s.small}>Em đang luyện cùng hướng dẫn. Hoàn thành lượt này em nhận 1 sao.</Text> : <>
                 {[[3,'Trong 30 giây'],[2,'Trên 30 đến 60 giây'],[1,'Sau 60 giây']].map(([stars,label]) => <View key={stars} style={s.rewardRule}><View style={s.ruleStars} accessible={false}>{[0,1,2].map(index => <Ionicons key={index} name={index < Number(stars) ? 'star' : 'star-outline'} size={17} color={index < Number(stars) ? '#906112' : '#9A8C6E'} accessible={false}/>)}</View><Text style={s.ruleLabel}>{label}</Text></View>)}
                 <Text style={s.small}>Trả lời đúng để nhận sao theo thời gian làm bài.</Text>
               </>}
@@ -258,7 +267,7 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
       {tool==='history' ? quiz.attempts.slice().reverse().map(attempt=><View key={attempt.number} style={s.note}>
         {attempt.questionText ? <MathText style={s.small}>{attempt.questionText}</MathText> : null}
         <Text style={s.title}>{`Lần ${attempt.number}: ${attempt.answer} · ${attempt.correct?'Đúng':'Chưa đúng'}`}</Text>
-        <Text style={s.small}>{`${quizTime(attempt.elapsedMillis)} · ${attempt.stars || 0} sao · ${new Date(attempt.submittedAt).toLocaleDateString('vi-VN')}`}</Text>
+        <Text style={s.small}>{`${quizTime(attempt.elapsedMillis)} · ${attempt.stars || 0} ${QUIZ_SCORE_UNIT} · ${new Date(attempt.submittedAt).toLocaleDateString('vi-VN')}`}</Text>
       </View>) : null}
     </LessonSheet> : null}
   </SafeAreaView></QuizNarrationPreparation>;

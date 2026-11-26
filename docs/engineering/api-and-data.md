@@ -18,6 +18,7 @@ Spring Boot là thẩm quyền xác thực/RBAC và quyền sở hữu tài nguy
 
 - Hồ sơ riêng của học sinh trả `googleLinked` để Student Web mở luồng đặt lại mật khẩu qua email hiện có. `avatarPhoto` ưu tiên ảnh học sinh tải lên. Khi dùng ảnh Google, trường này chứa URL HTTPS lấy từ thông tin đăng nhập Google đã xác thực. Bảng xếp hạng dùng hình đại diện mặc định của hồ sơ.
 - Tên hiển thị chỉnh trong hồ sơ học sinh hỗ trợ chữ Unicode và chữ số, tối đa 50 từ. Một hoặc nhiều dấu cách giữa các từ được tính là một ranh giới.
+- Câu đố trả `verifiedStars` từ sổ sao hoạt động. Ở endpoint `pending-count` đó là tổng sao nguồn Quiz của học sinh, còn ở chi tiết đã hoàn thành đó là sao đã cộng từ câu đố đó. Các trường điểm theo thời gian cũ vẫn phục vụ ứng dụng đã phát hành.
 - `POST /api/v1/auth/google` có thể nhận thêm `profileAccessToken`. Khi ID token đã xác thực thiếu URL ảnh hợp lệ, API dùng token bổ sung để đọc ảnh từ Google UserInfo và chỉ nhận ảnh nếu `sub` trùng với ID token.
 
 - API nghiệp vụ dưới `/api/v1`, JSON camelCase. Dùng DTO và allowlist đầu vào, không bind entity hoặc nhận điểm/quyền đã duyệt từ client làm sự thật.
