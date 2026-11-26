@@ -59,7 +59,8 @@ public class StudentProfileService {
         Student student = student(principal);
         UUID id = student.getId();
         String name = Normalizer.normalize(edit.displayName().strip(), Normalizer.Form.NFC);
-        if (!name.matches("[\\p{L}\\p{M}][\\p{L}\\p{M} .’'-]{0,39}") || !AVATARS.contains(edit.avatar())) {
+        if (!name.matches("[\\p{L}\\p{M}\\p{Nd}][\\p{L}\\p{M}\\p{Nd} .’'-]*")
+                || name.split(" +", 51).length > 50 || !AVATARS.contains(edit.avatar())) {
             throw invalid("Em kiểm tra tên hiển thị hoặc chọn một hình đại diện trong bộ sưu tập nhé.");
         }
         lockStudent(id);

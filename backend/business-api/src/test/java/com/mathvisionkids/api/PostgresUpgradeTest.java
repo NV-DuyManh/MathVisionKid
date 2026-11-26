@@ -10,6 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 /** Opt-in, real Flyway upgrade with existing data. Never touches the public app schema. */
 @EnabledIfEnvironmentVariable(named = "MATHVISION_POSTGRES_UPGRADE", matches = "true")
 class PostgresUpgradeTest {
+    @Test void upgradeFrom42PreservesUsersAndStoresLongDisplayNames() throws Exception {
+        verifyUpgrade("42");
+    }
+
     @Test void upgradeFrom40PreservesStarsAndRetiresSelectedTitle() throws Exception {
         verifyUpgrade("40");
     }
@@ -88,9 +92,25 @@ class PostgresUpgradeTest {
                 sql.execute("INSERT INTO student_quizzes(id,student_id,source_type,source_id,source_fingerprint,topic_code,topic_name,skill_code,grade_level,question_text,unit,answer_spec,validated_solution,status,created_at,updated_at,generation_version) VALUES ('"+quiz+"','"+id+"','LESSON','source',repeat('a',64),'ADDITION','Addition','ADD',5,'2 + 2 = ?','','4','2 + 2 = 4','READY',now(),now(),'test')");
                 var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
-                assertEquals(42 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
-                assertEquals("42", latest.info().current().getVersion().getVersion());
+                assertEquals(43 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
+                assertEquals("43", latest.info().current().getVersion().getVersion());
                 assertTrue(latest.validateWithResult().validationSuccessful);
+                if ("42".equals(startingVersion)) {
+                    try (var row = sql.executeQuery("SELECT display_name FROM users WHERE id='" + id + "'")) {
+                        assertTrue(row.next());
+                        assertEquals("Synthetic pupil", row.getString(1));
+                    }
+                    String displayName = ("Student5 ".repeat(50)).stripTrailing();
+                    try (var update = connection.prepareStatement("UPDATE users SET display_name=? WHERE id=?")) {
+                        update.setString(1, displayName);
+                        update.setObject(2, UUID.fromString(id));
+                        assertEquals(1, update.executeUpdate());
+                    }
+                    try (var row = sql.executeQuery("SELECT display_name FROM users WHERE id='" + id + "'")) {
+                        assertTrue(row.next());
+                        assertEquals(displayName, row.getString(1));
+                    }
+                }
                 if (Integer.parseInt(startingVersion) >= 38) {
                     try (var result = sql.executeQuery("SELECT pin_hash, pin_revision FROM student_parent_control WHERE student_id = '" + id + "'")) {
                         assertTrue(result.next());
