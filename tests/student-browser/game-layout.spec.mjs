@@ -1,4 +1,4 @@
-import { chooseTrainingGrade, expectRaceCameraFramed } from './game-controls.mjs';
+import { chooseTrainingGrade, expectRaceCameraFramed, raceState } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 const desktopSizes = [[1280, 720], [1366, 768], [1440, 900], [1920, 1080], [2560, 1440]];
@@ -97,20 +97,6 @@ async function islandState(page) {
       for (let hook = fiber.memoizedState, i = 0; hook && i < 100; hook = hook.next, i++) {
         const state = hook.memoizedState;
         if (state?.quests && state?.blocks && typeof state.index === 'number') return state;
-      }
-      fiber = fiber.return;
-    }
-    return null;
-  });
-}
-
-async function raceState(page) {
-  return page.locator('[data-testid^="token-"]').first().evaluate(element => {
-    let fiber = element[Object.keys(element).find(key => key.startsWith('__reactFiber$'))];
-    while (fiber) {
-      for (let hook = fiber.memoizedState, i = 0; hook && i < 100; hook = hook.next, i++) {
-        const value = hook.memoizedState;
-        if (typeof value?.getSnapshot === 'function' && typeof value?.startGame === 'function') return value.getSnapshot();
       }
       fiber = fiber.return;
     }

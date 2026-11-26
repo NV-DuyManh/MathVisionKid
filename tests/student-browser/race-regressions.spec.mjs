@@ -1,4 +1,5 @@
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
+import { raceState } from './game-controls.mjs';
 
 async function open(page, app, game, grade) {
   app.realStudent = true;
@@ -10,10 +11,12 @@ async function open(page, app, game, grade) {
   await page.getByTestId('game-grade-start').click();
 }
 
-test('desktop intro visibly zooms, grade 5 has advanced questions and bots use character names', async ({ page, app, isMobile }, info) => {
+for (const [seed, comparison] of [[1, false], [2, true]]) test(
+  `desktop Race intro, grade 5 and bot names with ${comparison ? 'a comparison' : 'a typed answer'}`, async ({ page, app, isMobile }, info) => {
   test.skip(isMobile, 'Desktop camera; lower-grade rendering is checked separately.');
   test.setTimeout(90000);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.addInitScript(value => { Math.random = () => (value + 0.5) / 0xffffffff; }, seed);
   await open(page, app, 'race-to-finish', 5);
   await page.getByText('2 Người chơi', { exact: true }).click();
   await expect(page.getByTestId('race-setup-name-1')).toHaveValue('Cánh Cụt');
@@ -33,8 +36,16 @@ test('desktop intro visibly zooms, grade 5 has advanced questions and bots use c
   await page.getByTestId('roll-dice-button').click();
   await expect(page.getByText('Thử thách Toán lớp 5', { exact: true })).toBeVisible();
   await expect(page.getByTestId('math-prompt')).not.toHaveText(/^Tính: \d+ [−+] \d+$/);
-  await page.getByTestId('math-answer-input').fill('-999999');
-  await page.getByTestId('math-submit').click();
+  const { question } = await raceState(page);
+  expect(Boolean(question.choices)).toBe(comparison);
+  if (question.choices) {
+    const wrong = question.choices.find(choice => choice !== question.answer);
+    expect(wrong).toBeDefined();
+    await page.getByTestId('math-feedback-layer').getByText(wrong, { exact: true }).click();
+  } else {
+    await page.getByTestId('math-answer-input').fill('-999999');
+    await page.getByTestId('math-submit').click();
+  }
   await page.getByTestId('math-understood').click();
   await expect(page.getByText('Bạn Cụt đang suy nghĩ...', { exact: true })).toBeVisible({ timeout: 20000 });
   await expect(page.getByTestId('race-current-player')).not.toContainText('Máy');
