@@ -9,6 +9,7 @@ import { loadLessons } from '../../features/tutoring/learningHistory';
 import type { SavedLesson } from '../../features/tutoring/learningHistory';
 import { StudentAvatar } from '../../features/student-profile/ProfileCards';
 import { profileApi } from '../../features/student-profile/profileApi';
+import { onQuizChanged } from '../../features/quiz/quizApi';
 import type { StudentProfile } from '../../features/student-profile/profileApi';
 import { studentWorkspaceStyles } from './studentWorkspaceStyles.web';
 
@@ -88,6 +89,7 @@ function WorkspaceSidebar({ pathname }: { pathname: string }) {
 type Panel = 'search' | 'notifications';
 function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: string; grade: number }) {
   const [profile, setProfile] = useState<StudentProfile>();
+  const [profileRevision, setProfileRevision] = useState(0);
   const [query, setQuery] = useState('');
   const [panel, setPanel] = useState<Panel | null>(null);
   const [saved, setSaved] = useState<SavedLesson[]>([]);
@@ -109,13 +111,16 @@ function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: 
     window.addEventListener('keydown', shortcut);
     return () => window.removeEventListener('keydown', shortcut);
   }, []);
+  useEffect(() => onQuizChanged(completed => {
+    if (completed) setProfileRevision(revision => revision + 1);
+  }), []);
   useEffect(() => {
     const request = new AbortController();
     void profileApi.get(request.signal).then(result => {
       if (!request.signal.aborted) setProfile(result);
     }).catch(() => {});
     return () => request.abort();
-  }, [pathname, grade]);
+  }, [pathname, grade, profileRevision]);
   useEffect(() => {
     if (!panel) return;
     const outside = (event: PointerEvent) => {

@@ -37,9 +37,9 @@ public final class QuizDtos {
                        long elapsedMillis, int stars, int wrongAttempts, boolean solutionViewed,
                        boolean completedWithSolution, boolean canRevealSolution, List<Attempt> attempts,
                        String explanationText, String correctAnswer, String replayMode, String originalQuestionText,
-                       boolean timerRunning) {}
+                       boolean timerRunning, Integer verifiedStars) {}
     public record Invitation(boolean offered, View quiz) {}
     public record Library(List<View> items, int page, int totalPages, long totalElements) {}
-    public record Counts(long pendingCount, long totalStars) {}
+    public record Counts(long pendingCount, long totalStars, long verifiedStars) {}
     public record Graded(View quiz, Attempt attempt) {}
 }

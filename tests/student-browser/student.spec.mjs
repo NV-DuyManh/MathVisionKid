@@ -480,7 +480,7 @@ test('Student quiz starts, shows feedback and completes with the existing API co
   app.realStudent = true;
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.addInitScript(() => {
-    const reward = '[aria-label="3 sao"]';
+    const reward = '[aria-label="3 điểm luyện tập"]';
     window.quizRewardWasDimmed = false;
     new MutationObserver(() => {
       const element = document.querySelector(reward);
@@ -549,7 +549,7 @@ test('Student quiz starts, shows feedback and completes with the existing API co
   await answer.fill('42');
   await page.getByRole('button', { name: 'Hoàn thành', exact: true }).click();
   await expect(page.getByText('Em đã hoàn thành rồi!', { exact: true })).toBeVisible();
-  const reward = page.getByLabel('3 sao', { exact: true });
+  const reward = page.getByLabel('3 điểm luyện tập', { exact: true });
   await expect(reward).toBeVisible();
   await expect(reward).toHaveCSS('opacity', '1');
   expect(await page.evaluate(() => window.quizRewardWasDimmed)).toBe(false);
