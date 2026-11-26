@@ -74,23 +74,35 @@ test('leaderboards show the private profile photo only on the signed-in student 
     avatarPhoto: picture, leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: ownAlias,
   });
   const { rank } = app.studentProfile;
+  const peerRank = { ...rank, name: 'Đồng II' };
   await page.route('**/api/v1/student/leaderboard*', route => route.fulfill({ json: {
     gradeLevel: null, ownPosition: 1, entries: [
       { position: 1, alias: ownAlias, avatar: 'planet', stars: 10, rank, self: true },
-      { position: 2, alias: peerAlias, avatar: 'rocket', stars: 9, rank, self: false },
+      { position: 2, alias: peerAlias, avatar: 'rocket', stars: 9, rank: peerRank, self: false },
     ],
   } }));
 
   if (testInfo.project.name === 'desktop') {
     await page.goto(`${sites.portal.origin}/study/`);
-    const ownRow = page.getByText(ownAlias, { exact: true }).locator('..');
-    const peerRow = page.getByText(peerAlias, { exact: true }).locator('..');
+    const homeRows = page.getByTestId('home-leaderboard-entry');
+    const ownRow = homeRows.filter({ hasText: ownAlias });
+    const peerRow = homeRows.filter({ hasText: peerAlias });
     await expect(ownRow.locator(`img[src="${picture}"]`)).toBeVisible();
     await expect(peerRow).toBeVisible();
-    await expect(peerRow.locator('img')).toHaveCount(0);
+    await expect(peerRow.locator(`img[src="${picture}"]`)).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: 'Hạng của em', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: 'Mục tiêu tuần', exact: true })).toHaveCount(0);
+    for (const [row, alias, rankName] of [[ownRow, ownAlias, rank.name], [peerRow, peerAlias, peerRank.name]]) {
+      const nameText = row.getByText(alias, { exact: true });
+      const rankText = row.getByText(rankName, { exact: true });
+      await expect(rankText).toBeVisible();
+      expect((await rankText.boundingBox()).y).toBeGreaterThan((await nameText.boundingBox()).y);
+    }
+    await page.getByRole('button', { name: 'Xem bảng xếp hạng', exact: true }).click();
+  } else {
+    await page.goto(`${sites.portal.origin}/study/achievements`);
   }
 
-  await page.goto(`${sites.portal.origin}/study/achievements`);
   const rows = page.getByTestId('leaderboard-entry');
   await expect(rows.filter({ hasText: ownAlias }).locator(`img[src="${picture}"]`)).toBeVisible();
   await expect(rows.filter({ hasText: peerAlias })).toBeVisible();

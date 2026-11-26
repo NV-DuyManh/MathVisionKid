@@ -93,7 +93,8 @@ public class QuizService {
     @Transactional(readOnly=true)
     public Counts counts(String principal) {
         UUID student=identities.student(principal);
-        return new Counts(quizzes.countByStudentIdAndStatusIn(student,List.of("READY","DEFERRED","IN_PROGRESS")),quizzes.totalStars(student));
+        return new Counts(quizzes.countByStudentIdAndStatusIn(student,List.of("READY","DEFERRED","IN_PROGRESS")),
+                quizzes.totalStars(student), rewards.verifiedQuizStars(student));
     }
     @Transactional(readOnly=true)
     public View get(String principal, UUID id) {
@@ -287,7 +288,8 @@ public class QuizService {
                 detail ? attempts.findByQuizIdOrderByAttemptNumber(q.id).stream().map(QuizService::attempt).toList() : List.of(),
                 detail && published ? q.validatedSolution : null,detail && published ? q.answerSpec : null,
                 q.replayMode, q.startedAt == null ? null : q.originalQuestionText != null ? q.originalQuestionText : q.questionText,
-                "IN_PROGRESS".equals(q.status) && q.activeUntil!=null && now().isBefore(q.activeUntil));
+                "IN_PROGRESS".equals(q.status) && q.activeUntil!=null && now().isBefore(q.activeUntil),
+                detail && q.firstCompletedAt != null ? rewards.verifiedQuizStars(q.studentId, q.id) : null);
     }
     private static Attempt attempt(QuizAttempt a) { return new Attempt(a.attemptNumber,a.answer,a.correct,a.submittedAt,a.elapsedMillis,a.stars,a.replayMode,a.questionText,a.solutionViewed,a.runStartedAt); }
     private static ApiException missing() { return error("QUIZ_NOT_FOUND","Chưa tìm thấy Quiz của em.",HttpStatus.NOT_FOUND); }

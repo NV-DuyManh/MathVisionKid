@@ -30,6 +30,20 @@ public class StudentRewards {
         return recordLocked(student, source, eventId, contentId, Instant.now());
     }
 
+    public long verifiedQuizStars(UUID student) {
+        return db.queryForObject("""
+                SELECT COALESCE(SUM(stars), 0) FROM student_verified_activities
+                WHERE student_id = ? AND source = 'QUIZ'
+                """, Long.class, student);
+    }
+
+    public int verifiedQuizStars(UUID student, UUID quizId) {
+        return db.queryForObject("""
+                SELECT COALESCE(SUM(stars), 0) FROM student_verified_activities
+                WHERE student_id = ? AND source = 'QUIZ' AND event_id = ?
+                """, Integer.class, student, quizId.toString());
+    }
+
     int recordLocked(UUID student, Source source, String eventId, String contentId, Instant now) {
         return recordAward(student, source, eventId, contentId, now).stars();
     }

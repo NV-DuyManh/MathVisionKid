@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS, FONTS, IS_STUDENT_WEB } from '../../constants/theme';
 import { AppIllustration as Image } from '../ui/AppIllustration';
-import { buildCompletedLearningActivity, WEEKLY_ACTIVITY_GOAL } from '../../features/home/learningActivity';
+import { buildCompletedLearningActivity } from '../../features/home/learningActivity';
 import { PocketCalculator } from '../../features/calculator/PocketCalculator';
 import { LearningJourney } from './LearningJourney';
 import { ResumeLessonCard } from '../../features/tutoring/ResumeLessonCard';
@@ -16,6 +16,7 @@ import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
 import { RecoveryNotice } from '../ui/RecoveryNotice';
 import { useStudentProfile } from '../../features/student-profile/useStudentProfile';
 import { StudentAvatar } from '../../features/student-profile/ProfileCards';
+import { RankEmblem } from '../../features/student-profile/RankEmblem';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { getLessonArtwork } from '../../features/lesson-artwork/lessonArtwork';
@@ -89,7 +90,6 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
   }, [desktopWeb, userKey, profile.value?.leaderboardVisible, profile.value?.leaderboardNameHidden, profile.value?.publicAlias]));
   const leaders = ranking && ranking.owner === userKey
     ? ranking.data.entries.filter(entry => !entry.self || profile.value?.leaderboardVisible === true).slice(0, 3) : undefined;
-  const weeklyProgress = Math.min(profile.value?.stats.week ?? 0, WEEKLY_ACTIVITY_GOAL);
   const quickActions = [
     { title: 'Bài đã lưu', label: 'Bài đã lưu. Xem lại bài làm của em', image: ART.saved, color: '#FDE7F2', action: () => router.push(desktopWeb ? '/saved' as never : '/(tabs)/profile') },
     { title: 'Luyện tập', label: 'Luyện tập. Làm bài theo chủ đề', image: ART.practice, color: '#E2F3FF', action: () => router.push('/(tabs)/lessons') },
@@ -195,35 +195,22 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       <Text style={styles.historyNote}>Theo hoạt động đã hoàn thành · Giờ Việt Nam.</Text>
       {profile.failed ? <Pressable accessibilityRole="button" accessibilityLabel="Tải lại chuỗi học tập" onPress={profile.retry} style={styles.textButton}><Text style={styles.link}>Tải lại</Text></Pressable> : null}
     </View>
-    {desktopWeb && profile.value ? <View style={styles.desktopProgress}>
-      <View style={styles.panelTitleRow}><Ionicons name="locate" size={21} color={COLORS.primaryDark} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Mục tiêu tuần</Text></View>
-      <View style={styles.weeklySummary}>
-        <Text style={styles.progressLabel}>Hoạt động trong 7 ngày qua</Text>
-        <Text style={styles.link}>{weeklyProgress}/{WEEKLY_ACTIVITY_GOAL}</Text>
-      </View>
-      <View accessibilityRole="progressbar" accessibilityLabel="Mục tiêu hoạt động trong tuần"
-        accessibilityValue={{ min: 0, now: weeklyProgress, max: WEEKLY_ACTIVITY_GOAL }} style={styles.weeklyTrack}>
-        <View style={[styles.weeklyBar, { width: `${weeklyProgress * 100 / WEEKLY_ACTIVITY_GOAL}%` }]} />
-      </View>
-      <Pressable accessibilityRole="button" onPress={() => router.push('/(tabs)/profile')} style={styles.textButton}>
-        <Text style={styles.link}>Xem tiến bộ</Text>
-      </Pressable>
-    </View> : null}
-    {desktopWeb && profile.value ? <View style={styles.desktopProgress}>
-      <View style={styles.panelTitleRow}><Ionicons name="trophy-outline" size={20} color="#A76405" accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Hạng của em</Text></View>
-      <Text style={styles.caption}>{profile.value.rank.name} · {profile.value.stars} sao</Text>
-      <Pressable accessibilityRole="button" onPress={() => router.push('/(tabs)/achievements')} style={styles.textButton}><Text style={styles.link}>Xem xếp hạng</Text></Pressable>
-    </View> : null}
-    {desktopWeb ? <View style={[styles.desktopProgress, styles.leaderPanel]}>
+    {desktopWeb ? <View style={styles.leaderPanel}>
       <LinearGradient colors={['#643BD3', '#814CEB']} start={{ x: 0, y: 0 }} end={{ x: 1, y: .5 }} style={styles.leaderHeading}>
         <Ionicons name="trophy-outline" size={21} color="#FFE888" accessible={false} />
         <Text accessibilityRole="header" style={styles.leaderTitle}>Bảng xếp hạng</Text><Text style={styles.leaderGrade}>Tất cả khối</Text>
       </LinearGradient>
       {leaders?.length === 0 && <Text style={styles.leaderEmpty}>Chưa có bạn nào được xếp hạng.</Text>}
-      {leaders?.map((entry, index) => <View key={entry.position} style={[styles.leader, index === 0 && styles.leaderTop]}>
+      {leaders?.map((entry, index) => <View key={entry.position} testID="home-leaderboard-entry" style={[styles.leader, index === 0 && styles.leaderTop]}>
         <Text style={styles.link}>#{entry.position}</Text>
         <StudentAvatar id={entry.avatar} photo={entry.self ? profile.value?.avatarPhoto : undefined} size={25} />
-        <Text style={styles.leaderName}>{entry.self && profile.value?.leaderboardNameHidden ? profile.value.publicAlias : entry.alias}</Text>
+        <View style={styles.leaderIdentity}>
+          <Text numberOfLines={2} style={styles.leaderName}>{entry.self && profile.value?.leaderboardNameHidden ? profile.value.publicAlias : entry.alias}</Text>
+          <View style={styles.leaderRankRow}>
+            <RankEmblem name={entry.rank.name} size={20} />
+            <Text style={styles.leaderRank}>{entry.rank.name}</Text>
+          </View>
+        </View>
         <Text style={styles.progressLabel}>{entry.stars} sao</Text>
       </View>)}
       <Pressable accessibilityRole="button" onPress={() => router.push('/(tabs)/achievements')} style={styles.textButton}><Text style={styles.link}>Xem bảng xếp hạng</Text></Pressable>
@@ -250,23 +237,21 @@ const styles = StyleSheet.create({
   desktopQuickCard: { minHeight: 59, flexDirection: 'row', gap: 6, paddingHorizontal: 6, borderRadius: 14 },
   desktopQuickArt: { width: 34, height: 34, marginBottom: 0 },
   desktopQuickTitle: { fontSize: 13, lineHeight: 17, flexShrink: 1 },
-  desktopProgress: { marginTop: 14, paddingHorizontal: 18, paddingTop: 14, borderRadius: STUDENT_WEB.radius,
-    borderWidth: 1, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.surface },
   progressMetrics: { flexDirection: 'row', gap: 8, marginTop: 12 },
-  panelTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  weeklySummary: { paddingTop: 11, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 6 },
-  weeklyTrack: { height: 8, marginTop: 8, borderRadius: 4, backgroundColor: STUDENT_WEB.soft, overflow: 'hidden' },
-  weeklyBar: { height: '100%', borderRadius: 4, backgroundColor: STUDENT_WEB.brand },
   progressLabel: { color: STUDENT_WEB.muted, fontFamily: FONTS.semiBold, fontSize: 12 },
   titleTile: { flex: 1, alignItems: 'center', padding: 8, gap: 5, borderRadius: 12, backgroundColor: STUDENT_WEB.soft },
-  leaderPanel: { paddingHorizontal: 0, paddingTop: 0, overflow: 'hidden' },
+  leaderPanel: { marginTop: 14, borderRadius: STUDENT_WEB.radius, borderWidth: 1, borderColor: STUDENT_WEB.border,
+    backgroundColor: STUDENT_WEB.surface, overflow: 'hidden' },
   leaderEmpty: { paddingHorizontal: 12, color: COLORS.textSecondary, fontFamily: FONTS.semiBold, fontSize: 12, textAlign: 'center' },
   leaderHeading: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 12 },
   leaderTitle: { flex: 1, fontFamily: FONTS.extraBold, fontSize: 16, color: '#FFF' },
   leaderGrade: { color: '#FFF', backgroundColor: '#FFFFFF26', fontFamily: FONTS.bold, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 10, fontSize: 12 },
-  leader: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 40, paddingHorizontal: 12, borderBottomWidth: 1, borderColor: STUDENT_WEB.border },
+  leader: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 40, paddingHorizontal: 12, paddingVertical: 6, borderBottomWidth: 1, borderColor: STUDENT_WEB.border },
   leaderTop: { backgroundColor: '#FFF4D9' },
-  leaderName: { flex: 1, color: STUDENT_WEB.ink, fontFamily: FONTS.bold, fontSize: 13 },
+  leaderIdentity: { flex: 1, minWidth: 0 },
+  leaderName: { color: STUDENT_WEB.ink, fontFamily: FONTS.bold, fontSize: 13 },
+  leaderRankRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  leaderRank: { flexShrink: 1, color: STUDENT_WEB.muted, fontFamily: FONTS.regular, fontSize: 12 },
   pageTitle: { fontFamily: FONTS.extraBold, fontSize: 25, color: COLORS.textPrimary, marginBottom: 16 },
   header: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 20 }, avatar: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FDE7F1', overflow: 'hidden' },
   headerCopy: { flex: 1, minWidth: 0 }, welcome: { fontFamily: FONTS.regular, fontSize: 12, color: COLORS.textSecondary }, name: { fontFamily: FONTS.extraBold, fontSize: 17, lineHeight: 24, color: COLORS.textPrimary },

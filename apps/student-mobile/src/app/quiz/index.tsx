@@ -59,7 +59,8 @@ function Library() {
       .finally(() => { if (active.current && !abort.signal.aborted) { setBusy(false); controller.current = null; } });
     void quizApi.count(abort.signal).then(data => {
       if (active.current && !abort.signal.aborted) {
-        setTotalStars(data.totalStars); setUnfinishedCount(data.pendingCount); unfinished = data.pendingCount; openUnfinished();
+        setTotalStars(IS_STUDENT_WEB ? data.verifiedStars ?? null : data.totalStars);
+        setUnfinishedCount(data.pendingCount); unfinished = data.pendingCount; openUnfinished();
       }
     }).catch(() => {});
     return () => { active.current = false; abort.abort(); controller.current?.abort(); controller.current = null; };
@@ -76,11 +77,12 @@ function Library() {
   const selectGroup = (next: QuizGroup) => { chooseInitialGroup.current = false; setGroup(next); };
   const statusLabel = (quiz: Quiz) => {
     if (quiz.status === 'COMPLETED') {
-      if (quiz.replayMode === 'PRACTICE') return `Đã ôn lại · Không chấm điểm · Kỷ lục ${quiz.stars} sao`;
+      const unit = IS_STUDENT_WEB ? 'điểm luyện tập' : 'sao';
+      if (quiz.replayMode === 'PRACTICE') return `Đã ôn lại · Không chấm điểm · Kỷ lục ${quiz.stars} ${unit}`;
       if (quiz.completedWithSolution) {
-        return `Hoàn thành cùng hướng dẫn · Kỷ lục ${quiz.stars} sao`;
+        return `Hoàn thành cùng hướng dẫn · Kỷ lục ${quiz.stars} ${unit}`;
       }
-      return `Đã hoàn thành · ${quiz.stars} sao`;
+      return `Đã hoàn thành · ${quiz.stars} ${unit}`;
     }
     return quiz.status === 'IN_PROGRESS' ? 'Đang làm dở' : 'Sẵn sàng để thử';
   };

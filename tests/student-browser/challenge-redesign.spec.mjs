@@ -103,9 +103,13 @@ async function challenges(page, app) {
   app.responses.set(`POST ${root}/submit`, ({ json, body }) => {
     expect(body.requestId).toEqual(expect.any(String));
     const correct = body.answer === (quiz.answerFormat === 'CHOICE' ? '2' : '1');
+    const awarded = correct && quiz.verifiedStars == null && !quiz.replayMode && !quiz.solutionViewed;
+    if (awarded) app.studentProfile.stars = 200;
     const attempt = { number: quiz.attempts.length + 1, answer: body.answer, correct, submittedAt: now, elapsedMillis: 45000, stars: correct ? 2 : 0 };
     quiz = { ...quiz, attempts: [...quiz.attempts, attempt], wrongAttempts: quiz.wrongAttempts + (correct ? 0 : 1),
-      ...(correct ? { status: 'COMPLETED', completedAt: now, elapsedMillis: 45000, timerRunning: false, stars: 2, explanationText: '3/4 + 1/4 = 4/4 = 1' } : {}) };
+      ...(correct ? { status: 'COMPLETED', completedAt: now, elapsedMillis: 45000, timerRunning: false, stars: 2,
+        verifiedStars: quiz.verifiedStars ?? (quiz.replayMode || quiz.solutionViewed ? 0 : 1),
+        explanationText: '3/4 + 1/4 = 4/4 = 1' } : {}) };
     return json({ quiz, attempt });
   });
   app.responses.set(`POST ${root}/defer`, ({ json }) => { quiz = { ...quiz, status: 'DEFERRED', timerRunning: false }; return json(quiz); });
@@ -163,8 +167,12 @@ for (const [width,height] of [[1366,768],[1440,900],[1920,1080],[768,1024],[1024
     await capture(page, info, 'quiz-playing');
     await input.fill('1');
     await page.getByRole('button', { name: 'Hoàn thành', exact: true }).click();
-    await expect(page.getByLabel('2 sao', { exact: true })).toBeVisible();
-    await expect(page.getByText('Lượt này: 2 sao · Kỷ lục: 2 sao', { exact: true })).toBeVisible();
+    await expect(page.getByLabel('2 điểm luyện tập', { exact: true })).toBeVisible();
+    await expect(page.getByText('Lượt này: 2 điểm luyện tập · Kỷ lục: 2 điểm luyện tập', { exact: true })).toBeVisible();
+    await expect(page.getByText('1 sao', { exact: true })).toBeVisible();
+    const starTotal = page.locator('.student-workspace-stars');
+    await expect(starTotal).toHaveText(/200 sao$/);
+    if (width >= 768) await expect(starTotal).toBeVisible();
     await noOverflow(page);
     await capture(page, info, 'quiz-result');
     await page.getByRole('button', { name: 'Xem cách giải', exact: true }).click();
@@ -209,11 +217,11 @@ test('Quiz saves and restores the server run, supports choices, and keeps practi
   expect(fixture.getQuiz().attempts).toHaveLength(0);
   await page.getByRole('button', { name: 'Hoàn thành', exact: true }).click();
   await expect.poll(() => fixture.getQuiz().attempts.at(-1)?.answer).toBe('2');
-  await expect(page.getByLabel('2 sao', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('2 điểm luyện tập', { exact: true })).toBeVisible();
   fixture.setQuiz({ replayMode: 'PRACTICE', completedWithSolution: true, stars: 2 });
   await page.reload();
   await expect(page.getByText('Em đã ôn lại bài cũ. Thành tích của em được giữ nguyên.', { exact: true })).toBeVisible();
-  await expect(page.getByLabel('2 sao', { exact: true })).toHaveCount(0);
+  await expect(page.getByLabel('2 điểm luyện tập', { exact: true })).toHaveCount(0);
   await capture(page, info, 'quiz-practice-result');
 });
 
@@ -238,7 +246,7 @@ test('Quiz recovers a failed start and keeps answer controls reachable in a shor
   await noOverflow(page);
   await capture(page, info, 'quiz-short-viewport');
   await submit.click();
-  await expect(page.getByLabel('2 sao', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('2 điểm luyện tập', { exact: true })).toBeVisible();
 });
 
 for (const reduced of [false,true]) test(`dice pips match the controller result with reduced motion ${reduced}`, async ({ page, app, isMobile }, info) => {
@@ -333,7 +341,7 @@ test('Quiz choices support keyboard selection and scoped web focus styles', asyn
   await page.keyboard.press('Tab');
   await expect(page.getByRole('button', { name: 'Hoàn thành', exact: true })).toBeFocused();
   await page.keyboard.press('Enter');
-  await expect(page.getByLabel('2 sao', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('2 điểm luyện tập', { exact: true })).toBeVisible();
 });
 
 test('Quiz library distinguishes pending, running and completed server states', async ({ page, app }, info) => {
@@ -341,7 +349,8 @@ test('Quiz library distinguishes pending, running and completed server states', 
   const fixture = await challenges(page, app);
   await page.route('**/api/v1/student/quizzes/pending-count', route => route.fulfill({ json: {
     pendingCount: fixture.getQuiz().status === 'COMPLETED' ? 0 : 1,
-    totalStars: fixture.getQuiz().stars,
+    totalStars: 291,
+    verifiedStars: 137,
   } }));
   await page.goto(`${sites.portal.origin}/study/quiz`);
   await expect(page.getByRole('button', { name: /Cộng các phân số.*Sẵn sàng để thử/ })).toBeVisible();
@@ -352,7 +361,9 @@ test('Quiz library distinguishes pending, running and completed server states', 
   await capture(page, info, 'quiz-library-running');
   fixture.setQuiz({ status: 'COMPLETED', stars: 2 });
   await page.getByRole('button', { name: /^Đã xong/ }).click();
-  await expect(page.getByRole('button', { name: /Cộng các phân số.*Đã hoàn thành · 2 sao/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Cộng các phân số.*Đã hoàn thành · 2 điểm luyện tập/ })).toBeVisible();
+  await expect(page.getByText('291', { exact: true })).toHaveCount(0);
+  await expect(page.getByText(/^(137|137 sao đã nhận)$/)).toBeVisible();
   await noOverflow(page);
   await capture(page, info, 'quiz-library-completed');
 });

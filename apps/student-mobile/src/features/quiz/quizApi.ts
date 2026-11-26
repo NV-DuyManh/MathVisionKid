@@ -11,14 +11,14 @@ export type Quiz = {
   stars: number; wrongAttempts: number; solutionViewed: boolean; completedWithSolution: boolean; canRevealSolution: boolean;
   attempts: QuizAttempt[]; explanationText: string | null; correctAnswer: string | null;
   replayMode?: 'NONE' | 'PRACTICE' | 'CHALLENGE'; originalQuestionText?: string | null;
-  timerRunning?: boolean;
+  timerRunning?: boolean; verifiedStars?: number | null;
 };
 export type QuizGroup = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
 export type QuizLibrary = { items: Quiz[]; page: number; totalPages: number; totalElements: number };
 export type QuizPreparation = { preparationId: string; revision: number; status: 'GENERATING' | 'READY' | 'INVALIDATED' | 'UNSUPPORTED' | 'FAILED'; errorCode: string | null };
-const listeners = new Set<() => void>();
-export function onQuizChanged(listener: () => void) { listeners.add(listener); return () => { listeners.delete(listener); }; }
-function changed() { listeners.forEach(listener => listener()); }
+const listeners = new Set<(completed: boolean) => void>();
+export function onQuizChanged(listener: (completed: boolean) => void) { listeners.add(listener); return () => { listeners.delete(listener); }; }
+function changed(completed = false) { listeners.forEach(listener => listener(completed)); }
 async function mutate<T>(path: string, body?: unknown, signal?: AbortSignal, timeout = 20000): Promise<T> {
   const { data } = await apiClient.post<T>(`/student/quizzes/${path}`, body, { signal, timeout });
   changed(); return data;
@@ -30,7 +30,7 @@ export const quizApi = {
   async preparationStatus(id: string, signal?: AbortSignal): Promise<QuizPreparation> {
     return (await apiClient.get(`/student/quizzes/preparations/${id}`, { signal, timeout: 12000 })).data;
   },
-  async count(signal?: AbortSignal): Promise<{ pendingCount: number; totalStars: number }> {
+  async count(signal?: AbortSignal): Promise<{ pendingCount: number; totalStars: number; verifiedStars?: number }> {
     return (await apiClient.get('/student/quizzes/pending-count', { signal })).data;
   },
   async list(group: QuizGroup, page = 0, signal?: AbortSignal): Promise<QuizLibrary> {
@@ -64,7 +64,11 @@ export const quizApi = {
     return (await apiClient.post(`/student/quizzes/${id}/activity`, { active, startedAt }, { signal, timeout: 8000 })).data;
   },
   help: (id: string, signal?: AbortSignal) => mutate<Quiz>(`${id}/help`, undefined, signal),
-  submit: (id: string, requestId: string, answer: string, signal?: AbortSignal) => mutate<{ quiz: Quiz; attempt: QuizAttempt }>(`${id}/submit`, { requestId, answer }, signal),
+  async submit(id: string, requestId: string, answer: string, signal?: AbortSignal): Promise<{ quiz: Quiz; attempt: QuizAttempt }> {
+    const { data } = await apiClient.post<{ quiz: Quiz; attempt: QuizAttempt }>(`/student/quizzes/${id}/submit`, { requestId, answer }, { signal, timeout: 20000 });
+    changed(data.attempt.correct);
+    return data;
+  },
   reveal: (id: string, signal?: AbortSignal) => mutate<Quiz>(`${id}/reveal-solution`, undefined, signal),
   async audio(id: string, voice: NarrationVoice, signal: AbortSignal, content?: 'QUESTION'|'SOLUTION'): Promise<Uint8Array> {
     const deadline = Date.now() + NARRATION_WAIT_SECONDS * 1000;
