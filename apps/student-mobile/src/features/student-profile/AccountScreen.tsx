@@ -42,7 +42,7 @@ export function AccountScreen({ owner, openPrivacy = false, openLogout = false }
           <View style={[s.editor, wide && s.editorWide]}>
             {profile.value ? <AccountEditor profile={profile.value} onSave={profile.accept} openPrivacy={openPrivacy} />
               : !profile.failed && <ActivityIndicator accessibilityLabel="Đang tải hồ sơ" />}
-            {profile.failed && <RecoveryNotice title={profile.value ? 'Chưa cập nhật được hồ sơ' : 'Chưa tải được hồ sơ'}
+            {profile.failed && <RecoveryNotice dialog={!profile.value} title={profile.value ? 'Chưa cập nhật được hồ sơ' : 'Chưa tải được hồ sơ'}
               message={profile.value ? 'Em đang xem thông tin đã tải trước đó.' : 'Em kiểm tra kết nối rồi thử lại nhé.'}
               actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại hồ sơ', icon: 'refresh-outline', onPress: profile.retry }]} />}
           </View>
@@ -72,6 +72,7 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
   const [edit, setEdit] = useState<ProfileEdit>({ displayName: profile.displayName, avatar: profile.avatar,
     leaderboardVisible: profile.leaderboardVisible, leaderboardNameHidden: profile.leaderboardNameHidden ?? true, selectedTitle: null });
   const [editingName, setEditingName] = useState(false);
+  const [photoFailed, setPhotoFailed] = useState(false);
   const [avatarHovered, setAvatarHovered] = useState(false), [avatarFocused, setAvatarFocused] = useState(false);
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState('');
   const lifetime = useRef(new AbortController()), lock = useRef(false);
@@ -93,6 +94,7 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
   const save = async () => {
     const signal = lifetime.current.signal;
     if (lock.current) return;
+    setPhotoFailed(false);
     if (invalidName) { setError('Em nhập tên có chữ hoặc số, tối đa 50 từ nhé.'); return; }
     lock.current = true; setBusy(true); setError(''); setNotice('');
     try {
@@ -111,7 +113,7 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
   const choosePhoto = async () => {
     const signal = lifetime.current.signal;
     if (lock.current) return;
-    lock.current = true; setBusy(true); setError(''); setNotice('');
+    lock.current = true; setBusy(true); setError(''); setNotice(''); setPhotoFailed(false);
     try {
       // Capture before the picker opens; retain its user gesture on web.
       const session = tokenStorage.getSessionId();
@@ -127,7 +129,9 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
       if (signal.aborted) return;
       const next = await profileApi.uploadPhoto(file.uri, signal, await session);
       if (!signal.aborted) { onSave(next); setNotice('Đã cập nhật ảnh đại diện.'); }
-    } catch { if (!signal.aborted) setError('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.'); }
+    } catch {
+      if (!signal.aborted) { setPhotoFailed(true); setError('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.'); }
+    }
     finally { lock.current = false; if (!signal.aborted) setBusy(false); }
   };
   return <View testID="account-profile-editor" style={[s.card, IS_STUDENT_WEB && s.webCard]}>
@@ -162,7 +166,10 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
       value={edit.leaderboardNameHidden ?? true} onValueChange={leaderboardNameHidden => setEdit(value => ({ ...value, leaderboardNameHidden }))} /></View>
     <Text style={s.hint}>{Platform.OS === 'web' && !edit.leaderboardVisible ? 'Em đang ẩn khỏi bảng xếp hạng. Thành tích vẫn được lưu trong tài khoản của em.'
       : edit.leaderboardNameHidden ? `Bạn bè sẽ thấy bí danh ${profile.publicAlias || 'động vật của em'}.` : 'Bạn bè sẽ thấy tên hiển thị của em trên bảng xếp hạng.'} Ảnh tải lên chỉ hiện trong tài khoản của em.</Text>
-    {error !== '' && !editingName && <Text nativeID="account-editor-error" accessibilityRole="alert" style={s.error}>{error}</Text>}
+    {error !== '' && !editingName && (IS_STUDENT_WEB ? <RecoveryNotice dialog messageId="account-editor-error"
+      title={photoFailed ? 'Chưa đổi được ảnh đại diện' : 'Chưa lưu được thay đổi'} message={error}
+      actions={[{ label: photoFailed ? 'Chọn lại ảnh' : 'Thử lưu lại', onPress: () => { void (photoFailed ? choosePhoto() : save()); }, disabled: busy }]} />
+      : <Text nativeID="account-editor-error" accessibilityRole="alert" style={s.error}>{error}</Text>)}
     {notice !== '' && <Text accessibilityLiveRegion="polite" style={s.success}>{notice}</Text>}
     <AppButton title="Lưu thay đổi" loading={busy} loadingTitle="Đang cập nhật…" disabled={!dirty} onPress={() => { void save(); }} />
     {!dirty && !notice && <Text style={s.hint}>Thông tin của em đã được lưu.</Text>}

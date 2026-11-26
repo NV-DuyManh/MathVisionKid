@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS } from '../../constants/theme';
+import { RecoveryDialog } from './RecoveryDialog';
 
-type Action = { label: string; onPress: () => void; accessibilityLabel?: string; disabled?: boolean; icon?: React.ComponentProps<typeof Ionicons>['name'] };
+export type RecoveryAction = { label: string; onPress: () => void; accessibilityLabel?: string; disabled?: boolean; icon?: React.ComponentProps<typeof Ionicons>['name'] };
 
 /** A short explanation and recovery actions; the current work stays on screen. */
-export function RecoveryNotice({ title, message, actions = [], messageId }: {
-  title: string; message?: string; actions?: Action[]; messageId?: string;
+export function RecoveryNotice({ title, message, actions = [], messageId, dialog = false, dialogKey }: {
+  title: string; message?: string; actions?: RecoveryAction[]; messageId?: string; dialog?: boolean; dialogKey?: string;
 }) {
   const [focused, setFocused] = useState<number | null>(null);
-  return <View testID="recovery-notice" style={styles.card}>
+  const notice = <View testID="recovery-notice" style={styles.card}>
     <View nativeID={messageId} accessibilityRole="alert" accessibilityLiveRegion="polite" style={styles.heading}>
       <View style={styles.badge} accessible={false}><Ionicons name="alert-circle-outline" size={18} color="#8E6A3C" accessible={false} /></View>
       <View style={styles.words}><Text style={styles.title}>{title}</Text>{message ? <Text style={styles.message}>{message}</Text> : null}</View>
@@ -24,6 +25,7 @@ export function RecoveryNotice({ title, message, actions = [], messageId }: {
       <Text style={[styles.label, index === 0 && styles.primaryLabel]}>{action.label}</Text>
     </Pressable>)}</View> : null}
   </View>;
+  return dialog ? <RecoveryDialog key={dialogKey ?? title + message} title={title} message={message} actions={actions} fallback={notice} /> : notice;
 }
 
 const styles = StyleSheet.create({
