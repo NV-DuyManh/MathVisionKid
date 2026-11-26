@@ -662,29 +662,79 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
   });
 }
 
-test('lesson reference switches exclusively between text and the reviewed photo', async ({ page, app }) => {
+for (const width of [375, 1440]) test(`lesson reference switches between text and photo at ${width}px`, async ({ page, app, isMobile }, info) => {
+  test.skip(width === 1440 && isMobile, 'The wide desktop layout requires a fine pointer.');
   app.realStudent = true;
   lessonFixtures(app);
-  app.responses.set('POST /student/tutor/inspect', ({ json }) => json({ kind: 'PROBLEM', problemText: problem, lines: [], needsProblem: false }));
-  await page.setViewportSize({ width: 375, height: 900 });
+  const desktop = width > 1000;
+  const inspect = Promise.withResolvers();
+  if (!desktop) inspect.resolve();
+  app.responses.set('POST /student/tutor/inspect', async ({ json }) => {
+    await inspect.promise;
+    return json({ kind: 'PROBLEM', problemText: problem, lines: [], needsProblem: false });
+  });
+  await page.setViewportSize({ width, height: 800 });
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  const box = async id => {
+    const locator = page.getByTestId(id);
+    await expect(locator).toBeVisible();
+    return locator.boundingBox();
+  };
+  const sideBySide = async (left, right) => {
+    const [a, b] = await Promise.all([box(left), box(right)]);
+    expect(a.x + a.width).toBeLessThanOrEqual(b.x + 1);
+    expect(b.x + b.width).toBeLessThanOrEqual(width + 1);
+    expect(Math.abs(a.y - b.y)).toBeLessThan(32);
+  };
+  if (desktop) {
+    await page.evaluate(problemText => {
+      const owner = Array.from('550e8400-e29b-41d4-a716-446655440000', char => char.codePointAt(0).toString(16)).join('_');
+      localStorage.setItem(`mathvision_lessons_${owner}`, JSON.stringify([{ id: 'single-layout-check', timestamp: Date.now(), problemText, workText: '', reflection: '', reviewedSteps: 0 }]));
+    }, problem);
+    await page.goto(`${sites.portal.origin}/study/saved`);
+    await expect(page.getByTestId('notebook-tile')).toHaveCount(1);
+    expect((await box('notebook-tile')).width).toBeCloseTo((await box('notebook-list')).width, 0);
+    await page.screenshot({ path: info.outputPath('notebook.png') });
+  }
   await page.goto(`${sites.portal.origin}/study/camera?mode=MATH_TUTOR`);
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Chọn ảnh từ thư viện' }).click();
   await (await chooser).setFiles(fileURLToPath(new URL('../../backend/business-api/src/test/resources/fixtures/worksheet-addition.jpg', import.meta.url)));
   await page.getByRole('checkbox', { name: 'Tôi đã kiểm tra và che thông tin riêng tư trong ảnh' }).click();
   await page.getByRole('button', { name: 'Tiếp tục xem lại' }).click();
+  if (desktop) {
+    await sideBySide('crop-canvas', 'crop-tools');
+    expect((await box('crop-canvas')).height).toBeGreaterThanOrEqual(440);
+    await page.getByRole('slider', { name: 'Góc căn thẳng ảnh' }).press('ArrowRight');
+    await expect(page.getByRole('slider', { name: 'Góc căn thẳng ảnh' })).toHaveValue('0.1');
+    await page.screenshot({ path: info.outputPath('crop.png') });
+  }
   await page.getByRole('button', { name: 'Xác nhận cắt ảnh' }).click();
   await expect(page).toHaveURL(/\/study\/learning\/math-guide/);
+  if (desktop) {
+    try {
+      await sideBySide('recognition-progress-preview', 'recognition-progress-details');
+      await expect(page.getByRole('button', { name: 'Dừng chờ, giữ ảnh' })).toBeInViewport();
+      await page.screenshot({ path: info.outputPath('reading.png') });
+    } finally { inspect.resolve(); }
+    await sideBySide('guide-source-panel', 'lesson-working-area');
+    await page.screenshot({ path: info.outputPath('confirmation.png') });
+  }
   await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
   await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
   const body = page.getByTestId('lesson-problem-content');
   await expect(body).toContainText('Trong vườn');
+  if (desktop) {
+    await sideBySide('guide-source-panel', 'lesson-working-area');
+    await expect(page.getByText('Hiểu từng bước', { exact: true })).toHaveCount(0);
+    await expect(page.getByTestId('lesson-working-area').getByTestId('lesson-problem-reference')).toHaveCount(0);
+  }
   await expect(body.getByRole('img')).toHaveCount(0);
   await page.getByRole('radio', { name: 'Xem ảnh đề bài', exact: true }).click();
   await expect(page.getByRole('radio', { name: 'Xem ảnh đề bài', exact: true })).toHaveAttribute('aria-checked', 'true');
   await expect(body.getByRole('img', { name: 'Ảnh đề bài đã che thông tin', exact: true })).toBeVisible();
+  if (desktop) await page.screenshot({ path: info.outputPath('lesson-photo.png') });
   await expect(body).not.toContainText('Trong vườn');
   await page.getByRole('radio', { name: 'Xem đề bài bằng chữ', exact: true }).click();
   await expect(body).toContainText('Trong vườn');

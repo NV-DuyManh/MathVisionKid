@@ -1,1145 +1,1145 @@
 {
   "name": "@mathvisionkid/training-games",
-  "version": "0.1.9",
-  "filename": "mathvisionkid-training-games-0.1.9.tgz",
-  "sha256": "daae86286c5a0d0dff72f67d2310a092d16d20673cd5c17c8d64159160599346",
-  "bytes": 17100016,
-  "unpackedBytes": 17859767,
-  "entries": 223,
-  "sourceFiles": 220,
-  "games": [
-    "planet-rescue",
-    "race-to-finish",
-    "terrain-racing",
-    "energy-defense",
-    "block-island"
-  ],
+  "version": "0.1.22",
+  "filename": "mathvisionkid-training-games-0.1.22.tgz",
+  "sha256": "9db91b8b2ebe906c04842c6ec812fd965751091b7add8795982456bfc7d5738f",
+  "bytes": 17481533,
+  "sourceFiles": 226,
   "baseline": {
-    "filename": "mathvisionkid-training-games-0.1.8.tgz",
-    "sha256": "2168e3ffcdb296486eaebb7f799a1dab4fe3f6c56e7837c1c10fc0f3381e1b6d"
+    "filename": "mathvisionkid-training-games-0.1.21.tgz",
+    "sha256": "5e52093cbb1b17ecfe0c8a29d88a74341ad0353b0023992b0ec8de4007836553"
   },
-  "sourceRevision": "3e77f4afef7978a64772834f4a2b006b6b58e889",
-  "canonicalReplacements": [
-    "src/games/race-to-finish/components/GameCamera.tsx"
-  ],
-  "integrationPatches": [
-    "src/shared/integration/contracts.ts"
-  ],
-  "npmFiles": [
+  "patch": "defense-feedback-0.1.22.patch",
+  "files": [
     {
-      "path": "MANIFEST.json",
-      "size": 40506,
-      "mode": 420
+      "file": "src/games/block-island/components/IslandArt.tsx",
+      "bytes": 2018,
+      "sha256": "aa9c6c8cd55ff46731e3909bf862463b647deddaa46b47f5b0cee8ed3e4de0dd"
     },
     {
-      "path": "README.md",
-      "size": 1354,
-      "mode": 420
+      "file": "src/games/block-island/components/IslandButton.tsx",
+      "bytes": 1412,
+      "sha256": "e861805a84cc9ddc2f77b362463ecb482c347f70c7eba5d886f6e12fd86d1d97"
     },
     {
-      "path": "package.json",
-      "size": 1285,
-      "mode": 420
+      "file": "src/games/block-island/components/IslandIntro.tsx",
+      "bytes": 3465,
+      "sha256": "df03f39ec09633d7f42ac4d5bb94a7749bd4a1891aa9dc47367b07157ebeb610"
     },
     {
-      "path": "src/games/block-island/components/IslandArt.tsx",
-      "size": 2018,
-      "mode": 420
+      "file": "src/games/block-island/components/IslandLandscape.tsx",
+      "bytes": 3601,
+      "sha256": "90ad4b8362aa945964c0ec80b653232f1f792adbaeb6f6311f2ba62b3d30cb1f"
     },
     {
-      "path": "src/games/block-island/components/IslandButton.tsx",
-      "size": 1412,
-      "mode": 420
+      "file": "src/games/block-island/components/IslandWorld.tsx",
+      "bytes": 45,
+      "sha256": "51d3b913a1b3948fcfb3f4363f259854e7267f468f4e5dd57870af4fbdeb85a0"
     },
     {
-      "path": "src/games/block-island/components/IslandIntro.tsx",
-      "size": 3465,
-      "mode": 420
+      "file": "src/games/block-island/components/MaterialArt.tsx",
+      "bytes": 9632,
+      "sha256": "2a40e1b0ef45342db4667b6c216bb38d578fcfa2f43f45adacbc223300febfdc"
     },
     {
-      "path": "src/games/block-island/components/IslandLandscape.tsx",
-      "size": 3601,
-      "mode": 420
+      "file": "src/games/block-island/components/MaterialPalette.tsx",
+      "bytes": 2356,
+      "sha256": "a8ad013e76cf29fe2ceb0934afa406719f61768169e07d433c0ab3a3b874c4e4"
     },
     {
-      "path": "src/games/block-island/components/IslandWorld.tsx",
-      "size": 45,
-      "mode": 420
+      "file": "src/games/block-island/components/VoxelWorld.tsx",
+      "bytes": 12772,
+      "sha256": "185444e7b29be2fadd8a69a4680ac202d7e0dc105fb5f598b58ad866bb76292a"
     },
     {
-      "path": "src/games/block-island/components/MaterialArt.tsx",
-      "size": 9632,
-      "mode": 420
+      "file": "src/games/block-island/hooks/useIsland.ts",
+      "bytes": 7806,
+      "sha256": "0e1f2656a77b22fe97d156bc9ca14013f1af32cc96bcecb7949afdca97116fdf"
     },
     {
-      "path": "src/games/block-island/components/MaterialPalette.tsx",
-      "size": 2356,
-      "mode": 420
+      "file": "src/games/block-island/hooks/useIslandCamera.ts",
+      "bytes": 2017,
+      "sha256": "d8a140b28bdd8f2add9f5b46cd1621334d25dafe84b0cd51782480c8e8df6a39"
     },
     {
-      "path": "src/games/block-island/components/VoxelWorld.tsx",
-      "size": 12772,
-      "mode": 420
+      "file": "src/games/block-island/index.ts",
+      "bytes": 66,
+      "sha256": "2717f3bcfb1147269bbd9972c19a255260773c5d0680f9d37dcebc0bada4d943"
     },
     {
-      "path": "src/games/block-island/hooks/useIsland.ts",
-      "size": 7806,
-      "mode": 420
+      "file": "src/games/block-island/logic/construction.ts",
+      "bytes": 4520,
+      "sha256": "19d975b1bba668e645a4e2b219dae7d1330b199a3863cd5bc4bf6d1fa337f081"
     },
     {
-      "path": "src/games/block-island/hooks/useIslandCamera.ts",
-      "size": 2017,
-      "mode": 420
+      "file": "src/games/block-island/logic/island.ts",
+      "bytes": 167,
+      "sha256": "5a429351d1a3479a397d0ab831d627bf9c4e02ce67a215a598b7cd07f951b084"
     },
     {
-      "path": "src/games/block-island/index.ts",
-      "size": 66,
-      "mode": 420
+      "file": "src/games/block-island/logic/materials.ts",
+      "bytes": 3363,
+      "sha256": "b81dacc2195bd910e278015aaae4636607aac3d4002d87b7a83321720e5b5348"
     },
     {
-      "path": "src/games/block-island/logic/construction.ts",
-      "size": 4520,
-      "mode": 420
+      "file": "src/games/block-island/logic/missions.ts",
+      "bytes": 2665,
+      "sha256": "597cac320ec3a35b2f0d22c3ff62dad226c97dfa6650a9d8967d4e9b6529f183"
     },
     {
-      "path": "src/games/block-island/logic/island.ts",
-      "size": 167,
-      "mode": 420
+      "file": "src/games/block-island/logic/model.ts",
+      "bytes": 1675,
+      "sha256": "bc84899447c0652c06661a8720f0189ec92bc9de3335ceae24b06a61d9c438f6"
     },
     {
-      "path": "src/games/block-island/logic/materials.ts",
-      "size": 3363,
-      "mode": 420
+      "file": "src/games/block-island/logic/planner.ts",
+      "bytes": 13155,
+      "sha256": "418be941a167ae395e63e897b8bd1bb3263d2d987d53e1b460943b4cf9871176"
     },
     {
-      "path": "src/games/block-island/logic/missions.ts",
-      "size": 2665,
-      "mode": 420
+      "file": "src/games/block-island/logic/projection.ts",
+      "bytes": 6036,
+      "sha256": "1b1c5f22d7d238bda87b6898f1d4c65d312801385d6aae9bf9ab7bc63db8f647"
     },
     {
-      "path": "src/games/block-island/logic/model.ts",
-      "size": 1675,
-      "mode": 420
+      "file": "src/games/block-island/logic/state.ts",
+      "bytes": 12447,
+      "sha256": "911c919da599bf7dba42fd09eed3975eeda03b74446c8e25660803468a9b4fe7"
     },
     {
-      "path": "src/games/block-island/logic/planner.ts",
-      "size": 13155,
-      "mode": 420
+      "file": "src/games/block-island/screens/BlockIslandScreen.tsx",
+      "bytes": 59,
+      "sha256": "0f61b3c5cc1c2cdcc29bce4fb3869a743dcd2ba0325599308711d068083ccbb7"
     },
     {
-      "path": "src/games/block-island/logic/projection.ts",
-      "size": 6036,
-      "mode": 420
+      "file": "src/games/block-island/screens/ConstructionScreen.tsx",
+      "bytes": 18301,
+      "sha256": "a49031272100effea7c1ed39b2076daa42b8d87e74a6a28bb44a1e9eeb076699"
     },
     {
-      "path": "src/games/block-island/logic/state.ts",
-      "size": 12447,
-      "mode": 420
+      "file": "src/games/energy-defense/assets/round3/citadel.png",
+      "bytes": 324325,
+      "sha256": "c50015db73a6209b8778dde05e5c41946fa7d74fe7588df76986a48e1ad72289"
     },
     {
-      "path": "src/games/block-island/screens/BlockIslandScreen.tsx",
-      "size": 59,
-      "mode": 420
+      "file": "src/games/energy-defense/assets/round3/enemies-atlas.png",
+      "bytes": 596310,
+      "sha256": "37530a8fd4cd5c14ce3d8e54f0f048edb1532004f56ba866e606fa06e28a7f18"
     },
     {
-      "path": "src/games/block-island/screens/ConstructionScreen.tsx",
-      "size": 17881,
-      "mode": 420
+      "file": "src/games/energy-defense/assets/round3/ground.webp",
+      "bytes": 261320,
+      "sha256": "9deec78d74c1040be9c3320abb420d178e2b95545a6ffcdd26bc77f6fba19037"
     },
     {
-      "path": "src/games/energy-defense/assets/round3/citadel.png",
-      "size": 324325,
-      "mode": 420
+      "file": "src/games/energy-defense/assets/round3/turret-base.png",
+      "bytes": 270262,
+      "sha256": "03f61f870536250a5171191788b4173bf565cf4036d566a553575c36d7b619ed"
     },
     {
-      "path": "src/games/energy-defense/assets/round3/enemies-atlas.png",
-      "size": 596310,
-      "mode": 420
+      "file": "src/games/energy-defense/assets/round3/turret-head.png",
+      "bytes": 76074,
+      "sha256": "bcda7a7a551f0f3155d6141e93ba01bb42f7d283acdea031821085635d516500"
     },
     {
-      "path": "src/games/energy-defense/assets/round3/ground.webp",
-      "size": 261320,
-      "mode": 420
+      "file": "src/games/energy-defense/assets/round35b/source-art/ancient-portal.png",
+      "bytes": 1883962,
+      "sha256": "4086df882fedd325eaa1ec07638f640215f35d319ba2bd1b493c70375add8e2b"
     },
     {
-      "path": "src/games/energy-defense/assets/round3/turret-base.png",
-      "size": 270262,
-      "mode": 420
+      "file": "src/games/energy-defense/assets/round36/source-art/ancient-portal-front.png",
+      "bytes": 2742010,
+      "sha256": "b9b5acc4a71b24c3529a05231835d5f98c14fb24b7d87e40f26fda971af0ffd3"
     },
     {
-      "path": "src/games/energy-defense/assets/round3/turret-head.png",
-      "size": 76074,
-      "mode": 420
+      "file": "src/games/energy-defense/components/AncientPortal.tsx",
+      "bytes": 4449,
+      "sha256": "1f12bcd122ab35ce83fed44a38972a4fc589772e6c7a6224f2c12c91a46efa02"
     },
     {
-      "path": "src/games/energy-defense/assets/round35b/source-art/ancient-portal.png",
-      "size": 1883962,
-      "mode": 420
+      "file": "src/games/energy-defense/components/Battlefield.tsx",
+      "bytes": 11161,
+      "sha256": "0c14fa47cebd3f7592b601554df546b98d27d51d9b4c69e3bb9d29e914119d1a"
     },
     {
-      "path": "src/games/energy-defense/assets/round36/source-art/ancient-portal-front.png",
-      "size": 2742010,
-      "mode": 420
+      "file": "src/games/energy-defense/components/CombatStage.tsx",
+      "bytes": 12795,
+      "sha256": "2be4081e3ad73a947e4c224272f076c1d092b6e5b1d2de065d83f4a6094a47aa"
     },
     {
-      "path": "src/games/energy-defense/components/AncientPortal.tsx",
-      "size": 4449,
-      "mode": 420
+      "file": "src/games/energy-defense/components/CreatureSprite.tsx",
+      "bytes": 4367,
+      "sha256": "8c71e2c239cd49671d6adbc0ce644bb16de3ca402d55cf9d9be6f77f1fd4c793"
     },
     {
-      "path": "src/games/energy-defense/components/Battlefield.tsx",
-      "size": 11161,
-      "mode": 420
+      "file": "src/games/energy-defense/components/DefenseHUD.tsx",
+      "bytes": 5812,
+      "sha256": "46427946143a3b4540e595f5b5dbd2dec5db7a5ce6918d66f62a0a38dca2ff33"
     },
     {
-      "path": "src/games/energy-defense/components/CombatStage.tsx",
-      "size": 12795,
-      "mode": 420
+      "file": "src/games/energy-defense/components/DefenseOverlay.tsx",
+      "bytes": 8995,
+      "sha256": "81c996dd918d60e534225d30b048edf163224741abd97d344edf26bdf8ab02c0"
     },
     {
-      "path": "src/games/energy-defense/components/CreatureSprite.tsx",
-      "size": 4367,
-      "mode": 420
+      "file": "src/games/energy-defense/components/DefensePrimitives.tsx",
+      "bytes": 5290,
+      "sha256": "2870fe359047f61e916c6e3bf4e7a3d7a27fd08481f0bee6ae6d642bd35cb321"
     },
     {
-      "path": "src/games/energy-defense/components/DefenseHUD.tsx",
-      "size": 5812,
-      "mode": 420
+      "file": "src/games/energy-defense/components/EnergyConsole.tsx",
+      "bytes": 7407,
+      "sha256": "3cc05ef61ead2c4ae936a28dbd5b5692510e35e9de5687182ee0d83a0f92d984"
     },
     {
-      "path": "src/games/energy-defense/components/DefenseOverlay.tsx",
-      "size": 8995,
-      "mode": 420
+      "file": "src/games/energy-defense/components/GameArt.tsx",
+      "bytes": 1144,
+      "sha256": "9c267a1baaeaaf8c7c160ab807f33851478e0c4377943555bb7cf5fa709c11e2"
     },
     {
-      "path": "src/games/energy-defense/components/DefensePrimitives.tsx",
-      "size": 5290,
-      "mode": 420
+      "file": "src/games/energy-defense/components/MathActionDock.tsx",
+      "bytes": 5830,
+      "sha256": "7f1a87450a684ab3e1f065a26a09fd797ee94b8ad12bcef7cd16706e33afb223"
     },
     {
-      "path": "src/games/energy-defense/components/EnergyConsole.tsx",
-      "size": 7407,
-      "mode": 420
+      "file": "src/games/energy-defense/components/MathNumber.tsx",
+      "bytes": 3668,
+      "sha256": "bf14dc4375e2c8337a51b244ddff7132a0c3c4633e0749ae3da9945d8b43ff6b"
     },
     {
-      "path": "src/games/energy-defense/components/GameArt.tsx",
-      "size": 1144,
-      "mode": 420
+      "file": "src/games/energy-defense/components/MobileDefenseHUD.tsx",
+      "bytes": 4183,
+      "sha256": "73cb34716d38b361d78b50045979a6a6fdc62e324ee775390030a5c2554f96bd"
     },
     {
-      "path": "src/games/energy-defense/components/MathActionDock.tsx",
-      "size": 5830,
-      "mode": 420
+      "file": "src/games/energy-defense/components/Preparation.tsx",
+      "bytes": 3916,
+      "sha256": "30d317b1a40b6a7fddef663b432a71f7681d295659c306e84fb59bb09387b424"
     },
     {
-      "path": "src/games/energy-defense/components/MathNumber.tsx",
-      "size": 3668,
-      "mode": 420
+      "file": "src/games/energy-defense/hooks/useBattleClock.ts",
+      "bytes": 674,
+      "sha256": "69315415e1201950776799de434e09ae016b9faea8373d4ee971ba468901b079"
     },
     {
-      "path": "src/games/energy-defense/components/MobileDefenseHUD.tsx",
-      "size": 4183,
-      "mode": 420
+      "file": "src/games/energy-defense/index.ts",
+      "bytes": 229,
+      "sha256": "e5145536661d2b240ec48a4a1af18590b341daf7f10f95562c76ecad8ecf7751"
     },
     {
-      "path": "src/games/energy-defense/components/Preparation.tsx",
-      "size": 3866,
-      "mode": 420
+      "file": "src/games/energy-defense/logic/config.ts",
+      "bytes": 1188,
+      "sha256": "0e4ac982105cbcc205336a4eb126e1e05c3ce73bef25756c70d04d7fe15de077"
     },
     {
-      "path": "src/games/energy-defense/hooks/useBattleClock.ts",
-      "size": 674,
-      "mode": 420
+      "file": "src/games/energy-defense/logic/controller.ts",
+      "bytes": 11594,
+      "sha256": "3d36cd3e5f861d6cfed47ebb6c36d6b0f6ea45c872112c43df26020bd33edab0"
     },
     {
-      "path": "src/games/energy-defense/index.ts",
-      "size": 70,
-      "mode": 420
+      "file": "src/games/energy-defense/logic/history.ts",
+      "bytes": 1455,
+      "sha256": "8ad72b674d2a8ff425ab3babe48f610007cb06927fc5eaa8e8fc4b99671c0e21"
     },
     {
-      "path": "src/games/energy-defense/logic/config.ts",
-      "size": 1188,
-      "mode": 420
+      "file": "src/games/energy-defense/logic/path.ts",
+      "bytes": 910,
+      "sha256": "890faafb7dbc2aae36facca9a8e4a83281c5e7cfeb49fdd4f7d155c5199b4d36"
     },
     {
-      "path": "src/games/energy-defense/logic/controller.ts",
-      "size": 11573,
-      "mode": 420
+      "file": "src/games/energy-defense/logic/questions.ts",
+      "bytes": 11658,
+      "sha256": "85f58245a565eaf36e7864dfa4dd1b6cd6434991e24829de1cac5dfcf8245f5b"
     },
     {
-      "path": "src/games/energy-defense/logic/history.ts",
-      "size": 1455,
-      "mode": 420
+      "file": "src/games/energy-defense/presentation/combat.ts",
+      "bytes": 2486,
+      "sha256": "5efb4701068e83faa9efeb1f48b84d4dc50f3c803192fdb21274eca89d82c402"
     },
     {
-      "path": "src/games/energy-defense/logic/path.ts",
-      "size": 910,
-      "mode": 420
+      "file": "src/games/energy-defense/presentation/enemy.ts",
+      "bytes": 2011,
+      "sha256": "3188b1c2e3a570274343e6c45c6c1f9ffcea40a3d147ef9e58bf81014cccef0b"
     },
     {
-      "path": "src/games/energy-defense/logic/questions.ts",
-      "size": 9620,
-      "mode": 420
+      "file": "src/games/energy-defense/presentation/portal.ts",
+      "bytes": 3581,
+      "sha256": "f4f04ed89e0c58bfd94e3507de356b43af083cfb5cdc7c52b39d804ddffe36ae"
     },
     {
-      "path": "src/games/energy-defense/presentation/combat.ts",
-      "size": 2486,
-      "mode": 420
+      "file": "src/games/energy-defense/presentation/portrait.ts",
+      "bytes": 522,
+      "sha256": "b1e5d82085fa440f38ddbac342eea9981041b4ed80116b15f5f0541d9f4f8604"
     },
     {
-      "path": "src/games/energy-defense/presentation/enemy.ts",
-      "size": 2011,
-      "mode": 420
+      "file": "src/games/energy-defense/presentation/route.ts",
+      "bytes": 7257,
+      "sha256": "c52a151297f2b017fff8668e50956a65f7d0b5d26516680e2f9b1ed40e15cd40"
     },
     {
-      "path": "src/games/energy-defense/presentation/portal.ts",
-      "size": 3581,
-      "mode": 420
+      "file": "src/games/energy-defense/screens/EnergyDefenseScreen.tsx",
+      "bytes": 14026,
+      "sha256": "da0b9f12332a209fd8f9ff208e428731d511132cb811d818bdbb67ae8591a8a3"
     },
     {
-      "path": "src/games/energy-defense/presentation/portrait.ts",
-      "size": 522,
-      "mode": 420
+      "file": "src/games/energy-defense/theme.ts",
+      "bytes": 892,
+      "sha256": "5b9c70043b1ba57ec09a5289b8d36a895ced6b8550101d8718343251df6e6c3a"
     },
     {
-      "path": "src/games/energy-defense/presentation/route.ts",
-      "size": 7257,
-      "mode": 420
+      "file": "src/games/planet-rescue/components/FlightEffects.tsx",
+      "bytes": 1545,
+      "sha256": "7e23cab17978327084bfb3b9273fc9a021946a28a5e63fdd665cd4b5f9d0e5e3"
     },
     {
-      "path": "src/games/energy-defense/screens/EnergyDefenseScreen.tsx",
-      "size": 14078,
-      "mode": 420
+      "file": "src/games/planet-rescue/components/FullscreenSpaceScene.tsx",
+      "bytes": 714,
+      "sha256": "91a132e9de2c485bfe2b0a5db88f6d49f15b1fcc3b478f9c2b9e2c57e4b321d1"
     },
     {
-      "path": "src/games/energy-defense/theme.ts",
-      "size": 892,
-      "mode": 420
+      "file": "src/games/planet-rescue/components/JourneyWorld.tsx",
+      "bytes": 10433,
+      "sha256": "0645aff29c6070d7ee66eec834941cec0e594f44137cee311f5682f6b158ef4d"
     },
     {
-      "path": "src/games/planet-rescue/components/FlightEffects.tsx",
-      "size": 1545,
-      "mode": 420
+      "file": "src/games/planet-rescue/components/MobileAction.tsx",
+      "bytes": 1038,
+      "sha256": "0afb8bc4cdd70133989b208407ab49dd8c0c08e59cebefd18cb70f36fb61de3e"
     },
     {
-      "path": "src/games/planet-rescue/components/FullscreenSpaceScene.tsx",
-      "size": 714,
-      "mode": 420
+      "file": "src/games/planet-rescue/components/MobileFullscreenPlay.tsx",
+      "bytes": 11512,
+      "sha256": "b3d8eb9739ca265c01199514c5af35607b109a0dc7eba517738710a754a8f2b1"
     },
     {
-      "path": "src/games/planet-rescue/components/JourneyWorld.tsx",
-      "size": 10433,
-      "mode": 420
+      "file": "src/games/planet-rescue/components/MobileModeSelect.tsx",
+      "bytes": 6734,
+      "sha256": "d4c3275a3807d70b611363aabf4f92d05a3a40a8bcc6c1d272d8d45d43688324"
     },
     {
-      "path": "src/games/planet-rescue/components/MobileAction.tsx",
-      "size": 1038,
-      "mode": 420
+      "file": "src/games/planet-rescue/components/MobileRescuePlay.tsx",
+      "bytes": 16599,
+      "sha256": "08d80a32c132b0bed37c539ea07e890344afbe519512623ce2c8de2b0d214b50"
     },
     {
-      "path": "src/games/planet-rescue/components/MobileFullscreenPlay.tsx",
-      "size": 11512,
-      "mode": 420
+      "file": "src/games/planet-rescue/components/RescuePrimitives.tsx",
+      "bytes": 2423,
+      "sha256": "74711c51b207f0ee21b2a031781d1119f7ad8f54d9dd257f824c484420ac4b1a"
     },
     {
-      "path": "src/games/planet-rescue/components/MobileModeSelect.tsx",
-      "size": 6734,
-      "mode": 420
+      "file": "src/games/planet-rescue/components/SpaceArt.tsx",
+      "bytes": 10222,
+      "sha256": "54adc585d1084413697342e963b19d99333dc1f90529e3452273f4db41b6e3ef"
     },
     {
-      "path": "src/games/planet-rescue/components/MobileRescuePlay.tsx",
-      "size": 16599,
-      "mode": 420
+      "file": "src/games/planet-rescue/components/SpaceScene.tsx",
+      "bytes": 2114,
+      "sha256": "30fe620da707120c1f207e2b7779e9304fdf637dbfe70d8e658642908b155023"
     },
     {
-      "path": "src/games/planet-rescue/components/RescuePrimitives.tsx",
-      "size": 2423,
-      "mode": 420
+      "file": "src/games/planet-rescue/hooks/useMobileFlow.ts",
+      "bytes": 2188,
+      "sha256": "85cca22f97313b9dbdb284c87a77b317cf438905396cbc0366d7271024d8332d"
     },
     {
-      "path": "src/games/planet-rescue/components/SpaceArt.tsx",
-      "size": 10222,
-      "mode": 420
+      "file": "src/games/planet-rescue/hooks/useRescue.ts",
+      "bytes": 6044,
+      "sha256": "f53a0fd54ae30c0df404d888a31702a8366a3e877fb9fe6edafc3720e83e6300"
     },
     {
-      "path": "src/games/planet-rescue/components/SpaceScene.tsx",
-      "size": 2114,
-      "mode": 420
+      "file": "src/games/planet-rescue/index.ts",
+      "bytes": 68,
+      "sha256": "8be2a6a560e0a6000622bda90fbd6d8e970d3a37bc18e79de9495bae4fe1c1d7"
     },
     {
-      "path": "src/games/planet-rescue/hooks/useMobileFlow.ts",
-      "size": 2188,
-      "mode": 420
+      "file": "src/games/planet-rescue/logic/mobileFlow.ts",
+      "bytes": 2342,
+      "sha256": "9c1a5892776c35ae0a3a2ce0da84299c446465feed93246c84ff4dee4ab178b0"
     },
     {
-      "path": "src/games/planet-rescue/hooks/useRescue.ts",
-      "size": 6044,
-      "mode": 420
+      "file": "src/games/planet-rescue/logic/mobileScene.ts",
+      "bytes": 984,
+      "sha256": "823eb634b8e9d5a38134c39e1f1a5e603b556ecf301fd1aff643600680b62872"
     },
     {
-      "path": "src/games/planet-rescue/index.ts",
-      "size": 68,
-      "mode": 420
+      "file": "src/games/planet-rescue/logic/planets.ts",
+      "bytes": 846,
+      "sha256": "72302baaac1db0a629350dee7443f56f06490239bf7f56540b711ffd279754b4"
     },
     {
-      "path": "src/games/planet-rescue/logic/mobileFlow.ts",
-      "size": 2342,
-      "mode": 420
+      "file": "src/games/planet-rescue/logic/rescue.ts",
+      "bytes": 18514,
+      "sha256": "6ce1a83c456cfcd9daf871397285bf5d594cb54392a478dfbf5858fd321f9cf9"
     },
     {
-      "path": "src/games/planet-rescue/logic/mobileScene.ts",
-      "size": 984,
-      "mode": 420
+      "file": "src/games/planet-rescue/screens/PlanetRescueScreen.tsx",
+      "bytes": 34236,
+      "sha256": "2bcb75c2e4e262d9a2089ce806c7258df5055ae4a84b3eafff113fcb565f81cf"
     },
     {
-      "path": "src/games/planet-rescue/logic/planets.ts",
-      "size": 846,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/background.png",
+      "bytes": 449366,
+      "sha256": "302e619fee14f779240ea5b5fcb585c734d138d187cd493cd2d9caa25830b361"
     },
     {
-      "path": "src/games/planet-rescue/logic/rescue.ts",
-      "size": 18514,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/bunny_avatar.png",
+      "bytes": 18017,
+      "sha256": "00012a63f6ad9aee0276ed40f2779068555bf4a6c43b451cd60726fd5229684f"
     },
     {
-      "path": "src/games/planet-rescue/screens/PlanetRescueScreen.tsx",
-      "size": 33908,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/bunny_idle_1.png",
+      "bytes": 31507,
+      "sha256": "2ae2ce189296b6855e91a310ff1b58de005c39d36509fd4ee31f61a32d91ec85"
     },
     {
-      "path": "src/games/race-to-finish/assets/background.png",
-      "size": 449366,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/bunny_idle_2.png",
+      "bytes": 33279,
+      "sha256": "b44eb705a16177d845b5356725f9f868eaaa978140617aa2ec3fc71d04293a6c"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/bunny_avatar.png",
-      "size": 18017,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/bunny_penalty.png",
+      "bytes": 32380,
+      "sha256": "e75f2df1b60baf649cfb04a217ce240a1a2828467bc3f1a4f032be2d01792baf"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/bunny_idle_1.png",
-      "size": 31507,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/bunny_victory.png",
+      "bytes": 36412,
+      "sha256": "246716aabce9eee873f35942a59752c08e3c6346c4857d472a8e2916687ef962"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/bunny_idle_2.png",
-      "size": 33279,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/bunny_walk_1.png",
+      "bytes": 32536,
+      "sha256": "fe58f255b2da36fd650e2c72a0d9132d4775e2a567c667762a3c5afc4f412e42"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/bunny_penalty.png",
-      "size": 32380,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/bunny_walk_2.png",
+      "bytes": 33729,
+      "sha256": "cf11cd72155be912769c02bac9a1bcea463459f534c878f589ed03b6777ddd7f"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/bunny_victory.png",
-      "size": 36412,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/fox_avatar.png",
+      "bytes": 19823,
+      "sha256": "7770ad01ef9bc8cd888a7bc01ed3279f38ecdf7cf2f36d4a5cf8b55dae3b1653"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/bunny_walk_1.png",
-      "size": 32536,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/fox_idle_1.png",
+      "bytes": 36261,
+      "sha256": "9afd15023f9548afc34715ac6fa1309747bb8a9f893dc5b56d6529f413d1952b"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/bunny_walk_2.png",
-      "size": 33729,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/fox_idle_2.png",
+      "bytes": 36219,
+      "sha256": "e3311daa85c5fe5f1e4a25d918564d87d19a5f5ceebebee8820e7493c181d5ed"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/fox_avatar.png",
-      "size": 19823,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/fox_penalty.png",
+      "bytes": 30094,
+      "sha256": "c06ba1cbec5d0790b4d37c71d8f7844dc561a27489eae1a90810e76269cbe9f9"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/fox_idle_1.png",
-      "size": 36261,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/fox_victory.png",
+      "bytes": 35399,
+      "sha256": "8429501dc0a54f784acddecf2edea7f6f345c5a466560e342c82974f29b34cb5"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/fox_idle_2.png",
-      "size": 36219,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/fox_walk_1.png",
+      "bytes": 34228,
+      "sha256": "2156a61112f7d25446d94c832a3257da8aeb9d1daeb487ae968f249633c83887"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/fox_penalty.png",
-      "size": 30094,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/fox_walk_2.png",
+      "bytes": 34647,
+      "sha256": "dea97387f90ffd18b9d11d8532140590823dfb5f9b50be01dd3d221ee1990b74"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/fox_victory.png",
-      "size": 35399,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/penguin_avatar.png",
+      "bytes": 19725,
+      "sha256": "32cbb06f30dfc6efac94eb0e9513ff968d51f249a11ceef898ab3ae7ec8f6ca3"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/fox_walk_1.png",
-      "size": 34228,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/penguin_idle_1.png",
+      "bytes": 31464,
+      "sha256": "e184ee9f3fcf0815f24f1f0e9b3a101a4ee01255395f4deeaa1413d656b0c5ff"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/fox_walk_2.png",
-      "size": 34647,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/penguin_idle_2.png",
+      "bytes": 31235,
+      "sha256": "0e6f727884fcb4b3eac6a90efd07203aed2f5d867b28b7f7d1c7562f02881e61"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/penguin_avatar.png",
-      "size": 19725,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/penguin_penalty.png",
+      "bytes": 28895,
+      "sha256": "9aa4b711059d8906e3224587bc7fe2a9999845e1762ee661696e39978b9059c0"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/penguin_idle_1.png",
-      "size": 31464,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/penguin_victory.png",
+      "bytes": 30573,
+      "sha256": "4f7593de5ff4778ea7f771b368e6773c1009806f585a81144d5633d06a43e5f0"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/penguin_idle_2.png",
-      "size": 31235,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/penguin_walk_1.png",
+      "bytes": 30732,
+      "sha256": "41dccd5291e69ded4b3d38c35f36acfc04e77ce8ed69fa69d6705deab0dfe59f"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/penguin_penalty.png",
-      "size": 28895,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/penguin_walk_2.png",
+      "bytes": 30041,
+      "sha256": "dafe7b8fc7214fff877b735035dd0f9e97d615a285e27108c284c732e173dfcf"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/penguin_victory.png",
-      "size": 30573,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/turtle_avatar.png",
+      "bytes": 20131,
+      "sha256": "a750c39f3fbd68de10328511689dc3f6df5a6200f81935a26fa4eac789b98dd3"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/penguin_walk_1.png",
-      "size": 30732,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/turtle_idle_1.png",
+      "bytes": 31708,
+      "sha256": "d96debdeb85c3534ed325dcc483b1eef7ee6ccb01e44d175621ea0b61a8fc0d7"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/penguin_walk_2.png",
-      "size": 30041,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/turtle_idle_2.png",
+      "bytes": 32300,
+      "sha256": "87386714b23723252525c40ccf7af11d2b64ae83e328358f1aebbcc9bf863021"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/turtle_avatar.png",
-      "size": 20131,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/turtle_penalty.png",
+      "bytes": 31153,
+      "sha256": "859146c015380ff04ee164f77f98d75df7594a1f682322d75552907c004514a7"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/turtle_idle_1.png",
-      "size": 31708,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/turtle_victory.png",
+      "bytes": 29739,
+      "sha256": "4e208927f17ce4ee3d4b937624d689c9a7ff59cbae114608b5e1c143157421b1"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/turtle_idle_2.png",
-      "size": 32300,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/turtle_walk_1.png",
+      "bytes": 33693,
+      "sha256": "6d214d47bf19997d6902c29ce24d69e4b205e0aceb2a43b1b5a273e9b8c8e22b"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/turtle_penalty.png",
-      "size": 31153,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/characters/turtle_walk_2.png",
+      "bytes": 32719,
+      "sha256": "7b7ab7a49b71606eb7f44ea45a54e22c1ede2a260854e8bb77792c7bf5635958"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/turtle_victory.png",
-      "size": 29739,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/dice/dice_1.png",
+      "bytes": 2017,
+      "sha256": "4512b7286cc55b34251fe31c3075a50ca8e387afc7c6a99891ac3636986ad524"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/turtle_walk_1.png",
-      "size": 33693,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/dice/dice_2.png",
+      "bytes": 2188,
+      "sha256": "956de538fb5f14d9b4fddb80160ba67958f43d2adff84d6ab8861837661323ac"
     },
     {
-      "path": "src/games/race-to-finish/assets/characters/turtle_walk_2.png",
-      "size": 32719,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/dice/dice_3.png",
+      "bytes": 2270,
+      "sha256": "6e85589c401f4d77f54b04c7c4a2adcc56ce99afea03ebaaadee0e5c0f78fe8e"
     },
     {
-      "path": "src/games/race-to-finish/assets/dice/dice_1.png",
-      "size": 2017,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/dice/dice_4.png",
+      "bytes": 2299,
+      "sha256": "ae8b5d89b25c0946908732933762ab456b308de2ebd4473c238cfff9d5d898cc"
     },
     {
-      "path": "src/games/race-to-finish/assets/dice/dice_2.png",
-      "size": 2188,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/dice/dice_5.png",
+      "bytes": 2282,
+      "sha256": "9819e37fa43a1660c8151abb97cc88a4d0c50a90f1afdd2a29518f93274bbff6"
     },
     {
-      "path": "src/games/race-to-finish/assets/dice/dice_3.png",
-      "size": 2270,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/dice/dice_6.png",
+      "bytes": 2359,
+      "sha256": "ebdeb11d0892d46866ee6220607dc2b3b0274c75f2b53699255a60b8dae4f22b"
     },
     {
-      "path": "src/games/race-to-finish/assets/dice/dice_4.png",
-      "size": 2299,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/index.ts",
+      "bytes": 3322,
+      "sha256": "afa7be7b609ce05038340f388b45c6618bd5081d9a2a2280d2f91c5a2fe9f109"
     },
     {
-      "path": "src/games/race-to-finish/assets/dice/dice_5.png",
-      "size": 2282,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/items/back_arrow.png",
+      "bytes": 86651,
+      "sha256": "17a05d688cb1233307eea1d7a98f4211720aa05a1c7cc847c3f7db05b625193b"
     },
     {
-      "path": "src/games/race-to-finish/assets/dice/dice_6.png",
-      "size": 2359,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/items/cleanse.png",
+      "bytes": 126167,
+      "sha256": "98ea16bed578e05bc168214131d30e476ba69e5b34afff2d7f8858196223a490"
     },
     {
-      "path": "src/games/race-to-finish/assets/index.ts",
-      "size": 3322,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/items/dice_base.png",
+      "bytes": 110713,
+      "sha256": "8371d8b25d49d02d65da2a68d95207ebdc5db0635eed7ef519c0085e3ae8f0d4"
     },
     {
-      "path": "src/games/race-to-finish/assets/items/back_arrow.png",
-      "size": 86651,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/items/hourglass.png",
+      "bytes": 118060,
+      "sha256": "eb382f93295d28ee9f24bc202156f111c5dbd3550348f5b0bfc3067bcddb5244"
     },
     {
-      "path": "src/games/race-to-finish/assets/items/cleanse.png",
-      "size": 126167,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/items/portal.png",
+      "bytes": 121830,
+      "sha256": "2026644e648cca9578b0a0c7b406ac9f5262c76a74fee26c484b3636c66b9d3e"
     },
     {
-      "path": "src/games/race-to-finish/assets/items/dice_base.png",
-      "size": 110713,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/items/shield.png",
+      "bytes": 132214,
+      "sha256": "f4629ac5be6420fcacaefde4993091db0ffb9370b1b170c3dd673ab28be6f57d"
     },
     {
-      "path": "src/games/race-to-finish/assets/items/hourglass.png",
-      "size": 118060,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/items/trophy.png",
+      "bytes": 108016,
+      "sha256": "750722f6e7b3493057f120a7f3f088422deae6a9f67028650ec2c49cbf5991a7"
     },
     {
-      "path": "src/games/race-to-finish/assets/items/portal.png",
-      "size": 121830,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/items/wing.png",
+      "bytes": 110442,
+      "sha256": "2476b649108686c8d2af466ba611882d7aa53343cd3c660b9f42e82f8c9d9c05"
     },
     {
-      "path": "src/games/race-to-finish/assets/items/shield.png",
-      "size": 132214,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/map_landscape_roster.png",
+      "bytes": 1569950,
+      "sha256": "7832d25277bde10a719eda42444f91e33e76d65c509f986beb1604f71ff424c8"
     },
     {
-      "path": "src/games/race-to-finish/assets/items/trophy.png",
-      "size": 108016,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/raw/model_nv.png",
+      "bytes": 918669,
+      "sha256": "36daeed7ef2ef67216245cb2cde95e9340d06d613bb20049eefa04ef8603efef"
     },
     {
-      "path": "src/games/race-to-finish/assets/items/wing.png",
-      "size": 110442,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/spriteBounds.ts",
+      "bytes": 3194,
+      "sha256": "ccca10fbe860b163d9ac2a8ec602a772ca4f7f79f6c7ea046b098cb1273e9cda"
     },
     {
-      "path": "src/games/race-to-finish/assets/map_landscape_roster.png",
-      "size": 1569950,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/tiles/tile_bonus.png",
+      "bytes": 18662,
+      "sha256": "fdaee4057db91d46c6e7c0447df357e0003dc584b684eb8c1c979ae10685f1e6"
     },
     {
-      "path": "src/games/race-to-finish/assets/raw/model_nv.png",
-      "size": 918669,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/tiles/tile_finish.png",
+      "bytes": 18994,
+      "sha256": "3c7a687eab62a9a9b3237df9f0afe455fc48af0cdc25392239838355e68416c9"
     },
     {
-      "path": "src/games/race-to-finish/assets/spriteBounds.ts",
-      "size": 3194,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/tiles/tile_neutral.png",
+      "bytes": 10283,
+      "sha256": "738a5bd7c0481a15e6f818f4b1647c5d41ad851ef0e9050821d19f9cf55bf278"
     },
     {
-      "path": "src/games/race-to-finish/assets/tiles/tile_bonus.png",
-      "size": 18662,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/tiles/tile_penalty.png",
+      "bytes": 16725,
+      "sha256": "3a37ada1c4ae56d125d1aff033c921e3ef64e342038b4220b4a3197f245fcc24"
     },
     {
-      "path": "src/games/race-to-finish/assets/tiles/tile_finish.png",
-      "size": 18994,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/ui/header_sign.png",
+      "bytes": 75170,
+      "sha256": "982ac2c95ec037a13efb5d4ac42806c053a56f9a196bd45105f0bb59ddc85867"
     },
     {
-      "path": "src/games/race-to-finish/assets/tiles/tile_neutral.png",
-      "size": 10283,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/ui/modal_bonus_frame.png",
+      "bytes": 412490,
+      "sha256": "e04ee70448a0598e27aad623cac74cd4978f21579d4b756ea6234242e9f9671b"
     },
     {
-      "path": "src/games/race-to-finish/assets/tiles/tile_penalty.png",
-      "size": 16725,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/ui/modal_penalty_frame.png",
+      "bytes": 395456,
+      "sha256": "23a6c778db197943a04da3966c74ba6a9c67aa63b39796dd641dc1d42705b529"
     },
     {
-      "path": "src/games/race-to-finish/assets/ui/header_sign.png",
-      "size": 75170,
-      "mode": 420
+      "file": "src/games/race-to-finish/assets/ui/start_board.png",
+      "bytes": 24349,
+      "sha256": "5eb30f8f6de83abefc16d1a07ef54f526742d5e370090c6aac2f52d44a4e04c0"
     },
     {
-      "path": "src/games/race-to-finish/assets/ui/modal_bonus_frame.png",
-      "size": 412490,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/AnimatedToken.tsx",
+      "bytes": 5891,
+      "sha256": "c2ead160a26a996be09e7f1ee2ce9648da625dfb87743a59a5719fbb605894f6"
     },
     {
-      "path": "src/games/race-to-finish/assets/ui/modal_penalty_frame.png",
-      "size": 395456,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/BoardCorrections.tsx",
+      "bytes": 2128,
+      "sha256": "50cede5d45b03ca802dd49618715de87014a0d75813ab02762b6aecf1515e51a"
     },
     {
-      "path": "src/games/race-to-finish/assets/ui/start_board.png",
-      "size": 24349,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/CameraTracking.tsx",
+      "bytes": 310,
+      "sha256": "4135693677e366c11834d26d2175abcba1ccf17cab2ed548c9375e699b2f25bd"
     },
     {
-      "path": "src/games/race-to-finish/components/AnimatedToken.tsx",
-      "size": 5891,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/CharacterAvatar.tsx",
+      "bytes": 999,
+      "sha256": "d84a3a4feca2bc69a483d1f600030e400d7061ae391927568c161bf79f72b90b"
     },
     {
-      "path": "src/games/race-to-finish/components/BoardCorrections.tsx",
-      "size": 2128,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/DiceModel.tsx",
+      "bytes": 2833,
+      "sha256": "8a3949badb6054a9069610d2a8333bf7daacfa9c47c1702d58bbef2e52d72c80"
     },
     {
-      "path": "src/games/race-to-finish/components/CameraTracking.tsx",
-      "size": 310,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/DiceOverlay.tsx",
+      "bytes": 3523,
+      "sha256": "b7f02f0ca1507f1e1825fbf55833079e1d0509675e070e3b9cb2e96348f9edfa"
     },
     {
-      "path": "src/games/race-to-finish/components/CharacterAvatar.tsx",
-      "size": 999,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/GameBoardView.tsx",
+      "bytes": 2334,
+      "sha256": "fef49797aad72be66feca3c3c87bfae41cd1a11ea32f4ffca01aaed255622c8f"
     },
     {
-      "path": "src/games/race-to-finish/components/DiceOverlay.tsx",
-      "size": 2915,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/GameCamera.tsx",
+      "bytes": 9734,
+      "sha256": "3b4419e7ddd1c8b483cf9ea77d39ee9047e1847839b6821578c3070994375e7f"
     },
     {
-      "path": "src/games/race-to-finish/components/GameBoardView.tsx",
-      "size": 2334,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/MathQuestionModal.tsx",
+      "bytes": 8614,
+      "sha256": "35e3686c708c97ca466e327bdcee314b241aca61a7769edb2133ce4f74aac8b2"
     },
     {
-      "path": "src/games/race-to-finish/components/GameCamera.tsx",
-      "size": 8864,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/MysteryRollModal.tsx",
+      "bytes": 11198,
+      "sha256": "7a4660522fed9634cfb82308974673f0aaccf76663aa7999ad84d5014c686e57"
     },
     {
-      "path": "src/games/race-to-finish/components/MathQuestionModal.tsx",
-      "size": 8502,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/RaceHUD.tsx",
+      "bytes": 3734,
+      "sha256": "7b79112d40d1bab28d96394f06bda893f9766bf4ffd7636b947c1303ce26ed7e"
     },
     {
-      "path": "src/games/race-to-finish/components/MysteryRollModal.tsx",
-      "size": 11198,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/RaceModal.tsx",
+      "bytes": 635,
+      "sha256": "cb2ea6bc1837dc785f9d55287025fdbb76c5ac651ecd19b20856d1849aa48eac"
     },
     {
-      "path": "src/games/race-to-finish/components/RaceHUD.tsx",
-      "size": 3724,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/SetupModal.tsx",
+      "bytes": 15323,
+      "sha256": "efabdfb1ef721915bba621dbe76a493d97c7c880ce148d203d114053335cae67"
     },
     {
-      "path": "src/games/race-to-finish/components/RaceModal.tsx",
-      "size": 635,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/TokenSprite.tsx",
+      "bytes": 2214,
+      "sha256": "3ef95fd13fc5f3de3b8d0a00f47901a916dccb4c786bc35d665a3b91dfc74e50"
     },
     {
-      "path": "src/games/race-to-finish/components/SetupModal.tsx",
-      "size": 15726,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/TurnHandoverModal.tsx",
+      "bytes": 3593,
+      "sha256": "437653c0a1a5802b1e4fa4fb989f892a7ba3c31ca74856c3aaf72d3ef6135482"
     },
     {
-      "path": "src/games/race-to-finish/components/TokenSprite.tsx",
-      "size": 2214,
-      "mode": 420
+      "file": "src/games/race-to-finish/components/VictoryModal.tsx",
+      "bytes": 6657,
+      "sha256": "5ac5f00abe3023b318f2cab45962048015aa361fe27a3ab8ab4e51f20a9d7c42"
     },
     {
-      "path": "src/games/race-to-finish/components/TurnHandoverModal.tsx",
-      "size": 3593,
-      "mode": 420
+      "file": "src/games/race-to-finish/data/boardConfig.ts",
+      "bytes": 15338,
+      "sha256": "71635d95dd62dd3f08150c602622334638923ca922ce541fa648880b9be0d627"
     },
     {
-      "path": "src/games/race-to-finish/components/VictoryModal.tsx",
-      "size": 6657,
-      "mode": 420
+      "file": "src/games/race-to-finish/hooks/useRaceGame.ts",
+      "bytes": 4234,
+      "sha256": "19db576560aba6c43b53cd1cb5697c8892336308c3747be77a3f5cd7990d692e"
     },
     {
-      "path": "src/games/race-to-finish/data/boardConfig.ts",
-      "size": 15338,
-      "mode": 420
+      "file": "src/games/race-to-finish/hooks/useReducedMotion.ts",
+      "bytes": 622,
+      "sha256": "87e864e8cb3e6662e5872384c38763e4cb780e12d645a4999cc9bf2db8d7c8bc"
     },
     {
-      "path": "src/games/race-to-finish/hooks/useRaceGame.ts",
-      "size": 4111,
-      "mode": 420
+      "file": "src/games/race-to-finish/hooks/useVietnameseGameText.ts",
+      "bytes": 1342,
+      "sha256": "8511fbf9763022ecfe81cd05810b7b4b36a478db102c2670e44335a4aeace792"
     },
     {
-      "path": "src/games/race-to-finish/hooks/useReducedMotion.ts",
-      "size": 622,
-      "mode": 420
+      "file": "src/games/race-to-finish/index.ts",
+      "bytes": 258,
+      "sha256": "8b0eab43809d67556d1b14bf4a29eb35f3749a36a8ee209bf14fcf7e9c6980ea"
     },
     {
-      "path": "src/games/race-to-finish/hooks/useVietnameseGameText.ts",
-      "size": 1342,
-      "mode": 420
+      "file": "src/games/race-to-finish/logic/cameraGeometry.ts",
+      "bytes": 1781,
+      "sha256": "27194b1b4e03201b730eb5caee8499e71be54dfc9447dbf3782212ac95ddb1bf"
     },
     {
-      "path": "src/games/race-to-finish/index.ts",
-      "size": 100,
-      "mode": 420
+      "file": "src/games/race-to-finish/logic/exactAnswer.ts",
+      "bytes": 2004,
+      "sha256": "f684c05abe12ca493de560a83add90224f41768d83e5cf4985a5079752515a18"
     },
     {
-      "path": "src/games/race-to-finish/logic/cameraGeometry.ts",
-      "size": 1774,
-      "mode": 420
+      "file": "src/games/race-to-finish/logic/gameEngine.ts",
+      "bytes": 7231,
+      "sha256": "8d5bed9b8565646800ce591a0cf43925f427572f9fc0102bc8681dbaeb72c74c"
     },
     {
-      "path": "src/games/race-to-finish/logic/exactAnswer.ts",
-      "size": 2004,
-      "mode": 420
+      "file": "src/games/race-to-finish/logic/gradeQuestions.ts",
+      "bytes": 2485,
+      "sha256": "c985a6029c3319c5f746502128197f70633191d1feacfeed224c71504a5eb198"
     },
     {
-      "path": "src/games/race-to-finish/logic/gameEngine.ts",
-      "size": 7231,
-      "mode": 420
+      "file": "src/games/race-to-finish/logic/playerIdentity.ts",
+      "bytes": 478,
+      "sha256": "a09ce5a83a8d8a253b33f12d875c8f2d46f0a4d1cd98d0b8e2c9071554402d3e"
     },
     {
-      "path": "src/games/race-to-finish/logic/playerIdentity.ts",
-      "size": 480,
-      "mode": 420
+      "file": "src/games/race-to-finish/logic/questions.ts",
+      "bytes": 15913,
+      "sha256": "df7b075997b5dd7af87a7714c1f88bfe9fd5c0481aab0fab2cddc9af489c8ad9"
     },
     {
-      "path": "src/games/race-to-finish/logic/questions.ts",
-      "size": 14795,
-      "mode": 420
+      "file": "src/games/race-to-finish/logic/reelPlan.ts",
+      "bytes": 800,
+      "sha256": "c1987aa16d4b1f4e80b3ffb2fcac666d1cd3ba88c6a6dcd8b631d6dbb6725864"
     },
     {
-      "path": "src/games/race-to-finish/logic/reelPlan.ts",
-      "size": 800,
-      "mode": 420
+      "file": "src/games/race-to-finish/logic/tokenGait.ts",
+      "bytes": 693,
+      "sha256": "be6f5f999a621b067ba71786a93f0373489451c84e1bb03ddfb672a2ebc7b065"
     },
     {
-      "path": "src/games/race-to-finish/logic/tokenGait.ts",
-      "size": 693,
-      "mode": 420
+      "file": "src/games/race-to-finish/logic/tokenMotion.ts",
+      "bytes": 2632,
+      "sha256": "041e4faf8a1f457f1e80ad7375eff84bdf82e97ce627e69496f012663f4e3d38"
     },
     {
-      "path": "src/games/race-to-finish/logic/tokenMotion.ts",
-      "size": 2632,
-      "mode": 420
+      "file": "src/games/race-to-finish/logic/tokenPlacement.ts",
+      "bytes": 2173,
+      "sha256": "5a8cb77c8c0dcd3d6fa6430bdfbcf5088fe49805d59378a78b58cdb72f1ca279"
     },
     {
-      "path": "src/games/race-to-finish/logic/tokenPlacement.ts",
-      "size": 2173,
-      "mode": 420
+      "file": "src/games/race-to-finish/screens/RaceToFinishScreen.tsx",
+      "bytes": 12717,
+      "sha256": "0b1afba8a073bbd18507efe148e4e68f0a8ed8ceb19269496eebe5f48678964d"
     },
     {
-      "path": "src/games/race-to-finish/screens/RaceToFinishScreen.tsx",
-      "size": 12717,
-      "mode": 420
+      "file": "src/games/race-to-finish/state/RaceController.ts",
+      "bytes": 9480,
+      "sha256": "3d978af96df7d2e3f9e4dcced6f572427fce7aa75358b99f13853e8e2d68089f"
     },
     {
-      "path": "src/games/race-to-finish/state/RaceController.ts",
-      "size": 9539,
-      "mode": 420
+      "file": "src/games/race-to-finish/state/raceReducer.ts",
+      "bytes": 14223,
+      "sha256": "3ada998ae173f1bc2539e89c5babe6f2d1ce866fd9a27b5a5f16fac658715a98"
     },
     {
-      "path": "src/games/race-to-finish/state/raceReducer.ts",
-      "size": 14223,
-      "mode": 420
+      "file": "src/games/race-to-finish/state/tileEffectChain.ts",
+      "bytes": 596,
+      "sha256": "8937f0179eaeedb72ec489e843421d5151df06961581601f5b972bfd7faf8cbc"
     },
     {
-      "path": "src/games/race-to-finish/state/tileEffectChain.ts",
-      "size": 596,
-      "mode": 420
+      "file": "src/games/race-to-finish/state/turnTiming.ts",
+      "bytes": 350,
+      "sha256": "6c852ca6a900fe8e7204179363b7c4a86f66567047fd60555e9092923705898d"
     },
     {
-      "path": "src/games/race-to-finish/state/turnTiming.ts",
-      "size": 225,
-      "mode": 420
+      "file": "src/games/race-to-finish/types/index.ts",
+      "bytes": 4192,
+      "sha256": "93a74410ac706fb9a956a1416d88828048beee0b5b77f5b00438eaeae1223c83"
     },
     {
-      "path": "src/games/race-to-finish/types/index.ts",
-      "size": 4192,
-      "mode": 420
+      "file": "src/games/terrain-racing/animation/math.ts",
+      "bytes": 641,
+      "sha256": "bc96ab82165519644d3bb539ef8a481411807ad2338c6f911916e03205efea07"
     },
     {
-      "path": "src/games/terrain-racing/animation/math.ts",
-      "size": 641,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/animation_timing.json",
+      "bytes": 1287,
+      "sha256": "8cb14f9e5ff277e5d77894fa1104139993dc1ee49398ade05a4c98b5bc720a56"
     },
     {
-      "path": "src/games/terrain-racing/assets/animation_timing.json",
-      "size": 1287,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/asset_manifest.json",
+      "bytes": 8499,
+      "sha256": "2a4510a153b3eb08eb54e8bc60cb5d209c1247d5cef7e778e7e02a6144fc83f6"
     },
     {
-      "path": "src/games/terrain-racing/assets/audio/accelerate.wav",
-      "size": 39734,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/audio/accelerate.wav",
+      "bytes": 105884,
+      "sha256": "13db03d0b4fbc4de68203b0d380710793b1b839f52e858724f70f24ce7af82b5"
     },
     {
-      "path": "src/games/terrain-racing/assets/audio/engine_loop.wav",
-      "size": 88244,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/audio/engine_loop.wav",
+      "bytes": 176444,
+      "sha256": "eeb74a371bf8c6c3a8992e5c57f60a3426d0f40e7579ccd9a2ce7372eaf21c21"
     },
     {
-      "path": "src/games/terrain-racing/assets/audio/impact_roll.wav",
-      "size": 28708,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/audio/impact_roll.wav",
+      "bytes": 51200,
+      "sha256": "aa23defd47f918a3d9aeebb39150c4b167ff6af43b1163ae14f71df4c51913c6"
     },
     {
-      "path": "src/games/terrain-racing/assets/audio/jump.wav",
-      "size": 19888,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/audio/jump.wav",
+      "bytes": 33560,
+      "sha256": "fd207488c618d20f7ef5968b425e115984d90ef3a58a119891d26dcb2a0cf7e0"
     },
     {
-      "path": "src/games/terrain-racing/assets/audio/landslide.wav",
-      "size": 52964,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/audio/landing.wav",
+      "bytes": 40616,
+      "sha256": "ef8c312005051972c2c59cca1534f9d6e612c0abb672d5b7abd13a7c26d57b55"
     },
     {
-      "path": "src/games/terrain-racing/assets/audio/loss.wav",
-      "size": 35324,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/audio/landslide.wav",
+      "bytes": 92654,
+      "sha256": "19b02c751f3fee39f731cca992c9869a696b80d38583f62580617f3cb258cb56"
     },
     {
-      "path": "src/games/terrain-racing/assets/audio/police_siren_loop.wav",
-      "size": 88244,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/audio/loss.wav",
+      "bytes": 61784,
+      "sha256": "f2d6bea418ce78720623aa1060fe31248036b5596798d6d4b91039ac2b9dce9e"
     },
     {
-      "path": "src/games/terrain-racing/assets/audio/ui_select.wav",
-      "size": 4454,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/audio/police_siren_loop.wav",
+      "bytes": 176444,
+      "sha256": "62c9f4ee7e1cdd76d44a43805c1c1ff644fa1faf629aa0133f84103bbeccdacf"
     },
     {
-      "path": "src/games/terrain-racing/assets/audio/victory.wav",
-      "size": 52964,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/audio/sound-design.json",
+      "bytes": 3365,
+      "sha256": "e4f24b037eaecff14a505b05ee6b639bee3b1c23e12e37fe65ee433ed540035a"
     },
     {
-      "path": "src/games/terrain-racing/assets/game_config.json",
-      "size": 1950,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/audio/ui_select.wav",
+      "bytes": 10628,
+      "sha256": "625459039f149fdf06afb214da3c1d9e841382f9e0afc747c8e9ebe18b067971"
     },
     {
-      "path": "src/games/terrain-racing/assets/index.ts",
-      "size": 743,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/audio/victory.wav",
+      "bytes": 119114,
+      "sha256": "b08f898742d4891e1712354ebdf72096b8f1e241089ba68ba9987cf36730b39a"
     },
     {
-      "path": "src/games/terrain-racing/assets/landslide-gap.png",
-      "size": 1996496,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/game_config.json",
+      "bytes": 1950,
+      "sha256": "e03b89496f18147d793c0ec2410f5d36df53188a218030e18a1dd46b9b0974a4"
     },
     {
-      "path": "src/games/terrain-racing/assets/player_overturned.png",
-      "size": 292961,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/index.ts",
+      "bytes": 804,
+      "sha256": "7905787d18b497b361a204c1b964f08fa8f65f89520a7757b7d2fb7c17c12922"
     },
     {
-      "path": "src/games/terrain-racing/assets/player_side.png",
-      "size": 244561,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/landslide-gap.png",
+      "bytes": 1996496,
+      "sha256": "c245eab1e04d3c54a6070f5fe78bbb404bdeddd9a90a64655178bb0c07080e4f"
     },
     {
-      "path": "src/games/terrain-racing/assets/player_upright.png",
-      "size": 294894,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/player_overturned.png",
+      "bytes": 292961,
+      "sha256": "a591141c3257e2c49b9263a651c283251ecd0cd9d3f972513a2d1be020a45510"
     },
     {
-      "path": "src/games/terrain-racing/assets/police_overturned.png",
-      "size": 360992,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/player_side.png",
+      "bytes": 244561,
+      "sha256": "cab01da6702088cd98b10e8a2a99cb3bbbef706c358ef91d1fb72b3867eba28b"
     },
     {
-      "path": "src/games/terrain-racing/assets/police_side.png",
-      "size": 313326,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/player_upright.png",
+      "bytes": 294894,
+      "sha256": "120902edefe245f4c881061c66f8ab537ce9208ac24fd15810cb28fb8625f570"
     },
     {
-      "path": "src/games/terrain-racing/assets/police_upright.png",
-      "size": 317442,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/police_overturned.png",
+      "bytes": 360992,
+      "sha256": "9b4eb22f406c43da3b97efb110a9d03c262de16af71b3e76bc241e02baeeea28"
     },
     {
-      "path": "src/games/terrain-racing/assets/road-tile.png",
-      "size": 1064651,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/police_side.png",
+      "bytes": 313326,
+      "sha256": "b2a6e0563edbaa346b79f60c9b63dc377288370d555dcbc059391074ddb2dae4"
     },
     {
-      "path": "src/games/terrain-racing/audio/GameAudio.ts",
-      "size": 3866,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/police_upright.png",
+      "bytes": 317442,
+      "sha256": "fcf3379fe183942c7b5693562e84d75320c719ef0323efa69646fa7129b5ad81"
     },
     {
-      "path": "src/games/terrain-racing/components/GameHUD.tsx",
-      "size": 2161,
-      "mode": 420
+      "file": "src/games/terrain-racing/assets/road-tile.png",
+      "bytes": 1064651,
+      "sha256": "39b8e1ca3aaac4ff0f23b67aa85e5c4a8c6d23b73aa4274d668592ea7d436854"
     },
     {
-      "path": "src/games/terrain-racing/components/GamePanels.tsx",
-      "size": 6486,
-      "mode": 420
+      "file": "src/games/terrain-racing/audio/GameAudio.ts",
+      "bytes": 4704,
+      "sha256": "c31fc3f1dcab4816971014d163bd5f1eb5bf622671aa620e033ff6689ea0fc73"
     },
     {
-      "path": "src/games/terrain-racing/components/SpriteCar.tsx",
-      "size": 2702,
-      "mode": 420
+      "file": "src/games/terrain-racing/components/GameHUD.tsx",
+      "bytes": 2161,
+      "sha256": "811ba42145403bb89bfd94a9730eb32643f4ac5fa7768ddaac62764f2ee14c00"
     },
     {
-      "path": "src/games/terrain-racing/components/WorldEffects.tsx",
-      "size": 2883,
-      "mode": 420
+      "file": "src/games/terrain-racing/components/GamePanels.tsx",
+      "bytes": 6687,
+      "sha256": "b71951d79a24709641f76a189fa1e95a3eb5307b6c0eab3a9465a15866c11e5e"
     },
     {
-      "path": "src/games/terrain-racing/components/WorldScene.tsx",
-      "size": 4720,
-      "mode": 420
+      "file": "src/games/terrain-racing/components/SpriteCar.tsx",
+      "bytes": 2702,
+      "sha256": "4665b9c4c8f5bbb80ce92195c7f3eb33f30ecfb692ee78c26861a89e70001415"
     },
     {
-      "path": "src/games/terrain-racing/data/questionGenerator.ts",
-      "size": 2772,
-      "mode": 420
+      "file": "src/games/terrain-racing/components/WorldEffects.tsx",
+      "bytes": 2883,
+      "sha256": "dc616b9e88916aacc38562e31c9744bb684ef1932740195a250b31c086932d59"
     },
     {
-      "path": "src/games/terrain-racing/data/questions.ts",
-      "size": 1233,
-      "mode": 420
+      "file": "src/games/terrain-racing/components/WorldScene.tsx",
+      "bytes": 4720,
+      "sha256": "51a6c12dd7974aa34cdfbba5f80ed1735145d2d7126a1b7c44b2d27712c4ec3b"
     },
     {
-      "path": "src/games/terrain-racing/engine/simulation.ts",
-      "size": 3153,
-      "mode": 420
+      "file": "src/games/terrain-racing/data/questionGenerator.ts",
+      "bytes": 5069,
+      "sha256": "303f3a8c573113498dc453e870666f7cf6eba5c1bed3f4a19ae98ef7fb7c5f15"
     },
     {
-      "path": "src/games/terrain-racing/engine/world.ts",
-      "size": 4165,
-      "mode": 420
+      "file": "src/games/terrain-racing/data/questions.ts",
+      "bytes": 1233,
+      "sha256": "577f35af58ed5792527ed9ce66d1edb0b2d491269131c9f93c9fd8ae82e4fd5f"
     },
     {
-      "path": "src/games/terrain-racing/hooks/useSupercar.ts",
-      "size": 8288,
-      "mode": 420
+      "file": "src/games/terrain-racing/engine/simulation.ts",
+      "bytes": 3153,
+      "sha256": "f3c9a0ad54904854cf06719a6476c2fb27eb298b5d577b4fab1a42363c42d169"
     },
     {
-      "path": "src/games/terrain-racing/index.ts",
-      "size": 70,
-      "mode": 420
+      "file": "src/games/terrain-racing/engine/world.ts",
+      "bytes": 4165,
+      "sha256": "c900566956a6b5cec0df25a49cba839389355fbcb9f403128041f214b1f3aabb"
     },
     {
-      "path": "src/games/terrain-racing/screens/TerrainRacingScreen.tsx",
-      "size": 2991,
-      "mode": 420
+      "file": "src/games/terrain-racing/hooks/useSupercar.ts",
+      "bytes": 8710,
+      "sha256": "301ba57d4da70008f4054d09d47ee0a53b9863a11a2610caf3fcc7557feb860c"
     },
     {
-      "path": "src/games/terrain-racing/types/index.ts",
-      "size": 907,
-      "mode": 420
+      "file": "src/games/terrain-racing/index.ts",
+      "bytes": 229,
+      "sha256": "3978984e94dace43f0b82b7e04a0ef2ef4b0693cef02f9a3ad274db9fc75cd18"
     },
     {
-      "path": "src/integration/entries/block-island.ts",
-      "size": 73,
-      "mode": 420
+      "file": "src/games/terrain-racing/screens/TerrainRacingScreen.tsx",
+      "bytes": 3043,
+      "sha256": "530a6870f9552025358a53dd849b3fb7a381207778f988f81cac586f84910fda"
     },
     {
-      "path": "src/integration/entries/energy-defense.ts",
-      "size": 77,
-      "mode": 420
+      "file": "src/games/terrain-racing/types/index.ts",
+      "bytes": 1003,
+      "sha256": "6efa9a61cdd1101276b1e724ec2972cd1b925024f5aed8a977cb3ba6a9fd202f"
     },
     {
-      "path": "src/integration/entries/planet-rescue.ts",
-      "size": 75,
-      "mode": 420
+      "file": "src/integration/entries/block-island.ts",
+      "bytes": 73,
+      "sha256": "e59463c751430e54220f1ad0c1431dcfb00a2c12ae92101f7cc1f6b943c0cea5"
     },
     {
-      "path": "src/integration/entries/race-to-finish.ts",
-      "size": 76,
-      "mode": 420
+      "file": "src/integration/entries/energy-defense.ts",
+      "bytes": 77,
+      "sha256": "50efba0d201ab0cb67a1f5cf5255e2d43aae8d2a83d953eb1e61bd6d21d787f0"
     },
     {
-      "path": "src/integration/entries/terrain-racing.ts",
-      "size": 77,
-      "mode": 420
+      "file": "src/integration/entries/planet-rescue.ts",
+      "bytes": 75,
+      "sha256": "8cc7f5f5b5dd9e29c9e5e9b247daab33708354993373ca0ac8c71c5151f6c3ae"
     },
     {
-      "path": "src/integration/index.ts",
-      "size": 495,
-      "mode": 420
+      "file": "src/integration/entries/race-to-finish.ts",
+      "bytes": 76,
+      "sha256": "317b52cc83c13f0d13a2aa2d0daf7711664fda644c6babec0413f36027945185"
     },
     {
-      "path": "src/shared/audio/audioController.ts",
-      "size": 3858,
-      "mode": 420
+      "file": "src/integration/entries/terrain-racing.ts",
+      "bytes": 77,
+      "sha256": "8bf9c2635f004cc32de8ece5fc81df7608ea56dfc7206201b8ed31eec9587407"
     },
     {
-      "path": "src/shared/hooks/useGameTimer.ts",
-      "size": 1961,
-      "mode": 420
+      "file": "src/integration/index.ts",
+      "bytes": 495,
+      "sha256": "7ca8095ff9f9f0a568d21a3884c61c6715f3c871b256afc82a6924ebd991f0dd"
     },
     {
-      "path": "src/shared/integration/context.tsx",
-      "size": 1843,
-      "mode": 420
+      "file": "src/shared/audio/audioController.ts",
+      "bytes": 3858,
+      "sha256": "e0b26afeae8e7247406500c8ede108278d9af012d1031920eae890a3b2afcea5"
     },
     {
-      "path": "src/shared/integration/contracts.ts",
-      "size": 1701,
-      "mode": 420
+      "file": "src/shared/hooks/useGameTimer.ts",
+      "bytes": 1961,
+      "sha256": "df0128b04fe11d387fb1bf0474248220b13c237331780f21cfdd6c6e9049a3e4"
     },
     {
-      "path": "src/shared/integration/scopedStorage.ts",
-      "size": 1072,
-      "mode": 420
+      "file": "src/shared/integration/context.tsx",
+      "bytes": 1843,
+      "sha256": "dc8d7848e6e4d7542e909e9a16e6f9d990cb2f577780c21f864f9429ad51fff4"
     },
     {
-      "path": "src/shared/integration/sessionBridge.ts",
-      "size": 3302,
-      "mode": 420
+      "file": "src/shared/integration/contracts.ts",
+      "bytes": 1702,
+      "sha256": "2f946e26475655f68ab7a4f369fa21325cc9835ef3d1dd65008bdd6bcf7b2542"
     },
     {
-      "path": "src/shared/math/fraction.ts",
-      "size": 6239,
-      "mode": 420
+      "file": "src/shared/integration/scopedStorage.ts",
+      "bytes": 1072,
+      "sha256": "5cbfef791f7c31e617e3f9fe1203e739e63a649c63cbd8fd088f80dcbd163cb3"
     },
     {
-      "path": "src/shared/math/generators.ts",
-      "size": 32899,
-      "mode": 420
+      "file": "src/shared/integration/sessionBridge.ts",
+      "bytes": 3302,
+      "sha256": "58764641cd0ff0fa7b1ee720919a8ceedf0c76dbbe3074ef2d014b751da423cb"
     },
     {
-      "path": "src/shared/math/geometry.ts",
-      "size": 2201,
-      "mode": 420
+      "file": "src/shared/math/fraction.ts",
+      "bytes": 6239,
+      "sha256": "c3b9068392937bad44783098ba550eb54559549b81f93f79389bc671b604783e"
     },
     {
-      "path": "src/shared/math/prng.ts",
-      "size": 1561,
-      "mode": 420
+      "file": "src/shared/math/gameGrade.tsx",
+      "bytes": 5231,
+      "sha256": "3ccbc0578f7fabedc4a26986ee808f7019889a5f3012f1383e2cadb326cfd9ef"
     },
     {
-      "path": "src/shared/math/questionHistory.ts",
-      "size": 3736,
-      "mode": 420
+      "file": "src/shared/math/generators.ts",
+      "bytes": 32899,
+      "sha256": "99d8088952dbc77d1954eaabe62cc9f1fde3677dec69fdadb9b0095cb38dab47"
     },
     {
-      "path": "src/shared/math/units.ts",
-      "size": 1712,
-      "mode": 420
+      "file": "src/shared/math/geometry.ts",
+      "bytes": 2201,
+      "sha256": "55a9cbf380467c411be37157dc6145d1c3630680700261fc829fc51f8ba173ca"
     },
     {
-      "path": "src/shared/storage/localStorageAdapter.ts",
-      "size": 1489,
-      "mode": 420
+      "file": "src/shared/math/prng.ts",
+      "bytes": 1561,
+      "sha256": "2d67f422f8609ac99f5fb1450090c2cc52a1e583e21d4b3fcb924a1965f16f75"
     },
     {
-      "path": "src/shared/storage/profileManager.ts",
-      "size": 4649,
-      "mode": 420
+      "file": "src/shared/math/questionHistory.ts",
+      "bytes": 3423,
+      "sha256": "826d4e4b7167e0d6287d3ee186ddc721f464dc08389cd67c93936388f7acbc4e"
     },
     {
-      "path": "src/shared/storage/storageAdapter.ts",
-      "size": 213,
-      "mode": 420
+      "file": "src/shared/math/units.ts",
+      "bytes": 1712,
+      "sha256": "e891c98c47e2d41a792a8c8bea779587f7d56e42bca638f5531453fedcc9dd8b"
     },
     {
-      "path": "src/shared/types/index.ts",
-      "size": 1461,
-      "mode": 420
+      "file": "src/shared/storage/localStorageAdapter.ts",
+      "bytes": 1489,
+      "sha256": "6b2fed0929dda2c5047de5ebbde500021c7a32deab2f2f87fb67a8d3bec0ba5e"
+    },
+    {
+      "file": "src/shared/storage/profileManager.ts",
+      "bytes": 4649,
+      "sha256": "c058b7682a711452ce1b19c4d2ffab17e4e21ba5e2b36d94f96d173a25156826"
+    },
+    {
+      "file": "src/shared/storage/storageAdapter.ts",
+      "bytes": 213,
+      "sha256": "211d908fe915d20da24fcf549d21dbc2ccc5f9e4aa91330d01c9126f90784c28"
+    },
+    {
+      "file": "src/shared/types/index.ts",
+      "bytes": 1461,
+      "sha256": "6b2915703a4d22309f652fdb61b9eb360a2fc4539c2af8a303978999d6eb17a6"
     }
   ]
 }

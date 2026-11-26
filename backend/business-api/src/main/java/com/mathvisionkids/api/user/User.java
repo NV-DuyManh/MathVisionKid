@@ -33,7 +33,7 @@ public class User {
     @Column(nullable = false)
     private String role; // "STUDENT", "TEACHER"
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "text")
     private String displayName;
 
     private String gender;

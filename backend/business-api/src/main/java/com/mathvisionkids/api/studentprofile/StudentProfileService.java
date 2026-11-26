@@ -59,7 +59,8 @@ public class StudentProfileService {
         Student student = student(principal);
         UUID id = student.getId();
         String name = Normalizer.normalize(edit.displayName().strip(), Normalizer.Form.NFC);
-        if (!name.matches("[\\p{L}\\p{M}][\\p{L}\\p{M} .’'-]{0,39}") || !AVATARS.contains(edit.avatar())) {
+        if (!name.matches("[\\p{L}\\p{M}\\p{Nd}][\\p{L}\\p{M}\\p{Nd} .’'-]*")
+                || name.split(" +", 51).length > 50 || !AVATARS.contains(edit.avatar())) {
             throw invalid("Em kiểm tra tên hiển thị hoặc chọn một hình đại diện trong bộ sưu tập nhé.");
         }
         lockStudent(id);
@@ -91,19 +92,23 @@ public class StudentProfileService {
         ensurePreferences(id);
     }
 
-    @Transactional
-    public void captureGoogleAvatar(UUID id, Object pictureClaim) {
-        if (!(pictureClaim instanceof String url) || url.length() > 2048) return;
+    public static boolean isGoogleAvatarUrl(Object pictureClaim) {
+        if (!(pictureClaim instanceof String url) || url.length() > 2048) return false;
         URI picture;
         try {
             picture = URI.create(url);
         } catch (IllegalArgumentException exception) {
-            return;
+            return false;
         }
         String host = picture.getHost();
-        if (!"https".equals(picture.getScheme()) || host == null || !host.endsWith(".googleusercontent.com")
-                || picture.getUserInfo() != null || picture.getPort() != -1) return;
+        return "https".equals(picture.getScheme()) && host != null && host.endsWith(".googleusercontent.com")
+                && picture.getUserInfo() == null && picture.getPort() == -1 && picture.getRawPath().startsWith("/");
+    }
 
+    @Transactional
+    public void captureGoogleAvatar(UUID id, Object pictureClaim) {
+        if (!isGoogleAvatarUrl(pictureClaim)) return;
+        String url = (String) pictureClaim;
         lockStudent(id);
         ensurePreferences(id);
         db.update("""

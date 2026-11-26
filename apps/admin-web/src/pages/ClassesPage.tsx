@@ -29,7 +29,12 @@ export function ClassesPage() {
   const [params, setParams] = useSearchParams();
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
-  const [creating, setCreating] = useState(params.get('create') === 'true');
+  const creating = params.get('create') === 'true';
+  const setCreating = (value: boolean) => setParams(previous => {
+    const next = new URLSearchParams(previous);
+    if (value) next.set('create', 'true'); else next.delete('create');
+    return next;
+  }, { replace: !value });
   const [saved, setSaved] = useState(false);
   const query = useQuery({
     queryKey: ['admin-classes', page, size],
@@ -161,13 +166,7 @@ export function ClassesPage() {
         {creating && (
           <ClassFormDialog
             onSaved={() => setSaved(true)}
-            onClose={() => {
-              setCreating(false);
-              if (params.has('create')) {
-                params.delete('create');
-                setParams(params, { replace: true });
-              }
-            }}
+            onClose={() => setCreating(false)}
           />
         )}
       </PageContent>

@@ -22,7 +22,8 @@ export const studentWorkspaceStyles = `
       background:radial-gradient(ellipse 130% 46% at 94% 103%,#834AF4,transparent 71%),linear-gradient(160deg,${STUDENT_WEB.shellStart},#3A21AD 53%,${STUDENT_WEB.shellEnd});
     }
     .student-workspace-sidebar.is-collapsed { width:80px; padding-inline:12px; }
-    .student-workspace-brand { display:flex; align-items:center; gap:6px; padding:0 4px; min-height:48px; margin-bottom:14px; font:19px NunitoBlack,system-ui,sans-serif; white-space:nowrap; }
+    .student-workspace-brand { display:flex; align-items:center; gap:4px; padding:0; min-width:0; min-height:48px; margin-bottom:14px; font:16px NunitoBlack,system-ui,sans-serif; white-space:nowrap; }
+    .student-workspace-brand > span { flex:1; min-width:0; }
     .student-workspace-brand span span { color:#E5D9FF; }
     .student-workspace-brand small { display:block; margin-top:1px; color:#E5D9FF; font:11px NunitoSemiBold, system-ui, sans-serif; }
     .student-workspace-sidebar.is-collapsed .student-workspace-brand { flex-direction:column; justify-content:center; padding:0; }
