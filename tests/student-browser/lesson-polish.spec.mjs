@@ -449,9 +449,11 @@ test('preparation retry waits for the server cooldown and starts with one tap', 
   await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem })}`);
   await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
   await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
-  const retry = page.getByRole('button', { name: 'Thử chuẩn bị lại', exact: true });
+  const dialog = page.getByRole('alertdialog', { name: 'Chưa chuẩn bị được bước giải' });
+  await expect(dialog).toBeVisible();
+  const retry = dialog.getByRole('button', { name: 'Thử chuẩn bị lại', exact: true });
   await expect(retry).toBeDisabled();
-  await expect(page.getByText(/Em có thể thử chuẩn bị lại sau \d giây\./)).toBeVisible();
+  await expect(page.getByText(/Thử lại sau \d giây/)).toBeVisible();
   expect(app.requests.filter(request => request.path === '/student/tutor/lesson/preparation')).toHaveLength(0);
   await expect(retry).toBeEnabled();
   await retry.click();

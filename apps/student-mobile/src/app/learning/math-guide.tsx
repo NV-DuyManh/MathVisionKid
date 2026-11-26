@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
+import type { RecoveryAction } from '../../components/ui/RecoveryNotice';
 import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { COLORS, FONTS, SHADOWS } from '../../constants/theme';
 import { ImageDraft, recognitionDraftStore } from '../../features/recognition/state/recognitionDraftStore';
@@ -178,7 +179,8 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
   const [busy, setBusy] = useState<GuideTask | null>(null);
   const [finishing, setFinishing] = useState<{ kind: 'read' | 'lesson'; id: number } | null>(null);
   const [error, setError] = useState('');
-  const [failedTask, setFailedTask] = useState<GuideTask | null>(null);
+  const [problemRejected, setProblemRejected] = useState(false);
+  const [failedTask, setFailedTask] = useState<GuideTask | 'save' | null>(null);
   const [photoNeedsCrop, setPhotoNeedsCrop] = useState(false);
   const [expired, setExpired] = useState(false);
   const [editing, setEditing] = useState<EditableField | null>(checkpoint ? checkpoint.editing : initialEdit ?? null);
@@ -405,6 +407,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
     } else if ([409, 410].includes(status)) {
       setLesson(null); setError('Bài học đã hết phiên. Đề và bài làm vẫn ở đây; em bắt đầu lại nhé.');
     } else if ([400, 422].includes(status)) {
+      setProblemRejected(task === 'lesson');
       setError('Đề bài còn thiếu hoặc có chỗ chưa rõ. Em kiểm tra lại lời văn, số và câu hỏi nhé.');
     } else if (timedOut) {
       setError('Phần hướng dẫn chưa kịp chuẩn bị trong thời gian chờ. Đề và bài làm vẫn được giữ; em thử lại nhé.');
@@ -419,7 +422,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
   const run = useCallback(async <T,>(kind: GuideTask, task: (signal: AbortSignal) => Promise<T>, apply: (value: T) => void) => {
     if (running.current || expired) return;
     const id = ++requestId.current; const abort = new AbortController();
-    controller.current = abort; running.current = true; setBusy(kind); setFinishing(null); setError(''); setFailedTask(null); setPhotoNeedsCrop(false);
+    controller.current = abort; running.current = true; setBusy(kind); setFinishing(null); setError(''); setFailedTask(null); setPhotoNeedsCrop(false); setProblemRejected(false);
     try {
       const result = await task(abort.signal);
       if (active.current && id === requestId.current) {
@@ -508,11 +511,11 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
       const text = workRead ? result.lines.map(row => row.text).join('\n') : '';
       if (context?.purpose === 'ADD_PROBLEM') {
         // A worked page is not silently treated as an original question.
-        if (!result.problemText.trim()) { setError('Ảnh này chưa có đề bài. Em chụp phần câu hỏi nhé.'); return; }
+        if (!result.problemText.trim()) { setFailedTask('read'); setPhotoNeedsCrop(true); setError('Ảnh này chưa có đề bài. Em chụp phần câu hỏi nhé.'); return; }
         setProblem(result.problemText); setProblemImage(imageUri); setProblemConfirmed(false);
         setSourceNeedsReview(result.problemNeedsReview === true);
       } else if (context?.purpose === 'ADD_WORK') {
-        if (!workRead) { setError('Ảnh này chưa có phần em đã làm. Em chụp bài làm nhé.'); return; }
+        if (!workRead) { setFailedTask('read'); setPhotoNeedsCrop(true); setError('Ảnh này chưa có phần em đã làm. Em chụp bài làm nhé.'); return; }
         setWork(text); setWorkImage(imageUri); setWorkImageCurrent(true); setWorkLines(result.lines); setUncertainWork(result.lines.some(row => row.uncertain)); setWorkConfirmed(false);
       } else {
         setProblem(draft?.problemText || result.problemText);
@@ -613,12 +616,13 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
   const archive = async () => {
     if (saving || (!problem.trim() && !work)) return;
     setSaving(true);
+    if (Platform.OS === 'web') { setError(''); setFailedTask(null); }
     try {
       await saveLesson(owner, { id: lessonId, timestamp: Date.now(), problemText: problem, workText: work,
         reflection: lesson?.completed.filter(row => row.expression).map(row => `${row.solutionSentence || row.title}\n${row.expression} = ${row.answer} ${row.unit}`).join('\n').slice(0, 2000) || '',
         reviewedSteps: lesson?.completed.length ?? 0 });
       if (active.current) setSaved(true);
-    } catch { if (active.current) setError('Chưa lưu được bài. Em thử lại nhé.'); }
+    } catch { if (active.current) { setFailedTask('save'); setError('Chưa lưu được bài. Em thử lại nhé.'); } }
     finally { if (active.current) setSaving(false); }
   };
   const edit = (field: 'problem' | 'work') => {
@@ -643,6 +647,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
       setLesson(result);
       setFractionInput(startsWithFraction(result.step));
       if (result.revealedHints == null || !result.hintCount) {
+        setFailedTask('hint');
         setError('Chưa mở được gợi ý cho phiên này. Em thử lại hoặc mở lại bài để tiếp tục nhé.');
       } else if (result.revealedHints.length) {
         setHintPage(0); setHintOpen(true);
@@ -653,6 +658,43 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
   };
   const atReadingBoundary = !!lesson && lesson.understandingSteps === 3 && lesson.stepIndex === 3;
   const preparing = busy === 'read' || busy === 'lesson' ? busy : finishing?.kind;
+  const web = Platform.OS === 'web';
+  const preparationIssue = lesson?.preparingMath && (lesson.status === 'RETRYABLE' || lesson.status === 'UNAVAILABLE' || preparationPaused);
+  const preparationActions: RecoveryAction[] = [
+    { label: preparationRetrySeconds > 0 ? `Thử lại sau ${preparationRetrySeconds} giây` : 'Thử chuẩn bị lại',
+      accessibilityLabel: 'Thử chuẩn bị lại', onPress: retryPreparation, disabled: !!busy || expired || preparationRetrySeconds > 0 },
+    { label: 'Xem lại đề', onPress: () => setSummaryStage('summary') },
+  ];
+  const photoActions: RecoveryAction[] = [
+    photoNeedsCrop
+      ? { label: 'Chọn lại vùng bài toán', icon: 'crop-outline', onPress: () => web ? router.dismissTo('/crop' as any) : router.push('/crop' as any), disabled: !!busy }
+      : { label: 'Đọc lại ảnh', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy },
+    context?.purpose === 'ADD_WORK'
+      ? { label: 'Nhập bài làm bằng chữ', icon: 'create-outline', onPress: () => edit('work'), disabled: !!busy }
+      : { label: 'Nhập đề bằng chữ', icon: 'create-outline', onPress: () => edit('problem'), disabled: !!busy },
+  ];
+  const errorTitle = expired ? 'Em cần đăng nhập lại' : !web ? 'Chưa thực hiện được'
+    : failedTask === 'read' ? (photoNeedsCrop ? 'Cần chọn lại vùng ảnh' : 'Chưa đọc được ảnh đề')
+    : failedTask === 'save' ? 'Chưa lưu được bài học'
+    : failedTask === 'hint' ? 'Chưa mở được gợi ý'
+    : preparationIssue ? 'Chưa chuẩn bị được bước giải'
+    : failedTask === 'lesson' ? (problemRejected ? 'Đề bài cần kiểm tra lại' : 'Chưa mở được bài học')
+    : failedTask === 'answer' ? 'Chưa kiểm tra được câu trả lời' : 'Chưa thực hiện được';
+  const errorActions: RecoveryAction[] = expired
+    ? [{ label: 'Đăng nhập lại', onPress: () => router.push('/login' as any) }]
+    : failedTask === 'read' && imageUri && photoAllowed ? photoActions
+    : web && failedTask === 'save' ? [{ label: 'Thử lưu lại', onPress: () => void archive(), disabled: saving }]
+    : web && failedTask === 'hint' && lesson ? [{ label: 'Thử mở gợi ý', onPress: openHint, disabled: !!busy }]
+    : web && preparationIssue ? preparationActions
+    : web && failedTask === 'lesson' && problemRejected ? [{ label: 'Chỉnh lại đề', onPress: () => edit('problem') }]
+    : problem && !lesson && !workReviewMode ? [
+      { label: problemConfirmed && !problem.includes('[?]') ? 'Thử lại' : 'Kiểm tra đề', accessibilityLabel: 'Bắt đầu lại bài học',
+        icon: 'refresh-outline', onPress: () => { if (problemConfirmed && !problem.includes('[?]')) start(); else edit('problem'); }, disabled: !!busy },
+      ...(web && failedTask === 'lesson' && problemConfirmed ? [{ label: 'Chỉnh lại đề', onPress: () => edit('problem'), disabled: !!busy }] : []),
+    ]
+    : imageUri && photoAllowed && !lesson ? [{ label: 'Thử lại', accessibilityLabel: 'Đọc lại ảnh bài làm', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy }]
+    : web && failedTask === 'answer' ? [{ label: 'Xem lại câu trả lời', onPress: returnFromTool }]
+    : [];
   const workReviewSaveAction = problem && work && reviewStarted && !lesson && !editing && !division && !invalidPhoto ?
     <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} loadingTitle="Đang lưu bài…" variant="secondary" style={desktop && reviewFocused ? desktopWorkReviewButtonStyle : undefined} disabled={saved || saving} loading={saving} onPress={() => void archive()} /> : null;
   const desktopSourcePhoto = desktop && [
@@ -712,20 +754,12 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
           <AppIllustration source={MASCOT} style={[styles.mascot, desktop && styles.desktopMascot]} accessible={false} />
         </LinearGradient> : null}
 
-        {error ? <RecoveryNotice title={expired ? 'Em cần đăng nhập lại' : 'Chưa thực hiện được'} message={error} actions={expired
-          ? [{ label: 'Đăng nhập lại', onPress: () => router.push('/login' as any) }]
-          : failedTask === 'read' && imageUri && photoAllowed ? [
-            photoNeedsCrop
-              ? { label: 'Chọn lại vùng bài toán', icon: 'crop-outline', onPress: () => router.push('/crop' as any), disabled: !!busy }
-              : { label: 'Đọc lại ảnh', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy },
-            context?.purpose === 'ADD_WORK'
-              ? { label: 'Nhập bài làm bằng chữ', icon: 'create-outline', onPress: () => edit('work'), disabled: !!busy }
-              : { label: 'Nhập đề bằng chữ', icon: 'create-outline', onPress: () => edit('problem'), disabled: !!busy },
-          ]
-          : problem && !lesson && !workReviewMode ? [{ label: problemConfirmed && !problem.includes('[?]') ? 'Thử lại' : 'Kiểm tra đề', accessibilityLabel: 'Bắt đầu lại bài học', icon: 'refresh-outline', onPress: () => { if (problemConfirmed && !problem.includes('[?]')) start(); else edit('problem'); }, disabled: !!busy }]
-          : imageUri && photoAllowed && !lesson ? [{ label: 'Thử lại', accessibilityLabel: 'Đọc lại ảnh bài làm', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy }]
-          : []} /> : null}
-
+        {error ? <RecoveryNotice dialog title={errorTitle} message={error} actions={errorActions} /> : null}
+        {web && preparationIssue && !error && !busy && !viewingHistory && !displayedReview && (
+          <RecoveryNotice dialog dialogKey={lesson?.sessionId} title="Chưa chuẩn bị được bước giải"
+            message={preparationPaused ? 'Đã hết thời gian chờ. Đề bài và phần em đã làm vẫn được giữ.' : 'Đề bài và phần em đã làm vẫn được giữ.'}
+            actions={preparationActions} />
+        )}
         {!!imageUri && !photoAllowed ? <View style={styles.card}><Text style={styles.body}>Em kiểm tra thông tin cá nhân trên ảnh trước nhé.</Text>
           <AppButton title="Kiểm tra thông tin cá nhân trên ảnh" onPress={() => router.replace('/privacy' as any)} /></View> : null}
         {photoAllowed && !reading && !error && !editing && !expired ? <AppButton title="Đọc lại ảnh" variant="secondary" onPress={() => void inspectPhoto()} /> : null}
@@ -739,7 +773,13 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
             setReading({ kind: 'PROBLEM', problemText: question.problemText, lines: [], needsProblem: false });
             scroll.current?.scrollTo({ y: 0, animated: false });
           }}/>
-        </View> : invalidPhoto ? <View style={styles.card}>
+        </View> : invalidPhoto ? web ? !editing && !error && <RecoveryNotice dialog
+          title={reading?.needsCrop ? 'Ảnh cần chọn vùng nhỏ hơn' : reading?.kind === 'MULTIPLE' ? 'Ảnh có nhiều bài toán' : 'Ảnh chưa đủ rõ'}
+          message={reading?.needsCrop ? 'Em chọn từng bài để mình đọc đủ đề và hình vẽ.' : 'Em chọn trọn một bài, gồm lời văn, số và hình vẽ nếu có.'}
+          actions={[
+            { label: 'Chọn lại vùng bài toán', onPress: () => router.dismissTo('/crop' as any) },
+            { label: 'Nhập đề bằng chữ', onPress: () => edit('problem') },
+          ]} /> : <View style={styles.card}>
           <Text style={styles.heading}>{reading?.needsCrop ? 'Chọn một vùng nhỏ hơn nhé' : reading?.kind === 'MULTIPLE' ? 'Mỗi lần một bài nhé' : 'Mình chưa đọc rõ bài toán'}</Text>
           <Text style={styles.body}>{reading?.needsCrop ? 'Ảnh có nhiều nội dung. Em chia thành từng phần để mình đọc đủ, rồi cùng xem từng bài nhé.' : 'Em chọn trọn một bài, gồm lời văn, số và hình vẽ nếu có.'}</Text>
           <AppButton title="Chọn lại vùng bài toán" onPress={() => router.push('/crop' as any)} />
@@ -886,11 +926,11 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
             <Text style={styles.body}>Trước khi giải, mình cùng xem lại những điều đề bài đã cho và điều cần tìm nhé!</Text>
             <ProblemSummary lesson={lesson} compact />
             {lesson.preparingMath ? <>
-              <Text style={styles.caption}>Phần hiểu đề đã được giữ. Mình đang chuẩn bị các bước giải cho em.</Text>
-              {lesson.status === 'RETRYABLE' || lesson.status === 'UNAVAILABLE' || preparationPaused
-                ? <AppButton title="Thử chuẩn bị lại" onPress={retryPreparation} loading={busy === 'answer'} disabled={!!busy || expired || preparationRetrySeconds > 0} />
+              {!(web && preparationIssue) && <Text style={styles.caption}>Phần hiểu đề đã được giữ. Mình đang chuẩn bị các bước giải cho em.</Text>}
+              {preparationIssue
+                ? !web && <AppButton title="Thử chuẩn bị lại" onPress={retryPreparation} loading={busy === 'answer'} disabled={!!busy || expired || preparationRetrySeconds > 0} />
                 : <ActivityIndicator accessibilityLabel="Đang chuẩn bị các bước giải" color={COLORS.primaryDark} />}
-              {preparationRetrySeconds > 0 ? <Text style={styles.caption}>Em có thể thử chuẩn bị lại sau {preparationRetrySeconds} giây.</Text> : null}
+              {!web && preparationRetrySeconds > 0 ? <Text style={styles.caption}>Em có thể thử chuẩn bị lại sau {preparationRetrySeconds} giây.</Text> : null}
             </> : null}
             <AppButton title="Bắt đầu giải" disabled={!!busy || expired || !step || lesson.preparingMath} onPress={() => {
               if (reviewedStep) { setAttempt(''); setAnswerEdited(false); }
@@ -901,10 +941,12 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
           {lesson.preparingMath && step ? <Text style={styles.caption}>Em đọc đề trước nhé, phần hướng dẫn đang được chuẩn bị.</Text> : null}
           {lesson.preparingMath && !step && !viewingHistory && !displayedReview ? <View style={styles.card} accessibilityLiveRegion="polite">
             <View ref={stepHeading} tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel="Em đã hiểu đề"><Text style={styles.heading}>Em đã hiểu đề</Text></View>
-            <MathText style={styles.body}>{lesson.feedback}</MathText>
-            <AppButton title="Tiếp tục" onPress={() => setSummaryStage('summary')} />
-            {lesson.status === 'RETRYABLE' || lesson.status === 'UNAVAILABLE' || preparationPaused ? <AppButton title="Thử chuẩn bị lại" loadingTitle="Đang chuẩn bị lại bài…" onPress={retryPreparation} loading={busy === 'answer'} disabled={!!busy || expired || preparationRetrySeconds > 0} /> : null}
-            {preparationRetrySeconds > 0 ? <Text style={styles.caption}>Em có thể thử chuẩn bị lại sau {preparationRetrySeconds} giây.</Text> : null}
+            {!(web && preparationIssue) && <>
+              <MathText style={styles.body}>{lesson.feedback}</MathText>
+              <AppButton title="Tiếp tục" onPress={() => setSummaryStage('summary')} />
+            </>}
+            {preparationIssue && !web ? <AppButton title="Thử chuẩn bị lại" loadingTitle="Đang chuẩn bị lại bài…" onPress={retryPreparation} loading={busy === 'answer'} disabled={!!busy || expired || preparationRetrySeconds > 0} /> : null}
+            {!web && preparationRetrySeconds > 0 ? <Text style={styles.caption}>Em có thể thử chuẩn bị lại sau {preparationRetrySeconds} giây.</Text> : null}
             {lesson.status === 'PREPARING' && !preparationPaused ? <ActivityIndicator accessibilityLabel="Đang chuẩn bị các bước giải" color={COLORS.primaryDark} /> : null}
           </View> : displayedReview ? <View style={styles.card} accessibilityLiveRegion="polite" onLayout={e => { lessonPosition.current = e.nativeEvent.layout.y; }}>
             <Text style={styles.eyebrow}>{viewingHistory ? `XEM LẠI · BƯỚC ${visibleStepIndex + 1}` : displayedReview.kind === 'UNDERSTAND' ? 'CÙNG HIỂU ĐỀ' : `ĐÃ KIỂM TRA BƯỚC ${lesson.stepIndex - (lesson.understandingSteps || 0)}`}</Text>

@@ -18,6 +18,7 @@ import Animated, {
 import { FONTS, COLORS, SIZES, SHADOWS, IS_STUDENT_WEB, WEB_DESIGN } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
+import { RecoveryNotice } from '../components/ui/RecoveryNotice';
 import { Ionicons } from '@expo/vector-icons';
 import { recognitionDraftStore, resolveFlowDomain, logFlowDomain } from '../features/recognition/state/recognitionDraftStore';
 import { ensureFileUri, logStageDiagnostic, inspectReadableImage } from '../features/recognition/image/imagePipeline';
@@ -780,7 +781,12 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
             </Text>
           </TouchableOpacity>
 
-          {saveError && <Text accessibilityRole="alert" style={styles.errorTitle}>Chưa lưu được ảnh đã che. Em hãy thử lại.</Text>}
+          {saveError && (Platform.OS === 'web' ? <RecoveryNotice dialog title="Chưa lưu được ảnh đã che"
+            message="Em thử lưu lại trước khi gửi ảnh đi đọc bài."
+            actions={[
+              { label: 'Thử lưu lại', onPress: handleDone, disabled: saving },
+              { label: 'Chụp lại ảnh khác', onPress: () => router.replace(cameraRoute) },
+            ]} /> : <Text accessibilityRole="alert" style={styles.errorTitle}>Chưa lưu được ảnh đã che. Em hãy thử lại.</Text>)}
           <AppButton
             title="Tiếp tục xem lại"
             onPress={handleDone}

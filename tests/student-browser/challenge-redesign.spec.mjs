@@ -233,7 +233,10 @@ test('Quiz recovers a failed start and keeps answer controls reachable in a shor
   app.responses.set('POST /student/quizzes/challenge-design/start', request => fail ? request.reject(503) : start(request));
   await page.goto(fixture.quizUrl);
   await page.getByRole('button', { name: 'Bắt đầu thử thách', exact: true }).click();
-  await expect(page.getByRole('alert')).toBeVisible();
+  const failedStart = page.getByRole('alertdialog', { name: 'Chưa bắt đầu được câu đố' });
+  await expect(failedStart).toBeVisible();
+  await failedStart.getByRole('button', { name: 'Kiểm tra lại trạng thái' }).click();
+  await expect(failedStart).toHaveCount(0);
   fail = false;
   await page.getByRole('button', { name: 'Bắt đầu thử thách', exact: true }).click();
   await page.setViewportSize({ width: 390, height: 480 });
