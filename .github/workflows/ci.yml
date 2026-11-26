@@ -494,7 +494,8 @@ jobs:
   source-release:
     name: Publish source release
     needs: gate
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # The gate already validates skipped jobs against the plan.
+    if: ${{ !cancelled() && needs.gate.result == 'success' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 3
     permissions:
