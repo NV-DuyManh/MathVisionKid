@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { FONTS, COLORS } from '../../constants/theme';
+import { hasCompletedOnboarding } from '../onboarding/onboardingStorage';
 
 interface DemoCalculation {
   grade: number;
@@ -23,8 +24,10 @@ interface DemoCalculation {
   operator: string;
   row2: string[];
   resultRow: string[];
+  correctedRow: string[];
   errorCol: number;
   activeCol: number;
+  correctedActiveCol: number;
   speechText: string;
   replyResponse: string;
   answerText: string;
@@ -39,8 +42,10 @@ const DEMO_CALCULATIONS: Record<number, DemoCalculation> = {
     operator: '+',
     row2: [' ', '5'],
     resultRow: ['1', '1'],
+    correctedRow: ['1', '2'],
     errorCol: 1,
     activeCol: 1,
+    correctedActiveCol: 1,
     speechText: 'Chào con! 7 + 5 bằng bao nhiêu nhỉ? Con hãy đếm thêm từ 7 xem nào!',
     replyResponse: 'Chính xác rồi! 7 + 5 = 12 mới đúng con nhé. Giỏi lắm!',
     answerText: 'Con trả lời: 7 + 5 = 12',
@@ -53,8 +58,10 @@ const DEMO_CALCULATIONS: Record<number, DemoCalculation> = {
     operator: '+',
     row2: ['3', '6'],
     resultRow: ['7', '4'],
+    correctedRow: ['8', '4'],
     errorCol: 0,
     activeCol: 0,
+    correctedActiveCol: 0,
     speechText: 'Con cộng 8 + 6 = 14 viết 4 nhớ 1 rồi. Vậy 4 + 3 thêm 1 nhớ là mấy nhỉ?',
     replyResponse: 'Đúng rồi! 4 + 3 = 7, thêm 1 nhớ là 8. Kết quả đúng là 84 con nhé!',
     answerText: 'Con trả lời: 4 + 3 + 1 = 8',
@@ -67,8 +74,10 @@ const DEMO_CALCULATIONS: Record<number, DemoCalculation> = {
     operator: '+',
     row2: ['1', '7', '8'],
     resultRow: ['4', '1', '3'],
+    correctedRow: ['4', '2', '3'],
     errorCol: 1,
-    activeCol: 1,
+    activeCol: 2,
+    correctedActiveCol: 1,
     speechText:
       'Chào con! Cô thấy con viết 245 + 178 = 413. Mình cùng kiểm tra từng cột nhé. Bắt đầu từ cột đơn vị: 5 + 8 bằng mấy?',
     replyResponse:
@@ -83,8 +92,10 @@ const DEMO_CALCULATIONS: Record<number, DemoCalculation> = {
     operator: '+',
     row2: ['2', '8', '3', '7'],
     resultRow: ['4', '2', '5', '2'],
+    correctedRow: ['4', '2', '6', '2'],
     errorCol: 2,
     activeCol: 2,
+    correctedActiveCol: 2,
     speechText: 'Ở cột chục: 2 + 3 thêm 1 nhớ từ hàng đơn vị thì phải bằng mấy con nhỉ?',
     replyResponse: 'Tuyệt vời! 2 + 3 = 5, thêm 1 nhớ là 6. Kết quả chính xác là 4262!',
     answerText: 'Con trả lời: 2 + 3 + 1 = 6',
@@ -97,8 +108,10 @@ const DEMO_CALCULATIONS: Record<number, DemoCalculation> = {
     operator: '+',
     row2: ['1', '9', ',', '5'],
     resultRow: ['5', '3', ',', '3'],
+    correctedRow: ['5', '4', ',', '3'],
     errorCol: 1,
     activeCol: 1,
+    correctedActiveCol: 1,
     speechText:
       'Phép cộng số thập phân: 8 + 5 = 13 viết 3 nhớ 1. Đến cột hàng đơn vị: 4 + 9 thêm 1 nhớ là mấy?',
     replyResponse:
@@ -130,8 +143,17 @@ export default function PortalScreen() {
     setAnsweredSpeech(false);
   };
 
-  const handleGoToLogin = () => {
-    router.push('/login' as any);
+  const handleGoToLogin = async () => {
+    try {
+      const completed = await hasCompletedOnboarding();
+      if (completed) {
+        router.push('/login');
+      } else {
+        router.push('/welcome');
+      }
+    } catch {
+      router.push('/login');
+    }
   };
 
   const handleScrollToMethod = () => {
@@ -291,10 +313,17 @@ export default function PortalScreen() {
 
                 {/* Math Calculation Table */}
                 <View style={styles.calculationArea}>
+                  {/* Status label: Ban đầu vs Đã sửa */}
+                  <View style={styles.calculationStatusBadge}>
+                    <Text style={[styles.calculationStatusText, answeredSpeech && styles.calculationStatusTextSuccess]}>
+                      {answeredSpeech ? '✓ Đã sửa theo gợi ý:' : 'Bài làm ban đầu của học sinh:'}
+                    </Text>
+                  </View>
+
                   {/* Row 1 */}
                   <View style={styles.mathRow}>
                     {currentDemo.row1.map((char, idx) => {
-                      const isActive = idx === currentDemo.activeCol;
+                      const isActive = idx === (answeredSpeech ? currentDemo.correctedActiveCol : currentDemo.activeCol);
                       return (
                         <View key={idx} style={[styles.mathCell, isActive && styles.mathCellActive]}>
                           <Text style={styles.mathDigit}>{char}</Text>
@@ -307,7 +336,7 @@ export default function PortalScreen() {
                   <View style={styles.mathRow}>
                     <Text style={styles.mathOperator}>{currentDemo.operator}</Text>
                     {currentDemo.row2.map((char, idx) => {
-                      const isActive = idx === currentDemo.activeCol;
+                      const isActive = idx === (answeredSpeech ? currentDemo.correctedActiveCol : currentDemo.activeCol);
                       return (
                         <View key={idx} style={[styles.mathCell, isActive && styles.mathCellActive]}>
                           <Text style={styles.mathDigit}>{char}</Text>
@@ -319,19 +348,28 @@ export default function PortalScreen() {
                   {/* Horizontal Divider Line */}
                   <View style={styles.mathDivider} />
 
-                  {/* Result Row with Error Capsule */}
+                  {/* Result Row */}
                   <View style={styles.mathRow}>
-                    {currentDemo.resultRow.map((char, idx) => {
-                      const isError = idx === currentDemo.errorCol;
+                    {(answeredSpeech ? currentDemo.correctedRow : currentDemo.resultRow).map((char, idx) => {
+                      const isError = !answeredSpeech && idx === currentDemo.errorCol;
+                      const isCorrected = answeredSpeech && idx === currentDemo.errorCol;
                       return (
-                        <View key={idx} style={[styles.mathCell, isError && styles.mathCellError]}>
-                          <Text style={[styles.mathDigit, isError && styles.mathDigitError]}>
+                        <View key={idx} style={[styles.mathCell, isError && styles.mathCellError, isCorrected && styles.mathCellCorrected]}>
+                          <Text style={[styles.mathDigit, isError && styles.mathDigitError, isCorrected && styles.mathDigitCorrected]}>
                             {char}
                           </Text>
                         </View>
                       );
                     })}
                   </View>
+
+                  {answeredSpeech && (
+                    <View style={styles.historicalNoteWrap}>
+                      <Text style={styles.historicalNoteText}>
+                        (Gốc chưa sửa: {currentDemo.resultRow.join('')} → Kết quả đúng: {currentDemo.correctedRow.join('')})
+                      </Text>
+                    </View>
+                  )}
                 </View>
 
                 {/* Robot Speech Bubble */}
@@ -357,7 +395,7 @@ export default function PortalScreen() {
                       pressed && styles.btnPressed,
                     ]}
                     onPress={() => setAnsweredSpeech((prev) => !prev)}
-                    accessibilityLabel={answeredSpeech ? 'Đã kiểm tra lại' : currentDemo.answerText}
+                    accessibilityLabel={answeredSpeech ? 'Xem lại bài làm ban đầu' : currentDemo.answerText}
                     accessibilityRole="button"
                   >
                     <Text
@@ -366,7 +404,7 @@ export default function PortalScreen() {
                         answeredSpeech ? styles.replyBtnTextAnswered : styles.replyBtnTextNormal,
                       ]}
                     >
-                      {answeredSpeech ? '✓ Đã kiểm tra lại' : currentDemo.answerText}
+                      {answeredSpeech ? '↺ Xem lại bài làm ban đầu' : currentDemo.answerText}
                     </Text>
                   </Pressable>
                 </View>
@@ -389,8 +427,9 @@ export default function PortalScreen() {
                     pressed && styles.btnPressed,
                   ]}
                   onPress={() => handleSelectGrade(grade)}
-                  accessibilityLabel={`Lớp ${grade}`}
+                  accessibilityLabel={`Lớp ${grade}${isSelected ? ', đang chọn' : ''}`}
                   accessibilityRole="button"
+                  accessibilityState={{ selected: isSelected }}
                 >
                   <Text style={[styles.gradeBtnText, { color: colorInfo.text }]}>Lớp {grade}</Text>
                 </Pressable>
@@ -672,28 +711,18 @@ export default function PortalScreen() {
               Sẵn sàng đồng hành cùng bé chinh phục môn Toán?
             </Text>
             <Text style={styles.ctaSubtitle}>
-              Đăng nhập bằng tài khoản Google hoặc Facebook của bạn.
+              Bắt đầu hành trình học tập thông minh cùng phương pháp Socratic ngay hôm nay.
             </Text>
 
             <View style={styles.ctaButtonsCol}>
               <Pressable
                 style={({ pressed }) => [styles.ctaGoogleBtn, pressed && styles.btnPressed]}
                 onPress={handleGoToLogin}
-                accessibilityLabel="Tiếp tục với Google"
+                accessibilityLabel="Đăng nhập tài khoản"
                 accessibilityRole="button"
               >
-                <Ionicons name="logo-google" size={22} color="#1E1B4B" style={{ marginRight: 10 }} />
-                <Text style={styles.ctaGoogleBtnText}>Tiếp tục với Google</Text>
-              </Pressable>
-
-              <Pressable
-                style={({ pressed }) => [styles.ctaFacebookBtn, pressed && styles.btnPressed]}
-                onPress={handleGoToLogin}
-                accessibilityLabel="Tiếp tục với Facebook"
-                accessibilityRole="button"
-              >
-                <Ionicons name="logo-facebook" size={22} color="#FFFFFF" style={{ marginRight: 10 }} />
-                <Text style={styles.ctaFacebookBtnText}>Tiếp tục với Facebook</Text>
+                <Ionicons name="log-in-outline" size={22} color="#1E1B4B" style={{ marginRight: 10 }} />
+                <Text style={styles.ctaGoogleBtnText}>Đăng nhập</Text>
               </Pressable>
             </View>
           </LinearGradient>
@@ -1073,6 +1102,18 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginVertical: 12,
   },
+  calculationStatusBadge: {
+    alignSelf: 'center',
+    marginBottom: 8,
+  },
+  calculationStatusText: {
+    fontFamily: FONTS.bold,
+    fontSize: 13,
+    color: '#64748B',
+  },
+  calculationStatusTextSuccess: {
+    color: '#047857',
+  },
   mathRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1100,6 +1141,12 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EF4444',
     borderRadius: 14,
   },
+  mathCellCorrected: {
+    backgroundColor: '#DCFCE7',
+    borderBottomWidth: 3,
+    borderBottomColor: '#047857',
+    borderRadius: 14,
+  },
   mathDigit: {
     fontFamily: FONTS.black,
     fontSize: 32,
@@ -1107,6 +1154,18 @@ const styles = StyleSheet.create({
   },
   mathDigitError: {
     color: '#EF4444',
+  },
+  mathDigitCorrected: {
+    color: '#047857',
+  },
+  historicalNoteWrap: {
+    alignSelf: 'center',
+    marginTop: 8,
+  },
+  historicalNoteText: {
+    fontFamily: FONTS.semiBold,
+    fontSize: 12,
+    color: '#047857',
   },
   mathDivider: {
     width: '120%',

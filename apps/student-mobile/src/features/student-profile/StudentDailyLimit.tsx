@@ -129,7 +129,7 @@ export function StudentDailyLimit({ children }: PropsWithChildren) {
             onOpen={settings => {
               storeParentModeHandoff(owner, settings);
               setShowParentPin(false);
-              router.push('/parent-mode' as any);
+              router.push('/parent-mode');
             }}
           />
         ) : (

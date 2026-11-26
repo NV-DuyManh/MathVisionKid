@@ -1,13 +1,17 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
-import { useRouter } from 'expo-router';
 import PortalScreen from '../features/portal/PortalScreen';
+import { hasCompletedOnboarding } from '../features/onboarding/onboardingStorage';
 
 const mockPush = jest.fn();
 const mockReplace = jest.fn();
 
 jest.mock('expo-router', () => ({
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
+}));
+
+jest.mock('../features/onboarding/onboardingStorage', () => ({
+  hasCompletedOnboarding: jest.fn(async () => true),
 }));
 
 jest.mock('react-native-safe-area-context', () => ({
@@ -27,14 +31,23 @@ let view: TestRenderer.ReactTestRenderer;
 const findByLabel = (label: string) =>
   view.root.findAll((node) => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0];
 
+const findByLabelPrefix = (prefix: string) =>
+  view.root.findAll(
+    (node) => typeof node.props.accessibilityLabel === 'string' && node.props.accessibilityLabel.startsWith(prefix) && typeof node.props.onPress === 'function'
+  )[0];
+
 const getAllText = () =>
   view.root
     .findAllByType('Text' as any)
-    .map((node) => String(node.props.children))
+    .map((node) => {
+      const children = node.props.children;
+      return Array.isArray(children) ? children.join('') : String(children ?? '');
+    })
     .join(' ');
 
 beforeEach(() => {
   jest.clearAllMocks();
+  jest.mocked(hasCompletedOnboarding).mockResolvedValue(true);
 });
 
 afterEach(() => {
@@ -44,7 +57,7 @@ afterEach(() => {
 });
 
 describe('PortalScreen (Unified Mobile Portal)', () => {
-  it('renders the complete Unified Portal Web UI on mobile and navigates to login when pressed', async () => {
+  it('renders the complete Unified Portal Web UI on mobile and routes based on onboarding state', async () => {
     await act(async () => {
       view = TestRenderer.create(<PortalScreen />);
     });
@@ -66,67 +79,92 @@ describe('PortalScreen (Unified Mobile Portal)', () => {
     expect(fullText).toContain('Thầy cô là người định đoạt');
     expect(fullText).toContain('Bảo vệ dữ liệu học sinh');
 
-    // Check CTA section
+    // Check CTA section does not promise unsupported Facebook/unconfigured social login
     expect(fullText).toContain('Sẵn sàng đồng hành cùng bé chinh phục môn Toán?');
+    expect(fullText).not.toContain('Tiếp tục với Facebook');
+    expect(fullText).not.toContain('Tiếp tục với Google');
 
-    // Check Login navigation buttons
+    // Check Login navigation buttons when onboarding is completed
     const headerLoginBtn = findByLabel('Đăng nhập');
     expect(headerLoginBtn).toBeDefined();
-    act(() => headerLoginBtn.props.onPress());
+    await act(async () => headerLoginBtn.props.onPress());
     expect(mockPush).toHaveBeenCalledWith('/login');
 
     const heroLoginBtn = findByLabel('Đăng nhập để bắt đầu');
     expect(heroLoginBtn).toBeDefined();
-    act(() => heroLoginBtn.props.onPress());
+    await act(async () => heroLoginBtn.props.onPress());
     expect(mockPush).toHaveBeenCalledWith('/login');
 
-    const googleBtn = findByLabel('Tiếp tục với Google');
-    expect(googleBtn).toBeDefined();
-    act(() => googleBtn.props.onPress());
-    expect(mockPush).toHaveBeenCalledWith('/login');
+    // Check first-time onboarding route when not completed
+    jest.mocked(hasCompletedOnboarding).mockResolvedValueOnce(false);
+    const ctaLoginBtn = findByLabel('Đăng nhập tài khoản');
+    expect(ctaLoginBtn).toBeDefined();
+    await act(async () => ctaLoginBtn.props.onPress());
+    expect(mockPush).toHaveBeenCalledWith('/welcome');
   });
 
-  it('interactively switches grade calculation when grade selector buttons are tapped', async () => {
+  it('interactively switches grade calculation, updates accessibilityState, and resets checked state', async () => {
     await act(async () => {
       view = TestRenderer.create(<PortalScreen />);
     });
 
-    // Default is Grade 3: Lớp 3A, Nguyễn B***
+    // Default is Grade 3: Lớp 3A, Nguyễn B***, selected accessibilityState
     expect(getAllText()).toContain('Nguyễn B***');
     expect(getAllText()).toContain('Lớp 3A');
+    expect(findByLabelPrefix('Lớp 3').props.accessibilityState).toEqual({ selected: true });
+    expect(findByLabelPrefix('Lớp 1').props.accessibilityState).toEqual({ selected: false });
 
-    // Select Grade 1
-    const grade1Btn = findByLabel('Lớp 1');
-    expect(grade1Btn).toBeDefined();
-    act(() => grade1Btn.props.onPress());
+    // Toggle answer in Grade 3 first
+    const grade3ReplyBtn = findByLabel('Con trả lời: 5 + 8 = 13');
+    act(() => grade3ReplyBtn.props.onPress());
+    expect(getAllText()).toContain('↺ Xem lại bài làm ban đầu');
+
+    // Select Grade 1 -> resets answered state and updates selected state
+    act(() => findByLabelPrefix('Lớp 1').props.onPress());
     expect(getAllText()).toContain('Trần M***');
     expect(getAllText()).toContain('Lớp 1B');
+    expect(getAllText()).not.toContain('↺ Xem lại bài làm ban đầu');
+    expect(findByLabelPrefix('Lớp 1').props.accessibilityState).toEqual({ selected: true });
+    expect(findByLabelPrefix('Lớp 3').props.accessibilityState).toEqual({ selected: false });
 
     // Select Grade 5
-    const grade5Btn = findByLabel('Lớp 5');
-    expect(grade5Btn).toBeDefined();
-    act(() => grade5Btn.props.onPress());
+    act(() => findByLabelPrefix('Lớp 5').props.onPress());
     expect(getAllText()).toContain('Hoàng K***');
     expect(getAllText()).toContain('Lớp 5B');
   });
 
-  it('toggles child answer and displays teacher response', async () => {
+  it('shows corrected digits and historical label across all 5 grades when checked', async () => {
     await act(async () => {
       view = TestRenderer.create(<PortalScreen />);
     });
 
-    const replyBtn = findByLabel('Con trả lời: 5 + 8 = 13');
-    expect(replyBtn).toBeDefined();
+    const expectedByGrade: Record<number, { wrong: string; corrected: string; answerLabel: string }> = {
+      1: { wrong: '11', corrected: '12', answerLabel: 'Con trả lời: 7 + 5 = 12' },
+      2: { wrong: '74', corrected: '84', answerLabel: 'Con trả lời: 4 + 3 + 1 = 8' },
+      3: { wrong: '413', corrected: '423', answerLabel: 'Con trả lời: 5 + 8 = 13' },
+      4: { wrong: '4252', corrected: '4262', answerLabel: 'Con trả lời: 2 + 3 + 1 = 6' },
+      5: { wrong: '53,3', corrected: '54,3', answerLabel: 'Con trả lời: 4 + 9 + 1 = 14' },
+    };
 
-    // Tap to answer
-    act(() => replyBtn.props.onPress());
-    expect(getAllText()).toContain('Đúng rồi! 5 + 8 = 13');
-    expect(getAllText()).toContain('✓ Đã kiểm tra lại');
+    for (const grade of [1, 2, 3, 4, 5]) {
+      act(() => findByLabelPrefix(`Lớp ${grade}`).props.onPress());
+      const info = expectedByGrade[grade];
+      expect(getAllText()).toContain('Bài làm ban đầu của học sinh:');
 
-    // Tap again to toggle back
-    const checkedBtn = findByLabel('Đã kiểm tra lại');
-    expect(checkedBtn).toBeDefined();
-    act(() => checkedBtn.props.onPress());
-    expect(getAllText()).toContain('Con trả lời: 5 + 8 = 13');
+      const replyBtn = findByLabel(info.answerLabel);
+      expect(replyBtn).toBeDefined();
+      act(() => replyBtn.props.onPress());
+
+      const afterText = getAllText();
+      expect(afterText).toContain('✓ Đã sửa theo gợi ý:');
+      expect(afterText).toContain(`(Gốc chưa sửa: ${info.wrong} → Kết quả đúng: ${info.corrected})`);
+      expect(afterText).toContain('↺ Xem lại bài làm ban đầu');
+
+      // Toggle back to initial state
+      const resetBtn = findByLabel('Xem lại bài làm ban đầu');
+      expect(resetBtn).toBeDefined();
+      act(() => resetBtn.props.onPress());
+      expect(getAllText()).toContain(info.answerLabel);
+    }
   });
 });

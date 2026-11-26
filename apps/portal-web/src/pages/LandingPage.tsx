@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Container,
@@ -7,13 +7,10 @@ import {
   Chip,
   Grid,
 } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import GoogleIcon from '@mui/icons-material/Google';
-import FacebookIcon from '@mui/icons-material/Facebook';
+import { Link as RouterLink, useOutletContext } from 'react-router-dom';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import { authService, type UserProfile } from '../services/authService';
-import { tokenStore } from '../services/apiClient';
+import { type UserProfile } from '../services/authService';
 
 interface GradeDemoData {
   gradeLabel: string;
@@ -23,7 +20,9 @@ interface GradeDemoData {
   row2: string[];
   operator: string;
   resultRow: string[];
+  correctedRow?: string[];
   activeCol: number;
+  correctedActiveCol?: number;
   errorCol?: number;
   speechText: string;
   answerText: string;
@@ -40,6 +39,7 @@ const GRADE_DATA: Record<number, GradeDemoData> = {
     operator: '+',
     resultRow: ['5', '9'],
     activeCol: 1,
+    correctedActiveCol: 0,
     speechText: 'Chào con! Cô thấy con viết 35 + 24. Mình cùng tính nhé. Bắt đầu từ cột đơn vị: 5 + 4 bằng mấy?',
     answerText: 'Con trả lời: 5 + 4 = 9',
     replyResponse: 'Chính xác! Con viết 9 vào cột đơn vị, rồi tính tiếp 3 + 2 = 5 ở cột chục nhé!',
@@ -53,6 +53,7 @@ const GRADE_DATA: Record<number, GradeDemoData> = {
     operator: '+',
     resultRow: ['8', '3'],
     activeCol: 1,
+    correctedActiveCol: 0,
     speechText: 'Chào con! Cô thấy con viết 48 + 35. Mình cùng kiểm tra nhé: 8 + 5 = 13, con viết 3 và nhớ mấy sang hàng chục?',
     answerText: 'Con trả lời: Viết 3 nhớ 1',
     replyResponse: 'Giỏi lắm! Con nhớ 1 sang hàng chục: 4 + 3 = 7, thêm 1 nhớ là 8. Kết quả bằng 83!',
@@ -65,11 +66,13 @@ const GRADE_DATA: Record<number, GradeDemoData> = {
     row2: ['1', '7', '8'],
     operator: '+',
     resultRow: ['4', '1', '3'],
-    activeCol: 1,
+    correctedRow: ['4', '2', '3'],
+    activeCol: 2,
+    correctedActiveCol: 1,
     errorCol: 1,
     speechText: 'Chào con! Cô thấy con viết 245 + 178 = 413. Mình cùng kiểm tra từng cột nhé. Bắt đầu từ cột đơn vị: 5 + 8 bằng mấy?',
     answerText: 'Con trả lời: 5 + 8 = 13',
-    replyResponse: 'Đúng rồi! 5 + 8 = 13, viết 3 nhớ 1. Ở hàng chục: 4 + 7 = 11, thêm 1 nhớ bằng mấy nhỉ?',
+    replyResponse: 'Đúng rồi! 5 + 8 = 13, viết 3 nhớ 1 sang cột chục. 4 + 7 = 11, thêm 1 nhớ là 12, viết 2 nhớ 1. Kết quả đúng là 423 con nhé!',
   },
   4: {
     gradeLabel: 'Lớp 4',
@@ -80,6 +83,7 @@ const GRADE_DATA: Record<number, GradeDemoData> = {
     operator: '×',
     resultRow: ['5', '0', '0'],
     activeCol: 2,
+    correctedActiveCol: 1,
     speechText: 'Chào con! Cô thấy con tính 125 × 4. Mình cùng nhân từ hàng đơn vị nhé: 4 × 5 bằng mấy?',
     answerText: 'Con trả lời: 4 × 5 = 20',
     replyResponse: 'Tuyệt vời! Viết 0 nhớ 2. Tiếp theo: 4 × 2 = 8, thêm 2 nhớ là 10, viết 0 nhớ 1 nhé!',
@@ -93,6 +97,7 @@ const GRADE_DATA: Record<number, GradeDemoData> = {
     operator: '+',
     resultRow: ['5', '4', ',', '1'],
     activeCol: 3,
+    correctedActiveCol: 1,
     speechText: 'Chào con! Cô thấy con đặt tính số thập phân 35,4 + 18,7. Mình cùng kiểm tra phần thập phân trước: 4 + 7 bằng mấy?',
     answerText: 'Con trả lời: 4 + 7 = 11',
     replyResponse: 'Rất đúng! Viết 1 nhớ 1 qua hàng đơn vị và hạ dấu phẩy thẳng cột con nhé!',
@@ -100,23 +105,18 @@ const GRADE_DATA: Record<number, GradeDemoData> = {
 };
 
 const GRADE_COLORS: Record<number, { bg: string; hover: string; text: string }> = {
-  1: { bg: '#EF4444', hover: '#DC2626', text: '#FFFFFF' },
+  1: { bg: '#DC2626', hover: '#B91C1C', text: '#FFFFFF' },
   2: { bg: '#F59E0B', hover: '#D97706', text: '#1E1B4B' },
-  3: { bg: '#10B981', hover: '#059669', text: '#FFFFFF' },
-  4: { bg: '#06B6D4', hover: '#0891B2', text: '#FFFFFF' },
-  5: { bg: '#6366F1', hover: '#4F46E5', text: '#FFFFFF' },
+  3: { bg: '#047857', hover: '#065F46', text: '#FFFFFF' },
+  4: { bg: '#0E7490', hover: '#155E75', text: '#FFFFFF' },
+  5: { bg: '#4F46E5', hover: '#4338CA', text: '#FFFFFF' },
 };
 
 export const LandingPage: React.FC = () => {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const outletContext = useOutletContext<{ user: UserProfile | null } | undefined>();
+  const user = outletContext?.user ?? null;
   const [selectedGrade, setSelectedGrade] = useState<number>(3);
   const [answeredSpeech, setAnsweredSpeech] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (tokenStore.hasTokens()) {
-      authService.getMe().then(setUser).catch(() => setUser(null));
-    }
-  }, []);
 
   const getDestinationPath = (role?: string) => {
     const normalized = (role || '').toUpperCase().replace('ROLE_', '');
@@ -135,8 +135,6 @@ export const LandingPage: React.FC = () => {
 
   return (
     <Box
-      component="main"
-      id="main-content"
       sx={{
         width: '100%',
         bgcolor: '#FFFFFF',
@@ -612,10 +610,16 @@ export const LandingPage: React.FC = () => {
                         {/* Row 1 */}
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', width: '100%' }}>
                           {currentDemo.row1.map((char, idx) => {
-                            const isActive = idx === currentDemo.activeCol;
+                            const activeCol =
+                              answeredSpeech && currentDemo.correctedActiveCol !== undefined
+                                ? currentDemo.correctedActiveCol
+                                : currentDemo.activeCol;
+                            const isActive = idx === activeCol;
                             return (
                               <Box
                                 key={idx}
+                                data-testid={`demo-row1-col-${idx}`}
+                                data-active={isActive ? 'true' : 'false'}
                                 sx={{
                                   width: { xs: 46, sm: 58, md: 66 },
                                   textAlign: 'center',
@@ -653,10 +657,16 @@ export const LandingPage: React.FC = () => {
                             {currentDemo.operator}
                           </Box>
                           {currentDemo.row2.map((char, idx) => {
-                            const isActive = idx === currentDemo.activeCol;
+                            const activeCol =
+                              answeredSpeech && currentDemo.correctedActiveCol !== undefined
+                                ? currentDemo.correctedActiveCol
+                                : currentDemo.activeCol;
+                            const isActive = idx === activeCol;
                             return (
                               <Box
                                 key={idx}
+                                data-testid={`demo-row2-col-${idx}`}
+                                data-active={isActive ? 'true' : 'false'}
                                 sx={{
                                   width: { xs: 46, sm: 58, md: 66 },
                                   textAlign: 'center',
@@ -699,24 +709,29 @@ export const LandingPage: React.FC = () => {
                           }}
                         />
 
-                        {/* Result Row with Red Error Capsule matching Image 1 */}
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', width: '100%', pt: 0.6 }}>
-                          {currentDemo.resultRow.map((char, idx) => {
-                            const isError = idx === currentDemo.errorCol;
+                        {/* Result Row with Red Error Capsule / Green Corrected Capsule */}
+                        <Box
+                          data-testid="demo-result-row"
+                          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', width: '100%', pt: 0.6 }}
+                        >
+                          {(answeredSpeech && currentDemo.correctedRow ? currentDemo.correctedRow : currentDemo.resultRow).map((char, idx) => {
+                            const isError = !answeredSpeech && idx === currentDemo.errorCol;
+                            const isCorrected = answeredSpeech && Boolean(currentDemo.correctedRow) && idx === currentDemo.errorCol;
                             return (
                               <Box
                                 key={idx}
+                                data-testid={`demo-result-col-${idx}`}
                                 sx={{
                                   width: { xs: 46, sm: 58, md: 66 },
                                   textAlign: 'center',
-                                  color: isError ? '#EF4444' : '#1E1B4B',
+                                  color: isError ? '#DC2626' : isCorrected ? '#047857' : '#1E1B4B',
                                   fontWeight: 900,
                                   position: 'relative',
                                   zIndex: 1,
                                   py: 0.6,
                                 }}
                               >
-                                {isError && (
+                                {(isError || isCorrected) && (
                                   <Box
                                     aria-hidden="true"
                                     sx={{
@@ -725,11 +740,11 @@ export const LandingPage: React.FC = () => {
                                       bottom: 2,
                                       left: 3,
                                       right: 3,
-                                      bgcolor: '#FEE2E2',
-                                      borderBottom: '4px solid #EF4444',
+                                      bgcolor: isCorrected ? '#DCFCE7' : '#FEE2E2',
+                                      borderBottom: isCorrected ? '4px solid #047857' : '4px solid #DC2626',
                                       borderRadius: '16px',
                                       zIndex: -1,
-                                      boxShadow: '0 4px 12px rgba(239, 68, 68, 0.22)',
+                                      boxShadow: isCorrected ? '0 4px 12px rgba(4, 120, 87, 0.18)' : '0 4px 12px rgba(220, 38, 38, 0.22)',
                                     }}
                                   />
                                 )}
@@ -739,6 +754,20 @@ export const LandingPage: React.FC = () => {
                           })}
                         </Box>
                       </Box>
+                      {answeredSpeech && currentDemo.correctedRow && (
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            display: 'block',
+                            mt: 1,
+                            color: '#047857',
+                            fontWeight: 800,
+                            fontSize: { xs: '0.88rem', sm: '0.96rem' },
+                          }}
+                        >
+                          (Bài làm ban đầu: {currentDemo.resultRow.join('')} → Đã sửa: {currentDemo.correctedRow.join('')})
+                        </Typography>
+                      )}
                     </Box>
 
                     {/* Robot Dialogue Bubble directly on the notebook paper */}
@@ -793,7 +822,7 @@ export const LandingPage: React.FC = () => {
                           },
                         }}
                       >
-                        {answeredSpeech ? '✓ Đã kiểm tra lại' : currentDemo.answerText}
+                        {answeredSpeech ? '↺ Xem lại bài làm ban đầu' : currentDemo.answerText}
                       </Button>
                     </Box>
                   </Box>
@@ -832,6 +861,11 @@ export const LandingPage: React.FC = () => {
                       bgcolor: colorInfo.hover,
                       transform: isSelected ? 'scale(1.15)' : 'scale(1.06)',
                       boxShadow: `0 8px 24px ${colorInfo.bg}99`,
+                    },
+                    '&:focus-visible': {
+                      outline: '3px solid #1E1B4B',
+                      outlineOffset: '3px',
+                      boxShadow: '0 0 0 6px #FFFFFF, 0 0 0 9px #1E1B4B',
                     },
                   }}
                 >
@@ -1750,7 +1784,7 @@ export const LandingPage: React.FC = () => {
                 zIndex: 1,
               }}
             >
-              Đăng nhập bằng tài khoản Google hoặc Facebook của bạn.
+              Bắt đầu hành trình học tập thông minh cùng phương pháp Socratic ngay hôm nay.
             </Typography>
 
             <Box
@@ -1766,10 +1800,9 @@ export const LandingPage: React.FC = () => {
             >
               <Button
                 component={RouterLink}
-                to="/login"
+                to={user ? getDestinationPath(user.role) : '/login'}
                 variant="contained"
                 size="large"
-                startIcon={<GoogleIcon sx={{ fontSize: '1.5rem' }} />}
                 sx={{
                   bgcolor: '#FBBF24',
                   color: '#1E1B4B',
@@ -1789,36 +1822,7 @@ export const LandingPage: React.FC = () => {
                   },
                 }}
               >
-                Tiếp tục với Google
-              </Button>
-              <Button
-                component={RouterLink}
-                to="/login"
-                variant="outlined"
-                size="large"
-                startIcon={<FacebookIcon sx={{ fontSize: '1.5rem' }} />}
-                sx={{
-                  borderColor: 'rgba(255, 255, 255, 0.85)',
-                  color: '#FFFFFF',
-                  bgcolor: 'rgba(255, 255, 255, 0.08)',
-                  px: { xs: 3.5, sm: 5 },
-                  py: { xs: 1.7, sm: 2 },
-                  fontSize: { xs: '1.1rem', sm: '1.22rem' },
-                  fontWeight: 800,
-                  borderRadius: 999,
-                  textTransform: 'none',
-                  borderWidth: 1.5,
-                  width: { xs: '100%', sm: 'auto' },
-                  transition: 'background-color 160ms ease, border-color 160ms ease, transform 160ms ease',
-                  '&:hover': {
-                    borderColor: '#FFFFFF',
-                    bgcolor: 'rgba(255, 255, 255, 0.18)',
-                    borderWidth: 1.5,
-                    transform: 'translateY(-2px)',
-                  },
-                }}
-              >
-                Tiếp tục với Facebook
+                {user ? 'Vào lớp học' : 'Đăng nhập'}
               </Button>
             </Box>
           </Box>

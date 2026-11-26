@@ -22,6 +22,11 @@ jest.mock('react-native-safe-area-context', () => ({
   SafeAreaView: 'SafeAreaView',
   useSafeAreaInsets: () => ({ top: 0, bottom: 20 }),
 }));
+jest.mock('../features/onboarding/onboardingStorage', () => ({
+  hasCompletedOnboarding: jest.fn(async () => false),
+}));
+jest.mock('expo-linear-gradient', () => ({ LinearGradient: 'LinearGradient' }));
+jest.mock('@expo/vector-icons', () => ({ Ionicons: 'Ionicons' }));
 jest.mock('../context/AuthContext', () => ({ AuthContext: require('react').createContext(undefined) }));
 jest.mock('../features/recognition/analytics/recognitionAnalyticsStore', () => ({
   recognitionAnalyticsStore: { init: jest.fn(async () => {}), getSessions: jest.fn(() => []) },
@@ -42,16 +47,20 @@ describe('Student navigation and real saved activity', () => {
     recognitionDraftStore.clearDraft();
   });
 
-  it('waits for restored auth, then opens the right destination immediately', async () => {
+  it('waits for restored auth, then opens the right destination or renders PortalScreen without test-only divergence', async () => {
     const auth = { user: null, isAuthenticated: false, isLoading: true, login: jest.fn(), logout: jest.fn() };
     let renderer: TestRenderer.ReactTestRenderer;
     act(() => { renderer = TestRenderer.create(<AuthContext.Provider value={auth}><SplashScreen /></AuthContext.Provider>); });
     const router = (useRouter as jest.Mock).mock.results.at(-1)!.value;
     expect(router.replace).not.toHaveBeenCalled();
+    expect(renderer!.root.findAll(node => node.props.accessibilityLabel === 'Đăng nhập tài khoản')).toHaveLength(0);
+
     act(() => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false, isAuthenticated: true }}><SplashScreen /></AuthContext.Provider>));
     expect(router.replace).toHaveBeenCalledWith('/(tabs)');
-    await act(async () => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false }}><SplashScreen /></AuthContext.Provider>));
-    expect(router.replace).toHaveBeenLastCalledWith('/welcome');
+
+    await act(async () => renderer!.update(<AuthContext.Provider value={{ ...auth, isLoading: false, isAuthenticated: false }}><SplashScreen /></AuthContext.Provider>));
+    expect(text(renderer!)).toContain('Mở vở ô ly, học toán');
+    expect(renderer!.root.findAll(node => node.props.accessibilityLabel === 'Đăng nhập tài khoản').length).toBeGreaterThan(0);
     act(() => renderer!.unmount());
   });
 

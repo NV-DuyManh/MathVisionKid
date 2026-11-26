@@ -411,7 +411,7 @@ export const PortalLayout: React.FC = () => {
 
       {/* Main Content Area */}
       <Box component="main" id="main-content" tabIndex={-1} sx={{ flexGrow: 1, scrollMarginTop: 76 }}>
-        <Outlet />
+        <Outlet context={{ user }} />
       </Box>
 
       {/* Authentic Professional Educational Footer (only for inner portal pages) */}
