@@ -114,8 +114,10 @@ test('An empty crop opens a real image picker instead of navigating back', async
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/crop`);
+  const recovery = page.getByRole('alertdialog', { name: 'Chưa mở được ảnh để cắt' });
+  await expect(recovery).toBeVisible();
   const chooser = page.waitForEvent('filechooser');
-  await page.getByRole('button', { name: 'Chọn lại ảnh', exact: true }).click();
+  await recovery.getByRole('button', { name: 'Chọn lại ảnh', exact: true }).click();
   await (await chooser).setFiles(await picture(page));
   await expect(page).toHaveURL(/\/study\/privacy/);
   await expect(page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư')).toBeVisible();

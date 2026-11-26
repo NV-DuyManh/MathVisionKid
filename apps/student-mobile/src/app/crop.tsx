@@ -268,11 +268,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
           </Animated.View>
         </> : null}
         {!image && !loadError ? <View style={styles.loading}><ActivityRail label="Đang mở ảnh" /></View> : null}
-        {loadError ? <View style={styles.loading}><Ionicons name="image-outline" size={40} color="white" />{Platform.OS === 'web' ? <>
-          <RecoveryNotice dialog title="Chưa mở được ảnh để cắt" message="Em chọn ảnh khác trước khi tiếp tục."
-            actions={[{ label: 'Quay lại chọn ảnh', onPress: () => router.replace({ pathname: '/camera', params: { mode: draft?.mode ?? 'ARITHMETIC' } }) }]} />
-          <DraftImagePicker showReason />
-        </> : <><Text style={styles.lightText}>Chưa mở được ảnh bài tập</Text><AppButton title="Chọn lại ảnh" onPress={() => router.back()} /></>}</View> : null}
+        {loadError ? <View style={styles.loading}><Ionicons name="image-outline" size={40} color="white" />{Platform.OS === 'web' ? <DraftImagePicker showReason dialogTitle="Chưa mở được ảnh để cắt" /> : <><Text style={styles.lightText}>Chưa mở được ảnh bài tập</Text><AppButton title="Chọn lại ảnh" onPress={() => router.back()} /></>}</View> : null}
       </View>
       <View testID="crop-tools" style={[styles.footer, landscape && styles.landscapeFooter, desktop && styles.desktopFooter]}>
         <View style={[styles.controls, desktop && styles.desktopControls]}>
