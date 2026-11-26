@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, ScrollView, Text, Alert, Image, Pressable } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { FONTS, COLORS } from '../../constants/theme';
+import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
+import { FONTS, COLORS, IS_STUDENT_WEB } from '../../constants/theme';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
 import { StatusCard } from '../../components/domain/StatusCard';
@@ -25,6 +26,7 @@ function TokenConfirmationRequest({ currentId }: { currentId?: string }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [loading, setLoading] = useState(validId);
   const [failed, setFailed] = useState(!validId);
+  const [confirmationError, setConfirmationError] = useState<'stale' | 'unconfirmed' | null>(null);
   const [reload, setReload] = useState(0);
   const controller = useRef<AbortController | null>(null);
   const draft = recognitionDraftStore.getDraft();
@@ -52,11 +54,12 @@ function TokenConfirmationRequest({ currentId }: { currentId?: string }) {
   const reopen = () => {
     if (!validId) return;
     controller.current?.abort();
-    setLoading(true); setFailed(false); setResult(null); setSelectedId(null);
+    setConfirmationError(null); setLoading(true); setFailed(false); setResult(null); setSelectedId(null);
     setReload(value => value + 1);
   };
   const handleConfirm = async (newClass: string) => {
     if (loading || !currentId || !result?.jobId || !selected?.tokenId || !/^[0-9+-]$/.test(newClass)) return;
+    setConfirmationError(null);
     const request = new AbortController();
     controller.current?.abort(); controller.current = request;
     setLoading(true);
@@ -68,7 +71,8 @@ function TokenConfirmationRequest({ currentId }: { currentId?: string }) {
       else router.replace(target as any);
     } catch (error: any) {
       if (request.signal.aborted) return;
-      if (error?.response?.status === 409) {
+      if (IS_STUDENT_WEB) setConfirmationError(error?.response?.status === 409 ? 'stale' : 'unconfirmed');
+      else if (error?.response?.status === 409) {
         Alert.alert('Bài đã có kết quả mới', 'Em hãy mở lại các ký hiệu cần xác nhận nhé.', [{ text: 'Mở lại', onPress: reopen }]);
       } else Alert.alert('Chưa thể xác nhận', 'Chưa cập nhật được ký hiệu này. Em hãy thử lại nhé.');
     } finally { if (!request.signal.aborted) setLoading(false); }
@@ -79,6 +83,10 @@ function TokenConfirmationRequest({ currentId }: { currentId?: string }) {
     {loading ? <RecognitionProgress title={result ? 'Đang kiểm tra lại bài' : 'Đang mở bài làm'} description={result ? 'Cập nhật ký hiệu em vừa xác nhận.' : 'Tìm các ký hiệu cần em xem lại.'} imageUri={matchingDraft?.uri} onCancel={cancel}
       steps={result ? ['Ký hiệu đã chọn', 'Kiểm tra lại bài', 'Mở kết quả'] : ['Tải bài làm', 'Hiện ký hiệu cần xem lại']} activeStep={result ? 1 : 0} />
       : <ScrollView contentContainerStyle={styles.content}>
+        {confirmationError && <RecoveryNotice dialog
+          title={confirmationError === 'stale' ? 'Bài đã có kết quả mới' : 'Chưa xác nhận được ký hiệu'}
+          message={confirmationError === 'stale' ? 'Em mở lại bài để xem các ký hiệu còn cần xác nhận.' : 'Em mở lại bài để kiểm tra ký hiệu vừa chọn đã được cập nhật chưa.'}
+          actions={[{ label: 'Mở lại bài làm', onPress: reopen }]} />}
         {selected && result?.jobId ? <>
           {matchingDraft && matchingDraft.width > 0 && matchingDraft.height > 0 && <View style={[styles.photoFrame, { aspectRatio: matchingDraft.width / matchingDraft.height, maxWidth: 320 * matchingDraft.width / matchingDraft.height }]}>
             <Image source={{ uri: matchingDraft.uri }} style={StyleSheet.absoluteFill} resizeMode="contain" accessibilityLabel="Ảnh bài làm đã gửi" />

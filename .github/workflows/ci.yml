@@ -91,7 +91,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -116,7 +115,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 1
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '1'
     steps: &student-browser-steps
@@ -151,7 +149,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 2
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '2'
     steps: *student-browser-steps
@@ -161,7 +158,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 3
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '3'
     steps: *student-browser-steps
@@ -171,7 +167,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 4
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '4'
     steps: *student-browser-steps
@@ -181,7 +176,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 5
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '5'
     steps: *student-browser-steps
@@ -191,7 +185,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 6
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '6'
     steps: *student-browser-steps
@@ -201,7 +194,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 7
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '7'
     steps: *student-browser-steps
@@ -211,7 +203,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 8
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '8'
     steps: *student-browser-steps
@@ -221,7 +212,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 9
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '9'
     steps: *student-browser-steps
@@ -231,7 +221,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 10
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '10'
     steps: *student-browser-steps
@@ -241,7 +230,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 11
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '11'
     steps: *student-browser-steps
@@ -251,7 +239,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 12
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '12'
     steps: *student-browser-steps
@@ -261,7 +248,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 13
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '13'
     steps: *student-browser-steps
@@ -271,7 +257,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 14
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '14'
     steps: *student-browser-steps
@@ -281,7 +266,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 15
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '15'
     steps: *student-browser-steps
@@ -291,7 +275,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 16
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '16'
     steps: *student-browser-steps
@@ -301,7 +284,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 17
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '17'
     steps: *student-browser-steps
@@ -311,7 +293,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 18
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '18'
     steps: *student-browser-steps
@@ -321,7 +302,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student_shards >= 19
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     env:
       STUDENT_BROWSER_SHARD: '19'
     steps: *student-browser-steps
@@ -494,7 +474,8 @@ jobs:
   source-release:
     name: Publish source release
     needs: gate
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # The gate already validates skipped jobs against the plan.
+    if: ${{ !cancelled() && needs.gate.result == 'success' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 3
     permissions:
