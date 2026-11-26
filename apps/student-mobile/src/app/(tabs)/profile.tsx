@@ -81,7 +81,7 @@ export function ProfileContent({ owner, savedOnly = false, initialTab = 'saved',
         <Text style={styles.sortLabel}>{oldestFirst ? 'Cũ nhất trước' : 'Mới nhất trước'}</Text>
       </Pressable>}
       {tab === 'work' ? <Text style={[styles.caption, IS_STUDENT_WEB && styles.webSecondary]}>Nội dung em đã lưu bằng chữ. Ảnh riêng tư không lưu trong góc học tập.</Text> : null}
-      {error ? <RecoveryNotice title="Chưa mở được bài đã lưu" message="Em thử lại nhé." actions={[
+      {error ? <RecoveryNotice dialog title="Chưa mở được bài đã lưu" message="Em thử lại nhé." actions={[
         { label: 'Thử lại', accessibilityLabel: 'Tải lại bài đã lưu', icon: 'refresh-outline', onPress: () => setAttempt(value => value + 1) },
       ]} /> : loading ? <ActivityIndicator accessibilityLabel="Đang mở bài đã lưu" color={COLORS.primary} />
         : items.length ? <View testID="notebook-list" style={[styles.list, notebookGrid && styles.notebookGrid]}>{items.map((lesson, index) => <View key={lesson.id} testID="notebook-tile" style={[styles.lesson, (desktopWeb || savedOnly) && styles.webLesson, compactWeb && !savedOnly && styles.compactLesson, notebookGrid && (isWideDesktopStudentWeb(pageWidth) && index === items.length - 1 && items.length % 2 === 1 ? styles.notebookLastTile : styles.notebookTile)]}>

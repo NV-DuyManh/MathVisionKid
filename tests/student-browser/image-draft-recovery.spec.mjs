@@ -525,7 +525,7 @@ test('Reload after a lost upload response never automatically submits the same p
   await start(page); await openCrop(page, { masks: false });
   await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
   await page.getByRole('button', { name: 'KIỂM TRA BÀI TOÁN', exact: true }).click();
-  await expect(page.getByText('Chưa có kết quả', { exact: true })).toBeVisible();
+  await expect(page.getByRole('alertdialog', { name: 'Chưa gửi được ảnh bài làm' })).toBeVisible();
   await page.reload();
   await expect(page.getByRole('button', { name: 'Xem lại ảnh', exact: true })).toBeVisible();
   expect(app.requests.filter(request => request.method === 'POST' && request.path === '/student/submissions')).toHaveLength(1);

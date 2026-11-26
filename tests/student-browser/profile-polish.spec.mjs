@@ -201,7 +201,9 @@ for (const mode of ['current', 'legacy-update-response', 'unconfirmed']) {
     await expect(hidden).not.toBeChecked();
     await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
     if (mode === 'unconfirmed') {
-      await expect(page.getByRole('alert')).toContainText('Chưa xác nhận được lựa chọn quyền riêng tư đã lưu');
+      const dialog = page.getByRole('alertdialog', { name: 'Chưa lưu được thay đổi' });
+      await expect(dialog).toContainText('Chưa xác nhận được lựa chọn quyền riêng tư đã lưu');
+      await dialog.getByRole('button', { name: 'Đóng thông báo' }).click();
       await expect(hidden).not.toBeChecked();
       await expect(participate).toBeChecked();
       await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toHaveCount(0);

@@ -78,7 +78,7 @@ export function ProfileProgress({ value, failed, retry, wide, hideHeading = fals
         </PersonalPanel>
       </View>
     </View> : !failed && <ActivityIndicator color={COLORS.primary} accessibilityLabel="Đang tải tiến độ" />}
-    {failed && <RecoveryNotice title="Chưa tải được tiến độ" message="Em kiểm tra kết nối rồi thử lại nhé."
+    {failed && <RecoveryNotice dialog title="Chưa tải được tiến độ" message="Em kiểm tra kết nối rồi thử lại nhé."
       actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại tiến độ', icon: 'refresh-outline', onPress: retry }]} />}
   </View>;
 }

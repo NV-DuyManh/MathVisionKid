@@ -420,7 +420,7 @@ function ReviewSession({
       <AppButton title="Dừng chờ, giữ bài làm" variant="secondary" onPress={stop} />
     </View> : null}
 
-    {error ? <RecoveryNotice title="Chưa mở được nhận xét" message={error} actions={[
+    {error ? <RecoveryNotice dialog={!expired} title="Chưa mở được nhận xét" message={error} actions={[
       { label: 'Thử lại', accessibilityLabel: 'Nhận xét bài em làm', icon: 'refresh-outline', onPress: () => void review(), disabled: disabledNow || busy },
       ...(!expired && photoCurrent ? [{ label: 'Chụp lại', accessibilityLabel: 'Chụp lại bài em đã sửa', icon: 'camera-outline' as const, onPress: () => { stop(); onCaptureWork(); }, disabled }] : []),
     ]} /> : null}
