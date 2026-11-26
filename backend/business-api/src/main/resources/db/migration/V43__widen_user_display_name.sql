@@ -1,0 +1,1 @@
+ALTER TABLE users ALTER COLUMN display_name TYPE TEXT;

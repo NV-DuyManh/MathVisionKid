@@ -61,6 +61,7 @@ export function AccountScreen({ owner, openPrivacy = false, openLogout = false }
 }
 
 const webSwitchTrack = { false: '#BCB0D0', true: STUDENT_WEB.primary };
+const DISPLAY_NAME_PATTERN = /^[\p{L}\p{M}\p{Nd}][\p{L}\p{M}\p{Nd} .’'-]*$/u;
 
 function AccountEditor({ profile, onSave, openPrivacy }: {
   profile: StudentProfile; onSave: (value: StudentProfile) => void; openPrivacy: boolean;
@@ -87,11 +88,12 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
   }, [openPrivacy]);
   const dirty = edit.displayName !== profile.displayName || edit.avatar !== profile.avatar
     || edit.leaderboardVisible !== profile.leaderboardVisible || edit.leaderboardNameHidden !== (profile.leaderboardNameHidden ?? true);
+  const displayName = edit.displayName.trim().normalize('NFC');
+  const invalidName = !DISPLAY_NAME_PATTERN.test(displayName) || displayName.split(/ +/, 51).length > 50;
   const save = async () => {
     const signal = lifetime.current.signal;
     if (lock.current) return;
-    const displayName = edit.displayName.trim().normalize('NFC');
-    if (!/^[\p{L}\p{M}][\p{L}\p{M} .’'-]{0,39}$/u.test(displayName)) { setError('Em nhập tên gồm chữ cái, dài tối đa 40 ký tự nhé.'); return; }
+    if (invalidName) { setError('Em nhập tên có chữ hoặc số, tối đa 50 từ nhé.'); return; }
     lock.current = true; setBusy(true); setError(''); setNotice('');
     try {
       const next = await profileApi.update({ ...edit, displayName, removePhoto: false }, signal);
@@ -165,10 +167,10 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
     <AppButton title="Lưu thay đổi" loading={busy} loadingTitle="Đang cập nhật…" disabled={!dirty} onPress={() => { void save(); }} />
     {!dirty && !notice && <Text style={s.hint}>Thông tin của em đã được lưu.</Text>}
     {editingName ? <LessonSheet title="Đổi tên của em" compact onClose={() => { if (!busy) { setEdit(value => ({ ...value, displayName: profile.displayName })); setEditingName(false); setError(''); } }}>
-      <TextInput accessibilityLabel="Tên hiển thị" aria-describedby="account-name-help" aria-invalid={Boolean(error) && !/^[\p{L}\p{M}][\p{L}\p{M} .’'-]{0,39}$/u.test(edit.displayName.trim())} autoFocus autoComplete="name" maxLength={40} style={s.input} editable={!busy}
+      <TextInput accessibilityLabel="Tên hiển thị" aria-describedby={error ? 'account-name-help account-name-error' : 'account-name-help'} aria-invalid={Boolean(error) && invalidName} autoFocus autoComplete="name" style={s.input} editable={!busy}
         value={edit.displayName} onChangeText={displayName => { setEdit(value => ({ ...value, displayName })); setError(''); setNotice(''); }} />
-      <Text nativeID="account-name-help" style={s.hint}>Tên gồm chữ cái, tối đa 40 ký tự.</Text>
-      {error ? <Text accessibilityRole="alert" style={s.error}>{error}</Text> : null}
+      <Text nativeID="account-name-help" style={s.hint}>Tên có thể gồm chữ và số, tối đa 50 từ.</Text>
+      {error ? <Text nativeID="account-name-error" accessibilityRole="alert" style={s.error}>{error}</Text> : null}
       <AppButton title="Lưu tên" loading={busy} onPress={() => { void save(); }} />
     </LessonSheet> : null}
   </View>;

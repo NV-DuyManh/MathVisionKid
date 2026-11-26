@@ -79,10 +79,10 @@ for (const width of [320, 390, 1024]) {
     await page.getByRole('button', { name: 'Đổi tên hiển thị', exact: true }).click();
     const name = page.getByRole('textbox', { name: 'Tên hiển thị', exact: true });
     await expect(name).toBeFocused();
-    await name.fill('123');
+    await name.fill(Array(51).fill('Em5').join('  '));
     await page.getByRole('button', { name: 'Lưu tên', exact: true }).click();
     await expect(name).toHaveAttribute('aria-invalid', 'true');
-    await expect(page.getByRole('alert')).toContainText('tối đa 40');
+    await expect(page.getByRole('alert')).toContainText('tối đa 50 từ');
     expect(app.requests.filter(request => request.method === 'PUT' && request.path === '/student/profile')).toHaveLength(0);
     await page.getByRole('button', { name: 'Đóng Đổi tên của em', exact: true }).click();
     await expect(name).toHaveCount(0);
@@ -97,6 +97,14 @@ for (const width of [320, 390, 1024]) {
     expect(nameBox.height).toBeLessThanOrEqual(width < 480 ? 50 : 60);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     await page.screenshot({ path: testInfo.outputPath(`compact-profile-${width}.png`), fullPage: true });
+    await page.getByRole('button', { name: 'Đổi tên hiển thị', exact: true }).click();
+    const maximum = Array(50).fill('5Nguyễn').join('  ');
+    await name.fill(maximum);
+    await page.getByRole('button', { name: 'Lưu tên', exact: true }).click();
+    await expect(name).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: /^5Nguyễn/ })).toBeVisible();
+    expect(app.studentProfile.displayName).toBe(maximum);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
   });
 }
 
