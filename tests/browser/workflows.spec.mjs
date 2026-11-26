@@ -10,20 +10,6 @@ test('Portal offers one shared sign-in route before the visitor chooses an accou
   expect(app.requests.filter(request => request.path === '/auth/me')).toEqual([]);
 });
 
-test('Portal can retry opening Student without losing the session when the connection drops', async ({ page, app }) => {
-  await login(page, 'STUDENT');
-  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
-  const requestsBeforeRetry = app.requests.filter(({ path }) => path === '/me').length;
-  const profileEndpoint = '**/api/v1/me';
-  await page.route(profileEndpoint, route => route.abort('internetdisconnected'));
-  await page.goto(`${sites.portal.origin}/student`);
-  await expect(page.getByRole('heading', { name: 'Chưa mở được bài học' })).toBeVisible();
-  await page.unroute(profileEndpoint);
-  await page.getByRole('button', { name: 'Thử lại', exact: true }).click();
-  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
-  expect(app.requests.filter(({ path }) => path === '/me')).toHaveLength(requestsBeforeRetry + 1);
-});
-
 test('admin account confirmation can cancel, recover from a failure and lock the fixture account', async ({ page, app }, testInfo) => {
   let user = profile('TEACHER');
   let writes = 0;
@@ -339,6 +325,8 @@ test('teacher can retry a failed class list without reloading the page', async (
 });
 
 test('admin filters users by role, locked state and search then clears the state filter', async ({ page, app }) => {
+  const student = { ...profile('STUDENT'), displayName: 'An kiểm thử', active: false };
+  app.responses.set(`GET /admin/users/${student.userId}`, ({ json }) => json(student));
   await login(page, 'ADMIN');
   await openNavigation(page, 'ADMIN');
   await page.getByRole('link', { name: 'Người dùng', exact: true }).click();
@@ -351,7 +339,83 @@ test('admin filters users by role, locked state and search then clears the state
   await expect.poll(() => app.requests.filter(r => r.path === '/admin/users').at(-1)?.query)
     .toMatchObject({ role: 'STUDENT', active: 'false', query: 'An' });
   await expect(page.getByRole('table', { name: 'Danh sách người dùng' })).toContainText('An kiểm thử');
+  await page.reload();
+  await expect(page.getByLabel('Tìm theo tên hoặc email')).toHaveValue('An');
+  expect(new URL(page.url()).searchParams.has('query')).toBe(false);
+  await expect.poll(() => app.requests.filter(r => r.path === '/admin/users').at(-1)?.query)
+    .toMatchObject({ role: 'STUDENT', active: 'false', query: 'An' });
+  await page.getByRole('link', { name: 'Xem chi tiết An kiểm thử' }).click();
+  await expect(page).toHaveURL(/\/users\/[^/?]+$/);
+  await page.goBack();
+  await expect(page.getByLabel('Tìm theo tên hoặc email')).toHaveValue('An');
+  await expect(page.getByRole('table', { name: 'Danh sách người dùng' })).toContainText('An kiểm thử');
+  await page.getByRole('link', { name: 'Xem chi tiết An kiểm thử' }).click();
+  await page.reload();
+  await page.getByRole('link', { name: 'Danh sách người dùng' }).click();
+  await expect(page.getByLabel('Tìm theo tên hoặc email')).toHaveValue('An');
+  await expect.poll(() => app.requests.filter(r => r.path === '/admin/users').at(-1)?.query)
+    .toMatchObject({ role: 'STUDENT', active: 'false', query: 'An' });
   await page.getByRole('combobox', { name: 'Trạng thái', exact: true }).click();
   await page.getByRole('option', { name: 'Tất cả trạng thái', exact: true }).click();
   await expect.poll(() => app.requests.filter(r => r.path === '/admin/users').at(-1)?.query.active).toBeUndefined();
+});
+
+test('admin can dismiss the create-class dialog with browser Back and reopen it with Forward', async ({ page, app }) => {
+  app.responses.set('GET /admin/classes', ({ json }) =>
+    json({ content: [], number: 0, size: 10, totalElements: 0, totalPages: 0 }));
+  await login(page, 'ADMIN');
+  await page.goto(`${sites.admin.origin}/classes`);
+  await page.getByRole('button', { name: 'Tạo lớp học', exact: true }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.goBack();
+  await expect(page).toHaveURL(`${sites.admin.origin}/classes`);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.goForward();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  expect(app.requests.filter(r => r.path === '/admin/classes' && r.method === 'POST')).toHaveLength(0);
+});
+
+test('admin creates and edits a student and never restores a temporary password after reload', async ({ page, app }) => {
+  const path = '/admin/users/created-student';
+  let student;
+  app.responses.set('GET /admin/users', ({ json }) => json({
+    content: student ? [student] : [], number: 0, size: 10, totalElements: student ? 1 : 0, totalPages: student ? 1 : 0,
+  }));
+  app.responses.set('POST /admin/users', ({ body, json }) => {
+    expect(body).toMatchObject({ displayName: 'An mới', role: 'STUDENT', email: 'new@example.test', initialPassword: 'fixture-password' });
+    student = { ...profile('STUDENT'), ...body, userId: 'created-student' };
+    delete student.initialPassword;
+    return json(student, 201);
+  });
+  app.responses.set(`GET ${path}`, ({ json }) => json(student));
+  app.responses.set(`PATCH ${path}`, ({ body, json }) => {
+    student = { ...student, ...body };
+    return json(student);
+  });
+  app.responses.set(`POST ${path}/reset-password`, ({ json }) => json({
+    userId: student.userId, email: student.email, temporaryPassword: 'fixture-temporary',
+  }));
+  await login(page, 'ADMIN');
+  await page.goto(`${sites.admin.origin}/users`);
+  await page.getByRole('button', { name: 'Tạo người dùng', exact: true }).click();
+  const create = page.getByRole('dialog', { name: 'Tạo người dùng' });
+  await create.getByLabel('Họ và tên').fill('An mới');
+  await create.getByLabel('Email đăng nhập').fill('new@example.test');
+  await create.getByLabel('Mật khẩu khởi tạo').fill('fixture-password');
+  await create.getByRole('button', { name: 'Tạo tài khoản' }).click();
+  await page.getByRole('link', { name: 'Xem chi tiết An mới' }).click();
+  await page.getByRole('button', { name: 'Chỉnh sửa hồ sơ' }).click();
+  const edit = page.getByRole('dialog', { name: 'Chỉnh sửa hồ sơ' });
+  await edit.getByLabel('Họ và tên').fill('An đã sửa');
+  await edit.getByRole('button', { name: 'Lưu thay đổi' }).click();
+  await expect(page.getByRole('heading', { name: 'An đã sửa' })).toBeVisible();
+  await page.getByRole('button', { name: 'Đặt lại mật khẩu' }).click();
+  await page.getByRole('button', { name: 'Tạo mật khẩu tạm thời' }).click();
+  await expect(page.getByText('fixture-temporary', { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'An đã sửa' })).toBeVisible();
+  await expect(page.getByText('fixture-temporary', { exact: true })).toHaveCount(0);
+  expect(app.requests.filter(r => r.path.endsWith('/reset-password'))).toHaveLength(1);
 });

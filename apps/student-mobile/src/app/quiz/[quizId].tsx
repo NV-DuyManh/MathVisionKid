@@ -11,6 +11,7 @@ import { TaskProgress } from '../../components/ui/TaskProgress';
 import { PendingTask } from '../../components/ui/PendingTask';
 import { Quiz, quizApi, quizError } from '../../features/quiz/quizApi';
 import { quizTime, submissionId, validQuizAnswer } from '../../features/quiz/quizInput';
+import { quizDraftRun, readQuizDraft, saveQuizDraft } from '../../features/quiz/quizDraft';
 import { QuizVoice, QuizNarrationPreparation } from '../../features/quiz/QuizVoice';
 import { QuizHelp } from '../../features/quiz/QuizHelp';
 import { useQuizActivity } from '../../features/quiz/useQuizActivity';
@@ -53,9 +54,27 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
   const [invalidAnswer, setInvalidAnswer] = useState(false);
   const controller = useRef<AbortController | null>(null), active = useRef(false);
   const pending = useRef<{ requestId: string; answer: string } | null>(null);
+  const draftRun = useRef<string | null>(null);
   const apply = useCallback((next: Quiz) => {
+    // Restore only after the server confirms the current account's active run.
+    const run = quizDraftRun(owner, next.startedAt);
+    if (run && next.status !== 'IN_PROGRESS') saveQuizDraft(id, run, null);
+    const activeRun = next.status === 'IN_PROGRESS' ? run : null;
+    if (draftRun.current !== activeRun) {
+      draftRun.current = activeRun;
+      const draft = activeRun ? readQuizDraft(id, activeRun) : null;
+      setAnswer(draft?.answer ?? '');
+      pending.current = draft?.requestId ? { requestId: draft.requestId, answer: draft.answer.trim() } : null;
+    }
     setQuiz(next);
-  }, []);
+  }, [id, owner]);
+  function editAnswer(value: string) {
+    setAnswer(value);
+    const request = pending.current;
+    if (draftRun.current) saveQuizDraft(id, draftRun.current, {
+      answer: value, requestId: request?.answer === value.trim() ? request?.requestId : undefined,
+    });
+  }
   useFocusEffect(useCallback(() => {
     void retry;
     active.current = true; setLoading(true); setError('');
@@ -79,10 +98,12 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
     setInvalidAnswer(false);
     if (!pending.current || pending.current.answer !== answer.trim()) pending.current = { requestId: submissionId(), answer: answer.trim() };
     const request = pending.current;
+    if (draftRun.current) saveQuizDraft(id, draftRun.current, { answer, requestId: request.requestId });
     void perform('submit', async signal => {
       const result = await quizApi.submit(id, request.requestId, request.answer, signal);
       if (active.current && !signal.aborted) {
         pending.current = null;
+        if (draftRun.current && result.quiz.status === 'IN_PROGRESS') saveQuizDraft(id, draftRun.current, { answer });
         setFeedback(result.quiz.status === 'COMPLETED' ? result.quiz.completedWithSolution ? 'Em đã hoàn thành bài luyện tập cùng cách giải. Mình tiếp tục khám phá nhé!'
           : result.attempt.correct ? 'Đúng rồi! Em đã hoàn thành bài luyện tập này.' : 'Quiz này đã được hoàn thành. Em có thể xem lại những lần thử bên dưới nhé.'
           : result.quiz.wrongAttempts < 2 ? 'Chưa đúng rồi, nhưng em thử kiểm tra lại nhé!'
@@ -143,13 +164,13 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
                   value = value.replace(/\s+/g, '');
                   const selected = answer === value;
                   return <Pressable key={choice} accessibilityRole="radio" accessibilityLabel={choice} accessibilityState={{ checked: selected, disabled: busy }}
-                    disabled={busy} style={[s.group, selected && s.selected]} onPress={() => { setAnswer(value); setError(''); }}>
+                    disabled={busy} style={[s.group, selected && s.selected]} onPress={() => { editAnswer(value); setError(''); }}>
                     <Text style={s.body}>{choice}</Text>
                   </Pressable>;
                 })}
               </View> : <>
                 <TextInput accessibilityLabel={`Đáp án của em${quiz.unit ? `, ${quiz.unit}` : ''}`} aria-describedby={invalidAnswer ? 'quiz-answer-help quiz-answer-error' : 'quiz-answer-help'} aria-invalid={invalidAnswer}
-                  value={answer} onChangeText={value => { setAnswer(value); setError(''); setInvalidAnswer(false); }} style={[s.input,s.workInput,IS_STUDENT_WEB&&s.webWorkInput,invalidAnswer&&s.workInputError]} editable={!busy} maxLength={100}
+                  value={answer} onChangeText={value => { editAnswer(value); setError(''); setInvalidAnswer(false); }} style={[s.input,s.workInput,IS_STUDENT_WEB&&s.webWorkInput,invalidAnswer&&s.workInputError]} editable={!busy} maxLength={100}
                   placeholder={quiz.answerFormat === 'FRACTION' ? 'Ví dụ: 3/4' : 'Em tính được…'} keyboardType={quiz.answerFormat === 'FRACTION' ? 'default' : 'decimal-pad'} returnKeyType="done" onSubmitEditing={submit}/>
                 <Text nativeID="quiz-answer-help" style={s.small}>{quiz.answerFormat === 'FRACTION' ? 'Nhập phân số a/b hoặc số thập phân chính xác.' : 'Chỉ cần nhập kết quả cuối cùng.'}</Text>
               </>}
