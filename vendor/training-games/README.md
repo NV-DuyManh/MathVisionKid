@@ -10,9 +10,10 @@ records its provenance and per-file hashes.
 
 ## Defense feedback update 0.1.22
 
-The correct shot no longer displays an extra confirmation panel. Rebuild with
-`node scripts/build-training-games-fixes.cjs`. The builder verifies baseline
-0.1.21 and applies `defense-feedback-0.1.22.patch` to the Defense controller.
+The correct shot no longer displays an extra confirmation panel. Verify the
+release with `node scripts/build-training-games-fixes.cjs`. The script applies
+`defense-feedback-0.1.22.patch` to the pinned 0.1.21 baseline in a temporary
+directory and compares the result with the checked-in 0.1.22 package.
 
 ## Race regressions update 0.1.21
 
