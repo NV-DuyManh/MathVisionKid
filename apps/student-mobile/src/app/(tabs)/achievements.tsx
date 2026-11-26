@@ -84,7 +84,7 @@ function Achievements({ owner }: { owner?: string }) {
               <View accessible={web} accessibilityLabel={`Vị trí ${item.position}`} style={[styles.positionBadge, web && styles.webPosition, web && placeStyles[item.position - 1]]}>
                 <Text style={[styles.position, web && styles.webPositionText, web && { color: placeColors[item.position - 1] ?? COLORS.primaryDark }]}>{`#${item.position}`}</Text>
               </View>
-              <StudentAvatar id={item.avatar} size={web && compactWeb ? 34 : 40} />
+              <StudentAvatar id={item.avatar} photo={web && item.self ? value?.avatarPhoto : undefined} size={web && compactWeb ? 34 : 40} />
               <View style={styles.grow}>
                 <View style={styles.nameRow}><Text style={styles.alias}>{web && item.self
                   ? value?.leaderboardNameHidden === false ? value.displayName : value?.publicAlias?.trim() || 'Bạn chăm học'
