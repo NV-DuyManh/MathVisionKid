@@ -12,7 +12,7 @@ test('Google popup returns the OAuth token and clears the Firebase session even 
   let signOuts = 0;
   let hasGoogleToken = true;
   class GoogleProvider {
-    static credentialFromResult() { return { idToken: hasGoogleToken ? 'google-id-token' : null }; }
+    static credentialFromResult() { return { idToken: hasGoogleToken ? 'google-id-token' : null, accessToken: 'google-profile-token' }; }
   }
   const imports = {
     '@firebase/app': { getApps: () => initialized ? [app] : [], initializeApp: () => app },
@@ -39,7 +39,9 @@ test('Google popup returns the OAuth token and clears the Firebase session even 
     compilerOptions: { module: ModuleKind.CommonJS },
   }).outputText;
   vm.runInNewContext(source, { exports, require: id => imports[id] });
-  assert.equal(await exports.getGoogleCredential(), 'google-id-token');
+  const credential = await exports.getGoogleCredential();
+  assert.equal(credential.idToken, 'google-id-token');
+  assert.equal(credential.profileAccessToken, 'google-profile-token');
   hasGoogleToken = false;
   await assert.rejects(exports.getGoogleCredential(), /Missing Google ID token/);
   assert.equal(signOuts, 2);
