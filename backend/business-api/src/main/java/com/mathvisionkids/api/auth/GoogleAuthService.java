@@ -98,7 +98,11 @@ public class GoogleAuthService {
         if (!Boolean.TRUE.equals(user.getActive())) {
             throw new ApiException("ACCOUNT_INACTIVE", "Account is disabled", HttpStatus.FORBIDDEN);
         }
-        return refreshTokens.createSession(user.getId());
+        AuthResponse session = refreshTokens.createSession(user.getId());
+        if ("STUDENT".equals(user.getRole())) {
+            profiles.captureGoogleAvatar(user.getId(), payload.get("picture"));
+        }
+        return session;
     }
 
     private User createAccount(GoogleIdToken.Payload payload, String email, String subject, GoogleLoginRequest request) {

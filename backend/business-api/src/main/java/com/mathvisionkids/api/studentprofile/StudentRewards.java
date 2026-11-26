@@ -1,6 +1,5 @@
 package com.mathvisionkids.api.studentprofile;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,15 +16,8 @@ public class StudentRewards {
     public enum Source { LESSON, QUIZ, GAME }
     static final ZoneId ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
     private final JdbcTemplate db;
-    private final int dailyLimit;
-    private final int sourceLimit;
-
-    public StudentRewards(JdbcTemplate db, @Value("${app.student-rewards.daily-limit:6}") int dailyLimit,
-                          @Value("${app.student-rewards.source-limit:3}") int sourceLimit) {
-        if (dailyLimit < 1 || sourceLimit < 1) throw new IllegalArgumentException("Reward limits must be positive");
+    public StudentRewards(JdbcTemplate db) {
         this.db = db;
-        this.dailyLimit = dailyLimit;
-        this.sourceLimit = sourceLimit;
     }
 
     void lock() {
@@ -56,13 +48,6 @@ public class StudentRewards {
                 """, Boolean.class, student));
         if (!eligible) return new Award(0, GameRewardStatus.UNAVAILABLE);
         LocalDate day = now.atZone(ZONE).toLocalDate();
-        long daily = db.queryForObject("""
-                SELECT COALESCE(SUM(stars), 0) FROM student_verified_activities WHERE student_id = ? AND activity_day = ?
-                """, Long.class, student, day);
-        long sourceTotal = db.queryForObject("""
-                SELECT COALESCE(SUM(stars), 0) FROM student_verified_activities WHERE student_id = ? AND activity_day = ? AND source = ?
-                """, Long.class, student, day, kind);
-        // Record one verified result per lesson/quiz content, even when the daily star cap was reached.
         String query = """
                 SELECT COUNT(*) FROM student_verified_activities WHERE student_id = ? AND source = ? AND content_id = ?
                 """;
@@ -70,9 +55,7 @@ public class StudentRewards {
                 ? db.queryForObject(query + " AND activity_day = ?", Long.class, student, kind, contentId, day)
                 : db.queryForObject(query, Long.class, student, kind, contentId);
         if (source != Source.GAME && previous != 0) return new Award(0, GameRewardStatus.REPEAT);
-        GameRewardStatus status = previous != 0 ? GameRewardStatus.REPEAT
-                : daily >= dailyLimit ? GameRewardStatus.DAILY_LIMIT
-                : sourceTotal >= sourceLimit ? GameRewardStatus.GAME_LIMIT : GameRewardStatus.AWARDED;
+        GameRewardStatus status = previous != 0 ? GameRewardStatus.REPEAT : GameRewardStatus.AWARDED;
         int stars = status == GameRewardStatus.AWARDED ? 1 : 0;
         db.update("""
                 INSERT INTO student_verified_activities(student_id, source, event_id, content_id, completed_at, activity_day, stars)
