@@ -2,7 +2,7 @@ import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
 import { pickWebPhoto } from '../features/recognition/image/pickWebPhoto';
 import { useCameraPermissions } from 'expo-camera';
-import { Text } from 'react-native';
+import { RecoveryNotice } from '../components/ui/RecoveryNotice';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import WebCameraScreen from '../app/camera.web';
 import { normalizeImageDraft } from '../features/recognition/image/imagePipeline';
@@ -88,11 +88,14 @@ it('keeps the image on normalization failure and allows a fresh live attempt', a
   await act(async () => button('Chụp ảnh bài toán').props.onPress());
   expect(recognitionDraftStore.getDraft()).toEqual(stored);
   expect(push).not.toHaveBeenCalled();
-  expect(view.root.findAllByType(Text).some(node =>
-    node.props.accessibilityRole === 'alert' && node.props.children.startsWith('Chưa chụp được ảnh'),
-  )).toBe(true);
+  const recovery = view.root.findByType(RecoveryNotice);
+  expect(recovery.props).toMatchObject({
+    dialog: true,
+    title: 'Chưa chụp được ảnh',
+    message: expect.stringContaining('Chưa chụp được ảnh'),
+  });
   expect(button('Chụp ảnh bài toán').props.disabled).toBe(false);
-  await act(async () => button('Chụp ảnh bài toán').props.onPress());
+  await act(async () => button('Thử chụp lại').props.onPress());
   expect(push).toHaveBeenCalledWith('/privacy');
 });
 it('offers the rear system camera while the preview is starting or unavailable', async () => {
