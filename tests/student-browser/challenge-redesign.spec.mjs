@@ -205,7 +205,7 @@ test('Quiz saves and restores the server run, supports choices, and keeps practi
   await page.getByRole('radio', { name: 'B. 4/4', exact: true }).click();
   await expect(page.getByRole('radio', { name: 'B. 4/4', exact: true })).toHaveAttribute('aria-checked', 'true');
   await page.getByRole('button', { name: 'Hoàn thành', exact: true }).click();
-  expect(fixture.getQuiz().attempts.at(-1).answer).toBe('2');
+  await expect.poll(() => fixture.getQuiz().attempts.at(-1)?.answer).toBe('2');
   await expect(page.getByLabel('2 sao', { exact: true })).toBeVisible();
   fixture.setQuiz({ replayMode: 'PRACTICE', completedWithSolution: true, stars: 2 });
   await page.reload();

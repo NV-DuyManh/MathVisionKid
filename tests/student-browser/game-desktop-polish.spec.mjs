@@ -1,4 +1,4 @@
-import { chooseTrainingGrade } from './game-controls.mjs';
+import { chooseTrainingGrade, expectRaceCameraFramed } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 async function prepare(page, app, width, height) {
@@ -111,16 +111,18 @@ test('Planet resize preserves the run and restores visible desktop answers', asy
   await prepare(page, app, 1280, 660);
   await page.goto(`${sites.portal.origin}/study/games/planet-rescue`);
   await page.getByTestId('rescue-start').click();
-  await expect(page.getByTestId('rescue-options')).toBeVisible();
+  const options = page.getByTestId('rescue-options');
+  await expect(options).toHaveCSS('display', 'grid');
   const before = await rescueState(page);
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.getByTestId('rescue-screen')).toBeVisible();
-  await expect(page.locator('[data-game="planet-rescue"] > style')).toHaveCount(0);
+  await expect(page.getByTestId('rescue-page')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /Thẻ Rút Gọn/ })).toBeVisible();
   const phone = await rescueState(page);
   expect([phone.session, phone.index, phone.phase, phone.score]).toEqual([before.session, before.index, before.phase, before.score]);
   await page.screenshot({ path: info.outputPath('planet-phone-reflow.png') });
   await page.setViewportSize({ width: 1280, height: 660 });
-  await expect(page.getByTestId('rescue-options')).toBeVisible();
+  await expect(options).toHaveCSS('display', 'grid');
   for (const answer of await page.locator('[data-testid^="rescue-answer-"]').all()) await inside(page, answer);
   const restored = await rescueState(page);
   expect([restored.session, restored.index, restored.phase, restored.score]).toEqual([before.session, before.index, before.phase, before.score]);
@@ -135,7 +137,7 @@ test('Race and Terrain use themed backgrounds and preserve desktop controls', as
   await page.getByTestId('start-race-button').click();
   await expect(page.getByTestId('roll-dice-button')).toBeEnabled({ timeout: 15000 });
   expect(await page.getByTestId('game-camera').evaluate(el => getComputedStyle(el).backgroundImage)).toContain('gradient');
-  await inside(page, page.getByTestId('race-board'));
+  await expectRaceCameraFramed(page);
   await inside(page, page.getByTestId('roll-dice-button'));
   await page.screenshot({ path: info.outputPath('race-wood-backdrop.png') });
   await page.goto(`${sites.portal.origin}/study/games/terrain-racing`);

@@ -614,7 +614,8 @@ test('student can find global ranking, choose name privacy and open all six game
   }
   await testInfo.attach('Game covers at 320 px', { body: await page.screenshot({ path: testInfo.outputPath('student-game-covers.png'), fullPage: true }), contentType: 'image/png' });
   await page.getByTestId('game-star-quest').click();
-  await expect(page.getByRole('heading', { name: 'Vượt 5 chặng tính nhẩm' })).toBeVisible();
+  await expect(page.getByTestId('quest-workspace').getByRole('heading', { name: 'Đường đua sao', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Bắt đầu đường đua', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Quay lại danh sách trò chơi' }).click();
   await expect(page.getByTestId('game-star-quest')).toBeVisible();
 });
