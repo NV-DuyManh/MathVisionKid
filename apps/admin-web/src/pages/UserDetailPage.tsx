@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Alert, Avatar, Box, Button, Card, CardContent, Skeleton, Typography } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import EditOutlined from '@mui/icons-material/EditOutlined';
 import LockResetOutlined from '@mui/icons-material/LockResetOutlined';
@@ -25,6 +25,8 @@ export function UserDetailPage() {
 
 function UserDetail({ userId }: { userId: string }) {
   const { user: actor } = useAuth();
+  const { state } = useLocation();
+  const listParams = typeof state?.userListParams === 'string' && state.userListParams.startsWith('?') ? state.userListParams : '';
   const [editing, setEditing] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [resetting, setResetting] = useState(false);
@@ -45,7 +47,8 @@ function UserDetail({ userId }: { userId: string }) {
     <Box>
       <AdminTopbar title="Chi tiết người dùng" />
       <PageContent>
-        <Button component={Link} to="/users" startIcon={<ArrowBack />} sx={{ mb: 2 }}>Danh sách người dùng</Button>
+        <Button component={Link} to={{ pathname: '/users', search: listParams }}
+          state={{ userSearch: state?.userSearch }} startIcon={<ArrowBack />} sx={{ mb: 2 }}>Danh sách người dùng</Button>
         <RequestError error={query.error} retry={() => { void query.refetch(); }} />
         {!confirm && <RequestError error={action.error} />}
         {action.notice && <Alert severity="success" sx={{ mb: 2 }}>{action.notice}</Alert>}

@@ -58,6 +58,15 @@ test('Student can open and complete the parent PIN gate from the profile on desk
     await expect(confirmation).toHaveCount(0);
     await expect(page.getByText(/Đã lưu giới hạn trên tài khoản/)).toBeVisible();
 
+    await page.reload();
+    await expect(page).toHaveURL(`${sites.portal.origin}/study/profile`);
+    await expect(page.getByRole('button', { name: 'Khóa Góc phụ huynh' })).toHaveCount(0);
+    await parentEntry.click();
+    await expect(dialog).toBeVisible();
+    await dialog.getByLabel('Mã PIN', { exact: true }).fill('123456');
+    await expect(page).toHaveURL(`${sites.portal.origin}/study/parent-mode`);
+    await expect(page.getByText(width === 320 ? /60 phút/ : /90 phút/).first()).toBeVisible();
+
     await page.getByRole('button', { name: 'Tổng quan', exact: true }).click();
     await page.getByRole('button', { name: 'Chọn bài cùng con', exact: true }).click();
     await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons`);

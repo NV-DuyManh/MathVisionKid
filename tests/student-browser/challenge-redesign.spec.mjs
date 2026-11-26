@@ -204,6 +204,9 @@ test('Quiz saves and restores the server run, supports choices, and keeps practi
   await expect(page.getByTestId('quiz-timer')).toHaveText('0:17');
   await page.getByRole('radio', { name: 'B. 4/4', exact: true }).click();
   await expect(page.getByRole('radio', { name: 'B. 4/4', exact: true })).toHaveAttribute('aria-checked', 'true');
+  await page.reload();
+  await expect(page.getByRole('radio', { name: 'B. 4/4', exact: true })).toHaveAttribute('aria-checked', 'true');
+  expect(fixture.getQuiz().attempts).toHaveLength(0);
   await page.getByRole('button', { name: 'Hoàn thành', exact: true }).click();
   await expect.poll(() => fixture.getQuiz().attempts.at(-1)?.answer).toBe('2');
   await expect(page.getByLabel('2 sao', { exact: true })).toBeVisible();

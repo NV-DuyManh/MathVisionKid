@@ -18,6 +18,7 @@ test('portal login visibly waits and blocks duplicate submits', async ({ page, a
     const pending = page.getByRole('button', { name: /Đang xác thực/ });
     await expect(pending).toBeVisible();
     await expect(pending).toBeDisabled();
+    await expect.poll(() => calls).toBe(1);
     await page.keyboard.press('Enter');
     expect(calls).toBe(1);
     release();
