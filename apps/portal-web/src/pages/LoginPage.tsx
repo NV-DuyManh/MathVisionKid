@@ -18,6 +18,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import { authService } from '../services/authService';
+import type { GoogleCredential } from '../services/socialAuth';
 import { tokenStore } from '../services/apiClient';
 import { appConfig, googleConfigured, showDevTools } from '../config/runtime';
 
@@ -86,7 +87,7 @@ export const LoginPage: React.FC = () => {
   const [authView, setAuthView] = useState<keyof typeof authIntro>(() => resetFromAccount ? 'request-reset' : 'login');
   const [resetCode, setResetCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [socialSetupCredential, setSocialSetupCredential] = useState('');
+  const [socialSetupCredential, setSocialSetupCredential] = useState<GoogleCredential>();
   const [socialSetupGrade, setSocialSetupGrade] = useState('1');
   const sessionCheck = useRef<AbortController | null>(null);
   const submitLock = useRef(false);
@@ -212,7 +213,7 @@ export const LoginPage: React.FC = () => {
     setError(null);
     try {
       const user = await authService.loginWithGoogle(socialSetupCredential, 'STUDENT', Number(socialSetupGrade));
-      setSocialSetupCredential('');
+      setSocialSetupCredential(undefined);
       if (user.role.toUpperCase().replace('ROLE_', '') === 'STUDENT') window.location.replace('/study/');
       else {
         tokenStore.clearTokens();
@@ -666,7 +667,7 @@ export const LoginPage: React.FC = () => {
           <Button type="submit" fullWidth variant="contained" size="large" disabled={loading} aria-busy={loading} startIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden /> : undefined} sx={{ mt: 2, py: 1.4 }}>
             {loading ? 'Đang mở trang học sinh…' : 'Tiếp tục vào trang học sinh'}
           </Button>
-          <Button type="button" fullWidth disabled={loading} onClick={() => { setSocialSetupCredential(''); setAuthView('login'); setError(null); setSuccess(null); }} sx={{ mt: 1, textTransform: 'none' }}>
+          <Button type="button" fullWidth disabled={loading} onClick={() => { setSocialSetupCredential(undefined); setAuthView('login'); setError(null); setSuccess(null); }} sx={{ mt: 1, textTransform: 'none' }}>
             Quay lại đăng nhập
           </Button>
         </Box>}

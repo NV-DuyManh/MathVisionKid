@@ -5,6 +5,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.mathvisionkids.api.common.ApiException;
+import com.mathvisionkids.api.studentprofile.StudentProfileService;
 import com.mathvisionkids.api.user.Student;
 import com.mathvisionkids.api.user.StudentRepository;
 import com.mathvisionkids.api.user.Teacher;
@@ -31,16 +32,19 @@ public class GoogleAuthService {
     private final RefreshTokenService refreshTokens;
     private final String clientIds;
     private final boolean enabled;
-    private final com.mathvisionkids.api.studentprofile.StudentProfileService profiles;
+    private final StudentProfileService profiles;
+    private final GoogleProfileClient googleProfiles;
     private GoogleIdTokenVerifier verifier;
 
     public GoogleAuthService(UserRepository users, StudentRepository students, TeacherRepository teachers,
-                             PasswordEncoder passwordEncoder, RefreshTokenService refreshTokens, com.mathvisionkids.api.studentprofile.StudentProfileService profiles,
+                             PasswordEncoder passwordEncoder, RefreshTokenService refreshTokens, StudentProfileService profiles,
+                             GoogleProfileClient googleProfiles,
                              @Value("${app.auth.google.enabled:false}") boolean enabled,
                              @Value("${app.auth.google.client-id:}") String clientIds) {
         this.users = users; this.students = students; this.teachers = teachers;
         this.passwordEncoder = passwordEncoder; this.refreshTokens = refreshTokens;
         this.enabled = enabled; this.clientIds = clientIds; this.profiles = profiles;
+        this.googleProfiles = googleProfiles;
     }
 
     @jakarta.annotation.PostConstruct
@@ -98,9 +102,13 @@ public class GoogleAuthService {
         if (!Boolean.TRUE.equals(user.getActive())) {
             throw new ApiException("ACCOUNT_INACTIVE", "Account is disabled", HttpStatus.FORBIDDEN);
         }
+        Object picture = payload.get("picture");
+        if ("STUDENT".equals(user.getRole()) && !StudentProfileService.isGoogleAvatarUrl(picture)) {
+            picture = googleProfiles.avatar(request.getProfileAccessToken(), subject);
+        }
         AuthResponse session = refreshTokens.createSession(user.getId());
         if ("STUDENT".equals(user.getRole())) {
-            profiles.captureGoogleAvatar(user.getId(), payload.get("picture"));
+            profiles.captureGoogleAvatar(user.getId(), picture);
         }
         return session;
     }

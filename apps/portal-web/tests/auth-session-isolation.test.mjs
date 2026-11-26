@@ -12,7 +12,8 @@ function harness() {
   const logout = new Promise(resolve => { finishLogout = resolve; });
   const old = new Promise(resolve => { finishA = resolve; });
   const webSession = {
-    async establish(_path, body, _config, isCurrent) {
+    async establish(path, body, _config, isCurrent) {
+      if (path === '/auth/google') assert.equal(body.profileAccessToken, 'fixture-profile-token');
       const id = body.email === 'a@validation.test' || body.credential === 'older-credential' ? await old : 'session-b';
       if (!isCurrent()) throw new Error('Phiên đăng nhập đã thay đổi.');
       access = id;
@@ -53,7 +54,10 @@ test('Portal only accepts active known roles from /me', async () => {
 for (const method of ['loginWithGoogle','loginWithFacebook']) {
   test(`late ${method} cannot replace a newer verified password login`, async () => {
     const h=harness();
-    const older=h.service[method]('older-credential','TEACHER');
+    const credential = method === 'loginWithGoogle'
+      ? { idToken: 'older-credential', profileAccessToken: 'fixture-profile-token' }
+      : 'older-credential';
+    const older=h.service[method](credential,'TEACHER');
     await h.service.login('b@validation.test','fixture-only');
     h.finishA('session-a-social');
     await assert.rejects(older,/thay đổi/);

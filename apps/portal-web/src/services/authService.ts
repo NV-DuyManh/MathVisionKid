@@ -1,4 +1,5 @@
 import { apiClient, tokenStore, webSession } from './apiClient';
+import type { GoogleCredential } from './socialAuth';
 export interface UserProfile {
   userId: string; email: string; role: 'STUDENT' | 'TEACHER' | 'ADMIN';
   displayName: string; active: boolean; gradeLevel?: number;
@@ -29,8 +30,8 @@ export const authService = {
   async login(email: string, password: string): Promise<UserProfile> {
     return authenticate('/auth/login', { email: email.trim().toLowerCase(), password });
   },
-  async loginWithGoogle(credential: string, role?: 'STUDENT' | 'TEACHER', gradeLevel?: number) {
-    return authenticate('/auth/google', { credential, role, gradeLevel });
+  async loginWithGoogle(google: GoogleCredential, role?: 'STUDENT' | 'TEACHER', gradeLevel?: number) {
+    return authenticate('/auth/google', { credential: google.idToken, profileAccessToken: google.profileAccessToken, role, gradeLevel });
   },
   async loginWithFacebook(credential: string, role?: 'STUDENT' | 'TEACHER', gradeLevel?: number) {
     return authenticate('/auth/facebook', { credential, role, gradeLevel });
