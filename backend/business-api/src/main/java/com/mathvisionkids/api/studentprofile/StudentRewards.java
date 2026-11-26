@@ -15,6 +15,7 @@ import com.mathvisionkids.api.studentprofile.ProfileDtos.GameRewardStatus;
 public class StudentRewards {
     public enum Source { LESSON, QUIZ, GAME }
     static final ZoneId ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
+    private static final int DAILY_STAR_LIMIT = 10;
     private final JdbcTemplate db;
     public StudentRewards(JdbcTemplate db) {
         this.db = db;
@@ -69,7 +70,13 @@ public class StudentRewards {
                 ? db.queryForObject(query + " AND activity_day = ?", Long.class, student, kind, contentId, day)
                 : db.queryForObject(query, Long.class, student, kind, contentId);
         if (source != Source.GAME && previous != 0) return new Award(0, GameRewardStatus.REPEAT);
-        GameRewardStatus status = previous != 0 ? GameRewardStatus.REPEAT : GameRewardStatus.AWARDED;
+        long starsToday = db.queryForObject("""
+                SELECT COALESCE(SUM(stars), 0)
+                FROM student_verified_activities WHERE student_id = ? AND activity_day = ?
+                """, Long.class, student, day);
+        GameRewardStatus status = previous != 0 ? GameRewardStatus.REPEAT
+                : starsToday >= DAILY_STAR_LIMIT ? GameRewardStatus.DAILY_LIMIT : GameRewardStatus.AWARDED;
+        // Keep the verified activity for progress and retry handling even when it earns zero stars.
         int stars = status == GameRewardStatus.AWARDED ? 1 : 0;
         db.update("""
                 INSERT INTO student_verified_activities(student_id, source, event_id, content_id, completed_at, activity_day, stars)
