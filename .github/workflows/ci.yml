@@ -90,8 +90,6 @@ jobs:
     needs: governance
     if: needs.governance.outputs.student == 'true'
     runs-on: ubuntu-latest
-    # The full desktop/mobile browser suite runs after Expo setup and Jest.
-    timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
