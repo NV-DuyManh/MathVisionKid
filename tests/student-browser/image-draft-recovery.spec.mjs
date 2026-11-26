@@ -133,6 +133,12 @@ async function edges(page) {
     return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
   }));
 }
+
+async function shrinkLeftEdge(page) {
+  const button = page.getByRole('button', { name: 'Thu hẹp từ cạnh trái', exact: true });
+  if (await button.isVisible()) await button.click();
+  else await page.getByLabel('Kéo cạnh trái', { exact: true }).press('ArrowRight');
+}
 async function imageHash(page, label) {
   return page.getByLabel(label).evaluate(async element => {
     const image = element instanceof HTMLImageElement ? element : element.querySelector('img');
@@ -527,28 +533,111 @@ test('Reload after a lost upload response never automatically submits the same p
   await expect(page.getByLabel('Ảnh bài toán em đã chọn')).toBeVisible();
 });
 
-test('Reloaded crop continues through photo reading and a correct Work Review result', async ({ page, app }) => {
+for (const needsCorrection of [false, true]) test(`Reloaded crop continues to a ${needsCorrection ? 'correctable' : 'correct'} Work Review result`, async ({ page, app, isMobile }, info) => {
+  test.setTimeout(90000);
+  if (!isMobile) await page.setViewportSize({ width: 1280, height: 660 });
   const problemText = 'Một giỏ có 30 kg táo, đã bán 15 kg. Hỏi còn lại bao nhiêu kg táo?';
-  const work = '30 - 15 = 15 (kg)';
+  const work = needsCorrection ? '30 - 15 = 20 (kg)' : '30 - 15 = 15 (kg)';
   app.responses.set('POST /student/tutor/inspect', ({ json }) => json({ kind: 'MIXED', problemText, needsProblem: false,
     lines: [{ text: work, uncertain: false, box: null }] }));
   app.responses.set('POST /student/tutor/work-review', ({ body, json }) => json({ sourceId: body.sourceId,
-    status: 'CORRECT', summary: 'Em đã trả lời câu hỏi.', praise: 'Em tính đúng rồi.', nextAction: 'Em giữ cách làm này nhé.', alternative: '',
-    complete: true, completionVersion: 2, missingParts: [], arithmeticVerified: true,
-    rows: [{ lineIndex: 0, sourceText: work, status: 'OK', errorKind: 'NONE', rowKind: 'CALCULATION', arithmeticCorrect: true,
-      feedback: 'Phép tính đúng.', hints: [] }] }));
+    status: needsCorrection ? 'NEEDS_REVISION' : 'CORRECT', summary: 'Em đã trả lời câu hỏi.', praise: needsCorrection ? '' : 'Em đã đổi đơn vị đo chính xác và thực hiện các bước tính toán rất tốt.', nextAction: needsCorrection ? 'Em sửa phép trừ nhé.' : 'Em giữ cách làm này nhé.', alternative: '',
+    complete: true, completionVersion: 2, missingParts: [], arithmeticVerified: !needsCorrection,
+    rows: [{ lineIndex: 0, sourceText: work, status: needsCorrection ? 'FIX' : 'OK', errorKind: needsCorrection ? 'CALCULATION' : 'NONE', rowKind: 'CALCULATION', arithmeticCorrect: !needsCorrection,
+      feedback: 'Kiểm tra lại phép tính.', hints: [] }] }));
   app.responses.set('POST /student/quizzes/prepare', ({ json }) => json({ status: 'READY' }));
-  app.responses.set('POST /student/quizzes/from-learning', ({ json }) => json({ offered: false, quiz: null }));
-  await start(page); await openCrop(page, { mode: 'MATH_TUTOR' });
+  app.responses.set('POST /student/quizzes/from-learning', ({ json }) => json({ offered: true,
+    quiz: { quizId: 'work-review-practice', status: 'READY', topicCode: 'CHECKED_SOURCE_REVIEW' } }));
+  await start(page); await openCrop(page, { mode: 'MATH_TUTOR', masks: false, file: await picture(page, 'portrait.png', 'image/png', 500, 1400) });
+  const controls = page.getByRole('combobox', { name: 'Cạnh cần chỉnh', exact: true });
+  await expect(controls).toHaveCount(0);
+  if (!isMobile) {
+    const rotate = await page.getByRole('button', { name: 'Xoay ảnh 90 độ', exact: true }).boundingBox();
+    const ruler = await page.getByRole('slider', { name: 'Góc căn thẳng ảnh', exact: true }).boundingBox();
+    expect(ruler.x).toBeGreaterThanOrEqual(rotate.x + rotate.width);
+    expect(ruler.y).toBeLessThan(rotate.y + rotate.height);
+    const before = await edges(page);
+    await shrinkLeftEdge(page);
+    await expect.poll(async () => (await edges(page))[0].x).toBeGreaterThan(before[0].x + 1);
+  }
   await page.reload();
   await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  const preparation = page.getByTestId('work-review-preparation');
+  await expect(preparation).toBeVisible();
+  if (!isMobile) {
+    const leftPhoto = page.getByTestId('guide-source-panel').getByRole('img');
+    await expect(leftPhoto).toHaveCount(1);
+    expect((await leftPhoto.boundingBox()).height).toBeGreaterThanOrEqual(300);
+    await expect(leftPhoto).toBeInViewport({ ratio: 1 });
+    for (const tab of ['Đối chiếu đề bài', 'Đối chiếu bài làm']) {
+      await preparation.getByRole('button', { name: tab }).click();
+      await expect(preparation.getByRole('img')).toHaveCount(0);
+      await expect(leftPhoto).toBeVisible();
+    }
+  } else await expect(preparation.getByRole('img')).toHaveCount(1);
   await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
-  const result = page.getByText('Em làm đúng rồi!', { exact: true });
+  const result = page.getByText(needsCorrection ? 'Các phép tính em cần sửa' : 'Em làm đúng rồi!', { exact: true });
   await expect(result).toBeVisible();
+  const photo = page.getByTestId(needsCorrection ? 'work-evidence-photo-frame' : 'work-review-photo-frame');
+  await expect(photo).toBeVisible();
+  const save = page.getByRole('button', { name: 'Lưu bài để học tiếp', exact: true });
+  await expect(save).toHaveCount(1);
+  if (!isMobile) {
+    await expect(result).toBeInViewport({ ratio: 1 });
+    const left = page.getByTestId('work-review-result-column');
+    const right = page.getByTestId('work-review-details-column');
+    await expect(right.getByRole('button', { name: 'Lưu bài để học tiếp', exact: true })).toBeVisible();
+    await expect(left.getByText(await result.textContent(), { exact: true })).toBeVisible();
+    await expect(left.getByTestId(needsCorrection ? 'work-evidence-photo-frame' : 'work-review-photo-frame')).toBeInViewport({ ratio: 1 });
+    if (needsCorrection) {
+      await expect(right.getByText('Kiểm tra lại phép tính.', { exact: true })).toBeInViewport();
+    } else {
+      await expect(right.getByRole('button', { name: 'Xem nhận xét chi tiết', exact: true })).toBeInViewport();
+      const quiz = right.getByRole('button', { name: 'Ôn lại bài vừa học', exact: true });
+      await expect(quiz).toBeInViewport();
+      await expect(save).toBeInViewport();
+      const quizBox = await quiz.boundingBox();
+      expect((await save.boundingBox()).y).toBeGreaterThanOrEqual(quizBox.y + quizBox.height);
+      const rightColumn = await right.boundingBox();
+      for (const title of ['Xem nhận xét chi tiết', 'Hoàn tất nhận xét', 'Ôn lại bài vừa học', 'Lưu bài để học tiếp']) {
+        const action = right.getByRole('button', { name: title, exact: true });
+        expect(await action.evaluate(element => getComputedStyle(element).maxWidth)).toBe('280px');
+        const button = await action.boundingBox();
+        expect(button.width).toBeLessThan(rightColumn.width * 0.9);
+        expect(button.height).toBeGreaterThanOrEqual(42);
+        expect(button.height).toBeLessThan(52);
+      }
+      await right.getByRole('button', { name: 'Xem nhận xét chi tiết', exact: true }).click();
+      await expect(right.getByText('Em đã trả lời câu hỏi.', { exact: true })).toBeVisible();
+      await right.getByRole('button', { name: 'Thu gọn nhận xét', exact: true }).click();
+    }
+    const [a, b] = await Promise.all([left.boundingBox(), right.boundingBox()]);
+    expect(a.x + a.width).toBeLessThanOrEqual(b.x);
+    expect(b.x + b.width).toBeLessThanOrEqual(1281);
+    expect(Math.abs(a.y - b.y)).toBeLessThan(4);
+    expect((await photo.boundingBox()).y).toBeGreaterThan((await result.boundingBox()).y);
+    expect((await photo.boundingBox()).height).toBeLessThan(270);
+    await page.screenshot({ path: info.outputPath('review-result.png') });
+    if (!needsCorrection) {
+      expect(a.width).toBeGreaterThan(b.width);
+      expect((await photo.boundingBox()).height).toBeGreaterThan(210);
+      await page.setViewportSize({ width: 1440, height: 900 });
+      await expect.poll(async () => (await photo.boundingBox()).height).toBeGreaterThan(330);
+      await expect(photo).toBeInViewport({ ratio: 1 });
+    }
+  } else {
+    expect((await photo.boundingBox()).y).toBeLessThan((await result.boundingBox()).y);
+    await expect(page.getByTestId('work-review-details-column')).toHaveCount(0);
+    expect((await save.boundingBox()).height).toBeGreaterThanOrEqual(52);
+  }
   await page.reload();
   await expect(result).toBeVisible();
   expect(app.requests.filter(request => request.path === '/student/tutor/inspect')).toHaveLength(1);
   expect(app.requests.filter(request => request.path === '/student/tutor/work-review')).toHaveLength(1);
+  if (!isMobile && !needsCorrection) {
+    await save.click();
+    await expect(page.getByRole('button', { name: 'Đã lưu bài của em', exact: true })).toBeDisabled();
+  }
 });
 
 test('A known submission resumes by GET after reload without uploading again', async ({ page, app }) => {

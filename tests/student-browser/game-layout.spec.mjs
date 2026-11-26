@@ -1,3 +1,4 @@
+import { chooseTrainingGrade, expectRaceCameraFramed, raceState } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 const desktopSizes = [[1280, 720], [1366, 768], [1440, 900], [1920, 1080], [2560, 1440]];
@@ -103,20 +104,6 @@ async function islandState(page) {
   });
 }
 
-async function raceState(page) {
-  return page.locator('[data-testid^="token-"]').first().evaluate(element => {
-    let fiber = element[Object.keys(element).find(key => key.startsWith('__reactFiber$'))];
-    while (fiber) {
-      for (let hook = fiber.memoizedState, i = 0; hook && i < 100; hook = hook.next, i++) {
-        const value = hook.memoizedState;
-        if (typeof value?.getSnapshot === 'function' && typeof value?.startGame === 'function') return value.getSnapshot();
-      }
-      fiber = fiber.return;
-    }
-    return null;
-  });
-}
-
 test('race supports wrong and correct answers, turn handover, victory, replay and resized question overlays', async ({ page, app, isMobile }, info) => {
   test.skip(isMobile, 'Touch orientation and question layout run in the viewport matrix.');
   test.setTimeout(300000);
@@ -132,7 +119,6 @@ test('race supports wrong and correct answers, turn handover, victory, replay an
   await startRace.click();
   await expect(page.getByTestId('roll-dice-button')).toBeEnabled({ timeout: 15000 });
   const camera = page.getByTestId('game-camera');
-  const world = page.getByTestId('camera-world');
   const frame = await camera.boundingBox();
   expect(frame).not.toBeNull();
   await page.mouse.move(frame.x + frame.width / 2, frame.y + frame.height / 2);
@@ -141,11 +127,7 @@ test('race supports wrong and correct answers, turn handover, victory, replay an
   await page.mouse.up();
   for (const width of [1001, 1000, 999, 990, 1440]) {
     await page.setViewportSize({ width, height: 720 });
-    await expect.poll(async () => {
-      const [viewport, content] = await Promise.all([camera.boundingBox(), world.boundingBox()]);
-      if (!viewport || !content) return Number.POSITIVE_INFINITY;
-      return Math.max(Math.abs(viewport.width - content.width), Math.abs(viewport.height - content.height));
-    }).toBeLessThan(2);
+    await expectRaceCameraFramed(page);
     await inside(page, page.getByTestId('roll-dice-button'));
     if (width === 999) await capture(page, info, 'race-overview-999');
   }
@@ -276,6 +258,7 @@ async function open(page, game) {
     else await page.goto(`${sites.portal.origin}/study/games/${game}`);
   }
   await expect(player).toBeVisible();
+  await chooseTrainingGrade(page,game);
   expect(await page.evaluate(() => Number(getComputedStyle(document.documentElement).zoom))).toBe(1);
 }
 
@@ -348,7 +331,7 @@ for (const [width, height] of [...desktopSizes, ...zoomReflowSizes, ...mobileSiz
     await startRace.click();
     await expect(page.getByTestId('roll-dice-button')).toBeEnabled({ timeout: 15000 });
     await capture(page, info, 'race-board');
-    if (!isMobile) await inside(page, page.getByTestId('race-board'));
+    if (!isMobile) await expectRaceCameraFramed(page);
     await page.getByTestId('race-pause').click();
     await inside(page, page.getByTestId('race-resume'));
     await page.getByTestId('race-resume').click();

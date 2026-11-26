@@ -1,0 +1,62 @@
+--- a/src/games/race-to-finish/components/GameCamera.tsx
++++ b/src/games/race-to-finish/components/GameCamera.tsx
+@@ -20,5 +20,8 @@
+   // Desktop has room for the whole board; phone focus/follow framing stays unchanged.
+   const overview = Platform.OS === 'web' && width >= 1000 && typeof window !== 'undefined' && window.matchMedia?.('(pointer: fine)').matches;
+-  const bounds = useMemo(() => fitToBoard(width, height, overview), [width, height, overview]);
++  // Keep the board between the HUD rows instead of painting another map behind them.
++  const hudSpace = overview ? Math.min(56, height * .12) : 0;
++  const boardViewportHeight = Math.max(1, height - hudSpace * 2);
++  const bounds = useMemo(() => fitToBoard(width, boardViewportHeight, overview), [width, boardViewportHeight, overview]);
+   const tracked = useSharedValue({ x: 80, y: 290 });
+   const center = useSharedValue({ x: bounds.worldWidth / 2, y: bounds.worldHeight / 2 });
+@@ -115,6 +118,7 @@
+   });
+   return <GestureDetector gesture={pan}><View testID="game-camera" collapsable={false} style={[styles.viewport, { width, height }]}>
++    <View style={{ position: 'absolute', top: hudSpace, width, height: boardViewportHeight, overflow: 'hidden' }}>
+     <Animated.View testID="camera-world" style={[styles.world, { width: bounds.worldWidth, height: bounds.worldHeight }, worldStyle]}>
+-      <Image source={RACE_ASSETS.background} style={StyleSheet.absoluteFill} resizeMode="cover" />
++      {!overview && <Image source={RACE_ASSETS.background} style={{ position: 'absolute', width: bounds.worldWidth, height: bounds.worldHeight }} resizeMode="cover" />}
+       <View style={{ position: 'absolute', left: bounds.origin.x, top: bounds.origin.y }}>
+         <CameraTracking.Provider value={tracked}>
+@@ -124,5 +128,5 @@
+         </CameraTracking.Provider>
+       </View>
+-    </Animated.View>
++    </Animated.View></View>
+   </View></GestureDetector>;
+ }
+--- a/src/games/race-to-finish/state/RaceController.ts
++++ b/src/games/race-to-finish/state/RaceController.ts
+@@ -7,3 +7,3 @@
+ import { RaceState, RaceEvent, initialRaceState, raceReducer } from './raceReducer';
+ import { canActivateTileEffect } from './tileEffectChain';
+-import { QUESTION_TIME_LIMIT_MS, MYSTERY_RESULT_DISPLAY_MS, CLEANSE_CHOICE_MS, DICE_ROLL_DURATION_MS, SHORTCUT_ENTRY_PAUSE_MS } from './turnTiming';
++import { QUESTION_TIME_LIMIT_MS, MYSTERY_RESULT_DISPLAY_MS, CLEANSE_CHOICE_MS, DICE_ROLL_DURATION_MS, BOT_ANSWER_DELAY_MS, SHORTCUT_ENTRY_PAUSE_MS } from './turnTiming';
+@@ -129,5 +129,5 @@
+         if (this.state.actionId === id) this.send({ type: 'DICE_DONE', id, question: this.generator.next(player.currentTileId) });
+       }); break;
+-      case 'showing_question': if (player.isBot) this.delay(1400, () => {
++      case 'showing_question': if (player.isBot) this.delay(BOT_ANSWER_DELAY_MS, () => {
+         if (this.state.actionId !== id || !this.state.question) return;
+         let bag = this.botBags.get(player.id);
+--- a/src/games/race-to-finish/state/turnTiming.ts
++++ b/src/games/race-to-finish/state/turnTiming.ts
+@@ -1,5 +1,7 @@
+ export const SHORTCUT_ENTRY_PAUSE_MS = 450;
+ export const QUESTION_TIME_LIMIT_MS = 30_000;
+-export const DICE_ROLL_DURATION_MS = 750;
++// 500 ms to settle, then two seconds to read the result before the question.
++export const DICE_ROLL_DURATION_MS = 2_500;
++export const BOT_ANSWER_DELAY_MS = 10_000;
+ export const MYSTERY_RESULT_DISPLAY_MS = 1_400;
+ export const CLEANSE_CHOICE_MS = 5_000;
+--- a/src/shared/integration/contracts.ts
++++ b/src/shared/integration/contracts.ts
+@@ -1,5 +1,5 @@
+ export const TRAINING_GAME_IDS = ['planet-rescue', 'race-to-finish', 'terrain-racing', 'energy-defense', 'block-island'] as const;
+ export type TrainingGameId = typeof TRAINING_GAME_IDS[number];
+-export const TRAINING_GAME_VERSION = '0.1.9';
++export const TRAINING_GAME_VERSION = '0.1.11';
+ export const RESULT_SCHEMA_VERSION = 1;
+ export type TrainingStatus = 'won' | 'lost' | 'abandoned' | 'restarted';

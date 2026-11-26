@@ -17,7 +17,7 @@ execFileSync(process.execPath, [resolve(root, 'node_modules/expo/bin/cli'), 'exp
     EXPO_PUBLIC_TEACHER_URL: 'https://teacher.mathvision.test', EXPO_PUBLIC_ADMIN_URL: 'https://admin.mathvision.test' },
 });
 const types = { '.html': 'text/html', '.js': 'application/javascript', '.json': 'application/json', '.css': 'text/css',
-  '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.ico': 'image/x-icon',
+  '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.wav': 'audio/wav',
   '.ttf': 'font/ttf', '.woff': 'font/woff', '.woff2': 'font/woff2' };
 createServer(async (request, response) => {
   try {
@@ -29,7 +29,9 @@ createServer(async (request, response) => {
       if (extname(file)) { response.writeHead(404).end(); return; }
       file = resolve(output, 'index.html');
     }
-    response.writeHead(200, { 'Content-Type': types[extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
-    response.end(await readFile(file));
+    const bytes = await readFile(file);
+    response.writeHead(200, { 'Content-Type': types[extname(file)] || 'application/octet-stream',
+      'Content-Length': bytes.length, 'Cache-Control': 'no-store' });
+    response.end(bytes);
   } catch { response.writeHead(500).end(); }
 }).listen(studentPort, '127.0.0.1', () => process.stdout.write('Real Student export ready\n'));

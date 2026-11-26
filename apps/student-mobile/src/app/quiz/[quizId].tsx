@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../context/AuthContext';
 import { AppHeader } from '../../components/ui/AppHeader';
-import { AppButton } from '../../components/ui/AppButton';
+import { ChallengeButton as AppButton, CHALLENGE_COLORS as C, ChallengeWebStyles } from '../../components/ui/ChallengeVisuals';
 import { MathText } from '../../components/domain/MathText';
 import { TaskProgress } from '../../components/ui/TaskProgress';
 import { PendingTask } from '../../components/ui/PendingTask';
@@ -18,10 +18,10 @@ import { useQuizActivity } from '../../features/quiz/useQuizActivity';
 import { LessonSheet } from '../../features/tutoring/LessonSheet';
 import { NarrationPreparation } from '../../features/tutoring/NarrationPreparation';
 import { quizStyles as s } from '../../features/quiz/quizStyles';
-import { COLORS, IS_STUDENT_WEB } from '../../constants/theme';
+import { IS_STUDENT_WEB } from '../../constants/theme';
 
-const QUIZ_ICON_COLOR = IS_STUDENT_WEB ? COLORS.primaryDark : '#6940C9';
-const QUIZ_LINK_COLOR = IS_STUDENT_WEB ? COLORS.primaryDark : '#7953D8';
+const QUIZ_ICON_COLOR = C.deepPurple;
+const QUIZ_LINK_COLOR = C.deepPurple;
 
 function Reward({ stars }: { stars: number }) {
   const [opacity] = useState(() => new Animated.Value(1));
@@ -52,6 +52,9 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
   const elapsed = useQuizActivity(quiz);
   const [retry, setRetry] = useState(0);
   const [invalidAnswer, setInvalidAnswer] = useState(false);
+  const [answerFocused, setAnswerFocused] = useState(false);
+  const [workspaceWidth, setWorkspaceWidth] = useState(0);
+  const wide = workspaceWidth >= 860;
   const controller = useRef<AbortController | null>(null), active = useRef(false);
   const pending = useRef<{ requestId: string; answer: string } | null>(null);
   const draftRun = useRef<string | null>(null);
@@ -134,12 +137,20 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
         {loading ? <View style={s.card}><TaskProgress steps={['Mở câu đố của em', 'Khôi phục tiến trình']} activeStep={1} /></View> : null}
         {error ? <View style={s.note}><Text nativeID="quiz-answer-error" accessibilityRole="alert" style={s.error}>{error}</Text><AppButton title={quiz ? 'Kiểm tra lại trạng thái' : 'Thử tải lại'} variant="secondary" disabled={busy || loading} onPress={() => setRetry(value => value + 1)} /></View> : null}
         {quiz && !loading ? <>
-          <View style={[s.card,s.workCard, IS_STUDENT_WEB && s.webWorkCard]}>
+          <View style={s.workspace} onLayout={event => setWorkspaceWidth(event.nativeEvent.layout.width)} testID="quiz-workspace" {...(IS_STUDENT_WEB ? { dataSet: { challenge: 'true' } } : {})}>
+          <ChallengeWebStyles />
+          <View style={s.challengeHeading}>
+            <View style={s.challengeEmblem}><Ionicons name={done ? 'ribbon-outline' : 'flag-outline'} size={28} color={C.deepPurple} accessible={false} /></View>
+            <View style={s.challengeHeadingCopy}><Text style={s.eyebrow}>{quiz.replayMode === 'PRACTICE' ? 'GÓC ÔN TẬP' : 'KHÁM PHÁ KHẢ NĂNG CỦA EM'}</Text><Text accessibilityRole="header" style={[s.challengeTitle, wide && s.challengeTitleWide]}>{done ? 'Mỗi lần thử, một bước tiến' : running ? 'Đến lượt em trổ tài!' : 'Sẵn sàng thử sức chưa em?'}</Text></View>
+          </View>
+          <View style={[s.workspaceColumns, wide && s.workspaceColumnsWide]}>
+          <View style={[s.card,s.workCard,s.challengeMain,wide && s.challengeMainWide]} testID="quiz-question-area">
             <View style={s.workTopline}>
-              {done || !IS_STUDENT_WEB ? <View style={s.workBadge}><Ionicons name={done?'checkmark-circle-outline':'sparkles-outline'} size={16} color={IS_STUDENT_WEB ? QUIZ_ICON_COLOR : '#5637C9'} accessible={false}/><Text style={s.workBadgeText}>{done?'ĐÃ HOÀN THÀNH':'CÙNG THỬ SỨC'}</Text></View> : <Text style={s.title}>Bài toán</Text>}
-              <View style={s.clock}><Ionicons name="time-outline" size={16} color={IS_STUDENT_WEB ? QUIZ_ICON_COLOR : '#5637C9'} accessible={false}/><Text style={s.clockText} accessibilityLabel={`Thời gian làm bài ${quizTime(done ? quiz.elapsedMillis : elapsed)}`}>{quizTime(done ? quiz.elapsedMillis : elapsed)}</Text></View>
+              <View style={s.workBadge}><Ionicons name={done?'checkmark-circle-outline':'sparkles-outline'} size={16} color={C.deepPurple} accessible={false}/><Text style={s.workBadgeText}>{done?'ĐÃ HOÀN THÀNH':'BÀI TOÁN CỦA EM'}</Text></View>
+              <Text style={s.small}>Lớp {quiz.gradeLevel}</Text>
             </View>
-            <View style={[s.questionPanel, IS_STUDENT_WEB && s.webQuestionPanel]}>
+            {!wide ? <View style={s.mobileClock}><Ionicons name="time-outline" size={22} color={C.deepPurple} accessible={false}/><Text testID="quiz-timer" style={s.mobileClockNumber} accessibilityLabel={`Thời gian làm bài ${quizTime(done ? quiz.elapsedMillis : elapsed)}`}>{quizTime(done ? quiz.elapsedMillis : elapsed)}</Text><Text style={[s.small,s.mobileClockHint]}>{done ? 'Đã ghi nhận' : running ? 'Theo nhịp của em' : 'Chưa bắt đầu'}</Text></View> : null}
+            <View style={s.questionPanel}>
               <Text style={s.workTopic}>Lớp {quiz.gradeLevel} · {quiz.topicName}</Text>
               <MathText style={s.quizQuestion}>{question}</MathText>
               {!running ? choices.map(choice => <Text key={choice} style={s.body}>{choice}</Text>) : null}
@@ -152,25 +163,37 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
               </View>
               <AppButton title="Thử thách nâng sao" loadingTitle="Đang chuẩn bị câu mới…" style={s.workButton} disabled={busy} loading={task === 'challenge'} onPress={() => replayQuiz('CHALLENGE')}/>
               {task === 'challenge' || task === 'practice' ? <PendingTask key={task} title={task === 'challenge' ? 'Đang tạo câu mới cùng dạng' : 'Đang mở lại bài cũ'} detail="Em có thể xem lại cách giải hoặc về trang chủ trong lúc chờ. Bài đã làm vẫn được giữ."/> : null}
-              <AppButton title="Về trang chủ" style={s.workButton} variant="secondary" icon={<Ionicons name="home-outline" size={19} color={QUIZ_LINK_COLOR}/>} onPress={() => router.replace('/(tabs)')}/>
-              <AppButton title="Chọn câu đố khác" variant="ghost" onPress={() => router.replace('/quiz' as never)}/>
             </View> : running ? <>
               {quiz.replayMode === 'CHALLENGE' ? <Text style={s.small}>Thử thách nâng sao · Câu hỏi mới cho em</Text> : quiz.replayMode === 'PRACTICE' ? <Text style={s.small}>Ôn lại bài cũ · Giữ nguyên thành tích</Text> : null}
               <Text nativeID="quiz-answer-label" style={s.title}>Đáp án của em{quiz.unit ? ` (${quiz.unit})` : ''}</Text>
-              {choices.length ? <View accessibilityRole="radiogroup" accessibilityLabel="Chọn đáp án của em" style={s.choiceList}>
+              {choices.length ? <View accessibilityRole="radiogroup" accessibilityLabel="Chọn đáp án của em" style={s.choiceList}
+                onKeyDown={IS_STUDENT_WEB ? event => {
+                  const key = event.nativeEvent.key;
+                  if (busy || !['ArrowRight','ArrowDown','ArrowLeft','ArrowUp','Home','End',' ','Enter'].includes(key)) return;
+                  const group = event.currentTarget as unknown as HTMLElement;
+                  const options = Array.from(group.querySelectorAll<HTMLElement>('[role="radio"]'));
+                  const current = options.findIndex(option => option === document.activeElement);
+                  if (key === ' ' || key === 'Enter') {
+                    if (current >= 0) { event.preventDefault(); options[current].click(); }
+                    return;
+                  }
+                  const next = key === 'Home' ? 0 : key === 'End' ? options.length - 1 : (Math.max(0,current) + (['ArrowRight','ArrowDown'].includes(key) ? 1 : -1) + options.length) % options.length;
+                  event.preventDefault(); options[next]?.focus(); options[next]?.click();
+                } : undefined}>
                 {choices.map((choice, index) => {
                   let value = quiz.answerFormat === 'CHOICE' ? String(index + 1) : choice.slice(3).trim();
                   if (quiz.unit && value.endsWith(' ' + quiz.unit)) value = value.slice(0, -quiz.unit.length).trim();
                   value = value.replace(/\s+/g, '');
                   const selected = answer === value;
-                  return <Pressable key={choice} accessibilityRole="radio" accessibilityLabel={choice} accessibilityState={{ checked: selected, disabled: busy }}
-                    disabled={busy} style={[s.group, selected && s.selected]} onPress={() => { editAnswer(value); setError(''); }}>
-                    <Text style={s.body}>{choice}</Text>
+                  return <Pressable key={choice} accessibilityRole="radio" accessibilityLabel={choice} accessibilityState={{ checked: selected, disabled: busy }} aria-checked={selected} aria-disabled={busy}
+                    {...(IS_STUDENT_WEB ? { tabIndex: selected || !answer && index === 0 ? 0 : -1 } : {})}
+                    disabled={busy} style={({pressed}) => [s.group,s.answerChoice,selected && s.selected,pressed && s.choicePressed,busy && s.choiceDisabled]} onPress={() => { editAnswer(value); setError(''); }}>
+                    <View style={[s.choiceLetter,selected && s.choiceLetterSelected]}><Text style={[s.choiceLetterText,selected && s.choiceLetterTextSelected]}>{String.fromCharCode(65 + index)}</Text></View><Text style={[s.body,s.choiceCopy,selected && s.choiceCopySelected]}>{choice.slice(3)}</Text>
                   </Pressable>;
                 })}
               </View> : <>
                 <TextInput accessibilityLabel={`Đáp án của em${quiz.unit ? `, ${quiz.unit}` : ''}`} aria-describedby={invalidAnswer ? 'quiz-answer-help quiz-answer-error' : 'quiz-answer-help'} aria-invalid={invalidAnswer}
-                  value={answer} onChangeText={value => { editAnswer(value); setError(''); setInvalidAnswer(false); }} style={[s.input,s.workInput,IS_STUDENT_WEB&&s.webWorkInput,invalidAnswer&&s.workInputError]} editable={!busy} maxLength={100}
+                  value={answer} onChangeText={value => { editAnswer(value); setError(''); setInvalidAnswer(false); }} onFocus={() => setAnswerFocused(true)} onBlur={() => setAnswerFocused(false)} style={[s.input,s.workInput,answerFocused&&s.focusedInput,invalidAnswer&&s.workInputError]} editable={!busy} maxLength={100} autoComplete="off" autoCorrect={false}
                   placeholder={quiz.answerFormat === 'FRACTION' ? 'Ví dụ: 3/4' : 'Em tính được…'} keyboardType={quiz.answerFormat === 'FRACTION' ? 'default' : 'decimal-pad'} returnKeyType="done" onSubmitEditing={submit}/>
                 <Text nativeID="quiz-answer-help" style={s.small}>{quiz.answerFormat === 'FRACTION' ? 'Nhập phân số a/b hoặc số thập phân chính xác.' : 'Chỉ cần nhập kết quả cuối cùng.'}</Text>
               </>}
@@ -179,15 +202,39 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
               {IS_STUDENT_WEB ? <Text accessibilityLiveRegion="polite" style={feedback ? [s.error, s.webFeedback] : s.emptyFeedback}>{feedback}</Text> : null}
               {quiz.solutionViewed ? <Text style={s.small}>{quiz.replayMode === 'PRACTICE' ? 'Em cứ luyện theo nhịp của mình nhé.' : 'Em đang luyện cùng hướng dẫn. Hoàn thành lượt này em nhận 1 sao.'}</Text> : null}
             </> : <>
-              <Text style={s.body}>Sẵn sàng thử sức chưa em?</Text>
-              <Text style={s.small}>Đúng trong 30 giây: 3 sao · đến 60 giây: 2 sao · sau đó: 1 sao. Đồng hồ chỉ tính khi em đang làm trong Quiz; rời màn hình sẽ tạm dừng.</Text>
-              <AppButton title="Bắt đầu tính giờ" loadingTitle="Đang mở câu đố…" style={s.workButton} disabled={busy} loading={task === 'start'} onPress={() => void perform('start', signal => quizApi.start(id, signal))}/>
+              <View style={s.readyNote}><Ionicons name="bulb-outline" size={24} color={C.deepPurple} accessible={false}/><Text style={[s.body,s.readyCopy]}>Đọc kỹ đề, chọn cách làm của em. Đồng hồ bắt đầu khi em mở thử thách.</Text></View>
+              <AppButton title="Bắt đầu thử thách" loadingTitle="Đang mở câu đố…" style={s.workButton} disabled={busy} loading={task === 'start'} icon={<Ionicons name="play" size={18} color="#FFFFFF" accessible={false}/>} onPress={() => void perform('start', signal => quizApi.start(id, signal))}/>
             </>}
             {quiz.explanationText ? <Pressable accessibilityRole="button" accessibilityLabel="Xem cách giải" style={s.detailLink} onPress={()=>setTool('solution')}><Ionicons name="reader-outline" size={19} color={QUIZ_LINK_COLOR}/><Text style={s.topic}>Xem cách giải</Text><Ionicons name="chevron-forward" size={17} color={QUIZ_LINK_COLOR}/></Pressable> : null}
+            <View style={[s.secondaryActions,wide && s.secondaryActionsWide]}>
+              <View style={s.secondaryAction}>{!done ? <AppButton title="Lưu để làm sau" loadingTitle="Đang lưu bài…" variant="secondary" disabled={busy} loading={task === 'save'} onPress={saveForLater}/> : <AppButton title="Về trang chủ" variant="secondary" icon={<Ionicons name="home-outline" size={19} color={C.deepPurple} accessible={false}/>} onPress={() => router.replace('/(tabs)')}/>}</View>
+              <View style={s.secondaryAction}><AppButton title={done ? 'Chọn câu đố khác' : 'Trở về danh sách'} variant="ghost" onPress={() => router.replace('/quiz' as never)}/></View>
+            </View>
           </View>
-          {!done ? <AppButton title="Lưu để làm sau" loadingTitle="Đang lưu bài…" variant="ghost" disabled={busy} loading={task === 'save'} onPress={saveForLater}/> : null}
+          <View style={[s.challengeAside,wide && s.challengeAsideWide]} testID="quiz-support-panel">
+            {wide ? <View style={s.timerPanel}>
+              <View style={s.timerHeading}><Ionicons name="time-outline" size={22} color={C.yellow} accessible={false}/><Text style={s.timerLabel}>{done ? 'THỜI GIAN HOÀN THÀNH' : running ? 'THEO NHỊP CỦA EM' : 'ĐỒNG HỒ SẴN SÀNG'}</Text></View>
+              <Text testID="quiz-timer" style={s.timerNumber} accessibilityLabel={`Thời gian làm bài ${quizTime(done ? quiz.elapsedMillis : elapsed)}`}>{quizTime(done ? quiz.elapsedMillis : elapsed)}</Text>
+              <Text style={s.timerHint}>{done ? 'Kết quả đã được ghi nhận.' : 'Đồng hồ chỉ tính khi em đang làm trong Quiz; rời màn hình sẽ tạm dừng.'}</Text>
+            </View> : null}
+            <View style={s.supportCard}>
+              <Text style={s.supportTitle}>{quiz.replayMode === 'PRACTICE' ? 'Luyện tập theo nhịp của em' : done ? 'Thành tích lượt này' : 'Chinh phục những ngôi sao'}</Text>
+              {quiz.replayMode === 'PRACTICE' ? <Text style={s.small}>Ôn lại bài cũ không chấm sao mới. Thành tích của em được giữ nguyên.</Text> : done ? <><View style={s.earnedRow}><Ionicons name="star" size={26} color="#906112" accessible={false}/><Text style={s.earnedNumber}>{earnedStars} sao</Text></View><Text style={s.small}>{quiz.completedWithSolution ? 'Hoàn thành cùng hướng dẫn.' : 'Số sao đã được xác nhận cho lượt này.'} Kỷ lục: {quiz.stars} sao.</Text></> : quiz.solutionViewed ? <Text style={s.small}>Em đang luyện cùng hướng dẫn. Hoàn thành lượt này em nhận 1 sao.</Text> : <>
+                {[[3,'Trong 30 giây'],[2,'Trên 30 đến 60 giây'],[1,'Sau 60 giây']].map(([stars,label]) => <View key={stars} style={s.rewardRule}><View style={s.ruleStars} accessible={false}>{[0,1,2].map(index => <Ionicons key={index} name={index < Number(stars) ? 'star' : 'star-outline'} size={17} color={index < Number(stars) ? '#906112' : '#9A8C6E'} accessible={false}/>)}</View><Text style={s.ruleLabel}>{label}</Text></View>)}
+                <Text style={s.small}>Trả lời đúng để nhận sao theo thời gian làm bài.</Text>
+              </>}
+              <View style={s.quizPhases} accessibilityLabel={`Trạng thái: ${done ? 'Hoàn thành' : running ? 'Đang giải bài' : 'Chuẩn bị'}`}>
+                {['Chuẩn bị','Giải bài','Hoàn thành'].map((label,index) => {
+                  const step = done ? 2 : running ? 1 : 0;
+                  return <View key={label} style={s.quizPhase}><View style={[s.journeyDot,index <= step && s.journeyDotActive]}><Ionicons name={index < step || done ? 'checkmark' : index === step ? 'ellipse' : 'ellipse-outline'} size={14} color={index <= step ? '#FFFFFF' : '#8A80AA'} accessible={false}/></View><Text style={[s.phaseLabel,index === step && s.journeyCurrent]}>{label}</Text></View>;
+                })}
+              </View>
+            </View>
+          </View>
+          </View>
+          </View>
         </> : null}
-        {!done ? <AppButton title="Trở về danh sách" variant="ghost" onPress={() => router.replace('/quiz' as never)} /> : null}
+        {!quiz && !loading ? <AppButton title="Trở về danh sách" variant="ghost" onPress={() => router.replace('/quiz' as never)} /> : null}
       </ScrollView>
       {quiz?.startedAt && !loading ? <View style={s.toolsDock} testID="quiz-fixed-tools">
         <View style={[s.tools,s.workTools,IS_STUDENT_WEB&&s.webWorkTools]}>

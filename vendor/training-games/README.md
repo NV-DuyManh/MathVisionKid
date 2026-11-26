@@ -1,14 +1,57 @@
 # Local training-game distribution
 
-Canonical gameplay stays in the separate game repository. Do not edit an extracted
-package in node_modules or maintain a second handwritten gameplay copy here.
+The active local application checkout is `C:\MathVisionKid`. The owner deleted
+the former `C:\Tro_choi_cho_em` source checkout after integration on 25 November
+2026. Do not recreate that checkout or sibling application checkouts for each
+new game change. Running/installing MathVisionKid uses the relative tarball
+dependency in this directory; it does not require the deleted source checkout.
+The current tarball contains the shipped gameplay source, and PACKAGE_MANIFEST.json
+records its provenance and per-file hashes.
+
+## Defense feedback update 0.1.22
+
+The correct shot no longer displays an extra confirmation panel. Verify the
+release with `node scripts/build-training-games-fixes.cjs`. The script applies
+`defense-feedback-0.1.22.patch` to the pinned 0.1.21 baseline in a temporary
+directory and compares the result with the checked-in 0.1.22 package.
+
+## Race regressions update 0.1.21
+
+Version 0.1.21 restored desktop opening zoom and focus/follow
+without changing touch camera targets, uses the selected grade in question titles,
+and names automatic participants after their characters. Grade 5 starts with
+advanced Race templates and decimal Defense questions instead of small natural
+additions. Grade 1–4 banks and history isolation remain unchanged.
+
+The 0.1.21 build used baseline 0.1.20 and `race-regressions-0.1.21.patch`.
+The patch and baseline preserve a reviewable source delta without recreating the
+deleted external repository. Install the resulting tarball through the normal
+workspace dependency before exporting the app.
+
+## Consolidated distribution 0.1.20
+
+This distribution combines the verified 0.1.13 desktop baseline (camera,
+three-dimensional dice and readable bot/dice pacing), the grade question
+support from 0.1.19, and the previously authored terrain audio changes.
+Race setup instructions now use the selected grade as well. The receipt
+records the baseline hash, canonical source revision, dirty working-tree
+state and every shipped file hash. No gameplay copy is maintained in the host.
+
+The matching host includes the earlier full-width game catalog and scoped
+desktop styles. Local backups and retired checkout remnants are outside
+the application, under the owner's Codex backup directory.
+
+The separate source checkout used for this distribution is no longer present by
+owner choice. Do not edit node_modules or silently recreate an external checkout.
+The updater instructions below describe the original packaging workflow and
+require an explicitly supplied source location; the old sibling path is historical.
 
 Stop the MathVisionKid Expo dev server first. The updater refuses installation
 while that project's Metro is running, to avoid stale native module maps.
 Rebuild and install from current canonical working files:
 
 ```sh
-node scripts/update-training-games.cjs --source ../Tro_choi_cho_em
+node scripts/update-training-games.cjs --source <source-location>
 ```
 
 The source path is a CLI argument, not an absolute dependency. It may point to any
@@ -61,3 +104,54 @@ from the committed canonical source and updates the embedded version. The
 other 218 source files retain their 0.1.8 hashes. Desktop keeps the full
 board after the intro even across resize or pause. Touch and native retain
 their focus zoom and pan controls.
+
+## Dice presentation update 0.1.9
+
+The same canonical source worktree supplies `DiceOverlay.tsx` and the new
+`DiceModel.tsx`. A shaded SVG cube replaces six flat raster faces; recessed pips,
+short rolling/landing transforms and a separate contact shadow are presentation
+only. Reduced Motion shows the confirmed face without movement. The controller,
+RNG, pause/turn timers and all gameplay source bytes are unchanged from 0.1.8.
+
+This local UI task has no new source commit. The receipt explicitly records
+`sourceWorkingTreeDirty: true` on base revision `27a9c106`; it does not claim the
+new dice edits are contained in that commit. All packaged file hashes are
+verified. `dice-visual-0.1.9.patch` exposes the delta from 0.1.8, and
+`dice-visual-0.1.9.recipe.json` preserves the canonical builder recipe. Of 221
+source files, 218 are byte-identical to 0.1.8; only DiceOverlay, the new DiceModel
+and the distribution version differ. No engine or dependency was added.
+
+## Desktop framing and pacing update 0.1.11
+
+The owner requested slower dice and bot turns on 21 November. Dice now settles
+after 500 ms and holds its result for another 2 seconds. Bots answer after
+10 active seconds; the existing scheduler still freezes remaining time on pause.
+Desktop camera framing reserves 56 px above and below the board for the HUD,
+and omits the duplicate background image behind the board. Phone framing stays
+on the existing focus/follow path.
+
+`desktop-pacing-0.1.11.patch` and `.recipe.json` expose this delta from 0.1.9.
+Of 221 source files, 217 are byte-identical. The integrated RaceController keeps
+learner-only result counts and question history: exact-once patches change only
+its timing import and bot delay, plus CRLF normalization. RNG, reducer, scoring,
+question generation, storage and the other four games are unchanged. The receipt
+still marks the canonical source working tree dirty on base `27a9c106`.
+
+Local candidate 0.1.10 failed typecheck because copying the older canonical
+controller omitted integration extensions. It was replaced before delivery;
+0.1.11 preserves those extensions and passes the installed-artifact checks.
+
+## Desktop backgrounds and Planet layout update 0.1.12
+
+Host web presentation now provides a dark wood surface around the Race map and
+a warm trackside surface around Terrain's portrait scene. Planet's desktop
+workspace prioritizes its question and answer grid. These styles are scoped to
+their game roots, a fine pointer and a viewport at least 1,000 CSS px wide.
+Native/touch layouts and the game cameras keep their existing behavior.
+
+The canonical recipe adds 21 read-only layout identifiers to the integrated
+Planet screen. `desktop-polish-0.1.12.patch` exposes that exact delta from 0.1.11;
+`.recipe.json` records the builder recipe. Of 221 packaged source files, 219 are
+byte-identical. Planet gains only these identifiers; the other changed file is
+the distribution version. Controller timing, math, session counts, rewards,
+storage and all five game engines remain byte-identical to 0.1.11.

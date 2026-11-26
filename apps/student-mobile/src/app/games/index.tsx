@@ -139,6 +139,24 @@ export default function GamesScreen() {
         <View style={styles.cardBody}><Text style={styles.copy}>{STAR_QUEST.description}</Text></View>
       </>}
     </Pressable>}
+    </Layout>
+    {desktopWeb && access.kind === 'student' && <View style={[styles.webAside, desktop && styles.widthAside]}>
+      <PersonalPanel title="Phần thưởng đã nhận">
+        {webProfile.value ? <>
+          <Text style={styles.rewardCount}>{webProfile.value.stats.games} lượt chơi đạt yêu cầu</Text>
+          <Text style={styles.copy}>{webProfile.value.stars} sao tích lũy từ các hoạt động học và chơi.</Text>
+        </> : <Text style={styles.copy}>{webProfile.failed ? 'Chưa tải được phần thưởng.' : 'Đang tải thành tích…'}</Text>}
+      </PersonalPanel>
+      <PersonalPanel title="Lượt chơi gần đây">
+        {recent.owner === studentId && TRAINING_CATALOG.some(game => recent.rows[game.id])
+          ? TRAINING_CATALOG.flatMap(game => {
+            const result = recent.rows[game.id];
+            return result?.score === undefined ? [] : <Text key={game.id} style={styles.copy}>{game.title} · {result.score} điểm</Text>;
+          })
+          : <Text style={styles.copy}>Điểm trên thiết bị này sẽ xuất hiện sau khi em chơi.</Text>}
+      </PersonalPanel>
+    </View>}
+    </Layout>
     {desktopWeb && <View style={styles.skillSection}>
       <Text accessibilityRole="header" style={styles.heading}>Chọn trò chơi theo kỹ năng</Text>
       <View style={styles.filters}>{gameFilters.map((item, index) => <Pressable key={item.label} accessibilityRole="button"
@@ -165,6 +183,7 @@ export default function GamesScreen() {
           }} style={({ pressed }) => [styles.playTarget, !playable && styles.disabled, pressed && styles.pressed]}>
           <GameCover id={game.id} title={game.title} />
         <View style={[styles.cardBody, desktopWeb && styles.webGameBody]}>
+          <Text testID={`training-grades-${game.id}`} style={styles.math}>Khuyến nghị: lớp {game.grades[0]}–{game.grades[1]}</Text>
           <Text style={styles.copy}>{game.description}</Text><Text style={styles.math}>{game.math}</Text>
           {game.note && <Text style={styles.note}>{game.note}</Text>}
           {result && <Text testID={`training-recent-${game.id}`} style={styles.recent}>Gần đây: {({ won: 'Hoàn thành', lost: 'Đã thử sức', abandoned: 'Dừng giữa chừng', restarted: 'Chơi lại' } as const)[result.status]}{result.score !== undefined ? ` · ${result.score}${result.maxScore !== undefined ? '/' + result.maxScore : ''} điểm` : ''}</Text>}
@@ -180,24 +199,6 @@ export default function GamesScreen() {
           </>}
       </View>;
     })}</View>
-    </Layout>
-    {desktopWeb && access.kind === 'student' && <View style={[styles.webAside, desktop && styles.widthAside]}>
-      <PersonalPanel title="Phần thưởng đã nhận">
-        {webProfile.value ? <>
-          <Text style={styles.rewardCount}>{webProfile.value.stats.games} lượt chơi đạt yêu cầu</Text>
-          <Text style={styles.copy}>{webProfile.value.stars} sao tích lũy từ các hoạt động học và chơi.</Text>
-        </> : <Text style={styles.copy}>{webProfile.failed ? 'Chưa tải được phần thưởng.' : 'Đang tải thành tích…'}</Text>}
-      </PersonalPanel>
-      <PersonalPanel title="Lượt chơi gần đây">
-        {recent.owner === studentId && TRAINING_CATALOG.some(game => recent.rows[game.id])
-          ? TRAINING_CATALOG.flatMap(game => {
-            const result = recent.rows[game.id];
-            return result?.score === undefined ? [] : <Text key={game.id} style={styles.copy}>{game.title} · {result.score} điểm</Text>;
-          })
-          : <Text style={styles.copy}>Điểm trên thiết bị này sẽ xuất hiện sau khi em chơi.</Text>}
-      </PersonalPanel>
-    </View>}
-    </Layout>
     </ScrollView>
     {dialog && <Modal visible transparent animationType="none" onRequestClose={closeNotice} aria-labelledby="student-game-catalog-heading">
       <StudentPauseScreen catalogDialog reason={dialog.reason} onContinue={closeNotice} onLeave={closeNotice} />

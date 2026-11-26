@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-na
 import { COLORS, FONTS } from '../../constants/theme';
 import type { TrainingGameId } from '@mathvisionkid/training-games';
 import { trainingScreenOptions } from './presentation';
+import { GAME_DESKTOP_STYLES } from './gameDesktopStyles.web';
 
 type GameOrientation = ScreenOrientation & { lock?: (direction: string) => Promise<void> };
 let requestedGame: TrainingGameId | undefined;
@@ -46,10 +47,11 @@ export function GameDisplay({ gameId, children, onExit, pauseInPortrait }: {
   gameId: TrainingGameId; children: React.ReactNode; onExit?: () => void; pauseInPortrait?: boolean;
 }) {
   const { width, height } = useWindowDimensions();
-  const desktop = typeof window !== 'undefined' && window.matchMedia?.('(pointer: fine)').matches;
+  const finePointer = typeof window !== 'undefined' && window.matchMedia?.('(pointer: fine)').matches;
+  const desktop = finePointer;
   // Terrain's world is designed in portrait coordinates (540 × 970). Give its
   // existing camera a proportional viewport instead of stretching the road.
-  const portraitStage = desktop && gameId === 'terrain-racing'
+  const portraitStage = finePointer && gameId === 'terrain-racing'
     ? { width: Math.min(width, height * 540 / 970), alignSelf: 'center' as const } : undefined;
   const portraitPhone = trainingScreenOptions(gameId).orientation === 'landscape' && width < 700 && height > width;
   const canFullscreen = typeof document !== 'undefined' && !!document.documentElement.requestFullscreen &&
@@ -74,7 +76,8 @@ export function GameDisplay({ gameId, children, onExit, pauseInPortrait }: {
       cancelGameDisplay();
     };
   }, [gameId]);
-  return <View style={[styles.root, gameId === 'terrain-racing' && styles.terrain, fullscreenBesideGame && styles.landscape]}>
+  return <View {...{ dataSet: { game: gameId } }} style={[styles.root, gameId === 'terrain-racing' && styles.terrain, fullscreenBesideGame && styles.landscape]}>
+    {desktop && <style>{GAME_DESKTOP_STYLES}</style>}
     {portraitPhone ? <View style={styles.notice}>
       <Text accessibilityRole="header" style={styles.title}>Đua Về Đích</Text>
       <Text style={styles.text}>Xoay ngang điện thoại để xem đủ bàn đua và chọn nhân vật.</Text>

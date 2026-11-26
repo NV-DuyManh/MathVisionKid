@@ -1,0 +1,135 @@
+--- a/src/games/race-to-finish/logic/playerIdentity.ts
++++ b/src/games/race-to-finish/logic/playerIdentity.ts
+@@ -3,6 +3,6 @@
+ // Default bot names belong to the selected character, never to a setup slot.
+ // A name typed by the user belongs to the participant and survives character swaps.
+ export function defaultSetupName(mode: GameMode, index: number, character: CharacterId): string {
+-  if (mode === 'single') return index === 0 ? 'Em' : `${CHARACTERS_META[character].defaultPlayerName} Máy`;
++  if (mode === 'single') return index === 0 ? 'Em' : CHARACTERS_META[character].defaultPlayerName;
+   return `Người chơi ${index + 1}`;
+ }
+--- a/src/games/race-to-finish/components/RaceHUD.tsx
++++ b/src/games/race-to-finish/components/RaceHUD.tsx
+@@ -12,7 +12,7 @@
+   return <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
+     <View pointerEvents="box-none" style={styles.top}>
+       <View testID="race-current-player" accessibilityLabel={player.id} style={styles.player}>
+-        <View><Text numberOfLines={1} style={styles.name}>{player.name}{player.isBot ? ' • Máy' : ''}</Text>
++        <View><Text numberOfLines={1} style={styles.name}>{player.name}</Text>
+           <Text style={styles.state}>{intro ? 'Khám phá đường đua' : canRoll ? 'Đến lượt em' : 'Đang chơi'}{player.hasShield ? ' • 🛡' : ''}{player.cleanseCount ? ` • ⭐ ${player.cleanseCount}` : ''}</Text></View>
+       </View>
+       <View testID="race-player-roster" pointerEvents="none" style={styles.roster}>
+--- a/src/games/race-to-finish/components/MathQuestionModal.tsx
++++ b/src/games/race-to-finish/components/MathQuestionModal.tsx
+@@ -1,3 +1,4 @@
++import { useGameGrade } from '../../../shared/math/gameGrade';
+ import { RaceModal } from './RaceModal';
+ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+ import Animated, { useSharedValue, useAnimatedStyle, withTiming, cancelAnimation, runOnJS } from 'react-native-reanimated';
+@@ -15,6 +16,7 @@
+ }
+ export function MathQuestionModal({ question, player, dice, submittedAnswer, correct, failure, paused, onAnswer,
+   onAcknowledge, getTimeRemaining, closing, actionId, onDismissed }: Props) {
++  const grade = useGameGrade();
+   const opacity = useSharedValue(1);
+   const latest = useRef({ closing, paused, actionId, onDismissed });
+   const mounted = useRef(true);
+@@ -51,7 +53,7 @@
+       <KeyboardAvoidingView style={styles.backdrop} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+         <View style={styles.card}>
+         <ScrollView keyboardShouldPersistTaps="handled" style={styles.scrollContent} contentContainerStyle={styles.content}>
+-          <Text style={styles.heading}>Thử thách Toán lớp 5</Text>
++          <Text style={styles.heading}>Thử thách Toán lớp {grade}</Text>
+           <Text style={styles.caption}>{player.name} • Xúc xắc {dice} • {question.difficulty === 'challenge' ? 'Chặng cuối: vận dụng' : 'Chặng đầu: luyện tập'}</Text>
+           <View style={styles.timerSection}>
+             <Text testID="question-time-left" style={styles.timerText}>
+@@ -76,7 +78,7 @@
+             <TouchableOpacity testID="math-submit" accessibilityRole="button" disabled={locked || !input.trim()} onPress={submit}
+               style={[styles.submit, (locked || !input.trim()) && styles.disabled]}><Text style={styles.submitText}>XÁC NHẬN</Text></TouchableOpacity>
+           </>)}
+-          {player.isBot && correct === null && <Text style={styles.feedback}>Máy đang suy nghĩ...</Text>}
++          {player.isBot && correct === null && <Text style={styles.feedback}>{player.name} đang suy nghĩ...</Text>}
+           {correct !== null && <View testID="math-feedback" style={[styles.feedbackBox, correct ? styles.correct : styles.incorrect]}>
+             <Text style={styles.feedback}>{correct ? `Đúng rồi! Được đi ${dice} ô.` : failure === 'timeout'
+               ? 'Đã hết thời gian, sau đây là đáp án và cách giải.' : 'Không đúng, sau đây là đáp án và cách giải.'}</Text>
+--- a/src/games/race-to-finish/logic/questions.ts
++++ b/src/games/race-to-finish/logic/questions.ts
+@@ -106,7 +106,7 @@
+       return { ...q, key: q.key+'-'+this.sequence++, difficulty };
+     }
+     if (!this.bags[difficulty].length) {
+-      const bag = Array.from({ length: difficulty === 'medium' ? 18 : 12 }, (_, i) => i);
++      const bag = Array.from({ length: difficulty === 'medium' ? 14 : 12 }, (_, i) => difficulty === 'medium' ? i + 4 : i);
+       for (let i = bag.length - 1; i > 0; i--) {
+         const j = this.int(0, i); [bag[i], bag[j]] = [bag[j], bag[i]];
+       }
+@@ -120,10 +120,10 @@
+       if(session.allows(raceFingerprint(q))){session.accept(raceFingerprint(q));this.last={fallback:false,attempts:attempt+1};return q;}
+     }
+     // Bounded deterministic parameter traversal also works with constant RNG.
+-    // Natural additions / three-step expressions provide >9000 canonical fallbacks.
++    // Decimal additions / three-step expressions provide >9000 canonical fallbacks.
+     for(let i=0;i<1024;i++){
+       const rank=this.fallbackCursor++%(489*19),a=24+rank%489,b=2+Math.floor(rank/489),c=3+rank%10;
+-      const q=this.make(difficulty,0,this.sequence++,{a,b,c});candidates.push(q);
++      const q=this.make(difficulty,difficulty === 'medium' ? 4 : 0,this.sequence++,{a,b,c});candidates.push(q);
+       if(session.allows(raceFingerprint(q))){session.accept(raceFingerprint(q));this.last={fallback:true,attempts:33+i};return q;}
+     }
+     const recent=session.history.recent(session.group),unused=candidates.filter(q=>session.unused(raceFingerprint(q)));
+--- a/src/games/energy-defense/logic/questions.ts
++++ b/src/games/energy-defense/logic/questions.ts
+@@ -9,7 +9,7 @@
+ type Family='grade4-same'|'grade4-unlike'|'grade1'|'grade2'|'grade3'|'natural'|'tenths'|'hundredths'|'same-denominator'|'unlike-denominators'|'mixed';
+ type Recipe={family:Family;a:Fraction;b:Fraction;c?:Fraction;fingerprint:string;targetKey:string};
+ export const ENERGY_QUESTION_CONFIG:Record<EnergyGroup,readonly Family[]>={
+-  warmup:['natural','tenths','tenths','tenths'],
++  warmup:['tenths','hundredths','tenths','hundredths'],
+   training:['hundredths','same-denominator','unlike-denominators','mixed'],
+   challenge:['unlike-denominators','unlike-denominators','mixed','hundredths'],
+   endless:['hundredths','same-denominator','unlike-denominators','mixed'],
+--- a/src/games/race-to-finish/logic/cameraGeometry.ts
++++ b/src/games/race-to-finish/logic/cameraGeometry.ts
+@@ -10,7 +10,7 @@
+   return { width: w, height: h, worldWidth, worldHeight,
+     origin: { x: (worldWidth - 1024) / 2, y: (worldHeight - 460.8) / 2 },
+     // About 9.5% less magnification on landscape phones; every focus/follow mode shares this target.
+-    fit, zoom: overview ? fit : Math.max(fit, Math.min(1.6, h / 315)) };
++    fit, zoom: overview ? fit * 1.65 : Math.max(fit, Math.min(1.6, h / 315)) };
+ }
+ export function clampToBounds(point: Point, scale: number, bounds: CameraBounds): Point {
+   'worklet';
+--- a/src/games/race-to-finish/components/GameCamera.tsx
++++ b/src/games/race-to-finish/components/GameCamera.tsx
+@@ -17,7 +17,7 @@
+ }
+ export function GameCamera(props: Props) {
+   const { width, height, paused, sessionId, reduced } = props;
+-  // Desktop has room for the whole board; phone focus/follow framing stays unchanged.
++  // Desktop reserves HUD space and shares the intro/focus/follow camera.
+   const overview = Platform.OS === 'web' && typeof window !== 'undefined' && window.matchMedia?.('(pointer: fine)').matches;
+   // Keep the board between the HUD rows instead of painting another map behind them.
+   const hudSpace = overview ? Math.min(56, height * .12) : 0;
+@@ -43,9 +43,9 @@
+   useLayoutEffect(() => {
+     if (!overview) return;
+     // A resize must reconcile even while manualPan or pause owns the camera.
+-    scale.set(bounds.fit);
+-    center.set({ x: bounds.worldWidth / 2, y: bounds.worldHeight / 2 });
+-  }, [overview, bounds, scale, center]);
++    scale.set(introDone.value ? bounds.zoom : bounds.fit);
++    center.set(clampToBounds(center.value, scale.value, bounds));
++  }, [overview, bounds, scale, center, introDone]);
+   useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
+   useLayoutEffect(() => { callback.current = props.onIntroComplete; currentSession.current = sessionId; }, [props.onIntroComplete, sessionId]);
+   useLayoutEffect(() => { focusCallback.current = props.onFocusComplete; currentRequest.current = props.focusRequest; }, [props.onFocusComplete, props.focusRequest]);
+@@ -118,8 +118,8 @@
+     }
+   });
+   const worldStyle = useAnimatedStyle(() => {
+-    // Overview is an aspect-fit presentation in every mode, including manualPan.
+-    const renderScale = overview ? bounds.fit : Math.max(bounds.fit, scale.value);
++    // Every pointer mode renders the animated scale, including the opening zoom.
++    const renderScale = Math.max(bounds.fit, scale.value);
+     const translation = cameraTranslation(clampToBounds(center.value, renderScale, bounds), renderScale, bounds);
+     return { transform: [{ translateX: translation.x }, { translateY: translation.y }, { scale: renderScale }] };
+   });

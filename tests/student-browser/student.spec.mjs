@@ -1,3 +1,4 @@
+import { chooseTrainingGrade } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 import { fileURLToPath } from 'node:url';
 import { studentPort } from '../browser/sites.mjs';
@@ -528,7 +529,7 @@ test('Student quiz starts, shows feedback and completes with the existing API co
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/quiz/${id}`);
-  await page.getByRole('button', { name: 'Bắt đầu tính giờ' }).click();
+  await page.getByRole('button', { name: 'Bắt đầu thử thách' }).click();
   const answer = page.getByRole('textbox', { name: 'Đáp án của em' });
   await answer.fill('41');
   await page.reload();
@@ -645,7 +646,8 @@ test('student can find global ranking, choose name privacy and open all six game
   }
   await testInfo.attach('Game covers at 320 px', { body: await page.screenshot({ path: testInfo.outputPath('student-game-covers.png'), fullPage: true }), contentType: 'image/png' });
   await page.getByTestId('game-star-quest').click();
-  await expect(page.getByRole('heading', { name: 'Vượt 5 chặng tính nhẩm' })).toBeVisible();
+  await expect(page.getByTestId('quest-workspace').getByRole('heading', { name: 'Đường đua sao', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Bắt đầu đường đua', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Quay lại danh sách trò chơi' }).click();
   await expect(page.getByTestId('game-star-quest')).toBeVisible();
 });
@@ -724,6 +726,7 @@ test('all five games load their bundled artwork and enter gameplay', async ({ pa
     }
     await page.goto(`${sites.portal.origin}/study/games/${game}`);
     await expect(page.getByTestId(`training-player-${game}`)).toBeVisible();
+    await chooseTrainingGrade(page,game);
     if (start) {
       await expect(page.getByTestId(start)).toBeEnabled();
       await page.getByTestId(start).click();
@@ -778,15 +781,18 @@ test('each game opens with its own mobile display policy', async ({ page, app, i
       await expect(page.locator(selector)).toHaveCount(0);
       await expect(page.getByRole('button', { name: 'Về danh sách trò chơi' })).toBeVisible();
       await page.setViewportSize({ width: viewport.height, height: viewport.width });
+      await chooseTrainingGrade(page,game);
       await expect(page.locator(selector)).toBeVisible();
       await page.setViewportSize(viewport);
       await expect(page.locator(selector)).toBeHidden();
       await page.setViewportSize({ width: viewport.height, height: viewport.width });
+      await chooseTrainingGrade(page,game);
       await page.locator(selector).click();
       await expect(page.getByTestId(`training-play-${game}`)).toBeVisible();
       expect(await page.evaluate(() => window.gameDisplayCalls.slice(-2))).toEqual(['exit', 'unlock']);
       await page.setViewportSize(viewport);
     } else {
+      await chooseTrainingGrade(page,game);
       await expect(page.locator(selector)).toBeVisible();
     }
   }

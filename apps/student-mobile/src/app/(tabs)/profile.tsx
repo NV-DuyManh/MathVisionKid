@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { useIsCompactStudentWeb } from '../../components/ui/useIsCompactStudentWeb';
+import { isWideDesktopStudentWeb, useIsCompactStudentWeb } from '../../components/ui/useIsCompactStudentWeb';
 import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -84,7 +84,7 @@ export function ProfileContent({ owner, savedOnly = false, initialTab = 'saved',
       {error ? <RecoveryNotice title="Chưa mở được bài đã lưu" message="Em thử lại nhé." actions={[
         { label: 'Thử lại', accessibilityLabel: 'Tải lại bài đã lưu', icon: 'refresh-outline', onPress: () => setAttempt(value => value + 1) },
       ]} /> : loading ? <ActivityIndicator accessibilityLabel="Đang mở bài đã lưu" color={COLORS.primary} />
-        : items.length ? <View style={[styles.list, notebookGrid && styles.notebookGrid]}>{items.map((lesson, index) => <View key={lesson.id} style={[styles.lesson, (desktopWeb || savedOnly) && styles.webLesson, compactWeb && !savedOnly && styles.compactLesson, notebookGrid && styles.notebookTile]}>
+        : items.length ? <View testID="notebook-list" style={[styles.list, notebookGrid && styles.notebookGrid]}>{items.map((lesson, index) => <View key={lesson.id} testID="notebook-tile" style={[styles.lesson, (desktopWeb || savedOnly) && styles.webLesson, compactWeb && !savedOnly && styles.compactLesson, notebookGrid && (isWideDesktopStudentWeb(pageWidth) && index === items.length - 1 && items.length % 2 === 1 ? styles.notebookLastTile : styles.notebookTile)]}>
           <Pressable accessibilityRole="button" accessibilityLabel={'Học tiếp: ' + (lesson.problemText || lesson.workText).slice(0, 60)}
             onPress={() => open(lesson)} style={({ pressed }) => [styles.lessonOpen, pressed && styles.pressed]}>
             <View style={[styles.thumbnail, (desktopWeb || savedOnly) && styles.webThumbnail,
@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
   sortLabel: { color: STUDENT_WEB.primary, fontFamily: FONTS.bold, fontSize: 13 },
   notebookGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
   notebookTile: { width: '48.5%', flexGrow: 1, maxWidth: '50%' },
+  notebookLastTile: { width: '100%' },
   noteGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   notePreview: { padding: 13, gap: 2, flexGrow: 1, flexBasis: 165, minWidth: 0, backgroundColor: '#FFF2D7', borderRadius: 13 },
   webSelected: { backgroundColor: '#713CF7', boxShadow: '0 3px 9px #6631DC4D' },
