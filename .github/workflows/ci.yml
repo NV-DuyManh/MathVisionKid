@@ -20,6 +20,7 @@ jobs:
     outputs:
       web: ${{ steps.plan.outputs.web }}
       student: ${{ steps.plan.outputs.student }}
+      student_shards: ${{ steps.plan.outputs.student_shards }}
       backend: ${{ steps.plan.outputs.backend }}
       ai: ${{ steps.plan.outputs.ai }}
       launcher: ${{ steps.plan.outputs.launcher }}
@@ -86,10 +87,11 @@ jobs:
           if-no-files-found: ignore
 
   student:
-    name: Student checks
+    name: Student SDK, types, contracts and Jest
     needs: governance
     if: needs.governance.outputs.student == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -108,21 +110,221 @@ jobs:
       - run: npm run typecheck --workspace=student-mobile
       - run: npm run test:contracts --workspace=student-mobile
       - run: npm test --workspace=student-mobile -- --runInBand
+
+  student-browser-1:
+    name: Student browser (1/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '1'
+    steps: &student-browser-steps
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
       - name: Install Chromium for the actual Student web export
         run: npx playwright install --with-deps chromium
       - name: Portal to actual Student app, navigation and protected deep links
-        run: npx playwright test --config=playwright.student.config.mjs
+        env:
+          STUDENT_BROWSER_SHARDS: ${{ needs.governance.outputs.student_shards }}
+        run: npx playwright test --config=playwright.student.config.mjs --shard="$STUDENT_BROWSER_SHARD/$STUDENT_BROWSER_SHARDS"
       - name: Student browser failure evidence (synthetic data only)
         if: failure()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
-          name: student-browser-failure-${{ github.run_id }}-${{ github.run_attempt }}
+          name: student-browser-failure-${{ github.run_id }}-${{ github.run_attempt }}-${{ env.STUDENT_BROWSER_SHARD }}
           path: |
             .local-artifacts/student-browser/report/
             .local-artifacts/student-browser/results/
           retention-days: 7
           include-hidden-files: true
           if-no-files-found: ignore
+
+  student-browser-2:
+    name: Student browser (2/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 2
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '2'
+    steps: *student-browser-steps
+
+  student-browser-3:
+    name: Student browser (3/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 3
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '3'
+    steps: *student-browser-steps
+
+  student-browser-4:
+    name: Student browser (4/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 4
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '4'
+    steps: *student-browser-steps
+
+  student-browser-5:
+    name: Student browser (5/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 5
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '5'
+    steps: *student-browser-steps
+
+  student-browser-6:
+    name: Student browser (6/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 6
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '6'
+    steps: *student-browser-steps
+
+  student-browser-7:
+    name: Student browser (7/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 7
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '7'
+    steps: *student-browser-steps
+
+  student-browser-8:
+    name: Student browser (8/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 8
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '8'
+    steps: *student-browser-steps
+
+  student-browser-9:
+    name: Student browser (9/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 9
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '9'
+    steps: *student-browser-steps
+
+  student-browser-10:
+    name: Student browser (10/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 10
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '10'
+    steps: *student-browser-steps
+
+  student-browser-11:
+    name: Student browser (11/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 11
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '11'
+    steps: *student-browser-steps
+
+  student-browser-12:
+    name: Student browser (12/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 12
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '12'
+    steps: *student-browser-steps
+
+  student-browser-13:
+    name: Student browser (13/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 13
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '13'
+    steps: *student-browser-steps
+
+  student-browser-14:
+    name: Student browser (14/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 14
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '14'
+    steps: *student-browser-steps
+
+  student-browser-15:
+    name: Student browser (15/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 15
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '15'
+    steps: *student-browser-steps
+
+  student-browser-16:
+    name: Student browser (16/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 16
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '16'
+    steps: *student-browser-steps
+
+  student-browser-17:
+    name: Student browser (17/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 17
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '17'
+    steps: *student-browser-steps
+
+  student-browser-18:
+    name: Student browser (18/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 18
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '18'
+    steps: *student-browser-steps
+
+  student-browser-19:
+    name: Student browser (19/${{ needs.governance.outputs.student_shards }})
+    needs: governance
+    if: needs.governance.outputs.student_shards >= 19
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STUDENT_BROWSER_SHARD: '19'
+    steps: *student-browser-steps
 
   backend:
     name: Backend and migrations
@@ -251,7 +453,32 @@ jobs:
   gate:
     name: Quality gate
     if: ${{ always() }}
-    needs: [governance, web, student, backend, ai, launcher]
+    needs:
+      - governance
+      - web
+      - student
+      - student-browser-1
+      - student-browser-2
+      - student-browser-3
+      - student-browser-4
+      - student-browser-5
+      - student-browser-6
+      - student-browser-7
+      - student-browser-8
+      - student-browser-9
+      - student-browser-10
+      - student-browser-11
+      - student-browser-12
+      - student-browser-13
+      - student-browser-14
+      - student-browser-15
+      - student-browser-16
+      - student-browser-17
+      - student-browser-18
+      - student-browser-19
+      - backend
+      - ai
+      - launcher
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
@@ -261,7 +488,7 @@ jobs:
       - name: Verify all required results
         env:
           CHECK_PLAN: ${{ toJSON(needs.governance.outputs) }}
-          CHECK_RESULTS: '{"governance":"${{ needs.governance.result }}","web":"${{ needs.web.result }}","student":"${{ needs.student.result }}","backend":"${{ needs.backend.result }}","ai":"${{ needs.ai.result }}","launcher":"${{ needs.launcher.result }}"}'
+          CHECK_NEEDS: ${{ toJSON(needs) }}
         run: node scripts/governance.mjs gate
 
   source-release:
