@@ -1,0 +1,11 @@
+--- a/src/games/energy-defense/logic/controller.ts
++++ b/src/games/energy-defense/logic/controller.ts
+@@ -107,7 +107,7 @@
+     }
+     const target = [...s.enemies].sort((a,b) => travelled(b,this.clock) - travelled(a,this.clock))[0];
+     const shot: Shot = { id: ++this.nextShot, targetId: target?.id ?? null, startAt: this.clock, endAt: this.clock + (target ? 600 : 800) };
+-    this.publish({ shot, score: s.score + (s.endless ? 0 : 25), correct: s.correct + 1, success: true, feedback: 'Chính xác! Pháo đã nạp đủ năng lượng.' }); return true;
++    this.publish({ shot, score: s.score + (s.endless ? 0 : 25), correct: s.correct + 1, success: true, feedback: null }); return true;
+   }
+   advanceTo(now: number) {
+     if (this.disposed || !Number.isFinite(now) || now <= this.clock || this.state.status !== 'running' || this.state.paused) return;

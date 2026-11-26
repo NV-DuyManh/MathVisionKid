@@ -7,14 +7,14 @@ import { COLORS, FONTS } from '../../constants/theme';
 import { LessonSheet } from './LessonSheet';
 
 /** Stays above the working area; long questions scroll without pushing the task away. */
-export function LessonProblem({ problem, imageUri, onEdit }: { problem: string; imageUri?: string; onEdit: () => void }) {
+export function LessonProblem({ problem, imageUri, onEdit, sidePanel = false }: { problem: string; imageUri?: string; onEdit: () => void; sidePanel?: boolean }) {
   const [expanded, setExpanded] = useState(true);
   const [showImage, setShowImage] = useState(false);
   const [fullOpen, setFullOpen] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
   const contentId = useId();
   const { height } = useWindowDimensions();
-  const maxBodyHeight = Math.max(64, Math.min(124, height * .17));
+  const maxBodyHeight = sidePanel ? Math.max(180, height - 300) : Math.max(64, Math.min(124, height * .17));
   return <View style={styles.card} testID="lesson-problem-reference">
     <View style={styles.header}>
       <Pressable accessibilityRole="button" accessibilityLabel={expanded ? 'Thu gọn đề bài' : 'Mở đề bài'}
@@ -49,8 +49,8 @@ export function LessonProblem({ problem, imageUri, onEdit }: { problem: string; 
     {expanded ? <ScrollView nativeID={contentId} testID="lesson-problem-content" nestedScrollEnabled tabIndex={0} accessibilityLabel="Nội dung đề bài"
       onContentSizeChange={(_, value) => setContentHeight(value)}
       style={[styles.content, { maxHeight: maxBodyHeight, ...(contentHeight > 0 ? { height: Math.min(contentHeight, maxBodyHeight) } : {}) }]} contentContainerStyle={styles.words}>
-      {imageUri && showImage ? <Image source={{ uri: imageUri }} resizeMode="contain" style={styles.photo} accessibilityLabel="Ảnh đề bài đã che thông tin" />
-        : <MathText style={styles.body}>{problemPresentation(problem)}</MathText>}
+      {imageUri && showImage ? <Image source={{ uri: imageUri }} resizeMode="contain" style={[styles.photo, sidePanel && { height: Math.min(360, maxBodyHeight - 16) }]} accessibilityLabel="Ảnh đề bài đã che thông tin" />
+        : <MathText style={[styles.body, sidePanel && styles.sideText]}>{problemPresentation(problem)}</MathText>}
     </ScrollView> : null}
     {expanded && contentHeight > maxBodyHeight + 1 ? <Pressable accessibilityRole="button" accessibilityLabel="Đọc toàn bộ đề bài" onPress={() => setFullOpen(true)} style={styles.readFull}>
       <Text style={styles.action}>Đọc toàn bộ đề</Text><Ionicons name="expand-outline" size={16} color={COLORS.primaryDark} accessible={false} />
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   mode: { flex: 1, minHeight: 44, borderRadius: 9, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
   selectedMode: { backgroundColor: COLORS.primaryDark }, modeLabel: { fontFamily: FONTS.bold, fontSize: 13, color: COLORS.primaryDark }, selectedLabel: { color: '#FFF' },
   words: { paddingHorizontal: 12, paddingVertical: 8, gap: 8 }, body: { fontFamily: FONTS.regular, color: COLORS.textSecondary, fontSize: 13, lineHeight: 20 },
+  sideText: { fontSize: 16, lineHeight: 26, color: COLORS.textPrimary },
   photo: { width: '100%', height: 132, borderRadius: 12, backgroundColor: COLORS.background },
   fullPhoto: { width: '100%', height: 280 }, fullText: { fontFamily: FONTS.regular, fontSize: 16, lineHeight: 26, color: COLORS.textPrimary },
   readFull: { minHeight: 36, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 6, borderTopWidth: 1, borderTopColor: COLORS.border },

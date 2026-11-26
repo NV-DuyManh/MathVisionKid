@@ -1,0 +1,436 @@
+--- a/src/games/planet-rescue/screens/PlanetRescueScreen.tsx
++++ b/src/games/planet-rescue/screens/PlanetRescueScreen.tsx
+@@ -1,212 +1,212 @@
+-import { SpaceScene } from '../components/SpaceScene';
+-import React, { useEffect, useRef, useState } from 'react';
+-import { BackHandler, Modal, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+-import { toMixedFraction } from '../../../shared/math/fraction';
+-import { useTrainingBack, useTrainingServices } from '../../../shared/integration/context';
+-import { useRescue } from '../hooks/useRescue';
+-import { useMobileFlow } from '../hooks/useMobileFlow';
+-import { Button, Fraction } from '../components/RescuePrimitives';
+-import { MobileRescuePlay } from '../components/MobileRescuePlay';
+-import { MobileFullscreenPlay } from '../components/MobileFullscreenPlay';
+-import { MobileModeSelect } from '../components/MobileModeSelect';
+-import { MobileAction } from '../components/MobileAction';
+-import { answerOptions, Card, cardAvailable, cardFor, cardReason, fractionText, isTerminal, maxScore, Mode, MODES, prompt, RescueState } from '../logic/rescue';
+-import { INK, SkillIcon } from '../components/SpaceArt';
+-
+-const TEAL = '#247F73', MUTED = '#718078', PAPER = '#F5F3EB';
+-const CARD_INFO: Record<Card, { name: string; short: string; color: string; fill: string; step: string }> = {
+-  simplify: { name: 'Thẻ Rút Gọn', short: 'Tinh lọc pin', color: '#A66A32', fill: '#FFF0D6', step: '01' },
+-  common: { name: 'Thẻ Quy Đồng', short: 'Đồng bộ nguồn', color: '#277C79', fill: '#E1F3EA', step: '02' },
+-  cannon: { name: 'Pháo Năng Lượng', short: 'Giải phóng hành tinh', color: '#6266A3', fill: '#ECECFA', step: '03' },
+-};
+-
+-function EnergySource({ state, which }: { state: RescueState; which: 'a' | 'b' }) {
+-  const value = state[which], original = state.rooms[state.index][which];
+-  const changed = fractionText(value) !== fractionText(original);
+-  return <View testID={`rescue-source-${which}`} style={[styles.source, which === 'b' && { backgroundColor: '#F1EFF9' }]}>
+-    <View style={styles.sourceHeader}><View style={[styles.sourceDot, which === 'b' && { backgroundColor: '#9297CA' }]} /><Text style={styles.sourceLabel}>NGUỒN PIN {which.toUpperCase()}</Text></View>
+-    <View style={styles.sourceValues}>
+-      {changed && <><Fraction value={original} size={15} color="#84928E" /><Text style={styles.arrow}>→</Text></>}
+-      <Fraction value={value} size={28} />
+-    </View>
+-    <View style={styles.energySegments}><View style={{ width: `${Math.min(1, value.num / value.den) * 100}%`, height: '100%', borderRadius: 3, backgroundColor: which === 'a' ? '#6CB9A1' : '#999ACC' }} /></View>
+-    <Text style={styles.sourceNote}>{changed ? 'Giá trị giữ nguyên' : 'Năng lượng ban đầu'}</Text>
+-  </View>;
+-}
+-function SkillCards({ state, select, compact }: { state: RescueState; select: (card: Card) => void; compact: boolean }) {
+-  return <View style={styles.deck}>{(['simplify', 'common', 'cannon'] as const).map(card => {
+-    const info = CARD_INFO[card], active = state.selected === card, enabled = cardAvailable(state, card);
+-    const recommended = state.mode !== 'hard' && card === cardFor(state.phase) && enabled;
+-    return <Button key={card} label={info.name} testID={`rescue-card-${card}`} selected={active} disabled={!enabled || state.paused} onPress={() => select(card)}
+-      style={{ flex: 1, borderRadius: 18, backgroundColor: active ? info.fill : '#FFFDF7', borderColor: active ? info.color : '#DFE4DA', borderWidth: active ? 2 : 1, borderBottomWidth: active ? 4 : 3 }}>
+-      <View style={[styles.skillInner, compact && { paddingHorizontal: 5, paddingVertical: 12 }]}>
+-        <View style={styles.skillTop}><Text style={[styles.cardNumber, { color: info.color }]}>{info.step}</Text><Text style={[styles.cardTag, { color: info.color }]}>{recommended ? 'GỢI Ý' : enabled ? 'SẴN SÀNG' : 'KHÓA'}</Text></View>
+-        <View style={[styles.iconTile, { backgroundColor: info.fill }]}><SkillIcon kind={card} size={compact ? 29 : 36} color={info.color} /></View>
+-        <Text style={[styles.skillName, compact && { fontSize: 12, lineHeight: 17 }]}>{info.name}</Text>
+-        <Text style={[styles.skillDesc, compact && { fontSize: 10, lineHeight: 14 }]}>{compact ? enabled ? info.short : card === 'cannon' ? 'Chờ nạp pin' : 'Chưa cần dùng' : cardReason(state, card)}</Text>
+-      </View>
+-    </Button>;
+-  })}</View>;
+-}
+-function MathPanel({ state, dispatch, compact }: { state: RescueState; dispatch: ReturnType<typeof useRescue>['dispatch']; compact: boolean }) {
+-  const { soundManager } = useTrainingServices();
+-  if (state.phase === 'travelling') return <View testID="rescue-flight-panel" style={styles.mathPanel}><Text style={styles.taskTitle}>Tới {state.rooms[state.index + 1].name}…</Text><Text style={styles.hint}>Phi thuyền đang du hành. Đợi Nova tới nơi rồi tiếp tục nhé!</Text></View>;
+-  const task = prompt(state), room = state.rooms[state.index];
+-  const usable = state.selected === cardFor(state.phase) && cardAvailable(state, state.selected);
+-  const showPair = room.kind !== 'reduce';
+-  const sum = state.sum;
+-  const mixed = sum && sum.num > sum.den ? toMixedFraction(sum) : null;
+-  return <View testID="rescue-math-panel" style={[styles.mathPanel, compact && { minHeight: 0 }]}>
+-    <View style={styles.panelHeading}><View style={styles.tinyIcon}><SkillIcon kind={state.selected} size={23} color={TEAL} /></View><View style={{ flex: 1 }}><Text style={styles.eyebrow}>PHÒNG ĐIỀU KHIỂN</Text><Text style={styles.panelHeadingText}>Trạm năng lượng phân số</Text></View><Text style={styles.labCode}>A / B</Text></View>
+-    <View style={styles.sourceRow}><EnergySource state={state} which="a" />{showPair && <EnergySource state={state} which="b" />}</View>
+-    {state.denominator !== null && <View style={styles.frequencyPill}><View style={[styles.sourceDot, { backgroundColor: TEAL }]} /><Text style={styles.frequencyText}>Mẫu số chung: {state.denominator} · {['numerator-a', 'numerator-b'].includes(state.phase) ? 'Đang đồng bộ' : 'Đã đồng bộ'}</Text></View>}
+-    {sum && <View style={styles.sumRow}><Text style={styles.body}>Pin tổng</Text><Fraction value={sum} size={22} color={TEAL} />{mixed && <Text style={styles.smallText}>= {mixed.whole} {mixed.num}/{mixed.den}</Text>}</View>}
+-    <View style={styles.taskHeader}><Text testID="rescue-phase" style={styles.eyebrow}>{task.label}</Text><Text style={styles.taskTitle}>{task.title}</Text></View>
+-    <Text style={styles.hint}>{task.hint}</Text>
+-    {usable && (state.phase === 'numerator-a' || state.phase === 'numerator-b') && <View style={styles.equation}>
+-      <Fraction value={state.phase === 'numerator-a' ? state.a : state.b} size={23} /><Text style={styles.equals}>=</Text><Fraction value={{ num: 0, den: state.denominator! }} size={23} unknown color={TEAL} />
+-    </View>}
+-    {usable && state.phase === 'sum' && <View style={styles.equation}><Fraction value={state.a} size={21} /><Text style={styles.equals}>+</Text><Fraction value={state.b} size={21} /><Text style={styles.equals}>=</Text><Fraction value={{ num: 0, den: state.denominator! }} size={21} unknown color={TEAL} /></View>}
+-    {usable && answerOptions(state).length > 0 && <View testID="rescue-options" style={styles.answers}>{answerOptions(state).map(value => <Button key={`${state.revision}-${value}`}
+-      label={state.phase === 'compare' ? `Nguồn ${value === 0 ? 'A' : 'B'}` : state.phase.startsWith('reduce') ? `Chia cho ${value}` : `Chọn ${value}`}
+-      testID={`rescue-answer-${value}`} disabled={state.paused || !!state.attack || state.phase === 'travelling'} onPress={() => dispatch({ type: 'ANSWER', value, revision: state.revision })}
+-      style={{ width: '48%', minHeight: 58, borderRadius: 13, borderColor: '#DCE4DC', borderWidth: 1, borderBottomWidth: 3, backgroundColor: '#FFFEFA' }}>
+-      <View style={styles.answerInner}><Text style={styles.answerText}>{state.phase === 'compare' ? `Nguồn ${value === 0 ? 'A' : 'B'}` : state.phase.startsWith('reduce') ? `÷ ${value}` : value}</Text>{state.phase === 'compare' && <Fraction value={value === 0 ? state.a : state.b} size={20} />}</View>
+-    </Button>)}</View>}
+-    {state.phase === 'ready' && usable && <Button label="Khai hỏa" testID="rescue-fire" onPress={() => { soundManager.playCannonShoot(); dispatch({ type: 'FIRE', revision: state.revision }); }} style={styles.fireButton}>
+-      <View style={styles.primaryInner}><SkillIcon kind="cannon" color="#FFFAE9" size={25} /><Text style={styles.primaryText}>Khai hỏa cứu hộ</Text><Text style={styles.primaryText}>→</Text></View>
+-    </Button>}
+-    {!usable && !['firing', 'rescued', 'won', 'lost'].includes(state.phase) && <View testID="rescue-choose-strategy" style={styles.strategyNote}><Text style={styles.strategyTitle}>Chọn chiến thuật cho nhiệm vụ</Text><Text style={styles.hint}>{cardReason(state, state.selected)}. Hãy đọc yêu cầu giáp trên chiến trường rồi chọn thẻ phù hợp.</Text></View>}
+-    {state.phase === 'rescued' && <Button label={state.index === state.rooms.length - 1 ? 'Hoàn thành hành trình' : 'Hành tinh tiếp theo'} testID="rescue-next" onPress={() => dispatch({ type: 'NEXT' })} style={styles.fireButton}><Text style={[styles.primaryText, { padding: 16, textAlign: 'center' }]}>{state.index === state.rooms.length - 1 ? 'Hoàn thành hành trình  ★' : 'Hành tinh tiếp theo  →'}</Text></Button>}
+-    <View testID="rescue-feedback" accessibilityLiveRegion="polite" style={[styles.feedback, { backgroundColor: state.tone === 'error' ? '#FCEAE3' : state.tone === 'success' ? '#E6F3E6' : '#F1F0E6' }]}>
+-      <Text style={[styles.feedbackMark, { color: state.tone === 'error' ? '#B46248' : TEAL }]}>{state.tone === 'error' ? '!' : state.tone === 'success' ? '✓' : 'i'}</Text>
+-      <Text style={styles.feedbackText}>{state.feedback}</Text>
+-    </View>
+-    {state.history.length > 0 && <View style={styles.log}><Text style={styles.eyebrow}>NHẬT KÝ BIẾN ĐỔI</Text>{state.history.slice(-2).map((line, i) => <Text key={`${i}-${line}`} style={styles.logText}>↳ {line}</Text>)}</View>}
+-    <View style={styles.labFooter}><View style={styles.liveDot} /><Text style={styles.footerText}>Giữ nguyên giá trị · Thay đổi cách viết</Text></View>
+-  </View>;
+-}
+-
+-export const PlanetRescueScreen: React.FC<{ onExit: () => void }> = ({ onExit }) => {
+-  const { soundManager } = useTrainingServices();
+-  const { width, height } = useWindowDimensions(), insets = useSafeAreaInsets();
+-  const compact = width < 1000;
+-  const phone = width < 600 || width < 1000 && height < 500;
+-  const portrait = phone && height >= width;
+-  const [stage, setStage] = useState<'choose' | 'play'>('choose');
+-  const [draftMode, setDraftMode] = useState<Mode>('easy');
+-  const game = useRescue(stage === 'play');
+-  const { state, dispatch, start, select, loaded, storageError, discard } = game;
+-  const interaction = useMobileFlow(state, dispatch, select);
+-  const launchLock = useRef(false);
+-  useEffect(() => { launchLock.current = false; }, [stage, state.session]);
+-  const [help, setHelp] = useState(false);
+-  const [sound, setSound] = useState(() => soundManager.isSoundEnabled());
+-  const terminal = isTerminal(state), showModal = stage === 'play' && (state.paused || terminal);
+-  const MenuButton = phone ? MobileAction : Button;
+-  const resume = () => { setHelp(false); dispatch({ type: 'PAUSE', value: false }); };
+-  const exit = () => { discard(); onExit(); };
+-  const back = () => { if (stage === 'choose' || terminal) exit(); else { setHelp(false); dispatch({ type: 'PAUSE', value: true }); } };
+-  useTrainingBack(back);
+-  useEffect(() => { const sub = BackHandler.addEventListener('hardwareBackPress', () => { back(); return true; }); return () => sub.remove(); });
+-  const chooseModes = () => { setHelp(false); setDraftMode(state.mode); discard(); setStage('choose'); };
+-  const launch = () => {
+-    if (stage !== 'choose' || launchLock.current) return;
+-    launchLock.current = true; start(draftMode); setStage('play');
+-  };
+-  const restart = () => {
+-    if (launchLock.current) return;
+-    launchLock.current = true; setHelp(false); start(state.mode); setStage('play');
+-  };
+-  const firingLock = useRef(false);
+-  useEffect(() => { firingLock.current = false; }, [state.phase, state.session, state.index]);
+-  const fire = () => {
+-    if (firingLock.current || state.attack || state.paused || state.phase !== 'ready' || state.selected !== 'cannon') return;
+-    firingLock.current = true; soundManager.playCannonShoot(); dispatch({ type: 'FIRE', revision: state.revision });
+-  };
+-  return <View testID="rescue-screen" style={[styles.root, { paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right }, phone && { paddingBottom: Math.max(8, insets.bottom) }]}>
+-    {stage === 'choose' ? <View style={[{ flex: 1 }, !phone && { width: '100%', maxWidth: 560, alignSelf: 'center' }]}><MobileModeSelect selected={draftMode} onSelect={setDraftMode} onStart={launch} onExit={exit} loaded={loaded} /></View> : phone ? portrait ? <MobileFullscreenPlay game={game} interaction={interaction} onExit={exit} fire={fire} onPause={() => { setHelp(false); dispatch({ type: 'PAUSE', value: true }); }} /> : <MobileRescuePlay game={game} interaction={interaction} onExit={exit} fire={fire} onPause={() => { setHelp(false); dispatch({ type: 'PAUSE', value: true }); }} /> : <ScrollView style={{ pointerEvents: loaded ? 'auto' : 'none' }} contentContainerStyle={[styles.page, { paddingBottom: Math.max(24, insets.bottom) }, compact && { paddingHorizontal: 14 }]}>
+-      <View style={[styles.header, compact && { flexWrap: 'wrap', rowGap: 12 }]}>
+-        <View style={styles.titleGroup}><Button label="Về sảnh" testID="rescue-exit" onPress={exit} style={styles.roundButton}><Text style={styles.backGlyph}>‹</Text></Button><View style={{ flex: 1 }}><Text style={styles.brand}>BIỆT ĐỘI SAO NHỎ <Text style={{ color: '#C68A50' }}>✦</Text></Text><Text accessibilityRole="header" style={[styles.title, compact && { fontSize: 22 }]}>Giải Cứu Hành Tinh</Text></View></View>
+-        <View style={styles.headerActions}><View style={styles.scorePill}><SkillIcon kind="star" size={20} color="#BC854A" /><Text testID="rescue-score" style={styles.scoreText}>{state.score}</Text><Text style={styles.smallText}>điểm</Text></View>
+-          <Button label={sound ? 'Tắt âm thanh' : 'Bật âm thanh'} onPress={() => { soundManager.setSoundEnabled(!sound); setSound(!sound); }} style={styles.roundButton}><Text style={styles.controlGlyph}>{sound ? '♫' : '♪̸'}</Text></Button>
+-          <Button label="Hướng dẫn" testID="rescue-help" onPress={() => { setHelp(true); dispatch({ type: 'PAUSE', value: true }); }} style={styles.roundButton}><Text style={styles.controlGlyph}>?</Text></Button>
+-          <Button label="Tạm dừng" testID="rescue-pause" onPress={() => { setHelp(false); dispatch({ type: 'PAUSE', value: true }); }} style={styles.roundButton}><Text style={styles.controlGlyph}>Ⅱ</Text></Button>
+-        </View>
+-      </View>
+-      <View style={[styles.modeBar, compact && { padding: 4, gap: 3 }]}>{(['easy', 'medium', 'hard'] as Mode[]).map((mode, i) => <Button key={mode} label={MODES[mode].title} testID={`rescue-mode-${mode}`} selected={state.mode === mode} disabled={!loaded} onPress={() => { setDraftMode(mode); discard(); setStage('choose'); }}
+-        style={{ flex: 1, minHeight: 48, backgroundColor: state.mode === mode ? TEAL : 'transparent', borderRadius: 14 }}>
+-        <View style={[styles.modeInner, compact && { paddingHorizontal: 5, paddingVertical: 12 }]}><Text style={[styles.modeNumber, state.mode === mode && { color: '#B2DDC4' }]}>0{i + 1}</Text><View style={{ flexShrink: 1 }}><Text style={[styles.modeTitle, state.mode === mode && { color: '#FFF9E9' }, compact && { fontSize: 12 }]}>{MODES[mode].title}</Text>{!compact && <Text style={[styles.modeSubtitle, state.mode === mode && { color: '#C4E1D4' }]}>{MODES[mode].subtitle}</Text>}</View>{!compact && <Text style={[styles.modeArrow, state.mode === mode && { color: '#E9F5D9' }]}>↗</Text>}</View>
+-      </Button>)}</View>
+-      <View style={[styles.missionRow, compact && { flexWrap: 'wrap', gap: 10 }]}><View style={styles.missionTitle}><Text style={styles.eyebrow}>HÀNH TINH {String(state.index + 1).padStart(2, '0')} / {state.rooms.length}</Text><Text testID="rescue-room" style={styles.missionName}>Tiến đến {state.rooms[state.index].name}</Text></View>
+-        <View style={styles.route}>{state.rooms.map((room, i) => <React.Fragment key={room.name}>{i > 0 && <View style={[styles.routeLine, i <= state.index && { backgroundColor: '#95B8A8' }]} />}<View style={[styles.routePlanet, { backgroundColor: i < state.index ? '#75AC91' : i === state.index ? room.color : '#E0E4DB', borderWidth: i === state.index ? 2 : 0, borderColor: TEAL }]}><Text style={styles.routeNumber}>{i < state.index ? '✓' : i + 1}</Text></View></React.Fragment>)}</View>
+-        <View testID="rescue-status" style={styles.statusPill}>{state.mode === 'hard' ? <><SkillIcon kind="shield" size={20} color={state.hull < 2 ? '#BA674B' : TEAL} /><Text testID="rescue-hull" style={styles.statusText}>{state.hull}/3</Text><View style={styles.divider} /><Text testID="rescue-timer" style={[styles.statusText, state.remaining < 15000 && { color: '#B45D43' }]}>☄ {Math.ceil(state.remaining / 1000)}s</Text></> : <><View style={styles.liveDot} /><Text style={styles.statusText}>Không vội, cứ thử nhé</Text></>}</View>
+-      </View>
+-      <View style={[styles.workbench, compact && { flexDirection: 'column' }]}>
+-        <View style={styles.flightColumn}><SpaceScene state={state} compact={compact} />
+-          <View style={styles.deckHeading}><Text style={styles.deckTitle}>Thẻ chiến thuật của em</Text><Text style={styles.smallText}>{state.mode === 'hard' ? 'Em tự chọn thứ tự thẻ' : 'Thẻ gợi ý đã được bật sáng'}</Text></View>
+-          <SkillCards state={state} select={select} compact={compact} />
+-          <View style={styles.pilotNote}><View style={styles.pilotBadge}><SkillIcon kind="ship" size={27} color={TEAL} /></View><View style={{ flex: 1 }}><Text style={styles.pilotTitle}>NOVA · HOA TIÊU CỦA EM</Text><Text style={styles.pilotText}>{state.mode === 'easy' ? 'Một phép tính nhỏ, một hành tinh được cứu! Cứ bình tĩnh, Nova sẽ học cùng em.' : state.rooms[state.index].kind === 'sync-sum' ? 'Lồng đôi cần pin tổng. Em có thể Quy Đồng rồi ghép pin, hoặc Rút Gọn pin A trước để tính với mẫu nhỏ hơn!' : state.rooms[state.index].kind === 'reduce-sync' ? 'Giáp lọc chặn đồng bộ. Tinh lọc pin A trước; sau đó đưa hai nguồn về cùng mẫu.' : 'Hai nguồn khác mẫu không thể đồng bộ trực tiếp. Quy Đồng sẽ nối chúng với máy tạo lồng.'}</Text></View></View>
+-        </View>
+-        <View style={[styles.labColumn, compact && { width: '100%' }]}><MathPanel state={state} dispatch={dispatch} compact={compact} /></View>
+-      </View>
+-      {storageError && <Text style={styles.storageWarning}>Chưa lưu được tiến độ trên máy này. Em vẫn có thể tiếp tục chơi.</Text>}
+-      <Text style={styles.pageFooter}>✦  Học một chút toán · Cứu cả một hành tinh  ✦</Text>
+-    </ScrollView>}
+-    <Modal visible={loaded && showModal} transparent animationType="fade" onRequestClose={terminal ? chooseModes : phone ? () => setHelp(false) : resume}>
+-      <View style={[styles.modalShade, phone && { paddingTop: Math.max(12, insets.top), paddingBottom: Math.max(12, insets.bottom), paddingHorizontal: 14 }]}><View testID="rescue-menu" accessibilityViewIsModal style={[styles.modalCard, phone && { maxHeight: '100%' }]}>
+-        <ScrollView contentContainerStyle={{ padding: phone ? 18 : 26, gap: phone ? 10 : 16 }}>
+-          {(!phone || terminal || help) && <View style={{ alignSelf: 'center' }}><SkillIcon kind={terminal ? 'star' : help ? 'common' : 'ship'} size={54} color={TEAL} /></View>}
+-          {(!phone || terminal || help) && <Text style={styles.modalEyebrow}>{terminal ? 'NHẬT KÝ PHI HÀNH GIA' : help ? 'CẨM NANG CỨU HỘ' : 'TRẠM NGHỈ GIỮA CÁC VÌ SAO'}</Text>}
+-          <Text accessibilityRole="header" style={[styles.modalTitle, phone && { fontSize: 22, lineHeight: 27 }]}>{terminal ? state.phase === 'won' ? 'Tám hành tinh đã an toàn!' : 'Phi thuyền cần được sửa chữa!' : help ? 'Ba thẻ, một biệt đội' : 'Nghỉ một nhịp nhé!'}</Text>
+-          {terminal ? <><Text testID="rescue-result" style={styles.resultScore}>{state.score} <Text style={{ fontSize: 17 }}> / {maxScore(state)} điểm</Text></Text><Text style={styles.modalBody}>{MODES[state.mode].title} · {state.phase === 'won' ? state.rooms.length : state.index} hành tinh đã cứu{'\n'}{state.correct} lượt toán đúng · {state.incorrect} lần thử lại · {Math.round(state.elapsed / 1000)} giây</Text></> : help ? <>
+-            <Text style={styles.modalBody}>Máy tạo lồng đang nhốt các cư dân. Biến đổi phân số để nạp đúng pin cho tàu, rồi bắn giải phóng hành tinh.</Text>
+-            {(['simplify', 'common', 'cannon'] as Card[]).map(card => <View key={card} style={styles.helpItem}><SkillIcon kind={card} size={30} color={CARD_INFO[card].color} /><View style={{ flex: 1 }}><Text style={styles.helpTitle}>{CARD_INFO[card].name}</Text><Text style={styles.helpText}>{card === 'simplify' ? 'Chia cả tử và mẫu cùng một ước chung. Ví dụ 6/8 → (6÷2)/(8÷2) = 3/4. Có thể chia qua nhiều bước.' : card === 'common' ? 'Chọn mẫu chung nhỏ nhất, rồi nhân cả tử và mẫu. Ví dụ 1/2 = 3/6 và 2/3 = 4/6. Khi cùng mẫu, em mới so sánh hoặc ghép pin.' : 'Chỉ mở khi đã hoàn tất bài toán. Một phát bắn phá máy tạo lồng và cứu cả hành tinh.'}</Text></View></View>)}
+-            <Text style={styles.helpText}>{MODES[state.mode].mission} Tàu có 3 HP cho cả hành trình. Mỗi đáp án sai hợp lệ gọi một thiên thạch, mất 1 HP khi va chạm. Mẫu chung hợp lệ nhưng chưa nhỏ nhất không bị phạt. {state.mode === 'hard' ? 'Hết 60 giây cũng có thiên thạch.' : 'Không giới hạn thời gian.'} Pause dừng cả thời gian và hoạt ảnh.</Text>
+-          </> : <Text style={[styles.modalBody, phone && { fontSize: 12, lineHeight: 18 }]}>Tiến độ, năng lượng và đồng hồ đều đang dừng. Nova chờ em trở lại!</Text>}
+-          {phone && !terminal && !help && <>
+-            <MenuButton label={sound ? 'Tắt nhạc và âm thanh' : 'Bật nhạc và âm thanh'} testID="rescue-sound" onPress={() => { soundManager.setSoundEnabled(!sound); setSound(!sound); }} style={styles.secondaryButton}><Text style={[styles.modalButtonText, { color: TEAL }]}>{sound ? '♫ Nhạc / âm thanh: Bật' : '♪ Nhạc / âm thanh: Tắt'}</Text></MenuButton>
+-            <MenuButton label="Trợ giúp / hướng dẫn" testID="rescue-help" onPress={() => setHelp(true)} style={styles.secondaryButton}><Text style={[styles.modalButtonText, { color: TEAL }]}>? Trợ giúp / hướng dẫn</Text></MenuButton>
+-          </>}
+-          {phone && help && <MenuButton label="Trở lại menu tạm dừng" testID="rescue-help-back" onPress={() => setHelp(false)} style={styles.secondaryButton}><Text style={[styles.modalButtonText, { color: TEAL }]}>‹ Menu tạm dừng</Text></MenuButton>}
+-          {!terminal && <MenuButton label="Tiếp tục nhiệm vụ" testID="rescue-resume" onPress={resume} style={{ ...styles.fireButton, ...(phone ? { marginTop: 0, minHeight: 48 } : {}) }}><Text style={styles.modalButtonText}>Tiếp tục nhiệm vụ  →</Text></MenuButton>}
+-          {!help && <MenuButton label="Đổi chế độ" testID="rescue-change-mode" onPress={chooseModes} style={styles.secondaryButton}><Text style={[styles.modalButtonText, { color: TEAL }]}>Chọn nhiệm vụ khác</Text></MenuButton>}
+-          {terminal && state.phase === 'lost' && <Text style={styles.modalBody}>Tàu đã chịu ba cú va chạm. Hãy sửa tàu và thử lại cùng Nova nhé!</Text>}
+-          <MenuButton label="Chơi lại" testID="rescue-restart" onPress={restart} style={terminal ? styles.fireButton : styles.secondaryButton}><Text style={[styles.modalButtonText, !terminal && { color: TEAL }]}>Chơi lại từ đầu →</Text></MenuButton>
+-          <MenuButton label="Thoát về sảnh" testID="rescue-menu-exit" onPress={exit}><Text style={styles.exitText}>Về sảnh trò chơi</Text></MenuButton>
+-        </ScrollView>
+-      </View></View>
+-    </Modal>
+-  </View>;
+-};
+-
+-const styles = StyleSheet.create({
+-  root: { flex: 1, backgroundColor: PAPER },
+-  page: { paddingHorizontal: 28, paddingTop: 20, width: '100%', maxWidth: 1320, alignSelf: 'center' },
+-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 18, marginBottom: 22 },
+-  titleGroup: { flexDirection: 'row', alignItems: 'center', gap: 15, flex: 1, minWidth: 270 }, brand: { fontSize: 9, color: MUTED, letterSpacing: 1.8, fontWeight: '800', marginBottom: 4 },
+-  title: { fontSize: 27, fontWeight: '800', color: INK, letterSpacing: -.7 },
+-  roundButton: { width: 44, height: 44, borderRadius: 15, backgroundColor: '#FFFDF6', borderWidth: 1, borderColor: '#DDE2D6' },
+-  buttonContent: { flex: 1, borderRadius: 12, justifyContent: 'center' }, backGlyph: { fontSize: 31, color: INK, textAlign: 'center', lineHeight: 36 }, controlGlyph: { fontSize: 20, color: INK, textAlign: 'center', fontWeight: '700' },
+-  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 }, scorePill: { height: 44, flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: '#ECEADF', borderRadius: 14, paddingHorizontal: 13, marginRight: 3 }, scoreText: { color: INK, fontWeight: '800', fontSize: 19 },
+-  smallText: { fontSize: 11, color: MUTED }, modeBar: { backgroundColor: '#E9EBE1', padding: 6, borderRadius: 20, flexDirection: 'row', gap: 7, marginBottom: 24 },
+-  modeInner: { flexDirection: 'row', alignItems: 'center', paddingVertical: 13, paddingHorizontal: 20, gap: 13 }, modeNumber: { fontSize: 13, color: '#96A299', fontWeight: '700' }, modeTitle: { color: INK, fontSize: 15, fontWeight: '800' }, modeSubtitle: { fontSize: 11, color: '#7B8980', marginTop: 3 }, modeArrow: { color: '#8B9B8D', fontSize: 25, marginLeft: 'auto' },
+-  missionRow: { flexDirection: 'row', alignItems: 'center', gap: 20, marginBottom: 16 }, missionTitle: { flex: 1, minWidth: 150 }, eyebrow: { fontSize: 9, color: '#6E897B', letterSpacing: 1.5, fontWeight: '800' }, missionName: { color: INK, fontSize: 18, fontWeight: '800', marginTop: 5 },
+-  route: { flexDirection: 'row', alignItems: 'center' }, routePlanet: { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' }, routeNumber: { fontSize: 10, color: INK, fontWeight: '800' }, routeLine: { height: 2, width: 12, backgroundColor: '#D9DFD5' },
+-  statusPill: { paddingHorizontal: 12, paddingVertical: 9, minHeight: 38, borderRadius: 12, backgroundColor: '#E6ECDD', flexDirection: 'row', alignItems: 'center', gap: 7 }, statusText: { fontSize: 11, color: '#4E6D58', fontWeight: '800' }, liveDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#65A986' }, divider: { width: 1, height: 17, backgroundColor: '#C9D7C5', marginHorizontal: 4 },
+-  workbench: { flexDirection: 'row', gap: 24, alignItems: 'stretch' }, flightColumn: { flex: 1, minWidth: 0 }, labColumn: { width: 370 },
+-  deckHeading: { marginTop: 22, marginBottom: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 5 }, deckTitle: { fontSize: 14, fontWeight: '800', color: INK },
+-  deck: { flexDirection: 'row', gap: 10, alignItems: 'stretch' }, skillInner: { padding: 14, alignItems: 'center', gap: 8 }, skillTop: { flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }, cardNumber: { fontSize: 9, fontWeight: '800' }, cardTag: { fontSize: 7, letterSpacing: .6, fontWeight: '800' }, iconTile: { width: 54, height: 49, borderRadius: 15, alignItems: 'center', justifyContent: 'center' }, skillName: { color: INK, fontSize: 13, lineHeight: 18, fontWeight: '800', textAlign: 'center' }, skillDesc: { color: MUTED, fontSize: 11, lineHeight: 16, textAlign: 'center' },
+-  pilotNote: { flexDirection: 'row', gap: 12, paddingVertical: 18, paddingHorizontal: 5, alignItems: 'center' }, pilotBadge: { width: 42, height: 42, borderRadius: 21, backgroundColor: '#E0E9DC', alignItems: 'center', justifyContent: 'center' }, pilotTitle: { fontSize: 8, letterSpacing: 1.4, color: '#5D8A73', fontWeight: '800', marginBottom: 4 }, pilotText: { color: '#78867A', fontSize: 11, lineHeight: 18 },
+-  mathPanel: { backgroundColor: '#FFFDF7', borderRadius: 24, borderWidth: 1, borderColor: '#DFE4D8', padding: 20, minHeight: 680 }, panelHeading: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingBottom: 17, borderBottomWidth: 1, borderColor: '#EBEDE4' }, tinyIcon: { width: 38, height: 40, borderRadius: 12, backgroundColor: '#E8EFE2', alignItems: 'center', justifyContent: 'center' }, panelHeadingText: { fontSize: 16, color: INK, fontWeight: '800', marginTop: 3 }, labCode: { fontSize: 10, color: '#9AAB9C', fontWeight: '700' },
+-  sourceRow: { flexDirection: 'row', gap: 10, paddingTop: 18 }, source: { flex: 1, backgroundColor: '#ECF3E9', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 13, alignItems: 'center' }, sourceHeader: { flexDirection: 'row', alignItems: 'center', gap: 5 }, sourceDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#71AC90' }, sourceLabel: { fontSize: 8, fontWeight: '800', letterSpacing: 1, color: '#6F8375' }, sourceValues: { flexDirection: 'row', alignItems: 'center', gap: 8, marginVertical: 12, minHeight: 76 }, fraction: { alignItems: 'center', paddingHorizontal: 3, minWidth: 24 }, arrow: { color: '#98AB9D', fontSize: 16 }, energySegments: { width: '100%', height: 7, backgroundColor: '#DCE5DF', borderRadius: 3, overflow: 'hidden' }, sourceNote: { fontSize: 8, color: '#87968B', marginTop: 7 },
+-  frequencyPill: { flexDirection: 'row', gap: 6, alignItems: 'center', paddingVertical: 10 }, frequencyText: { color: TEAL, fontSize: 10, fontWeight: '700' }, sumRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 16, marginTop: 12, backgroundColor: '#EDF3E9', borderRadius: 12, padding: 10 }, body: { fontSize: 13, color: INK },
+-  taskHeader: { marginTop: 22, gap: 7 }, taskTitle: { color: INK, fontSize: 21, fontWeight: '800', letterSpacing: -.4, lineHeight: 28 }, hint: { color: '#748078', fontSize: 12, lineHeight: 19, marginTop: 8 },
+-  equation: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 15, marginTop: 15, paddingVertical: 10, backgroundColor: '#F4F5EB', borderRadius: 14 }, equals: { fontSize: 21, fontWeight: '700', color: '#7B9283' }, answers: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'space-between', marginTop: 20 }, answerInner: { padding: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12 }, answerText: { color: INK, fontSize: 20, fontWeight: '800' },
+-  fireButton: { borderRadius: 14, backgroundColor: TEAL, borderBottomWidth: 4, borderBottomColor: '#195D55', marginTop: 16, minHeight: 54 }, primaryInner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, padding: 15 }, primaryText: { color: '#FFF9E8', fontSize: 14, fontWeight: '800' },
+-  strategyNote: { backgroundColor: '#F2EFE1', padding: 15, borderRadius: 12, marginTop: 18 }, strategyTitle: { color: INK, fontSize: 13, fontWeight: '800' },
+-  feedback: { marginTop: 20, padding: 13, borderRadius: 12, flexDirection: 'row', gap: 9, alignItems: 'flex-start' }, feedbackMark: { fontSize: 16, fontWeight: '800', width: 14 }, feedbackText: { fontSize: 11, lineHeight: 18, color: '#506650', flex: 1 }, log: { paddingTop: 18, gap: 8 }, logText: { fontSize: 10, color: '#809180', lineHeight: 17 }, labFooter: { flexDirection: 'row', justifyContent: 'center', gap: 6, alignItems: 'center', marginTop: 22 }, footerText: { fontSize: 9, color: '#9CA795' },
+-  storageWarning: { color: '#B06C4C', textAlign: 'center', fontSize: 11, padding: 12 }, pageFooter: { color: '#9AA78E', fontSize: 10, textAlign: 'center', letterSpacing: .8, paddingTop: 12, paddingBottom: 10 },
+-  modalShade: { flex: 1, backgroundColor: '#183438CC', alignItems: 'center', justifyContent: 'center', padding: 20 }, modalCard: { width: '100%', maxWidth: 480, maxHeight: '88%', borderRadius: 27, backgroundColor: '#FFFDF3', borderWidth: 2, borderColor: '#DAE4CE', overflow: 'hidden' }, modalEyebrow: { fontSize: 9, letterSpacing: 1.7, fontWeight: '800', textAlign: 'center', color: '#79A189' }, modalTitle: { fontSize: 25, lineHeight: 32, color: INK, fontWeight: '800', textAlign: 'center' }, modalBody: { color: '#738373', fontSize: 13, lineHeight: 22, textAlign: 'center' }, resultScore: { fontSize: 43, color: TEAL, textAlign: 'center', fontWeight: '800' }, modalButtonText: { fontSize: 14, fontWeight: '800', color: '#FFF9E8', textAlign: 'center', padding: 15 }, secondaryButton: { backgroundColor: '#E9F0E1', borderRadius: 14 }, exitText: { color: '#7A8978', textAlign: 'center', padding: 14, fontSize: 12 }, helpItem: { flexDirection: 'row', alignItems: 'flex-start', gap: 13 }, helpTitle: { fontSize: 13, color: INK, fontWeight: '800', marginBottom: 4 }, helpText: { fontSize: 12, color: '#748374', lineHeight: 20 },
+-});
++import { SpaceScene } from '../components/SpaceScene';
++import React, { useEffect, useRef, useState } from 'react';
++import { BackHandler, Modal, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
++import { useSafeAreaInsets } from 'react-native-safe-area-context';
++import { toMixedFraction } from '../../../shared/math/fraction';
++import { useTrainingBack, useTrainingServices } from '../../../shared/integration/context';
++import { useRescue } from '../hooks/useRescue';
++import { useMobileFlow } from '../hooks/useMobileFlow';
++import { Button, Fraction } from '../components/RescuePrimitives';
++import { MobileRescuePlay } from '../components/MobileRescuePlay';
++import { MobileFullscreenPlay } from '../components/MobileFullscreenPlay';
++import { MobileModeSelect } from '../components/MobileModeSelect';
++import { MobileAction } from '../components/MobileAction';
++import { answerOptions, Card, cardAvailable, cardFor, cardReason, fractionText, isTerminal, maxScore, Mode, MODES, prompt, RescueState } from '../logic/rescue';
++import { INK, SkillIcon } from '../components/SpaceArt';
++
++const TEAL = '#247F73', MUTED = '#718078', PAPER = '#F5F3EB';
++const CARD_INFO: Record<Card, { name: string; short: string; color: string; fill: string; step: string }> = {
++  simplify: { name: 'Thẻ Rút Gọn', short: 'Tinh lọc pin', color: '#A66A32', fill: '#FFF0D6', step: '01' },
++  common: { name: 'Thẻ Quy Đồng', short: 'Đồng bộ nguồn', color: '#277C79', fill: '#E1F3EA', step: '02' },
++  cannon: { name: 'Pháo Năng Lượng', short: 'Giải phóng hành tinh', color: '#6266A3', fill: '#ECECFA', step: '03' },
++};
++
++function EnergySource({ state, which }: { state: RescueState; which: 'a' | 'b' }) {
++  const value = state[which], original = state.rooms[state.index][which];
++  const changed = fractionText(value) !== fractionText(original);
++  return <View testID={`rescue-source-${which}`} style={[styles.source, which === 'b' && { backgroundColor: '#F1EFF9' }]}>
++    <View style={styles.sourceHeader}><View style={[styles.sourceDot, which === 'b' && { backgroundColor: '#9297CA' }]} /><Text style={styles.sourceLabel}>NGUỒN PIN {which.toUpperCase()}</Text></View>
++    <View testID={`rescue-source-values-${which}`} style={styles.sourceValues}>
++      {changed && <><Fraction value={original} size={15} color="#84928E" /><Text style={styles.arrow}>→</Text></>}
++      <Fraction value={value} size={28} />
++    </View>
++    <View style={styles.energySegments}><View style={{ width: `${Math.min(1, value.num / value.den) * 100}%`, height: '100%', borderRadius: 3, backgroundColor: which === 'a' ? '#6CB9A1' : '#999ACC' }} /></View>
++    <Text style={styles.sourceNote}>{changed ? 'Giá trị giữ nguyên' : 'Năng lượng ban đầu'}</Text>
++  </View>;
++}
++function SkillCards({ state, select, compact }: { state: RescueState; select: (card: Card) => void; compact: boolean }) {
++  return <View style={styles.deck}>{(['simplify', 'common', 'cannon'] as const).map(card => {
++    const info = CARD_INFO[card], active = state.selected === card, enabled = cardAvailable(state, card);
++    const recommended = state.mode !== 'hard' && card === cardFor(state.phase) && enabled;
++    return <Button key={card} label={info.name} testID={`rescue-card-${card}`} selected={active} disabled={!enabled || state.paused} onPress={() => select(card)}
++      style={{ flex: 1, borderRadius: 18, backgroundColor: active ? info.fill : '#FFFDF7', borderColor: active ? info.color : '#DFE4DA', borderWidth: active ? 2 : 1, borderBottomWidth: active ? 4 : 3 }}>
++      <View style={[styles.skillInner, compact && { paddingHorizontal: 5, paddingVertical: 12 }]}>
++        <View style={styles.skillTop}><Text style={[styles.cardNumber, { color: info.color }]}>{info.step}</Text><Text style={[styles.cardTag, { color: info.color }]}>{recommended ? 'GỢI Ý' : enabled ? 'SẴN SÀNG' : 'KHÓA'}</Text></View>
++        <View style={[styles.iconTile, { backgroundColor: info.fill }]}><SkillIcon kind={card} size={compact ? 29 : 36} color={info.color} /></View>
++        <Text style={[styles.skillName, compact && { fontSize: 12, lineHeight: 17 }]}>{info.name}</Text>
++        <Text style={[styles.skillDesc, compact && { fontSize: 10, lineHeight: 14 }]}>{compact ? enabled ? info.short : card === 'cannon' ? 'Chờ nạp pin' : 'Chưa cần dùng' : cardReason(state, card)}</Text>
++      </View>
++    </Button>;
++  })}</View>;
++}
++function MathPanel({ state, dispatch, compact }: { state: RescueState; dispatch: ReturnType<typeof useRescue>['dispatch']; compact: boolean }) {
++  const { soundManager } = useTrainingServices();
++  if (state.phase === 'travelling') return <View testID="rescue-flight-panel" style={styles.mathPanel}><Text style={styles.taskTitle}>Tới {state.rooms[state.index + 1].name}…</Text><Text style={styles.hint}>Phi thuyền đang du hành. Đợi Nova tới nơi rồi tiếp tục nhé!</Text></View>;
++  const task = prompt(state), room = state.rooms[state.index];
++  const usable = state.selected === cardFor(state.phase) && cardAvailable(state, state.selected);
++  const showPair = room.kind !== 'reduce';
++  const sum = state.sum;
++  const mixed = sum && sum.num > sum.den ? toMixedFraction(sum) : null;
++  return <View testID="rescue-math-panel" style={[styles.mathPanel, compact && { minHeight: 0 }]}>
++    <View testID="rescue-panel-heading" style={styles.panelHeading}><View style={styles.tinyIcon}><SkillIcon kind={state.selected} size={23} color={TEAL} /></View><View style={{ flex: 1 }}><Text style={styles.eyebrow}>PHÒNG ĐIỀU KHIỂN</Text><Text style={styles.panelHeadingText}>Trạm năng lượng phân số</Text></View><Text style={styles.labCode}>A / B</Text></View>
++    <View testID="rescue-sources" style={styles.sourceRow}><EnergySource state={state} which="a" />{showPair && <EnergySource state={state} which="b" />}</View>
++    {state.denominator !== null && <View testID="rescue-frequency" style={styles.frequencyPill}><View style={[styles.sourceDot, { backgroundColor: TEAL }]} /><Text style={styles.frequencyText}>Mẫu số chung: {state.denominator} · {['numerator-a', 'numerator-b'].includes(state.phase) ? 'Đang đồng bộ' : 'Đã đồng bộ'}</Text></View>}
++    {sum && <View testID="rescue-sum" style={styles.sumRow}><Text style={styles.body}>Pin tổng</Text><Fraction value={sum} size={22} color={TEAL} />{mixed && <Text style={styles.smallText}>= {mixed.whole} {mixed.num}/{mixed.den}</Text>}</View>}
++    <View testID="rescue-task" style={styles.taskHeader}><Text testID="rescue-phase" style={styles.eyebrow}>{task.label}</Text><Text style={styles.taskTitle}>{task.title}</Text></View>
++    <Text testID="rescue-hint" style={styles.hint}>{task.hint}</Text>
++    {usable && (state.phase === 'numerator-a' || state.phase === 'numerator-b') && <View testID="rescue-equation" style={styles.equation}>
++      <Fraction value={state.phase === 'numerator-a' ? state.a : state.b} size={23} /><Text style={styles.equals}>=</Text><Fraction value={{ num: 0, den: state.denominator! }} size={23} unknown color={TEAL} />
++    </View>}
++    {usable && state.phase === 'sum' && <View testID="rescue-equation" style={styles.equation}><Fraction value={state.a} size={21} /><Text style={styles.equals}>+</Text><Fraction value={state.b} size={21} /><Text style={styles.equals}>=</Text><Fraction value={{ num: 0, den: state.denominator! }} size={21} unknown color={TEAL} /></View>}
++    {usable && answerOptions(state).length > 0 && <View testID="rescue-options" style={styles.answers}>{answerOptions(state).map(value => <Button key={`${state.revision}-${value}`}
++      label={state.phase === 'compare' ? `Nguồn ${value === 0 ? 'A' : 'B'}` : state.phase.startsWith('reduce') ? `Chia cho ${value}` : `Chọn ${value}`}
++      testID={`rescue-answer-${value}`} disabled={state.paused || !!state.attack || state.phase === 'travelling'} onPress={() => dispatch({ type: 'ANSWER', value, revision: state.revision })}
++      style={{ width: '48%', minHeight: 58, borderRadius: 13, borderColor: '#DCE4DC', borderWidth: 1, borderBottomWidth: 3, backgroundColor: '#FFFEFA' }}>
++      <View style={styles.answerInner}><Text style={styles.answerText}>{state.phase === 'compare' ? `Nguồn ${value === 0 ? 'A' : 'B'}` : state.phase.startsWith('reduce') ? `÷ ${value}` : value}</Text>{state.phase === 'compare' && <Fraction value={value === 0 ? state.a : state.b} size={20} />}</View>
++    </Button>)}</View>}
++    {state.phase === 'ready' && usable && <Button label="Khai hỏa" testID="rescue-fire" onPress={() => { soundManager.playCannonShoot(); dispatch({ type: 'FIRE', revision: state.revision }); }} style={styles.fireButton}>
++      <View style={styles.primaryInner}><SkillIcon kind="cannon" color="#FFFAE9" size={25} /><Text style={styles.primaryText}>Khai hỏa cứu hộ</Text><Text style={styles.primaryText}>→</Text></View>
++    </Button>}
++    {!usable && !['firing', 'rescued', 'won', 'lost'].includes(state.phase) && <View testID="rescue-choose-strategy" style={styles.strategyNote}><Text style={styles.strategyTitle}>Chọn chiến thuật cho nhiệm vụ</Text><Text style={styles.hint}>{cardReason(state, state.selected)}. Hãy đọc yêu cầu giáp trên chiến trường rồi chọn thẻ phù hợp.</Text></View>}
++    {state.phase === 'rescued' && <Button label={state.index === state.rooms.length - 1 ? 'Hoàn thành hành trình' : 'Hành tinh tiếp theo'} testID="rescue-next" onPress={() => dispatch({ type: 'NEXT' })} style={styles.fireButton}><Text style={[styles.primaryText, { padding: 16, textAlign: 'center' }]}>{state.index === state.rooms.length - 1 ? 'Hoàn thành hành trình  ★' : 'Hành tinh tiếp theo  →'}</Text></Button>}
++    <View testID="rescue-feedback" accessibilityLiveRegion="polite" style={[styles.feedback, { backgroundColor: state.tone === 'error' ? '#FCEAE3' : state.tone === 'success' ? '#E6F3E6' : '#F1F0E6' }]}>
++      <Text style={[styles.feedbackMark, { color: state.tone === 'error' ? '#B46248' : TEAL }]}>{state.tone === 'error' ? '!' : state.tone === 'success' ? '✓' : 'i'}</Text>
++      <Text style={styles.feedbackText}>{state.feedback}</Text>
++    </View>
++    {state.history.length > 0 && <View testID="rescue-log" style={styles.log}><Text style={styles.eyebrow}>NHẬT KÝ BIẾN ĐỔI</Text>{state.history.slice(-2).map((line, i) => <Text key={`${i}-${line}`} style={styles.logText}>↳ {line}</Text>)}</View>}
++    <View testID="rescue-lab-footer" style={styles.labFooter}><View style={styles.liveDot} /><Text style={styles.footerText}>Giữ nguyên giá trị · Thay đổi cách viết</Text></View>
++  </View>;
++}
++
++export const PlanetRescueScreen: React.FC<{ onExit: () => void }> = ({ onExit }) => {
++  const { soundManager } = useTrainingServices();
++  const { width, height } = useWindowDimensions(), insets = useSafeAreaInsets();
++  const compact = width < 1000;
++  const phone = width < 600 || width < 1000 && height < 500;
++  const portrait = phone && height >= width;
++  const [stage, setStage] = useState<'choose' | 'play'>('choose');
++  const [draftMode, setDraftMode] = useState<Mode>('easy');
++  const game = useRescue(stage === 'play');
++  const { state, dispatch, start, select, loaded, storageError, discard } = game;
++  const interaction = useMobileFlow(state, dispatch, select);
++  const launchLock = useRef(false);
++  useEffect(() => { launchLock.current = false; }, [stage, state.session]);
++  const [help, setHelp] = useState(false);
++  const [sound, setSound] = useState(() => soundManager.isSoundEnabled());
++  const terminal = isTerminal(state), showModal = stage === 'play' && (state.paused || terminal);
++  const MenuButton = phone ? MobileAction : Button;
++  const resume = () => { setHelp(false); dispatch({ type: 'PAUSE', value: false }); };
++  const exit = () => { discard(); onExit(); };
++  const back = () => { if (stage === 'choose' || terminal) exit(); else { setHelp(false); dispatch({ type: 'PAUSE', value: true }); } };
++  useTrainingBack(back);
++  useEffect(() => { const sub = BackHandler.addEventListener('hardwareBackPress', () => { back(); return true; }); return () => sub.remove(); });
++  const chooseModes = () => { setHelp(false); setDraftMode(state.mode); discard(); setStage('choose'); };
++  const launch = () => {
++    if (stage !== 'choose' || launchLock.current) return;
++    launchLock.current = true; start(draftMode); setStage('play');
++  };
++  const restart = () => {
++    if (launchLock.current) return;
++    launchLock.current = true; setHelp(false); start(state.mode); setStage('play');
++  };
++  const firingLock = useRef(false);
++  useEffect(() => { firingLock.current = false; }, [state.phase, state.session, state.index]);
++  const fire = () => {
++    if (firingLock.current || state.attack || state.paused || state.phase !== 'ready' || state.selected !== 'cannon') return;
++    firingLock.current = true; soundManager.playCannonShoot(); dispatch({ type: 'FIRE', revision: state.revision });
++  };
++  return <View testID="rescue-screen" style={[styles.root, { paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right }, phone && { paddingBottom: Math.max(8, insets.bottom) }]}>
++    {stage === 'choose' ? <View style={[{ flex: 1 }, !phone && { width: '100%', maxWidth: 560, alignSelf: 'center' }]}><MobileModeSelect selected={draftMode} onSelect={setDraftMode} onStart={launch} onExit={exit} loaded={loaded} /></View> : phone ? portrait ? <MobileFullscreenPlay game={game} interaction={interaction} onExit={exit} fire={fire} onPause={() => { setHelp(false); dispatch({ type: 'PAUSE', value: true }); }} /> : <MobileRescuePlay game={game} interaction={interaction} onExit={exit} fire={fire} onPause={() => { setHelp(false); dispatch({ type: 'PAUSE', value: true }); }} /> : <ScrollView testID="rescue-page" style={{ pointerEvents: loaded ? 'auto' : 'none' }} contentContainerStyle={[styles.page, { paddingBottom: Math.max(24, insets.bottom) }, compact && { paddingHorizontal: 14 }]}>
++      <View testID="rescue-header" style={[styles.header, compact && { flexWrap: 'wrap', rowGap: 12 }]}>
++        <View style={styles.titleGroup}><Button label="Về sảnh" testID="rescue-exit" onPress={exit} style={styles.roundButton}><Text style={styles.backGlyph}>‹</Text></Button><View style={{ flex: 1 }}><Text style={styles.brand}>BIỆT ĐỘI SAO NHỎ <Text style={{ color: '#C68A50' }}>✦</Text></Text><Text accessibilityRole="header" style={[styles.title, compact && { fontSize: 22 }]}>Giải Cứu Hành Tinh</Text></View></View>
++        <View style={styles.headerActions}><View style={styles.scorePill}><SkillIcon kind="star" size={20} color="#BC854A" /><Text testID="rescue-score" style={styles.scoreText}>{state.score}</Text><Text style={styles.smallText}>điểm</Text></View>
++          <Button label={sound ? 'Tắt âm thanh' : 'Bật âm thanh'} onPress={() => { soundManager.setSoundEnabled(!sound); setSound(!sound); }} style={styles.roundButton}><Text style={styles.controlGlyph}>{sound ? '♫' : '♪̸'}</Text></Button>
++          <Button label="Hướng dẫn" testID="rescue-help" onPress={() => { setHelp(true); dispatch({ type: 'PAUSE', value: true }); }} style={styles.roundButton}><Text style={styles.controlGlyph}>?</Text></Button>
++          <Button label="Tạm dừng" testID="rescue-pause" onPress={() => { setHelp(false); dispatch({ type: 'PAUSE', value: true }); }} style={styles.roundButton}><Text style={styles.controlGlyph}>Ⅱ</Text></Button>
++        </View>
++      </View>
++      <View testID="rescue-mode-bar" style={[styles.modeBar, compact && { padding: 4, gap: 3 }]}>{(['easy', 'medium', 'hard'] as Mode[]).map((mode, i) => <Button key={mode} label={MODES[mode].title} testID={`rescue-mode-${mode}`} selected={state.mode === mode} disabled={!loaded} onPress={() => { setDraftMode(mode); discard(); setStage('choose'); }}
++        style={{ flex: 1, minHeight: 48, backgroundColor: state.mode === mode ? TEAL : 'transparent', borderRadius: 14 }}>
++        <View style={[styles.modeInner, compact && { paddingHorizontal: 5, paddingVertical: 12 }]}><Text style={[styles.modeNumber, state.mode === mode && { color: '#B2DDC4' }]}>0{i + 1}</Text><View style={{ flexShrink: 1 }}><Text style={[styles.modeTitle, state.mode === mode && { color: '#FFF9E9' }, compact && { fontSize: 12 }]}>{MODES[mode].title}</Text>{!compact && <Text style={[styles.modeSubtitle, state.mode === mode && { color: '#C4E1D4' }]}>{MODES[mode].subtitle}</Text>}</View>{!compact && <Text style={[styles.modeArrow, state.mode === mode && { color: '#E9F5D9' }]}>↗</Text>}</View>
++      </Button>)}</View>
++      <View testID="rescue-mission" style={[styles.missionRow, compact && { flexWrap: 'wrap', gap: 10 }]}><View style={styles.missionTitle}><Text style={styles.eyebrow}>HÀNH TINH {String(state.index + 1).padStart(2, '0')} / {state.rooms.length}</Text><Text testID="rescue-room" style={styles.missionName}>Tiến đến {state.rooms[state.index].name}</Text></View>
++        <View style={styles.route}>{state.rooms.map((room, i) => <React.Fragment key={room.name}>{i > 0 && <View style={[styles.routeLine, i <= state.index && { backgroundColor: '#95B8A8' }]} />}<View style={[styles.routePlanet, { backgroundColor: i < state.index ? '#75AC91' : i === state.index ? room.color : '#E0E4DB', borderWidth: i === state.index ? 2 : 0, borderColor: TEAL }]}><Text style={styles.routeNumber}>{i < state.index ? '✓' : i + 1}</Text></View></React.Fragment>)}</View>
++        <View testID="rescue-status" style={styles.statusPill}>{state.mode === 'hard' ? <><SkillIcon kind="shield" size={20} color={state.hull < 2 ? '#BA674B' : TEAL} /><Text testID="rescue-hull" style={styles.statusText}>{state.hull}/3</Text><View style={styles.divider} /><Text testID="rescue-timer" style={[styles.statusText, state.remaining < 15000 && { color: '#B45D43' }]}>☄ {Math.ceil(state.remaining / 1000)}s</Text></> : <><View style={styles.liveDot} /><Text style={styles.statusText}>Không vội, cứ thử nhé</Text></>}</View>
++      </View>
++      <View testID="rescue-workbench" style={[styles.workbench, compact && { flexDirection: 'column' }]}>
++        <View testID="rescue-flight-column" style={styles.flightColumn}><SpaceScene state={state} compact={compact} />
++          <View testID="rescue-deck-heading" style={styles.deckHeading}><Text style={styles.deckTitle}>Thẻ chiến thuật của em</Text><Text style={styles.smallText}>{state.mode === 'hard' ? 'Em tự chọn thứ tự thẻ' : 'Thẻ gợi ý đã được bật sáng'}</Text></View>
++          <SkillCards state={state} select={select} compact={compact} />
++          <View testID="rescue-pilot-note" style={styles.pilotNote}><View style={styles.pilotBadge}><SkillIcon kind="ship" size={27} color={TEAL} /></View><View style={{ flex: 1 }}><Text style={styles.pilotTitle}>NOVA · HOA TIÊU CỦA EM</Text><Text style={styles.pilotText}>{state.mode === 'easy' ? 'Một phép tính nhỏ, một hành tinh được cứu! Cứ bình tĩnh, Nova sẽ học cùng em.' : state.rooms[state.index].kind === 'sync-sum' ? 'Lồng đôi cần pin tổng. Em có thể Quy Đồng rồi ghép pin, hoặc Rút Gọn pin A trước để tính với mẫu nhỏ hơn!' : state.rooms[state.index].kind === 'reduce-sync' ? 'Giáp lọc chặn đồng bộ. Tinh lọc pin A trước; sau đó đưa hai nguồn về cùng mẫu.' : 'Hai nguồn khác mẫu không thể đồng bộ trực tiếp. Quy Đồng sẽ nối chúng với máy tạo lồng.'}</Text></View></View>
++        </View>
++        <View testID="rescue-lab-column" style={[styles.labColumn, compact && { width: '100%' }]}><MathPanel state={state} dispatch={dispatch} compact={compact} /></View>
++      </View>
++      {storageError && <Text style={styles.storageWarning}>Chưa lưu được tiến độ trên máy này. Em vẫn có thể tiếp tục chơi.</Text>}
++      <Text testID="rescue-page-footer" style={styles.pageFooter}>✦  Học một chút toán · Cứu cả một hành tinh  ✦</Text>
++    </ScrollView>}
++    <Modal visible={loaded && showModal} transparent animationType="fade" onRequestClose={terminal ? chooseModes : phone ? () => setHelp(false) : resume}>
++      <View style={[styles.modalShade, phone && { paddingTop: Math.max(12, insets.top), paddingBottom: Math.max(12, insets.bottom), paddingHorizontal: 14 }]}><View testID="rescue-menu" accessibilityViewIsModal style={[styles.modalCard, phone && { maxHeight: '100%' }]}>
++        <ScrollView contentContainerStyle={{ padding: phone ? 18 : 26, gap: phone ? 10 : 16 }}>
++          {(!phone || terminal || help) && <View style={{ alignSelf: 'center' }}><SkillIcon kind={terminal ? 'star' : help ? 'common' : 'ship'} size={54} color={TEAL} /></View>}
++          {(!phone || terminal || help) && <Text style={styles.modalEyebrow}>{terminal ? 'NHẬT KÝ PHI HÀNH GIA' : help ? 'CẨM NANG CỨU HỘ' : 'TRẠM NGHỈ GIỮA CÁC VÌ SAO'}</Text>}
++          <Text accessibilityRole="header" style={[styles.modalTitle, phone && { fontSize: 22, lineHeight: 27 }]}>{terminal ? state.phase === 'won' ? 'Tám hành tinh đã an toàn!' : 'Phi thuyền cần được sửa chữa!' : help ? 'Ba thẻ, một biệt đội' : 'Nghỉ một nhịp nhé!'}</Text>
++          {terminal ? <><Text testID="rescue-result" style={styles.resultScore}>{state.score} <Text style={{ fontSize: 17 }}> / {maxScore(state)} điểm</Text></Text><Text style={styles.modalBody}>{MODES[state.mode].title} · {state.phase === 'won' ? state.rooms.length : state.index} hành tinh đã cứu{'\n'}{state.correct} lượt toán đúng · {state.incorrect} lần thử lại · {Math.round(state.elapsed / 1000)} giây</Text></> : help ? <>
++            <Text style={styles.modalBody}>Máy tạo lồng đang nhốt các cư dân. Biến đổi phân số để nạp đúng pin cho tàu, rồi bắn giải phóng hành tinh.</Text>
++            {(['simplify', 'common', 'cannon'] as Card[]).map(card => <View key={card} style={styles.helpItem}><SkillIcon kind={card} size={30} color={CARD_INFO[card].color} /><View style={{ flex: 1 }}><Text style={styles.helpTitle}>{CARD_INFO[card].name}</Text><Text style={styles.helpText}>{card === 'simplify' ? 'Chia cả tử và mẫu cùng một ước chung. Ví dụ 6/8 → (6÷2)/(8÷2) = 3/4. Có thể chia qua nhiều bước.' : card === 'common' ? 'Chọn mẫu chung nhỏ nhất, rồi nhân cả tử và mẫu. Ví dụ 1/2 = 3/6 và 2/3 = 4/6. Khi cùng mẫu, em mới so sánh hoặc ghép pin.' : 'Chỉ mở khi đã hoàn tất bài toán. Một phát bắn phá máy tạo lồng và cứu cả hành tinh.'}</Text></View></View>)}
++            <Text style={styles.helpText}>{MODES[state.mode].mission} Tàu có 3 HP cho cả hành trình. Mỗi đáp án sai hợp lệ gọi một thiên thạch, mất 1 HP khi va chạm. Mẫu chung hợp lệ nhưng chưa nhỏ nhất không bị phạt. {state.mode === 'hard' ? 'Hết 60 giây cũng có thiên thạch.' : 'Không giới hạn thời gian.'} Pause dừng cả thời gian và hoạt ảnh.</Text>
++          </> : <Text style={[styles.modalBody, phone && { fontSize: 12, lineHeight: 18 }]}>Tiến độ, năng lượng và đồng hồ đều đang dừng. Nova chờ em trở lại!</Text>}
++          {phone && !terminal && !help && <>
++            <MenuButton label={sound ? 'Tắt nhạc và âm thanh' : 'Bật nhạc và âm thanh'} testID="rescue-sound" onPress={() => { soundManager.setSoundEnabled(!sound); setSound(!sound); }} style={styles.secondaryButton}><Text style={[styles.modalButtonText, { color: TEAL }]}>{sound ? '♫ Nhạc / âm thanh: Bật' : '♪ Nhạc / âm thanh: Tắt'}</Text></MenuButton>
++            <MenuButton label="Trợ giúp / hướng dẫn" testID="rescue-help" onPress={() => setHelp(true)} style={styles.secondaryButton}><Text style={[styles.modalButtonText, { color: TEAL }]}>? Trợ giúp / hướng dẫn</Text></MenuButton>
++          </>}
++          {phone && help && <MenuButton label="Trở lại menu tạm dừng" testID="rescue-help-back" onPress={() => setHelp(false)} style={styles.secondaryButton}><Text style={[styles.modalButtonText, { color: TEAL }]}>‹ Menu tạm dừng</Text></MenuButton>}
++          {!terminal && <MenuButton label="Tiếp tục nhiệm vụ" testID="rescue-resume" onPress={resume} style={{ ...styles.fireButton, ...(phone ? { marginTop: 0, minHeight: 48 } : {}) }}><Text style={styles.modalButtonText}>Tiếp tục nhiệm vụ  →</Text></MenuButton>}
++          {!help && <MenuButton label="Đổi chế độ" testID="rescue-change-mode" onPress={chooseModes} style={styles.secondaryButton}><Text style={[styles.modalButtonText, { color: TEAL }]}>Chọn nhiệm vụ khác</Text></MenuButton>}
++          {terminal && state.phase === 'lost' && <Text style={styles.modalBody}>Tàu đã chịu ba cú va chạm. Hãy sửa tàu và thử lại cùng Nova nhé!</Text>}
++          <MenuButton label="Chơi lại" testID="rescue-restart" onPress={restart} style={terminal ? styles.fireButton : styles.secondaryButton}><Text style={[styles.modalButtonText, !terminal && { color: TEAL }]}>Chơi lại từ đầu →</Text></MenuButton>
++          <MenuButton label="Thoát về sảnh" testID="rescue-menu-exit" onPress={exit}><Text style={styles.exitText}>Về sảnh trò chơi</Text></MenuButton>
++        </ScrollView>
++      </View></View>
++    </Modal>
++  </View>;
++};
++
++const styles = StyleSheet.create({
++  root: { flex: 1, backgroundColor: PAPER },
++  page: { paddingHorizontal: 28, paddingTop: 20, width: '100%', maxWidth: 1320, alignSelf: 'center' },
++  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 18, marginBottom: 22 },
++  titleGroup: { flexDirection: 'row', alignItems: 'center', gap: 15, flex: 1, minWidth: 270 }, brand: { fontSize: 9, color: MUTED, letterSpacing: 1.8, fontWeight: '800', marginBottom: 4 },
++  title: { fontSize: 27, fontWeight: '800', color: INK, letterSpacing: -.7 },
++  roundButton: { width: 44, height: 44, borderRadius: 15, backgroundColor: '#FFFDF6', borderWidth: 1, borderColor: '#DDE2D6' },
++  buttonContent: { flex: 1, borderRadius: 12, justifyContent: 'center' }, backGlyph: { fontSize: 31, color: INK, textAlign: 'center', lineHeight: 36 }, controlGlyph: { fontSize: 20, color: INK, textAlign: 'center', fontWeight: '700' },
++  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 }, scorePill: { height: 44, flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: '#ECEADF', borderRadius: 14, paddingHorizontal: 13, marginRight: 3 }, scoreText: { color: INK, fontWeight: '800', fontSize: 19 },
++  smallText: { fontSize: 11, color: MUTED }, modeBar: { backgroundColor: '#E9EBE1', padding: 6, borderRadius: 20, flexDirection: 'row', gap: 7, marginBottom: 24 },
++  modeInner: { flexDirection: 'row', alignItems: 'center', paddingVertical: 13, paddingHorizontal: 20, gap: 13 }, modeNumber: { fontSize: 13, color: '#96A299', fontWeight: '700' }, modeTitle: { color: INK, fontSize: 15, fontWeight: '800' }, modeSubtitle: { fontSize: 11, color: '#7B8980', marginTop: 3 }, modeArrow: { color: '#8B9B8D', fontSize: 25, marginLeft: 'auto' },
++  missionRow: { flexDirection: 'row', alignItems: 'center', gap: 20, marginBottom: 16 }, missionTitle: { flex: 1, minWidth: 150 }, eyebrow: { fontSize: 9, color: '#6E897B', letterSpacing: 1.5, fontWeight: '800' }, missionName: { color: INK, fontSize: 18, fontWeight: '800', marginTop: 5 },
++  route: { flexDirection: 'row', alignItems: 'center' }, routePlanet: { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' }, routeNumber: { fontSize: 10, color: INK, fontWeight: '800' }, routeLine: { height: 2, width: 12, backgroundColor: '#D9DFD5' },
++  statusPill: { paddingHorizontal: 12, paddingVertical: 9, minHeight: 38, borderRadius: 12, backgroundColor: '#E6ECDD', flexDirection: 'row', alignItems: 'center', gap: 7 }, statusText: { fontSize: 11, color: '#4E6D58', fontWeight: '800' }, liveDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#65A986' }, divider: { width: 1, height: 17, backgroundColor: '#C9D7C5', marginHorizontal: 4 },
++  workbench: { flexDirection: 'row', gap: 24, alignItems: 'stretch' }, flightColumn: { flex: 1, minWidth: 0 }, labColumn: { width: 370 },
++  deckHeading: { marginTop: 22, marginBottom: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 5 }, deckTitle: { fontSize: 14, fontWeight: '800', color: INK },
++  deck: { flexDirection: 'row', gap: 10, alignItems: 'stretch' }, skillInner: { padding: 14, alignItems: 'center', gap: 8 }, skillTop: { flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }, cardNumber: { fontSize: 9, fontWeight: '800' }, cardTag: { fontSize: 7, letterSpacing: .6, fontWeight: '800' }, iconTile: { width: 54, height: 49, borderRadius: 15, alignItems: 'center', justifyContent: 'center' }, skillName: { color: INK, fontSize: 13, lineHeight: 18, fontWeight: '800', textAlign: 'center' }, skillDesc: { color: MUTED, fontSize: 11, lineHeight: 16, textAlign: 'center' },
++  pilotNote: { flexDirection: 'row', gap: 12, paddingVertical: 18, paddingHorizontal: 5, alignItems: 'center' }, pilotBadge: { width: 42, height: 42, borderRadius: 21, backgroundColor: '#E0E9DC', alignItems: 'center', justifyContent: 'center' }, pilotTitle: { fontSize: 8, letterSpacing: 1.4, color: '#5D8A73', fontWeight: '800', marginBottom: 4 }, pilotText: { color: '#78867A', fontSize: 11, lineHeight: 18 },
++  mathPanel: { backgroundColor: '#FFFDF7', borderRadius: 24, borderWidth: 1, borderColor: '#DFE4D8', padding: 20, minHeight: 680 }, panelHeading: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingBottom: 17, borderBottomWidth: 1, borderColor: '#EBEDE4' }, tinyIcon: { width: 38, height: 40, borderRadius: 12, backgroundColor: '#E8EFE2', alignItems: 'center', justifyContent: 'center' }, panelHeadingText: { fontSize: 16, color: INK, fontWeight: '800', marginTop: 3 }, labCode: { fontSize: 10, color: '#9AAB9C', fontWeight: '700' },
++  sourceRow: { flexDirection: 'row', gap: 10, paddingTop: 18 }, source: { flex: 1, backgroundColor: '#ECF3E9', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 13, alignItems: 'center' }, sourceHeader: { flexDirection: 'row', alignItems: 'center', gap: 5 }, sourceDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#71AC90' }, sourceLabel: { fontSize: 8, fontWeight: '800', letterSpacing: 1, color: '#6F8375' }, sourceValues: { flexDirection: 'row', alignItems: 'center', gap: 8, marginVertical: 12, minHeight: 76 }, fraction: { alignItems: 'center', paddingHorizontal: 3, minWidth: 24 }, arrow: { color: '#98AB9D', fontSize: 16 }, energySegments: { width: '100%', height: 7, backgroundColor: '#DCE5DF', borderRadius: 3, overflow: 'hidden' }, sourceNote: { fontSize: 8, color: '#87968B', marginTop: 7 },
++  frequencyPill: { flexDirection: 'row', gap: 6, alignItems: 'center', paddingVertical: 10 }, frequencyText: { color: TEAL, fontSize: 10, fontWeight: '700' }, sumRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 16, marginTop: 12, backgroundColor: '#EDF3E9', borderRadius: 12, padding: 10 }, body: { fontSize: 13, color: INK },
++  taskHeader: { marginTop: 22, gap: 7 }, taskTitle: { color: INK, fontSize: 21, fontWeight: '800', letterSpacing: -.4, lineHeight: 28 }, hint: { color: '#748078', fontSize: 12, lineHeight: 19, marginTop: 8 },
++  equation: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 15, marginTop: 15, paddingVertical: 10, backgroundColor: '#F4F5EB', borderRadius: 14 }, equals: { fontSize: 21, fontWeight: '700', color: '#7B9283' }, answers: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'space-between', marginTop: 20 }, answerInner: { padding: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12 }, answerText: { color: INK, fontSize: 20, fontWeight: '800' },
++  fireButton: { borderRadius: 14, backgroundColor: TEAL, borderBottomWidth: 4, borderBottomColor: '#195D55', marginTop: 16, minHeight: 54 }, primaryInner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, padding: 15 }, primaryText: { color: '#FFF9E8', fontSize: 14, fontWeight: '800' },
++  strategyNote: { backgroundColor: '#F2EFE1', padding: 15, borderRadius: 12, marginTop: 18 }, strategyTitle: { color: INK, fontSize: 13, fontWeight: '800' },
++  feedback: { marginTop: 20, padding: 13, borderRadius: 12, flexDirection: 'row', gap: 9, alignItems: 'flex-start' }, feedbackMark: { fontSize: 16, fontWeight: '800', width: 14 }, feedbackText: { fontSize: 11, lineHeight: 18, color: '#506650', flex: 1 }, log: { paddingTop: 18, gap: 8 }, logText: { fontSize: 10, color: '#809180', lineHeight: 17 }, labFooter: { flexDirection: 'row', justifyContent: 'center', gap: 6, alignItems: 'center', marginTop: 22 }, footerText: { fontSize: 9, color: '#9CA795' },
++  storageWarning: { color: '#B06C4C', textAlign: 'center', fontSize: 11, padding: 12 }, pageFooter: { color: '#9AA78E', fontSize: 10, textAlign: 'center', letterSpacing: .8, paddingTop: 12, paddingBottom: 10 },
++  modalShade: { flex: 1, backgroundColor: '#183438CC', alignItems: 'center', justifyContent: 'center', padding: 20 }, modalCard: { width: '100%', maxWidth: 480, maxHeight: '88%', borderRadius: 27, backgroundColor: '#FFFDF3', borderWidth: 2, borderColor: '#DAE4CE', overflow: 'hidden' }, modalEyebrow: { fontSize: 9, letterSpacing: 1.7, fontWeight: '800', textAlign: 'center', color: '#79A189' }, modalTitle: { fontSize: 25, lineHeight: 32, color: INK, fontWeight: '800', textAlign: 'center' }, modalBody: { color: '#738373', fontSize: 13, lineHeight: 22, textAlign: 'center' }, resultScore: { fontSize: 43, color: TEAL, textAlign: 'center', fontWeight: '800' }, modalButtonText: { fontSize: 14, fontWeight: '800', color: '#FFF9E8', textAlign: 'center', padding: 15 }, secondaryButton: { backgroundColor: '#E9F0E1', borderRadius: 14 }, exitText: { color: '#7A8978', textAlign: 'center', padding: 14, fontSize: 12 }, helpItem: { flexDirection: 'row', alignItems: 'flex-start', gap: 13 }, helpTitle: { fontSize: 13, color: INK, fontWeight: '800', marginBottom: 4 }, helpText: { fontSize: 12, color: '#748374', lineHeight: 20 },
++});
+--- a/src/shared/integration/contracts.ts
++++ b/src/shared/integration/contracts.ts
+@@ -1,5 +1,5 @@
+ export const TRAINING_GAME_IDS = ['planet-rescue', 'race-to-finish', 'terrain-racing', 'energy-defense', 'block-island'] as const;
+ export type TrainingGameId = typeof TRAINING_GAME_IDS[number];
+-export const TRAINING_GAME_VERSION = '0.1.11';
++export const TRAINING_GAME_VERSION = '0.1.12';
+ export const RESULT_SCHEMA_VERSION = 1;
+ export type TrainingStatus = 'won' | 'lost' | 'abandoned' | 'restarted';

@@ -1,0 +1,151 @@
+{
+  "name": "@mathvisionkid/training-games",
+  "version": "0.1.12",
+  "baseline": {
+    "filename": "mathvisionkid-training-games-0.1.2.tgz",
+    "sha256": "f6a319d1b61c53cdbe1331d9812c85a9813b3ead9841eb05c3c639b657186f9e"
+  },
+  "replacements": [
+    "src/games/race-to-finish/logic/cameraGeometry.ts",
+    "src/games/race-to-finish/components/GameCamera.tsx",
+    "src/games/race-to-finish/components/DiceOverlay.tsx",
+    "src/games/race-to-finish/state/turnTiming.ts"
+  ],
+  "additions": [
+    "src/games/race-to-finish/components/DiceModel.tsx"
+  ],
+  "textPatches": [
+    {
+      "file": "src/games/block-island/components/IslandIntro.tsx",
+      "changes": [
+        {
+          "from": "import { StyleSheet, Text, View } from 'react-native';",
+          "to": "import { Platform, StyleSheet, Text, View } from 'react-native';"
+        },
+        {
+          "from": "  return <View testID=\"island-intro\" style={[s.root,wide&&s.wide]}>",
+          "to": "  const desktop=wide&&Platform.OS==='web'&&typeof window!=='undefined'&&window.matchMedia?.('(pointer: fine)').matches;\n  return <View testID=\"island-intro\" style={[s.root,wide&&s.wide,desktop&&{alignItems:'stretch'}]}>"
+        },
+        {
+          "from": "<View style={[s.copy,wide&&{width:390,padding:24},short&&{gap:6,padding:12}]}",
+          "to": "<View style={[s.copy,wide&&{width:390,padding:24},desktop&&{justifyContent:'center'},short&&{gap:6,padding:12}]}"
+        }
+      ]
+    },
+    {
+      "file": "src/games/race-to-finish/state/RaceController.ts",
+      "changes": [
+        {
+          "from": "DICE_ROLL_DURATION_MS, SHORTCUT_ENTRY_PAUSE_MS",
+          "to": "DICE_ROLL_DURATION_MS, BOT_ANSWER_DELAY_MS, SHORTCUT_ENTRY_PAUSE_MS"
+        },
+        {
+          "from": "case 'showing_question': if (player.isBot) this.delay(1400,",
+          "to": "case 'showing_question': if (player.isBot) this.delay(BOT_ANSWER_DELAY_MS,"
+        }
+      ]
+    },
+    {
+      "file": "src/games/planet-rescue/screens/PlanetRescueScreen.tsx",
+      "changes": [
+        {
+          "from": "<View style={styles.sourceRow}",
+          "to": "<View testID=\"rescue-sources\" style={styles.sourceRow}"
+        },
+        {
+          "from": "<View style={styles.panelHeading}",
+          "to": "<View testID=\"rescue-panel-heading\" style={styles.panelHeading}"
+        },
+        {
+          "from": "<View style={styles.frequencyPill}",
+          "to": "<View testID=\"rescue-frequency\" style={styles.frequencyPill}"
+        },
+        {
+          "from": "<View style={styles.sumRow}",
+          "to": "<View testID=\"rescue-sum\" style={styles.sumRow}"
+        },
+        {
+          "from": "<View style={styles.taskHeader}",
+          "to": "<View testID=\"rescue-task\" style={styles.taskHeader}"
+        },
+        {
+          "from": "<View style={[styles.header,",
+          "to": "<View testID=\"rescue-header\" style={[styles.header,"
+        },
+        {
+          "from": "<View style={[styles.modeBar,",
+          "to": "<View testID=\"rescue-mode-bar\" style={[styles.modeBar,"
+        },
+        {
+          "from": "<View style={[styles.missionRow,",
+          "to": "<View testID=\"rescue-mission\" style={[styles.missionRow,"
+        },
+        {
+          "from": "<View style={[styles.workbench,",
+          "to": "<View testID=\"rescue-workbench\" style={[styles.workbench,"
+        },
+        {
+          "from": "<View style={styles.flightColumn}",
+          "to": "<View testID=\"rescue-flight-column\" style={styles.flightColumn}"
+        },
+        {
+          "from": "<View style={[styles.labColumn,",
+          "to": "<View testID=\"rescue-lab-column\" style={[styles.labColumn,"
+        },
+        {
+          "from": "<View style={styles.deckHeading}",
+          "to": "<View testID=\"rescue-deck-heading\" style={styles.deckHeading}"
+        },
+        {
+          "from": "<View style={styles.pilotNote}",
+          "to": "<View testID=\"rescue-pilot-note\" style={styles.pilotNote}"
+        },
+        {
+          "from": "<Text style={styles.pageFooter}",
+          "to": "<Text testID=\"rescue-page-footer\" style={styles.pageFooter}"
+        },
+        {
+          "from": "<View style={styles.labFooter}",
+          "to": "<View testID=\"rescue-lab-footer\" style={styles.labFooter}"
+        },
+        {
+          "from": "<View style={styles.log}",
+          "to": "<View testID=\"rescue-log\" style={styles.log}"
+        },
+        {
+          "from": "<ScrollView style={{ pointerEvents:",
+          "to": "<ScrollView testID=\"rescue-page\" style={{ pointerEvents:"
+        },
+        {
+          "from": "<View style={styles.sourceValues}>",
+          "to": "<View testID={`rescue-source-values-${which}`} style={styles.sourceValues}>"
+        },
+        {
+          "from": "<Text style={styles.hint}>{task.hint}</Text>",
+          "to": "<Text testID=\"rescue-hint\" style={styles.hint}>{task.hint}</Text>"
+        },
+        {
+          "from": "<View style={styles.equation}>\n      <Fraction",
+          "to": "<View testID=\"rescue-equation\" style={styles.equation}>\n      <Fraction"
+        },
+        {
+          "from": "<View style={styles.equation}><Fraction",
+          "to": "<View testID=\"rescue-equation\" style={styles.equation}><Fraction"
+        }
+      ]
+    },
+    {
+      "file": "src/shared/integration/contracts.ts",
+      "changes": [
+        {
+          "from": "export const TRAINING_GAME_VERSION = '0.1.2';",
+          "to": "export const TRAINING_GAME_VERSION = '0.1.12';"
+        }
+      ]
+    }
+  ],
+  "peerDependencyOverrides": {
+    "react-native": "^0.88.0",
+    "react-native-safe-area-context": "^5.10.1"
+  }
+}

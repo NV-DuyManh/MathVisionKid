@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useRef, useState } from 'react';
 import { isCompactStudentWeb } from '../../components/ui/useIsCompactStudentWeb';
 import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { AuthContext } from '../../context/AuthContext';
@@ -15,6 +14,7 @@ import { quizStyles as s } from '../../features/quiz/quizStyles';
 import { AppIllustration } from '../../components/ui/AppIllustration';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
+import { CHALLENGE_COLORS as C, ChallengeWebStyles } from '../../components/ui/ChallengeVisuals';
 
 const GROUPS: { id: QuizGroup; title: string }[] = [{ id: 'PENDING', title: 'Chờ làm' }, { id: 'IN_PROGRESS', title: 'Đang làm' }, { id: 'COMPLETED', title: 'Đã xong' }];
 const EMPTY = {
@@ -90,15 +90,16 @@ function Library() {
     ? [...new Set(getProblemsByGrade(grade as 1 | 2 | 3 | 4 | 5).map(problem => problem.section))].slice(0, 3) : [];
   return <SafeAreaView style={s.screen} edges={['top', 'bottom']}
     onLayout={showWorkspace ? event => setPageWidth(event.nativeEvent.layout.width) : undefined}>
+    <ChallengeWebStyles />
     {!showWorkspace && <AppHeader title="Câu đố của em" showBack rightIcon="help-circle-outline" onRightPress={() => setShowHelp(value => !value)}
       rightAccessibilityLabel="Câu đố hoạt động thế nào?" rightAccessibilityState={{ expanded: showHelp }} />}
-    <ScrollView style={s.scroll} contentContainerStyle={[l.content, showWorkspace && l.webContent]}>
+    <ScrollView style={s.scroll} contentContainerStyle={[l.content, showWorkspace && l.webContent]} {...(IS_STUDENT_WEB ? { dataSet: { challenge: 'true' } } : {})}>
       <Columns {...(showWorkspace ? { style: desktop ? l.webLayout : undefined } : {})}>
       <Columns {...(showWorkspace ? { style: [l.column, desktop && l.webMain] } : {})}>
       {showHelp ? <View style={l.help}><Text accessibilityRole="header" style={l.topic}>Luyện thêm từ bài em đã học</Text>
         <Text style={l.body}>Hoàn tất bài học hoặc phần nhận xét, rồi chọn làm ngay hay để sau. Câu đố có dữ kiện mới để em thử lại cách làm.</Text>
         <Text style={l.body}>Chỉ những dạng bài được hỗ trợ mới có câu đố. Bài đang dở và kết quả sẽ được lưu trong tài khoản của em.</Text></View> : null}
-      {showWorkspace ? <LinearGradient colors={['#4632D0', '#6946DE', '#824CEB']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={l.webHero}>
+      {showWorkspace ? <View style={l.webHero}>
         {desktop && <View style={l.webHeroBadge}><Ionicons name="clipboard" size={44} color="#FFD657" accessible={false} /></View>}
         <View style={l.introCopy}>
           <Text accessibilityRole="header" style={l.webHeroTitle}>Câu đố của em</Text>
@@ -115,7 +116,7 @@ function Library() {
         <AppIllustration source={require('../../../assets/illustrations/web/robot-mascot.webp')} style={l.heroMascot} accessible={false} />
         {showWorkspace && <Pressable accessibilityRole="button" accessibilityLabel="Câu đố hoạt động thế nào?" accessibilityState={{ expanded: showHelp }}
           onPress={() => setShowHelp(value => !value)} style={l.webHeroHelp}><Ionicons name="help-circle-outline" size={23} color="#FFF" accessible={false} /></Pressable>}
-      </LinearGradient> : <View style={[l.intro, compactWeb && l.compactIntro]}>
+      </View> : <View style={[l.intro, compactWeb && l.compactIntro]}>
         <View style={l.introCopy}><Text accessibilityRole="header" style={l.heading}>Cùng thử sức</Text><Text style={l.body}>Ôn lại từ những bài em đã học.</Text>
           {totalStars !== null && totalStars > 0 ? <View style={l.starPill}><Ionicons name="star" size={13} color="#936315" accessible={false} /><Text style={l.starText}>{totalStars} sao đã nhận</Text></View> : null}</View>
         <Image source={require('../../../assets/illustrations/robot-mascot.png')} style={l.introMascot} accessible={false} />
@@ -138,9 +139,9 @@ function Library() {
       </View> : null}
       {result?.items.map(quiz => <Pressable key={quiz.quizId} accessibilityRole="button"
         accessibilityLabel={`${quiz.topicName}. ${quiz.questionText}. ${statusLabel(quiz)}. ${quiz.status === 'COMPLETED' ? 'Xem lại' : quiz.status === 'IN_PROGRESS' ? 'Tiếp tục' : 'Bắt đầu'}`}
-        onPress={() => router.push(`/quiz/${quiz.quizId}` as never)} style={({ pressed }) => [l.card, IS_STUDENT_WEB && l.webCard, pressed && l.pressed]}>
-        <View style={l.cardHeading}><View style={l.topicIcon}><Ionicons name={quiz.status === 'COMPLETED' ? 'checkmark' : 'sparkles-outline'} size={18} color={COLORS.primaryDark} accessible={false} /></View>
-          <Text style={l.topic}>{quiz.topicName}</Text></View>
+        onPress={() => router.push(`/quiz/${quiz.quizId}` as never)} style={({ pressed }) => [l.card, IS_STUDENT_WEB && l.webCard, { borderLeftColor: quiz.status === 'COMPLETED' ? C.green : quiz.status === 'IN_PROGRESS' ? '#BA781E' : C.primary }, pressed && l.pressed]}>
+        <View style={l.cardHeading}><View style={[l.topicIcon,{backgroundColor: quiz.status === 'COMPLETED' ? '#E5F5ED' : quiz.status === 'IN_PROGRESS' ? '#FFF3D6' : C.lavender}]}><Ionicons name={quiz.status === 'COMPLETED' ? 'checkmark-done' : quiz.status === 'IN_PROGRESS' ? 'hourglass-outline' : 'flag-outline'} size={23} color={quiz.status === 'COMPLETED' ? C.green : C.deepPurple} accessible={false} /></View>
+          <View style={l.cardTopic}><Text style={l.grade}>LỚP {quiz.gradeLevel} · {quiz.status === 'COMPLETED' ? 'ĐÃ HOÀN THÀNH' : quiz.status === 'IN_PROGRESS' ? 'ĐANG LÀM' : 'CHỜ KHÁM PHÁ'}</Text><Text style={l.topic}>{quiz.topicName}</Text></View></View>
         <MathText style={l.question}>{quiz.questionText}</MathText>
         <View style={l.cardFooter}><Text style={l.metadata}>{statusLabel(quiz)}</Text><View style={l.action}>
           <Text style={l.actionText}>{quiz.status === 'COMPLETED' ? 'Xem lại' : quiz.status === 'IN_PROGRESS' ? 'Tiếp tục' : 'Bắt đầu'}</Text><Ionicons name="arrow-forward" size={15} color={COLORS.primaryDark} accessible={false} /></View></View>
@@ -185,13 +186,13 @@ const l = StyleSheet.create({
   column: { minWidth: 0, gap: 16, marginBottom: 16 },
   webMain: { flex: 1, minWidth: 0 },
   webAside: { width: 292, flexShrink: 0 },
-  webHero: { flexDirection: 'row', alignItems: 'center', gap: 14, minHeight: 162, borderRadius: 22, padding: 15, overflow: 'hidden' },
+  webHero: { flexDirection: 'row', alignItems: 'center', gap: 14, minHeight: 176, borderRadius: 24, padding: 22, overflow: 'hidden', backgroundColor: C.ink },
   heroMascot: { width: '30%', maxWidth: 180, height: 134 },
   webHeroBadge: { width: 75, height: 79, borderRadius: 23, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF20', transform: [{ rotate: '-8deg' }] },
   webHeroHelp: { position: 'absolute', right: 7, top: 4, width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   webHeroTitle: { color: '#FFD95E', fontFamily: FONTS.black, fontSize: 30, lineHeight: 36 },
   webGroup: { flexDirection: 'row', gap: 5, borderRadius: 22 },
-  webSelected: { backgroundColor: '#6535D5', borderColor: '#A177F5' },
+  webSelected: { backgroundColor: C.deepPurple, borderColor: C.deepPurple },
   webSelectedText: { color: '#FFFFFF', fontFamily: FONTS.extraBold },
   listHeading: { flexDirection: 'row', alignItems: 'center', gap: 7 },
   webEmpty: { minHeight: 190, paddingVertical: 14, borderWidth: 1, borderColor: STUDENT_WEB.border, borderRadius: 17, backgroundColor: STUDENT_WEB.surface },
@@ -207,7 +208,7 @@ const l = StyleSheet.create({
   compactIntro: { paddingHorizontal: 16, borderWidth: 1, borderColor: COLORS.border, borderRadius: WEB_DESIGN.radii.notebook, backgroundColor: COLORS.surface },
   intro: { flexDirection: 'row', alignItems: 'center', gap: 16, paddingVertical: 8 },
   webGroups: { backgroundColor: STUDENT_WEB.soft, borderRadius: WEB_DESIGN.radii.control },
-  webCard: { borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook },
+  webCard: { borderColor: C.line, borderRadius: 20 },
   introCopy: { flex: 1, minWidth: 0, gap: 5 }, introMascot: { width: 72, height: 78, resizeMode: 'contain' },
   heading: { fontFamily: FONTS.extraBold, fontSize: 21, lineHeight: 29, color: COLORS.textPrimary },
   body: { fontFamily: FONTS.regular, fontSize: 13, lineHeight: 21, color: COLORS.textSecondary },
@@ -226,12 +227,13 @@ const l = StyleSheet.create({
   emptyTitle: { fontFamily: FONTS.extraBold, fontSize: 18, lineHeight: 26, color: COLORS.textPrimary, textAlign: 'center' },
   emptyBody: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 23, color: COLORS.textSecondary, textAlign: 'center', maxWidth: 330 },
   emptyAction: { width: '100%', maxWidth: 260, paddingTop: 10 },
-  card: { padding: 16, gap: 12, borderRadius: 21, backgroundColor: '#FFF', borderWidth: 1, borderColor: '#E7E0F1' },
-  cardHeading: { flexDirection: 'row', alignItems: 'center', gap: 9 }, topicIcon: { width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F0EAFF' },
+  card: { padding: 20, gap: 16, borderRadius: 21, backgroundColor: '#FFF', borderWidth: 1, borderLeftWidth: 5, borderColor: C.line },
+  cardHeading: { flexDirection: 'row', alignItems: 'center', gap: 12 }, topicIcon: { width: 46, height: 46, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: C.lavender },
+  cardTopic: { flex: 1, minWidth: 0, gap: 4 }, grade: { fontFamily: FONTS.extraBold, fontSize: 10, lineHeight: 16, letterSpacing: .6, color: C.deepPurple },
   topic: { flexShrink: 1, fontFamily: FONTS.extraBold, fontSize: 14, lineHeight: 21, color: COLORS.textPrimary },
-  question: { fontFamily: FONTS.regular, fontSize: 14, lineHeight: 23, color: COLORS.textSecondary },
+  question: { fontFamily: FONTS.semiBold, fontSize: 16, lineHeight: 26, color: C.ink },
   cardFooter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap', borderTopWidth: 1, borderTopColor: '#F1ECF7', paddingTop: 10 },
   metadata: { flexShrink: 1, fontFamily: FONTS.semiBold, fontSize: 12, lineHeight: 19, color: COLORS.textSecondary },
-  action: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 5, paddingHorizontal: 10, borderRadius: 10, backgroundColor: '#F0EAFF' },
+  action: { flexDirection: 'row', alignItems: 'center', gap: 6, minHeight: 44, paddingVertical: 8, paddingHorizontal: 14, borderRadius: 12, backgroundColor: C.lavender },
   actionText: { fontFamily: FONTS.bold, fontSize: 12, lineHeight: 18, color: COLORS.primaryDark },
 });

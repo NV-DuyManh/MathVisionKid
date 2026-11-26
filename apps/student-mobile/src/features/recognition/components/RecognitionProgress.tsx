@@ -5,10 +5,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SHADOWS } from '../../../constants/theme';
 import { TaskProgress, TaskProgressProps } from '../../../components/ui/TaskProgress';
 
-type Props = { title: string; description: string; imageUri?: string; onCancel?: () => void; cancelLabel?: string } & Partial<TaskProgressProps>;
+type Props = { title: string; description: string; imageUri?: string; onCancel?: () => void; cancelLabel?: string; desktop?: boolean } & Partial<TaskProgressProps>;
 const MASCOT = require('../../../../assets/illustrations/robot-mascot.png');
 
-export function RecognitionProgress({ title, description, imageUri, onCancel, cancelLabel = 'Quay lại', steps, activeStep, complete, percent, detail, timeoutSeconds, onTimeout, onComplete }: Props) {
+export function RecognitionProgress({ title, description, imageUri, onCancel, cancelLabel = 'Quay lại', steps, activeStep, complete, percent, detail, timeoutSeconds, onTimeout, onComplete, desktop = false }: Props) {
   const [motion] = useState(() => new Animated.Value(0));
   const [width, setWidth] = useState(240);
   const [reduceMotion, setReduceMotion] = useState(true);
@@ -33,20 +33,9 @@ export function RecognitionProgress({ title, description, imageUri, onCancel, ca
     return () => animation.stop();
   }, [motion, reduceMotion, staged]);
 
-  return <ScrollView style={styles.scroll} contentContainerStyle={styles.content} nestedScrollEnabled showsVerticalScrollIndicator={false}>
-    <LinearGradient colors={['#F2EEFF', '#E6DEFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.scene, compact && styles.sceneCompact]}>
-      <View style={styles.softCircle} />
-      <View style={styles.littleCircle} />
-      {imageUri ? <View style={[styles.paper, SHADOWS.small]}>
-        <Image source={{ uri: imageUri }} style={styles.photo} resizeMode="contain" accessible={false} />
-      </View> : null}
-      <Image source={MASCOT} style={[imageUri ? styles.mascot : styles.mascotAlone, compact && styles.mascotCompact]}
-        resizeMode="contain" accessible={false} />
-      <View style={styles.sparkle}><Ionicons name="sparkles" size={18} color="#E5A930" accessible={false} /></View>
-    </LinearGradient>
-
-    <Text style={styles.title} accessibilityRole="header">{title}</Text>
-    <Text style={styles.description}>{description}</Text>
+  const details = <>
+    <Text style={[styles.title, desktop && styles.desktopText]} accessibilityRole="header">{title}</Text>
+    <Text style={[styles.description, desktop && styles.desktopText]}>{description}</Text>
     {staged ? <TaskProgress key={title} steps={steps!} activeStep={activeStep} complete={complete} percent={percent} detail={detail} timeoutSeconds={timeoutSeconds} onTimeout={onTimeout} onComplete={onComplete} /> : <View style={styles.track} onLayout={event => setWidth(event.nativeEvent.layout.width)}
       accessibilityRole="progressbar" accessibilityLabel={title} accessibilityState={{ busy: true }} aria-busy={true}>
       <Animated.View style={[styles.bar, { width: width * 0.34,
@@ -63,14 +52,34 @@ export function RecognitionProgress({ title, description, imageUri, onCancel, ca
         <Text style={styles.cancelText}>{cancelLabel}</Text>
       </Pressable>
     </> : null}
+  </>;
+
+  return <ScrollView style={[styles.scroll, desktop && styles.desktopScroll]} contentContainerStyle={[styles.content, desktop && styles.desktopContent]} nestedScrollEnabled showsVerticalScrollIndicator={false}>
+    <LinearGradient testID="recognition-progress-preview" colors={['#F2EEFF', '#E6DEFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.scene, compact && styles.sceneCompact, desktop && styles.desktopScene]}>
+      <View style={styles.softCircle} />
+      <View style={styles.littleCircle} />
+      {imageUri ? <View style={[styles.paper, SHADOWS.small]}>
+        <Image source={{ uri: imageUri }} style={styles.photo} resizeMode="contain" accessible={false} />
+      </View> : null}
+      <Image source={MASCOT} style={[imageUri ? styles.mascot : styles.mascotAlone, compact && styles.mascotCompact]}
+        resizeMode="contain" accessible={false} />
+      <View style={styles.sparkle}><Ionicons name="sparkles" size={18} color="#E5A930" accessible={false} /></View>
+    </LinearGradient>
+
+    {desktop ? <View testID="recognition-progress-details" style={styles.desktopDetails}>{details}</View> : details}
   </ScrollView>;
 }
 
 const styles = StyleSheet.create({
   scroll: { width: '100%', maxWidth: 420, maxHeight: '100%', flexGrow: 0, flexShrink: 1, alignSelf: 'center' },
   content: { alignItems: 'center', paddingVertical: 8, paddingHorizontal: 2 },
+  desktopScroll: { maxWidth: 1100 },
+  desktopContent: { flexDirection: 'row', alignItems: 'stretch', gap: 18, padding: 8 },
+  desktopDetails: { flex: 1, minWidth: 0, alignItems: 'stretch', justifyContent: 'center', borderRadius: 22, padding: 24, backgroundColor: COLORS.surface },
+  desktopText: { textAlign: 'left', maxWidth: '100%' },
   scene: { width: '100%', height: 206, borderRadius: 28, overflow: 'hidden', marginBottom: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EEE7FF' },
   sceneCompact: { height: 124, marginBottom: 16 },
+  desktopScene: { flex: 1, width: undefined, minWidth: 0, height: undefined, minHeight: 300, marginBottom: 0 },
   softCircle: { position: 'absolute', width: 190, height: 190, right: -64, top: -72, borderRadius: 95, backgroundColor: '#DFD3FF' },
   littleCircle: { position: 'absolute', width: 56, height: 56, left: 14, bottom: -28, borderRadius: 28, backgroundColor: '#D9EEE0' },
   paper: { position: 'absolute', left: 18, top: 15, bottom: 15, width: '74%', borderRadius: 17, padding: 8, backgroundColor: '#FFFFFF', transform: [{ rotate: '-3deg' }] },

@@ -19,6 +19,7 @@ type Props = {
   showFeedback?: boolean;
   problemText?: string;
   incompleteInfo?: IncompleteCheckResult | null;
+  maxPhotoHeight?: number;
 };
 
 function validBox(box: NotebookLine['box']): box is [number, number, number, number] {
@@ -44,6 +45,7 @@ function WorkPhotoSource({
   showFeedback = false,
   problemText = '',
   incompleteInfo,
+  maxPhotoHeight,
 }: Props & { onReload: () => void }) {
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
   const [failed, setFailed] = useState(false);
@@ -106,7 +108,7 @@ function WorkPhotoSource({
     </> : null}
 
     {presentation !== 'lines' ? (imageUri && !failed ? <View testID="work-evidence-photo-frame"
-      style={[styles.photoFrame, { aspectRatio: ratio, maxWidth: size ? Math.min(640, 480 * ratio) : 640 }]}>
+      style={[styles.photoFrame, { aspectRatio: ratio, maxWidth: size || maxPhotoHeight != null ? Math.min(640, (maxPhotoHeight ?? 480) * ratio) : 640 }]}>
       <Image source={{ uri: imageUri }} testID="work-evidence-photo" resizeMode="contain" style={StyleSheet.absoluteFill}
         accessible accessibilityLabel="Ảnh bài em đã làm, các vùng được đánh số theo dòng bên dưới"
         onError={failImage} />

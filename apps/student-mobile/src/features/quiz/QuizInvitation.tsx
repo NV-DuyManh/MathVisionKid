@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { Image, Text, View } from 'react-native';
+import type { ViewStyle } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { AppButton } from '../../components/ui/AppButton';
 import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
@@ -10,13 +11,15 @@ import { quizStyles as s } from './quizStyles';
 
 type Source = { sourceType: Quiz['sourceType']; sourceId: string };
 
-export function QuizAfterLearningButton(props: Source) {
+type ReadyQuizProps = Source & { buttonStyle?: ViewStyle };
+
+export function QuizAfterLearningButton(props: ReadyQuizProps) {
   const auth = useContext(AuthContext);
   const owner = auth?.user?.id || auth?.user?.userId || '';
   return <ReadyQuizEntry key={`${owner}:${props.sourceType}:${props.sourceId}`} {...props} />;
 }
 
-function ReadyQuizEntry({ sourceType, sourceId }: Source) {
+function ReadyQuizEntry({ sourceType, sourceId, buttonStyle }: ReadyQuizProps) {
   const router = useRouter();
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [busy, setBusy] = useState(true), [failed, setFailed] = useState(false), [retry, setRetry] = useState(0);
@@ -38,7 +41,7 @@ function ReadyQuizEntry({ sourceType, sourceId }: Source) {
   if (!quiz) return null;
   const title = quiz.status === 'COMPLETED' ? 'Xem kết quả Quiz' : quiz.status === 'IN_PROGRESS' ? 'Tiếp tục Quiz'
     : quiz.topicCode === 'CHECKED_SOURCE_REVIEW' ? 'Ôn lại bài vừa học' : 'Thử sức với Quiz';
-  return <AppButton title={title} variant="secondary" onPress={() => router.push(`/quiz/${quiz.quizId}` as never)} />;
+  return <AppButton title={title} variant="secondary" style={buttonStyle} onPress={() => router.push(`/quiz/${quiz.quizId}` as never)} />;
 }
 
 /** Only a verified server offer can open a Quiz. */

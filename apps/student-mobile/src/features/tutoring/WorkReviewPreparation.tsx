@@ -11,16 +11,17 @@ type Props = {
   problemNeedsReview?: boolean;
   disabled: boolean; onEdit: (field: 'problem' | 'work') => void; onConfirm: () => void;
   confirmLabel?: string;
+  showPhoto?: boolean;
 };
 
 /** Transcription confirmation is separate from the mathematical review. */
-export function WorkReviewPreparation({ problem, work, problemImage, workImage, photoCurrent, problemNeedsReview, disabled, onEdit, onConfirm,
+export function WorkReviewPreparation({ problem, work, problemImage, workImage, photoCurrent, problemNeedsReview, disabled, onEdit, onConfirm, showPhoto = true,
   confirmLabel = 'Nội dung đã đúng · Xem nhận xét' }: Props) {
   const [section, setSection] = useState<'problem' | 'work'>(problemNeedsReview ? 'problem' : 'work');
   const source = section === 'work' ? work : problem;
   const photo = section === 'work' ? workImage : problemImage;
   const unclear = problem.includes('[?]') || work.includes('[?]');
-  return <View style={s.card}>
+  return <View style={s.card} testID="work-review-preparation">
     <View style={s.headingRow}><View style={s.icon}><Ionicons name="scan-outline" size={21} color={COLORS.primaryDark} accessible={false} /></View>
       <View style={s.copy}><Text style={s.eyebrow}>1 · ĐỌC BÀI LÀM</Text><Text accessibilityRole="header" style={s.title}>Mình đã đọc được như sau</Text></View></View>
     <Text style={s.body}>Đối chiếu phần chữ với ảnh. Chỉ chỉnh nếu có số hoặc dấu chưa đúng; bước sau mình sẽ nhận xét bài em đã làm.</Text>
@@ -30,7 +31,7 @@ export function WorkReviewPreparation({ problem, work, problemImage, workImage, 
       <Text style={[s.tabText, section === field && s.activeText]}>{field === 'problem' ? 'Đề bài' : 'Bài em đã viết'}{(field === 'problem' ? problem : work).includes('[?]') ? ' · Chưa rõ' : ''}</Text>
     </Pressable>)}</View>
     {problemNeedsReview ? <Text style={s.note} accessibilityRole="alert">Em kiểm tra lại đề với ảnh, nhất là các số và dấu phép tính, rồi xác nhận nhé.</Text> : null}
-    {photo ? <View style={s.photoFrame}><Image source={{ uri: photo }} style={s.photo} resizeMode="contain"
+    {photo && showPhoto ? <View style={s.photoFrame}><Image source={{ uri: photo }} style={s.photo} resizeMode="contain"
       accessibilityLabel={section === 'problem' ? 'Ảnh đề bài' : photoCurrent ? 'Ảnh bài em đã làm' : 'Ảnh trước khi sửa bài bằng chữ'} /></View> : null}
     {section === 'work' && photo && !photoCurrent ? <Text style={s.note}>Ảnh trước khi sửa. Nhận xét tiếp theo sẽ dựa trên phần chữ mới bên dưới.</Text> : null}
     <View style={s.transcript}><MathText style={s.body}>{section === 'problem' ? problemPresentation(source) : source}</MathText></View>

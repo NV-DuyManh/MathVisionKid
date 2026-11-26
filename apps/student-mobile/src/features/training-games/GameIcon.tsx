@@ -1,23 +1,27 @@
-import React, { type ComponentProps } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Image, type ImageSource } from 'expo-image';
 
-type Glyph = ComponentProps<typeof Ionicons>['name'];
-export type GameArtwork = { icon: Glyph; accent: Glyph; color: string; tint: string };
+export type GameArtwork = { id: string; source: ImageSource | number };
 
-export function GameIcon({ artwork }: { artwork: GameArtwork }) {
+// Static imports let Metro and the web export fingerprint/bundle each thumbnail.
+// No remote image request or gameplay entry is needed by the catalog.
+export const GAME_ARTWORK = {
+  'star-quest': { id: 'star-quest', source: require('../../../assets/game-artwork/star-quest.webp') },
+  'race-to-finish': { id: 'race-to-finish', source: require('../../../assets/game-artwork/race-to-finish.webp') },
+  'terrain-racing': { id: 'terrain-racing', source: require('../../../assets/game-artwork/terrain-racing.webp') },
+  'energy-defense': { id: 'energy-defense', source: require('../../../assets/game-artwork/energy-defense.webp') },
+  'planet-rescue': { id: 'planet-rescue', source: require('../../../assets/game-artwork/planet-rescue.webp') },
+  'block-island': { id: 'block-island', source: require('../../../assets/game-artwork/block-island.webp') },
+} satisfies Record<string, GameArtwork>;
+
+export function GameIcon({ artwork, size = 64 }: { artwork: GameArtwork; size?: number }) {
   return <View accessible={false} importantForAccessibility="no-hide-descendants" aria-hidden
-    style={[styles.tile, { backgroundColor: artwork.tint }]}>
-    <Ionicons name={artwork.icon} size={34} color={artwork.color} style={styles.glyph} />
-    <View style={[styles.accent, { backgroundColor: artwork.color }]}>
-      <Ionicons name={artwork.accent} size={13} color="#FFFFFF" />
-    </View>
+    pointerEvents="none" style={[styles.tile, { width: size, height: size, borderRadius: size * .28 }]}>
+    <Image testID={`game-artwork-${artwork.id}`} source={artwork.source} contentFit="contain"
+      accessible={false} transition={0} style={StyleSheet.absoluteFill} />
   </View>;
 }
-
 const styles = StyleSheet.create({
-  tile: { width: 64, height: 64, borderRadius: 19, flexShrink: 0, alignItems: 'center', justifyContent: 'center' },
-  glyph: { transform: [{ rotate: '-8deg' }], marginRight: 4, marginBottom: 4 },
-  accent: { position: 'absolute', bottom: 2, right: 2, width: 23, height: 23, borderRadius: 12,
-    borderWidth: 2, borderColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
+  tile: { flexShrink: 0, overflow: 'hidden', backgroundColor: '#EDE8F4' },
 });

@@ -1,3 +1,4 @@
+import { isWideDesktopStudentWeb } from '../components/ui/useIsCompactStudentWeb';
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { View, Text, StyleSheet, Image, Alert, Platform, Pressable, ScrollView, useWindowDimensions } from 'react-native';
 import type { ViewProps, ViewStyle } from 'react-native';
@@ -89,7 +90,8 @@ export default function CropScreen() {
 function CropEditor({ draft, source, original, retrySubmissionId }: { draft: ImageDraft | null; source: string; original: string; retrySubmissionId?: string }) {
   const router = useRouter();
   const { width, height } = useWindowDimensions();
-  const landscape = width > height && height < 550 && (Platform.OS !== 'web' || width >= 680);
+  const desktop = isWideDesktopStudentWeb(width);
+  const landscape = desktop || (width > height && height < 550 && (Platform.OS !== 'web' || width >= 680));
   const [image, setImage] = useState<{ uri: string; width: number; height: number } | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -233,8 +235,8 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
     } finally { lock.current = false; if (mounted.current) setProcessing(false); }
   };
 
-  const editor = <View style={[styles.body, landscape && styles.landscape]}>
-      <View style={[styles.canvas, Platform.OS === 'web' && styles.webCanvas]} onLayout={e => { viewport.set({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }); }}>
+  const editor = <View style={[styles.body, landscape && styles.landscape, desktop && styles.desktopEditor]}>
+      <View testID="crop-canvas" style={[styles.canvas, Platform.OS === 'web' && styles.webCanvas, desktop && styles.desktopCanvas]} onLayout={e => { viewport.set({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }); }}>
         {image ? <Animated.Image source={{ uri: image.uri }} style={imageStyle} resizeMode="stretch" onError={() => setLoadError(true)} accessibilityLabel="Ảnh bài tập đang căn chỉnh" /> : null}
         {image && !loadError ? <>
           {[topShade, bottomShade, leftShade, rightShade].map((shade, i) => <Animated.View key={i} pointerEvents="none" style={[styles.shade, shade]} />)}
@@ -257,8 +259,8 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
         {!image && !loadError ? <View style={styles.loading}><ActivityRail label="Đang mở ảnh" /></View> : null}
         {loadError ? <View style={styles.loading}><Ionicons name="image-outline" size={40} color="white" /><Text style={styles.lightText}>Chưa mở được ảnh bài tập</Text>{Platform.OS === 'web' ? <DraftImagePicker showReason /> : <AppButton title="Chọn lại ảnh" onPress={() => router.back()} />}</View> : null}
       </View>
-      <View style={[styles.footer, landscape && styles.landscapeFooter]}>
-        <View style={styles.controls}>
+      <View testID="crop-tools" style={[styles.footer, landscape && styles.landscapeFooter, desktop && styles.desktopFooter]}>
+        <View style={[styles.controls, desktop && styles.desktopControls]}>
           <Pressable accessibilityRole="button" accessibilityLabel="Xoay ảnh 90 độ" disabled={disabled} onPress={() => { const next = (turns.get() + 1) % 4; remember({ turns: next }); turns.set(next); }} style={({ pressed }) => [styles.rotateButton, pressed && styles.pressed, disabled && styles.disabled]}>
             <Ionicons name="refresh-outline" size={24} color={COLORS.primaryDark} /><Text style={styles.rotateLabel}>Xoay 90°</Text>
           </Pressable>
@@ -290,6 +292,10 @@ const styles = StyleSheet.create({
   tipText: { flex: 1, color: COLORS.textPrimary, fontFamily: FONTS.semiBold, fontSize: 13, lineHeight: 18 },
   canvas: { flex: 1, overflow: 'hidden', backgroundColor: '#10121D' },
   webEditor: { flexGrow: 1 }, webCanvas: { minHeight: 200 },
+  desktopEditor: { padding: 16, gap: 16 },
+  desktopCanvas: { minHeight: 440, minWidth: 0, borderRadius: 18 },
+  desktopFooter: { width: 324, justifyContent: 'flex-start', borderRadius: 18, padding: 16, gap: 12 },
+  desktopControls: { gap: 10 },
   shade: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.58)' },
   crop: { position: 'absolute', borderWidth: 1.5, borderColor: '#FFFFFF' },
   horizontal: { position: 'absolute', left: 0, right: 0, height: 1, backgroundColor: 'rgba(255,255,255,0.35)' },

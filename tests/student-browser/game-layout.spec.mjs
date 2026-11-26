@@ -1,3 +1,4 @@
+import { chooseTrainingGrade } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 const desktopSizes = [[1280, 720], [1366, 768], [1440, 900], [1920, 1080], [2560, 1440]];
@@ -276,6 +277,7 @@ async function open(page, game) {
     else await page.goto(`${sites.portal.origin}/study/games/${game}`);
   }
   await expect(player).toBeVisible();
+  await chooseTrainingGrade(page,game);
   expect(await page.evaluate(() => Number(getComputedStyle(document.documentElement).zoom))).toBe(1);
 }
 
