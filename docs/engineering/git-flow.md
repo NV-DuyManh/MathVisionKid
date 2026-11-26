@@ -25,7 +25,7 @@ git merge --ff-only origin/develop
 git switch -c feature/short-description
 # Sửa, tự đọc diff, dùng AI review, chạy kiểm tra phù hợp, commit rõ mục đích.
 git push -u origin feature/short-description
-gh pr create --base develop
+gh pr create --base develop --label type:fix,area:student,risk:low
 ```
 
 Commit và tiêu đề PR dùng Conventional Commits (`feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `ci`...). Trước review/merge, merge develop mới nhất vào task nếu cần; không rebase rồi force-push nhánh chung. CI kiểm tra chính PR head có chứa base mới nhất, thay vì chỉ kiểm tra merge commit tổng hợp của GitHub.
@@ -58,3 +58,14 @@ CI kiểm tra đích PR, loại nhánh, revision task đã cập nhật, release
 Đợt chuyển đổi bắt đầu từ main `48c1c7a95966391842a05c80794298207d05cc55`: tạo develop cùng revision, đưa feature policy vào develop rồi release vào main và backmerge. Không viết lại lịch sử cũ. PR #51 giữ nguyên tác giả/head và chuyển base develop; CI chỉ nhận ngoại lệ đúng số PR, head, repository, ngày tạo tới 2026-11-26. Nếu hết hạn, người làm đưa commit qua feature branch hợp lệ, giữ attribution. Những nhánh cũ khác không tự được miễn.
 
 Snapshot rulesets/settings cũ lưu ngoài Git trong `.local-artifacts/git-flow-migration/`. Nếu có lỗi, sửa qua bugfix/hotfix và PR; không tắt Quality gate/force-push hoặc tự bypass. Khôi phục cấu hình server từ snapshot chỉ khi owner yêu cầu rõ ràng.
+
+## Nhãn bắt buộc cho PR
+
+Khi mở PR, chọn nhãn trong mục **Labels** hoặc truyền `--label` nếu dùng GitHub CLI.
+
+- Chọn đúng một loại trong nhóm `type:*`. Dependabot dùng nhãn `dependencies`.
+- Chọn ít nhất một phạm vi `area:*`. Gắn thêm nhãn nếu PR ảnh hưởng nhiều ứng dụng hoặc dịch vụ.
+- Chọn đúng một mức `risk:*`. Dùng `risk:high` cho dữ liệu nhạy cảm, thay đổi bảo mật, migration hoặc thay đổi diện rộng. Dùng `risk:medium` nếu cần kiểm tra hồi quy hoặc triển khai. Dùng `risk:low` khi thay đổi nhỏ, độc lập và dễ quay lui.
+- Các nhãn bổ sung như `accessibility` vẫn dùng để lọc PR. Danh sách nhãn bắt buộc được định nghĩa trong [danh mục nhãn](../../.github/pr-labels.json).
+
+PR mở từ giao diện GitHub có thể xuất hiện trước khi được gắn nhãn. Quality gate chặn merge khi thiếu nhóm nhãn hoặc chọn trùng loại hay mức rủi ro. Thêm hoặc gỡ nhãn sẽ chạy lại kiểm tra.

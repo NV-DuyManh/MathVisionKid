@@ -1,6 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: npm
+    labels: ['dependencies', 'area:shared', 'risk:medium']
     target-branch: develop
     directory: /
     schedule:
@@ -33,6 +34,7 @@ updates:
         applies-to: security-updates
         patterns: ['expo*', '@expo/*', 'react', 'react-dom', 'react-native*', '@react-native/*']
   - package-ecosystem: gradle
+    labels: ['dependencies', 'area:backend', 'risk:medium']
     target-branch: develop
     directory: /backend/business-api
     schedule:
@@ -58,6 +60,7 @@ updates:
   # uv handles both requirements*.txt and pyproject/uv.lock. One updater owns
   # these directories, avoiding competing pip and uv PRs for the same pins.
   - package-ecosystem: uv
+    labels: ['dependencies', 'area:ai', 'risk:medium']
     target-branch: develop
     directories: [/ai/runtime, /scripts]
     schedule:
@@ -89,6 +92,7 @@ updates:
         applies-to: security-updates
         patterns: ['torch*', 'ultralytics', 'opencv-python*']
   - package-ecosystem: github-actions
+    labels: ['dependencies', 'area:ci', 'risk:medium']
     target-branch: develop
     directory: /
     schedule:

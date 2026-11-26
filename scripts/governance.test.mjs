@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
-import { validateTitle, planChecks, checkNewPaths, checkTrackedArtifacts, verifyWorkflow, checkGate } from './governance.mjs';
+import { validateTitle, validatePullRequestLabels, planChecks, checkNewPaths, checkTrackedArtifacts, verifyWorkflow, checkGate } from './governance.mjs';
 import { checkRegistry, routeSkills } from './skills.mjs';
 
 test('registry resolves backend/review without unrelated UI or complexity-only review', async () => {
@@ -167,4 +167,14 @@ test('owner approval exemption never bypasses PR, CI or history protections', ()
   assert.deepEqual(tags.bypass_actors, []);
   assert.equal(tags.target, 'tag');
   assert.deepEqual(tags.rules, [{type:'update'}, {type:'deletion'}]);
+});
+
+test('pull requests need a type, one or more affected areas, and a single risk label', () => {
+  const verify = (...names) => validatePullRequestLabels(names.map(name => ({name})));
+  assert.doesNotThrow(() => verify('type:fix', 'area:student', 'area:backend', 'risk:medium', 'accessibility'));
+  assert.doesNotThrow(() => verify('dependencies', 'area:backend', 'risk:medium'));
+  assert.throws(() => verify('bug', 'question', 'help wanted'), /type:.*area:.*risk:/);
+  assert.throws(() => verify('type:fix', 'type:release', 'area:student', 'risk:medium'), /exactly one type/);
+  assert.throws(() => verify('type:fix', 'area:unknown', 'risk:medium'), /at least one area/);
+  assert.throws(() => verify('type:fix', 'area:student', 'risk:medium', 'risk:high'), /exactly one risk/);
 });
