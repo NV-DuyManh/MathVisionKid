@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 final class ProfileDtos {
-    record Edit(@NotBlank @Size(max = 40) String displayName, @NotBlank @Size(max = 16) String avatar,
+    record Edit(@NotBlank String displayName, @NotBlank @Size(max = 16) String avatar,
                 @NotNull Boolean leaderboardVisible, @Size(max = 32) String selectedTitle, Boolean removePhoto,
                 Boolean leaderboardNameHidden) {
         Edit(String displayName, String avatar, Boolean leaderboardVisible, String selectedTitle) {
