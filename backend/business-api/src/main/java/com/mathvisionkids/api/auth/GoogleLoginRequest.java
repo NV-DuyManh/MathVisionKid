@@ -14,6 +14,9 @@ public class GoogleLoginRequest {
     @NotBlank @Size(max = 8192)
     private String credential;
 
+    @Size(max = 4096)
+    private String profileAccessToken;
+
     @Pattern(regexp = "^(STUDENT|TEACHER)$")
     private String role;
 

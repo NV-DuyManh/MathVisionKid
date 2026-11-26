@@ -19,7 +19,8 @@ class SocialAuthBoundaryTest {
     RefreshTokenService refresh=mock(RefreshTokenService.class);
     GoogleIdTokenVerifier verifier=mock(GoogleIdTokenVerifier.class);
     com.mathvisionkids.api.studentprofile.StudentProfileService profiles=mock(com.mathvisionkids.api.studentprofile.StudentProfileService.class);
-    GoogleAuthService google=new GoogleAuthService(users,students,teachers,encoder,refresh,profiles,true,"configured-test-audience");
+    GoogleProfileClient googleProfiles = mock(GoogleProfileClient.class);
+    GoogleAuthService google=new GoogleAuthService(users,students,teachers,encoder,refresh,profiles,googleProfiles,true,"configured-test-audience");
     GoogleLoginRequest googleRequest() {
         var request=new GoogleLoginRequest();request.setCredential("test-credential");request.setRole("TEACHER");return request;
     }
@@ -33,7 +34,7 @@ class SocialAuthBoundaryTest {
     @Test void unverifiedAndNonAuthoritativeEmailsCannotAutoLinkExistingAccounts() throws Exception {
         googlePayload("known@gmail.com",false);assertThrows(ApiException.class,()->google.login(googleRequest()));
         googlePayload("known@third-party.example",true);assertThrows(ApiException.class,()->google.login(googleRequest()));
-        verifyNoInteractions(users,refresh);
+        verifyNoInteractions(users,refresh,googleProfiles);
     }
     @Test void invalidTokenCannotCreateASession() throws Exception {
         ReflectionTestUtils.setField(google,"verifier",verifier);
@@ -56,6 +57,26 @@ class SocialAuthBoundaryTest {
         verify(profiles,times(1)).initialize(id);
         verify(profiles, times(2)).captureGoogleAvatar(id, picture);
         verify(students,times(1)).saveAndFlush(any(Student.class));
+        verifyNoInteractions(googleProfiles);
+    }
+
+    @Test void linkedStudentWithoutPictureClaimUsesGoogleProfileForVerifiedSubject() throws Exception {
+        googlePayload("known@gmail.com", true);
+        var student = new Student();
+        student.setId(UUID.randomUUID());
+        student.setEmail("known@gmail.com");
+        student.setRole("STUDENT");
+        student.setActive(true);
+        when(users.findByGoogleSubject("verified-subject")).thenReturn(Optional.of(student));
+        String picture = "https://lh3.googleusercontent.com/a/synthetic-avatar";
+        when(googleProfiles.avatar("profile-token", "verified-subject")).thenReturn(picture);
+        var request = googleRequest();
+        request.setProfileAccessToken("profile-token");
+
+        google.login(request);
+
+        verify(profiles).captureGoogleAvatar(student.getId(), picture);
+        verify(refresh).createSession(student.getId());
     }
 
     @Test void firstFacebookStudentSignupInitializesAvatarOnce() throws Exception {
