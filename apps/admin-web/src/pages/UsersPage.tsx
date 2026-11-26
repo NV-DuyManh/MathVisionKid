@@ -19,7 +19,7 @@ import Add from '@mui/icons-material/Add';
 import Search from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useQuery } from '@tanstack/react-query';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { adminService } from '../services/api/adminService';
 import { AdminTopbar } from '../components/layout/AdminTopbar';
 import { PageContent } from '../components/common/PageContent';
@@ -34,8 +34,10 @@ import { UserFormDialog } from '../components/users/UserFormDialog';
 
 export function UsersPage() {
   const [params, setParams] = useSearchParams();
-  const [query, setQuery] = useState('');
-  const [search, setSearch] = useState('');
+  const { state, search: listParams } = useLocation();
+  const search: string = typeof state?.userSearch === 'string' ? state.userSearch : '';
+  const [draft, setDraft] = useState<{ search: string; value: string }>();
+  const query = draft && draft.search === search ? draft.value : search;
   const role = params.get('role') || '';
   const active = params.get('active') || '';
   const rawPage = Number(params.get('page') || 0);
@@ -44,20 +46,20 @@ export function UsersPage() {
     const next = new URLSearchParams(prev);
     if (value) next.set('page', String(value)); else next.delete('page');
     return next;
-  });
-  const setFilter = (key: string, value: string) => setParams(prev => {
+  }, { state });
+  const setFilter = (key: 'role' | 'active', value: string) => setParams(prev => {
     const next = new URLSearchParams(prev);
     if (value) next.set(key, value); else next.delete(key);
     next.delete('page');
     return next;
-  });
+  }, { state });
   const [size, setSize] = useState(10);
   const creating = params.get('create') === 'true';
   const setCreating = (value: boolean) => setParams(prev => {
     const next = new URLSearchParams(prev);
     if (value) next.set('create', 'true'); else next.delete('create');
     return next;
-  }, { replace: !value });
+  }, { replace: !value, state });
   const [notice, setNotice] = useState('');
   const users = useQuery({
     queryKey: ['admin-users', role, active, search, page, size],
@@ -116,15 +118,18 @@ export function UsersPage() {
             className="filter-bar"
             onSubmit={(e) => {
               e.preventDefault();
-              setSearch(query.trim());
-              setPage(0);
+              setDraft(undefined);
+              // Search can include an email address. Keep it in this browser history entry.
+              const next = new URLSearchParams(params);
+              next.delete('page');
+              setParams(next, { state: { ...state, userSearch: query.trim() } });
             }}
           >
             <TextField
               size="small"
               label="Tìm theo tên hoặc email"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => setDraft({ search, value: e.target.value })}
               sx={{ flex: '1 1 220px', minWidth: 0 }}
               slotProps={{
                 input: {
@@ -235,6 +240,7 @@ export function UsersPage() {
                             <Button
                               component={Link}
                               to={`/users/${user.userId}`}
+                              state={{ userListParams: listParams, userSearch: search }}
                               variant="outlined"
                               size="small"
                               aria-label={`Xem chi tiết ${user.displayName}`}

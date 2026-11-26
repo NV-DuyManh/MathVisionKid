@@ -620,6 +620,21 @@ class StudentProfileIntegrationTest {
         assertFalse(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(e -> e.alias().equals(profile.publicAlias())));
     }
 
+    @Test void displayNameAcceptsDigitsAndEnforcesFiftyWords() throws Exception {
+        String maximum = String.join("  ", java.util.Collections.nCopies(50, "5Nguyễn"));
+        for (String valid : List.of("123", maximum)) {
+            mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT"))
+                            .contentType("application/json").content(json.writeValueAsString(new Edit(valid, "moon", false, null))))
+                    .andExpect(status().isOk()).andExpect(jsonPath("$.displayName").value(valid));
+        }
+        for (String invalid : List.of(maximum + " 51", "Học sinh #5")) {
+            mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT"))
+                            .contentType("application/json").content(json.writeValueAsString(new Edit(invalid, "moon", false, null))))
+                    .andExpect(status().isBadRequest());
+        }
+        assertEquals(maximum, students.findById(pupil.getId()).orElseThrow().getDisplayName());
+    }
+
     @Test void tiedPositionsAreStableAndChallengerFallsBackWhenAnotherPupilPasses() throws Exception {
         // Synthetic ranking history goes straight to the test database to exercise all 201 positions.
         transaction.executeWithoutResult(status -> {

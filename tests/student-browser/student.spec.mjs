@@ -1,3 +1,4 @@
+import { chooseTrainingGrade } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 import { fileURLToPath } from 'node:url';
 import { studentPort } from '../browser/sites.mjs';
@@ -296,6 +297,20 @@ for (const { route, title, action, next, ...response } of arithmeticOutcomes) {
   });
 }
 
+test('Portal retries opening the Student app after a connection failure', async ({ page, app }) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  const profileEndpoint = '**/api/v1/me';
+  await page.route(profileEndpoint, route => route.abort('internetdisconnected'));
+  await page.goto(`${sites.portal.origin}/student`);
+  await expect(page.getByRole('heading', { name: 'Chưa mở được bài học' })).toBeVisible();
+  await page.unroute(profileEndpoint);
+  await page.getByRole('button', { name: 'Thử lại', exact: true }).click();
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+});
+
 test('Portal login enters the real Student bundle, navigates and survives a deep-link reload', async ({ page, app }) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
@@ -491,23 +506,41 @@ test('Student quiz starts, shows feedback and completes with the existing API co
   app.responses.set(`POST ${path}/activity`, ({ json }) => json(quiz));
   // The browser can prefetch narration as soon as a quiz starts. This scenario covers text feedback.
   app.responses.set(`POST ${path}/narration`, ({ reject }) => reject(422));
+  let firstRequestId;
+  let firstAttempt;
   app.responses.set(`POST ${path}/submit`, ({ json, body }) => {
     expect(body.requestId).toEqual(expect.any(String));
+    if (body.requestId === firstRequestId) {
+      expect(body.answer).toBe('41');
+      return json({ quiz, attempt: firstAttempt });
+    }
     expect(body.answer).toBe(quiz.attempts.length ? '42' : '41');
     const correct = body.answer === '42';
     const attempt = { number: quiz.attempts.length + 1, answer: body.answer, correct, submittedAt: now, elapsedMillis: 1000 };
     quiz = { ...quiz, attempts: [...quiz.attempts, attempt], wrongAttempts: correct ? 1 : quiz.wrongAttempts + 1,
       ...(correct ? { status: 'COMPLETED', completedAt: now, timerRunning: false, stars: 3 } : {}) };
+    if (!correct) {
+      firstRequestId = body.requestId;
+      firstAttempt = attempt;
+      return json({}, 503);
+    }
     return json({ quiz, attempt });
   });
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/quiz/${id}`);
-  await page.getByRole('button', { name: 'Bắt đầu tính giờ' }).click();
+  await page.getByRole('button', { name: 'Bắt đầu thử thách' }).click();
   const answer = page.getByRole('textbox', { name: 'Đáp án của em' });
   await answer.fill('41');
+  await page.reload();
+  await expect(answer).toHaveValue('41');
+  expect(app.requests.filter(request => request.path === `${path}/submit`)).toHaveLength(0);
   const submit = page.getByRole('button', { name: 'Hoàn thành', exact: true });
   const buttonOffset = (await submit.boundingBox()).y - (await answer.boundingBox()).y;
+  await submit.click();
+  await expect(page.getByRole('alert')).toBeVisible();
+  await page.reload();
+  await expect(answer).toHaveValue('41');
   await submit.click();
   await expect(page.locator('[aria-live="polite"]').filter({ hasText: 'Chưa đúng rồi, nhưng em thử kiểm tra lại nhé!' })).toBeVisible();
   const nextOffset = (await submit.boundingBox()).y - (await answer.boundingBox()).y;
@@ -613,7 +646,8 @@ test('student can find global ranking, choose name privacy and open all six game
   }
   await testInfo.attach('Game covers at 320 px', { body: await page.screenshot({ path: testInfo.outputPath('student-game-covers.png'), fullPage: true }), contentType: 'image/png' });
   await page.getByTestId('game-star-quest').click();
-  await expect(page.getByRole('heading', { name: 'Vượt 5 chặng tính nhẩm' })).toBeVisible();
+  await expect(page.getByTestId('quest-workspace').getByRole('heading', { name: 'Đường đua sao', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Bắt đầu đường đua', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Quay lại danh sách trò chơi' }).click();
   await expect(page.getByTestId('game-star-quest')).toBeVisible();
 });
@@ -692,6 +726,7 @@ test('all five games load their bundled artwork and enter gameplay', async ({ pa
     }
     await page.goto(`${sites.portal.origin}/study/games/${game}`);
     await expect(page.getByTestId(`training-player-${game}`)).toBeVisible();
+    await chooseTrainingGrade(page,game);
     if (start) {
       await expect(page.getByTestId(start)).toBeEnabled();
       await page.getByTestId(start).click();
@@ -746,15 +781,18 @@ test('each game opens with its own mobile display policy', async ({ page, app, i
       await expect(page.locator(selector)).toHaveCount(0);
       await expect(page.getByRole('button', { name: 'Về danh sách trò chơi' })).toBeVisible();
       await page.setViewportSize({ width: viewport.height, height: viewport.width });
+      await chooseTrainingGrade(page,game);
       await expect(page.locator(selector)).toBeVisible();
       await page.setViewportSize(viewport);
       await expect(page.locator(selector)).toBeHidden();
       await page.setViewportSize({ width: viewport.height, height: viewport.width });
+      await chooseTrainingGrade(page,game);
       await page.locator(selector).click();
       await expect(page.getByTestId(`training-play-${game}`)).toBeVisible();
       expect(await page.evaluate(() => window.gameDisplayCalls.slice(-2))).toEqual(['exit', 'unlock']);
       await page.setViewportSize(viewport);
     } else {
+      await chooseTrainingGrade(page,game);
       await expect(page.locator(selector)).toBeVisible();
     }
   }

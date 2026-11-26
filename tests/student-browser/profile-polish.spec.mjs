@@ -58,6 +58,61 @@ test('the student profile loads a Google avatar and falls back if the image is u
   await expect(page.getByRole('heading', { name: 'Kiểm thử STUDENT', exact: true })).toBeVisible();
 });
 
+test('leaderboards show the private profile photo only on the signed-in student row', async ({ page, app }, testInfo) => {
+  const picture = 'https://lh3.googleusercontent.com/a/synthetic-avatar';
+  const ownAlias = 'Hươu Sao Của Em';
+  const peerAlias = 'Cá Heo Chăm Học';
+  let imageAvailable = true;
+  app.realStudent = true;
+  await page.route(picture, route => imageAvailable ? route.fulfill({
+    contentType: 'image/svg+xml',
+    body: '<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"/>',
+  }) : route.fulfill({ status: 404 }));
+  await login(page, 'STUDENT');
+  await expect.poll(() => app.studentProfile).toBeDefined();
+  Object.assign(app.studentProfile, {
+    avatarPhoto: picture, leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: ownAlias,
+  });
+  const { rank } = app.studentProfile;
+  await page.route('**/api/v1/student/leaderboard*', route => route.fulfill({ json: {
+    gradeLevel: null, ownPosition: 1, entries: [
+      { position: 1, alias: ownAlias, avatar: 'planet', stars: 10, rank, self: true },
+      { position: 2, alias: peerAlias, avatar: 'rocket', stars: 9, rank, self: false },
+    ],
+  } }));
+
+  if (testInfo.project.name === 'desktop') {
+    await page.goto(`${sites.portal.origin}/study/`);
+    const ownRow = page.getByText(ownAlias, { exact: true }).locator('..');
+    const peerRow = page.getByText(peerAlias, { exact: true }).locator('..');
+    await expect(ownRow.locator(`img[src="${picture}"]`)).toBeVisible();
+    await expect(peerRow).toBeVisible();
+    await expect(peerRow.locator('img')).toHaveCount(0);
+  }
+
+  await page.goto(`${sites.portal.origin}/study/achievements`);
+  const rows = page.getByTestId('leaderboard-entry');
+  await expect(rows.filter({ hasText: ownAlias }).locator(`img[src="${picture}"]`)).toBeVisible();
+  await expect(rows.filter({ hasText: peerAlias })).toBeVisible();
+  await expect(rows.filter({ hasText: peerAlias }).locator(`img[src="${picture}"]`)).toHaveCount(0);
+
+  imageAvailable = false;
+  await page.reload();
+  await expect(rows.filter({ hasText: ownAlias })).toBeVisible();
+  await expect(rows.filter({ hasText: ownAlias }).locator(`img[src="${picture}"]`)).toHaveCount(0);
+
+  app.studentProfile.leaderboardVisible = false;
+  await page.reload();
+  await expect(page.getByText('Em chưa tham gia bảng xếp hạng', { exact: true })).toBeVisible();
+  await expect(rows.filter({ hasText: ownAlias })).toHaveCount(0);
+  await expect(rows.filter({ hasText: peerAlias })).toBeVisible();
+  if (testInfo.project.name === 'desktop') {
+    await page.goto(`${sites.portal.origin}/study/`);
+    await expect(page.getByText(peerAlias, { exact: true })).toBeVisible();
+    await expect(page.getByText(ownAlias, { exact: true })).toHaveCount(0);
+  }
+});
+
 for (const width of [320, 390, 1024]) {
   test(`compact profile supports avatar hover/focus and cancellable name editing at ${width}px`, async ({ page, app }, testInfo) => {
     app.realStudent = true;
@@ -79,10 +134,10 @@ for (const width of [320, 390, 1024]) {
     await page.getByRole('button', { name: 'Đổi tên hiển thị', exact: true }).click();
     const name = page.getByRole('textbox', { name: 'Tên hiển thị', exact: true });
     await expect(name).toBeFocused();
-    await name.fill('123');
+    await name.fill(Array(51).fill('Em5').join('  '));
     await page.getByRole('button', { name: 'Lưu tên', exact: true }).click();
     await expect(name).toHaveAttribute('aria-invalid', 'true');
-    await expect(page.getByRole('alert')).toContainText('tối đa 40');
+    await expect(page.getByRole('alert')).toContainText('tối đa 50 từ');
     expect(app.requests.filter(request => request.method === 'PUT' && request.path === '/student/profile')).toHaveLength(0);
     await page.getByRole('button', { name: 'Đóng Đổi tên của em', exact: true }).click();
     await expect(name).toHaveCount(0);
@@ -97,6 +152,14 @@ for (const width of [320, 390, 1024]) {
     expect(nameBox.height).toBeLessThanOrEqual(width < 480 ? 50 : 60);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     await page.screenshot({ path: testInfo.outputPath(`compact-profile-${width}.png`), fullPage: true });
+    await page.getByRole('button', { name: 'Đổi tên hiển thị', exact: true }).click();
+    const maximum = Array(50).fill('5Nguyễn').join('  ');
+    await name.fill(maximum);
+    await page.getByRole('button', { name: 'Lưu tên', exact: true }).click();
+    await expect(name).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: /^5Nguyễn/ })).toBeVisible();
+    expect(app.studentProfile.displayName).toBe(maximum);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
   });
 }
 

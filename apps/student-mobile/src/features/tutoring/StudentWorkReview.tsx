@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import type { TextInputInstance } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import type { TextInputInstance, ViewStyle } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { AppButton } from '../../components/ui/AppButton';
@@ -24,6 +24,15 @@ export type WorkReviewCheckpoint = {
   rewrite: Record<number, string> | null;
 };
 
+export const desktopWorkReviewButtonStyle: ViewStyle = {
+  alignSelf: 'flex-start',
+  width: '100%',
+  maxWidth: 280,
+  minHeight: 42,
+  paddingVertical: 8,
+  paddingHorizontal: 16,
+};
+
 type Props = {
   problemText: string;
   workText: string;
@@ -33,6 +42,8 @@ type Props = {
   disabled?: boolean;
   photoCurrent?: boolean;
   autoStart?: boolean;
+  desktop?: boolean;
+  saveAction?: React.ReactNode;
   checkpoint?: WorkReviewCheckpoint | null;
   onCheckpoint?: (value: WorkReviewCheckpoint) => void;
   onReviseWork: (work: string) => void;
@@ -55,6 +66,8 @@ function ReviewSession({
   disabled = false,
   photoCurrent = true,
   autoStart = false,
+  desktop = false,
+  saveAction,
   checkpoint,
   onCheckpoint,
   onReviseWork,
@@ -63,6 +76,7 @@ function ReviewSession({
   onReviewReady,
 }: Props) {
   const router = useRouter();
+  const { height } = useWindowDimensions();
   const [result, setResult] = useState<WorkReview | null>(checkpoint?.result ?? null);
   const [busy, setBusy] = useState(false);
   const [expired, setExpired] = useState(false);
@@ -194,22 +208,11 @@ function ReviewSession({
   const unresolved = result?.rows.filter(row => row.status === 'UNSURE'
     && row.rowKind != null && row.rowKind !== 'HEADING') ?? [];
 
-  return <View style={styles.card}>
-    <View style={styles.headingRow}>
-      <Ionicons name="checkmark-done-outline" size={22} color={COLORS.primaryDark} accessible={false} />
-      <View style={styles.resultCopy}>
-        <Text style={styles.caption}>2 · NHẬN XÉT BÀI LÀM</Text>
-        <Text accessibilityRole="header" style={styles.title}>{result ? 'Kết quả bài em làm' : 'Cùng kiểm tra bài em làm'}</Text>
-      </View>
-    </View>
-
-    {imageUri && photoCurrent && (!result || result.status === 'CORRECT') ? <View style={styles.photoFrame}>
-      <Image source={{ uri: imageUri }} style={styles.workPhoto} resizeMode="contain" accessibilityLabel="Ảnh bài em đã làm" />
-      {result?.status === 'CORRECT' ? <View style={styles.photoBadge} accessibilityLabel="Bài đã được kiểm tra đúng"><Ionicons name="ribbon" size={27} color="#B47C14" /></View> : null}
-    </View> : null}
-
-    {imageUri && photoCurrent && result && result.status !== 'CORRECT' ? (
-      <WorkPhotoEvidence
+  const desktopResult = desktop && !!result && enabled;
+  const resultButtonStyle = desktopResult ? desktopWorkReviewButtonStyle : undefined;
+  const desktopPhotoHeight = Math.max(210, Math.min(350, height - 435));
+  const photo = !imageUri || !photoCurrent ? null : result && result.status !== 'CORRECT' ? (
+    <WorkPhotoEvidence
         presentation="photo"
         issuesOnly
         imageUri={imageUri}
@@ -219,25 +222,16 @@ function ReviewSession({
         onSelectLine={choose}
         problemText={problemText}
         incompleteInfo={incompleteInfo}
-      />
-    ) : null}
+        maxPhotoHeight={desktopResult ? 210 : undefined}
+    />
+  ) : (
+    <View testID="work-review-photo-frame" style={[styles.photoFrame, desktopResult && styles.desktopPhotoFrame]}>
+      <Image source={{ uri: imageUri }} style={[styles.workPhoto, desktopResult && { height: desktopPhotoHeight }]} resizeMode="contain" accessibilityLabel="Ảnh bài em đã làm" />
+      {result?.status === 'CORRECT' ? <View style={styles.photoBadge} accessibilityLabel="Bài đã được kiểm tra đúng"><Ionicons name="ribbon" size={27} color="#B47C14" /></View> : null}
+    </View>
+  );
 
-    {!result && !busy ? <Text style={styles.body}>Mình sẽ kiểm tra các phép tính em đã viết.</Text> : null}
-    {!enabled ? <Text style={styles.notice}>Em xác nhận đề và bài làm đã đọc đúng ở phía trên trước nhé.</Text> : null}
-    {!result && !error && !busy ? <AppButton title="Nhận xét bài em làm" disabled={disabledNow} onPress={() => void review()} /> : null}
-
-    {busy ? <View accessibilityLiveRegion="polite" style={styles.panel}>
-      <TaskProgress steps={['Bài làm đã xác nhận', 'Kiểm tra phép tính', 'Mở nhận xét']} activeStep={1} />
-      <AppButton title="Dừng chờ, giữ bài làm" variant="secondary" onPress={stop} />
-    </View> : null}
-
-    {error ? <RecoveryNotice title="Chưa mở được nhận xét" message={error} actions={[
-      { label: 'Thử lại', accessibilityLabel: 'Nhận xét bài em làm', icon: 'refresh-outline', onPress: () => void review(), disabled: disabledNow || busy },
-      ...(!expired && photoCurrent ? [{ label: 'Chụp lại', accessibilityLabel: 'Chụp lại bài em đã sửa', icon: 'camera-outline' as const, onPress: () => { stop(); onCaptureWork(); }, disabled }] : []),
-    ]} /> : null}
-
-    {result && enabled ? <>
-      {/* Result Status Banner: Correct (Green), Incomplete (Orange), Revision (Red/Amber) */}
+  const resultStatus = result && enabled ? <>
       {result.status === 'CORRECT' ? (
         <CorrectAnswerFeedback message="Em làm đúng rồi!" detail={result.praise} />
       ) : incompleteInfo?.isIncomplete ? (
@@ -272,7 +266,7 @@ function ReviewSession({
           <Text style={styles.body}>{result.summary}</Text>
         </View>
       ) : (
-        <View style={[styles.panel, hasCorrections ? styles.revision : styles.attention]} accessibilityLiveRegion="polite">
+        <View style={[styles.panel, hasCorrections ? styles.revision : styles.attention, desktopResult && styles.desktopStatus]} accessibilityLiveRegion="polite">
           <Ionicons name={hasCorrections ? 'create-outline' : 'help-circle-outline'} size={25}
             color={hasCorrections ? '#B91C1C' : '#98621F'} accessible={false} />
           <View style={styles.resultCopy}>
@@ -282,6 +276,9 @@ function ReviewSession({
           </View>
         </View>
       )}
+  </> : null;
+
+  const resultDetails = result && enabled ? <>
       {!hasCorrections && !incompleteInfo?.isIncomplete && result.status !== 'CORRECT' ? <AppButton
         title="Thử lại nhận xét" variant="secondary" disabled={disabledNow || busy} onPress={() => void review()} /> : null}
 
@@ -294,7 +291,7 @@ function ReviewSession({
       {(hasCorrections || incompleteInfo?.isIncomplete) && result.status === 'NEEDS_REVIEW' && result.complete !== false ? <AppButton
         title="Thử nhận xét lại" variant="secondary" disabled={disabledNow || busy} onPress={() => void review()} /> : null}
 
-      {result.status === 'CORRECT' ? <AppButton title={showDetails ? 'Thu gọn nhận xét' : 'Xem nhận xét chi tiết'} variant="ghost" onPress={() => setShowDetails(value => !value)} /> : null}
+      {result.status === 'CORRECT' ? <AppButton title={showDetails ? 'Thu gọn nhận xét' : 'Xem nhận xét chi tiết'} variant="ghost" style={resultButtonStyle} onPress={() => setShowDetails(value => !value)} /> : null}
 
       {showDetails ? <>
         {result.status === 'CORRECT' ? <Text style={styles.body}>{result.summary}</Text> : null}
@@ -396,19 +393,55 @@ function ReviewSession({
           {showAlternative ? <View style={styles.hint} nativeID={alternativeId}><Text style={styles.body}>{result.alternative}</Text></View> : null}
         </> : null}
       </> : null}
-    </> : null}
+  </> : null;
 
-    {result?.status === 'CORRECT' && enabled && !disabled && !expired ? <>
-      <AppButton title="Hoàn tất nhận xét" onPress={() => router.replace('/(tabs)')} />
-      <QuizAfterLearningButton sourceType="WORK_REVIEW" sourceId={result.sourceId} />
-    </> : null}
+  const completionActions = result?.status === 'CORRECT' && enabled && !disabled && !expired ? <>
+      <AppButton title="Hoàn tất nhận xét" style={resultButtonStyle} onPress={() => router.replace('/(tabs)')} />
+      <QuizAfterLearningButton sourceType="WORK_REVIEW" sourceId={result.sourceId} buttonStyle={resultButtonStyle} />
+    </> : null;
+
+  return <View style={[styles.card, desktopResult && styles.desktopCard]}>
+    <View style={styles.headingRow}>
+      <Ionicons name="checkmark-done-outline" size={22} color={COLORS.primaryDark} accessible={false} />
+      <View style={styles.resultCopy}>
+        <Text style={styles.caption}>2 · NHẬN XÉT BÀI LÀM</Text>
+        <Text accessibilityRole="header" style={styles.title}>{result ? 'Kết quả bài em làm' : 'Cùng kiểm tra bài em làm'}</Text>
+      </View>
+    </View>
+
+    {!desktopResult ? photo : null}
+
+    {!result && !busy ? <Text style={styles.body}>Mình sẽ kiểm tra các phép tính em đã viết.</Text> : null}
+    {!enabled ? <Text style={styles.notice}>Em xác nhận đề và bài làm đã đọc đúng ở phía trên trước nhé.</Text> : null}
+    {!result && !error && !busy ? <AppButton title="Nhận xét bài em làm" disabled={disabledNow} onPress={() => void review()} /> : null}
+
+    {busy ? <View accessibilityLiveRegion="polite" style={styles.panel}>
+      <TaskProgress steps={['Bài làm đã xác nhận', 'Kiểm tra phép tính', 'Mở nhận xét']} activeStep={1} />
+      <AppButton title="Dừng chờ, giữ bài làm" variant="secondary" onPress={stop} />
+    </View> : null}
+
+    {error ? <RecoveryNotice title="Chưa mở được nhận xét" message={error} actions={[
+      { label: 'Thử lại', accessibilityLabel: 'Nhận xét bài em làm', icon: 'refresh-outline', onPress: () => void review(), disabled: disabledNow || busy },
+      ...(!expired && photoCurrent ? [{ label: 'Chụp lại', accessibilityLabel: 'Chụp lại bài em đã sửa', icon: 'camera-outline' as const, onPress: () => { stop(); onCaptureWork(); }, disabled }] : []),
+    ]} /> : null}
+
+    {desktopResult ? <View style={styles.desktopColumns}>
+      <View testID="work-review-result-column" style={styles.desktopResult}>{resultStatus}{photo}</View>
+      <View testID="work-review-details-column" style={styles.desktopDetails}>{resultDetails}{completionActions}{saveAction}</View>
+    </View> : <>{resultStatus}{resultDetails}{completionActions}{saveAction}</>}
 
   </View>;
 }
 
 const styles = StyleSheet.create({
   card: { padding: 18, borderRadius: 24, borderWidth: 1, borderColor: '#EEE5FB', backgroundColor: COLORS.surface, gap: 14, ...SHADOWS.small },
+  desktopCard: { paddingVertical: 14, gap: 10 },
+  desktopColumns: { flexDirection: 'row', alignItems: 'flex-start', gap: 18 },
+  desktopResult: { flex: 3, minWidth: 0, gap: 10 },
+  desktopDetails: { flex: 2, minWidth: 0, gap: 8 },
+  desktopStatus: { flexDirection: 'row', alignItems: 'flex-start', padding: 12 },
   photoFrame: { position: 'relative', borderRadius: 18, overflow: 'hidden', backgroundColor: '#F1ECF7', borderWidth: 1, borderColor: '#E8DFF4' },
+  desktopPhotoFrame: { width: '100%' },
   workPhoto: { width: '100%', height: 210 },
   photoBadge: { position: 'absolute', top: 10, right: 10, borderRadius: 25, width: 48, height: 48, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFE28C', borderWidth: 3, borderColor: '#FFF1C6' },
   resultCopy: { gap: 6, flex: 1 },

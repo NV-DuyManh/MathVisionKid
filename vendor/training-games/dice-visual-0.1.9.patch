@@ -1,0 +1,142 @@
+--- a/src/games/race-to-finish/components/DiceModel.tsx
++++ b/src/games/race-to-finish/components/DiceModel.tsx
+@@ -0,0 +1,45 @@
++import React, { useId } from 'react';
++import Svg, { Circle, Defs, G, LinearGradient, Path, Stop } from 'react-native-svg';
++
++// A right-handed cube: opposite faces always sum to seven.
++const ADJACENT: Record<number, [number, number]> = {
++  1: [2, 3], 2: [6, 3], 3: [2, 6], 4: [2, 1], 5: [1, 3], 6: [5, 3],
++};
++const PIPS: Record<number, [number, number][]> = {
++  1: [[35, 35]],
++  2: [[17, 17], [53, 53]],
++  3: [[17, 17], [35, 35], [53, 53]],
++  4: [[17, 17], [53, 17], [17, 53], [53, 53]],
++  5: [[17, 17], [53, 17], [35, 35], [17, 53], [53, 53]],
++  6: [[17, 16], [53, 16], [17, 35], [53, 35], [17, 54], [53, 54]],
++};
++
++function Pips({ value, transform, front = false }: { value: number; transform: string; front?: boolean }) {
++  return <G transform={transform} testID={front ? `dice-front-${value}` : undefined}>
++    {PIPS[value].map(([x,y], index) => <G key={index}>
++      <Circle cx={x} cy={y} r="5.8" fill="#A49AB5" />
++      <Circle cx={x} cy={y + .8} r="4.7" fill="#302940" testID={front ? 'dice-front-pip' : undefined} />
++      <Path d={`M${x-3.2} ${y+2.8}q3.2 2.4 6.4 0`} fill="none" stroke="#F7F2FF" strokeOpacity=".45" strokeWidth=".8" />
++    </G>)}
++  </G>;
++}
++
++/** Three shaded planes, with recessed pips; the controller supplies the front value. */
++export function DiceModel({ value }: { value: number }) {
++  const id = useId().replace(/:/g, '');
++  const [top, right] = ADJACENT[value];
++  return <Svg width="100%" height="100%" viewBox="0 0 180 180" accessible={false}>
++    <Defs>
++      <LinearGradient id={`${id}front`} x1="0" y1="0" x2=".8" y2="1"><Stop offset="0" stopColor="#FFFEF7"/><Stop offset="1" stopColor="#E5DDEE"/></LinearGradient>
++      <LinearGradient id={`${id}right`} x1="0" y1="0" x2="1" y2=".6"><Stop offset="0" stopColor="#CCC1DF"/><Stop offset="1" stopColor="#AAA0C0"/></LinearGradient>
++      <LinearGradient id={`${id}top`} x1="0" y1="0" x2="1" y2="1"><Stop offset="0" stopColor="#FFFFFF"/><Stop offset="1" stopColor="#F1ECFA"/></LinearGradient>
++    </Defs>
++    <Path d="M31 55 94 70Q98 71 98 77V139Q98 145 92 144L32 130Q26 129 26 122V62Q26 54 31 55Z" fill={`url(#${id}front)`} stroke="#92859F" strokeWidth="1.2"/>
++    <Path d="M98 75Q98 71 103 68L144 45Q150 42 150 49V110Q150 116 145 119L103 144Q98 147 98 140Z" fill={`url(#${id}right)`} stroke="#8F829F" strokeWidth="1.2"/>
++    <Path d="M31 54 73 29Q78 26 84 28L145 42Q151 44 145 48L103 72Q98 75 92 73L31 59Q25 57 31 54Z" fill={`url(#${id}top)`} stroke="#BBB0CC" strokeWidth="1.2"/>
++    <Path d="m34 62 55 13q3 1 3 5v55M104 79l37-22" fill="none" stroke="#FFFFFF" strokeOpacity=".65" strokeWidth="2" strokeLinecap="round"/>
++    <Pips value={top} transform="matrix(0.89 0.21 0.60 -0.35 36 55)" />
++    <Pips value={right} transform="matrix(0.65 -0.38 0 0.92 102 76)" />
++    <Pips value={value} transform="matrix(0.89 0.21 0 0.92 32 61)" front />
++  </Svg>;
++}
+--- a/src/games/race-to-finish/components/DiceOverlay.tsx
++++ b/src/games/race-to-finish/components/DiceOverlay.tsx
+@@ -1,38 +1,48 @@
+-import React, { useEffect } from 'react';
+-import { View, Text, Image, StyleSheet } from 'react-native';
+-import Animated, { useSharedValue, useAnimatedStyle, useFrameCallback } from 'react-native-reanimated';
+-import { RACE_ASSETS } from '../assets';
+-import { DICE_ROLL_DURATION_MS } from '../state/turnTiming';
+-
+-function Face({ value, result, elapsed, reduced }: { value: number; result: number; elapsed: ReturnType<typeof useSharedValue<number>>; reduced: boolean }) {
+-  const style = useAnimatedStyle(() => ({ opacity: (elapsed.value >= 500 || reduced ? result : Math.floor(elapsed.value / 65) % 6 + 1) === value ? 1 : 0 }));
+-  return <Animated.View style={[StyleSheet.absoluteFill, style]}>
+-    <Image source={RACE_ASSETS.dice[value as keyof typeof RACE_ASSETS.dice]} style={styles.image} resizeMode="contain" />
+-  </Animated.View>;
+-}
+-export function DiceOverlay({ value, paused, reduced, getRemaining }: { value: number; paused: boolean; reduced: boolean; getRemaining: () => number }) {
+-  const elapsed = useSharedValue(0);
+-  const frozen = useSharedValue(paused);
+-  useEffect(() => { frozen.set(paused); elapsed.set(DICE_ROLL_DURATION_MS - getRemaining()); }, [paused, frozen, elapsed, getRemaining]);
+-  useFrameCallback(frame => {
+-    if (!frozen.value) elapsed.set(Math.min(DICE_ROLL_DURATION_MS, elapsed.value + Math.max(frame.timeSincePreviousFrame ?? 0, 0)));
+-  });
+-  const style = useAnimatedStyle(() => {
+-    const t = Math.min(1, elapsed.value / 500);
+-    const bounce = reduced ? 0 : Math.sin(t * Math.PI);
+-    return { transform: [{ perspective: 500 }, { translateY: -bounce * 34 }, { scale: 1 + bounce * .18 },
+-      { rotateX: `${reduced ? 0 : (1 - t) * 360}deg` }, { rotateY: `${reduced ? 0 : (1 - t) * 540}deg` },
+-      { rotateZ: `${reduced ? 0 : Math.sin(t * Math.PI * 4) * (1 - t) * 20}deg` }] };
+-  });
+-  const labelStyle = useAnimatedStyle(() => ({ opacity: elapsed.value >= 500 || reduced ? 1 : 0 }));
+-  return <View pointerEvents="none" testID="dice-overlay" style={styles.overlay}>
+-    <Animated.View testID="rolling-dice" style={[styles.die, style]}>
+-      {[1, 2, 3, 4, 5, 6].map(face => <Face key={face} value={face} result={value} elapsed={elapsed} reduced={reduced} />)}
+-    </Animated.View>
+-    <Animated.View style={labelStyle}><Text testID="dice-result" style={styles.result}>Tung được {value}</Text></Animated.View>
+-  </View>;
+-}
+-const styles = StyleSheet.create({ overlay: { position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(6,45,31,.22)' },
+-  die: { width: 106, height: 106, shadowColor: '#000', shadowOpacity: .45, shadowRadius: 15, shadowOffset: { width: 0, height: 12 } },
+-  image: { width: '100%', height: '100%' }, result: { marginTop: 10, paddingHorizontal: 18, paddingVertical: 6,
+-    backgroundColor: '#FEF3C7', borderRadius: 12, fontSize: 22, fontWeight: '900', color: '#78350F' } });
++import React, { useEffect } from 'react';
++import { View, Text, StyleSheet } from 'react-native';
++import Animated, { useSharedValue, useAnimatedStyle, useFrameCallback } from 'react-native-reanimated';
++import { DiceModel } from './DiceModel';
++import { DICE_ROLL_DURATION_MS } from '../state/turnTiming';
++
++function Face({ value, result, elapsed, reduced }: { value: number; result: number; elapsed: ReturnType<typeof useSharedValue<number>>; reduced: boolean }) {
++  const style = useAnimatedStyle(() => ({ opacity: (elapsed.value >= 500 || reduced ? result : Math.floor(elapsed.value / 65) % 6 + 1) === value ? 1 : 0 }));
++  return <Animated.View testID={`dice-model-${value}`} style={[StyleSheet.absoluteFill, style]}>
++    <DiceModel value={value} />
++  </Animated.View>;
++}
++export function DiceOverlay({ value, paused, reduced, getRemaining }: { value: number; paused: boolean; reduced: boolean; getRemaining: () => number }) {
++  const elapsed = useSharedValue(0);
++  const frozen = useSharedValue(paused);
++  useEffect(() => { frozen.set(paused); elapsed.set(DICE_ROLL_DURATION_MS - getRemaining()); }, [paused, frozen, elapsed, getRemaining]);
++  useFrameCallback(frame => {
++    if (!frozen.value && elapsed.value < DICE_ROLL_DURATION_MS) elapsed.set(Math.min(DICE_ROLL_DURATION_MS, elapsed.value + Math.max(frame.timeSincePreviousFrame ?? 0, 0)));
++  });
++  const style = useAnimatedStyle(() => {
++    const t = Math.min(1, elapsed.value / 500);
++    const bounce = reduced ? 0 : Math.sin(t * Math.PI);
++    const landing = reduced || t < .72 ? 0 : Math.sin((t - .72) / .28 * Math.PI);
++    return { transform: [{ perspective: 650 }, { translateY: -bounce * 44 - landing * 7 }, { translateX: bounce * 12 }, { scale: 1 + bounce * .08 },
++      { rotateX: `${reduced ? 0 : Math.sin(t * Math.PI * 2) * 22}deg` }, { rotateY: `${reduced ? 0 : Math.cos(t * Math.PI * 2) * (1-t) * 28}deg` },
++      { rotateZ: `${reduced ? 0 : (1 - t) * 270}deg` }] };
++  });
++  const shadowStyle = useAnimatedStyle(() => {
++    const lift = reduced ? 0 : Math.sin(Math.min(1, elapsed.value / 500) * Math.PI);
++    return { opacity: .22 - lift * .12, transform: [{ scaleX: 1 - lift * .25 }, { scaleY: 1 - lift * .3 }] };
++  });
++  const labelStyle = useAnimatedStyle(() => ({ opacity: elapsed.value >= 500 || reduced ? 1 : 0 }));
++  return <View pointerEvents="none" testID="dice-overlay" style={styles.overlay}>
++    <View style={styles.stage}>
++    <Animated.View testID="dice-contact-shadow" style={[styles.shadow, shadowStyle]} />
++    <Animated.View testID="rolling-dice" style={[styles.die, style]}>
++      {[1, 2, 3, 4, 5, 6].map(face => <Face key={face} value={face} result={value} elapsed={elapsed} reduced={reduced} />)}
++    </Animated.View>
++    </View>
++    <Animated.View style={labelStyle}><Text testID="dice-result" style={styles.result}>Tung được {value}</Text></Animated.View>
++  </View>;
++}
++const styles = StyleSheet.create({ overlay: { position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(24,22,76,.24)' },
++  stage: { width: 190, height: 184 },
++  shadow: { position: 'absolute', width: 108, height: 17, borderRadius: 60, backgroundColor: '#181024', left: 44, bottom: 17 },
++  die: { width: 190, height: 184 },
++  result: { marginTop: 6, paddingHorizontal: 20, paddingVertical: 9, borderWidth: 1, borderColor: '#DBCDA4',
++    backgroundColor: '#FFFAE9', borderRadius: 14, fontSize: 22, fontWeight: '900', color: '#392957' } });
+--- a/src/shared/integration/contracts.ts
++++ b/src/shared/integration/contracts.ts
+@@ -3 +3 @@
+-export const TRAINING_GAME_VERSION = '0.1.8';
++export const TRAINING_GAME_VERSION = '0.1.9';
