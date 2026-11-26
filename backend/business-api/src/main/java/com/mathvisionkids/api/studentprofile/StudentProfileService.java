@@ -91,19 +91,23 @@ public class StudentProfileService {
         ensurePreferences(id);
     }
 
-    @Transactional
-    public void captureGoogleAvatar(UUID id, Object pictureClaim) {
-        if (!(pictureClaim instanceof String url) || url.length() > 2048) return;
+    public static boolean isGoogleAvatarUrl(Object pictureClaim) {
+        if (!(pictureClaim instanceof String url) || url.length() > 2048) return false;
         URI picture;
         try {
             picture = URI.create(url);
         } catch (IllegalArgumentException exception) {
-            return;
+            return false;
         }
         String host = picture.getHost();
-        if (!"https".equals(picture.getScheme()) || host == null || !host.endsWith(".googleusercontent.com")
-                || picture.getUserInfo() != null || picture.getPort() != -1) return;
+        return "https".equals(picture.getScheme()) && host != null && host.endsWith(".googleusercontent.com")
+                && picture.getUserInfo() == null && picture.getPort() == -1 && picture.getRawPath().startsWith("/");
+    }
 
+    @Transactional
+    public void captureGoogleAvatar(UUID id, Object pictureClaim) {
+        if (!isGoogleAvatarUrl(pictureClaim)) return;
+        String url = (String) pictureClaim;
         lockStudent(id);
         ensurePreferences(id);
         db.update("""
