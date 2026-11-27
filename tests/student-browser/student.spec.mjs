@@ -359,7 +359,7 @@ test('Của em keeps saved work and offers logout without opening account settin
   await expect(page.getByRole('button', { name: 'Đăng xuất', exact: true })).toBeInViewport();
   await page.getByRole('button', { name: 'Ghi chú', exact: true }).click();
   await expect(page.getByText('Em nhớ cộng hàng đơn vị trước.').first()).toBeVisible();
-  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
+  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).and(page.locator(':not([inert], [inert] *)')).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/account`);
   await expect(page.getByRole('heading', { name: 'Hồ sơ của em', exact: true })).toBeVisible();
   await page.goBack();

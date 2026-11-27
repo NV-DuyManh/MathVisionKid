@@ -139,7 +139,7 @@ for (const width of widths) {
     await search.fill('khong-co-bai-xyz');
     await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
     await expect(page.getByText('Chưa tìm thấy bài phù hợp. Em thử tìm bằng từ khác nhé.', { exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'Xem tất cả bài học', exact: true }).click();
+    await page.getByRole('button', { name: 'Xem tất cả bài học', exact: true }).and(page.locator(':not([inert], [inert] *)')).click();
     await expect(search).toHaveValue('');
     await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
     await page.getByRole('button', { name: 'Chủ đề Số và phép tính', exact: true }).click();

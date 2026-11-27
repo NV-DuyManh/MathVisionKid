@@ -1,3 +1,8 @@
+## Nhãn bắt buộc
+
+- [ ] Đã chọn một nhãn loại thay đổi, ít nhất một nhãn phạm vi và một nhãn rủi ro trong mục Labels.
+- Xem [quy tắc nhãn PR](../docs/engineering/git-flow.md#nhãn-bắt-buộc-cho-pr) để chọn đúng nhãn.
+
 ## Vấn đề và kết quả
 
 Nguồn yêu cầu / issue thật:

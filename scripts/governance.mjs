@@ -10,6 +10,20 @@ const isRequired = value => value === true || value === 'true';
 export function validateTitle(title) {
   return /^(feat|fix|docs|test|refactor|perf|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: \S.{7,}$/u.test(title) && !/[\r\n]/.test(title);
 }
+export function validatePullRequestLabels(labels) {
+  const prLabels = JSON.parse(readFileSync(resolve(root, '.github/pr-labels.json'), 'utf8'));
+  const knownPrLabels = new Set(prLabels.map(({name}) => name));
+  const names = new Set(labels?.map(({name}) => name));
+  const scopes = [...names].filter(name => knownPrLabels.has(name) && name.startsWith('area:'));
+  const types = [...names].filter(name => knownPrLabels.has(name) && name.startsWith('type:'));
+  const risks = [...names].filter(name => knownPrLabels.has(name) && name.startsWith('risk:'));
+  const errors = [];
+  if (types.length + Number(names.has('dependencies')) !== 1) errors.push('exactly one type:* (or dependencies)');
+  if (!scopes.length) errors.push('at least one area:*');
+  if (risks.length !== 1) errors.push('exactly one risk:*');
+  if (errors.length) throw new Error('PR labels required: add ' + errors.join(', ') + '. See docs/engineering/git-flow.md.');
+}
+
 export function planChecks(paths, full = false) {
   const shared = full || paths.some(p => /^(?:package(?:-lock)?\.json$|\.nvmrc$|\.github\/|infra\/|scripts\/(?:governance|skills)|vendor\/|packages\/)/.test(p));
   return {
@@ -81,6 +95,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
         const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
         const policy = JSON.parse(readFileSync(resolve(root, '.github/git-flow.json'), 'utf8'));
         checkPullRequestRepository(event.pull_request, policy, root);
+        validatePullRequestLabels(event.pull_request.labels);
       }
       if (process.env.BASE_SHA) checkNewPaths(changedPaths(process.env.BASE_SHA, 'A'));
       console.log('Governance policy checks passed. Semantic review remains a human responsibility.');
