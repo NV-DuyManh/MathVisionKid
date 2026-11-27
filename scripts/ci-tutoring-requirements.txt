@@ -1,6 +1,6 @@
 # Small offline contract/normalization suite, not the model inference environment.
-fastapi==0.163.1
-pydantic==2.14.3
+fastapi==0.165.0
+pydantic==2.14.4
 pydantic-settings==2.16.3
 httpx==0.28.1
 edge-tts==7.3.1
