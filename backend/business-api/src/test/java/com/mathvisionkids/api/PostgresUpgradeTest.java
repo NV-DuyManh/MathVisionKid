@@ -132,7 +132,6 @@ class PostgresUpgradeTest {
                     }
                     try (var rows = sql.executeQuery("SELECT leaderboard_visible,leaderboard_name_hidden FROM student_profile_preferences WHERE student_id='"+id+"'")) {
                         assertTrue(rows.next()); assertTrue(rows.getBoolean(1)); assertTrue(rows.getBoolean(2));
-                        assertNull(rows.getString(3));
                     }
                     try (var rows = sql.executeQuery("SELECT selected_title,avatar,public_alias,reached_challenger FROM student_profile_preferences WHERE student_id='"+id+"'")) {
                         assertTrue(rows.next()); assertEquals("luyen-khi", rows.getString(1)); assertEquals("rocket", rows.getString(2));
