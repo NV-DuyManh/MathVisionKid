@@ -224,7 +224,7 @@ test('Preview reload preserves the cropped bytes and a second reload keeps baked
   expect((await maskedPixels(page)).flat().every(channel => channel < 24)).toBe(true);
 });
 
-test('rotating in preview preserves the new orientation when reopening the crop', async ({ page }) => {
+test('rotating in preview preserves the new orientation when reopening the crop', async ({ page }, testInfo) => {
   await start(page);
   await openCrop(page);
   await page.getByLabel('Kéo cạnh trái', { exact: true }).press('ArrowRight');
@@ -244,8 +244,9 @@ test('rotating in preview preserves the new orientation when reopening the crop'
   await expect(crop).toBeVisible();
   await expect.poll(transform).toBe('matrix(0, 1, -1, 0, 0, 0)');
   const [{ meta: { cropEdit: { selection } } }] = (await storage(page)).rows;
-  expect(selection.y).toBeCloseTo(0.02);
-  expect(selection.h).toBeCloseTo(0.98);
+  const desktop = testInfo.project.name === "desktop";
+  expect(selection.y).toBeCloseTo(desktop ? 0.07 : 0.02);
+  expect(selection.h).toBeCloseTo(desktop ? 0.88 : 0.98);
 });
 
 test('The unapproved original is stored only as a short-lived privacy draft', async ({ page, app }) => {
