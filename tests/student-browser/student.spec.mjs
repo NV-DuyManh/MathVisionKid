@@ -565,6 +565,23 @@ test('Student Web forwards its old login route to the shared form', async ({ pag
   await expect(page.getByLabel('Mật khẩu', { exact: true })).toHaveAttribute('type', 'password');
 });
 
+test('recommended lesson cards truncate long titles and keep their full accessible labels', async ({ page, app, isMobile }, testInfo) => {
+  test.skip(isMobile, 'The three-card row is a desktop layout.');
+  app.realStudent = true;
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await login(page, 'STUDENT');
+  await expect.poll(() => app.studentProfile?.gradeLevel).toBe(5);
+  app.studentProfile.gradeLevel = 2;
+  await page.reload();
+  const card = page.getByRole('button', { name: 'Học bài Số học sinh nam lớp 2A', exact: true });
+  const title = card.getByText('Số học sinh nam lớp 2A', { exact: true });
+  await expect(title).toHaveCSS('text-overflow', 'ellipsis');
+  await expect.poll(() => title.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true);
+  await card.locator('..').screenshot({ path: testInfo.outputPath('recommendations-desktop.png') });
+  await card.click();
+  await expect(page).toHaveURL(/learning\/math-guide/);
+});
+
 test('learning journey and private achievements show avatar and paginate the complete star history', async ({ page, app, isMobile }, testInfo) => {
   test.setTimeout(90_000);
   const suffix = isMobile ? 'mobile' : 'desktop';
@@ -574,7 +591,7 @@ test('learning journey and private achievements show avatar and paginate the com
   const journey = page.getByTestId('learning-journey');
   await expect(journey.getByRole('button')).toHaveCount(4);
   const trees = journey.locator('img');
-  await expect(trees).toHaveCount(isMobile ? 7 : 9);
+  await expect(trees).toHaveCount(isMobile ? 0 : 9);
   await expect.poll(() => trees.evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0))).toBe(true);
   await journey.screenshot({ path: testInfo.outputPath(`journey-${suffix}.png`) });
 
@@ -597,6 +614,15 @@ test('learning journey and private achievements show avatar and paginate the com
     { self: false, position: 2, alias: 'Bé chăm học', avatar: 'rocket', stars: 8, rank },
   ] } }));
   await page.goto(base + 'achievements');
+  if (isMobile) {
+    const viewport = page.viewportSize();
+    await page.setViewportSize({ width: viewport.height, height: viewport.width });
+    await page.goto(base);
+    await expect(journey.getByRole('button')).toHaveCount(4);
+    await expect(trees).toHaveCount(0);
+    await page.setViewportSize(viewport);
+    await page.goto(base + 'achievements');
+  }
   const localPhoto = '[src^="data:image/png;base64,"]';
   await expect(page.getByTestId('achievement-rank-student').locator(localPhoto)).toBeVisible();
   const rows = page.getByTestId('leaderboard-entry');

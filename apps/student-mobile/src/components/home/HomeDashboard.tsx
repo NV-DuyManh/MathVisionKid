@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { isCompactStudentWeb } from '../ui/useIsCompactStudentWeb';
+import { isCompactStudentWeb, isDesktopStudentWeb } from '../ui/useIsCompactStudentWeb';
 import { AccessibilityInfo, Animated, AppState, Easing, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
@@ -161,7 +161,7 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
         <Text style={[styles.quickTitle, wide && styles.quickTitleWide, desktop && styles.desktopQuickTitle]}>{item.title}</Text>
       </Pressable>)}
     </View>
-    <LearningJourney desktop={wide} webMap={desktopWeb} onPractice={() => onPractice()} onAcquire={onAcquire} onCheck={() => router.push('/quiz')} />
+    <LearningJourney desktop={wide} webMap={desktopWeb} showTrees={isDesktopStudentWeb(width)} onPractice={() => onPractice()} onAcquire={onAcquire} onCheck={() => router.push('/quiz')} />
     <View style={styles.headingRow}><Ionicons name="star" size={22} color={desktopWeb ? '#A2650D' : '#F0BB42'} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Bài học gợi ý cho em</Text>
       {desktopWeb && <Pressable accessibilityRole="button" accessibilityLabel="Xem tất cả bài học" onPress={() => onPractice()} style={styles.utility}><Text style={styles.link}>Xem tất cả</Text></Pressable>}
     </View>
@@ -171,7 +171,7 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
         label: `Học bài ${problem.title}`, action: () => router.push({ pathname: '/learning/math-guide', params: { problemText: problem.problemText } }) })) : [
         { title: 'Phép cộng đến 100', artwork: getLessonArtwork('grade1_prob1'), description: 'Lớp 1 · Đọc đề và thử giải', label: 'Luyện phép cộng và trừ trong phạm vi 100, lớp 1', action: () => onPractice(1) },
       ]).map((item, index) => <Pressable key={item.title} accessibilityRole="button" accessibilityLabel={item.label} onPress={item.action} style={({ pressed }) => [styles.lesson, desktopWeb && { backgroundColor: ['#FCE9F3', '#E5F2FF', '#E3F6EE'][index] }, pressed && styles.pressed]}>
-        <Image source={item.artwork.source} style={styles.lessonArt} accessible={false} /><View style={styles.headerCopy}><Text style={styles.lessonTitle}>{item.title}</Text><Text style={styles.lessonDescription}>{item.description}</Text></View>
+        <Image source={item.artwork.source} style={styles.lessonArt} accessible={false} /><View style={styles.headerCopy}><Text style={styles.lessonTitle} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text><Text style={styles.lessonDescription}>{item.description}</Text></View>
         <Ionicons name="play-circle" size={28} color={desktopWeb ? COLORS.primaryDark : '#FFFFFF'} accessible={false} />
       </Pressable>)}
     </View>}
