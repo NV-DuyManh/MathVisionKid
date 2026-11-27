@@ -7,7 +7,7 @@ import { COLORS, FONTS } from '../../constants/theme';
 import { LessonSheet } from './LessonSheet';
 
 /** Stays above the working area; long questions scroll without pushing the task away. */
-export function LessonProblem({ problem, imageUri, onEdit, sidePanel = false }: { problem: string; imageUri?: string; onEdit: () => void; sidePanel?: boolean }) {
+export function LessonProblem({ problem, imageUri, onEdit, sidePanel = false }: { problem: string; imageUri?: string; onEdit?: () => void; sidePanel?: boolean }) {
   const [expanded, setExpanded] = useState(true);
   const [showImage, setShowImage] = useState(false);
   const [fullOpen, setFullOpen] = useState(false);
@@ -32,10 +32,10 @@ export function LessonProblem({ problem, imageUri, onEdit, sidePanel = false }: 
         style={({ pressed }) => [styles.edit, pressed && styles.pressed]}>
         <Ionicons name="image-outline" size={19} color={COLORS.primaryDark} accessible={false} />
       </Pressable> : null}
-      <Pressable accessibilityRole="button" accessibilityLabel="Chỉnh đề bài" onPress={onEdit}
+      {onEdit && <Pressable accessibilityRole="button" accessibilityLabel="Chỉnh đề bài" onPress={onEdit}
         style={({ pressed }) => [styles.edit, pressed && styles.pressed]}>
         <Ionicons name="create-outline" size={20} color={COLORS.primaryDark} accessible={false} />
-      </Pressable>
+      </Pressable>}
     </View>
     {expanded && imageUri && Platform.OS === 'web' ? <View style={styles.modes} accessibilityRole="radiogroup" accessibilityLabel="Cách xem đề bài">
       {[false, true].map(mode => <Pressable key={String(mode)} accessibilityRole="radio"
