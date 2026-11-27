@@ -1,5 +1,16 @@
 import { PRIMARY_MATH_CURRICULUM } from '../data/primaryMathCurriculum';
+import { getPrimaryChapters } from '../data/primaryMathLessons';
 import { getLessonArtwork, LESSON_ARTWORK_INVENTORY } from '../features/lesson-artwork/lessonArtwork';
+import { PRIMARY_CATALOG_ARTWORK } from '../features/primary-lessons/primaryCatalogArtwork';
+
+it('covers every chapter and lesson across the five grades with catalog artwork', () => {
+  const grades = [1, 2, 3, 4, 5] as const;
+  const ids = grades.flatMap(grade => getPrimaryChapters(grade).flatMap(
+    chapter => [chapter.id, ...chapter.lessons.map(lesson => lesson.id)],
+  ));
+  expect(Object.keys(PRIMARY_CATALOG_ARTWORK).sort()).toEqual(ids.sort());
+  expect(Object.values(PRIMARY_CATALOG_ARTWORK).every(source => source !== undefined)).toBe(true);
+});
 
 it('covers every actual curriculum ID with a distinct reviewed topic illustration', () => {
   const entries = Object.entries(LESSON_ARTWORK_INVENTORY);

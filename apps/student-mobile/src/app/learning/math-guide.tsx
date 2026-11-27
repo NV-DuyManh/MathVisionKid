@@ -48,6 +48,8 @@ import { useQuizPreparation } from '../../features/quiz/useQuizPreparation';
 import { submissionId } from '../../features/quiz/quizInput';
 import { mathGuideScope, readMathGuideCheckpoint, saveMathGuideCheckpoint, type MathGuideCheckpoint } from '../../features/tutoring/mathGuideCheckpoint';
 import { getCurriculumProblem } from '../../data/primaryMathCurriculum';
+import { getPrimaryMathExample, type PrimaryMathExample } from '../../data/primaryMathExampleSteps';
+import { DeviceNarration } from '../../features/tutoring/DeviceNarration';
 
 const MASCOT = require('../../../assets/illustrations/robot-mascot.png');
 
@@ -71,7 +73,7 @@ function checkedStudentAnswer(step: Pick<CompletedLessonStep, 'answer' | 'choice
   return !step.choices?.length && entered !== undefined && sameStoredAnswer(entered, step.answer) ? entered : step.answer;
 }
 
-type GuideParams = { problemText?: string; workText?: string; lessonId?: string; reflection?: string; guidePhotoId?: string; guideEntryId?: string };
+type GuideParams = { problemText?: string; workText?: string; lessonId?: string; reflection?: string; guidePhotoId?: string; guideEntryId?: string; exampleId?: string; exampleLevel?: string };
 type GuideTask = 'read' | 'lesson' | 'answer' | 'hint';
 type EditableField = 'problem' | 'work';
 
@@ -79,32 +81,136 @@ function startsWithFraction(step: LessonResponse['step']) {
   return step?.answerFormat === 'FRACTION' || (!!step && !step.answerFormat && (step.unit === 'phần' || /phân số|mấy phần/i.test(step.question)));
 }
 
+function PreparedExampleGuide({ example }: { example: PrimaryMathExample }) {
+  const router = useRouter();
+  const { width, fontScale } = useWindowDimensions();
+  const spacious = width >= 1100 && fontScale <= 1.3;
+  const desktop = spacious && isWideDesktopStudentWeb(width);
+  const [index, setIndex] = useState(0);
+  const [selection, setSelection] = useState<string>();
+  const [tool, setTool] = useState<'audio' | 'ask' | 'menu'>();
+  const heading = useRef<ViewInstance>(null);
+  const scroll = useRef<ScrollViewInstance>(null);
+  const step = example.steps[index];
+  const correct = step && selection === step.correct;
+  const completed = !step;
+  const title = step?.title ?? 'Bài giải';
+  useEffect(() => {
+    scroll.current?.scrollTo({ y: 0, animated: false });
+    heading.current?.focus();
+  }, [index]);
+  const move = (next: number) => {
+    setSelection(undefined);
+    setTool(undefined);
+    setIndex(next);
+  };
+  const returnToLesson = () => router.replace({ pathname: '/(tabs)/lessons', params: { lesson: example.lessonId } });
+  const reference = <LessonProblem problem={example.problem} sidePanel={desktop} />;
+  return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
+    <View style={[styles.header, spacious && styles.headerWide]}>
+      <AppHeader title={example.level === 'easy' ? 'Ví dụ dễ' : 'Ví dụ nâng cao'} showBack backFallback="/(tabs)/lessons" />
+    </View>
+    <View style={[styles.learningBody, spacious && styles.learningBodyWide]}>
+      {desktop && <ScrollView testID="guide-source-panel" style={styles.desktopSource} contentContainerStyle={styles.desktopSourceContent}>{reference}</ScrollView>}
+      <View style={styles.flex}>
+        {!desktop && <View style={styles.reference}>{reference}</View>}
+        <ScrollView ref={scroll} testID="lesson-working-area" contentContainerStyle={[styles.content, styles.webContent, spacious && styles.contentWide, desktop && styles.desktopContent]}>
+          <View style={styles.progressRow}>
+            <View style={styles.rail} accessibilityRole="progressbar" accessibilityLabel="Tiến trình ví dụ"
+              accessibilityValue={{ min: 0, max: example.steps.length, now: index + (correct ? 1 : 0) }}>
+              {example.steps.map((item, position) => <View key={item.title} style={[styles.railStep, position < index + (correct ? 1 : 0) && styles.railActive]} />)}
+            </View>
+          </View>
+          {index > 0 && <AppButton title="Bước trước" variant="ghost" onPress={() => move(index - 1)} />}
+          <View style={styles.card} testID={step ? 'prepared-example-step' : 'prepared-example-solution'}>
+            {step && <Text style={styles.eyebrow}>{index === 0 ? 'HIỂU ĐỀ' : 'CÙNG GIẢI'} · BƯỚC {index + 1} / {example.steps.length}</Text>}
+            <View style={styles.stepPrompt}>
+              <View ref={heading} tabIndex={-1} accessibilityRole="header" accessibilityLabel={title}><Text style={styles.heading}>{title}</Text></View>
+              {step && <Text style={styles.stepCaption}>{index === 0 ? 'Tìm dữ kiện hoặc cách làm' : 'Dùng bước trước để tìm kết quả'}</Text>}
+            </View>
+            {step ? <>
+              <MathText style={styles.question}>{step.question}</MathText>
+              {step.choices.map(choice => <Pressable key={choice} accessibilityRole="button" accessibilityLabel={choice} aria-pressed={selection === choice}
+                disabled={!!correct} onPress={() => setSelection(choice)}
+                style={({ pressed }) => [styles.choice, pressed && styles.choiceSelected,
+                  selection === choice && (correct ? styles.choiceCorrect : styles.choiceIncorrect)]}>
+                <MathText style={styles.choiceText}>{choice}</MathText>
+              </Pressable>)}
+              {correct ? <>
+                <CorrectAnswerFeedback message="Đúng rồi!" detail={step.feedback} />
+                <AppButton title={index === example.steps.length - 1 ? 'Xem bài giải' : 'Bước tiếp theo'} onPress={() => move(index + 1)} />
+              </> : <>
+                {selection !== undefined && <Text accessibilityLiveRegion="polite" style={styles.body}>Chưa đúng. Em thử lại hoặc xem gợi ý nhé.</Text>}
+                <AppButton title="Gợi ý cách làm bước này" variant="secondary" onPress={() => setTool('ask')} />
+              </>}
+            </> : <>
+              <MathText style={styles.body}>{example.solution}</MathText>
+              <AppButton title="Về bài học" onPress={returnToLesson} />
+            </>}
+          </View>
+        </ScrollView>
+        <View style={[styles.toolsDock, spacious && styles.toolsDockWide]} testID="lesson-fixed-tools">
+          <View style={styles.tools}>
+            {([['audio', 'volume-high-outline', 'Nghe giảng'], ['ask', 'help-circle-outline', 'Hỏi bài'], ['menu', 'ellipsis-horizontal', 'Xem thêm']] as const)
+              .map(([value, icon, label]) => <Pressable key={value} accessibilityRole="button" accessibilityLabel={label}
+                style={styles.tool} onPress={() => setTool(value)}>
+                <Ionicons name={icon} size={22} color={COLORS.primaryDark} accessible={false} />
+                <Text style={styles.toolLabel}>{label}</Text>
+              </Pressable>)}
+          </View>
+        </View>
+      </View>
+    </View>
+    {tool && <LessonSheet compact title={{ audio: 'Nghe giảng', ask: 'Gợi ý cách làm', menu: 'Em cần gì thêm?' }[tool]} onClose={() => setTool(undefined)}>
+      {tool === 'audio' && <DeviceNarration paragraphs={completed ? [example.solution] : [step.question, correct ? step.feedback : step.hint]} />}
+      {tool === 'ask' && <MathText style={styles.body}>{step ? (correct ? step.feedback : step.hint) : example.solution}</MathText>}
+      {tool === 'menu' && <>
+        <AppButton title="Học lại ví dụ" onPress={() => move(0)} />
+        <AppButton title="Về bài học" variant="secondary" onPress={returnToLesson} />
+      </>}
+    </LessonSheet>}
+  </SafeAreaView>;
+}
+
 export default function MathGuideScreen() {
   const { width } = useWindowDimensions();
   const auth = useContext(AuthContext);
+  const router = useRouter();
   const owner = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
   const useTopbarCalculator = isDesktopStudentWeb(width) && !!auth?.isAuthenticated
     && auth.user.role === 'STUDENT' && auth.user.active === true && !!(auth.user.id || auth.user.userId);
   const params = useLocalSearchParams<GuideParams>();
-  const [draftSource, setDraftSource] = useState(() => ({ owner, draft: recognitionDraftStore.getDraft() }));
+  const isExampleRoute = Platform.OS === 'web' && params.exampleId !== undefined;
+  const [draftSource, setDraftSource] = useState(() => ({ owner, draft: isExampleRoute ? null : recognitionDraftStore.getDraft() }));
   const draftOwner = useRef(owner);
   useFocusEffect(useCallback(() => {
+    if (isExampleRoute) return;
     if (draftOwner.current !== owner) {
       recognitionDraftStore.clearDraft();
       draftOwner.current = owner;
     }
     setDraftSource({ owner, draft: recognitionDraftStore.getDraft() });
-  }, [owner]));
-  const candidate = draftSource.owner === owner && !params.problemText && !params.workText ? draftSource.draft : null;
+  }, [owner, isExampleRoute]));
+  const candidate = !isExampleRoute && draftSource.owner === owner && !params.problemText && !params.workText ? draftSource.draft : null;
   const draft = !params.guidePhotoId || candidate?.imageSessionId === params.guidePhotoId ? candidate : null;
   const imageId = draft?.imageSessionId;
-  const checkpointScope = Platform.OS === 'web' ? mathGuideScope(owner) : null;
+  const checkpointScope = Platform.OS === 'web' && !isExampleRoute ? mathGuideScope(owner) : null;
   const checkpointRoute = JSON.stringify([params.guidePhotoId || imageId, params.guideEntryId, params.lessonId, params.problemText, params.workText]);
   const checkpoint = checkpointScope ? readMathGuideCheckpoint(checkpointScope, checkpointRoute) : null;
   const [photoChoice, setPhotoChoice] = useState<{ owner?: string; imageId: string; edit?: EditableField }>();
   const choice = imageId && photoChoice?.imageId === imageId && photoChoice.owner === owner ? photoChoice : undefined;
   // Remount also aborts pending requests: answers/exploration belong to one source and account.
   const sourceKey = JSON.stringify([owner, params.problemText, params.workText, params.lessonId, params.reflection, Platform.OS === 'web' ? [imageId, params.guideEntryId] : draft, choice?.edit]);
+  if (isExampleRoute) {
+    const example = getPrimaryMathExample(params.exampleId, params.exampleLevel);
+    if (example && auth?.isAuthenticated && auth.user?.role === 'STUDENT') {
+      return <PreparedExampleGuide key={JSON.stringify([owner, params.exampleId, params.exampleLevel])} example={example} />;
+    }
+    return <SafeAreaView style={styles.screen}><AppHeader title="Bài học" showBack backFallback="/(tabs)/lessons" />
+      <RecoveryNotice title="Chưa mở được ví dụ" message="Em chọn lại ví dụ trong bài học nhé."
+        actions={[{ label: 'Về bài học', onPress: () => router.replace('/(tabs)/lessons') }]} />
+    </SafeAreaView>;
+  }
   if (Platform.OS === 'web' && imageId && draft?.mode === 'MATH_TUTOR' && draft.recoveredAfterReload && draft.processingStarted && !choice && !checkpoint) {
     const edit = draft.lessonContext?.purpose === 'ADD_WORK' ? 'work' : 'problem';
     const webWorkspace = !isCompactStudentWeb(width);

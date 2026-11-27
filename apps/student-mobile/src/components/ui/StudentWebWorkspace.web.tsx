@@ -4,7 +4,7 @@ import type { Href } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useWindowDimensions } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
-import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
+import { foldLessonSearch, getPrimaryChapters, matchesPrimaryLesson, primaryGrade } from '../../data/primaryMathLessons';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { loadLessons } from '../../features/tutoring/learningHistory';
 import type { SavedLesson } from '../../features/tutoring/learningHistory';
@@ -26,7 +26,6 @@ const destinations = [
   { path: '/profile', href: '/(tabs)/profile', title: 'Của em', icon: 'person-outline' },
 ] as const;
 const workspace = /^\/(?:$|(?:lessons|achievements|profile|account|progress|saved|camera|privacy|crop|preview|processing|learning|recognition|results|quiz)(?:\/|$)|games\/?$)/;
-const foldSearch = (text: string) => text.toLocaleLowerCase('vi').normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/đ/g, 'd').trim();
 
 export function StudentWebWorkspace({ children }: React.PropsWithChildren) {
   const pathname = usePathname().replace(/^\/(?:study|learn)(?=\/|$)/, '') || '/';
@@ -123,7 +122,7 @@ function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: 
     const request = new AbortController();
     void profileApi.get(request.signal).then(result => {
       if (!request.signal.aborted) setProfile(result);
-    }).catch(() => {});
+    }).catch(() => { if (!request.signal.aborted) setProfile(undefined); });
     return () => request.abort();
   }, [pathname, grade, profileRevision]);
   useEffect(() => {
@@ -144,11 +143,12 @@ function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: 
       document.removeEventListener('keydown', escape);
     };
   }, [panel]);
-  const keyword = foldSearch(query);
-  const currentGrade = profile?.gradeLevel ?? grade;
-  const results = keyword && Number.isInteger(currentGrade) && currentGrade >= 1 && currentGrade <= 5
-    ? getProblemsByGrade(currentGrade as 1 | 2 | 3 | 4 | 5).filter(problem => foldSearch(`${problem.title} ${problem.topic}`).includes(keyword)).slice(0, 5) : [];
-  const savedResults = keyword ? saved.filter(lesson => foldSearch(lesson.problemText).includes(keyword)).slice(0, 3) : [];
+  const keyword = foldLessonSearch(query);
+  const currentGrade = primaryGrade(profile?.gradeLevel);
+  const results = keyword && currentGrade
+    ? getPrimaryChapters(currentGrade).flatMap(chapter =>
+      chapter.lessons.filter(lesson => matchesPrimaryLesson(chapter, lesson, keyword))).slice(0, 5) : [];
+  const savedResults = keyword ? saved.filter(lesson => foldLessonSearch(lesson.problemText).includes(keyword)).slice(0, 3) : [];
   const searchOpen = panel === 'search' && Boolean(keyword);
   const close = () => setPanel(null);
   const selectResult = () => { close(); setQuery(''); };
@@ -163,8 +163,8 @@ function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: 
       <kbd aria-hidden>Ctrl + K</kbd>
       {searchOpen && <div className="student-workspace-popover student-workspace-search-results">
         {!results.length && !savedResults.length && <p role="status">Chưa tìm thấy bài học phù hợp.</p>}
-        {results.map(problem => <Link key={problem.id} href={{ pathname: '/(tabs)/lessons', params: { q: problem.title } }} asChild>
-          <a onClick={selectResult}>{problem.title}</a>
+        {results.map(lesson => <Link key={lesson.id} href={{ pathname: '/(tabs)/lessons', params: { lesson: lesson.id } }} asChild>
+          <a onClick={selectResult}>{lesson.title}</a>
         </Link>)}
         {savedResults.map(lesson => <Link key={lesson.id} href={{ pathname: '/learning/math-guide', params: { lessonId: lesson.id, problemText: lesson.problemText, workText: lesson.workText, reflection: lesson.reflection } }} asChild>
           <a onClick={selectResult}>Đã lưu · {lesson.problemText.slice(0, 90)}</a>
