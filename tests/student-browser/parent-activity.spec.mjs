@@ -51,6 +51,7 @@ test('a temporary game heartbeat failure keeps the run during its valid lease', 
     } else await route.fallback();
   });
   await login(page, 'STUDENT');
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
   await page.goto(`${sites.portal.origin}/study/games/planet-rescue`);
   await page.getByTestId('rescue-start').click();
   const mission = page.getByTestId('rescue-mission');
