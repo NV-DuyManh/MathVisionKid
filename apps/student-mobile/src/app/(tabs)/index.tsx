@@ -1,3 +1,4 @@
+import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Pressable, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
@@ -24,7 +25,7 @@ export default function HomeScreen() {
         logFlowDomain('ACQUIRE', mode);
         router.push({ pathname: '/camera' as any, params: { mode } });
     };
-    return (<ScrollView style={[styles.container, isCompactStudentWeb(width) && styles.compactWebBackground]} onScroll={event => setHeroVisible(event.nativeEvent.contentOffset.y < 340)} scrollEventThrottle={100} contentContainerStyle={[styles.content, { flexGrow: 1, paddingTop: insets.top + 12, paddingBottom: 108 + insets.bottom }, width >= 768 && { maxWidth: width >= 1200 ? 1360 : 1040, paddingHorizontal: width >= 1200 ? 30 : 24, paddingTop: insets.top + 20, paddingBottom: 28 }, IS_STUDENT_WEB && width >= 768 && { maxWidth: '100%', paddingHorizontal: 24 }]} showsVerticalScrollIndicator={false}>
+    return (<ScrollView style={[styles.container, isCompactStudentWeb(width) && styles.compactWebBackground]} onScroll={event => setHeroVisible(event.nativeEvent.contentOffset.y < 340)} scrollEventThrottle={100} contentContainerStyle={[styles.content, { flexGrow: 1, paddingTop: insets.top + 12, paddingBottom: 108 + insets.bottom }, width >= 768 && { maxWidth: width >= 1200 ? 1360 : 1040, paddingHorizontal: width >= 1200 ? 30 : 24, paddingTop: insets.top + 20, paddingBottom: 28 }, IS_STUDENT_WEB && width >= 768 && { maxWidth: '100%', paddingHorizontal: STUDENT_WEB.pageGutter }]} showsVerticalScrollIndicator={false}>
       <HomeDashboard
         userName={userName}
         heroVisible={heroVisible}

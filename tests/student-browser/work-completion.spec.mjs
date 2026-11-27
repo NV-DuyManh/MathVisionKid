@@ -35,7 +35,7 @@ async function openReview(page, work = partial, question = problem) {
   await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
 }
 
-test('Incomplete work names the unmet quantity, saves and reopens the source, then clears feedback after completion', async ({ page, app }, testInfo) => {
+test('Incomplete work names the unmet quantity and clears feedback after completion', async ({ page, app, isMobile }, testInfo) => {
   reviews(app);
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
@@ -47,16 +47,21 @@ test('Incomplete work names the unmet quantity, saves and reopens the source, th
   const missingImage = testInfo.outputPath('missing-quantity.png');
   await page.screenshot({ path: missingImage, fullPage: true });
   await testInfo.attach('Specific missing quantity and hint — synthetic API', { path: missingImage, contentType: 'image/png' });
-  await page.getByRole('button', { name: 'Lưu bài để học tiếp', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Đã lưu bài của em', exact: true })).toBeVisible();
-  await page.goto(`${sites.portal.origin}/study/${page.viewportSize().width >= 768 ? 'saved' : 'profile'}`);
-  await page.getByRole('button', { name: 'Học tiếp: ' + problem.slice(0, 60), exact: true }).click();
-  await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
-  await expect(page.getByText(description, { exact: true })).toBeVisible();
-  const opened = app.requests.filter(request => request.path === '/student/tutor/work-review');
-  expect(opened).toHaveLength(2);
-  expect(opened[1].body.workText).toBe(partial);
-  expect(opened[1].body.sourceId).not.toBe(opened[0].body.sourceId);
+  const save = page.getByRole('button', { name: 'Lưu bài để học tiếp', exact: true });
+  if (isMobile) {
+    await save.click();
+    await expect(page.getByRole('button', { name: 'Đã lưu bài của em', exact: true })).toBeVisible();
+    await page.goto(`${sites.portal.origin}/study/profile`);
+    await page.getByRole('button', { name: 'Học tiếp: ' + problem.slice(0, 60), exact: true }).click();
+    await page.getByRole('button', { name: 'Bài đã làm', exact: true }).click();
+    await expect(page.getByText(description, { exact: true })).toBeVisible();
+    const opened = app.requests.filter(request => request.path === '/student/tutor/work-review');
+    expect(opened).toHaveLength(2);
+    expect(opened[1].body.workText).toBe(partial);
+    expect(opened[1].body.sourceId).not.toBe(opened[0].body.sourceId);
+  } else {
+    await expect(save).toHaveCount(0);
+  }
   await page.getByRole('button', { name: 'Xem lại đề và bài làm', exact: true }).click();
   await page.getByRole('button', { name: 'Chỉnh chỗ chưa đọc đúng', exact: true }).click();
   await page.getByRole('textbox', { name: 'Nội dung bài làm', exact: true }).fill(finished);
@@ -83,7 +88,7 @@ test('Several unmet requirements stay in one numbered missing-work panel', async
   await testInfo.attach('Numbered missing requirements — synthetic API', { path: multipleImage, contentType: 'image/png' });
 });
 
-test('Unverified completion preserves correct calculations and offers retry without a new photo', async ({ page, app }) => {
+test('Unverified completion preserves correct calculations and offers retry without a new photo', async ({ page, app, isMobile }) => {
   reviews(app, { unknown: true });
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
@@ -93,6 +98,16 @@ test('Unverified completion preserves correct calculations and offers retry with
   await expect(page.getByText('Em đang thiếu phần này:', { exact: true })).toHaveCount(0);
   await expect(page.getByText('Cần đối chiếu', { exact: true })).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Chụp lại bài em đã sửa', exact: true })).toHaveCount(0);
-  await page.getByRole('button', { name: 'Thử lại nhận xét', exact: true }).click();
+  const retry = page.getByRole('button', { name: 'Thử lại nhận xét', exact: true });
+  const save = page.getByRole('button', { name: 'Lưu bài để học tiếp', exact: true });
+  await expect(save).toHaveCount(isMobile ? 1 : 0);
+  if (!isMobile && page.viewportSize().width >= 1100) {
+    const [button, column] = await Promise.all([
+      retry.boundingBox(), page.getByTestId('work-review-result-column').boundingBox(),
+    ]);
+    expect(button.x).toBeCloseTo(column.x, 0);
+    expect(button.width).toBeCloseTo(column.width, 0);
+  }
+  await retry.click();
   await expect.poll(() => app.requests.filter(request => request.path === '/student/tutor/work-review').length).toBe(2);
 });

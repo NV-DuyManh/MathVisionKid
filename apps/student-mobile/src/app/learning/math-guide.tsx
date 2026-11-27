@@ -1,4 +1,5 @@
-import { isWideDesktopStudentWeb } from '../../components/ui/useIsCompactStudentWeb';
+import { STUDENT_WEB } from '../../constants/studentWebDesign';
+import { isCompactStudentWeb, isDesktopStudentWeb, isWideDesktopStudentWeb } from '../../components/ui/useIsCompactStudentWeb';
 import React, { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, AppState, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import type { ScrollViewInstance, TextInputInstance, ViewInstance } from 'react-native';
@@ -26,7 +27,7 @@ import { HintCheckIn } from '../../features/tutoring/HintCheckIn';
 import { HintSheetContent } from '../../features/tutoring/HintSheetContent';
 import { buildHintVisual } from '../../features/tutoring/hintVisualModel';
 import { ProblemSummary } from '../../features/tutoring/ProblemSummary';
-import { desktopWorkReviewButtonStyle, StudentWorkReview, type WorkReviewCheckpoint } from '../../features/tutoring/StudentWorkReview';
+import { StudentWorkReview, type WorkReviewCheckpoint } from '../../features/tutoring/StudentWorkReview';
 import { WorkReviewPreparation } from '../../features/tutoring/WorkReviewPreparation';
 import { QuestionPicker } from '../../features/tutoring/QuestionPicker';
 import { sourceClarification } from '../../features/tutoring/sourceClarification';
@@ -79,8 +80,11 @@ function startsWithFraction(step: LessonResponse['step']) {
 }
 
 export default function MathGuideScreen() {
+  const { width } = useWindowDimensions();
   const auth = useContext(AuthContext);
   const owner = auth?.user?.id || auth?.user?.userId || auth?.user?.email;
+  const useTopbarCalculator = isDesktopStudentWeb(width) && !!auth?.isAuthenticated
+    && auth.user.role === 'STUDENT' && auth.user.active === true && !!(auth.user.id || auth.user.userId);
   const params = useLocalSearchParams<GuideParams>();
   const [draftSource, setDraftSource] = useState(() => ({ owner, draft: recognitionDraftStore.getDraft() }));
   const draftOwner = useRef(owner);
@@ -103,8 +107,9 @@ export default function MathGuideScreen() {
   const sourceKey = JSON.stringify([owner, params.problemText, params.workText, params.lessonId, params.reflection, Platform.OS === 'web' ? [imageId, params.guideEntryId] : draft, choice?.edit]);
   if (Platform.OS === 'web' && imageId && draft?.mode === 'MATH_TUTOR' && draft.recoveredAfterReload && draft.processingStarted && !choice && !checkpoint) {
     const edit = draft.lessonContext?.purpose === 'ADD_WORK' ? 'work' : 'problem';
-    return <SafeAreaView>
-      <AppHeader title="Bài làm của em" showBack />
+    const webWorkspace = !isCompactStudentWeb(width);
+    return <SafeAreaView style={webWorkspace && styles.workspaceInsets}>
+      <AppHeader title="Bài làm của em" showBack inWebWorkspace={webWorkspace} />
       <RecoveryNotice title="Ảnh của em vẫn được giữ" message="Lần đọc trước chưa có kết quả xác nhận. Em có thể đọc lại ảnh hoặc nhập bằng chữ."
         actions={[
           { label: 'Tiếp tục đọc ảnh', onPress: () => setPhotoChoice({ owner, imageId }) },
@@ -113,13 +118,14 @@ export default function MathGuideScreen() {
     </SafeAreaView>;
   }
   return <NarrationPreparation key={sourceKey} owner={owner}>
-    <MathGuideLesson owner={owner} params={params} sourceDraft={draft} initialEdit={choice?.edit}
+    <MathGuideLesson owner={owner} params={params} sourceDraft={draft} initialEdit={choice?.edit} useTopbarCalculator={useTopbarCalculator}
       checkpoint={checkpoint} checkpointScope={checkpointScope} checkpointRoute={checkpointRoute} />
   </NarrationPreparation>;
 }
 
-function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, checkpointScope, checkpointRoute }: {
+function MathGuideLesson({ owner, params, sourceDraft, initialEdit, useTopbarCalculator, checkpoint, checkpointScope, checkpointRoute }: {
   owner?: string; params: GuideParams; sourceDraft: ImageDraft | null; initialEdit?: EditableField;
+  useTopbarCalculator: boolean;
   checkpoint: MathGuideCheckpoint | null; checkpointScope: string | null; checkpointRoute: string;
 }) {
   const router = useRouter();
@@ -131,6 +137,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
   const draft = supplied || suppliedWork ? null : sourceDraft;
   const context = draft?.lessonContext;
   const imageUri = !initialEdit && draft?.mode === 'MATH_TUTOR' ? draft.croppedImageUri ?? '' : '';
+  const photoWorkspace = Platform.OS === 'web' && !isCompactStudentWeb(width) && draft?.mode === 'MATH_TUTOR';
   const photoAllowed = !!imageUri && draft?.privacyConfirmed === true && !!draft.privacyImageUri;
   const [reading, setReading] = useState<NotebookRead | null>(checkpoint ? checkpoint.reading : supplied || suppliedWork ? {
     kind: suppliedWork ? 'MIXED' : 'PROBLEM', problemText: supplied,
@@ -695,8 +702,9 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
     : imageUri && photoAllowed && !lesson ? [{ label: 'Thử lại', accessibilityLabel: 'Đọc lại ảnh bài làm', icon: 'refresh-outline', onPress: () => { void inspectPhoto(); }, disabled: !!busy }]
     : web && failedTask === 'answer' ? [{ label: 'Xem lại câu trả lời', onPress: returnFromTool }]
     : [];
-  const workReviewSaveAction = problem && work && reviewStarted && !lesson && !editing && !division && !invalidPhoto ?
-    <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} loadingTitle="Đang lưu bài…" variant="secondary" style={desktop && reviewFocused ? desktopWorkReviewButtonStyle : undefined} disabled={saved || saving} loading={saving} onPress={() => void archive()} /> : null;
+  const workReviewSaveAction = !(isDesktopStudentWeb(width) && reviewFocused)
+    && problem && work && reviewStarted && !lesson && !editing && !division && !invalidPhoto ?
+    <AppButton title={saved ? 'Đã lưu bài của em' : 'Lưu bài để học tiếp'} loadingTitle="Đang lưu bài…" variant="secondary" disabled={saved || saving} loading={saving} onPress={() => void archive()} /> : null;
   const desktopSourcePhoto = desktop && [
     styles.desktopPhoto,
     workReviewMode && { height: Math.max(300, Math.min(380, height * 0.52)) },
@@ -707,10 +715,14 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
         </View>;
   const problemReference = lesson && !editing && problem ? <LessonProblem key={lesson.sessionId} problem={problem} imageUri={problemImage}
     sidePanel={desktop} onEdit={() => { setTool(null); edit('problem'); }} /> : null;
+  const raisedReading = desktop && photoWorkspace && preparing === 'read';
   if (preparing) return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
-    <View style={styles.preparing} testID={preparing === 'read' ? 'lesson-reading-screen' : 'lesson-preparation-screen'} accessibilityLiveRegion="polite">
+    <View style={[styles.preparing, photoWorkspace && styles.workspaceInsets, raisedReading && styles.desktopReading]}
+      testID={preparing === 'read' ? 'lesson-reading-screen' : 'lesson-preparation-screen'} accessibilityLiveRegion="polite">
+      {raisedReading && <View style={styles.readingSpaceAbove} />}
       <RecognitionProgress
         desktop={desktop}
+        fillWidth={photoWorkspace}
         title={preparing === 'read' ? 'Mình đang đọc bài của em' : 'Chuẩn bị các bước học'}
         description={preparing === 'read' ? 'Giữ cả đề và phần bài làm để cùng học nhé.' : 'Mỗi bước sẽ có một việc rõ ràng để em thử.'}
         steps={preparing === 'read' ? ['Ảnh đã chọn', 'Đọc đề và bài làm', 'Mở phần kiểm tra'] : ['Đề đã xác nhận', 'Chuẩn bị các bước học', 'Mở bài học']}
@@ -719,15 +731,17 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
         onComplete={() => setFinishing(previous => previous?.id === finishing?.id ? null : previous)}
         imageUri={preparing === 'read' ? imageUri : undefined}
         onCancel={cancel} cancelLabel={preparing === 'read' ? 'Dừng chờ, giữ ảnh' : 'Dừng chờ'} />
+      {raisedReading && <View style={styles.readingSpaceBelow} />}
     </View>
   </SafeAreaView>;
 
-  return <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
-    <View style={[styles.header, spacious && styles.headerWide]}><AppHeader title={reviewFocused ? 'Bài làm của em' : lesson ? 'Bài học' : division ? 'Kiểm tra phép chia' : work ? 'Cùng xem bài làm' : 'Cùng em tìm cách giải'} showBack
+  return <SafeAreaView style={[styles.screen, photoWorkspace && styles.workspaceInsets]} edges={['top', 'bottom']}>
+    <View style={[styles.header, spacious && styles.headerWide, photoWorkspace && styles.workspaceHeader]}><AppHeader title={reviewFocused ? 'Bài làm của em' : lesson ? 'Bài học' : division ? 'Kiểm tra phép chia' : work ? 'Cùng xem bài làm' : 'Cùng em tìm cách giải'} showBack inWebWorkspace={photoWorkspace}
       backFallback={Platform.OS === 'web' && supplied ? '/(tabs)/lessons' : undefined}
-      rightIcon="calculator-outline" rightAccessibilityLabel="Mở máy tính bỏ túi" onRightPress={() => setCalculatorOpen(true)} /></View>
-    <PocketCalculator visible={calculatorOpen} onClose={() => setCalculatorOpen(false)} />
-    <View style={[styles.learningBody, spacious && styles.learningBodyWide]}>
+      rightIcon={useTopbarCalculator ? undefined : 'calculator-outline'}
+      rightAccessibilityLabel="Mở máy tính bỏ túi" onRightPress={() => setCalculatorOpen(true)} /></View>
+    {!useTopbarCalculator && <PocketCalculator visible={calculatorOpen} onClose={() => setCalculatorOpen(false)} />}
+    <View style={[styles.learningBody, spacious && styles.learningBodyWide, photoWorkspace && styles.workspaceBody]}>
     {desktop && (problemReference || sourcePhotos) ? <ScrollView testID="guide-source-panel" style={styles.desktopSource}
       contentContainerStyle={styles.desktopSourceContent} keyboardShouldPersistTaps="handled">
       {problemReference || sourcePhotos}
@@ -743,7 +757,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
     </ScrollView> : null}
     <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       {!desktop && problemReference ? <View style={[styles.reference, spacious && styles.referenceWide]}>{problemReference}</View> : null}
-      <ScrollView ref={scroll} testID="lesson-working-area" contentContainerStyle={[styles.content, Platform.OS === 'web' && styles.webContent, spacious && styles.contentWide, desktop && styles.desktopContent]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+      <ScrollView ref={scroll} testID="lesson-working-area" contentContainerStyle={[styles.content, Platform.OS === 'web' && styles.webContent, spacious && styles.contentWide, desktop && styles.desktopContent, photoWorkspace && styles.workspaceContent]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         {restoring?<Text accessibilityLiveRegion="polite" style={styles.caption}>Đang kiểm tra bài đang học…</Text>:progressNotice?<Text accessibilityLiveRegion="polite" style={styles.caption}>{progressNotice}</Text>:null}
         {reviewFocused && !lesson ? <Pressable accessibilityRole="button" accessibilityLabel="Xem lại đề và bài làm" style={styles.reviewBack} onPress={() => setReviewFocused(false)}>
           <Ionicons name="chevron-back" size={18} color={COLORS.primaryDark} /><Text style={styles.link}>Xem lại đề và bài làm</Text></Pressable> : null}
@@ -821,6 +835,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
 
         {workReviewMode && problem && !editing && !reviewFocused && !invalidPhoto ? <WorkReviewPreparation
           problem={problem} work={work} problemImage={problemImage} workImage={workImage} photoCurrent={workImageCurrent}
+          desktopWeb={isDesktopStudentWeb(width)}
           showPhoto={!desktop || !sourcePhotos}
           problemNeedsReview={sourceNeedsReview && !problemConfirmed}
           confirmLabel="Bài đã làm" disabled={!!busy || expired || restoring || !!sourceIssue}
@@ -886,7 +901,6 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
           problemText={problem} workText={work} imageUri={workImage} photoCurrent={workImageCurrent} lines={evidenceLines}
           enabled={problemConfirmed && workConfirmed && !problem.includes('[?]') && !work.includes('[?]')}
           autoStart={autoStartReview} desktop={desktop}
-          saveAction={desktop && reviewFocused ? workReviewSaveAction : null}
           checkpoint={workReviewCheckpoint} onCheckpoint={checkpointScope ? setWorkReviewCheckpoint : undefined}
           disabled={!!busy || expired} onCaptureWork={() => capture('ADD_WORK')}
           onSessionExpired={() => { setExpired(true); setError('Phiên học đã hết hạn. Em đăng nhập lại để tiếp tục nhé.'); }}
@@ -896,7 +910,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
             setWorkConfirmed(true); setUncertainWork(false); setSaved(false);
             requestAnimationFrame(() => scroll.current?.scrollTo({ y: 0, animated: false }));
           }} /></View> : null}
-        {desktop && reviewFocused ? null : workReviewSaveAction}
+        {workReviewSaveAction}
 
         {lesson && !editing ? <>
           <View style={styles.progressRow}><View style={styles.rail} accessible accessibilityRole="progressbar" accessibilityLabel="Tiến trình bài học"
@@ -1109,8 +1123,15 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, checkpoint, 
 const styles = StyleSheet.create({
   hidden: { display: 'none' },
   preparing: { flex: 1, justifyContent: 'center', padding: 20 },
+  desktopReading: { justifyContent: 'flex-start', paddingTop: 0, paddingBottom: 60 },
+  readingSpaceAbove: { flexGrow: 1 },
+  readingSpaceBelow: { flexGrow: 3 },
   header: { width: '100%', maxWidth: 740, alignSelf: 'center' }, headerWide: { maxWidth: 1180 },
   learningBody: { flex: 1, width: '100%', alignSelf: 'center' }, learningBodyWide: { maxWidth: 1180, flexDirection: 'row', gap: 10, paddingHorizontal: 18 },
+  workspaceInsets: { paddingHorizontal: STUDENT_WEB.pageGutter },
+  workspaceHeader: { maxWidth: '100%' },
+  workspaceBody: { maxWidth: '100%', paddingHorizontal: 0, gap: 18 },
+  workspaceContent: { maxWidth: '100%', paddingHorizontal: 0 },
   desktopSource: { flexBasis: '39%', flexGrow: 0, flexShrink: 0, minWidth: 0 },
   desktopSourceContent: { paddingTop: 16, paddingBottom: 20 },
   desktopContent: { maxWidth: 940, paddingHorizontal: 12, paddingBottom: 24 },

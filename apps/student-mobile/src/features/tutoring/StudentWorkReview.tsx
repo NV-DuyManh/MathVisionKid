@@ -24,11 +24,9 @@ export type WorkReviewCheckpoint = {
   rewrite: Record<number, string> | null;
 };
 
-export const desktopWorkReviewButtonStyle: ViewStyle = {
-  alignSelf: 'flex-start',
-  width: '100%',
-  maxWidth: 280,
-  minHeight: 42,
+const desktopWorkReviewButtonStyle: ViewStyle = {
+  alignSelf: 'stretch',
+  minHeight: 48,
   paddingVertical: 8,
   paddingHorizontal: 16,
 };
@@ -43,7 +41,6 @@ type Props = {
   photoCurrent?: boolean;
   autoStart?: boolean;
   desktop?: boolean;
-  saveAction?: React.ReactNode;
   checkpoint?: WorkReviewCheckpoint | null;
   onCheckpoint?: (value: WorkReviewCheckpoint) => void;
   onReviseWork: (work: string) => void;
@@ -67,7 +64,6 @@ function ReviewSession({
   photoCurrent = true,
   autoStart = false,
   desktop = false,
-  saveAction,
   checkpoint,
   onCheckpoint,
   onReviseWork,
@@ -210,7 +206,8 @@ function ReviewSession({
 
   const desktopResult = desktop && !!result && enabled;
   const resultButtonStyle = desktopResult ? desktopWorkReviewButtonStyle : undefined;
-  const desktopPhotoHeight = Math.max(210, Math.min(350, height - 435));
+  // Leave room for navigation and the review heading above the photo.
+  const desktopPhotoHeight = Math.max(160, Math.min(580, height - 348));
   const photo = !imageUri || !photoCurrent ? null : result && result.status !== 'CORRECT' ? (
     <WorkPhotoEvidence
         presentation="photo"
@@ -222,7 +219,7 @@ function ReviewSession({
         onSelectLine={choose}
         problemText={problemText}
         incompleteInfo={incompleteInfo}
-        maxPhotoHeight={desktopResult ? 210 : undefined}
+        maxPhotoHeight={desktopResult ? desktopPhotoHeight : undefined}
     />
   ) : (
     <View testID="work-review-photo-frame" style={[styles.photoFrame, desktopResult && styles.desktopPhotoFrame]}>
@@ -278,9 +275,10 @@ function ReviewSession({
       )}
   </> : null;
 
+  const retryWithoutCorrections = !!result && result.status !== 'CORRECT' && !hasCorrections && !incompleteInfo?.isIncomplete;
   const resultDetails = result && enabled ? <>
-      {!hasCorrections && !incompleteInfo?.isIncomplete && result.status !== 'CORRECT' ? <AppButton
-        title="Thử lại nhận xét" variant="secondary" disabled={disabledNow || busy} onPress={() => void review()} /> : null}
+      {retryWithoutCorrections ? <AppButton
+        title="Thử lại nhận xét" variant="secondary" style={resultButtonStyle} disabled={disabledNow || busy} onPress={() => void review()} /> : null}
 
       {unresolved.map(row => <View key={row.lineIndex} style={styles.panel}>
         <Text style={styles.label}>{`Dòng ${row.lineIndex + 1}`}</Text>
@@ -289,7 +287,7 @@ function ReviewSession({
         <MathText style={styles.caption}>{row.feedback}</MathText>
       </View>)}
       {(hasCorrections || incompleteInfo?.isIncomplete) && result.status === 'NEEDS_REVIEW' && result.complete !== false ? <AppButton
-        title="Thử nhận xét lại" variant="secondary" disabled={disabledNow || busy} onPress={() => void review()} /> : null}
+        title="Thử nhận xét lại" variant="secondary" style={resultButtonStyle} disabled={disabledNow || busy} onPress={() => void review()} /> : null}
 
       {result.status === 'CORRECT' ? <AppButton title={showDetails ? 'Thu gọn nhận xét' : 'Xem nhận xét chi tiết'} variant="ghost" style={resultButtonStyle} onPress={() => setShowDetails(value => !value)} /> : null}
 
@@ -368,7 +366,7 @@ function ReviewSession({
             style={({ pressed }) => [styles.toggle, focused && styles.focused, pressed && styles.pressed]}>
             <Text style={styles.link}>{multipleEdits ? 'Em nhập các dòng vừa sửa' : 'Em nhập dòng vừa sửa'}</Text>
           </Pressable> : null}
-          <AppButton title="Chụp lại bài em đã sửa" variant="secondary" disabled={disabledNow}
+          <AppButton title="Chụp lại bài em đã sửa" variant="secondary" style={resultButtonStyle} disabled={disabledNow}
             onPress={() => { stop(); onCaptureWork(); }} />
           {rewrite ? <View style={styles.hint} nativeID={rewriteId}>
             {editRows.map((row, index) => {
@@ -400,7 +398,7 @@ function ReviewSession({
       <QuizAfterLearningButton sourceType="WORK_REVIEW" sourceId={result.sourceId} buttonStyle={resultButtonStyle} />
     </> : null;
 
-  return <View style={[styles.card, desktopResult && styles.desktopCard]}>
+  return <View testID="student-work-review" style={[styles.card, desktopResult && styles.desktopCard]}>
     <View style={styles.headingRow}>
       <Ionicons name="checkmark-done-outline" size={22} color={COLORS.primaryDark} accessible={false} />
       <View style={styles.resultCopy}>
@@ -426,9 +424,14 @@ function ReviewSession({
     ]} /> : null}
 
     {desktopResult ? <View style={styles.desktopColumns}>
-      <View testID="work-review-result-column" style={styles.desktopResult}>{resultStatus}{photo}</View>
-      <View testID="work-review-details-column" style={styles.desktopDetails}>{resultDetails}{completionActions}{saveAction}</View>
-    </View> : <>{resultStatus}{resultDetails}{completionActions}{saveAction}</>}
+      {photo ? <View testID="work-review-photo-column" style={styles.desktopPhotoColumn}>{photo}</View> : null}
+      <View testID="work-review-result-column" style={styles.desktopResult}>
+        {resultStatus}
+        <View style={[styles.desktopActions, (completionActions || retryWithoutCorrections) && styles.desktopActionsAtBottom]}>
+          {resultDetails}{completionActions}
+        </View>
+      </View>
+    </View> : <>{resultStatus}{resultDetails}{completionActions}</>}
 
   </View>;
 }
@@ -436,9 +439,11 @@ function ReviewSession({
 const styles = StyleSheet.create({
   card: { padding: 18, borderRadius: 24, borderWidth: 1, borderColor: '#EEE5FB', backgroundColor: COLORS.surface, gap: 14, ...SHADOWS.small },
   desktopCard: { paddingVertical: 14, gap: 10 },
-  desktopColumns: { flexDirection: 'row', alignItems: 'flex-start', gap: 18 },
-  desktopResult: { flex: 3, minWidth: 0, gap: 10 },
-  desktopDetails: { flex: 2, minWidth: 0, gap: 8 },
+  desktopColumns: { flexDirection: 'row', gap: 18 },
+  desktopResult: { flex: 2, minWidth: 0, gap: 10 },
+  desktopActions: { gap: 10 },
+  desktopActionsAtBottom: { marginTop: 'auto' },
+  desktopPhotoColumn: { flex: 3, minWidth: 0 },
   desktopStatus: { flexDirection: 'row', alignItems: 'flex-start', padding: 12 },
   photoFrame: { position: 'relative', borderRadius: 18, overflow: 'hidden', backgroundColor: '#F1ECF7', borderWidth: 1, borderColor: '#E8DFF4' },
   desktopPhotoFrame: { width: '100%' },
