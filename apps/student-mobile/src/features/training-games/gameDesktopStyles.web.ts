@@ -2,6 +2,8 @@
 export const GAME_DESKTOP_STYLES = `
 @media (pointer: fine) {
   [data-game="race-to-finish"] [data-testid="game-camera"] {
+    max-width: 100%;
+    max-height: 100%;
     background: radial-gradient(ellipse at 50% 0, #a9754338, transparent 70%),
       repeating-linear-gradient(0deg, #f2d1a408 0 1px, transparent 1px 6px),
       linear-gradient(110deg, #392a24, #231d23 50%, #392a24);

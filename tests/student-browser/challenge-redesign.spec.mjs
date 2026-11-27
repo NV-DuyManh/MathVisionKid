@@ -7,7 +7,11 @@ for (const [width, height] of [[1280, 660], [1366, 768], [1920, 1080]]) test(`qu
   await page.setViewportSize({ width, height });
   await challenges(page, app);
   await page.goto(`${sites.portal.origin}/study/games/arithmetic-quest`);
+  const gamesLink = page.getByRole('navigation', { name: 'Điều hướng học sinh' }).getByRole('link', { name: 'Trò chơi' });
+  await expect(gamesLink).toBeVisible();
+  await expect(gamesLink).toHaveAttribute('aria-current', 'page');
   await page.getByRole('button', { name: 'Bắt đầu đường đua', exact: true }).click();
+  await expect(gamesLink).toBeVisible();
   const input = page.getByRole('textbox', { name: 'Đáp án', exact: true });
   const submit = page.getByRole('button', { name: 'Gửi đáp án', exact: true });
   for (let stage = 0; stage < 5; stage++) {

@@ -20,6 +20,7 @@ import static com.mathvisionkids.api.studentprofile.ProfileDtos.*;
 @Service
 public class StudentProfileService {
     static final Set<String> AVATARS = Set.of("star", "planet", "leaf", "rocket", "moon", "sun");
+    private static final int STAR_HISTORY_PAGE_SIZE = 10;
     private static final List<String> INITIAL_AVATARS = List.of("star", "planet", "leaf", "rocket", "moon", "sun");
     private record Preferences(String avatar, String alias, boolean visible, boolean reachedChallenger,
                                boolean nameHidden, String googleAvatarUrl) {}
@@ -189,6 +190,28 @@ public class StudentProfileService {
                 .stream().findFirst().orElse(new Preferences("star", "", false, false, true, null));
     }
 
+    @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
+    public ActivityPage starHistory(String principal, long requestedPage) {
+        if (requestedPage < 1) {
+            throw new ApiException("INVALID_PAGE", "Số trang phải lớn hơn hoặc bằng 1.", HttpStatus.BAD_REQUEST);
+        }
+        UUID id = student(principal).getId();
+        long total = db.queryForObject("""
+                SELECT COUNT(*) FROM student_verified_activities WHERE student_id = ? AND stars > 0
+                """, Long.class, id);
+        long totalPages = Math.max(1, (total + STAR_HISTORY_PAGE_SIZE - 1) / STAR_HISTORY_PAGE_SIZE);
+        long page = Math.min(requestedPage, totalPages);
+        return new ActivityPage(starHistoryEntries(id, STAR_HISTORY_PAGE_SIZE, (page - 1) * STAR_HISTORY_PAGE_SIZE),
+                page, totalPages);
+    }
+
+    private List<Activity> starHistoryEntries(UUID id, int size, long offset) {
+        return db.query("""
+                SELECT source, completed_at, stars FROM student_verified_activities
+                WHERE student_id = ? AND stars > 0 ORDER BY completed_at DESC, source, event_id LIMIT ? OFFSET ?
+                """, (r, n) -> new Activity(r.getString(1), r.getTimestamp(2).toInstant(), r.getInt(3)), id, size, offset);
+    }
+
     private Profile profile(Student student) {
         UUID id = student.getId();
         var prefs = preferences(id);
@@ -196,10 +219,7 @@ public class StudentProfileService {
                 SELECT c.class_id, c.name FROM classrooms c JOIN classroom_students cs ON cs.class_id = c.class_id
                 WHERE cs.student_id = ? ORDER BY c.name, c.class_id
                 """, (r, n) -> new Classroom(r.getObject(1, UUID.class), r.getString(2)), id);
-        var history = db.query("""
-                SELECT source, completed_at, stars FROM student_verified_activities
-                WHERE student_id = ? AND stars > 0 ORDER BY completed_at DESC, source, event_id LIMIT 20
-                """, (r, n) -> new Activity(r.getString(1), r.getTimestamp(2).toInstant(), r.getInt(3)), id);
+        var history = starHistoryEntries(id, 20, 0);
         var days = days(id);
         var stats = stats(days);
         long stars = days.stream().mapToLong(Day::stars).sum();

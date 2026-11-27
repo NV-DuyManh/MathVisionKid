@@ -44,6 +44,11 @@ public class StudentProfileController {
         return account.password(principal.getName(), request);
     }
 
+    @GetMapping("/star-history")
+    public ActivityPage starHistory(Principal principal, @RequestParam(defaultValue = "1") long page) {
+        return profiles.starHistory(principal.getName(), page);
+    }
+
     @GetMapping("/leaderboard")
     public Leaderboard leaderboard(Principal principal, @RequestParam(required = false) UUID classroom,
                                    @RequestParam(defaultValue = "false") boolean allGrades,

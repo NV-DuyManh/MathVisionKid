@@ -21,6 +21,7 @@ final class ProfileDtos {
     record Classroom(UUID id, String name) {}
     record Title(String id, String name, String rarity, String description, long progress, long goal, boolean unlocked) {}
     record Activity(String source, Instant completedAt, int stars) {}
+    record ActivityPage(List<Activity> entries, long page, long totalPages) {}
     record Stats(long lessons, long quizzes, long games, long days, long week, long month, long today, long streak) {}
     record Profile(String displayName, Integer gradeLevel, Instant joinedAt, List<Classroom> classrooms, String avatar,
                    boolean leaderboardVisible, String publicAlias, String selectedTitle, long stars, StudentRank.Rank rank,

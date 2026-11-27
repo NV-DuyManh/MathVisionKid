@@ -32,14 +32,16 @@ it('keeps four equal quick actions in one non-scrolling row on a phone and after
   expect(tree.root.findAll(node => node.props.testID === 'quick-actions-grid')).not.toHaveLength(0);
 });
 
-it('uses real identity, recommendations and exactly three journey entry points', () => {
+it('uses real identity, recommendations and exactly four journey entry points', () => {
   mockProfile.value = { displayName: 'Bình Minh', gradeLevel: 5, avatar: 'star', stats: { streak: 0, today: 0 }, history: [] };
   render({ id: 'student', gradeLevel: 5 });
   const text = tree.root.findAllByType('Text' as any).map(node => String(node.props.children)).join(' ');
   expect(text).toContain('Bình Minh!');
   expect(text).toContain('Bài học gợi ý cho em');
   const journey = tree.root.findAll(node => node.props.testID === 'learning-journey')[0];
-  expect(journey.findAll(node => node.props.onPress)).toHaveLength(3);
+  expect(journey.findAll(node => node.props.onPress)).toHaveLength(4);
+  act(() => button('Kiểm tra. Thử sức với câu đố').props.onPress());
+  expect(mockPush).toHaveBeenLastCalledWith('/quiz');
   const [recommended, second] = getProblemsByGrade(5);
   expect(button(`Học bài ${recommended.title}`)).toBeDefined();
   expect(button(`Học bài ${second.title}`)).toBeUndefined();

@@ -30,16 +30,18 @@ const foldSearch = (text: string) => text.toLocaleLowerCase('vi').normalize('NFD
 
 export function StudentWebWorkspace({ children }: React.PropsWithChildren) {
   const pathname = usePathname().replace(/^\/(?:study|learn)(?=\/|$)/, '') || '/';
+  const { width } = useWindowDimensions();
   const auth = useContext(AuthContext);
   const owner = auth?.isAuthenticated && auth.user?.role === 'STUDENT' && auth.user?.active === true
     ? String(auth.user.id || auth.user.userId || '') : '';
-  const enabled = Boolean(owner) && workspace.test(pathname);
+  const gameRoute = /^\/games\/[^/]+\/?$/.test(pathname);
+  const enabled = Boolean(owner) && (workspace.test(pathname) || (gameRoute && isDesktopStudentWeb(width)));
   return <div className="student-workspace">
     <style>{studentWorkspaceStyles}</style>
     {enabled && <a className="student-workspace-skip" href="#student-workspace-content">Đến nội dung chính</a>}
     {enabled && <WorkspaceSidebar pathname={pathname} />}
     <div className="student-workspace-main">
-      {enabled && <WorkspaceHeader key={owner} owner={owner} pathname={pathname} grade={Number(auth?.user.gradeLevel)} />}
+      {enabled && !gameRoute && <WorkspaceHeader key={owner} owner={owner} pathname={pathname} grade={Number(auth?.user.gradeLevel)} />}
       <div className="student-workspace-page" id={enabled ? 'student-workspace-content' : undefined}
         role={enabled ? 'main' : undefined} tabIndex={enabled ? -1 : undefined}>{children}</div>
     </div>

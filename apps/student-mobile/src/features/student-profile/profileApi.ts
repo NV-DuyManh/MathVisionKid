@@ -4,6 +4,8 @@ import { tokenStorage } from '../../services/auth/tokenStorage';
 
 export type Rank = { name: string; masterStars: number; progress: number; goal: number; scheme?: number };
 export type StudentTitle = { id: string; name: string; rarity: string; description: string; progress: number; goal: number; unlocked: boolean };
+export type StarActivity = { source: 'LESSON' | 'QUIZ' | 'GAME'; completedAt: string; stars: number };
+type StarHistoryPage = { entries: StarActivity[]; page: number; totalPages: number };
 export type StudentProfile = {
   displayName: string;
   gradeLevel: number | null;
@@ -23,7 +25,7 @@ export type StudentProfile = {
   position: number | null;
   stats: { lessons: number; quizzes: number; games: number; days: number; week: number; month: number; today: number; streak: number };
   titles: StudentTitle[];
-  history: { source: 'LESSON' | 'QUIZ' | 'GAME'; completedAt: string; stars: number }[];
+  history: StarActivity[];
 };
 export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'leaderboardVisible' | 'leaderboardNameHidden' | 'selectedTitle'> & { removePhoto?: boolean };
 export type Leaderboard = {
@@ -67,6 +69,9 @@ export const profileApi = {
   },
   async leaderboard(classroom: string | undefined, signal: AbortSignal, allGrades?: true) {
     return (await apiClient.get<Leaderboard>(root + '/leaderboard', { params: { classroom, allGrades }, signal, headers: rankHeaders })).data;
+  },
+  async starHistory(page: number, signal: AbortSignal) {
+    return (await apiClient.get<StarHistoryPage>(root + '/star-history', { params: { page }, signal })).data;
   },
   async rankMilestones(signal: AbortSignal) {
     return (await apiClient.get<RankMilestone[]>(root + '/rank-milestones', { signal, headers: rankHeaders })).data;
