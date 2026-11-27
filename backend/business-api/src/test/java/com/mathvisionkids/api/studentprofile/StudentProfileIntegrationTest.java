@@ -66,6 +66,35 @@ class StudentProfileIntegrationTest {
                 studentId, passwords.encode(pin));
     }
 
+    @Test void starHistoryPagesThroughOlderAwardsForTheSignedInStudent() throws Exception {
+        String insert = """
+                INSERT INTO student_verified_activities (student_id, source, event_id, content_id, completed_at, activity_day, stars)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                """;
+        for (int day = 1; day <= 24; day++) {
+            String event = "star-history-" + day;
+            db.update(insert, pupil.getId(), "QUIZ", event, event,
+                    Timestamp.from(Instant.parse("2026-11-%02dT12:00:00Z".formatted(day))),
+                    LocalDate.of(2026, 11, day), 1);
+        }
+        db.update(insert, pupil.getId(), "QUIZ", "no-star", "no-star",
+                Timestamp.from(Instant.parse("2026-11-25T12:00:00Z")), LocalDate.of(2026, 11, 25), 0);
+        db.update(insert, other.getId(), "GAME", "other-star", "other-star",
+                Timestamp.from(Instant.parse("2026-11-25T12:00:00Z")), LocalDate.of(2026, 11, 25), 1);
+        mvc.perform(get("/api/v1/student/star-history").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.entries.length()").value(10))
+                .andExpect(jsonPath("$.entries[0].completedAt").value("2026-11-24T12:00:00Z"))
+                .andExpect(jsonPath("$.totalPages").value(3))
+                .andExpect(jsonPath("$.page").value(1));
+        mvc.perform(get("/api/v1/student/star-history").param("page", "3").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.entries.length()").value(4))
+                .andExpect(jsonPath("$.entries[3].completedAt").value("2026-11-01T12:00:00Z"));
+        mvc.perform(get("/api/v1/student/star-history").param("page", "0").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isBadRequest());
+    }
+
     @Test void studentCannotEnrollParentPinWithoutGuardianVerification() throws Exception {
         mvc.perform(post("/api/v1/student/parent-control/pin")
                         .with(user(pupil.getEmail()).roles("STUDENT"))

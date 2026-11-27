@@ -36,6 +36,10 @@ export function ProfileRankCard({ profile, compactWeb = false }: { profile: Stud
   const next = rank.goal > 0 ? rank.goal - rank.progress : 0;
   const progressStars = rank.progress;
   const goalStars = rank.goal;
+  const student = IS_STUDENT_WEB && <View style={styles.rankStudent} testID="achievement-rank-student">
+    <StudentAvatar id={profile.avatar} photo={profile.avatarPhoto} size={36} />
+    <Text style={styles.rankStudentName} numberOfLines={1}>{profile.displayName}</Text>
+  </View>;
   const identity = <View style={styles.heroRow}>
     <RankEmblem name={rank.name} size={IS_STUDENT_WEB && !compactWeb ? 94 : undefined} />
     <View style={styles.grow}>
@@ -59,10 +63,10 @@ export function ProfileRankCard({ profile, compactWeb = false }: { profile: Stud
   </>;
   return IS_STUDENT_WEB && !compactWeb ? <LinearGradient colors={['#4A2DAD', '#6944DD', '#8A4FE9']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
     style={[styles.rankCard, styles.webRankCard]}>
-    <View style={styles.webRankIdentity}>{identity}</View>
+    <View style={styles.webRankIdentity}>{student}{identity}</View>
     <View style={styles.webRankProgress}>{progress}</View>
     <AppIllustration source={require('../../../assets/illustrations/web/robot-mascot.webp')} style={styles.webRankMascot} accessible={false} />
-  </LinearGradient> : <View style={styles.rankCard}>{identity}{progress}</View>;
+  </LinearGradient> : <View style={styles.rankCard}>{student}{identity}{progress}</View>;
 }
 
 export function ProfileStats({ profile }: { profile: StudentProfile }) {
@@ -98,6 +102,8 @@ const styles = StyleSheet.create({
   ...profileStyles,
   avatar: { alignItems: 'center', justifyContent: 'center', borderRadius: 50 },
   webRankCard: { padding: 20, gap: 11, minHeight: 192, overflow: 'hidden' },
+  rankStudent: { flexDirection: 'row', alignItems: 'center', gap: 9, marginBottom: 6 },
+  rankStudentName: { flex: 1, color: '#FFF', fontFamily: FONTS.extraBold, fontSize: 15 },
   webRankIdentity: { width: '76%', minWidth: 0, zIndex: 1 },
   webRankProgress: { width: '76%', minWidth: 0, gap: 6, zIndex: 1 },
   webRankProgressCount: { fontFamily: FONTS.extraBold, color: STUDENT_WEB.gold },

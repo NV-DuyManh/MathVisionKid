@@ -133,7 +133,7 @@ export function ProfileContent({ owner, savedOnly = false, initialTab = 'saved',
             <NotebookAside counts={counts} onCapture={capture} />
           </View>
         </View>
-      ) : <ProfileIdentity owner={owner} counts={counts} wide={webWide} canOpenParentMode={canOpenParentMode} />) : <>
+      ) : <ProfileIdentity owner={owner} counts={counts} wide={webWide} desktopWeb canOpenParentMode={canOpenParentMode} />) : <>
         {!savedOnly && owner && <ProfileIdentity owner={owner} counts={counts} wide={false} canOpenParentMode={canOpenParentMode} />}
         {games}{notebook}
       </>}
