@@ -25,12 +25,11 @@ async function inside(page, control) {
 async function rescueState(page) {
   return page.getByTestId('rescue-screen').evaluate(element => {
     let fiber = element[Object.keys(element).find(key => key.startsWith('__reactFiber$'))];
-    let root = fiber;
-    while (root?.return) root = root.return;
-    if (root?.stateNode?.current !== root && fiber?.alternate) fiber = fiber.alternate;
     while (fiber) {
       for (let hook = fiber.memoizedState, i = 0; hook && i < 100; hook = hook.next, i++) {
-        const state = hook.memoizedState;
+        // The reducer queue is shared by both Fiber trees, even when a host node
+        // still points to the previous tree after a parent render.
+        const state = hook.queue?.lastRenderedState ?? hook.memoizedState;
         if (state?.rooms && state?.a && typeof state.revision === 'number') return state;
       }
       fiber = fiber.return;
@@ -61,31 +60,33 @@ for (const [width, height, mode] of [[1280, 660, 'easy'], [1280, 660, 'medium'],
     await page.goto(`${sites.portal.origin}/study/games/planet-rescue`);
     await page.getByTestId(`rescue-mode-${mode}`).click();
     await page.getByTestId('rescue-start').click();
+    const mission = page.getByTestId('rescue-mission');
+    const next = page.getByTestId('rescue-next');
+    await expect(mission).toBeVisible();
     const phases = new Set();
-    for (let step = 0; step < 35; step++) {
+    let completed = 0;
+    for (let step = 0; step < 35 && completed < 2; step++) {
       await expect(page.getByTestId('rescue-screen')).toBeVisible();
       let state = await rescueState(page);
       expect(state).not.toBeNull();
-      if (state.index >= 2) break;
-      if (['firing', 'travelling'].includes(state.phase)) {
-        await expect.poll(async () => (await rescueState(page))?.phase, { timeout: 15000 }).not.toMatch(/^(firing|travelling)$/);
-        continue;
-      }
-      if (state.phase === 'rescued') {
-        await inside(page, page.getByTestId('rescue-next'));
-        await page.getByTestId('rescue-next').click();
-        await expect(page.getByTestId('rescue-flight-panel')).toBeHidden({ timeout: 15000 });
-        continue;
-      }
       const card = state.phase.startsWith('reduce') ? 'simplify' : state.phase === 'ready' ? 'cannon' : 'common';
       if (state.selected !== card) {
-        await inside(page, page.getByTestId(`rescue-card-${card}`));
-        await page.getByTestId(`rescue-card-${card}`).click();
+        const cardControl = page.getByTestId(`rescue-card-${card}`);
+        await inside(page, cardControl);
+        await cardControl.click();
+        await expect.poll(async () => (await rescueState(page))?.selected).toBe(card);
         state = await rescueState(page);
       }
       if (state.phase === 'ready') {
-        await inside(page, page.getByTestId('rescue-fire'));
-        await page.getByTestId('rescue-fire').click();
+        const fire = page.getByTestId('rescue-fire');
+        await inside(page, fire);
+        await fire.click();
+        await expect(next).toBeVisible({ timeout: 15000 });
+        await inside(page, next);
+        await next.click();
+        const planet = String(completed + 2).padStart(2, '0');
+        await expect(mission).toContainText(`HÀNH TINH ${planet} /`, { timeout: 15000 });
+        completed++;
         continue;
       }
       phases.add(state.phase);
@@ -98,7 +99,7 @@ for (const [width, height, mode] of [[1280, 660, 'easy'], [1280, 660, 'medium'],
       await page.getByTestId(`rescue-answer-${solve(state)}`).click();
       await expect.poll(async () => (await rescueState(page))?.revision).toBeGreaterThan(state.revision);
     }
-    expect((await rescueState(page)).index).toBeGreaterThanOrEqual(2);
+    expect(completed).toBe(2);
     if (mode === 'hard') for (const phase of ['reduce-first', 'denominator', 'numerator-a', 'numerator-b', 'compare', 'sum', 'reduce-sum']) expect(phases.has(phase), phase).toBe(true);
     await page.getByTestId('rescue-pause').click();
     await expect(page.getByTestId('rescue-menu')).toBeVisible();
