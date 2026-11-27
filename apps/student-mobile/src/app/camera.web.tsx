@@ -25,7 +25,7 @@ export default function WebCameraScreen() {
   }, [getPermission]);
   const { width, height } = useWindowDimensions();
   const compact = height < 500;
-  const desktop = width >= 780;
+  const desktop = width >= STUDENT_WEB.workspaceBreakpoint;
   const [desktopPreview, setDesktopPreview] = useState(false);
   const camera = useRef<CameraView>(null);
   const preview = useRef<ViewInstance>(null);
@@ -156,14 +156,14 @@ export default function WebCameraScreen() {
       ]} /> : null;
   const close = () => router.canGoBack() ? router.back() : router.replace('/(tabs)' as any);
   if (desktop && !live) return <SafeAreaView style={styles.webScreen} edges={['top', 'bottom']}>
-    <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.webContent}>
+    <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={styles.webContent}>
       <View style={styles.webHeading}>
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Đóng máy ảnh, quay lại" onPress={close} style={styles.webBack}>
           <Ionicons name="arrow-back" size={22} color={STUDENT_WEB.primary} accessible={false} />
         </TouchableOpacity>
         <Text accessibilityRole="header" style={styles.webTitle}>{label}</Text>
       </View>
-      <LinearGradient colors={['#3C2297', '#694AF6', '#8B4FE6']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.webHero}>
+      <LinearGradient testID="photo-capture-hero" colors={['#3C2297', '#694AF6', '#8B4FE6']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.webHero}>
         <View style={styles.webCopy}>
           <Text style={styles.webHeroTitle}>Cùng nhìn rõ bài toán</Text>
           <Text style={styles.webHeroBody}>Chọn ảnh hoặc chụp đề để cùng đọc và kiểm tra từng bước.</Text>
@@ -219,11 +219,11 @@ export default function WebCameraScreen() {
     </ScrollView>
   </SafeAreaView>;
   return <View style={styles.screen}>
-    <View ref={preview} style={StyleSheet.absoluteFill}>
+    <View ref={preview} style={[StyleSheet.absoluteFill, desktop && styles.webLivePreview]}>
       {live ? <CameraView ref={camera} style={StyleSheet.absoluteFill} facing="back" autofocus="on" enableTorch={torch}
         onCameraReady={() => setReady(true)} onMountError={() => { setReady(false); setError(true); setTorch(false); }} /> : null}
     </View>
-    <SafeAreaView style={styles.overlay}>
+    <SafeAreaView style={[styles.overlay, desktop && styles.webLiveOverlay]}>
       <View style={[styles.header, compact && styles.compactHeader]}>
         <TouchableOpacity style={styles.iconButton} accessibilityRole="button" accessibilityLabel="Đóng máy ảnh, quay lại"
           onPress={close}>
@@ -273,7 +273,7 @@ export default function WebCameraScreen() {
 }
 const styles = StyleSheet.create({
   webScreen: { flex: 1, backgroundColor: STUDENT_WEB.background },
-  webContent: { width: '100%', maxWidth: 1300, alignSelf: 'center', padding: 24, gap: 20 },
+  webContent: { width: '100%', alignSelf: 'center', paddingVertical: 24, paddingHorizontal: STUDENT_WEB.pageGutter, gap: 20 },
   webHeading: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   webBack: { width: 44, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 14,
     borderWidth: 1, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.surface },
@@ -302,6 +302,8 @@ const styles = StyleSheet.create({
   webTipTitle: { fontFamily: FONTS.extraBold, color: STUDENT_WEB.ink, fontSize: 15 },
 
   screen: { flex: 1, backgroundColor: '#080B16' }, overlay: { flex: 1, width: '100%', maxWidth: 1200, alignSelf: 'center', backgroundColor: 'rgba(15,23,42,0.15)' },
+  webLivePreview: { left: STUDENT_WEB.pageGutter, right: STUDENT_WEB.pageGutter, overflow: 'hidden' },
+  webLiveOverlay: { width: undefined, maxWidth: '100%', alignSelf: 'stretch', marginHorizontal: STUDENT_WEB.pageGutter },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, padding: SIZES.medium },
   iconButton: { width: 48, height: 48, borderRadius: 24, backgroundColor: 'rgba(15,23,42,0.65)', alignItems: 'center', justifyContent: 'center' },
   badge: { flexDirection: 'row', gap: 6, flexShrink: 1, alignItems: 'center', borderRadius: 24, padding: 10, backgroundColor: 'rgba(15,23,42,0.65)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)' },

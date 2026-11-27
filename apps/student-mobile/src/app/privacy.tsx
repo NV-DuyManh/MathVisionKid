@@ -16,6 +16,8 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 import { FONTS, COLORS, SIZES, SHADOWS, IS_STUDENT_WEB, WEB_DESIGN } from '../constants/theme';
+import { STUDENT_WEB } from '../constants/studentWebDesign';
+import { isCompactStudentWeb } from '../components/ui/useIsCompactStudentWeb';
 import { AppHeader } from '../components/ui/AppHeader';
 import { AppButton } from '../components/ui/AppButton';
 import { RecoveryNotice } from '../components/ui/RecoveryNotice';
@@ -66,7 +68,8 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
   const navigation = useNavigation();
   const window = useWindowDimensions();
   const landscape = window.width > window.height && window.height < 550;
-  const webColumns = IS_STUDENT_WEB && window.width >= 840;
+  const webWorkspace = IS_STUDENT_WEB && !isCompactStudentWeb(window.width);
+  const webColumns = IS_STUDENT_WEB && window.width >= 1000;
   const sidePanel = webColumns || (!IS_STUDENT_WEB && landscape);
   const [masks, setMasks] = useState<Mask[]>([]);
   const [selectedMaskId, setSelectedMaskId] = useState<number | null>(null);
@@ -629,8 +632,8 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView style={styles.container}>
-        <AppHeader title="Che thông tin riêng tư" showBack backFallback={Platform.OS === 'web' ? cameraRoute : undefined} />
+      <SafeAreaView style={[styles.container, webWorkspace && styles.workspaceInsets]}>
+        <AppHeader title="Che thông tin riêng tư" showBack inWebWorkspace={webWorkspace} backFallback={Platform.OS === 'web' ? cameraRoute : undefined} />
 
         {/* Child-friendly explanation */}
         <View style={[styles.instructionCard, IS_STUDENT_WEB && styles.webInstructions]}>
@@ -654,8 +657,9 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
         </View>
 
         {/* Interactive Mask Canvas */}
-        <View style={[styles.editorBody, sidePanel && styles.editorLandscape, IS_STUDENT_WEB && styles.webEditor]}>
+        <View style={[styles.editorBody, sidePanel && styles.editorLandscape, IS_STUDENT_WEB && styles.webEditor, webWorkspace && styles.workspaceEditor]}>
         <View
+          testID="privacy-editor-frame"
           style={[styles.imageContainer, IS_STUDENT_WEB && styles.webCanvas]}
           onLayout={(e) => {
             const { width, height } = e.nativeEvent.layout;
@@ -759,7 +763,7 @@ function PrivacyEditor({ activeUri, draft, retrySubmissionId }: { activeUri: str
         </View>
 
         {/* Footer Confirmation & Actions */}
-        <View style={[styles.footer, !IS_STUDENT_WEB && SHADOWS.medium, sidePanel && styles.landscapeFooter, IS_STUDENT_WEB && styles.webFooter]}>
+        <View testID="privacy-editor-tools" style={[styles.footer, !IS_STUDENT_WEB && SHADOWS.medium, sidePanel && styles.landscapeFooter, IS_STUDENT_WEB && styles.webFooter]}>
           {IS_STUDENT_WEB && maskControls}
           <TouchableOpacity
             style={styles.checkboxContainer}
@@ -875,6 +879,8 @@ const styles = StyleSheet.create({
   landscapeFooter: { width: 300, padding: 14, justifyContent: 'center' },
   webInstructions: { backgroundColor: WEB_DESIGN.colors.blueLight, borderColor: WEB_DESIGN.colors.line, paddingVertical: 12 },
   webEditor: { width: '100%', maxWidth: 1240, alignSelf: 'center', gap: 12, padding: 12 },
+  workspaceInsets: { paddingHorizontal: STUDENT_WEB.pageGutter },
+  workspaceEditor: { maxWidth: '100%', paddingHorizontal: 0 },
   webCanvas: { minWidth: 0, minHeight: 120, borderRadius: WEB_DESIGN.radii.notebook, overflow: 'hidden' },
   webFooter: { borderWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook, padding: 12 },
   webMaskControls: { position: 'relative', bottom: 0, left: 0, right: 0, flexWrap: 'wrap', gap: 6, marginBottom: 12 },

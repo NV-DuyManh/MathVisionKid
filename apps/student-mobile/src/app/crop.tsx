@@ -1,4 +1,5 @@
-import { isWideDesktopStudentWeb } from '../components/ui/useIsCompactStudentWeb';
+import { STUDENT_WEB } from '../constants/studentWebDesign';
+import { isCompactStudentWeb, isWideDesktopStudentWeb } from '../components/ui/useIsCompactStudentWeb';
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { View, Text, StyleSheet, Image, Alert, Platform, Pressable, ScrollView, useWindowDimensions } from 'react-native';
 import type { ViewProps, ViewStyle } from 'react-native';
@@ -91,6 +92,7 @@ export default function CropScreen() {
 function CropEditor({ draft, source, original, retrySubmissionId }: { draft: ImageDraft | null; source: string; original: string; retrySubmissionId?: string }) {
   const router = useRouter();
   const { width, height } = useWindowDimensions();
+  const webWorkspace = Platform.OS === 'web' && !isCompactStudentWeb(width);
   const desktop = isWideDesktopStudentWeb(width);
   const landscape = desktop || (width > height && height < 550 && (Platform.OS !== 'web' || width >= 680));
   const [image, setImage] = useState<{ uri: string; width: number; height: number } | null>(null);
@@ -288,12 +290,12 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
         <AppButton title="Dùng ảnh này" loadingTitle="Đang lưu ảnh…" accessibilityLabel="Xác nhận cắt ảnh" onPress={done} disabled={disabled} loading={processing} />
       </View>
     </View>;
-  return <GestureHandlerRootView style={styles.screen}><SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
-    <AppHeader title="Cắt & căn thẳng" showBack backFallback={Platform.OS === 'web' && draft?.privacyConfirmed ? '/privacy' : undefined} />
+  return <GestureHandlerRootView style={styles.screen}><SafeAreaView style={[styles.screen, webWorkspace && styles.workspaceInsets]} edges={['top', 'bottom']}>
+    <AppHeader title="Cắt & căn thẳng" showBack inWebWorkspace={webWorkspace} backFallback={Platform.OS === 'web' && draft?.privacyConfirmed ? '/privacy' : undefined} />
     <View style={styles.tip}><Ionicons name="crop-outline" size={18} color={COLORS.primaryDark} /><Text style={styles.tipText}>{Platform.OS === 'web'
       ? 'Kéo cạnh hoặc góc để cắt. Có thể dùng Tab để chọn cạnh, rồi nhấn phím mũi tên. Kéo thước chia độ để căn thẳng.'
       : 'Kéo cạnh hoặc góc để cắt. Kéo thước chia độ để căn thẳng.'}</Text></View>
-    {Platform.OS === 'web' ? <ScrollView contentContainerStyle={styles.webEditor}>{editor}</ScrollView> : editor}
+    {Platform.OS === 'web' ? <ScrollView showsVerticalScrollIndicator={!webWorkspace} contentContainerStyle={styles.webEditor}>{editor}</ScrollView> : editor}
   </SafeAreaView></GestureHandlerRootView>;
 }
 
@@ -303,7 +305,8 @@ const styles = StyleSheet.create({
   tipText: { flex: 1, color: COLORS.textPrimary, fontFamily: FONTS.semiBold, fontSize: 13, lineHeight: 18 },
   canvas: { flex: 1, overflow: 'hidden', backgroundColor: '#10121D' },
   webEditor: { flexGrow: 1 }, webCanvas: { minHeight: 200 },
-  desktopEditor: { padding: 16, gap: 16 },
+  workspaceInsets: { paddingHorizontal: STUDENT_WEB.pageGutter },
+  desktopEditor: { paddingVertical: 16, gap: 16 },
   desktopCanvas: { minHeight: 440, minWidth: 0, borderRadius: 18 },
   desktopFooter: { width: 324, justifyContent: 'flex-start', borderRadius: 18, padding: 16, gap: 12 },
   desktopControls: { gap: 10 },
