@@ -161,7 +161,7 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
         <Text style={[styles.quickTitle, wide && styles.quickTitleWide, desktop && styles.desktopQuickTitle]}>{item.title}</Text>
       </Pressable>)}
     </View>
-    <LearningJourney desktop={wide} onPractice={() => onPractice()} onAcquire={onAcquire} onCheck={desktopWeb ? () => router.push('/quiz') : undefined} />
+    <LearningJourney desktop={wide} webMap={desktopWeb} onPractice={() => onPractice()} onAcquire={onAcquire} onCheck={() => router.push('/quiz')} />
     <View style={styles.headingRow}><Ionicons name="star" size={22} color={desktopWeb ? '#A2650D' : '#F0BB42'} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Bài học gợi ý cho em</Text>
       {desktopWeb && <Pressable accessibilityRole="button" accessibilityLabel="Xem tất cả bài học" onPress={() => onPractice()} style={styles.utility}><Text style={styles.link}>Xem tất cả</Text></Pressable>}
     </View>
@@ -203,7 +203,7 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       {leaders?.length === 0 && <Text style={styles.leaderEmpty}>Chưa có bạn nào được xếp hạng.</Text>}
       {leaders?.map((entry, index) => <View key={entry.position} testID="home-leaderboard-entry" style={[styles.leader, index === 0 && styles.leaderTop]}>
         <Text style={styles.link}>#{entry.position}</Text>
-        <StudentAvatar id={entry.avatar} photo={entry.self ? profile.value?.avatarPhoto : undefined} size={25} />
+        <StudentAvatar id={entry.self ? profile.value?.avatar ?? entry.avatar : entry.avatar} photo={entry.self ? profile.value?.avatarPhoto : undefined} size={25} />
         <View style={styles.leaderIdentity}>
           <Text numberOfLines={2} style={styles.leaderName}>{entry.self && profile.value?.leaderboardNameHidden ? profile.value.publicAlias : entry.alias}</Text>
           <View style={styles.leaderRankRow}>

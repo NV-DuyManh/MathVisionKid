@@ -82,6 +82,9 @@ export const LoginPage: React.FC = () => {
   const [gradeLevel, setGradeLevel] = useState('1');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [waitingForGoogle, setWaitingForGoogle] = useState(false);
+  const googlePopup = useRef<AbortController | null>(null);
+  useEffect(() => () => googlePopup.current?.abort(), []);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [authView, setAuthView] = useState<keyof typeof authIntro>(() => resetFromAccount ? 'request-reset' : 'login');
@@ -151,6 +154,25 @@ export const LoginPage: React.FC = () => {
     return () => controller.abort();
   }, [searchParams, navigate, resetFromAccount]);
 
+  const waitForGooglePopup = async (getCredential: () => Promise<GoogleCredential>) => {
+    const request = new AbortController();
+    googlePopup.current = request;
+    setWaitingForGoogle(true);
+    const timeout = window.setTimeout(() => request.abort(), 120_000);
+    try {
+      const cancelled = new Promise<never>((_, reject) => {
+        request.signal.addEventListener('abort', () => {
+          reject(Object.assign(new Error('Google sign-in cancelled'), { code: 'auth/cancelled-popup-request' }));
+        }, { once: true });
+      });
+      return await Promise.race([getCredential(), cancelled]);
+    } finally {
+      window.clearTimeout(timeout);
+      googlePopup.current = null;
+      setWaitingForGoogle(false);
+    }
+  };
+
   const handleGoogleLogin = async () => {
     if (!beginSubmission()) return;
     const name = 'Google';
@@ -159,7 +181,10 @@ export const LoginPage: React.FC = () => {
     setSuccess(null);
     try {
       const { getGoogleCredential } = await import('../services/socialAuth');
-      const credential = await getGoogleCredential();
+      const desktop = window.matchMedia('(min-width: 768px) and (hover: hover) and (pointer: fine)').matches;
+      const credential = desktop
+        ? await waitForGooglePopup(getGoogleCredential)
+        : await getGoogleCredential();
       try {
         const user = await authService.loginWithGoogle(credential, requestedRole);
         if (user.role === 'STUDENT') window.location.replace('/study/');
@@ -524,10 +549,10 @@ export const LoginPage: React.FC = () => {
             size="large"
             disabled={loading}
             aria-busy={loading}
-            endIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden /> : <StudyIcon name="arrow-forward" size={18} />}
+            endIcon={loading && !waitingForGoogle ? <CircularProgress size={20} color="inherit" aria-hidden /> : <StudyIcon name="arrow-forward" size={18} />}
             sx={{ height: 48, minHeight: 48, px: 2, py: 0, fontSize: '1rem', fontWeight: 800 }}
           >
-            {loading ? 'Đang xác thực...' : 'Đăng nhập'}
+            {loading && !waitingForGoogle ? 'Đang xác thực...' : 'Đăng nhập'}
           </Button>
           <Typography variant="body2" sx={{ mt: 0.75, mb: 1, textAlign: 'center', color: '#475569' }}>
             Chưa có tài khoản?{' '}
@@ -679,6 +704,9 @@ export const LoginPage: React.FC = () => {
               startIcon={<img src="/ui/google-g.png" alt="" width={18} height={18} style={{ objectFit: 'contain' }} />}
               sx={{ maxWidth: 400, minHeight: 44, textTransform: 'none', bgcolor: '#fff' }}>
               Tiếp tục với Google
+            </Button>}
+            {waitingForGoogle && <Button type="button" onClick={() => googlePopup.current?.abort()}>
+              Hủy đăng nhập Google
             </Button>}
 
           </Box>

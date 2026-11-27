@@ -5,17 +5,26 @@ import { Ionicons } from '@expo/vector-icons';
 import Svg, { Path } from 'react-native-svg';
 import { COLORS, FONTS } from '../../constants/theme';
 
-export function LearningJourney({ desktop, onPractice, onAcquire, onCheck }: { desktop: boolean; onPractice: () => void; onAcquire: () => void; onCheck?: () => void }) {
+const stageColors = [
+  { gradient: ['#7852E5', '#6440D8'], ring: '#EDE3FF', ink: '#FFFFFF' },
+  { gradient: ['#2873DA', '#1854BA'], ring: '#DBEEFF', ink: '#FFFFFF' },
+  { gradient: ['#83E9C7', '#45C7A5'], ring: '#D9F6EC', ink: '#123D34' },
+  { gradient: ['#FFE89F', '#EFB63E'], ring: '#FFF1CC', ink: '#613C08' },
+] as const;
+
+export function LearningJourney({ desktop, webMap, onPractice, onAcquire, onCheck }: {
+  desktop: boolean; webMap: boolean; onPractice: () => void; onAcquire: () => void; onCheck: () => void;
+}) {
   const stages = [
     { title: 'Ôn tập', detail: 'Kiến thức cơ bản', onPress: onPractice },
     { title: 'Luyện tập', detail: 'Làm bài theo chủ đề', onPress: onPractice },
     { title: 'Khám phá', detail: 'Bài toán quanh em', onPress: onAcquire },
-    ...(onCheck ? [{ title: 'Kiểm tra', detail: 'Thử sức với câu đố', onPress: onCheck }] : []),
+    { title: 'Kiểm tra', detail: 'Thử sức với câu đố', onPress: onCheck },
   ];
   return <View style={styles.section} testID="learning-journey">
     <Text style={styles.heading} accessibilityRole="header">Hành trình học tập</Text>
-    <View style={[styles.map, desktop && styles.mapDesktop, onCheck && styles.webMap]}>
-      {onCheck ? <View style={styles.curve} pointerEvents="none" accessible={false}>
+    <View style={[styles.map, desktop && styles.mapDesktop, webMap && styles.webMap]}>
+      {webMap ? <View style={styles.curve} pointerEvents="none" accessible={false}>
         <Svg width="100%" height={88} viewBox="0 0 400 88" preserveAspectRatio="none">
           <Path d="M0 47 C20 27 29 26 50 39 S115 67 150 55 S215 25 250 39 S315 68 350 55 S382 39 400 37" stroke="#DCD1FE" strokeWidth={10} fill="none" />
           <Path d="M0 47 C20 27 29 26 50 39 S115 67 150 55 S215 25 250 39 S315 68 350 55 S382 39 400 37" stroke="#FFFFFF" strokeWidth={2} strokeDasharray="4 5" fill="none" />
@@ -23,12 +32,12 @@ export function LearningJourney({ desktop, onPractice, onAcquire, onCheck }: { d
       </View> : <View style={styles.road} pointerEvents="none" />}
       <View style={styles.stops}>
         {stages.map(({ title, detail, onPress }, index) => <Pressable key={title} accessibilityRole="button" accessibilityLabel={`${title}. ${detail}`}
-          onPress={onPress} style={({ pressed }) => [styles.stop, onCheck && index % 2 === 1 && styles.lowStop, pressed && { opacity: .72 }]}>
-          <View style={styles.medalShadow}><LinearGradient colors={index >= 2 ? ['#FFE8A0', '#EFB63E'] : ['#B194FD', '#6941E8']} style={styles.medal}>
-            <Text style={[styles.number, index >= 2 && { color: '#6742CB' }]}>{index + 1}</Text>
+          onPress={onPress} style={({ pressed }) => [styles.stop, webMap && index % 2 === 1 && styles.lowStop, pressed && { opacity: .72 }]}>
+          <View style={[styles.medalShadow, { backgroundColor: stageColors[index].ring }]}><LinearGradient colors={stageColors[index].gradient} style={styles.medal}>
+            <Text style={[styles.number, { color: stageColors[index].ink }]}>{index + 1}</Text>
           </LinearGradient><Ionicons name="sparkles" size={16} color="#F3C65D" style={styles.spark} accessible={false} /></View>
           <Text style={[styles.label, !desktop && styles.labelMobile]}>{title}</Text>
-          {onCheck && desktop && <Text style={styles.detail}>{detail}</Text>}
+          {webMap && desktop && <Text style={styles.detail}>{detail}</Text>}
         </Pressable>)}
       </View>
     </View>
