@@ -63,3 +63,5 @@ Trong [PR #120](https://github.com/NV-DuyManh/MathVisionKid/pull/120), **Lộc (
 Ngày **25/11/2026**, **Nam (tranhoainam298)** triển khai hệ rank Student 26 bậc cùng ChatGPT trên nền 63939fca39608379b45b0a99e2440476b43edf07, từ thay đổi local chưa có commit nguồn riêng. Phạm vi và nguồn ảnh đã duyệt: [quy tắc rank Student](docs/engineering/student-rank-progression.md). Không thay đổi ghi nhận tác giả các phần tích hợp trước đó.
 
 Trong [PR #190](https://github.com/NV-DuyManh/MathVisionKid/pull/190), **Kha (deptraivodich)** đồng bộ bố cục chụp ảnh và nhận xét bài trên Student Web desktop. Commit nguồn `bcdabe3588b6602f12add78c98c137bf5e6b3c70` được giữ nguyên khi tích hợp vào develop.
+
+Trong [PR #194](https://github.com/NV-DuyManh/MathVisionKid/pull/194), **Nam (tranhoainam298)** khôi phục các trạng thái Hồ sơ và Thành tích trên Student Web, phân màu chặng học tập, bổ sung phân trang lịch sử sao và sửa luồng hủy đăng nhập Google. Nhánh nguồn tại `e06ad5a2199e6d5842c0bd194efa6176f361b59b` được giữ nguyên lịch sử khi tích hợp.
