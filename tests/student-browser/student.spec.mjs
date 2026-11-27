@@ -580,7 +580,9 @@ test('recommended lesson cards truncate long titles and keep their full accessib
   await expect.poll(() => title.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true);
   await card.locator('..').screenshot({ path: testInfo.outputPath('recommendations-desktop.png') });
   await card.click();
-  await expect(page).toHaveURL(/learning\/math-guide/);
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons?lesson=grade-2-number-100-more-less`);
+  await expect(page.getByRole('button', { name: 'Mở bài: Bài toán nhiều hơn và ít hơn', exact: true }))
+    .toHaveAttribute('aria-expanded', 'true');
 });
 
 test('learning journey and private achievements show avatar and paginate the complete star history', async ({ page, app, isMobile }, testInfo) => {
