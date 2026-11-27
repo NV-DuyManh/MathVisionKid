@@ -109,7 +109,8 @@ test('race supports wrong and correct answers, turn handover, victory, replay an
   test.setTimeout(300000);
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.addInitScript(() => { Math.random = () => 1 / 0xffffffff; });
+  // Seed the real controller with a shorter race that still crosses special tiles.
+  await page.addInitScript(() => { Math.random = () => 465.5 / 0xffffffff; });
   await prepare(page, app);
   await open(page, 'race-to-finish');
   await page.getByText('Chơi cùng bạn', { exact: true }).click();
@@ -132,12 +133,16 @@ test('race supports wrong and correct answers, turn handover, victory, replay an
     if (width === 999) await capture(page, info, 'race-overview-999');
   }
   let wrongVerified = false;
+  let handoverVerified = false;
   for (let turn = 0; turn < 70; turn++) {
     await expect.poll(async () => (await raceState(page))?.gamePhase, { timeout: 20000 })
       .toMatch(/^(ready_to_roll|turn_handover|finished)$/);
     let state = await raceState(page);
     if (state.gamePhase === 'finished') break;
-    if (state.gamePhase === 'turn_handover') await page.getByText('🎲 SẴN SÀNG ĐỔ XÚC XẮC', { exact: true }).click();
+    if (state.gamePhase === 'turn_handover') {
+      await page.getByText('🎲 SẴN SÀNG ĐỔ XÚC XẮC', { exact: true }).click();
+      handoverVerified = true;
+    }
     await page.getByTestId('roll-dice-button').click();
     await expect(page.getByTestId('math-prompt')).toBeVisible({ timeout: 15000 });
     state = await raceState(page);
@@ -168,6 +173,9 @@ test('race supports wrong and correct answers, turn handover, victory, replay an
     await expect(page.getByTestId('math-prompt')).toBeHidden();
   }
   await expect(page.getByTestId('victory-exit')).toBeVisible();
+  expect(wrongVerified).toBe(true);
+  expect(handoverVerified).toBe(true);
+  expect((await raceState(page)).correctCount).toBeGreaterThan(0);
   await capture(page, info, 'race-victory');
   await page.getByText('🔄 Chơi Lại Trận Mới', { exact: true }).click();
   await expect(page.getByTestId('roll-dice-button')).toBeEnabled({ timeout: 15000 });
