@@ -1,6 +1,7 @@
 import { test, expect, sites } from './fixtures.mjs';
 
-test('Portal has a single main landmark, working skip link, and accessible grade contrast', async ({ page }) => {
+test('Portal has a single main landmark, working skip link, and accessible grade contrast', async ({ page, app }) => {
+  void app;
   await page.goto(sites.portal.origin);
 
   // Single <main> landmark and skip link focus
@@ -41,7 +42,8 @@ test('Portal has a single main landmark, working skip link, and accessible grade
   }
 });
 
-test('Portal grade selectors and demo calculation activate with keyboard navigation and show corrected result', async ({ page }) => {
+test('Portal grade selectors and demo calculation activate with keyboard navigation and show corrected result', async ({ page, app }) => {
+  void app;
   await page.goto(sites.portal.origin);
   const grade3 = page.getByRole('button', { name: 'Lớp 3', exact: true });
   await expect(grade3).toBeVisible();
@@ -76,7 +78,8 @@ test('Portal grade selectors and demo calculation activate with keyboard navigat
   await expect(page.getByText('Lớp 4C')).toBeVisible();
 });
 
-test('Portal socratic method and philosophy sections are keyboard accessible and navigate to login without unsupported social promises', async ({ page }) => {
+test('Portal socratic method and philosophy sections are keyboard accessible and navigate to login without unsupported social promises', async ({ page, app }) => {
+  void app;
   await page.goto(sites.portal.origin);
   const socraticSection = page.locator('#phuong-phap');
   await expect(socraticSection).toBeVisible();
