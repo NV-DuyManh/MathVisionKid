@@ -61,3 +61,5 @@ Ngày **26/11/2026**, **Kha (deptraivodich)** tích hợp các thay đổi game 
 Trong [PR #120](https://github.com/NV-DuyManh/MathVisionKid/pull/120), **Lộc (Four-L)** triển khai xác nhận qua email để đặt và khôi phục mã PIN, cùng các thay đổi quản lý phiên liên quan, ở commit nguồn `1d8096e4fd297f5a15bc9a6b7293adb2c68c255e`. **NV-DuyManh** đồng bộ nhánh với develop và kiểm tra tích hợp trước khi merge.
 
 Ngày **25/11/2026**, **Nam (tranhoainam298)** triển khai hệ rank Student 26 bậc cùng ChatGPT trên nền 63939fca39608379b45b0a99e2440476b43edf07, từ thay đổi local chưa có commit nguồn riêng. Phạm vi và nguồn ảnh đã duyệt: [quy tắc rank Student](docs/engineering/student-rank-progression.md). Không thay đổi ghi nhận tác giả các phần tích hợp trước đó.
+
+Trong [PR #190](https://github.com/NV-DuyManh/MathVisionKid/pull/190), **Kha (deptraivodich)** đồng bộ bố cục chụp ảnh và nhận xét bài trên Student Web desktop. Commit nguồn `bcdabe3588b6602f12add78c98c137bf5e6b3c70` được giữ nguyên khi tích hợp vào develop.
