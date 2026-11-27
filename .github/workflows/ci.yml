@@ -2,7 +2,7 @@ name: MathVision CI
 on:
   pull_request:
     branches: [main, develop, 'release/**', 'hotfix/**']
-    types: [opened, synchronize, reopened, edited, ready_for_review]
+    types: [opened, synchronize, reopened, edited, ready_for_review, labeled, unlabeled]
   push:
     branches: [main, develop, 'release/**', 'hotfix/**']
   workflow_dispatch:
