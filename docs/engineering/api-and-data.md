@@ -16,7 +16,7 @@ Spring Boot là thẩm quyền xác thực/RBAC và quyền sở hữu tài nguy
 
 ## Quy ước API
 
-- Hồ sơ riêng của học sinh trả `googleLinked` để Student Web mở luồng đặt lại mật khẩu qua email hiện có. `avatarPhoto` ưu tiên ảnh học sinh tải lên. Khi dùng ảnh Google, trường này chứa URL HTTPS lấy từ thông tin đăng nhập Google đã xác thực. Bảng xếp hạng dùng hình đại diện mặc định của hồ sơ.
+- Hồ sơ riêng của học sinh trả `googleLinked` để Student Web mở luồng đặt lại mật khẩu qua email hiện có. `avatarPhoto` ưu tiên ảnh học sinh tải lên. Khi dùng ảnh Google, trường này chứa URL HTTPS lấy từ thông tin đăng nhập Google đã xác thực. Bảng xếp hạng dùng biểu tượng hồ sơ mặc định. Học sinh tham gia bảng xếp hạng có thể bật `leaderboardPhotoVisible` để chia sẻ ảnh hiện tại với các học sinh khác đã đăng nhập. Khi có đồng ý, mục xếp hạng trả thêm `avatarPhoto` là ảnh JPEG 64×64 tạo từ ảnh tải lên hoặc URL Google đã xác thực. Tắt chia sẻ, rời bảng, xóa ảnh hoặc thay ảnh sẽ thu hồi ảnh chia sẻ. Hồ sơ cũ mặc định riêng tư.
 - Tên hiển thị chỉnh trong hồ sơ học sinh hỗ trợ chữ Unicode và chữ số, tối đa 50 từ. Một hoặc nhiều dấu cách giữa các từ được tính là một ranh giới.
 - Mỗi học sinh được cộng tối đa 10 sao từ tổng các nguồn Bài học, Câu đố và Trò chơi trong một ngày theo giờ Việt Nam. Các hoạt động hợp lệ sau khi chạm giới hạn vẫn được ghi nhận với 0 sao. Sao đã ghi nhận được giữ nguyên.
 - Câu đố trả `verifiedStars` từ sổ sao hoạt động. Ở endpoint `pending-count` đó là tổng sao nguồn Quiz của học sinh, còn ở chi tiết đã hoàn thành đó là sao đã cộng từ câu đố đó. Các trường điểm theo thời gian cũ vẫn phục vụ ứng dụng đã phát hành.

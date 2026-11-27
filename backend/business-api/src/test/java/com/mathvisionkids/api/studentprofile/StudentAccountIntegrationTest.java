@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class StudentAccountIntegrationTest {
     @Autowired StudentRepository students;
     @Autowired StudentProfileService profiles;
+    @Autowired StudentRewards rewards;
     @Autowired PasswordEncoder encoder;
     @Autowired JdbcTemplate db;
     @Autowired MockMvc mvc;
@@ -85,6 +86,64 @@ class StudentAccountIntegrationTest {
         profiles.captureGoogleAvatar(pupil.getId(), googlePhoto);
         assertNull(profiles.get(pupil.getEmail()).avatarPhoto());
     }
+    @Test void leaderboardSharesOnlyTheCurrentPhotoWithExplicitConsent() throws Exception {
+        String pictureUrl = "https://lh3.googleusercontent.com/a/synthetic-avatar";
+        profiles.captureGoogleAvatar(pupil.getId(), pictureUrl);
+        rewards.record(pupil.getId(), StudentRewards.Source.QUIZ, "avatar-test", "avatar-test");
+        var visible = new ProfileDtos.Edit("Sao Nhỏ", "moon", true, null);
+        var share = new ProfileDtos.Edit("Sao Nhỏ", "moon", true, null, false, true, true);
+        var stop = new ProfileDtos.Edit("Sao Nhỏ", "moon", true, null, false, true, false);
+
+        var profile = profiles.update(pupil.getEmail(), visible);
+        String alias = profile.publicAlias();
+        assertFalse(profile.leaderboardPhotoVisible());
+        assertNull(peerAvatar(alias));
+        assertTrue(profiles.update(pupil.getEmail(), share).leaderboardPhotoVisible());
+        assertEquals(pictureUrl, peerAvatar(alias));
+        assertNull(profiles.get(other.getEmail()).avatarPhoto());
+
+        profiles.captureGoogleAvatar(pupil.getId(), pictureUrl);
+        assertEquals(pictureUrl, peerAvatar(alias));
+        profiles.captureGoogleAvatar(pupil.getId(), pictureUrl + "-new");
+        assertNull(peerAvatar(alias));
+
+        assertTrue(profiles.update(pupil.getEmail(), share).leaderboardPhotoVisible());
+        mvc.perform(multipart("/api/v1/student/profile/photo").file(new MockMultipartFile("file", "phone.png", "image/png", picture()))
+                .with(request -> { request.setMethod("PUT"); return request; }).with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.leaderboardPhotoVisible").value(false));
+        assertNull(peerAvatar(alias));
+
+        var shared = profiles.update(pupil.getEmail(), share);
+        String thumbnail = peerAvatar(alias);
+        assertNotNull(thumbnail);
+        assertNotEquals(shared.avatarPhoto(), thumbnail);
+        var image = ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(thumbnail.substring(thumbnail.indexOf(',') + 1))));
+        assertEquals(64, image.getWidth());
+        assertEquals(64, image.getHeight());
+        assertTrue(profiles.update(pupil.getEmail(), visible).leaderboardPhotoVisible());
+        assertEquals(thumbnail, peerAvatar(alias));
+        assertFalse(profiles.update(pupil.getEmail(), stop).leaderboardPhotoVisible());
+        assertNull(peerAvatar(alias));
+
+        assertTrue(profiles.update(pupil.getEmail(), share).leaderboardPhotoVisible());
+        profiles.update(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", false, null));
+        profiles.update(pupil.getEmail(), visible);
+        assertNull(peerAvatar(alias));
+    }
+
+    private String peerAvatar(String alias) throws Exception {
+        var response = mvc.perform(get("/api/v1/student/leaderboard").param("allGrades", "true")
+                        .with(user(other.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andExpect(header().string("Cache-Control", "no-store")).andReturn();
+        for (var entry : mapper.readTree(response.getResponse().getContentAsString()).get("entries")) {
+            if (alias.equals(entry.path("alias").asText())) {
+                assertFalse(entry.get("self").asBoolean());
+                return entry.path("avatarPhoto").textValue();
+            }
+        }
+        throw new AssertionError("Expected student entry in leaderboard");
+    }
+
     @Test void invalidPhotoAndWrongRoleCannotWrite() throws Exception {
         mvc.perform(multipart("/api/v1/student/profile/photo").file(new MockMultipartFile("file", "avatar.jpg", "image/jpeg", "<svg/>".getBytes()))
                 .with(request -> { request.setMethod("PUT"); return request; }).with(user(pupil.getEmail()).roles("STUDENT")))

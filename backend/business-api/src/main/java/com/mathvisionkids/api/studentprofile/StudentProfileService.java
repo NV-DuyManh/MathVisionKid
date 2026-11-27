@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Isolation;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.text.Normalizer;
 import java.time.LocalDate;
@@ -23,7 +28,7 @@ public class StudentProfileService {
     private static final int STAR_HISTORY_PAGE_SIZE = 10;
     private static final List<String> INITIAL_AVATARS = List.of("star", "planet", "leaf", "rocket", "moon", "sun");
     private record Preferences(String avatar, String alias, boolean visible, boolean reachedChallenger,
-                               boolean nameHidden, String googleAvatarUrl) {}
+                               boolean nameHidden, String googleAvatarUrl, boolean photoVisible) {}
     private record Day(LocalDate date, long lessons, long quizzes, long games, long stars) {
         long total() { return lessons + quizzes + games; }
     }
@@ -83,7 +88,46 @@ public class StudentProfileService {
                     WHERE student_id = ?
                     """, id);
         }
+        if (!Boolean.TRUE.equals(edit.leaderboardVisible()) || Boolean.TRUE.equals(edit.removePhoto())
+                || Boolean.FALSE.equals(edit.leaderboardPhotoVisible())) {
+            setLeaderboardAvatar(id, null);
+        } else if (Boolean.TRUE.equals(edit.leaderboardPhotoVisible())) {
+            setLeaderboardAvatar(id, leaderboardAvatar(id, preferences(id).googleAvatarUrl()));
+        }
         return profile(student);
+    }
+
+    void setLeaderboardAvatar(UUID id, String photo) {
+        db.update("""
+                UPDATE student_profile_preferences SET leaderboard_avatar = ?
+                WHERE student_id = ? AND leaderboard_avatar IS DISTINCT FROM ?
+                """, photo, id, photo);
+    }
+
+    private String leaderboardAvatar(UUID id, String googlePhoto) {
+        var uploaded = db.query("SELECT image_bytes FROM student_profile_photos WHERE student_id = ?",
+                (r, n) -> r.getBytes(1), id);
+        if (uploaded.isEmpty()) return isGoogleAvatarUrl(googlePhoto) ? googlePhoto : null;
+        try {
+            var original = ImageIO.read(new ByteArrayInputStream(uploaded.getFirst()));
+            if (original == null) return null;
+            var thumbnail = new BufferedImage(64, 64, BufferedImage.TYPE_INT_RGB);
+            var graphics = thumbnail.createGraphics();
+            try {
+                graphics.setRenderingHint(java.awt.RenderingHints.KEY_INTERPOLATION, java.awt.RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                graphics.drawImage(original, 0, 0, 64, 64, null);
+            } finally {
+                graphics.dispose();
+            }
+            var output = new ByteArrayOutputStream();
+            return ImageIO.write(thumbnail, "jpeg", output) ? jpegDataUrl(output.toByteArray()) : null;
+        } catch (IOException exception) {
+            return null;
+        }
+    }
+
+    private static String jpegDataUrl(byte[] bytes) {
+        return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(bytes);
     }
 
     @Transactional
@@ -113,7 +157,7 @@ public class StudentProfileService {
         lockStudent(id);
         ensurePreferences(id);
         db.update("""
-                UPDATE student_profile_preferences SET google_avatar_url = ?
+                UPDATE student_profile_preferences SET google_avatar_url = ?, leaderboard_avatar = NULL
                 WHERE student_id = ? AND google_avatar_enabled AND google_avatar_url IS DISTINCT FROM ?
                     AND NOT EXISTS (SELECT 1 FROM student_profile_photos WHERE student_id = ?)
                 """, url, id, url, id);
@@ -183,11 +227,12 @@ public class StudentProfileService {
 
     private Preferences preferences(UUID id) {
         return db.query("""
-                SELECT avatar, public_alias, leaderboard_visible, reached_challenger, leaderboard_name_hidden, google_avatar_url
+                SELECT avatar, public_alias, leaderboard_visible, reached_challenger, leaderboard_name_hidden, google_avatar_url,
+                       leaderboard_visible AND leaderboard_avatar IS NOT NULL
                 FROM student_profile_preferences WHERE student_id = ?
                 """, (r, n) -> new Preferences(r.getString(1), r.getString(2), r.getBoolean(3), r.getBoolean(4),
-                r.getBoolean(5), r.getString(6)), id)
-                .stream().findFirst().orElse(new Preferences("star", "", false, false, true, null));
+                r.getBoolean(5), r.getString(6), r.getBoolean(7)), id)
+                .stream().findFirst().orElse(new Preferences("star", "", false, false, true, null, false));
     }
 
     @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
@@ -227,12 +272,12 @@ public class StudentProfileService {
         Long position = student.getGradeLevel() == null ? null : position(id, gradeRanking(), student.getGradeLevel());
         var rank = StudentRank.at(stars, globalPosition);
         String photo = db.query("SELECT image_bytes FROM student_profile_photos WHERE student_id = ?",
-                (r, n) -> "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(r.getBytes(1)), id)
+                (r, n) -> jpegDataUrl(r.getBytes(1)), id)
                 .stream().findFirst().orElse(prefs.googleAvatarUrl());
         return new Profile(student.getDisplayName(), student.getGradeLevel(), student.getCreatedAt(), classes, prefs.avatar(),
                 prefs.visible(), prefs.alias(), null, stars, rank, prefs.reachedChallenger() ? "Huyền Thoại" : rank.name(),
                 position, stats, List.of(), history, photo, student.getGoogleSubject() == null && student.getFacebookSubject() == null,
-                prefs.nameHidden(), student.getGoogleSubject() != null);
+                prefs.nameHidden(), student.getGoogleSubject() != null, prefs.photoVisible());
     }
 
     private Long position(UUID student, String ranking, Object... filters) {
@@ -270,9 +315,11 @@ public class StudentProfileService {
             filters = new Object[] { grade, classroom };
         }
         String order = classroom == null ? "position" : "class_position";
-        var entries = db.query("SELECT * FROM (" + ranking + ") ranked ORDER BY " + order + " LIMIT 200",
+        var entries = db.query("SELECT ranked.*, p.leaderboard_avatar FROM (" + ranking + ") ranked "
+                        + "JOIN student_profile_preferences p ON p.student_id = ranked.student_id ORDER BY ranked." + order + " LIMIT 200",
                 (r, n) -> new Entry(r.getLong(order), r.getString("board_name"), r.getString("avatar"), r.getLong("stars"),
-                        StudentRank.at(r.getLong("stars"), r.getLong("global_position")), id.equals(r.getObject("student_id", UUID.class))), filters);
+                        StudentRank.at(r.getLong("stars"), r.getLong("global_position")), id.equals(r.getObject("student_id", UUID.class)),
+                        r.getString("leaderboard_avatar")), filters);
         String ownRanking = classroom == null ? ranking : "SELECT student_id, class_position AS position FROM (" + ranking + ") by_class";
         return new Leaderboard(entries, position(id, ownRanking, filters), grade);
     }

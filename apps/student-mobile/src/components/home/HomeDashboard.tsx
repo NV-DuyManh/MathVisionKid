@@ -211,7 +211,7 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       {leaders?.length === 0 && <Text style={styles.leaderEmpty}>Chưa có bạn nào được xếp hạng.</Text>}
       {leaders?.map((entry, index) => <View key={entry.position} testID="home-leaderboard-entry" style={[styles.leader, index === 0 && styles.leaderTop]}>
         <Text style={styles.link}>#{entry.position}</Text>
-        <StudentAvatar id={entry.self ? profile.value?.avatar ?? entry.avatar : entry.avatar} photo={entry.self ? profile.value?.avatarPhoto : undefined} size={25} />
+        <StudentAvatar id={entry.self ? profile.value?.avatar ?? entry.avatar : entry.avatar} photo={entry.self ? profile.value?.avatarPhoto : entry.avatarPhoto} size={25} />
         <View style={styles.leaderIdentity}>
           <Text numberOfLines={2} style={styles.leaderName}>{entry.self && profile.value?.leaderboardNameHidden ? profile.value.publicAlias : entry.alias}</Text>
           <View style={styles.leaderRankRow}>

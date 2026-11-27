@@ -412,7 +412,12 @@ test('Avatar account page edits name beside the header, uploads through the avat
   await page.getByRole('button', { name: 'Thay ảnh đại diện', exact: true }).click();
   await (await chooser).setFiles(fileURLToPath(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)));
   await expect(page.getByText('Đã cập nhật ảnh đại diện.', { exact: true })).toBeVisible();
-  await expect.poll(() => page.locator('img[src^="data:image/"]').count()).toBeGreaterThan(0);
+  await expect(page.getByRole('button', { name: 'Thay ảnh đại diện', exact: true }).locator('img[src^="data:image/"]')).toBeVisible();
+  if (desktop) {
+    const currentPhoto = workspaceAvatar.locator('img[src^="data:image/"]');
+    await expect(currentPhoto).toBeVisible();
+    await expect.poll(() => currentPhoto.evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
+  }
   await page.reload();
   await expect.poll(() => page.locator('img[src^="data:image/"]').count()).toBeGreaterThan(0);
   await testInfo.attach('Account settings with selected photo', { body: await page.screenshot({ path: testInfo.outputPath('account-settings.png') }), contentType: 'image/png' });
