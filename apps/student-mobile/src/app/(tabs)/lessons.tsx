@@ -17,8 +17,13 @@ import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { loadLessons, type SavedLesson } from '../../features/tutoring/learningHistory';
 import { MathText } from '../../components/domain/MathText';
 import { getLessonArtwork } from '../../features/lesson-artwork/lessonArtwork';
+import { PrimaryLessonsWeb } from '../../features/primary-lessons/PrimaryLessonsWeb';
 
 export default function LessonsScreen() {
+  return IS_STUDENT_WEB ? <PrimaryLessonsWeb /> : <PracticeLessonsScreen />;
+}
+
+function PracticeLessonsScreen() {
   const insets = useSafeAreaInsets(), router = useRouter();
   const compactWeb = useIsCompactStudentWeb();
   const desktopWeb = IS_STUDENT_WEB && !compactWeb;

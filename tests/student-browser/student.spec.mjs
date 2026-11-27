@@ -321,17 +321,18 @@ test('Portal login enters the real Student bundle, navigates and survives a deep
   const lessonNavigation = page.viewportSize().width >= 768 ? 'link' : 'tab';
   await page.getByRole(lessonNavigation, { name: 'Bài học', exact: true }).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons`);
-  await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Toán lớp 5', exact: true })).toBeVisible();
   await page.reload();
-  await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Toán lớp 5', exact: true })).toBeVisible();
   const originalViewport = page.viewportSize();
   await page.setViewportSize({ width: 320, height: 844 });
   await expect(page.getByRole('button', { name: /^Chọn Lớp / })).toHaveCount(0);
   await expect(page.getByRole('button', { name: /^Mở bài:/ })).toHaveCount(0);
-  await page.getByRole('button', { name: /^Chủ đề / }).first().click();
-  await page.getByRole('button', { name: /^Mở bài:/ }).first().click();
-  await page.getByRole('button', { name: /^Xem gợi ý:/ }).click();
-  await expect(page.getByRole('button', { name: /^Ẩn gợi ý:/ })).toBeVisible();
+  await page.getByRole('button', { name: 'Chương 2: Số thập phân', exact: true }).click();
+  await page.getByRole('button', { name: 'Mở bài: Cộng số thập phân', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Đáp án: Bài 1', exact: true }).fill('0');
+  await page.getByRole('button', { name: 'Kiểm tra đáp án: Bài 1', exact: true }).click();
+  await expect(page.getByText('Gợi ý cách giải', { exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
   await page.setViewportSize(originalViewport);
   await page.goto(`${sites.portal.origin}/study/quiz`);
@@ -579,7 +580,9 @@ test('recommended lesson cards truncate long titles and keep their full accessib
   await expect.poll(() => title.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true);
   await card.locator('..').screenshot({ path: testInfo.outputPath('recommendations-desktop.png') });
   await card.click();
-  await expect(page).toHaveURL(/learning\/math-guide/);
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons?lesson=grade-2-number-100-more-less`);
+  await expect(page.getByRole('button', { name: 'Mở bài: Bài toán nhiều hơn và ít hơn', exact: true }))
+    .toHaveAttribute('aria-expanded', 'true');
 });
 
 test('learning journey and private achievements show avatar and paginate the complete star history', async ({ page, app, isMobile }, testInfo) => {
