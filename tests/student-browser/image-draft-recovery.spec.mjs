@@ -175,12 +175,20 @@ async function storage(page, operation = 'read') {
 test('Crop edges, quarter turn and fine angle survive an immediate real reload', async ({ page }, testInfo) => {
   await start(page); await openCrop(page);
   const photo = page.getByLabel('Ảnh bài tập đang căn chỉnh');
-  await expect.poll(async () => {
+  const expectedRegion = testInfo.project.name === 'desktop' ? [.05, .95, .05, .83] : [0, 1, 0, 1];
+  const selectionError = async (region) => {
     const image = await photo.boundingBox();
     const [left, right, top, bottom] = await edges(page);
-    return Math.max(Math.abs(left.x - image.x), Math.abs(right.x - image.x - image.width),
-      Math.abs(top.y - image.y), Math.abs(bottom.y - image.y - image.height));
-  }).toBeLessThan(3);
+    return Math.max(Math.abs(left.x - image.x - image.width * region[0]),
+      Math.abs(right.x - image.x - image.width * region[1]),
+      Math.abs(top.y - image.y - image.height * region[2]),
+      Math.abs(bottom.y - image.y - image.height * region[3]));
+  };
+  await expect.poll(() => selectionError(expectedRegion)).toBeLessThan(3);
+  await page.getByRole('button', { name: 'Dùng toàn ảnh', exact: true }).click();
+  await expect.poll(() => selectionError([0, 1, 0, 1])).toBeLessThan(3);
+  await page.getByRole('button', { name: 'Đặt lại', exact: true }).click();
+  await expect.poll(() => selectionError(expectedRegion)).toBeLessThan(3);
   await page.getByLabel('Kéo cạnh trái', { exact: true }).scrollIntoViewIfNeeded();
   const [left] = await edges(page);
   await page.mouse.move(left.x, left.y);

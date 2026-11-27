@@ -33,13 +33,14 @@ export function StudentWebWorkspace({ children }: React.PropsWithChildren) {
   const auth = useContext(AuthContext);
   const owner = auth?.isAuthenticated && auth.user?.role === 'STUDENT' && auth.user?.active === true
     ? String(auth.user.id || auth.user.userId || '') : '';
-  const enabled = Boolean(owner) && workspace.test(pathname);
+  const showQuestSidebar = /^\/games\/arithmetic-quest\/?$/.test(pathname);
+  const enabled = Boolean(owner) && (workspace.test(pathname) || showQuestSidebar);
   return <div className="student-workspace">
     <style>{studentWorkspaceStyles}</style>
     {enabled && <a className="student-workspace-skip" href="#student-workspace-content">Đến nội dung chính</a>}
     {enabled && <WorkspaceSidebar pathname={pathname} />}
     <div className="student-workspace-main">
-      {enabled && <WorkspaceHeader key={owner} owner={owner} pathname={pathname} grade={Number(auth?.user.gradeLevel)} />}
+      {enabled && !showQuestSidebar && <WorkspaceHeader key={owner} owner={owner} pathname={pathname} grade={Number(auth?.user.gradeLevel)} />}
       <div className="student-workspace-page" id={enabled ? 'student-workspace-content' : undefined}
         role={enabled ? 'main' : undefined} tabIndex={enabled ? -1 : undefined}>{children}</div>
     </div>
