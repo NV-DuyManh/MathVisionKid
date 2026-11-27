@@ -28,7 +28,9 @@ export type StudentProfile = {
   titles: StudentTitle[];
   history: StarActivity[];
 };
-export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'leaderboardVisible' | 'leaderboardNameHidden' | 'leaderboardPhotoVisible' | 'selectedTitle'> & { removePhoto?: boolean };
+export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'selectedTitle'>
+  & Partial<Pick<StudentProfile, 'leaderboardVisible' | 'leaderboardNameHidden' | 'leaderboardPhotoVisible'>>
+  & { removePhoto?: boolean };
 export type Leaderboard = {
   gradeLevel?: number | null;
   ownPosition: number | null;
@@ -49,9 +51,10 @@ export const profileApi = {
   async update(edit: ProfileEdit, signal: AbortSignal) {
     const config = { signal, _identity: await tokenStorage.getSessionId(), headers: rankHeaders };
     let next = (await apiClient.put<StudentProfile>(root + '/profile', edit, config)).data;
-    const matchesPrivacy = (value: StudentProfile) => value?.leaderboardVisible === edit.leaderboardVisible
-      && (edit.leaderboardNameHidden === undefined || value?.leaderboardNameHidden === edit.leaderboardNameHidden)
-      && (edit.leaderboardPhotoVisible === undefined || value?.leaderboardPhotoVisible === edit.leaderboardPhotoVisible);
+    const matchesPrivacy = (value: StudentProfile) => value != null
+      && (edit.leaderboardVisible === undefined || value.leaderboardVisible === edit.leaderboardVisible)
+      && (edit.leaderboardNameHidden === undefined || value.leaderboardNameHidden === edit.leaderboardNameHidden)
+      && (edit.leaderboardPhotoVisible === undefined || value.leaderboardPhotoVisible === edit.leaderboardPhotoVisible);
     // Some older update responses omit privacy fields. Confirm stored settings
     // before accepting them; never turn an explicit false into a default true.
     if (!matchesPrivacy(next)) next = (await apiClient.get<StudentProfile>(root + '/profile', config)).data;
