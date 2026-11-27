@@ -3,6 +3,9 @@ package com.mathvisionkids.api.studentprofile;
 import com.mathvisionkids.api.quiz.QuizSources;
 import com.mathvisionkids.api.user.Student;
 import com.mathvisionkids.api.user.StudentRepository;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.*;
@@ -399,6 +402,72 @@ class StudentProfileIntegrationTest {
         var profile = profiles.get(pupil.getEmail());
         assertEquals(8, profile.stars());
         assertEquals(8, profile.stats().quizzes());
+    }
+
+    @Test void simultaneousLessonQuizAndGameRewardsShareTheDailyLimit() throws Exception {
+        UUID id = pupil.getId();
+        for (int i = 0; i < 9; i++) {
+            assertEquals(1, rewards.record(id, StudentRewards.Source.LESSON, "lesson-" + i, "lesson-" + i));
+        }
+
+        try (var pool = Executors.newFixedThreadPool(3)) {
+            var gate = new CountDownLatch(1);
+            List<Future<Integer>> awards = new java.util.ArrayList<>();
+            for (var source : StudentRewards.Source.values()) {
+                awards.add(pool.submit(() -> {
+                    gate.await();
+                    return rewards.record(id, source, "last-star", "last-content");
+                }));
+            }
+            gate.countDown();
+            int granted = 0;
+            for (var award : awards) granted += award.get(15, TimeUnit.SECONDS);
+            assertEquals(1, granted);
+        }
+
+        var profile = profiles.get(pupil.getEmail());
+        assertEquals(10, profile.stars());
+        assertEquals(12, profile.stats().today());
+        assertEquals(10, profile.stats().lessons());
+        assertEquals(1, profile.stats().quizzes());
+        assertEquals(1, profile.stats().games());
+        assertEquals(1, rewards.record(other.getId(), StudentRewards.Source.QUIZ, "last-star", "last-content"));
+
+        Game game = games.start(pupil.getEmail());
+        while (!game.completed()) {
+            var request = new GameAnswer(game.question(), answer(game.prompt()));
+            Game result = games.answer(pupil.getEmail(), game.id(), request);
+            assertEquals(result, games.answer(pupil.getEmail(), game.id(), request));
+            game = result;
+        }
+        assertEquals(5, game.correct());
+        assertEquals(0, game.stars());
+        assertEquals(GameRewardStatus.DAILY_LIMIT, game.rewardStatus());
+        assertEquals(game, games.get(pupil.getEmail(), game.id()));
+        assertEquals(10, profiles.get(pupil.getEmail()).stars());
+    }
+
+    @Test void existingStarsStayIntactAndTheLimitResetsAtVietnamMidnight() {
+        UUID id = pupil.getId();
+        Instant beforeMidnight = Instant.parse("2026-11-26T16:59:59Z");
+        Instant midnight = beforeMidnight.plusSeconds(1);
+        for (int i = 0; i < 12; i++) {
+            db.update("""
+                    INSERT INTO student_verified_activities(student_id, source, event_id, content_id, completed_at, activity_day, stars)
+                    VALUES (?, 'LESSON', ?, ?, ?, ?, 1)
+                    """, id, "historical-" + i, "content-" + i, Timestamp.from(beforeMidnight), LocalDate.of(2026, 11, 26));
+        }
+
+        transaction.executeWithoutResult(tx -> {
+            rewards.lock();
+            var capped = rewards.recordAward(id, StudentRewards.Source.GAME, "capped-game", "game-content", beforeMidnight);
+            assertEquals(new StudentRewards.Award(0, GameRewardStatus.DAILY_LIMIT), capped);
+            assertEquals(12, profiles.get(pupil.getEmail()).stars());
+            assertEquals(0, rewards.recordLocked(id, StudentRewards.Source.GAME, "capped-game", "game-content", midnight));
+            assertEquals(new StudentRewards.Award(1, GameRewardStatus.AWARDED),
+                    rewards.recordAward(id, StudentRewards.Source.GAME, "next-game", "game-content", midnight));
+        });
+        assertEquals(13, profiles.get(pupil.getEmail()).stars());
     }
 
     @Test void gameGradesOnServerAndReplaysOnlyItsOwnResult() throws Exception {

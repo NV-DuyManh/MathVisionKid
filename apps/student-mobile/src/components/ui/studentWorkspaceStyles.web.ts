@@ -14,7 +14,7 @@ export const studentWorkspaceStyles = `
   }
   .student-workspace-skip:focus { transform:none; }
   .student-workspace-sidebar, .student-workspace-topbar { display:none; }
-  @media (min-width: 768px) {
+  @media (min-width: ${STUDENT_WEB.workspaceBreakpoint}px) {
     .student-workspace { color:${STUDENT_WEB.ink}; font: 15px NunitoRegular, system-ui, sans-serif; }
     .student-workspace-sidebar {
       display:flex; flex-direction:column; flex:none; width:${STUDENT_WEB.sidebarWidth}px; box-sizing:border-box;
@@ -53,7 +53,7 @@ export const studentWorkspaceStyles = `
     .student-workspace [data-student-secondary-header] { display:none; }
     .student-workspace-topbar {
       display:flex; z-index:3; align-items:center; justify-content:space-between; flex:none; gap:12px;
-      min-height:64px; padding:0 24px; background:#FBF9FF; border-bottom:1px solid ${STUDENT_WEB.border};
+      min-height:64px; padding:0 ${STUDENT_WEB.pageGutter}px; background:#FBF9FF; border-bottom:1px solid ${STUDENT_WEB.border};
     }
     .student-workspace-search {
       display:flex; align-items:center; position:relative; gap:9px; padding:0 13px; min-height:44px; min-width:100px; width:min(410px,48%);
@@ -91,7 +91,7 @@ export const studentWorkspaceStyles = `
   @media (min-width: 1051px) {
     .student-workspace-sidebar { width:clamp(222px,17.2vw,${STUDENT_WEB.sidebarWidth}px); }
   }
-  @media (min-width: 768px) and (max-width: 1050px) {
+  @media (min-width: ${STUDENT_WEB.workspaceBreakpoint}px) and (max-width: 1050px) {
     .student-workspace-sidebar { width:208px; }
     .student-workspace-brand { font-size:16px; gap:3px; }
     .student-workspace-search kbd { display:none; }

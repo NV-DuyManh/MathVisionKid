@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, usePathname } from 'expo-router';
 import type { Href } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useWindowDimensions } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
@@ -12,6 +13,8 @@ import { profileApi } from '../../features/student-profile/profileApi';
 import { onQuizChanged } from '../../features/quiz/quizApi';
 import type { StudentProfile } from '../../features/student-profile/profileApi';
 import { studentWorkspaceStyles } from './studentWorkspaceStyles.web';
+import { isDesktopStudentWeb } from './useIsCompactStudentWeb';
+import { PocketCalculator } from '../../features/calculator/PocketCalculator';
 
 const destinations = [
   { path: '/', href: '/(tabs)', title: 'Trang chủ', icon: 'home-outline' },
@@ -22,7 +25,7 @@ const destinations = [
   { path: '/saved', href: '/saved', title: 'Bài đã lưu', icon: 'bookmark-outline' },
   { path: '/profile', href: '/(tabs)/profile', title: 'Của em', icon: 'person-outline' },
 ] as const;
-const workspace = /^\/(?:$|(?:lessons|achievements|profile|account|progress|saved|camera|crop|preview|processing|learning|recognition|results|quiz)(?:\/|$)|games\/?$)/;
+const workspace = /^\/(?:$|(?:lessons|achievements|profile|account|progress|saved|camera|privacy|crop|preview|processing|learning|recognition|results|quiz)(?:\/|$)|games\/?$)/;
 const foldSearch = (text: string) => text.toLocaleLowerCase('vi').normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/đ/g, 'd').trim();
 
 export function StudentWebWorkspace({ children }: React.PropsWithChildren) {
@@ -49,7 +52,7 @@ function WorkspaceSidebar({ pathname }: { pathname: string }) {
   const section = '/' + pathname.split('/')[1];
   const activeTab = section === '/progress' || section === '/account' ? '/profile'
     : section === '/learning' ? '/lessons'
-      : ['/camera', '/crop', '/preview', '/processing', '/recognition', '/results'].includes(section) ? '/' : section;
+      : ['/camera', '/privacy', '/crop', '/preview', '/processing', '/recognition', '/results'].includes(section) ? '/' : section;
   function moveFocus(event: React.KeyboardEvent, index: number) {
     const count = destinations.length;
     const targets: Record<string, number> = {
@@ -88,6 +91,8 @@ function WorkspaceSidebar({ pathname }: { pathname: string }) {
 
 type Panel = 'search' | 'notifications';
 function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: string; grade: number }) {
+  const { width } = useWindowDimensions();
+  const showCalculator = /^\/learning\/math-guide\/?$/.test(pathname) && isDesktopStudentWeb(width);
   const [profile, setProfile] = useState<StudentProfile>();
   const [profileRevision, setProfileRevision] = useState(0);
   const [query, setQuery] = useState('');
@@ -170,6 +175,7 @@ function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: 
       </div>}
     </form>
     <div className="student-workspace-tools">
+      {showCalculator && <WorkspaceCalculator />}
       <div className="student-workspace-anchor">
         <button ref={notification} type="button" className="student-workspace-icon" aria-label="Thông báo"
           aria-expanded={panel === 'notifications'} onClick={() => activate('notifications')}>
@@ -191,4 +197,19 @@ function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: 
       </a></Link> : <span className="student-workspace-icon" style={{ visibility: 'hidden' }} aria-hidden="true" />}
     </div>
   </header>;
+}
+
+function WorkspaceCalculator() {
+  const [open, setOpen] = useState(false);
+  const trigger = useRef<HTMLButtonElement>(null);
+  return <>
+    <button ref={trigger} type="button" className="student-workspace-icon" aria-label="Mở máy tính bỏ túi"
+      aria-haspopup="dialog" onClick={() => setOpen(true)}>
+      <Ionicons name="calculator-outline" size={22} color={STUDENT_WEB.primary} aria-hidden />
+    </button>
+    <PocketCalculator visible={open} onClose={() => {
+      setOpen(false);
+      trigger.current?.focus();
+    }} />
+  </>;
 }

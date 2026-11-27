@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
+import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { AppButton } from '../../components/ui/AppButton';
 import { AuthContext } from '../../context/AuthContext';
 import { COLORS, FONTS, IS_STUDENT_WEB, SIZES } from '../../constants/theme';
@@ -117,7 +118,9 @@ export default function GamesScreen() {
     </View>
     {access.kind === 'blocked' && <Text accessibilityRole="alert" style={styles.notice}>{access.message}</Text>}
     {access.kind === 'trial' && <Text accessibilityRole="alert" style={styles.notice}>Chơi thử không lưu thành tích. Tài khoản dùng thử chưa có hồ sơ học sinh thật; dữ liệu lượt thử chỉ giữ tạm và được bỏ khi thoát trò chơi.</Text>}
-    {saveError && <View accessibilityRole="alert" style={styles.noticeBox}><Text style={styles.notice}>{saveError}</Text><Pressable accessibilityRole="button" accessibilityLabel="Thử lưu kết quả" onPress={() => { if (studentId) void trainingResults.retry(studentId).catch(() => {}); }} style={styles.retry}><Text style={styles.playText}>Thử lưu lại</Text></Pressable></View>}
+    {saveError && (IS_STUDENT_WEB && !dialog && studentId ? <RecoveryNotice dialog title="Chưa lưu được kết quả chơi"
+      message={saveError} actions={[{ label: 'Thử lưu lại', accessibilityLabel: 'Thử lưu kết quả', onPress: () => { void trainingResults.retry(studentId).catch(() => {}); } }]} />
+      : <View accessibilityRole="alert" style={styles.noticeBox}><Text style={styles.notice}>{saveError}</Text><Pressable accessibilityRole="button" accessibilityLabel="Thử lưu kết quả" onPress={() => { if (studentId) void trainingResults.retry(studentId).catch(() => {}); }} style={styles.retry}><Text style={styles.playText}>Thử lưu lại</Text></Pressable></View>)}
     {recent.owner === studentId && recent.failed && <Text accessibilityRole="alert" style={styles.notice}>Chưa đọc được kết quả gần đây. Dữ liệu cũ vẫn được giữ nguyên.</Text>}
     <Layout {...(desktopWeb ? { style: [styles.webLayout, desktop && styles.webColumns] } : {})}>
     <Layout {...(desktopWeb ? { style: styles.webMain } : {})}>

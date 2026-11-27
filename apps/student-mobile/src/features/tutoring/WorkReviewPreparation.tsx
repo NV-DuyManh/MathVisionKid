@@ -12,11 +12,12 @@ type Props = {
   disabled: boolean; onEdit: (field: 'problem' | 'work') => void; onConfirm: () => void;
   confirmLabel?: string;
   showPhoto?: boolean;
+  desktopWeb?: boolean;
 };
 
 /** Transcription confirmation is separate from the mathematical review. */
 export function WorkReviewPreparation({ problem, work, problemImage, workImage, photoCurrent, problemNeedsReview, disabled, onEdit, onConfirm, showPhoto = true,
-  confirmLabel = 'Nội dung đã đúng · Xem nhận xét' }: Props) {
+  confirmLabel = 'Nội dung đã đúng · Xem nhận xét', desktopWeb = false }: Props) {
   const [section, setSection] = useState<'problem' | 'work'>(problemNeedsReview ? 'problem' : 'work');
   const source = section === 'work' ? work : problem;
   const photo = section === 'work' ? workImage : problemImage;
@@ -30,7 +31,7 @@ export function WorkReviewPreparation({ problem, work, problemImage, workImage, 
       onPress={() => setSection(field)} style={({ pressed }) => [s.tab, section === field && s.activeTab, pressed && s.pressed]}>
       <Text style={[s.tabText, section === field && s.activeText]}>{field === 'problem' ? 'Đề bài' : 'Bài em đã viết'}{(field === 'problem' ? problem : work).includes('[?]') ? ' · Chưa rõ' : ''}</Text>
     </Pressable>)}</View>
-    {problemNeedsReview ? <Text style={s.note} accessibilityRole="alert">Em kiểm tra lại đề với ảnh, nhất là các số và dấu phép tính, rồi xác nhận nhé.</Text> : null}
+    {problemNeedsReview ? <Text style={[s.note, desktopWeb && s.italicNote]} accessibilityRole="alert">Em kiểm tra lại đề với ảnh, nhất là các số và dấu phép tính, rồi xác nhận nhé.</Text> : null}
     {photo && showPhoto ? <View style={s.photoFrame}><Image source={{ uri: photo }} style={s.photo} resizeMode="contain"
       accessibilityLabel={section === 'problem' ? 'Ảnh đề bài' : photoCurrent ? 'Ảnh bài em đã làm' : 'Ảnh trước khi sửa bài bằng chữ'} /></View> : null}
     {section === 'work' && photo && !photoCurrent ? <Text style={s.note}>Ảnh trước khi sửa. Nhận xét tiếp theo sẽ dựa trên phần chữ mới bên dưới.</Text> : null}
@@ -41,7 +42,7 @@ export function WorkReviewPreparation({ problem, work, problemImage, workImage, 
     </Pressable>
     {unclear ? <Text accessibilityRole="alert" style={s.note}>Còn ký hiệu [?] chưa đọc rõ. Em đối chiếu cả hai mục và chỉnh lại trước khi nhận xét nhé.</Text> : null}
     <AppButton title={confirmLabel} disabled={disabled || unclear || !problem.trim() || !work.trim()} onPress={onConfirm} />
-    <Text style={s.caption}>Bấm tiếp nghĩa là em xác nhận phần chữ của đề và bài làm đã khớp. Không cần giải lại hay tóm tắt đề.</Text>
+    {!desktopWeb && <Text style={s.caption}>Bấm tiếp nghĩa là em xác nhận phần chữ của đề và bài làm đã khớp. Không cần giải lại hay tóm tắt đề.</Text>}
   </View>;
 }
 const s = StyleSheet.create({
@@ -60,4 +61,5 @@ const s = StyleSheet.create({
   editText: { fontFamily: FONTS.bold, fontSize: 13, lineHeight: 20, color: COLORS.primaryDark },
   caption: { fontFamily: FONTS.regular, color: COLORS.textSecondary, fontSize: 12, lineHeight: 19 },
   note: { fontFamily: FONTS.semiBold, color: '#855325', fontSize: 13, lineHeight: 21 },
+  italicNote: { fontStyle: 'italic' },
 });

@@ -1,0 +1,19 @@
+[
+  { "name": "type:fix", "color": "D73A4A", "description": "Fixes an existing behavior" },
+  { "name": "type:feature", "color": "7057FF", "description": "Adds product functionality" },
+  { "name": "type:maintenance", "color": "0E8A16", "description": "Refactors, tests or maintains the project" },
+  { "name": "type:docs", "color": "0075CA", "description": "Updates documentation" },
+  { "name": "type:release", "color": "5319E7", "description": "Releases or synchronizes a released revision" },
+  { "name": "area:student", "color": "1D76DB", "description": "Student Web or native Student" },
+  { "name": "area:teacher", "color": "1D76DB", "description": "Teacher application" },
+  { "name": "area:admin", "color": "1D76DB", "description": "Admin application" },
+  { "name": "area:portal", "color": "1D76DB", "description": "Public portal or authentication screens" },
+  { "name": "area:backend", "color": "1D76DB", "description": "Business API or database" },
+  { "name": "area:ai", "color": "1D76DB", "description": "Tutoring, OCR, speech or catalog" },
+  { "name": "area:ci", "color": "1D76DB", "description": "CI, governance or deployment" },
+  { "name": "area:docs", "color": "1D76DB", "description": "Documentation and engineering guidance" },
+  { "name": "area:shared", "color": "1D76DB", "description": "Cross-application packages or maintenance" },
+  { "name": "risk:low", "color": "BFDADC", "description": "Small, isolated and easily reversible" },
+  { "name": "risk:medium", "color": "FBCA04", "description": "Requires regression or release checks" },
+  { "name": "risk:high", "color": "B60205", "description": "Sensitive data, security, migrations or major changes" }
+]

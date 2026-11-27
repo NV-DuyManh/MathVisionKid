@@ -87,7 +87,7 @@ function ProcessingRequest({ params, activeUri }: {
   const cancel = () => { controllerRef.current?.abort(); router.back(); };
   return <SafeAreaView style={styles.container}>
     {error ? <View style={styles.error}>
-      <RecoveryNotice title="Chưa có kết quả" message={error} actions={[
+      <RecoveryNotice dialog title={Platform.OS !== "web" ? "Chưa có kết quả" : hasSubmission ? "Chưa mở được kết quả" : "Chưa gửi được ảnh bài làm"} message={error} actions={[
         { label: hasSubmission ? 'Xem lại kết quả' : 'Thử gửi lại', icon: 'refresh-outline', onPress: () => { setError(null); setStep(resumeId.current ? 1 : 0); setAttempt(value => value + 1); } },
         { label: 'Về trang chủ', onPress: () => { controllerRef.current?.abort(); router.replace('/(tabs)'); } },
       ]} />

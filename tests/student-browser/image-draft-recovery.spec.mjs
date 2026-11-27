@@ -114,8 +114,10 @@ test('An empty crop opens a real image picker instead of navigating back', async
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/crop`);
+  const recovery = page.getByRole('alertdialog', { name: 'Chưa mở được ảnh để cắt' });
+  await expect(recovery).toBeVisible();
   const chooser = page.waitForEvent('filechooser');
-  await page.getByRole('button', { name: 'Chọn lại ảnh', exact: true }).click();
+  await recovery.getByRole('button', { name: 'Chọn lại ảnh', exact: true }).click();
   await (await chooser).setFiles(await picture(page));
   await expect(page).toHaveURL(/\/study\/privacy/);
   await expect(page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư')).toBeVisible();
@@ -525,7 +527,7 @@ test('Reload after a lost upload response never automatically submits the same p
   await start(page); await openCrop(page, { masks: false });
   await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
   await page.getByRole('button', { name: 'KIỂM TRA BÀI TOÁN', exact: true }).click();
-  await expect(page.getByText('Chưa có kết quả', { exact: true })).toBeVisible();
+  await expect(page.getByRole('alertdialog', { name: 'Chưa gửi được ảnh bài làm' })).toBeVisible();
   await page.reload();
   await expect(page.getByRole('button', { name: 'Xem lại ảnh', exact: true })).toBeVisible();
   expect(app.requests.filter(request => request.method === 'POST' && request.path === '/student/submissions')).toHaveLength(1);
@@ -538,8 +540,13 @@ for (const needsCorrection of [false, true]) test(`Reloaded crop continues to a 
   if (!isMobile) await page.setViewportSize({ width: 1280, height: 660 });
   const problemText = 'Một giỏ có 30 kg táo, đã bán 15 kg. Hỏi còn lại bao nhiêu kg táo?';
   const work = needsCorrection ? '30 - 15 = 20 (kg)' : '30 - 15 = 15 (kg)';
-  app.responses.set('POST /student/tutor/inspect', ({ json }) => json({ kind: 'MIXED', problemText, needsProblem: false,
-    lines: [{ text: work, uncertain: false, box: null }] }));
+  const inspect = Promise.withResolvers();
+  if (isMobile || needsCorrection) inspect.resolve();
+  app.responses.set('POST /student/tutor/inspect', async ({ json }) => {
+    await inspect.promise;
+    return json({ kind: 'MIXED', problemText, needsProblem: false, problemNeedsReview: needsCorrection,
+      lines: [{ text: work, uncertain: false, box: null }] });
+  });
   app.responses.set('POST /student/tutor/work-review', ({ body, json }) => json({ sourceId: body.sourceId,
     status: needsCorrection ? 'NEEDS_REVISION' : 'CORRECT', summary: 'Em đã trả lời câu hỏi.', praise: needsCorrection ? '' : 'Em đã đổi đơn vị đo chính xác và thực hiện các bước tính toán rất tốt.', nextAction: needsCorrection ? 'Em sửa phép trừ nhé.' : 'Em giữ cách làm này nhé.', alternative: '',
     complete: true, completionVersion: 2, missingParts: [], arithmeticVerified: !needsCorrection,
@@ -561,9 +568,32 @@ for (const needsCorrection of [false, true]) test(`Reloaded crop continues to a 
     await expect.poll(async () => (await edges(page))[0].x).toBeGreaterThan(before[0].x + 1);
   }
   await page.reload();
+  if (!isMobile && !needsCorrection) await page.setViewportSize({ width: 1440, height: 900 });
   await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
+  if (!isMobile && !needsCorrection) {
+    try {
+      const preview = page.getByTestId('recognition-progress-preview');
+      const details = page.getByTestId('recognition-progress-details');
+      await expect(preview).toBeVisible();
+      await expect(details).toBeVisible();
+      const [screen, imagePanel, progressPanel] = await Promise.all([
+        page.getByTestId('lesson-reading-screen').boundingBox(), preview.boundingBox(), details.boundingBox(),
+      ]);
+      expect(imagePanel.y).toBeCloseTo(progressPanel.y, 0);
+      const previousTopGap = (screen.height - progressPanel.height - 44) / 2;
+      expect(progressPanel.y - screen.y).toBeCloseTo(previousTopGap / 2, -1);
+    } finally {
+      inspect.resolve();
+    }
+    await page.setViewportSize({ width: 1280, height: 660 });
+  }
   const preparation = page.getByTestId('work-review-preparation');
   await expect(preparation).toBeVisible();
+  const caption = preparation.getByText(/^Bấm tiếp nghĩa là/);
+  await expect(caption).toHaveCount(isMobile ? 1 : 0);
+  if (needsCorrection) {
+    await expect(preparation.getByText(/^Em kiểm tra lại đề với ảnh/)).toHaveCSS('font-style', isMobile ? 'normal' : 'italic');
+  }
   if (!isMobile) {
     const leftPhoto = page.getByTestId('guide-source-panel').getByRole('img');
     await expect(leftPhoto).toHaveCount(1);
@@ -581,13 +611,12 @@ for (const needsCorrection of [false, true]) test(`Reloaded crop continues to a 
   const photo = page.getByTestId(needsCorrection ? 'work-evidence-photo-frame' : 'work-review-photo-frame');
   await expect(photo).toBeVisible();
   const save = page.getByRole('button', { name: 'Lưu bài để học tiếp', exact: true });
-  await expect(save).toHaveCount(1);
+  await expect(save).toHaveCount(isMobile ? 1 : 0);
   if (!isMobile) {
     await expect(result).toBeInViewport({ ratio: 1 });
-    const left = page.getByTestId('work-review-result-column');
-    const right = page.getByTestId('work-review-details-column');
-    await expect(right.getByRole('button', { name: 'Lưu bài để học tiếp', exact: true })).toBeVisible();
-    await expect(left.getByText(await result.textContent(), { exact: true })).toBeVisible();
+    const left = page.getByTestId('work-review-photo-column');
+    const right = page.getByTestId('work-review-result-column');
+    await expect(right.getByText(await result.textContent(), { exact: true })).toBeVisible();
     await expect(left.getByTestId(needsCorrection ? 'work-evidence-photo-frame' : 'work-review-photo-frame')).toBeInViewport({ ratio: 1 });
     if (needsCorrection) {
       await expect(right.getByText('Kiểm tra lại phép tính.', { exact: true })).toBeInViewport();
@@ -595,17 +624,14 @@ for (const needsCorrection of [false, true]) test(`Reloaded crop continues to a 
       await expect(right.getByRole('button', { name: 'Xem nhận xét chi tiết', exact: true })).toBeInViewport();
       const quiz = right.getByRole('button', { name: 'Ôn lại bài vừa học', exact: true });
       await expect(quiz).toBeInViewport();
-      await expect(save).toBeInViewport();
-      const quizBox = await quiz.boundingBox();
-      expect((await save.boundingBox()).y).toBeGreaterThanOrEqual(quizBox.y + quizBox.height);
-      const rightColumn = await right.boundingBox();
-      for (const title of ['Xem nhận xét chi tiết', 'Hoàn tất nhận xét', 'Ôn lại bài vừa học', 'Lưu bài để học tiếp']) {
+      const [resultColumn, quizBox, photoBox] = await Promise.all([right.boundingBox(), quiz.boundingBox(), photo.boundingBox()]);
+      expect(quizBox.y + quizBox.height).toBeCloseTo(photoBox.y + photoBox.height, 0);
+      for (const title of ['Xem nhận xét chi tiết', 'Hoàn tất nhận xét', 'Ôn lại bài vừa học']) {
         const action = right.getByRole('button', { name: title, exact: true });
-        expect(await action.evaluate(element => getComputedStyle(element).maxWidth)).toBe('280px');
         const button = await action.boundingBox();
-        expect(button.width).toBeLessThan(rightColumn.width * 0.9);
-        expect(button.height).toBeGreaterThanOrEqual(42);
-        expect(button.height).toBeLessThan(52);
+        expect(button.x).toBeCloseTo(resultColumn.x, 0);
+        expect(button.width).toBeCloseTo(resultColumn.width, 0);
+        expect(button.height).toBeCloseTo(quizBox.height, 0);
       }
       await right.getByRole('button', { name: 'Xem nhận xét chi tiết', exact: true }).click();
       await expect(right.getByText('Em đã trả lời câu hỏi.', { exact: true })).toBeVisible();
@@ -615,8 +641,21 @@ for (const needsCorrection of [false, true]) test(`Reloaded crop continues to a 
     expect(a.x + a.width).toBeLessThanOrEqual(b.x);
     expect(b.x + b.width).toBeLessThanOrEqual(1281);
     expect(Math.abs(a.y - b.y)).toBeLessThan(4);
-    expect((await photo.boundingBox()).y).toBeGreaterThan((await result.boundingBox()).y);
-    expect((await photo.boundingBox()).height).toBeLessThan(270);
+    expect((await photo.boundingBox()).height).toBeGreaterThan(320);
+    const checkReviewGutters = async () => {
+      const [main, card, search] = await Promise.all([
+        page.getByRole('main').boundingBox(),
+        page.getByTestId('student-work-review').boundingBox(),
+        page.locator('.student-workspace-search').boundingBox(),
+      ]);
+      expect(Math.abs(card.x - search.x)).toBeLessThan(3);
+      expect(Math.abs(main.x + main.width - card.x - card.width - (search.x - main.x))).toBeLessThan(3);
+    };
+    await checkReviewGutters();
+    await page.getByRole('button', { name: 'Thu gọn menu' }).click();
+    await expect(page.getByRole('button', { name: 'Mở rộng menu' })).toBeVisible();
+    await checkReviewGutters();
+    await expect(photo).toBeInViewport({ ratio: 1 });
     await page.screenshot({ path: info.outputPath('review-result.png') });
     if (!needsCorrection) {
       expect(a.width).toBeGreaterThan(b.width);
@@ -624,17 +663,21 @@ for (const needsCorrection of [false, true]) test(`Reloaded crop continues to a 
       await page.setViewportSize({ width: 1440, height: 900 });
       await expect.poll(async () => (await photo.boundingBox()).height).toBeGreaterThan(330);
       await expect(photo).toBeInViewport({ ratio: 1 });
+      const [resizedQuiz, resizedPhoto] = await Promise.all([
+        right.getByRole('button', { name: 'Ôn lại bài vừa học', exact: true }).boundingBox(), photo.boundingBox(),
+      ]);
+      expect(resizedQuiz.y + resizedQuiz.height).toBeCloseTo(resizedPhoto.y + resizedPhoto.height, 0);
     }
   } else {
     expect((await photo.boundingBox()).y).toBeLessThan((await result.boundingBox()).y);
-    await expect(page.getByTestId('work-review-details-column')).toHaveCount(0);
+    await expect(page.getByTestId('work-review-photo-column')).toHaveCount(0);
     expect((await save.boundingBox()).height).toBeGreaterThanOrEqual(52);
   }
   await page.reload();
   await expect(result).toBeVisible();
   expect(app.requests.filter(request => request.path === '/student/tutor/inspect')).toHaveLength(1);
   expect(app.requests.filter(request => request.path === '/student/tutor/work-review')).toHaveLength(1);
-  if (!isMobile && !needsCorrection) {
+  if (isMobile && !needsCorrection) {
     await save.click();
     await expect(page.getByRole('button', { name: 'Đã lưu bài của em', exact: true })).toBeDisabled();
   }

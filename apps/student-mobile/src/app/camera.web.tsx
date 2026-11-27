@@ -5,6 +5,7 @@ import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { RecoveryNotice } from '../components/ui/RecoveryNotice';
 import { AppButton } from '../components/ui/AppButton';
 import { COLORS, FONTS, SIZES } from '../constants/theme';
 import { STUDENT_WEB } from '../constants/studentWebDesign';
@@ -24,7 +25,7 @@ export default function WebCameraScreen() {
   }, [getPermission]);
   const { width, height } = useWindowDimensions();
   const compact = height < 500;
-  const desktop = width >= 780;
+  const desktop = width >= STUDENT_WEB.workspaceBreakpoint;
   const [desktopPreview, setDesktopPreview] = useState(false);
   const camera = useRef<CameraView>(null);
   const preview = useRef<ViewInstance>(null);
@@ -38,6 +39,7 @@ export default function WebCameraScreen() {
   const busy = acquisition !== undefined;
   const [askingPermission, setAskingPermission] = useState(false);
   const [actionError, setActionError] = useState('');
+  const [failedSource, setFailedSource] = useState<'LIVE' | 'CAMERA' | 'GALLERY'>();
   const [showHelp, setShowHelp] = useState(false);
   const active = useRef(true);
   const lock = useRef(false);
@@ -78,6 +80,7 @@ export default function WebCameraScreen() {
     if (lock.current || !active.current || (source === 'LIVE' && (!ready || error || !focused || !camera.current))) return;
     lock.current = true;
     setAcquisition(source);
+    setFailedSource(undefined);
     setActionError('');
     let temporaryUri: string | undefined;
     try {
@@ -107,6 +110,7 @@ export default function WebCameraScreen() {
       setReady(false);
       router.push('/privacy');
     } catch {
+      if (active.current) setFailedSource(source);
       if (active.current) setActionError(source === 'GALLERY'
         ? 'Chưa mở được ảnh này. Em thử chọn một ảnh JPG hoặc PNG khác nhé.'
         : 'Chưa chụp được ảnh. Em thử lại hoặc chọn ảnh trong thư viện nhé.');
@@ -121,6 +125,7 @@ export default function WebCameraScreen() {
     const stream = video?.srcObject as MediaStream | null;
     const capabilities = stream?.getVideoTracks()[0]?.getCapabilities?.() as (MediaTrackCapabilities & { torch?: boolean }) | undefined;
     if (!capabilities?.torch) {
+      setFailedSource(undefined);
       setActionError('Máy ảnh này chưa bật được đèn. Em chọn nơi đủ sáng để chụp nhé.');
       return;
     }
@@ -137,16 +142,28 @@ export default function WebCameraScreen() {
   }, [live, ready]);
   const label = context?.purpose === 'ADD_WORK' ? 'Chụp bài em đã làm' : context?.purpose === 'ADD_PROBLEM' ? 'Chụp thêm đề bài' : 'Chụp bài toán để cùng học';
 
+  const recovery = busy || askingPermission ? null : actionError && failedSource ? <RecoveryNotice dialog
+    title={failedSource === 'GALLERY' ? 'Chưa mở được ảnh đã chọn' : 'Chưa chụp được ảnh'}
+    message={actionError}
+    actions={[
+      { label: failedSource === 'LIVE' && canCapture ? 'Thử chụp lại' : 'Chọn ảnh khác',
+        onPress: () => void acquire(failedSource === 'LIVE' && canCapture ? 'LIVE' : 'GALLERY') },
+    ]} /> : error && !askingPermission ? <RecoveryNotice dialog title="Chưa mở được máy ảnh"
+      message="Em có thể chọn ảnh đã chụp hoặc thử mở máy ảnh lại."
+      actions={[
+        { label: 'Dùng ảnh trong thư viện', onPress: () => void acquire('GALLERY') },
+        { label: 'Thử mở máy ảnh', onPress: () => void openCamera() },
+      ]} /> : null;
   const close = () => router.canGoBack() ? router.back() : router.replace('/(tabs)' as any);
   if (desktop && !live) return <SafeAreaView style={styles.webScreen} edges={['top', 'bottom']}>
-    <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.webContent}>
+    <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={styles.webContent}>
       <View style={styles.webHeading}>
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Đóng máy ảnh, quay lại" onPress={close} style={styles.webBack}>
           <Ionicons name="arrow-back" size={22} color={STUDENT_WEB.primary} accessible={false} />
         </TouchableOpacity>
         <Text accessibilityRole="header" style={styles.webTitle}>{label}</Text>
       </View>
-      <LinearGradient colors={['#3C2297', '#694AF6', '#8B4FE6']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.webHero}>
+      <LinearGradient testID="photo-capture-hero" colors={['#3C2297', '#694AF6', '#8B4FE6']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.webHero}>
         <View style={styles.webCopy}>
           <Text style={styles.webHeroTitle}>Cùng nhìn rõ bài toán</Text>
           <Text style={styles.webHeroBody}>Chọn ảnh hoặc chụp đề để cùng đọc và kiểm tra từng bước.</Text>
@@ -158,9 +175,9 @@ export default function WebCameraScreen() {
           <View style={styles.webCameraIcon}><Ionicons name="scan-outline" size={34} color={STUDENT_WEB.primary} accessible={false} /></View>
           <Text accessibilityRole="header" style={styles.webPanelTitle}>Thêm ảnh của em</Text>
           <Text style={styles.webCenteredText}>Chọn một ảnh có bài toán em muốn đọc.</Text>
-          {actionError || unavailable ? <Text accessibilityRole="alert" style={[styles.webCenteredText, styles.webError]}>
+          {recovery || (actionError || unavailable ? <Text accessibilityRole="alert" style={[styles.webCenteredText, styles.webError]}>
             {actionError || 'Chưa mở được máy ảnh. Em thử lại hoặc chọn ảnh đã chụp nhé.'}
-          </Text> : null}
+          </Text> : null)}
           <View style={styles.webUploadActions}>
             <AppButton title="Chọn ảnh từ thư viện" onPress={() => void acquire('GALLERY')} disabled={busy} loading={acquisition === 'GALLERY'} loadingTitle="Đang mở ảnh…"
               icon={<Ionicons name="images-outline" size={20} color="white" accessible={false} />} />
@@ -202,11 +219,11 @@ export default function WebCameraScreen() {
     </ScrollView>
   </SafeAreaView>;
   return <View style={styles.screen}>
-    <View ref={preview} style={StyleSheet.absoluteFill}>
+    <View ref={preview} style={[StyleSheet.absoluteFill, desktop && styles.webLivePreview]}>
       {live ? <CameraView ref={camera} style={StyleSheet.absoluteFill} facing="back" autofocus="on" enableTorch={torch}
         onCameraReady={() => setReady(true)} onMountError={() => { setReady(false); setError(true); setTorch(false); }} /> : null}
     </View>
-    <SafeAreaView style={styles.overlay}>
+    <SafeAreaView style={[styles.overlay, desktop && styles.webLiveOverlay]}>
       <View style={[styles.header, compact && styles.compactHeader]}>
         <TouchableOpacity style={styles.iconButton} accessibilityRole="button" accessibilityLabel="Đóng máy ảnh, quay lại"
           onPress={close}>
@@ -233,9 +250,9 @@ export default function WebCameraScreen() {
         </View>
         {!compact ? <View style={styles.pill}><Ionicons name="information-circle-outline" size={16} color="white" /><Text style={styles.instruction}>Chỉ chụp một bài toán mỗi lần</Text></View> : null}
       </View>
-      {showHelp || actionError ? <View style={styles.cameraFeedback}>
+      {showHelp || actionError || recovery ? <View style={styles.cameraFeedback}>
         {showHelp ? <Text nativeID="camera-help" accessibilityLiveRegion="polite" style={styles.noticeText}>Chọn nơi đủ sáng, giữ chắc tay và chụp trọn một bài toán. Em có thể cắt ảnh và che tên ở bước sau.</Text> : null}
-        {actionError ? <Text accessibilityRole="alert" style={styles.noticeText}>{actionError}</Text> : null}
+        {recovery || (actionError ? <Text accessibilityRole="alert" style={styles.noticeText}>{actionError}</Text> : null)}
       </View> : null}
       <View style={[styles.footer, compact && styles.compactFooter]}>
         <TouchableOpacity style={[styles.footerAction, compact && styles.compactFooterAction]} accessibilityRole="button" accessibilityLabel="Chọn ảnh từ thư viện" disabled={busy} onPress={() => void acquire('GALLERY')}>
@@ -256,7 +273,7 @@ export default function WebCameraScreen() {
 }
 const styles = StyleSheet.create({
   webScreen: { flex: 1, backgroundColor: STUDENT_WEB.background },
-  webContent: { width: '100%', maxWidth: 1300, alignSelf: 'center', padding: 24, gap: 20 },
+  webContent: { width: '100%', alignSelf: 'center', paddingVertical: 24, paddingHorizontal: STUDENT_WEB.pageGutter, gap: 20 },
   webHeading: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   webBack: { width: 44, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 14,
     borderWidth: 1, borderColor: STUDENT_WEB.border, backgroundColor: STUDENT_WEB.surface },
@@ -285,6 +302,8 @@ const styles = StyleSheet.create({
   webTipTitle: { fontFamily: FONTS.extraBold, color: STUDENT_WEB.ink, fontSize: 15 },
 
   screen: { flex: 1, backgroundColor: '#080B16' }, overlay: { flex: 1, width: '100%', maxWidth: 1200, alignSelf: 'center', backgroundColor: 'rgba(15,23,42,0.15)' },
+  webLivePreview: { left: STUDENT_WEB.pageGutter, right: STUDENT_WEB.pageGutter, overflow: 'hidden' },
+  webLiveOverlay: { width: undefined, maxWidth: '100%', alignSelf: 'stretch', marginHorizontal: STUDENT_WEB.pageGutter },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, padding: SIZES.medium },
   iconButton: { width: 48, height: 48, borderRadius: 24, backgroundColor: 'rgba(15,23,42,0.65)', alignItems: 'center', justifyContent: 'center' },
   badge: { flexDirection: 'row', gap: 6, flexShrink: 1, alignItems: 'center', borderRadius: 24, padding: 10, backgroundColor: 'rgba(15,23,42,0.65)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)' },

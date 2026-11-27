@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../context/AuthContext';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { ChallengeButton as AppButton, CHALLENGE_COLORS as C, ChallengeWebStyles } from '../../components/ui/ChallengeVisuals';
+import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { MathText } from '../../components/domain/MathText';
 import { TaskProgress } from '../../components/ui/TaskProgress';
 import { PendingTask } from '../../components/ui/PendingTask';
@@ -46,10 +47,19 @@ export default function QuizScreen() {
   return owner && typeof quizId === 'string' ? <Challenge key={`${owner}:${quizId}`} id={quizId} owner={owner} /> : null;
 }
 type QuizTask = 'start' | 'submit' | 'challenge' | 'practice' | 'save' | 'reveal';
+const QUIZ_FAILURE_TITLES: Record<QuizTask, string> = {
+  start: 'Chưa bắt đầu được câu đố',
+  submit: 'Chưa xác nhận được đáp án',
+  challenge: 'Chưa mở được lượt thử thách mới',
+  practice: 'Chưa mở được lượt ôn tập',
+  save: 'Chưa xác nhận đã lưu câu đố',
+  reveal: 'Chưa mở được cách giải',
+};
 function Challenge({ id, owner }: { id: string; owner: string }) {
   const router = useRouter();
   const [quiz, setQuiz] = useState<Quiz | null>(null), [answer, setAnswer] = useState(''), [feedback, setFeedback] = useState('');
   const [error, setError] = useState(''), [task, setTask] = useState<QuizTask | null>(null), [loading, setLoading] = useState(true);
+  const [failedTask, setFailedTask] = useState<QuizTask | null>(null);
   const busy = task !== null;
   const [tool, setTool] = useState<'audio' | 'ask' | 'menu' | 'solution' | 'history' | null>(null);
   const elapsed = useQuizActivity(quiz);
@@ -83,7 +93,7 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
   }
   useFocusEffect(useCallback(() => {
     void retry;
-    active.current = true; setLoading(true); setError('');
+    active.current = true; setLoading(true); setError(''); setInvalidAnswer(false); setFailedTask(null);
     const abort = new AbortController(); controller.current = abort;
     void quizApi.get(id, abort.signal).then(next => { if (active.current && !abort.signal.aborted) apply(next); })
       .catch(failure => { if (active.current && !abort.signal.aborted) setError(quizError(failure)); })
@@ -95,7 +105,13 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
     if (controller.current || loading) return;
     const abort = new AbortController(); controller.current = abort; setTask(kind); setError('');
     try { const next = await action(abort.signal); if (active.current && !abort.signal.aborted) apply(next); }
-    catch (failure) { if (active.current && !abort.signal.aborted) setError(quizError(failure)); }
+    catch (failure) {
+      if (active.current && !abort.signal.aborted) {
+        setFailedTask(kind);
+        setInvalidAnswer(false);
+        setError(quizError(failure));
+      }
+    }
     finally { if (active.current && !abort.signal.aborted) { controller.current = null; setTask(null); } }
   };
   const submit = () => {
@@ -138,7 +154,12 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
     <KeyboardAvoidingView style={s.scroll} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView style={s.scroll} contentContainerStyle={[s.content,s.workContent]} keyboardShouldPersistTaps="handled">
         {loading ? <View style={s.card}><TaskProgress steps={['Mở câu đố của em', 'Khôi phục tiến trình']} activeStep={1} /></View> : null}
-        {error ? <View style={s.note}><Text nativeID="quiz-answer-error" accessibilityRole="alert" style={s.error}>{error}</Text><AppButton title={quiz ? 'Kiểm tra lại trạng thái' : 'Thử tải lại'} variant="secondary" disabled={busy || loading} onPress={() => setRetry(value => value + 1)} /></View> : null}
+        {error && (!IS_STUDENT_WEB || !invalidAnswer) ? IS_STUDENT_WEB ? <RecoveryNotice dialog messageId="quiz-answer-error"
+          title={failedTask ? QUIZ_FAILURE_TITLES[failedTask] : 'Chưa mở được câu đố'} message={error}
+          actions={[
+            { label: quiz ? 'Kiểm tra lại trạng thái' : 'Tải lại câu đố', disabled: busy || loading, onPress: () => setRetry(value => value + 1) },
+            ...(!quiz ? [{ label: 'Về danh sách câu đố', onPress: () => router.replace('/quiz' as never) }] : []),
+          ]} /> : <View style={s.note}><Text nativeID="quiz-answer-error" accessibilityRole="alert" style={s.error}>{error}</Text><AppButton title={quiz ? 'Kiểm tra lại trạng thái' : 'Thử tải lại'} variant="secondary" disabled={busy || loading} onPress={() => setRetry(value => value + 1)} /></View> : null}
         {quiz && !loading ? <>
           <View style={s.workspace} onLayout={event => setWorkspaceWidth(event.nativeEvent.layout.width)} testID="quiz-workspace" {...(IS_STUDENT_WEB ? { dataSet: { challenge: 'true' } } : {})}>
           <ChallengeWebStyles />
@@ -196,10 +217,11 @@ function Challenge({ id, owner }: { id: string; owner: string }) {
                 })}
               </View> : <>
                 <TextInput accessibilityLabel={`Đáp án của em${quiz.unit ? `, ${quiz.unit}` : ''}`} aria-describedby={invalidAnswer ? 'quiz-answer-help quiz-answer-error' : 'quiz-answer-help'} aria-invalid={invalidAnswer}
-                  value={answer} onChangeText={value => { editAnswer(value); setError(''); setInvalidAnswer(false); }} onFocus={() => setAnswerFocused(true)} onBlur={() => setAnswerFocused(false)} style={[s.input,s.workInput,answerFocused&&s.focusedInput,invalidAnswer&&s.workInputError]} editable={!busy} maxLength={100} autoComplete="off" autoCorrect={false}
+                  value={answer} onChangeText={value => { editAnswer(value); setError(''); setInvalidAnswer(false); setFailedTask(null); }} onFocus={() => setAnswerFocused(true)} onBlur={() => setAnswerFocused(false)} style={[s.input,s.workInput,answerFocused&&s.focusedInput,invalidAnswer&&s.workInputError]} editable={!busy} maxLength={100} autoComplete="off" autoCorrect={false}
                   placeholder={quiz.answerFormat === 'FRACTION' ? 'Ví dụ: 3/4' : 'Em tính được…'} keyboardType={quiz.answerFormat === 'FRACTION' ? 'default' : 'decimal-pad'} returnKeyType="done" onSubmitEditing={submit}/>
                 <Text nativeID="quiz-answer-help" style={s.small}>{quiz.answerFormat === 'FRACTION' ? 'Nhập phân số a/b hoặc số thập phân chính xác.' : 'Chỉ cần nhập kết quả cuối cùng.'}</Text>
               </>}
+              {IS_STUDENT_WEB && invalidAnswer && error ? <Text nativeID="quiz-answer-error" accessibilityRole="alert" style={s.error}>{error}</Text> : null}
               {!IS_STUDENT_WEB && feedback ? <Text accessibilityLiveRegion="polite" style={s.error}>{feedback}</Text> : null}
               <AppButton title="Hoàn thành" loadingTitle="Đang kiểm tra đáp án…" style={s.workButton} disabled={busy || !answer.trim()} loading={task === 'submit'} onPress={submit}/>
               {IS_STUDENT_WEB ? <Text accessibilityLiveRegion="polite" style={feedback ? [s.error, s.webFeedback] : s.emptyFeedback}>{feedback}</Text> : null}

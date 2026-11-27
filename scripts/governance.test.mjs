@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
-import { validateTitle, planChecks, checkNewPaths, checkTrackedArtifacts, verifyWorkflow, checkGate } from './governance.mjs';
+import { validateTitle, validatePullRequestLabels, planChecks, countStudentBrowserShards, checkNewPaths, checkTrackedArtifacts, verifyWorkflow, checkGate } from './governance.mjs';
 import { checkRegistry, routeSkills } from './skills.mjs';
 
 test('registry resolves backend/review without unrelated UI or complexity-only review', async () => {
@@ -132,6 +132,34 @@ test('gate never turns failure, cancellation or unexpectedly skipped checks into
   checkGate(results, {web:'true',student:'false',backend:'false',ai:'false',launcher:'false'});
 });
 
+test('Student browser shards fill the runner budget and every scheduled shard must pass', () => {
+  const otherChecks = ['web', 'backend', 'ai', 'launcher'];
+  for (let active = 0; active <= otherChecks.length; active++) {
+    const plan = {
+      student: 'true',
+      ...Object.fromEntries(otherChecks.map((name, index) => [name, String(index < active)])),
+    };
+    const shardCount = countStudentBrowserShards(plan);
+    assert.equal(shardCount, 19 - active);
+    plan.student_shards = String(shardCount);
+    const results = {
+      governance: 'success',
+      student: 'success',
+      ...Object.fromEntries(otherChecks.map(name => [name, plan[name] === 'true' ? 'success' : 'skipped'])),
+    };
+    for (let shard = 1; shard <= shardCount; shard++) results[`student-browser-${shard}`] = 'success';
+    checkGate(results, plan);
+    assert.throws(() => checkGate(results, { ...plan, student_shards: String(shardCount + 1) }), /Invalid Student browser shard plan/);
+    for (const status of ['failure', 'cancelled', 'skipped', undefined]) {
+      assert.throws(
+        () => checkGate({ ...results, [`student-browser-${shardCount}`]: status }, plan),
+        /Student browser shard .* did not pass/,
+      );
+    }
+  }
+  assert.equal(countStudentBrowserShards(planChecks(['docs/engineering/naming-conventions.md'])), 0);
+});
+
 test('owner approval exemption never bypasses PR, CI or history protections', () => {
   const policy = name => JSON.parse(readFileSync(new URL(`../.github/rulesets/${name}.json`, import.meta.url), 'utf8'));
   const owner = policy('git-flow-review-required');
@@ -167,4 +195,14 @@ test('owner approval exemption never bypasses PR, CI or history protections', ()
   assert.deepEqual(tags.bypass_actors, []);
   assert.equal(tags.target, 'tag');
   assert.deepEqual(tags.rules, [{type:'update'}, {type:'deletion'}]);
+});
+
+test('pull requests need a type, one or more affected areas, and a single risk label', () => {
+  const verify = (...names) => validatePullRequestLabels(names.map(name => ({name})));
+  assert.doesNotThrow(() => verify('type:fix', 'area:student', 'area:backend', 'risk:medium', 'accessibility'));
+  assert.doesNotThrow(() => verify('dependencies', 'area:backend', 'risk:medium'));
+  assert.throws(() => verify('bug', 'question', 'help wanted'), /type:.*area:.*risk:/);
+  assert.throws(() => verify('type:fix', 'type:release', 'area:student', 'risk:medium'), /exactly one type/);
+  assert.throws(() => verify('type:fix', 'area:unknown', 'risk:medium'), /at least one area/);
+  assert.throws(() => verify('type:fix', 'area:student', 'risk:medium', 'risk:high'), /exactly one risk/);
 });

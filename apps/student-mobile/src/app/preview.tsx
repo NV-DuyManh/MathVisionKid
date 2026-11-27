@@ -2,7 +2,10 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ScrollView, useWindowDimensions, Platform } from 'react-native';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { FONTS, COLORS, SIZES, SHADOWS, IS_STUDENT_WEB, WEB_DESIGN } from '../constants/theme';
+import { STUDENT_WEB } from '../constants/studentWebDesign';
+import { isCompactStudentWeb } from '../components/ui/useIsCompactStudentWeb';
 import { AppHeader } from '../components/ui/AppHeader';
+import { RecoveryNotice } from '../components/ui/RecoveryNotice';
 import { AppButton } from '../components/ui/AppButton';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -14,6 +17,7 @@ import { DraftImagePicker } from '../features/recognition/components/DraftImageP
 export default function PreviewScreen() {
   const { width, height } = useWindowDimensions();
   const wide = width >= 1000;
+  const webWorkspace = IS_STUDENT_WEB && !isCompactStudentWeb(width);
   const router = useRouter();
   const params = useLocalSearchParams<{
     uri?: string;
@@ -30,6 +34,7 @@ export default function PreviewScreen() {
   const [imageUri, setImageUri] = useState<string>(initialUri);
   const [imageError, setImageError] = useState(false);
   const [rotating, setRotating] = useState(false);
+  const [rotationFailed, setRotationFailed] = useState(false);
   const rotation = useRef(0), focused = useRef(true), rotationLocked = useRef(false);
   useFocusEffect(useCallback(() => {
     focused.current = true; rotationLocked.current = false; setRotating(false);
@@ -86,7 +91,7 @@ export default function PreviewScreen() {
 
   const handleRotate = async () => {
     if (rotationLocked.current) return;
-    rotationLocked.current = true; setRotating(true);
+    rotationLocked.current = true; setRotating(true); setRotationFailed(false);
     const request = ++rotation.current, sourceId = draft?.imageSessionId;
     const identity = imageDraftPersistence.identity();
     const current = () => focused.current && request === rotation.current &&
@@ -121,7 +126,10 @@ export default function PreviewScreen() {
       const updated = recognitionDraftStore.getDraft();
       if (updated) await imageDraftPersistence.confirm(updated, 'preview');
     } catch {
-      if (current()) Alert.alert('Lỗi', 'Không thể xoay ảnh. Vui lòng thử lại.');
+      if (current()) {
+        if (IS_STUDENT_WEB) setRotationFailed(true);
+        else Alert.alert('Lỗi', 'Không thể xoay ảnh. Vui lòng thử lại.');
+      }
     } finally {
       if (current()) { rotationLocked.current = false; setRotating(false); }
     }
@@ -138,14 +146,14 @@ export default function PreviewScreen() {
     });
   };
 
-  if (Platform.OS === 'web' && (!draft?.privacyConfirmed || !imageUri || imageError)) return <View style={styles.container}>
-    <AppHeader title="Xem lại bài đã chụp" showBack /><DraftImagePicker showReason mode="ARITHMETIC" />
+  if (Platform.OS === 'web' && (!draft?.privacyConfirmed || !imageUri || imageError)) return <View style={[styles.container, webWorkspace && styles.workspaceInsets]}>
+    <AppHeader title="Xem lại bài đã chụp" showBack inWebWorkspace={webWorkspace} /><DraftImagePicker showReason mode="ARITHMETIC" />
   </View>;
   return (
-    <View style={styles.container}>
-      <AppHeader title="Xem lại bài đã chụp" showBack backFallback={Platform.OS === 'web' ? '/crop' : undefined} />
+    <View style={[styles.container, webWorkspace && styles.workspaceInsets]}>
+      <AppHeader title="Xem lại bài đã chụp" showBack inWebWorkspace={webWorkspace} backFallback={Platform.OS === 'web' ? '/crop' : undefined} />
 
-      <ScrollView contentContainerStyle={[styles.content, { minHeight: Math.max(0, height - 90) }, wide && styles.contentWide, IS_STUDENT_WEB && styles.webContent]}>
+      <ScrollView showsVerticalScrollIndicator={!webWorkspace} contentContainerStyle={[styles.content, { minHeight: Math.max(0, height - 90) }, wide && styles.contentWide, IS_STUDENT_WEB && styles.webContent, webWorkspace && styles.workspaceContent]}>
         {/* Preview image box with quality badge overlay */}
         <View style={[styles.imageContainer, SHADOWS.small, wide && styles.imageWide, IS_STUDENT_WEB && styles.webImage]}>
           <Image source={{ uri: imageUri }} style={styles.image} resizeMode="contain" accessibilityLabel="Ảnh bài toán em đã chọn" onError={() => setImageError(true)} />
@@ -158,6 +166,12 @@ export default function PreviewScreen() {
         <View style={[styles.controlColumn, wide && styles.controlColumnWide, IS_STUDENT_WEB && styles.webControls]}>
         <Text accessibilityRole="header" style={styles.reviewTitle}>{IS_STUDENT_WEB ? 'Ảnh đã rõ chưa?' : 'Sẵn sàng xem bài?'}</Text>
         <Text style={styles.reviewCopy}>{IS_STUDENT_WEB ? 'Xem lại chữ số, vùng bài và chiều ảnh trước khi gửi.' : 'Em nhìn lại chữ số và vùng bài đã chọn. Khi ảnh rõ, mình cùng kiểm tra nhé.'}</Text>
+        {rotationFailed && <RecoveryNotice dialog title="Chưa xoay được ảnh"
+          message="Ảnh của em vẫn còn. Em có thể thử xoay lại hoặc chỉnh vùng bài."
+          actions={[
+            { label: 'Thử xoay lại', onPress: () => void handleRotate(), disabled: rotating },
+            { label: 'Chỉnh vùng bài', onPress: handleCrop, disabled: rotating },
+          ]} />}
         {/* Tools row: Xoay & Chỉnh vùng bài */}
         <View style={styles.toolsRow}>
           <TouchableOpacity
@@ -220,6 +234,8 @@ const styles = StyleSheet.create({
   },
   contentWide: { maxWidth: 1140, flexDirection: 'row', alignItems: 'center', gap: 32 },
   webContent: { padding: 16 },
+  workspaceInsets: { paddingHorizontal: STUDENT_WEB.pageGutter },
+  workspaceContent: { maxWidth: '100%', paddingHorizontal: 0 },
   webImage: { borderRadius: WEB_DESIGN.radii.notebook, backgroundColor: WEB_DESIGN.colors.ink },
   webControls: { backgroundColor: COLORS.surface, borderWidth: 1, borderColor: WEB_DESIGN.colors.paperLine, borderRadius: WEB_DESIGN.radii.notebook, padding: 16 },
   webTool: { borderRadius: WEB_DESIGN.radii.control, borderColor: COLORS.border, paddingHorizontal: 8 },

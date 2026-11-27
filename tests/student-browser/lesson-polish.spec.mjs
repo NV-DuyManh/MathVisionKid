@@ -449,9 +449,11 @@ test('preparation retry waits for the server cooldown and starts with one tap', 
   await page.goto(`${sites.portal.origin}/study/learning/math-guide?${new URLSearchParams({ problemText: problem })}`);
   await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
   await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
-  const retry = page.getByRole('button', { name: 'Thử chuẩn bị lại', exact: true });
+  const dialog = page.getByRole('alertdialog', { name: 'Chưa chuẩn bị được bước giải' });
+  await expect(dialog).toBeVisible();
+  const retry = dialog.getByRole('button', { name: 'Thử chuẩn bị lại', exact: true });
   await expect(retry).toBeDisabled();
-  await expect(page.getByText(/Em có thể thử chuẩn bị lại sau \d giây\./)).toBeVisible();
+  await expect(page.getByText(/Thử lại sau \d giây/)).toBeVisible();
   expect(app.requests.filter(request => request.path === '/student/tutor/lesson/preparation')).toHaveLength(0);
   await expect(retry).toBeEnabled();
   await retry.click();
@@ -667,6 +669,8 @@ for (const width of [375, 1440]) test(`lesson reference switches between text an
   app.realStudent = true;
   lessonFixtures(app);
   const desktop = width > 1000;
+  // Desktop also checks both sidebar states on five screens before starting the lesson.
+  if (desktop) test.setTimeout(60000);
   const inspect = Promise.withResolvers();
   if (!desktop) inspect.resolve();
   app.responses.set('POST /student/tutor/inspect', async ({ json }) => {
@@ -680,6 +684,24 @@ for (const width of [375, 1440]) test(`lesson reference switches between text an
     const locator = page.getByTestId(id);
     await expect(locator).toBeVisible();
     return locator.boundingBox();
+  };
+  const checkGutters = async (left, right = left) => {
+    const main = await page.getByRole('main').boundingBox();
+    const search = await page.locator('.student-workspace-search').boundingBox();
+    const gutter = search.x - main.x;
+    expect(gutter).toBeGreaterThan(20);
+    const menu = page.getByRole('button', { name: /Thu gọn menu|Mở rộng menu/ });
+    const expanded = await menu.getAttribute('aria-expanded');
+    const check = async () => {
+      await expect.poll(async () => {
+        const [area, start, end] = await Promise.all([page.getByRole('main').boundingBox(), box(left), box(right)]);
+        return Math.max(Math.abs(start.x - area.x - gutter), Math.abs(area.x + area.width - end.x - end.width - gutter));
+      }).toBeLessThan(3);
+    };
+    await check();
+    await menu.click();
+    await expect(menu).toHaveAttribute('aria-expanded', expanded === 'true' ? 'false' : 'true');
+    await check();
   };
   const sideBySide = async (left, right) => {
     const [a, b] = await Promise.all([box(left), box(right)]);
@@ -696,15 +718,21 @@ for (const width of [375, 1440]) test(`lesson reference switches between text an
     await expect(page.getByTestId('notebook-tile')).toHaveCount(1);
     expect((await box('notebook-tile')).width).toBeCloseTo((await box('notebook-list')).width, 0);
     await page.screenshot({ path: info.outputPath('notebook.png') });
+    await page.getByRole('navigation', { name: 'Điều hướng học sinh' }).getByRole('link', { name: 'Trang chủ' }).click();
+    await page.getByRole('button', { name: 'Chụp bài toán', exact: true }).click();
+    await checkGutters('photo-capture-hero');
+  } else {
+    await page.goto(`${sites.portal.origin}/study/camera?mode=MATH_TUTOR`);
   }
-  await page.goto(`${sites.portal.origin}/study/camera?mode=MATH_TUTOR`);
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Chọn ảnh từ thư viện' }).click();
   await (await chooser).setFiles(fileURLToPath(new URL('../../backend/business-api/src/test/resources/fixtures/worksheet-addition.jpg', import.meta.url)));
+  if (desktop) await checkGutters('privacy-editor-frame', 'privacy-editor-tools');
   await page.getByRole('checkbox', { name: 'Tôi đã kiểm tra và che thông tin riêng tư trong ảnh' }).click();
   await page.getByRole('button', { name: 'Tiếp tục xem lại' }).click();
   if (desktop) {
     await sideBySide('crop-canvas', 'crop-tools');
+    await checkGutters('crop-canvas', 'crop-tools');
     expect((await box('crop-canvas')).height).toBeGreaterThanOrEqual(440);
     await page.getByRole('slider', { name: 'Góc căn thẳng ảnh' }).press('ArrowRight');
     await expect(page.getByRole('slider', { name: 'Góc căn thẳng ảnh' })).toHaveValue('0.1');
@@ -715,12 +743,29 @@ for (const width of [375, 1440]) test(`lesson reference switches between text an
   if (desktop) {
     try {
       await sideBySide('recognition-progress-preview', 'recognition-progress-details');
+      await checkGutters('recognition-progress-preview', 'recognition-progress-details');
       await expect(page.getByRole('button', { name: 'Dừng chờ, giữ ảnh' })).toBeInViewport();
       await page.screenshot({ path: info.outputPath('reading.png') });
     } finally { inspect.resolve(); }
     await sideBySide('guide-source-panel', 'lesson-working-area');
+    await checkGutters('guide-source-panel', 'lesson-working-area');
     await page.screenshot({ path: info.outputPath('confirmation.png') });
   }
+  const calculator = page.getByRole('button', { name: 'Mở máy tính bỏ túi' });
+  const topbar = page.locator('.student-workspace-topbar');
+  await expect(calculator).toHaveCount(1);
+  if (desktop) {
+    const notification = topbar.getByRole('button', { name: 'Thông báo', exact: true });
+    const [button, bell] = await Promise.all([topbar.getByRole('button', { name: 'Mở máy tính bỏ túi' }).boundingBox(), notification.boundingBox()]);
+    expect(button.x + button.width).toBeLessThanOrEqual(bell.x);
+    expect(button.y).toBeCloseTo(bell.y, 0);
+  } else {
+    await expect(topbar.getByRole('button', { name: 'Mở máy tính bỏ túi' })).toHaveCount(0);
+  }
+  await calculator.click();
+  await expect(page.getByTestId('calculator-popup')).toBeVisible();
+  await page.getByRole('button', { name: 'Đóng máy tính', exact: true }).click();
+  await expect(page.getByTestId('calculator-popup')).toHaveCount(0);
   await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
   await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
   const body = page.getByTestId('lesson-problem-content');

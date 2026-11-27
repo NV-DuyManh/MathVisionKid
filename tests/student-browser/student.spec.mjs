@@ -22,9 +22,10 @@ test('Student can open and close camera tips and recover from an unreadable file
   let chooser = page.waitForEvent('filechooser');
   await gallery.click();
   await (await chooser).setFiles({ name: 'unreadable.jpg', mimeType: 'image/jpeg', buffer: Buffer.from('invalid image') });
-  await expect(page.getByRole('alert').filter({ hasText: 'Chưa mở được ảnh này' })).toBeVisible();
+  const invalidPhoto = page.getByRole('alertdialog', { name: 'Chưa mở được ảnh đã chọn' });
+  await expect(invalidPhoto).toContainText('Chưa mở được ảnh này');
   chooser = page.waitForEvent('filechooser');
-  await gallery.click();
+  await invalidPhoto.getByRole('button', { name: 'Chọn ảnh khác' }).click();
   await (await chooser).setFiles(fileURLToPath(new URL('../../backend/business-api/src/test/resources/fixtures/worksheet-addition.jpg', import.meta.url)));
   await expect(page).toHaveURL(/\/study\/privacy/);
   expect(app.requests.some(request => request.path === '/student/tutor/inspect')).toBe(false);
@@ -358,7 +359,7 @@ test('Của em keeps saved work and offers logout without opening account settin
   await expect(page.getByRole('button', { name: 'Đăng xuất', exact: true })).toBeInViewport();
   await page.getByRole('button', { name: 'Ghi chú', exact: true }).click();
   await expect(page.getByText('Em nhớ cộng hàng đơn vị trước.').first()).toBeVisible();
-  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).click();
+  await page.getByRole('button', { name: 'Trang cá nhân của em', exact: true }).and(page.locator(':not([inert], [inert] *)')).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/account`);
   await expect(page.getByRole('heading', { name: 'Hồ sơ của em', exact: true })).toBeVisible();
   await page.goBack();
@@ -455,7 +456,7 @@ test('A photo picker opened in an old session cannot upload into a new session',
   const selected = await chooser;
   await page.evaluate(() => window.localStorage.setItem('mvk_portal_web_session', crypto.randomUUID()));
   await selected.setFiles(fileURLToPath(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)));
-  await expect(page.getByRole('alert')).toHaveText('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.');
+  await expect(page.getByRole('alertdialog', { name: 'Chưa đổi được ảnh đại diện' })).toContainText('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.');
   expect(app.requests.filter(request => request.path === '/student/profile/photo')).toHaveLength(0);
 });
 
@@ -538,7 +539,7 @@ test('Student quiz starts, shows feedback and completes with the existing API co
   const submit = page.getByRole('button', { name: 'Hoàn thành', exact: true });
   const buttonOffset = (await submit.boundingBox()).y - (await answer.boundingBox()).y;
   await submit.click();
-  await expect(page.getByRole('alert')).toBeVisible();
+  await expect(page.getByRole('alertdialog', { name: 'Chưa xác nhận được đáp án' })).toBeVisible();
   await page.reload();
   await expect(answer).toHaveValue('41');
   await submit.click();

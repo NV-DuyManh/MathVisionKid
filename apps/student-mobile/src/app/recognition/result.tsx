@@ -157,7 +157,7 @@ export default function OcrResultScreen() {
 
         {/* Recognition Content */}
         {errorMsg ? (
-          <RecoveryNotice title="Chưa đọc được dòng chữ" message={errorMsg} actions={[
+          <RecoveryNotice dialog title="Chưa đọc được dòng chữ" message={errorMsg} actions={[
             ...(lineCropUri ? [{ label: 'Thử lại', onPress: () => setAttempt(value => value + 1) }] : []),
             { label: 'Về trang chủ', onPress: handleRecognizeAnother },
           ]} />

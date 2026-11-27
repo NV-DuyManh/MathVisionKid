@@ -5,10 +5,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SHADOWS } from '../../../constants/theme';
 import { TaskProgress, TaskProgressProps } from '../../../components/ui/TaskProgress';
 
-type Props = { title: string; description: string; imageUri?: string; onCancel?: () => void; cancelLabel?: string; desktop?: boolean } & Partial<TaskProgressProps>;
+type Props = { title: string; description: string; imageUri?: string; onCancel?: () => void; cancelLabel?: string; desktop?: boolean; fillWidth?: boolean } & Partial<TaskProgressProps>;
 const MASCOT = require('../../../../assets/illustrations/robot-mascot.png');
 
-export function RecognitionProgress({ title, description, imageUri, onCancel, cancelLabel = 'Quay lại', steps, activeStep, complete, percent, detail, timeoutSeconds, onTimeout, onComplete, desktop = false }: Props) {
+export function RecognitionProgress({ title, description, imageUri, onCancel, cancelLabel = 'Quay lại', steps, activeStep, complete, percent, detail, timeoutSeconds, onTimeout, onComplete, desktop = false, fillWidth = false }: Props) {
   const [motion] = useState(() => new Animated.Value(0));
   const [width, setWidth] = useState(240);
   const [reduceMotion, setReduceMotion] = useState(true);
@@ -54,7 +54,7 @@ export function RecognitionProgress({ title, description, imageUri, onCancel, ca
     </> : null}
   </>;
 
-  return <ScrollView style={[styles.scroll, desktop && styles.desktopScroll]} contentContainerStyle={[styles.content, desktop && styles.desktopContent]} nestedScrollEnabled showsVerticalScrollIndicator={false}>
+  return <ScrollView style={[styles.scroll, desktop && styles.desktopScroll, fillWidth && styles.fillWidth]} contentContainerStyle={[styles.content, desktop && styles.desktopContent, fillWidth && styles.flushContent]} nestedScrollEnabled showsVerticalScrollIndicator={false}>
     <LinearGradient testID="recognition-progress-preview" colors={['#F2EEFF', '#E6DEFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.scene, compact && styles.sceneCompact, desktop && styles.desktopScene]}>
       <View style={styles.softCircle} />
       <View style={styles.littleCircle} />
@@ -73,6 +73,8 @@ export function RecognitionProgress({ title, description, imageUri, onCancel, ca
 const styles = StyleSheet.create({
   scroll: { width: '100%', maxWidth: 420, maxHeight: '100%', flexGrow: 0, flexShrink: 1, alignSelf: 'center' },
   content: { alignItems: 'center', paddingVertical: 8, paddingHorizontal: 2 },
+  fillWidth: { maxWidth: '100%' },
+  flushContent: { paddingHorizontal: 0 },
   desktopScroll: { maxWidth: 1100 },
   desktopContent: { flexDirection: 'row', alignItems: 'stretch', gap: 18, padding: 8 },
   desktopDetails: { flex: 1, minWidth: 0, alignItems: 'stretch', justifyContent: 'center', borderRadius: 22, padding: 24, backgroundColor: COLORS.surface },

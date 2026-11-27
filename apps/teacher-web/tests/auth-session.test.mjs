@@ -6,8 +6,8 @@ import assert from 'node:assert/strict';
 import { JSDOM, VirtualConsole } from 'jsdom';
 import { transpileModule, ModuleKind, JsxEmit } from 'typescript';
 
-// Match React and its renderer to the hoisted QueryClientProvider in this workspace.
-const require = createRequire(new URL('../../../package.json', import.meta.url));
+// Resolve the provider and renderer through the same workspace as the application.
+const require = createRequire(import.meta.url);
 const React = require('react');
 const { act } = React;
 const { QueryClient, QueryClientProvider } = require('@tanstack/react-query');
