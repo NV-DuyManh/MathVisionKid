@@ -187,7 +187,7 @@ test('Crop edges, quarter turn and fine angle survive an immediate real reload',
   await expect.poll(() => selectionError(expectedRegion)).toBeLessThan(3);
   await page.getByRole('button', { name: 'Dùng toàn ảnh', exact: true }).click();
   await expect.poll(() => selectionError([0, 1, 0, 1])).toBeLessThan(3);
-  await page.getByRole('button', { name: 'Đặt lại', exact: true }).click();
+  await page.getByRole('button', { name: 'Đặt lại ảnh và khung cắt', exact: true }).click();
   await expect.poll(() => selectionError(expectedRegion)).toBeLessThan(3);
   await page.getByLabel('Kéo cạnh trái', { exact: true }).scrollIntoViewIfNeeded();
   const [left] = await edges(page);
