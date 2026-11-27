@@ -809,6 +809,25 @@ class StudentProfileIntegrationTest {
         assertFalse(db.queryForObject("SELECT leaderboard_name_hidden FROM student_profile_preferences WHERE student_id = ?", Boolean.class, pupil.getId()));
     }
 
+    @Test void nameOnlyHttpUpdatePreservesCurrentLeaderboardPrivacy() throws Exception {
+        profiles.captureGoogleAvatar(pupil.getId(), "https://lh3.googleusercontent.com/a/synthetic-profile");
+        profiles.update(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null, false, false, true));
+        String body = """
+                {"displayName":"Sao Sáng","avatar":"moon"}
+                """;
+        mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")).contentType("application/json").content(body))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.displayName").value("Sao Sáng"))
+                .andExpect(jsonPath("$.leaderboardVisible").value(true))
+                .andExpect(jsonPath("$.leaderboardNameHidden").value(false))
+                .andExpect(jsonPath("$.leaderboardPhotoVisible").value(true));
+
+        profiles.update(pupil.getEmail(), new Edit("Sao Sáng", "moon", false, null, false, true, false));
+        mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")).contentType("application/json").content(body))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.leaderboardVisible").value(false))
+                .andExpect(jsonPath("$.leaderboardNameHidden").value(true))
+                .andExpect(jsonPath("$.leaderboardPhotoVisible").value(false));
+    }
+
     @Test void namePrivacyDoesNotRemoveEntryAndBoardUsesRegisteredGrade() {
         pupil.setGradeLevel(5);
         other.setGradeLevel(5);

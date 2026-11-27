@@ -76,10 +76,11 @@ public class StudentProfileService {
         ensurePreferences(id);
         if (Boolean.TRUE.equals(edit.leaderboardVisible()) && student.getEmail().toLowerCase(Locale.ROOT).endsWith("@mathvision.local"))
             throw invalid("Tài khoản này không tham gia bảng xếp hạng.");
+        boolean leaderboardVisible = edit.leaderboardVisible() == null ? preferences(id).visible() : edit.leaderboardVisible();
         db.update("""
                 UPDATE student_profile_preferences SET avatar = ?, leaderboard_visible = ?,
                     leaderboard_name_hidden = COALESCE(?, leaderboard_name_hidden) WHERE student_id = ?
-                """, edit.avatar(), edit.leaderboardVisible(), edit.leaderboardNameHidden(), id);
+                """, edit.avatar(), leaderboardVisible, edit.leaderboardNameHidden(), id);
         rewards.rememberChallengers();
         if (Boolean.TRUE.equals(edit.removePhoto())) {
             db.update("DELETE FROM student_profile_photos WHERE student_id = ?", id);
@@ -88,7 +89,7 @@ public class StudentProfileService {
                     WHERE student_id = ?
                     """, id);
         }
-        if (!Boolean.TRUE.equals(edit.leaderboardVisible()) || Boolean.TRUE.equals(edit.removePhoto())
+        if (!leaderboardVisible || Boolean.TRUE.equals(edit.removePhoto())
                 || Boolean.FALSE.equals(edit.leaderboardPhotoVisible())) {
             setLeaderboardAvatar(id, null);
         } else if (Boolean.TRUE.equals(edit.leaderboardPhotoVisible())) {

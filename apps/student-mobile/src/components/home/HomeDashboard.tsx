@@ -89,7 +89,11 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
     void profileApi.leaderboard(undefined, request.signal, true).then(data => {
       if (!request.signal.aborted && data.gradeLevel == null) setRanking({ owner: userKey, data });
     }).catch(() => {});
-    return () => request.abort();
+    return () => {
+      request.abort();
+      // A peer can revoke sharing before the next visit.
+      setRanking(undefined);
+    };
   }, [desktopWeb, userKey, profile.value?.leaderboardVisible, profile.value?.leaderboardNameHidden, profile.value?.publicAlias]));
   const leaders = ranking && ranking.owner === userKey
     ? ranking.data.entries.filter(entry => !entry.self || profile.value?.leaderboardVisible === true).slice(0, 3) : undefined;

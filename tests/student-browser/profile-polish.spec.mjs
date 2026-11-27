@@ -123,6 +123,47 @@ test('student can choose who sees their profile photo on the leaderboard', async
   await expect(page.getByRole('button', { name: 'Thay ảnh đại diện' }).locator(`img[src="${picture}"]`)).toBeVisible();
 });
 
+test('saving a name preserves privacy settings refreshed while the account editor is open', async ({ page, app }) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect.poll(() => app.studentProfile).toBeDefined();
+  Object.assign(app.studentProfile, { leaderboardVisible: true, leaderboardNameHidden: false });
+  await page.goto(`${sites.portal.origin}/study/account`);
+  const participation = page.getByRole('switch', { name: 'Tham gia bảng xếp hạng' });
+  const namePrivacy = page.getByRole('switch', { name: 'Ẩn tên trên bảng xếp hạng' });
+  await expect(participation).toBeChecked();
+  await expect(namePrivacy).not.toBeChecked();
+
+  // Another session revokes public sharing before the current editor receives
+  // the latest profile with its avatar upload response.
+  Object.assign(app.studentProfile, { leaderboardVisible: false, leaderboardNameHidden: true });
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Thay ảnh đại diện' }).click();
+  await (await chooser).setFiles({
+    name: 'avatar.png', mimeType: 'image/png',
+    buffer: readFileSync(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)),
+  });
+  await expect(page.getByText('Đã cập nhật ảnh đại diện.')).toBeVisible();
+  await expect(participation).not.toBeChecked();
+  await expect(namePrivacy).toBeChecked();
+  await expect(page.getByRole('button', { name: 'Lưu thay đổi' })).toBeDisabled();
+
+  await page.getByRole('button', { name: 'Đổi tên hiển thị' }).click();
+  await page.getByRole('textbox', { name: 'Tên hiển thị' }).fill('Minh Anh');
+  await page.getByRole('button', { name: 'Lưu tên' }).click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.')).toBeVisible();
+  expect(app.studentProfile).toMatchObject({ displayName: 'Minh Anh', leaderboardVisible: false, leaderboardNameHidden: true });
+
+  // A save from the open editor must also preserve newer settings that it
+  // has not fetched yet.
+  Object.assign(app.studentProfile, { leaderboardVisible: true, leaderboardNameHidden: false });
+  await page.getByRole('button', { name: 'Đổi tên hiển thị' }).click();
+  await page.getByRole('textbox', { name: 'Tên hiển thị' }).fill('Sao Sáng');
+  await page.getByRole('button', { name: 'Lưu tên' }).click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.')).toBeVisible();
+  expect(app.studentProfile).toMatchObject({ displayName: 'Sao Sáng', leaderboardVisible: true, leaderboardNameHidden: false });
+});
+
 test('leaderboards show peer photos only when shared and preserve the private self preview', async ({ page, app }, testInfo) => {
   const picture = 'https://lh3.googleusercontent.com/a/synthetic-avatar';
   const ownAlias = 'Hươu Sao Của Em';
@@ -130,6 +171,7 @@ test('leaderboards show peer photos only when shared and preserve the private se
   const peerPicture = 'https://lh3.googleusercontent.com/a/synthetic-peer-avatar';
   let imageAvailable = true;
   let peerShared = false;
+  let leaderboardAvailable = true;
   app.realStudent = true;
   await page.route(peerPicture, route => route.fulfill({
     contentType: 'image/webp',
@@ -146,12 +188,12 @@ test('leaderboards show peer photos only when shared and preserve the private se
   });
   const { rank } = app.studentProfile;
   const peerRank = { ...rank, name: 'Đồng II' };
-  await page.route('**/api/v1/student/leaderboard*', route => route.fulfill({ json: {
+  await page.route('**/api/v1/student/leaderboard*', route => leaderboardAvailable ? route.fulfill({ json: {
     gradeLevel: null, ownPosition: 1, entries: [
       { position: 1, alias: ownAlias, avatar: 'planet', stars: 10, rank, self: true },
       { position: 2, alias: peerAlias, avatar: 'rocket', stars: 9, rank: peerRank, self: false, avatarPhoto: peerShared ? peerPicture : undefined },
     ],
-  } }));
+  } }) : route.fulfill({ status: 503 }));
 
   if (testInfo.project.name === 'desktop') {
     await page.goto(`${sites.portal.origin}/study/`);
@@ -188,8 +230,18 @@ test('leaderboards show peer photos only when shared and preserve the private se
   await rows.first().locator('..').screenshot({ path: testInfo.outputPath('avatar-leaderboard.png') });
   if (testInfo.project.name === 'desktop') {
     await page.goto(`${sites.portal.origin}/study/`);
-    await expect(page.getByTestId('home-leaderboard-entry').filter({ hasText: peerAlias })
-      .locator(`img[src="${peerPicture}"]`)).toBeVisible();
+    const homePeerImage = page.getByTestId('home-leaderboard-entry').filter({ hasText: peerAlias })
+      .locator(`img[src="${peerPicture}"]`);
+    await expect(homePeerImage).toBeVisible();
+    await page.getByRole('button', { name: 'Xem bảng xếp hạng', exact: true }).click();
+    await expect(peerImage).toBeVisible();
+    peerShared = false;
+    leaderboardAvailable = false;
+    const failedRefresh = page.waitForResponse(response => response.url().includes('/student/leaderboard') && response.status() === 503);
+    await page.goBack();
+    await failedRefresh;
+    await expect(homePeerImage).toHaveCount(0);
+    leaderboardAvailable = true;
     await page.goto(`${sites.portal.origin}/study/achievements`);
   }
   peerShared = false;
