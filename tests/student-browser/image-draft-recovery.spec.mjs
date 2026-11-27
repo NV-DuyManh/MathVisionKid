@@ -114,8 +114,10 @@ test('An empty crop opens a real image picker instead of navigating back', async
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/crop`);
+  const recovery = page.getByRole('alertdialog', { name: 'Chưa mở được ảnh để cắt' });
+  await expect(recovery).toBeVisible();
   const chooser = page.waitForEvent('filechooser');
-  await page.getByRole('button', { name: 'Chọn lại ảnh', exact: true }).click();
+  await recovery.getByRole('button', { name: 'Chọn lại ảnh', exact: true }).click();
   await (await chooser).setFiles(await picture(page));
   await expect(page).toHaveURL(/\/study\/privacy/);
   await expect(page.getByLabel('Ảnh gốc để kiểm tra thông tin riêng tư')).toBeVisible();
@@ -525,7 +527,7 @@ test('Reload after a lost upload response never automatically submits the same p
   await start(page); await openCrop(page, { masks: false });
   await page.getByRole('button', { name: 'Xác nhận cắt ảnh', exact: true }).click();
   await page.getByRole('button', { name: 'KIỂM TRA BÀI TOÁN', exact: true }).click();
-  await expect(page.getByText('Chưa có kết quả', { exact: true })).toBeVisible();
+  await expect(page.getByRole('alertdialog', { name: 'Chưa gửi được ảnh bài làm' })).toBeVisible();
   await page.reload();
   await expect(page.getByRole('button', { name: 'Xem lại ảnh', exact: true })).toBeVisible();
   expect(app.requests.filter(request => request.method === 'POST' && request.path === '/student/submissions')).toHaveLength(1);

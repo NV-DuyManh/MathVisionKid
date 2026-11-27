@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from '
 import { Text, View } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { AppButton } from '../../../components/ui/AppButton';
+import { RecoveryNotice } from '../../../components/ui/RecoveryNotice';
 import { normalizeImageDraft } from '../image/imagePipeline';
 import { recognitionDraftStore, resolveFlowDomain } from '../state/recognitionDraftStore';
 import { imageDraftPersistence } from '../state/imageDraftPersistence';
@@ -16,7 +17,7 @@ const messages = {
   unavailable: 'Chưa mở được nơi lưu ảnh trên thiết bị. Em vẫn có thể chọn ảnh để tiếp tục.',
   unauthorized: 'Chưa xác minh được phiên học của em. Em đăng nhập lại trước khi chọn ảnh nhé.',
 };
-export function DraftImagePicker({ title = 'Chọn lại ảnh', mode, disabled, showReason }: DraftImagePickerProps) {
+export function DraftImagePicker({ title = 'Chọn lại ảnh', mode, disabled, showReason, dialogTitle }: DraftImagePickerProps) {
   const input = useRef<HTMLInputElement>(null), active = useRef(true), locked = useRef(false);
   const [busy, setBusy] = useState(false), [error, setError] = useState(false);
   const recovery = useSyncExternalStore(imageDraftPersistence.subscribe, imageDraftPersistence.getSnapshot, imageDraftPersistence.getSnapshot);
@@ -68,9 +69,12 @@ export function DraftImagePicker({ title = 'Chọn lại ảnh', mode, disabled,
     finally { URL.revokeObjectURL(original); if (id === request.current) { locked.current = false; if (active.current) setBusy(false); } }
   };
   return <View style={[{ gap: 12 }, showReason && { backgroundColor: COLORS.surface, padding: 16, borderRadius: 16 }]}>
-    {showReason ? <Text style={{ color: COLORS.textSecondary }}>{messages[recovery.issue]}</Text> : null}
+    {showReason && !dialogTitle ? <Text style={{ color: COLORS.textSecondary }}>{messages[recovery.issue]}</Text> : null}
     {error ? <Text role="alert" style={{ color: COLORS.error }}>Chưa mở được ảnh này. Ảnh trước vẫn được giữ; em thử ảnh JPG hoặc PNG nhé.</Text> : null}
     <input ref={input} type="file" accept="image/*" hidden aria-label="Chọn ảnh bài tập" onChange={event => void selected(event)} />
-    <AppButton title={title} onPress={pick} disabled={disabled || busy} loading={busy} loadingTitle="Đang mở ảnh..." />
+    {dialogTitle ? <RecoveryNotice dialog={!recovery.restoring} title={dialogTitle}
+      message={showReason ? messages[recovery.issue] : undefined}
+      actions={[{ label: busy ? 'Đang mở ảnh…' : title, disabled: disabled || busy, onPress: pick }]} />
+      : <AppButton title={title} onPress={pick} disabled={disabled || busy} loading={busy} loadingTitle="Đang mở ảnh..." />}
   </View>;
 }

@@ -4,7 +4,8 @@ import { usePreventRemove } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TrainingServicesContext, type TrainingGameId } from '@mathvisionkid/training-games';
-import { COLORS, FONTS } from '../../constants/theme';
+import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
+import { COLORS, FONTS, IS_STUDENT_WEB } from '../../constants/theme';
 import { createTrainingRuntime } from './runtime';
 import { trainingResults } from './resultStore';
 import { trainingTrace } from './diagnostics';
@@ -22,6 +23,10 @@ const GAMES = {
   'block-island': lazy(() => loadTrainingGame('block-island')),
 };
 export function GameFallback({ message, onBack }: { message: string; onBack: () => void }) {
+  if (IS_STUDENT_WEB) return <View style={styles.fallback}>
+    <RecoveryNotice dialog title="Chưa mở được trò chơi" message={message}
+      actions={[{ label: 'Về danh sách trò chơi', accessibilityLabel: 'Trở về danh sách game', onPress: onBack }]} />
+  </View>;
   return <View style={styles.fallback}><Text style={styles.message}>{message}</Text><Pressable accessibilityRole="button" accessibilityLabel="Trở về danh sách game" onPress={onBack} style={styles.button}><Text style={styles.buttonText}>Trở về danh sách game</Text></Pressable></View>;
 }
 class GameBoundary extends Component<{ children: React.ReactNode; onBack: () => void; onFailure: () => void }, { failed: boolean }> {

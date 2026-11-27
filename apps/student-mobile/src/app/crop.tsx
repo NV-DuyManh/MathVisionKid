@@ -9,6 +9,7 @@ import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-g
 import Animated, { useSharedValue, useDerivedValue, useAnimatedReaction, useAnimatedStyle, runOnJS, SharedValue } from 'react-native-reanimated';
 import { FONTS, COLORS } from '../constants/theme';
 import { AppHeader } from '../components/ui/AppHeader';
+import { RecoveryNotice } from '../components/ui/RecoveryNotice';
 import { AppButton } from '../components/ui/AppButton';
 import { ActivityRail } from '../components/ui/ActivityRail';
 import { ImageDraft, recognitionDraftStore, resolveFlowDomain } from '../features/recognition/state/recognitionDraftStore';
@@ -94,6 +95,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
   const landscape = desktop || (width > height && height < 550 && (Platform.OS !== 'web' || width >= 680));
   const [image, setImage] = useState<{ uri: string; width: number; height: number } | null>(null);
   const [loadError, setLoadError] = useState(false);
+  const [cropFailed, setCropFailed] = useState(false);
   const [processing, setProcessing] = useState(false);
   const recovery = useSyncExternalStore(imageDraftPersistence.subscribe, imageDraftPersistence.getSnapshot, imageDraftPersistence.getSnapshot);
   const mounted = useRef(true), lock = useRef(false);
@@ -212,7 +214,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
     if (disabled || lock.current || !image) return;
     const f = frame.get(), c = crop.get();
     if (!f.w || !f.h || !c.w || !c.h) return;
-    lock.current = true; setProcessing(true);
+    lock.current = true; setProcessing(true); setCropFailed(false);
     try {
       const result = await exportCropImage(image.uri, totalAngle.get(), {
         x: (c.x - f.x) / f.w, y: (c.y - f.y) / f.h, w: c.w / f.w, h: c.h / f.h,
@@ -231,11 +233,20 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
         ? { guidePhotoId: saved?.imageSessionId, guideEntryId: String(Date.now()) } : { retrySubmissionId, originalImageUri: original };
       router.push({ pathname: path as any, params });
     } catch {
-      if (mounted.current) Alert.alert('Chưa cắt được ảnh', 'Ảnh của em vẫn được giữ. Em chọn vùng lớn hơn hoặc thử lại nhé.');
+      if (mounted.current) {
+        if (Platform.OS === 'web') setCropFailed(true);
+        else Alert.alert('Chưa cắt được ảnh', 'Ảnh của em vẫn được giữ. Em chọn vùng lớn hơn hoặc thử lại nhé.');
+      }
     } finally { lock.current = false; if (mounted.current) setProcessing(false); }
   };
 
   const editor = <View style={[styles.body, landscape && styles.landscape, desktop && styles.desktopEditor]}>
+    {cropFailed && <RecoveryNotice dialog title="Chưa cắt được ảnh"
+      message="Ảnh của em vẫn được giữ. Em thử lại hoặc chỉnh vùng cắt."
+      actions={[
+        { label: 'Thử cắt lại', onPress: () => void done() },
+        { label: 'Chỉnh vùng cắt', onPress: () => setCropFailed(false) },
+      ]} />}
       <View testID="crop-canvas" style={[styles.canvas, Platform.OS === 'web' && styles.webCanvas, desktop && styles.desktopCanvas]} onLayout={e => { viewport.set({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height }); }}>
         {image ? <Animated.Image source={{ uri: image.uri }} style={imageStyle} resizeMode="stretch" onError={() => setLoadError(true)} accessibilityLabel="Ảnh bài tập đang căn chỉnh" /> : null}
         {image && !loadError ? <>
@@ -257,7 +268,7 @@ function CropEditor({ draft, source, original, retrySubmissionId }: { draft: Ima
           </Animated.View>
         </> : null}
         {!image && !loadError ? <View style={styles.loading}><ActivityRail label="Đang mở ảnh" /></View> : null}
-        {loadError ? <View style={styles.loading}><Ionicons name="image-outline" size={40} color="white" /><Text style={styles.lightText}>Chưa mở được ảnh bài tập</Text>{Platform.OS === 'web' ? <DraftImagePicker showReason /> : <AppButton title="Chọn lại ảnh" onPress={() => router.back()} />}</View> : null}
+        {loadError ? <View style={styles.loading}><Ionicons name="image-outline" size={40} color="white" />{Platform.OS === 'web' ? <DraftImagePicker showReason dialogTitle="Chưa mở được ảnh để cắt" /> : <><Text style={styles.lightText}>Chưa mở được ảnh bài tập</Text><AppButton title="Chọn lại ảnh" onPress={() => router.back()} /></>}</View> : null}
       </View>
       <View testID="crop-tools" style={[styles.footer, landscape && styles.landscapeFooter, desktop && styles.desktopFooter]}>
         <View style={[styles.controls, desktop && styles.desktopControls]}>

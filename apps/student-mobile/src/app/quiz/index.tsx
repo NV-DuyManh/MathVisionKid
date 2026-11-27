@@ -7,6 +7,7 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import { AuthContext } from '../../context/AuthContext';
 import { AppHeader } from '../../components/ui/AppHeader';
 import { AppButton } from '../../components/ui/AppButton';
+import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { MathText } from '../../components/domain/MathText';
 import { COLORS, FONTS, IS_STUDENT_WEB, WEB_DESIGN } from '../../constants/theme';
 import { quizApi, Quiz, QuizGroup, QuizLibrary, quizError } from '../../features/quiz/quizApi';
@@ -133,7 +134,12 @@ function Library() {
       {showWorkspace && <View style={l.listHeading}><Ionicons name="list-outline" color={STUDENT_WEB.primary} size={21} accessible={false} /><Text accessibilityRole="header" style={l.topic}>Danh sách câu đố</Text></View>}
       {busy && !result ? <View style={l.loading} accessibilityRole="progressbar" accessibilityLabel="Đang tải câu đố" accessibilityState={{ busy: true }}>
         <ActivityIndicator color={COLORS.primaryDark} /><Text style={l.body}>Đang tải câu đố…</Text></View> : null}
-      {error ? <View style={l.help}><Text accessibilityRole="alert" style={l.error}>{error}</Text><AppButton title="Thử lại" variant="secondary" onPress={() => result ? void more() : setRetry(value => value + 1)} /></View> : null}
+      {error ? IS_STUDENT_WEB ? <RecoveryNotice dialog
+        title={result ? 'Chưa tải được các câu đố tiếp theo' : 'Chưa mở được danh sách câu đố'} message={error}
+        actions={[
+          { label: result ? 'Tải thêm lần nữa' : 'Tải lại danh sách', onPress: () => result ? void more() : setRetry(value => value + 1), disabled: busy },
+          ...(!result ? [{ label: 'Về trang chủ', onPress: () => router.replace('/(tabs)' as never) }] : []),
+        ]} /> : <View style={l.help}><Text accessibilityRole="alert" style={l.error}>{error}</Text><AppButton title="Thử lại" variant="secondary" onPress={() => result ? void more() : setRetry(value => value + 1)} /></View> : null}
       {result && !result.items.length ? <View style={[l.empty, showWorkspace && l.webEmpty]}>
         <View style={l.emptyArt}><Image source={require('../../../assets/illustrations/robot-mascot.png')} style={l.emptyMascot} accessible={false} /></View>
         <Text accessibilityRole="header" style={l.emptyTitle}>{empty.title}</Text><Text style={l.emptyBody}>{empty.body}</Text>

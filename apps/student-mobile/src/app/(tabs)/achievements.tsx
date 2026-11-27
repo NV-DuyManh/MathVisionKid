@@ -172,7 +172,7 @@ function Achievements({ owner }: { owner?: string }) {
         {history}
       </>}
       {!value && !profile.failed && <ActivityIndicator accessibilityLabel="Đang tải thành tích" />}
-      {profile.failed && <RecoveryNotice title={value ? 'Chưa cập nhật được thành tích' : 'Chưa tải được thành tích'}
+      {profile.failed && <RecoveryNotice dialog={!value && !guideOpen} title={value ? 'Chưa cập nhật được thành tích' : 'Chưa tải được thành tích'}
         message={value ? 'Em đang xem thành tích đã tải trước đó.' : 'Em kiểm tra kết nối rồi thử lại nhé.'}
         actions={[{ label: 'Thử lại', accessibilityLabel: 'Tải lại thành tích', icon: 'refresh-outline', onPress: profile.retry }]} />}
     </ScrollView>
