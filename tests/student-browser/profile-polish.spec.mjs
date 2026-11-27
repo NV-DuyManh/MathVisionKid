@@ -32,6 +32,22 @@ test('a Google-linked student can set a MathVisionKid password using email verif
   expect(await page.evaluate(() => localStorage.getItem('mvk_portal_web_session'))).toBeNull();
 });
 
+test('empty activity keeps seven zeroes only on desktop', async ({ page, app }, testInfo) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect.poll(() => app.studentProfile).toBeDefined();
+  app.studentProfile.history = [];
+  await page.goto(`${sites.portal.origin}/study/profile`);
+  const chart = page.getByLabel('Biểu đồ hoạt động', { exact: true });
+  if (testInfo.project.name === 'desktop') {
+    await expect(chart.getByLabel(/: 0 lượt nhận sao$/)).toHaveCount(7);
+    await expect(chart.getByText('Nay', { exact: true })).toBeVisible();
+  } else {
+    await expect(page.getByText('Chưa có lượt nhận sao nào trong 7 ngày qua.')).toBeVisible();
+    await expect(chart).toHaveCount(0);
+  }
+});
+
 test('the student profile loads a Google avatar and falls back if the image is unavailable', async ({ page, app }) => {
   const picture = 'https://lh3.googleusercontent.com/a/synthetic-avatar';
   app.realStudent = true;

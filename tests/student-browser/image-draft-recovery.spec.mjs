@@ -175,12 +175,20 @@ async function storage(page, operation = 'read') {
 test('Crop edges, quarter turn and fine angle survive an immediate real reload', async ({ page }, testInfo) => {
   await start(page); await openCrop(page);
   const photo = page.getByLabel('Ảnh bài tập đang căn chỉnh');
-  await expect.poll(async () => {
+  const expectedRegion = testInfo.project.name === 'desktop' ? [.05, .95, .05, .83] : [0, 1, 0, 1];
+  const selectionError = async (region) => {
     const image = await photo.boundingBox();
     const [left, right, top, bottom] = await edges(page);
-    return Math.max(Math.abs(left.x - image.x), Math.abs(right.x - image.x - image.width),
-      Math.abs(top.y - image.y), Math.abs(bottom.y - image.y - image.height));
-  }).toBeLessThan(3);
+    return Math.max(Math.abs(left.x - image.x - image.width * region[0]),
+      Math.abs(right.x - image.x - image.width * region[1]),
+      Math.abs(top.y - image.y - image.height * region[2]),
+      Math.abs(bottom.y - image.y - image.height * region[3]));
+  };
+  await expect.poll(() => selectionError(expectedRegion)).toBeLessThan(3);
+  await page.getByRole('button', { name: 'Dùng toàn ảnh', exact: true }).click();
+  await expect.poll(() => selectionError([0, 1, 0, 1])).toBeLessThan(3);
+  await page.getByRole('button', { name: 'Đặt lại ảnh và khung cắt', exact: true }).click();
+  await expect.poll(() => selectionError(expectedRegion)).toBeLessThan(3);
   await page.getByLabel('Kéo cạnh trái', { exact: true }).scrollIntoViewIfNeeded();
   const [left] = await edges(page);
   await page.mouse.move(left.x, left.y);
@@ -216,7 +224,7 @@ test('Preview reload preserves the cropped bytes and a second reload keeps baked
   expect((await maskedPixels(page)).flat().every(channel => channel < 24)).toBe(true);
 });
 
-test('rotating in preview preserves the new orientation when reopening the crop', async ({ page }) => {
+test('rotating in preview preserves the new orientation when reopening the crop', async ({ page }, testInfo) => {
   await start(page);
   await openCrop(page);
   await page.getByLabel('Kéo cạnh trái', { exact: true }).press('ArrowRight');
@@ -236,8 +244,9 @@ test('rotating in preview preserves the new orientation when reopening the crop'
   await expect(crop).toBeVisible();
   await expect.poll(transform).toBe('matrix(0, 1, -1, 0, 0, 0)');
   const [{ meta: { cropEdit: { selection } } }] = (await storage(page)).rows;
-  expect(selection.y).toBeCloseTo(0.02);
-  expect(selection.h).toBeCloseTo(0.98);
+  const desktop = testInfo.project.name === "desktop";
+  expect(selection.y).toBeCloseTo(desktop ? 0.07 : 0.02);
+  expect(selection.h).toBeCloseTo(desktop ? 0.88 : 0.98);
 });
 
 test('The unapproved original is stored only as a short-lived privacy draft', async ({ page, app }) => {

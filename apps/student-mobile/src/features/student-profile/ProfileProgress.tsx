@@ -29,12 +29,12 @@ function recentActivity(history: StudentProfile['history'], now: Date) {
   });
 }
 
-function ActivityChart({ history }: { history: StudentProfile['history'] }) {
+function ActivityChart({ history, showEmptyChart }: { history: StudentProfile['history']; showEmptyChart: boolean }) {
   const days = recentActivity(history, new Date());
   const maxCount = Math.max(1, ...days.map(day => day.count));
   return <PersonalPanel title="Hoạt động 7 ngày gần đây">
     <Text style={web.body}>Số lượt trong lịch sử nhận sao gần đây, theo giờ Việt Nam.</Text>
-    {days.every(day => day.count === 0) ? <Text style={web.body}>Chưa có lượt nhận sao nào trong 7 ngày qua.</Text> :
+    {!showEmptyChart && days.every(day => day.count === 0) ? <Text style={web.body}>Chưa có lượt nhận sao nào trong 7 ngày qua.</Text> :
       <View style={styles.chart} accessibilityLabel="Biểu đồ hoạt động">
         {days.map(day => <View key={day.key} accessible accessibilityLabel={day.title + ': ' + day.count + ' lượt nhận sao'} style={styles.day}>
           <Text aria-hidden style={styles.barCount}>{day.count}</Text>
@@ -47,8 +47,8 @@ function ActivityChart({ history }: { history: StudentProfile['history'] }) {
   </PersonalPanel>;
 }
 
-export function ProfileProgress({ value, failed, retry, wide, hideHeading = false }: {
-  value?: StudentProfile; failed?: boolean; retry: () => void; wide: boolean; hideHeading?: boolean;
+export function ProfileProgress({ value, failed, retry, wide, hideHeading = false, showEmptyChart = false }: {
+  value?: StudentProfile; failed?: boolean; retry: () => void; wide: boolean; hideHeading?: boolean; showEmptyChart?: boolean;
 }) {
   const router = useRouter();
   const stats = value?.stats;
@@ -62,7 +62,7 @@ export function ProfileProgress({ value, failed, retry, wide, hideHeading = fals
     ]} />
     {value && stats ? <View style={[web.columns, wide && web.wide]}>
       <View style={[web.stack, wide && web.mainGrow]}>
-        <ActivityChart history={value.history} />
+        <ActivityChart history={value.history} showEmptyChart={showEmptyChart} />
         <PersonalPanel title="Kết quả theo hoạt động">
           <PersonalMetrics metrics={[
             { label: 'Lượt chơi đạt yêu cầu', amount: stats.games, icon: 'game-controller-outline', tone: 'purple' },

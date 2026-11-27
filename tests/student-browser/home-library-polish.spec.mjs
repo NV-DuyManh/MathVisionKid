@@ -80,7 +80,7 @@ for (const width of widths) {
       await expect(page.getByRole('button', { name: 'Thông báo', exact: true })).toBeVisible();
     }
     await expect(page.getByRole('heading', { name: 'Hành trình học tập', exact: true })).toBeVisible();
-    await expect(page.getByTestId('learning-journey').getByRole('button')).toHaveCount(width < 768 ? 3 : 4);
+    await expect(page.getByTestId('learning-journey').getByRole('button')).toHaveCount(4);
     await expect(page.getByRole('heading', { name: 'Bài học gợi ý cho em', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: /^Luyện tập lớp \d$/ })).toHaveCount(0);
     await page.getByRole('button', { name: 'Chụp bài toán', exact: true }).scrollIntoViewIfNeeded();
