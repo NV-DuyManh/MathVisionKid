@@ -7,6 +7,7 @@ import { useRouter, type Href } from 'expo-router';
 interface AppHeaderProps {
   title: string;
   showBack?: boolean;
+  inWebWorkspace?: boolean;
   backFallback?: Href;
   rightIcon?: keyof typeof Ionicons.glyphMap;
   onRightPress?: () => void;
@@ -17,6 +18,7 @@ interface AppHeaderProps {
 export const AppHeader: React.FC<AppHeaderProps> = ({
   title,
   showBack = false,
+  inWebWorkspace = false,
   backFallback = '/',
   rightIcon,
   onRightPress,
@@ -26,7 +28,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   const router = useRouter();
 
   return (
-    <View style={[styles.container, IS_STUDENT_WEB && styles.webHeader]}>
+    <View style={[styles.container, IS_STUDENT_WEB && styles.webHeader, IS_STUDENT_WEB && inWebWorkspace && styles.workspaceHeader]}>
       {showBack ? (
         <TouchableOpacity
           style={styles.iconButton}
@@ -69,6 +71,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
 const styles = StyleSheet.create({
   webHeader: { width: '100%', maxWidth: 1140, alignSelf: 'center', paddingVertical: 8 },
+  workspaceHeader: { maxWidth: '100%', paddingHorizontal: 0 },
   container: {
     minHeight: 64,
     flexDirection: 'row',

@@ -13,5 +13,7 @@ export const STUDENT_WEB = {
   shellStart: '#30168E',
   shellEnd: '#6742DC',
   sidebarWidth: 286,
+  workspaceBreakpoint: 768,
+  pageGutter: 24,
   radius: 22,
 } as const;
