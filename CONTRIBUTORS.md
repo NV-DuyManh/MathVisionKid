@@ -65,3 +65,5 @@ Ngày **25/11/2026**, **Nam (tranhoainam298)** triển khai hệ rank Student 26
 Trong [PR #190](https://github.com/NV-DuyManh/MathVisionKid/pull/190), **Kha (deptraivodich)** đồng bộ bố cục chụp ảnh và nhận xét bài trên Student Web desktop. Commit nguồn `bcdabe3588b6602f12add78c98c137bf5e6b3c70` được giữ nguyên khi tích hợp vào develop.
 
 Trong [PR #194](https://github.com/NV-DuyManh/MathVisionKid/pull/194), **Nam (tranhoainam298)** khôi phục các trạng thái Hồ sơ và Thành tích trên Student Web, phân màu chặng học tập, bổ sung phân trang lịch sử sao và sửa luồng hủy đăng nhập Google. Nhánh nguồn tại `e06ad5a2199e6d5842c0bd194efa6176f361b59b` được giữ nguyên lịch sử khi tích hợp.
+
+Trong [PR #200](https://github.com/NV-DuyManh/MathVisionKid/pull/200), **Kha (deptraivodich)** xây dựng danh mục Toán tiểu học cho Student Web, ví dụ từng bước, hình minh họa, bộ chấm luyện tập và kiểm thử điều hướng. Lịch sử commit nguồn tại `03b36373d5531d66bfd362732fb90f5de15ec831` được giữ khi tích hợp.
