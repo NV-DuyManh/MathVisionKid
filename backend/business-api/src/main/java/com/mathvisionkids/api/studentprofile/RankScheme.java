@@ -18,12 +18,12 @@ final class RankScheme {
         return new Profile(p.displayName(), p.gradeLevel(), p.joinedAt(), p.classrooms(), p.avatar(),
                 p.leaderboardVisible(), p.publicAlias(), p.selectedTitle(), p.stars(), rank,
                 "Huyền Thoại".equals(p.highestRank()) ? "Thách Đấu" : rank.name(), p.position(), p.stats(),
-                p.titles(), p.history(), p.avatarPhoto(), p.passwordLoginAvailable(), p.leaderboardNameHidden(), p.googleLinked());
+                p.titles(), p.history(), p.avatarPhoto(), p.passwordLoginAvailable(), p.leaderboardNameHidden(), p.googleLinked(), p.leaderboardPhotoVisible());
     }
 
     static Leaderboard board(Leaderboard board, String client) {
         if (modern(client)) return board;
         return new Leaderboard(board.entries().stream().map(e -> new Entry(e.position(), e.alias(), e.avatar(),
-                e.stars(), legacy(e.stars(), e.rank()), e.self())).toList(), board.ownPosition(), board.gradeLevel());
+                e.stars(), legacy(e.stars(), e.rank()), e.self(), e.avatarPhoto())).toList(), board.ownPosition(), board.gradeLevel());
     }
 }

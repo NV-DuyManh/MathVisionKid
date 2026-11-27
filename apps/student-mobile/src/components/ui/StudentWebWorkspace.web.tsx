@@ -9,6 +9,7 @@ import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { loadLessons } from '../../features/tutoring/learningHistory';
 import type { SavedLesson } from '../../features/tutoring/learningHistory';
 import { StudentAvatar } from '../../features/student-profile/ProfileCards';
+import { onStudentProfileSaved } from '../../features/student-profile/useStudentProfile';
 import { profileApi } from '../../features/student-profile/profileApi';
 import { onQuizChanged } from '../../features/quiz/quizApi';
 import type { StudentProfile } from '../../features/student-profile/profileApi';
@@ -125,8 +126,13 @@ function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: 
     void profileApi.get(request.signal).then(result => {
       if (!request.signal.aborted) setProfile(result);
     }).catch(() => { if (!request.signal.aborted) setProfile(undefined); });
-    return () => request.abort();
-  }, [pathname, grade, profileRevision]);
+    const unsubscribe = onStudentProfileSaved((savedOwner, result) => {
+      if (savedOwner !== owner) return;
+      request.abort();
+      setProfile(result);
+    });
+    return () => { request.abort(); unsubscribe(); };
+  }, [owner, pathname, grade, profileRevision]);
   useEffect(() => {
     if (!panel) return;
     const outside = (event: PointerEvent) => {

@@ -24,6 +24,7 @@ spring:
         - classpath:db/migration/V40__parent_pin_email_recovery.sql
         - classpath:db/migration/V41__student_achievement_path.sql
         - classpath:db/migration/V42__student_google_avatar.sql
+        - classpath:db/migration/V44__leaderboard_avatar_consent.sql
   flyway:
     enabled: false
 

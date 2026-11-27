@@ -104,7 +104,7 @@ export const test = base.extend({
       if (state.realStudent && path.startsWith('/student/profile')) {
         state.studentProfile ??= {
         displayName: 'Kiểm thử STUDENT', gradeLevel: 5, joinedAt: null, classrooms: [],
-        avatar: 'star', leaderboardVisible: false, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null,
+        avatar: 'star', leaderboardVisible: false, leaderboardNameHidden: true, leaderboardPhotoVisible: false, publicAlias: 'Hươu Sao', selectedTitle: null,
         stars: 1, rank: { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 },
         highestRank: 'Sắt III', position: null,
         stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
@@ -115,11 +115,13 @@ export const test = base.extend({
         if (path === '/student/profile/photo' && method === 'PUT') {
           const bytes = request.postDataBuffer();
           const start = bytes.indexOf('\r\n\r\n') + 4, end = bytes.lastIndexOf('\r\n--');
+          state.studentProfile.leaderboardPhotoVisible = false;
           state.studentProfile.avatarPhoto = `data:image/png;base64,${bytes.subarray(start, end).toString('base64')}`;
         }
         if (path === '/student/profile' && method === 'PUT') {
           Object.assign(state.studentProfile, body);
           if (body.removePhoto) state.studentProfile.avatarPhoto = null;
+          if (body.removePhoto || body.leaderboardVisible === false) state.studentProfile.leaderboardPhotoVisible = false;
         }
         return json(state.studentProfile);
       }

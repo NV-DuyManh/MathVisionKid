@@ -19,7 +19,8 @@ export const avatars = [
 
 export function StudentAvatar({ id, size = 54, photo }: { id: string; size?: number; photo?: string | null }) {
   const [failedPhoto, setFailedPhoto] = useState<string>();
-  if (photo && /^data:image\/(?:jpeg|png);base64,/.test(photo)) return <Image source={{ uri: photo }} style={{ width: size, height: size, borderRadius: size / 2 }} accessible={false} />;
+  if (photo && photo !== failedPhoto && /^data:image\/(?:jpeg|png);base64,/.test(photo)) return <Image source={{ uri: photo }} style={{ width: size, height: size, borderRadius: size / 2 }}
+    onError={() => setFailedPhoto(photo)} accessible={false} />;
   if (IS_STUDENT_WEB && photo && photo !== failedPhoto && /^https:\/\/[a-z0-9.-]+\.googleusercontent\.com\//.test(photo)) {
     return <img src={photo} alt="" referrerPolicy="no-referrer" onError={() => setFailedPhoto(photo)}
       style={{ width: size, height: size, borderRadius: size / 2, objectFit: 'cover' }} />;

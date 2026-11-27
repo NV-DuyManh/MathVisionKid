@@ -17,6 +17,7 @@ export type StudentProfile = {
   googleLinked?: boolean;
   leaderboardVisible: boolean;
   leaderboardNameHidden?: boolean;
+  leaderboardPhotoVisible?: boolean;
   publicAlias: string;
   selectedTitle: string | null;
   stars: number;
@@ -27,11 +28,11 @@ export type StudentProfile = {
   titles: StudentTitle[];
   history: StarActivity[];
 };
-export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'leaderboardVisible' | 'leaderboardNameHidden' | 'selectedTitle'> & { removePhoto?: boolean };
+export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'leaderboardVisible' | 'leaderboardNameHidden' | 'leaderboardPhotoVisible' | 'selectedTitle'> & { removePhoto?: boolean };
 export type Leaderboard = {
   gradeLevel?: number | null;
   ownPosition: number | null;
-  entries: { position: number; alias: string; avatar: string; stars: number; rank: Rank; self: boolean }[];
+  entries: { position: number; alias: string; avatar: string; stars: number; rank: Rank; self: boolean; avatarPhoto?: string }[];
 };
 export type RankMilestone = { name: string; stars: number; top: number | null; scheme?: number };
 export type GameMode = 'ARITHMETIC_QUEST' | 'RACE_TO_FINISH' | 'TERRAIN_RACING' | 'ENERGY_DEFENSE' | 'PLANET_RESCUE' | 'BLOCK_ISLAND';
@@ -49,7 +50,8 @@ export const profileApi = {
     const config = { signal, _identity: await tokenStorage.getSessionId(), headers: rankHeaders };
     let next = (await apiClient.put<StudentProfile>(root + '/profile', edit, config)).data;
     const matchesPrivacy = (value: StudentProfile) => value?.leaderboardVisible === edit.leaderboardVisible
-      && (edit.leaderboardNameHidden === undefined || value?.leaderboardNameHidden === edit.leaderboardNameHidden);
+      && (edit.leaderboardNameHidden === undefined || value?.leaderboardNameHidden === edit.leaderboardNameHidden)
+      && (edit.leaderboardPhotoVisible === undefined || value?.leaderboardPhotoVisible === edit.leaderboardPhotoVisible);
     // Some older update responses omit privacy fields. Confirm stored settings
     // before accepting them; never turn an explicit false into a default true.
     if (!matchesPrivacy(next)) next = (await apiClient.get<StudentProfile>(root + '/profile', config)).data;
