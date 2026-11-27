@@ -32,6 +32,9 @@ import { RoleChip } from '../components/common/RoleChip';
 import { StatusChip } from '../components/common/StatusChip';
 import { UserFormDialog } from '../components/users/UserFormDialog';
 
+const DEFAULT_PAGE_SIZE = 10;
+const PAGE_SIZE_OPTIONS = [DEFAULT_PAGE_SIZE, 20, 50];
+
 export function UsersPage() {
   const [params, setParams] = useSearchParams();
   const { state, search: listParams } = useLocation();
@@ -42,6 +45,8 @@ export function UsersPage() {
   const active = params.get('active') || '';
   const rawPage = Number(params.get('page') || 0);
   const page = Number.isSafeInteger(rawPage) && rawPage >= 0 ? rawPage : 0;
+  const requestedSize = Number(params.get('size'));
+  const size = PAGE_SIZE_OPTIONS.includes(requestedSize) ? requestedSize : DEFAULT_PAGE_SIZE;
   const setPage = (value: number) => setParams(prev => {
     const next = new URLSearchParams(prev);
     if (value) next.set('page', String(value)); else next.delete('page');
@@ -53,7 +58,6 @@ export function UsersPage() {
     next.delete('page');
     return next;
   }, { state });
-  const [size, setSize] = useState(10);
   const creating = params.get('create') === 'true';
   const setCreating = (value: boolean) => setParams(prev => {
     const next = new URLSearchParams(prev);
@@ -270,10 +274,15 @@ export function UsersPage() {
                 page={page}
                 onPageChange={(_, p) => setPage(p)}
                 rowsPerPage={size}
-                rowsPerPageOptions={[10, 20, 50]}
+                rowsPerPageOptions={PAGE_SIZE_OPTIONS}
                 onRowsPerPageChange={(e) => {
-                  setSize(Number(e.target.value));
-                  setPage(0);
+                  const nextSize = Number(e.target.value);
+                  setParams(previous => {
+                    const next = new URLSearchParams(previous);
+                    if (nextSize === DEFAULT_PAGE_SIZE) next.delete('size'); else next.set('size', String(nextSize));
+                    next.delete('page');
+                    return next;
+                  }, { state });
                 }}
               />
             </>

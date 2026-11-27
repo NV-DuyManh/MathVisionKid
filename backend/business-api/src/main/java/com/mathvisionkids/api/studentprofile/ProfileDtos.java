@@ -8,7 +8,7 @@ import java.util.UUID;
 
 final class ProfileDtos {
     record Edit(@NotBlank String displayName, @NotBlank @Size(max = 16) String avatar,
-                @NotNull Boolean leaderboardVisible, @Size(max = 32) String selectedTitle, Boolean removePhoto,
+                Boolean leaderboardVisible, @Size(max = 32) String selectedTitle, Boolean removePhoto,
                 Boolean leaderboardNameHidden, Boolean leaderboardPhotoVisible) {
         Edit(String displayName, String avatar, Boolean leaderboardVisible, String selectedTitle) {
             this(displayName, avatar, leaderboardVisible, selectedTitle, false, null, null);
