@@ -89,7 +89,11 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
     void profileApi.leaderboard(undefined, request.signal, true).then(data => {
       if (!request.signal.aborted && data.gradeLevel == null) setRanking({ owner: userKey, data });
     }).catch(() => {});
-    return () => request.abort();
+    return () => {
+      request.abort();
+      // A peer can revoke sharing before the next visit.
+      setRanking(undefined);
+    };
   }, [desktopWeb, userKey, profile.value?.leaderboardVisible, profile.value?.leaderboardNameHidden, profile.value?.publicAlias]));
   const leaders = ranking && ranking.owner === userKey
     ? ranking.data.entries.filter(entry => !entry.self || profile.value?.leaderboardVisible === true).slice(0, 3) : undefined;
@@ -211,7 +215,7 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       {leaders?.length === 0 && <Text style={styles.leaderEmpty}>Chưa có bạn nào được xếp hạng.</Text>}
       {leaders?.map((entry, index) => <View key={entry.position} testID="home-leaderboard-entry" style={[styles.leader, index === 0 && styles.leaderTop]}>
         <Text style={styles.link}>#{entry.position}</Text>
-        <StudentAvatar id={entry.self ? profile.value?.avatar ?? entry.avatar : entry.avatar} photo={entry.self ? profile.value?.avatarPhoto : undefined} size={25} />
+        <StudentAvatar id={entry.self ? profile.value?.avatar ?? entry.avatar : entry.avatar} photo={entry.self ? profile.value?.avatarPhoto : entry.avatarPhoto} size={25} />
         <View style={styles.leaderIdentity}>
           <Text numberOfLines={2} style={styles.leaderName}>{entry.self && profile.value?.leaderboardNameHidden ? profile.value.publicAlias : entry.alias}</Text>
           <View style={styles.leaderRankRow}>

@@ -86,7 +86,7 @@ function Achievements({ owner }: { owner?: string }) {
               {web && item.self && !value && !profile.failed
                 ? <View style={{ width: avatarSize, height: avatarSize }} />
                 : <StudentAvatar id={web && item.self ? value?.avatar ?? item.avatar : item.avatar}
-                    photo={web && item.self ? value?.avatarPhoto : undefined} size={avatarSize} />}
+                    photo={web ? (item.self ? value?.avatarPhoto : item.avatarPhoto) : undefined} size={avatarSize} />}
               <View style={styles.grow}>
                 <View style={styles.nameRow}><Text style={styles.alias}>{web && item.self
                   ? value?.leaderboardNameHidden === false ? value.displayName : value?.publicAlias?.trim() || 'Bạn chăm học'

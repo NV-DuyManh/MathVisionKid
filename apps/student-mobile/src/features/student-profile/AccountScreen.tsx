@@ -69,8 +69,8 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
   const auth = useContext(AuthContext);
   const { width } = useWindowDimensions();
   const compact = width < 480;
-  const [edit, setEdit] = useState<ProfileEdit>({ displayName: profile.displayName, avatar: profile.avatar,
-    leaderboardVisible: profile.leaderboardVisible, leaderboardNameHidden: profile.leaderboardNameHidden ?? true, selectedTitle: null });
+  const [edit, setEdit] = useState<Partial<Pick<ProfileEdit, 'displayName' | 'leaderboardVisible' | 'leaderboardNameHidden'>>>({});
+  const [photoVisibilityDraft, setPhotoVisibilityDraft] = useState<boolean>();
   const [editingName, setEditingName] = useState(false);
   const [photoFailed, setPhotoFailed] = useState(false);
   const [avatarHovered, setAvatarHovered] = useState(false), [avatarFocused, setAvatarFocused] = useState(false);
@@ -87,9 +87,15 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
     });
     return () => cancelAnimationFrame(frame);
   }, [openPrivacy]);
-  const dirty = edit.displayName !== profile.displayName || edit.avatar !== profile.avatar
-    || edit.leaderboardVisible !== profile.leaderboardVisible || edit.leaderboardNameHidden !== (profile.leaderboardNameHidden ?? true);
-  const displayName = edit.displayName.trim().normalize('NFC');
+  const leaderboardVisible = edit.leaderboardVisible ?? profile.leaderboardVisible;
+  const leaderboardNameHidden = edit.leaderboardNameHidden ?? profile.leaderboardNameHidden ?? true;
+  const nameInput = edit.displayName ?? profile.displayName;
+  const photoVisible = leaderboardVisible && (photoVisibilityDraft ?? profile.leaderboardPhotoVisible ?? false);
+  const photoVisibilityChanged = photoVisibilityDraft !== undefined
+    && photoVisible !== (profile.leaderboardPhotoVisible ?? false);
+  const dirty = photoVisibilityChanged || nameInput !== profile.displayName
+    || leaderboardVisible !== profile.leaderboardVisible || leaderboardNameHidden !== (profile.leaderboardNameHidden ?? true);
+  const displayName = nameInput.trim().normalize('NFC');
   const invalidName = !DISPLAY_NAME_PATTERN.test(displayName) || displayName.split(/ +/, 51).length > 50;
   const save = async () => {
     const signal = lifetime.current.signal;
@@ -98,9 +104,14 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
     if (invalidName) { setError('Em nhập tên có chữ hoặc số, tối đa 50 từ nhé.'); return; }
     lock.current = true; setBusy(true); setError(''); setNotice('');
     try {
-      const next = await profileApi.update({ ...edit, displayName, removePhoto: false }, signal);
+      const next = await profileApi.update({ displayName, avatar: profile.avatar, selectedTitle: null, leaderboardVisible: edit.leaderboardVisible,
+        leaderboardNameHidden: edit.leaderboardNameHidden, removePhoto: false,
+        leaderboardPhotoVisible: photoVisibilityChanged ? photoVisible : undefined }, signal);
       if (!signal.aborted) {
-        onSave(next); setEdit({ ...edit, displayName: next.displayName, leaderboardNameHidden: next.leaderboardNameHidden ?? edit.leaderboardNameHidden }); setNotice('Đã lưu hồ sơ của em.'); setEditingName(false);
+        onSave(next);
+        setEdit({});
+        setPhotoVisibilityDraft(undefined);
+        setNotice('Đã lưu hồ sơ của em.'); setEditingName(false);
         void auth?.refreshUser?.().catch(() => {});
       }
     } catch (failure) {
@@ -128,7 +139,11 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
       const file = await image.saveAsync({ format: SaveFormat.PNG });
       if (signal.aborted) return;
       const next = await profileApi.uploadPhoto(file.uri, signal, await session);
-      if (!signal.aborted) { onSave(next); setNotice('Đã cập nhật ảnh đại diện.'); }
+      if (!signal.aborted) {
+        onSave(next);
+        setPhotoVisibilityDraft(undefined);
+        setNotice('Đã cập nhật ảnh đại diện.');
+      }
     } catch {
       if (!signal.aborted) { setPhotoFailed(true); setError('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.'); }
     }
@@ -140,7 +155,7 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
       <Pressable accessibilityRole="button" accessibilityLabel="Thay ảnh đại diện" accessibilityHint="Chọn một ảnh từ thiết bị của em" disabled={busy}
         onHoverIn={() => setAvatarHovered(true)} onHoverOut={() => setAvatarHovered(false)} onFocus={() => setAvatarFocused(true)} onBlur={() => setAvatarFocused(false)}
         onPress={() => { void choosePhoto(); }} style={[s.avatarRing, avatarFocused && s.avatarFocus]}>
-        <StudentAvatar id={edit.avatar} photo={profile.avatarPhoto} size={compact ? 64 : 88} />
+        <StudentAvatar id={profile.avatar} photo={profile.avatarPhoto} size={compact ? 64 : 88} />
         <View pointerEvents="none" accessible={false} aria-hidden testID="avatar-change-overlay" style={[s.avatarOverlay, { opacity: avatarHovered || avatarFocused ? 1 : 0 }]}><Ionicons name="camera-outline" size={23} color="#FFF" accessible={false} /><Text style={s.avatarOverlayText}>Thay ảnh</Text></View>
         <View pointerEvents="none" style={s.cameraBadge}><Ionicons name="camera" size={14} color={COLORS.primaryDark} accessible={false} /></View>
       </Pressable>
@@ -161,11 +176,20 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
         style={[IS_STUDENT_WEB ? s.heading : s.label, { flex: 1 }]}>Quyền riêng tư</Text>
     </View>
     <View style={[s.privacy, IS_STUDENT_WEB && s.webPrivacyRow]}><Text style={[s.body, { flex: 1 }]}>Tham gia bảng xếp hạng</Text><Switch accessibilityLabel="Tham gia bảng xếp hạng" disabled={busy} trackColor={IS_STUDENT_WEB ? webSwitchTrack : undefined}
-      value={edit.leaderboardVisible} onValueChange={leaderboardVisible => setEdit(value => ({ ...value, leaderboardVisible }))} /></View>
+      value={leaderboardVisible} onValueChange={checked => setEdit(value => ({ ...value,
+        leaderboardVisible: checked === profile.leaderboardVisible ? undefined : checked }))} /></View>
     <View style={[s.privacy, IS_STUDENT_WEB && s.webPrivacyRow]}><Text style={[s.body, { flex: 1 }]}>Ẩn tên trên bảng xếp hạng</Text><Switch accessibilityLabel="Ẩn tên trên bảng xếp hạng" disabled={busy} trackColor={IS_STUDENT_WEB ? webSwitchTrack : undefined}
-      value={edit.leaderboardNameHidden ?? true} onValueChange={leaderboardNameHidden => setEdit(value => ({ ...value, leaderboardNameHidden }))} /></View>
-    <Text style={s.hint}>{Platform.OS === 'web' && !edit.leaderboardVisible ? 'Em đang ẩn khỏi bảng xếp hạng. Thành tích vẫn được lưu trong tài khoản của em.'
-      : edit.leaderboardNameHidden ? `Bạn bè sẽ thấy bí danh ${profile.publicAlias || 'động vật của em'}.` : 'Bạn bè sẽ thấy tên hiển thị của em trên bảng xếp hạng.'} Ảnh tải lên chỉ hiện trong tài khoản của em.</Text>
+      value={leaderboardNameHidden} onValueChange={checked => setEdit(value => ({ ...value,
+        leaderboardNameHidden: checked === (profile.leaderboardNameHidden ?? true) ? undefined : checked }))} /></View>
+    {IS_STUDENT_WEB && <View style={[s.privacy, s.webPrivacyRow]}>
+      <Text style={[s.body, { flex: 1 }]}>Hiện ảnh hồ sơ trên bảng xếp hạng</Text>
+      <Switch accessibilityLabel="Hiện ảnh hồ sơ trên bảng xếp hạng" accessibilityHint="Cho học sinh khác xem ảnh hiện tại của em"
+        disabled={busy || !leaderboardVisible || !profile.avatarPhoto} trackColor={webSwitchTrack}
+        value={photoVisible} onValueChange={setPhotoVisibilityDraft} />
+    </View>}
+    <Text style={s.hint}>{Platform.OS === 'web' && !leaderboardVisible ? 'Em đang ẩn khỏi bảng xếp hạng. Thành tích vẫn được lưu trong tài khoản của em.'
+      : leaderboardNameHidden ? `Bạn bè sẽ thấy bí danh ${profile.publicAlias || 'động vật của em'}.` : 'Bạn bè sẽ thấy tên hiển thị của em trên bảng xếp hạng.'} {photoVisible ? 'Học sinh khác có thể thấy ảnh này, kể cả khi em dùng bí danh.' :
+        'Học sinh khác sẽ thấy biểu tượng đại diện của em.'}</Text>
     {error !== '' && !editingName && (IS_STUDENT_WEB ? <RecoveryNotice dialog messageId="account-editor-error"
       title={photoFailed ? 'Chưa đổi được ảnh đại diện' : 'Chưa lưu được thay đổi'} message={error}
       actions={[{ label: photoFailed ? 'Chọn lại ảnh' : 'Thử lưu lại', onPress: () => { void (photoFailed ? choosePhoto() : save()); }, disabled: busy }]} />
@@ -173,9 +197,9 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
     {notice !== '' && <Text accessibilityLiveRegion="polite" style={s.success}>{notice}</Text>}
     <AppButton title="Lưu thay đổi" loading={busy} loadingTitle="Đang cập nhật…" disabled={!dirty} onPress={() => { void save(); }} />
     {!dirty && !notice && <Text style={s.hint}>Thông tin của em đã được lưu.</Text>}
-    {editingName ? <LessonSheet title="Đổi tên của em" compact onClose={() => { if (!busy) { setEdit(value => ({ ...value, displayName: profile.displayName })); setEditingName(false); setError(''); } }}>
+    {editingName ? <LessonSheet title="Đổi tên của em" compact onClose={() => { if (!busy) { setEdit(value => ({ ...value, displayName: undefined })); setEditingName(false); setError(''); } }}>
       <TextInput accessibilityLabel="Tên hiển thị" aria-describedby={error ? 'account-name-help account-name-error' : 'account-name-help'} aria-invalid={Boolean(error) && invalidName} autoFocus autoComplete="name" style={s.input} editable={!busy}
-        value={edit.displayName} onChangeText={displayName => { setEdit(value => ({ ...value, displayName })); setError(''); setNotice(''); }} />
+        value={nameInput} onChangeText={displayName => { setEdit(value => ({ ...value, displayName })); setError(''); setNotice(''); }} />
       <Text nativeID="account-name-help" style={s.hint}>Tên có thể gồm chữ và số, tối đa 50 từ.</Text>
       {error ? <Text nativeID="account-name-error" accessibilityRole="alert" style={s.error}>{error}</Text> : null}
       <AppButton title="Lưu tên" loading={busy} onPress={() => { void save(); }} />

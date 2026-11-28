@@ -2,6 +2,13 @@ import { useCallback, useRef, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { profileApi, type StudentProfile } from './profileApi';
 
+const profileSavedListeners = new Set<(owner: string, value: StudentProfile) => void>();
+
+export function onStudentProfileSaved(listener: (owner: string, value: StudentProfile) => void) {
+  profileSavedListeners.add(listener);
+  return () => { profileSavedListeners.delete(listener); };
+}
+
 export function useStudentProfile(owner: string | undefined) {
   const [result, setResult] = useState<{ owner: string; value?: StudentProfile; failed?: boolean }>();
   const [revision, setRevision] = useState(0);
@@ -34,6 +41,7 @@ export function useStudentProfile(owner: string | undefined) {
       if (!owner || !active.current) return;
       active.current.abort();
       setResult({ owner, value });
+      profileSavedListeners.forEach(listener => listener(owner, value));
     },
   };
 }
