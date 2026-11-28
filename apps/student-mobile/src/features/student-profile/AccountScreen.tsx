@@ -62,6 +62,7 @@ export function AccountScreen({ owner, openPrivacy = false, openLogout = false }
 
 const webSwitchTrack = { false: '#BCB0D0', true: STUDENT_WEB.primary };
 const DISPLAY_NAME_PATTERN = /^[\p{L}\p{M}\p{Nd}][\p{L}\p{M}\p{Nd} .’'-]*$/u;
+type PrivacyEdit = Pick<ProfileEdit, 'leaderboardVisible' | 'leaderboardNameHidden' | 'leaderboardPhotoVisible'>;
 
 function AccountEditor({ profile, onSave, openPrivacy }: {
   profile: StudentProfile; onSave: (value: StudentProfile) => void; openPrivacy: boolean;
@@ -69,8 +70,9 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
   const auth = useContext(AuthContext);
   const { width } = useWindowDimensions();
   const compact = width < 480;
-  const [edit, setEdit] = useState<Partial<Pick<ProfileEdit, 'displayName' | 'leaderboardVisible' | 'leaderboardNameHidden'>>>({});
-  const [photoVisibilityDraft, setPhotoVisibilityDraft] = useState<boolean>();
+  const [nameDraft, setNameDraft] = useState<string>();
+  const [privacyDraft, setPrivacyDraft] = useState<{ revision?: string; edit: PrivacyEdit }>();
+  const [needsPrivacyReload, setNeedsPrivacyReload] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [photoFailed, setPhotoFailed] = useState(false);
   const [avatarHovered, setAvatarHovered] = useState(false), [avatarFocused, setAvatarFocused] = useState(false);
@@ -87,39 +89,105 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
     });
     return () => cancelAnimationFrame(frame);
   }, [openPrivacy]);
-  const leaderboardVisible = edit.leaderboardVisible ?? profile.leaderboardVisible;
-  const leaderboardNameHidden = edit.leaderboardNameHidden ?? profile.leaderboardNameHidden ?? true;
-  const nameInput = edit.displayName ?? profile.displayName;
-  const photoVisible = leaderboardVisible && (photoVisibilityDraft ?? profile.leaderboardPhotoVisible ?? false);
-  const photoVisibilityChanged = photoVisibilityDraft !== undefined
-    && photoVisible !== (profile.leaderboardPhotoVisible ?? false);
-  const dirty = photoVisibilityChanged || nameInput !== profile.displayName
-    || leaderboardVisible !== profile.leaderboardVisible || leaderboardNameHidden !== (profile.leaderboardNameHidden ?? true);
+  // A newly loaded revision replaces the privacy snapshot the draft was based on.
+  const privacyEdit = !needsPrivacyReload && privacyDraft?.revision === profile.privacyRevision ? privacyDraft?.edit : undefined;
+  const editPrivacy = (patch: PrivacyEdit) => {
+    if (needsPrivacyReload || lock.current) return;
+    setPrivacyDraft(previous => ({
+      revision: profile.privacyRevision,
+      edit: { ...(previous?.revision === profile.privacyRevision ? previous?.edit : undefined), ...patch },
+    }));
+    setNotice('');
+    setError('');
+  };
+  const leaderboardVisible = privacyEdit?.leaderboardVisible ?? profile.leaderboardVisible;
+  const leaderboardNameHidden = privacyEdit?.leaderboardNameHidden ?? profile.leaderboardNameHidden ?? true;
+  const nameInput = nameDraft ?? profile.displayName;
+  const photoVisible = leaderboardVisible && (privacyEdit?.leaderboardPhotoVisible ?? profile.leaderboardPhotoVisible ?? false);
+  const privacyChanges: PrivacyEdit = {
+    leaderboardVisible: leaderboardVisible === profile.leaderboardVisible ? undefined : leaderboardVisible,
+    leaderboardNameHidden: leaderboardNameHidden === (profile.leaderboardNameHidden ?? true) ? undefined : leaderboardNameHidden,
+    leaderboardPhotoVisible: privacyEdit?.leaderboardPhotoVisible === undefined || photoVisible === (profile.leaderboardPhotoVisible ?? false)
+      ? undefined : photoVisible,
+  };
+  const privacyChanged = Object.values(privacyChanges).some(value => value !== undefined);
+  const canExpandSharing = profile.privacyRevision !== undefined;
   const displayName = nameInput.trim().normalize('NFC');
+  const nameChanged = nameDraft !== undefined && displayName !== profile.displayName;
+  const dirty = nameChanged || privacyChanged;
   const invalidName = !DISPLAY_NAME_PATTERN.test(displayName) || displayName.split(/ +/, 51).length > 50;
-  const save = async () => {
+  const keepPrivacyReductions = (next: StudentProfile) => {
+    const edit: PrivacyEdit = {};
+    if (privacyChanges.leaderboardVisible === false && next.leaderboardVisible) edit.leaderboardVisible = false;
+    if (privacyChanges.leaderboardNameHidden === true && next.leaderboardNameHidden === false) edit.leaderboardNameHidden = true;
+    if (privacyChanges.leaderboardPhotoVisible === false && next.leaderboardPhotoVisible) edit.leaderboardPhotoVisible = false;
+    const hasReductions = Object.keys(edit).length > 0;
+    setPrivacyDraft(hasReductions ? { revision: next.privacyRevision, edit } : undefined);
+    const discardedConsent = privacyChanges.leaderboardVisible === true || privacyChanges.leaderboardNameHidden === false
+      || privacyChanges.leaderboardPhotoVisible === true;
+    return [
+      hasReductions && 'Lựa chọn giảm chia sẻ vẫn chờ lưu.',
+      discardedConsent && 'Em cần chọn lại nếu muốn mở thêm quyền chia sẻ.',
+    ].filter(Boolean).join(' ');
+  };
+  const save = async (nameOnly = false) => {
     const signal = lifetime.current.signal;
     if (lock.current) return;
     setPhotoFailed(false);
-    if (invalidName) { setError('Em nhập tên có chữ hoặc số, tối đa 50 từ nhé.'); return; }
+    if (nameChanged && invalidName) { setError('Em nhập tên có chữ hoặc số, tối đa 50 từ nhé.'); return; }
+    if (nameOnly ? !nameChanged : !dirty) { setEditingName(false); setNameDraft(undefined); return; }
     lock.current = true; setBusy(true); setError(''); setNotice('');
     try {
-      const next = await profileApi.update({ displayName, avatar: profile.avatar, selectedTitle: null, leaderboardVisible: edit.leaderboardVisible,
-        leaderboardNameHidden: edit.leaderboardNameHidden, removePhoto: false,
-        leaderboardPhotoVisible: photoVisibilityChanged ? photoVisible : undefined }, signal);
+      const savingPrivacy = !nameOnly && privacyChanged;
+      const next = await profileApi.update({ displayName: nameChanged ? displayName : undefined,
+        ...(savingPrivacy && { ...privacyChanges, privacyRevision: profile.privacyRevision }) }, signal);
       if (!signal.aborted) {
+        const privacyNotice = savingPrivacy || next.privacyRevision === profile.privacyRevision ? '' : keepPrivacyReductions(next);
         onSave(next);
-        setEdit({});
-        setPhotoVisibilityDraft(undefined);
-        setNotice('Đã lưu hồ sơ của em.'); setEditingName(false);
+        setNameDraft(undefined);
+        if (savingPrivacy) setPrivacyDraft(undefined);
+        setNotice(['Đã lưu hồ sơ của em.', privacyNotice].filter(Boolean).join(' ')); setEditingName(false);
         void auth?.refreshUser?.().catch(() => {});
       }
     } catch (failure) {
-      if (!signal.aborted) setError((failure as { code?: string })?.code === 'PROFILE_PRIVACY_UNCONFIRMED'
-        ? 'Chưa xác nhận được lựa chọn quyền riêng tư đã lưu. Lựa chọn của em vẫn được giữ; em thử lại sau nhé.'
-        : 'Chưa lưu được hồ sơ. Em kiểm tra kết nối rồi thử lại nhé.');
+      if (signal.aborted) return;
+      const problem = failure as { code?: string; currentProfile?: StudentProfile } | null;
+      if (problem?.code === 'PROFILE_PRIVACY_CONFLICT') {
+        setPrivacyDraft(undefined);
+        if (problem.currentProfile) {
+          onSave(problem.currentProfile);
+          setError('Quyền riêng tư hoặc ảnh đã thay đổi ở phiên khác. Em kiểm tra hồ sơ và chọn lại quyền chia sẻ nhé.');
+        } else {
+          setNeedsPrivacyReload(true);
+          setEditingName(false);
+        }
+      } else if (problem?.code === 'PROFILE_NAME_UNCONFIRMED') {
+        setError('Chưa xác nhận được tên hiển thị đã lưu. Em thử lại sau nhé.');
+      } else {
+        setError(problem?.code === 'PROFILE_PRIVACY_UNCONFIRMED'
+          ? 'Chưa xác nhận được lựa chọn quyền riêng tư đã lưu. Lựa chọn của em vẫn được giữ; em thử lại sau nhé.'
+          : 'Chưa lưu được hồ sơ. Em kiểm tra kết nối rồi thử lại nhé.');
+      }
     }
     finally { lock.current = false; if (!signal.aborted) setBusy(false); }
+  };
+  const reloadPrivacy = async () => {
+    if (lock.current) return;
+    const signal = lifetime.current.signal;
+    lock.current = true;
+    setBusy(true);
+    try {
+      const current = await profileApi.reloadPrivacy(signal);
+      if (signal.aborted) return;
+      onSave(current);
+      setNeedsPrivacyReload(false);
+      setNotice('Đã tải lại hồ sơ. Em có thể chọn lại quyền chia sẻ.');
+    } catch {
+      // Keep the reload action available until the current snapshot can be read.
+    } finally {
+      lock.current = false;
+      if (!signal.aborted) setBusy(false);
+    }
   };
   const choosePhoto = async () => {
     const signal = lifetime.current.signal;
@@ -140,9 +208,9 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
       if (signal.aborted) return;
       const next = await profileApi.uploadPhoto(file.uri, signal, await session);
       if (!signal.aborted) {
+        const privacyNotice = keepPrivacyReductions(next);
         onSave(next);
-        setPhotoVisibilityDraft(undefined);
-        setNotice('Đã cập nhật ảnh đại diện.');
+        setNotice(['Đã cập nhật ảnh đại diện.', privacyNotice].filter(Boolean).join(' '));
       }
     } catch {
       if (!signal.aborted) { setPhotoFailed(true); setError('Chưa cập nhật được ảnh. Em kiểm tra ảnh và kết nối rồi thử lại nhé.'); }
@@ -175,34 +243,41 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
       <Text accessibilityRole="header" nativeID={IS_STUDENT_WEB ? 'account-privacy-heading' : undefined}
         style={[IS_STUDENT_WEB ? s.heading : s.label, { flex: 1 }]}>Quyền riêng tư</Text>
     </View>
-    <View style={[s.privacy, IS_STUDENT_WEB && s.webPrivacyRow]}><Text style={[s.body, { flex: 1 }]}>Tham gia bảng xếp hạng</Text><Switch accessibilityLabel="Tham gia bảng xếp hạng" disabled={busy} trackColor={IS_STUDENT_WEB ? webSwitchTrack : undefined}
-      value={leaderboardVisible} onValueChange={checked => setEdit(value => ({ ...value,
-        leaderboardVisible: checked === profile.leaderboardVisible ? undefined : checked }))} /></View>
-    <View style={[s.privacy, IS_STUDENT_WEB && s.webPrivacyRow]}><Text style={[s.body, { flex: 1 }]}>Ẩn tên trên bảng xếp hạng</Text><Switch accessibilityLabel="Ẩn tên trên bảng xếp hạng" disabled={busy} trackColor={IS_STUDENT_WEB ? webSwitchTrack : undefined}
-      value={leaderboardNameHidden} onValueChange={checked => setEdit(value => ({ ...value,
-        leaderboardNameHidden: checked === (profile.leaderboardNameHidden ?? true) ? undefined : checked }))} /></View>
+    <View style={[s.privacy, IS_STUDENT_WEB && s.webPrivacyRow]}><Text style={[s.body, { flex: 1 }]}>Tham gia bảng xếp hạng</Text><Switch accessibilityLabel="Tham gia bảng xếp hạng" disabled={busy || needsPrivacyReload || (!canExpandSharing && !profile.leaderboardVisible)} trackColor={IS_STUDENT_WEB ? webSwitchTrack : undefined}
+      value={leaderboardVisible} onValueChange={checked => editPrivacy({
+        leaderboardVisible: checked, ...(!checked && { leaderboardPhotoVisible: false }),
+      })} /></View>
+    <View style={[s.privacy, IS_STUDENT_WEB && s.webPrivacyRow]}><Text style={[s.body, { flex: 1 }]}>Ẩn tên trên bảng xếp hạng</Text><Switch accessibilityLabel="Ẩn tên trên bảng xếp hạng" disabled={busy || needsPrivacyReload || (!canExpandSharing && profile.leaderboardNameHidden !== false)} trackColor={IS_STUDENT_WEB ? webSwitchTrack : undefined}
+      value={leaderboardNameHidden} onValueChange={checked => editPrivacy({ leaderboardNameHidden: checked })} /></View>
     {IS_STUDENT_WEB && <View style={[s.privacy, s.webPrivacyRow]}>
       <Text style={[s.body, { flex: 1 }]}>Hiện ảnh hồ sơ trên bảng xếp hạng</Text>
       <Switch accessibilityLabel="Hiện ảnh hồ sơ trên bảng xếp hạng" accessibilityHint="Cho học sinh khác xem ảnh hiện tại của em"
-        disabled={busy || !leaderboardVisible || !profile.avatarPhoto} trackColor={webSwitchTrack}
-        value={photoVisible} onValueChange={setPhotoVisibilityDraft} />
+        disabled={busy || needsPrivacyReload || !leaderboardVisible || !profile.avatarPhoto || (!canExpandSharing && !profile.leaderboardPhotoVisible)} trackColor={webSwitchTrack}
+        value={photoVisible} onValueChange={checked => editPrivacy({ leaderboardPhotoVisible: checked })} />
     </View>}
     <Text style={s.hint}>{Platform.OS === 'web' && !leaderboardVisible ? 'Em đang ẩn khỏi bảng xếp hạng. Thành tích vẫn được lưu trong tài khoản của em.'
       : leaderboardNameHidden ? `Bạn bè sẽ thấy bí danh ${profile.publicAlias || 'động vật của em'}.` : 'Bạn bè sẽ thấy tên hiển thị của em trên bảng xếp hạng.'} {photoVisible ? 'Học sinh khác có thể thấy ảnh này, kể cả khi em dùng bí danh.' :
         'Học sinh khác sẽ thấy biểu tượng đại diện của em.'}</Text>
+    {needsPrivacyReload && <RecoveryNotice title="Cần tải lại quyền riêng tư"
+      message="Quyền riêng tư hoặc ảnh đã thay đổi ở phiên khác. Em kiểm tra kết nối rồi tải lại hồ sơ để xem lựa chọn hiện tại nhé."
+      actions={[{ label: 'Tải lại hồ sơ', onPress: () => { void reloadPrivacy(); }, disabled: busy }]} />}
+    {!needsPrivacyReload && !canExpandSharing && <RecoveryNotice title="Cần cập nhật để mở quyền chia sẻ"
+      message="Em vẫn có thể giảm chia sẻ. Để mở thêm quyền, em tải lại trang hoặc cập nhật ứng dụng rồi tải lại hồ sơ nhé."
+      actions={[{ label: 'Tải lại hồ sơ', onPress: () => { void reloadPrivacy(); }, disabled: busy }]} />}
     {error !== '' && !editingName && (IS_STUDENT_WEB ? <RecoveryNotice dialog messageId="account-editor-error"
       title={photoFailed ? 'Chưa đổi được ảnh đại diện' : 'Chưa lưu được thay đổi'} message={error}
-      actions={[{ label: photoFailed ? 'Chọn lại ảnh' : 'Thử lưu lại', onPress: () => { void (photoFailed ? choosePhoto() : save()); }, disabled: busy }]} />
+      actions={photoFailed || dirty ? [{ label: photoFailed ? 'Chọn lại ảnh' : 'Thử lưu lại',
+        onPress: () => { void (photoFailed ? choosePhoto() : save()); }, disabled: busy }] : []} />
       : <Text nativeID="account-editor-error" accessibilityRole="alert" style={s.error}>{error}</Text>)}
     {notice !== '' && <Text accessibilityLiveRegion="polite" style={s.success}>{notice}</Text>}
     <AppButton title="Lưu thay đổi" loading={busy} loadingTitle="Đang cập nhật…" disabled={!dirty} onPress={() => { void save(); }} />
-    {!dirty && !notice && <Text style={s.hint}>Thông tin của em đã được lưu.</Text>}
-    {editingName ? <LessonSheet title="Đổi tên của em" compact onClose={() => { if (!busy) { setEdit(value => ({ ...value, displayName: undefined })); setEditingName(false); setError(''); } }}>
+    {!dirty && !notice && !needsPrivacyReload && <Text style={s.hint}>Thông tin của em đã được lưu.</Text>}
+    {editingName ? <LessonSheet title="Đổi tên của em" compact onClose={() => { if (!busy) { setNameDraft(undefined); setEditingName(false); setError(''); } }}>
       <TextInput accessibilityLabel="Tên hiển thị" aria-describedby={error ? 'account-name-help account-name-error' : 'account-name-help'} aria-invalid={Boolean(error) && invalidName} autoFocus autoComplete="name" style={s.input} editable={!busy}
-        value={nameInput} onChangeText={displayName => { setEdit(value => ({ ...value, displayName })); setError(''); setNotice(''); }} />
+        value={nameInput} onChangeText={next => { setNameDraft(next); setError(''); setNotice(''); }} />
       <Text nativeID="account-name-help" style={s.hint}>Tên có thể gồm chữ và số, tối đa 50 từ.</Text>
       {error ? <Text nativeID="account-name-error" accessibilityRole="alert" style={s.error}>{error}</Text> : null}
-      <AppButton title="Lưu tên" loading={busy} onPress={() => { void save(); }} />
+      <AppButton title="Lưu tên" loading={busy} onPress={() => { void save(true); }} />
     </LessonSheet> : null}
   </View>;
 }

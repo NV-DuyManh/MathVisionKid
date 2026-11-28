@@ -35,6 +35,7 @@ function PlaybackLease({ children, onLeave }: GateProps) {
     let renewal: ReturnType<typeof setInterval> | undefined;
     let expiration: ReturnType<typeof setTimeout> | undefined;
     let pending: Promise<void> | undefined;
+    let validUntil = 0;
     const session = tokenStorage.getSessionId();
     const visible = () => Platform.OS === 'web'
       ? document.visibilityState === 'visible' && navigator.onLine
@@ -51,6 +52,7 @@ function PlaybackLease({ children, onLeave }: GateProps) {
     function stop() {
       clearInterval(renewal);
       clearTimeout(expiration);
+      validUntil = 0;
       const id = activeId;
       activeId = undefined;
       if (id) void Promise.resolve(pending).then(() => heartbeat(id, false)).catch(() => {});
@@ -75,14 +77,24 @@ function PlaybackLease({ children, onLeave }: GateProps) {
           return;
         }
         const cutoff = requestedAt + lease;
+        validUntil = cutoff;
         expiration = setTimeout(() => {
           // A throttled or disconnected client cannot extend a server lease.
           stop();
           setState(result?.remainingMillis === lease ? 'game-limit' : 'connection');
         }, Math.max(0, cutoff - performance.now()));
         setState('ready');
-      }).catch(() => {
+      }).catch(async (error: unknown) => {
         if (!mounted || id !== activeId) return;
+        const status = (error as { response?: { status?: number } } | null)?.response?.status;
+        // Only HTTP 5xx may keep play within the existing grant. A timeout,
+        // transport failure or denied request closes the game.
+        if (typeof status === 'number' && status >= 500 && status < 600 && performance.now() < validUntil) {
+          const grantedSession = await session;
+          const currentSession = await tokenStorage.getSessionId().catch(() => null);
+          if (!mounted || id !== activeId) return;
+          if (grantedSession && currentSession === grantedSession && visible() && performance.now() < validUntil) return;
+        }
         stop();
         setState('connection');
       }).finally(() => {

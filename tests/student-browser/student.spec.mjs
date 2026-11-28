@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { expectTrainingGameReady } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
@@ -674,7 +675,8 @@ test('student can find global ranking, choose name privacy and open all six game
   const rank = { name: 'Thách Đấu', masterStars: 127, progress: 0, goal: 0, scheme: 2 };
   let profile = {
     displayName: 'Bạn nhỏ yêu toán', gradeLevel: 5, joinedAt: null, classrooms: [{ id: 'class-5a', name: 'Lớp 5A' }],
-    avatar: 'star', leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Sư Tử', selectedTitle: null,
+    avatar: 'star', leaderboardVisible: true, leaderboardNameHidden: true, leaderboardPhotoVisible: false,
+    publicAlias: 'Sư Tử', selectedTitle: null, privacyRevision: randomUUID(),
     stars: 214, rank, highestRank: rank.name, position: null,
     stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
     titles: [], history: [],
@@ -742,6 +744,7 @@ test('student can find global ranking, choose name privacy and open all six game
   await expect(cards).toHaveCount(5);
   const covers = page.locator('img[src*="illustrations/games/"]');
   await expect(covers).toHaveCount(6);
+  for (const cover of await covers.all()) await cover.scrollIntoViewIfNeeded();
   await expect.poll(() => covers.evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0
     && Math.abs(image.naturalWidth / image.naturalHeight - 16 / 9) < 0.01))).toBe(true);
   await expect(page.getByRole('button', { name: /^Mở thử thách tính sao ·/ })).toHaveCount(5);

@@ -307,6 +307,9 @@ for (const [width, height] of [...desktopSizes, ...zoomReflowSizes, ...mobileSiz
     await expect(page.getByTestId('training-play-block-island')).toBeVisible();
     await expect.poll(() => page.evaluate(() => Number(getComputedStyle(document.documentElement).zoom)))
       .toBe(!isMobile && width >= 1100 ? 1.07 : 1);
+    for (const cover of await page.locator('img[src*="/illustrations/games/"]').all()) {
+      await cover.scrollIntoViewIfNeeded();
+    }
     await expect.poll(() => page.locator('img').evaluateAll(images => images.every(image => image.complete))).toBe(true);
 
     await open(page, 'terrain-racing');

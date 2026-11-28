@@ -36,6 +36,10 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   app.realStudent = true;
   lessonFixtures(app);
   app.responses.set('POST /student/tutor/lesson', ({ json }) => json(state()));
+  app.responses.set('POST /student/tutor/lesson/preparation', ({ body, json }) => {
+    expect(body.revision).toBe(3);
+    return json(body.retry ? state() : { ...state('RETRYABLE', 'Đây là điều cần tìm, chưa phải dữ kiện đã biết.'), outline: steps.slice(0, 3).map(step => step.title), step: null, preparingMath: true });
+  });
   app.responses.set('POST /student/tutor/lesson/resume', ({ json }) => json(state(completed.length === steps.length ? 'COMPLETE' : 'READY')));
   app.responses.set('POST /student/tutor/lesson/answer', ({ body, json }) => {
     expect(body.revision).toBe(completed.length);
@@ -50,8 +54,9 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
     completed.push({ ...steps[index], answer: index === 3 ? '4/15' : accepted,
       ...(index === 3 ? { calculationDetails: ['15/15 − 11/15 = 4/15'] } : {}) });
     hintLevel = 0;
-    return json(state(index === 4 ? 'COMPLETE' : 'CORRECT', index === 0
-      ? `«${given}» là thông tin đề cho trực tiếp.` : index === 2 ? 'Đây là điều cần tìm, chưa phải dữ kiện đã biết.' : 'Em đã kiểm tra đúng bước này.'));
+    const checked = state(index === 4 ? 'COMPLETE' : 'CORRECT', index === 0
+      ? `«${given}» là thông tin đề cho trực tiếp.` : index === 2 ? 'Đây là điều cần tìm, chưa phải dữ kiện đã biết.' : 'Em đã kiểm tra đúng bước này.');
+    return json(index === 2 ? { ...checked, outline: checked.outline.slice(0, 3), status: 'PREPARING', step: null, preparingMath: true } : checked);
   });
   await page.setViewportSize({ width: 360, height: 640 });
   await login(page, 'STUDENT');
@@ -79,6 +84,14 @@ test('orchard lesson opens each calculation on hint two and checks an exact retr
   await page.getByRole('button', { name: 'Tiếp tục', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Tóm tắt bài toán', exact: true })).toBeVisible();
   await expect(page.getByText('Có 16 cây cam', { exact: true })).toBeVisible();
+  const recovery = page.getByRole('alertdialog', { name: 'Chưa chuẩn bị được bước giải' });
+  await expect(recovery).toBeVisible();
+  await expect(recovery).toContainText('Đề bài và phần em đã làm vẫn được giữ.');
+  await expect(page.getByRole('button', { name: 'Bắt đầu giải', exact: true })).toBeDisabled();
+  await recovery.getByRole('button', { name: 'Thử chuẩn bị lại', exact: true }).click();
+  await expect(recovery).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Bắt đầu giải', exact: true })).toBeEnabled();
+  expect(app.requests.filter(request => request.path === '/student/tutor/lesson/answer')).toHaveLength(4);
   await expect(page.getByTestId('lesson-fixed-tools')).toBeVisible();
   await expect(page.getByRole('progressbar', { name: 'Tiến trình bài học' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Mở máy tính bỏ túi' })).toBeVisible();

@@ -105,6 +105,7 @@ export const test = base.extend({
         state.studentProfile ??= {
         displayName: 'Kiểm thử STUDENT', gradeLevel: 5, joinedAt: null, classrooms: [],
         avatar: 'star', leaderboardVisible: false, leaderboardNameHidden: true, leaderboardPhotoVisible: false, publicAlias: 'Hươu Sao', selectedTitle: null,
+        privacyRevision: randomUUID(),
         stars: 1, rank: { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 },
         highestRank: 'Sắt III', position: null,
         stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
@@ -116,12 +117,43 @@ export const test = base.extend({
           const bytes = request.postDataBuffer();
           const start = bytes.indexOf('\r\n\r\n') + 4, end = bytes.lastIndexOf('\r\n--');
           state.studentProfile.leaderboardPhotoVisible = false;
+          state.studentProfile.privacyRevision = randomUUID();
           state.studentProfile.avatarPhoto = `data:image/png;base64,${bytes.subarray(start, end).toString('base64')}`;
         }
         if (path === '/student/profile' && method === 'PUT') {
-          Object.assign(state.studentProfile, body);
-          if (body.removePhoto) state.studentProfile.avatarPhoto = null;
-          if (body.removePhoto || body.leaderboardVisible === false) state.studentProfile.leaderboardPhotoVisible = false;
+          const { privacyRevision, removePhoto, ...changes } = body;
+          const current = state.studentProfile;
+          const visible = changes.leaderboardVisible ?? current.leaderboardVisible;
+          const expands = (visible && !current.leaderboardVisible)
+            || (changes.leaderboardNameHidden === false && current.leaderboardNameHidden)
+            || (changes.leaderboardPhotoVisible === true && (!current.leaderboardPhotoVisible || !visible || removePhoto));
+          const conflict = () => json({ error: { code: 'PROFILE_PRIVACY_CONFLICT' } }, 409);
+          if (privacyRevision != null && privacyRevision !== current.privacyRevision) return conflict();
+          if (expands && !privacyRevision) {
+            const leaving = changes.leaderboardVisible === false && current.leaderboardVisible;
+            const hidingName = changes.leaderboardNameHidden === true && !current.leaderboardNameHidden;
+            const hidingPhoto = changes.leaderboardPhotoVisible === false && current.leaderboardPhotoVisible;
+            if (!leaving && !hidingName && !hidingPhoto && !removePhoto) return conflict();
+            if (leaving) current.leaderboardVisible = false;
+            if (hidingName) current.leaderboardNameHidden = true;
+            if (removePhoto) current.avatarPhoto = null;
+            if (leaving || hidingPhoto || removePhoto) current.leaderboardPhotoVisible = false;
+            current.privacyRevision = randomUUID();
+            return json(current);
+          }
+          if (changes.leaderboardPhotoVisible === true && (!visible || removePhoto || !current.avatarPhoto)) {
+            return conflict();
+          }
+          const privacyChanged = ['displayName', 'leaderboardVisible', 'leaderboardNameHidden', 'leaderboardPhotoVisible']
+            .some(field => changes[field] !== undefined && changes[field] !== current[field]);
+          Object.assign(current, changes);
+          if (removePhoto) current.avatarPhoto = null;
+          if (removePhoto || !visible) current.leaderboardPhotoVisible = false;
+          if (privacyChanged || removePhoto) current.privacyRevision = randomUUID();
+        }
+        if (state.legacyStudentProfile) {
+          const { privacyRevision: _legacy, ...profile } = state.studentProfile;
+          return json(profile);
         }
         return json(state.studentProfile);
       }

@@ -71,3 +71,7 @@ Trong [PR #200](https://github.com/NV-DuyManh/MathVisionKid/pull/200), **Kha (de
 Trong [PR #201](https://github.com/NV-DuyManh/MathVisionKid/pull/201), **Nam (tranhoainam298)** cập nhật đồng bộ ảnh hồ sơ, tùy chọn chia sẻ ảnh bảng xếp hạng và migration V44. Tích hợp giữ nguyên lịch sử commit nguồn tại `91bcdc3575795c47e324f7befa1d9f9a56bd7c2c`.
 
 Trong PR #208, phần sửa quyền riêng tư Student của **Nam (tranhoainam298)** được tích hợp riêng từ commit nguồn PR #203 `dbae9bda7cc2e4935754e8ee47f1a80d82109c33` và giữ ghi nhận đồng tác giả.
+
+Trong [PR #203](https://github.com/NV-DuyManh/MathVisionKid/pull/203), **Nam (tranhoainam298)** bổ sung phiên bản quyền riêng tư hồ sơ, cải thiện phân trang Admin và xử lý gián đoạn gia hạn lượt chơi. Tích hợp giữ nguyên lịch sử nguồn tại `28f503f67fac1c28b001ce68cb9c3ac3eb71b153`. **NV-DuyManh** bổ sung kiểm tra xác nhận lại khi đổi tên và điều chỉnh thứ tự triển khai.
+
+Trong [PR #211](https://github.com/NV-DuyManh/MathVisionKid/pull/211), **Kha (deptraivodich)** đưa khối lớp trong hồ sơ vào các trò luyện toán, cập nhật sân Thủ Thành và giữ khung đề bài mở trên bố cục desktop. Lịch sử nguồn tại `7e1f3efe027341849b624773eb5a8cf564dac929` được giữ khi tích hợp.

@@ -39,6 +39,59 @@ test('training stops when the account limit cannot be verified and can reopen af
   await expect(player).toBeVisible({ timeout: 10_000 });
 });
 
+test('a temporary game heartbeat failure keeps the run during its valid lease', async ({ page, app, isMobile }) => {
+  test.skip(isMobile, 'Checks the desktop Planet Rescue mission view.');
+  app.realStudent = true;
+  let failNext = false;
+  await page.setViewportSize({ width: 1280, height: 660 });
+  await page.route('**/api/v1/student/app-usage/game-heartbeat', async route => {
+    if (failNext && route.request().postDataJSON().active) {
+      failNext = false;
+      await route.fulfill({ status: 503, json: {} });
+    } else await route.fallback();
+  });
+  await login(page, 'STUDENT');
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+  await page.goto(`${sites.portal.origin}/study/games/planet-rescue`);
+  await page.getByTestId('rescue-start').click();
+  const mission = page.getByTestId('rescue-mission');
+  await expect(mission).toContainText('HÀNH TINH 01');
+  const heartbeat = response => response.url().endsWith('/game-heartbeat') && response.request().postDataJSON().active;
+  const failed = page.waitForResponse(response => heartbeat(response) && response.status() === 503);
+  const renewed = page.waitForResponse(response => heartbeat(response) && response.ok());
+  failNext = true;
+  await failed;
+  await expect(mission).toBeVisible();
+  await renewed;
+  await expect(mission).toContainText('HÀNH TINH 01');
+  await expect(page.getByRole('heading', { name: 'Chưa xác minh được thời gian sử dụng' })).toHaveCount(0);
+});
+
+for (const status of [401, 403]) {
+  test(`the authenticated game stops when a renewal returns ${status}`, async ({ page, app }) => {
+    app.realStudent = true;
+    let activeRequests = 0;
+    app.responses.set('POST /student/app-usage/game-heartbeat', ({ body, json, reject }) => {
+      if (body.active && ++activeRequests > 1) return reject(status);
+      return json({ remainingMillis: null, leaseMillis: body.active ? 10_000 : 0, gameLimitReached: false });
+    });
+    await login(page, 'STUDENT');
+    await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+    await page.setViewportSize({ width: 1000, height: 650 });
+    await page.goto(`${sites.portal.origin}/study/games/race-to-finish`);
+    const player = page.getByTestId('training-player-race-to-finish');
+    await expect(player).toBeVisible();
+
+    if (status === 401) {
+      await expect(page).toHaveURL(`${sites.portal.origin}/session-expired`);
+    } else {
+      await expect(page.getByRole('heading', { name: 'Chưa xác minh được thời gian sử dụng' })).toBeVisible();
+      await expect(page).toHaveURL(`${sites.portal.origin}/study/games/race-to-finish`);
+    }
+    await expect(player).toHaveCount(0);
+  });
+}
+
 test('the game player stops when its server lease expires and does not lock learning', async ({ page, app }) => {
   app.realStudent = true;
   await page.setViewportSize({ width: 1000, height: 650 });

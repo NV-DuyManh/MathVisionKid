@@ -25,6 +25,7 @@ spring:
         - classpath:db/migration/V41__student_achievement_path.sql
         - classpath:db/migration/V42__student_google_avatar.sql
         - classpath:db/migration/V44__leaderboard_avatar_consent.sql
+        - classpath:db/migration/V45__student_profile_privacy_revision.sql
   flyway:
     enabled: false
 
