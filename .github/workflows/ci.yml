@@ -345,6 +345,11 @@ jobs:
         run: |
           python3 -m unittest scripts/test/test_postgres_migrations_runner.py
           python3 scripts/test/test_postgres_migrations.py
+      - name: Student photo consent concurrency on PostgreSQL
+        working-directory: backend/business-api
+        env:
+          MATHVISION_POSTGRES_PROFILE_CONCURRENCY: 'true'
+        run: ./gradlew test --tests '*StudentProfilePostgresConcurrencyTest' --no-daemon --console=plain
       - name: Flyway upgrade from existing version 28 data and checksum validation
         working-directory: backend/business-api
         env:

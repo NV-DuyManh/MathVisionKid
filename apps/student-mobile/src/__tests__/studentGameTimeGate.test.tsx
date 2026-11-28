@@ -25,7 +25,8 @@ let tree: TestRenderer.ReactTestRenderer;
 const initialAppState = AppState.currentState;
 beforeEach(() => {
   AppState.currentState = 'active';
-  jest.useFakeTimers();
+  // React's async act uses setImmediate to flush state after a timer callback.
+  jest.useFakeTimers({ doNotFake: ['setImmediate'] });
   jest.mocked(apiClient.post).mockReset();
   jest.mocked(tokenStorage.getSessionId).mockReset().mockResolvedValue('session-a');
 });

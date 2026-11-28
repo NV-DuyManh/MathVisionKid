@@ -126,10 +126,23 @@ export const test = base.extend({
           const visible = changes.leaderboardVisible ?? current.leaderboardVisible;
           const expands = (visible && !current.leaderboardVisible)
             || (changes.leaderboardNameHidden === false && current.leaderboardNameHidden)
-            || (changes.leaderboardPhotoVisible === true && !current.leaderboardPhotoVisible);
-          if ((privacyRevision != null && privacyRevision !== current.privacyRevision) || (expands && !privacyRevision)
-            || (changes.leaderboardPhotoVisible === true && (!visible || removePhoto || !current.avatarPhoto))) {
-            return json({ error: { code: 'PROFILE_PRIVACY_CONFLICT' } }, 409);
+            || (changes.leaderboardPhotoVisible === true && (!current.leaderboardPhotoVisible || !visible || removePhoto));
+          const conflict = () => json({ error: { code: 'PROFILE_PRIVACY_CONFLICT' } }, 409);
+          if (privacyRevision != null && privacyRevision !== current.privacyRevision) return conflict();
+          if (expands && !privacyRevision) {
+            const leaving = changes.leaderboardVisible === false && current.leaderboardVisible;
+            const hidingName = changes.leaderboardNameHidden === true && !current.leaderboardNameHidden;
+            const hidingPhoto = changes.leaderboardPhotoVisible === false && current.leaderboardPhotoVisible;
+            if (!leaving && !hidingName && !hidingPhoto && !removePhoto) return conflict();
+            if (leaving) current.leaderboardVisible = false;
+            if (hidingName) current.leaderboardNameHidden = true;
+            if (removePhoto) current.avatarPhoto = null;
+            if (leaving || hidingPhoto || removePhoto) current.leaderboardPhotoVisible = false;
+            current.privacyRevision = randomUUID();
+            return json(current);
+          }
+          if (changes.leaderboardPhotoVisible === true && (!visible || removePhoto || !current.avatarPhoto)) {
+            return conflict();
           }
           const privacyChanged = ['leaderboardVisible', 'leaderboardNameHidden', 'leaderboardPhotoVisible']
             .some(field => changes[field] !== undefined && changes[field] !== current[field]);
@@ -137,6 +150,10 @@ export const test = base.extend({
           if (removePhoto) current.avatarPhoto = null;
           if (removePhoto || !visible) current.leaderboardPhotoVisible = false;
           if (privacyChanged || removePhoto) current.privacyRevision = randomUUID();
+        }
+        if (state.legacyStudentProfile) {
+          const { privacyRevision: _legacy, ...profile } = state.studentProfile;
+          return json(profile);
         }
         return json(state.studentProfile);
       }

@@ -64,15 +64,20 @@ public class StudentProfileService {
     public Profile update(String principal, Edit edit) {
         Student student = student(principal);
         UUID id = student.getId();
+        em.refresh(student, LockModeType.PESSIMISTIC_WRITE);
+        rewards.lock();
+        ensurePreferences(id);
+        var current = preferences(id);
+        if (edit.privacyRevision() == null) {
+            edit = legacyPrivacyEdit(edit, current);
+        } else if (!edit.privacyRevision().equals(current.privacyRevision())) {
+            throw privacyConflict();
+        }
         String name = edit.displayName() == null ? null : Normalizer.normalize(edit.displayName().strip(), Normalizer.Form.NFC);
         if ((name != null && (!name.matches("[\\p{L}\\p{M}\\p{Nd}][\\p{L}\\p{M}\\p{Nd} .’'-]*")
                 || name.split(" +", 51).length > 50)) || (edit.avatar() != null && !AVATARS.contains(edit.avatar()))) {
             throw invalid("Em kiểm tra tên hiển thị hoặc chọn một hình đại diện trong bộ sưu tập nhé.");
         }
-        em.refresh(student, LockModeType.PESSIMISTIC_WRITE);
-        rewards.lock();
-        ensurePreferences(id);
-        var current = preferences(id);
         boolean leaderboardVisible = edit.leaderboardVisible() == null ? current.visible() : edit.leaderboardVisible();
         boolean nameHidden = edit.leaderboardNameHidden() == null ? current.nameHidden() : edit.leaderboardNameHidden();
         boolean removePhoto = Boolean.TRUE.equals(edit.removePhoto());
@@ -81,12 +86,7 @@ public class StudentProfileService {
                 ? current.photoVisible() : edit.leaderboardPhotoVisible());
         boolean changesPrivacy = leaderboardVisible != current.visible() || nameHidden != current.nameHidden()
                 || photoVisible != current.photoVisible() || removePhoto;
-        boolean expandsSharing = (leaderboardVisible && !current.visible()) || (!nameHidden && current.nameHidden())
-                || (sharePhoto && !current.photoVisible());
-        boolean stale = edit.privacyRevision() != null && !edit.privacyRevision().equals(current.privacyRevision());
-        if (stale || (edit.privacyRevision() == null && expandsSharing) || (sharePhoto && !photoVisible)) {
-            throw privacyConflict();
-        }
+        if (sharePhoto && !photoVisible) throw privacyConflict();
         if (Boolean.TRUE.equals(edit.leaderboardVisible()) && student.getEmail().toLowerCase(Locale.ROOT).endsWith("@mathvision.local"))
             throw invalid("Tài khoản này không tham gia bảng xếp hạng.");
         String newSharedPhoto = null;
@@ -117,6 +117,28 @@ public class StudentProfileService {
             setLeaderboardAvatar(id, newSharedPhoto);
         }
         return profile(student);
+    }
+
+    private Edit legacyPrivacyEdit(Edit edit, Preferences current) {
+        boolean leave = Boolean.FALSE.equals(edit.leaderboardVisible());
+        boolean hideName = Boolean.TRUE.equals(edit.leaderboardNameHidden());
+        boolean hidePhoto = Boolean.FALSE.equals(edit.leaderboardPhotoVisible());
+        boolean removePhoto = Boolean.TRUE.equals(edit.removePhoto());
+        boolean sharesPhoto = Boolean.TRUE.equals(edit.leaderboardPhotoVisible());
+        boolean requestsExpansion = (Boolean.TRUE.equals(edit.leaderboardVisible()) && !current.visible())
+                || (Boolean.FALSE.equals(edit.leaderboardNameHidden()) && current.nameHidden())
+                || (sharesPhoto && (!current.photoVisible() || leave || removePhoto));
+        if (!requestsExpansion) return edit;
+
+        boolean reducesSharing = (leave && current.visible()) || (hideName && !current.nameHidden())
+                || (hidePhoto && current.photoVisible()) || removePhoto;
+        if (!reducesSharing) {
+            throw new ApiException("PROFILE_PRIVACY_CONFLICT",
+                    "Em cập nhật ứng dụng hoặc tải lại trang web để thay đổi quyền công khai nhé.", HttpStatus.CONFLICT);
+        }
+        // Older clients can send stale values for fields the student did not change. Keep only revocations.
+        return new Edit(null, null, leave ? Boolean.FALSE : null, null, removePhoto,
+                hideName ? Boolean.TRUE : null, hidePhoto ? Boolean.FALSE : null);
     }
 
     private ApiException privacyConflict() {

@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 const names = ['Sắt III', 'Sắt II', 'Sắt I', 'Đồng III', 'Đồng II', 'Đồng I', 'Bạc III', 'Bạc II', 'Bạc I', 'Vàng III', 'Vàng II', 'Vàng I', 'Bạch Kim V', 'Bạch Kim IV', 'Bạch Kim III', 'Bạch Kim II', 'Bạch Kim I', 'Kim Cương V', 'Kim Cương IV', 'Kim Cương III', 'Kim Cương II', 'Kim Cương I', 'Cao Thủ', 'Đại Cao Thủ', 'Thách Đấu', 'Huyền Thoại'];
@@ -6,7 +7,7 @@ for (const width of [360, 768, 1440]) {
   test('single rank guide renders at '+width+'px', async ({ page, app }, testInfo) => {
     app.realStudent = true;
     const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3, scheme: 2 };
-    let profile = { displayName:'Bạn nhỏ',gradeLevel:5,joinedAt:null,classrooms:[],avatar:'star',leaderboardVisible:true,leaderboardNameHidden:true,publicAlias:'Hươu Sao',selectedTitle:null,stars:1,rank,highestRank:rank.name,position:1,stats:{lessons:3,quizzes:0,games:0,days:1,week:3,month:3,today:3,streak:1},titles:[],history:[] };
+    let profile = { displayName:'Bạn nhỏ',gradeLevel:5,joinedAt:null,classrooms:[],avatar:'star',leaderboardVisible:true,leaderboardNameHidden:true,leaderboardPhotoVisible:false,privacyRevision:randomUUID(),publicAlias:'Hươu Sao',selectedTitle:null,stars:1,rank,highestRank:rank.name,position:1,stats:{lessons:3,quizzes:0,games:0,days:1,week:3,month:3,today:3,streak:1},titles:[],history:[] };
     await page.route('**/api/v1/student/profile', async route => {
       if(route.request().method()==='PUT') profile={...profile,...route.request().postDataJSON()};
       await route.fulfill({json:profile});
@@ -61,7 +62,8 @@ for (const position of [201, null]) {
     app.realStudent = true;
     const rank = { name: 'Thách Đấu', masterStars: 75, progress: 0, goal: 0, scheme: 2 };
     const profile = { displayName:'Bạn nhỏ',gradeLevel:5,joinedAt:null,classrooms:[],avatar:'star',
-      leaderboardVisible:position !== null,leaderboardNameHidden:true,publicAlias:'Hươu Sao',selectedTitle:null,
+      leaderboardVisible:position !== null,leaderboardNameHidden:true,leaderboardPhotoVisible:false,
+      privacyRevision:randomUUID(),publicAlias:'Hươu Sao',selectedTitle:null,
       stars:162,rank,highestRank:'Huyền Thoại',position,stats:{lessons:3,quizzes:0,games:0,days:1,week:3,month:3,today:3,streak:1},titles:[],history:[] };
     await page.route('**/api/v1/student/profile', route => route.fulfill({json:profile}));
     await page.route('**/api/v1/student/leaderboard*',route=>route.fulfill({json:{gradeLevel:null,ownPosition:position,entries:[]}}));

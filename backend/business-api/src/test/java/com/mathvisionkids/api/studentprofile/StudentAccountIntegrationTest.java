@@ -190,6 +190,46 @@ class StudentAccountIntegrationTest {
         assertFalse(current.leaderboardVisible());
     }
 
+    @Test void legacyPartialPrivacyEditsRequireAnUpdateForExpansionAndStillAllowRevocation() throws Exception {
+        changeProfile("""
+                {"displayName":"Tên bản nháp","avatar":"moon","leaderboardVisible":true,"removePhoto":false}
+                """, null)
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.error.code").value("PROFILE_PRIVACY_CONFLICT"))
+                .andExpect(jsonPath("$.error.message").value(
+                        "Em cập nhật ứng dụng hoặc tải lại trang web để thay đổi quyền công khai nhé."));
+        changeProfile("{\"leaderboardVisible\":true}", privacyRevision()).andExpect(status().isOk());
+        changeProfile("{\"leaderboardNameHidden\":false}", null).andExpect(status().isConflict());
+        changeProfile("{\"leaderboardVisible\":false}", null).andExpect(status().isOk())
+                .andExpect(jsonPath("$.leaderboardVisible").value(false))
+                .andExpect(jsonPath("$.leaderboardNameHidden").value(true))
+                .andExpect(jsonPath("$.displayName").value("Sao Nhỏ"));
+    }
+
+    @Test void legacyFullPrivacyPayloadRevokesParticipationWithoutRestoringAStalePublicName() throws Exception {
+        String photo = "https://lh3.googleusercontent.com/a/legacy-consent";
+        profiles.captureGoogleAvatar(pupil.getId(), photo);
+        changeProfile("""
+                {"avatar":"moon","leaderboardVisible":true,"leaderboardNameHidden":false,"leaderboardPhotoVisible":true}
+                """, privacyRevision()).andExpect(status().isOk());
+        changeProfile("{\"leaderboardNameHidden\":true}", privacyRevision()).andExpect(status().isOk());
+        String beforeRevocation = privacyRevision();
+
+        changeProfile("""
+                {"displayName":"Tên bản nháp","avatar":"rocket","leaderboardVisible":false,
+                 "leaderboardNameHidden":false,"removePhoto":false}
+                """, null).andExpect(status().isOk())
+                .andExpect(jsonPath("$.leaderboardVisible").value(false))
+                .andExpect(jsonPath("$.leaderboardNameHidden").value(true))
+                .andExpect(jsonPath("$.leaderboardPhotoVisible").value(false))
+                .andExpect(jsonPath("$.displayName").value("Sao Nhỏ"))
+                .andExpect(jsonPath("$.avatar").value("moon"))
+                .andExpect(jsonPath("$.avatarPhoto").value(photo));
+        assertNotEquals(beforeRevocation, privacyRevision());
+        changeProfile("{\"leaderboardVisible\":true,\"leaderboardNameHidden\":false}", beforeRevocation)
+                .andExpect(status().isConflict());
+    }
+
     private String privacyRevision() throws Exception {
         var json = mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();

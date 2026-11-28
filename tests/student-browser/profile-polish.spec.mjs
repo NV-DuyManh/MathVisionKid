@@ -203,6 +203,90 @@ test('a stale photo draft refreshes privacy and requires a new confirmation', as
   expect(app.studentProfile.displayName).toBe('Tên phiên khác');
 });
 
+test('changing the photo preserves unsaved privacy reductions for explicit saving', async ({ page, app }, testInfo) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect.poll(() => app.studentProfile).toBeDefined();
+  Object.assign(app.studentProfile, { leaderboardVisible: true, leaderboardNameHidden: false });
+  await page.goto(`${sites.portal.origin}/study/account`);
+  const participation = page.getByRole('switch', { name: 'Tham gia bảng xếp hạng' });
+  const hideName = page.getByRole('switch', { name: 'Ẩn tên trên bảng xếp hạng' });
+  await participation.click();
+  await hideName.click();
+
+  await page.getByRole('button', { name: 'Đổi tên hiển thị' }).click();
+  await page.getByRole('textbox', { name: 'Tên hiển thị' }).fill('Minh Anh');
+  await page.getByRole('button', { name: 'Lưu tên' }).click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toBeVisible();
+  expect(app.requests.findLast(request => request.method === 'PUT' && request.path === '/student/profile').body)
+    .toEqual({ displayName: 'Minh Anh' });
+  await expect(participation).not.toBeChecked();
+  await expect(hideName).toBeChecked();
+
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Thay ảnh đại diện' }).click();
+  await (await chooser).setFiles({
+    name: 'avatar.png', mimeType: 'image/png',
+    buffer: readFileSync(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)),
+  });
+  await expect(page.getByText(/Đã cập nhật ảnh đại diện.*Lựa chọn giảm chia sẻ vẫn chờ lưu/)).toBeVisible();
+  await expect(participation).not.toBeChecked();
+  await expect(hideName).toBeChecked();
+  expect(app.studentProfile).toMatchObject({ leaderboardVisible: true, leaderboardNameHidden: false });
+  const updatedRevision = app.studentProfile.privacyRevision;
+  const save = page.getByRole('button', { name: 'Lưu thay đổi', exact: true });
+  await expect(save).toBeEnabled();
+  await page.getByTestId('account-profile-editor').screenshot({ path: testInfo.outputPath('pending-privacy-revocation.png') });
+  await save.click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toBeVisible();
+  expect(app.requests.findLast(request => request.method === 'PUT' && request.path === '/student/profile').body)
+    .toEqual({ leaderboardVisible: false, leaderboardNameHidden: true, privacyRevision: updatedRevision });
+  await page.reload();
+  await expect(participation).not.toBeChecked();
+  await expect(hideName).toBeChecked();
+});
+
+test('changing the photo discards consent drafted for the old image', async ({ page, app }) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect.poll(() => app.studentProfile).toBeDefined();
+  const avatar = readFileSync(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url));
+  Object.assign(app.studentProfile, { leaderboardVisible: true, avatarPhoto: `data:image/png;base64,${avatar.toString('base64')}` });
+  await page.goto(`${sites.portal.origin}/study/account`);
+  const share = page.getByRole('switch', { name: 'Hiện ảnh hồ sơ trên bảng xếp hạng' });
+  await share.click();
+  await expect(share).toBeChecked();
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Thay ảnh đại diện' }).click();
+  await (await chooser).setFiles({ name: 'avatar.png', mimeType: 'image/png', buffer: avatar });
+  await expect(page.getByText(/Em cần chọn lại nếu muốn mở thêm quyền chia sẻ/)).toBeVisible();
+  await expect(share).not.toBeChecked();
+  expect(app.studentProfile.leaderboardPhotoVisible).toBe(false);
+  await expect(page.getByRole('button', { name: 'Lưu thay đổi', exact: true })).toBeDisabled();
+});
+
+test('a missing privacy revision blocks expansion and still allows a student to leave the leaderboard', async ({ page, app }, testInfo) => {
+  app.realStudent = true;
+  app.legacyStudentProfile = true;
+  await login(page, 'STUDENT');
+  await expect.poll(() => app.studentProfile).toBeDefined();
+  Object.assign(app.studentProfile, { leaderboardVisible: true, leaderboardNameHidden: true });
+  await page.goto(`${sites.portal.origin}/study/account`);
+  const participation = page.getByRole('switch', { name: 'Tham gia bảng xếp hạng' });
+  const hideName = page.getByRole('switch', { name: 'Ẩn tên trên bảng xếp hạng' });
+  await expect(hideName).toBeDisabled();
+  await expect(participation).toBeEnabled();
+  await expect(participation).toBeChecked();
+  await expect(page.getByText('Cần cập nhật để mở quyền chia sẻ', { exact: true })).toBeVisible();
+  await page.getByTestId('account-profile-editor').screenshot({ path: testInfo.outputPath('legacy-privacy-update.png') });
+  await participation.click();
+  await page.getByRole('button', { name: 'Lưu thay đổi', exact: true }).click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toBeVisible();
+  await expect(participation).toBeDisabled();
+  await expect(participation).not.toBeChecked();
+  expect(app.studentProfile.leaderboardVisible).toBe(false);
+});
+
 test('a failed conflict refresh keeps privacy locked until the profile is reloaded', async ({ page, app }) => {
   app.realStudent = true;
   await login(page, 'STUDENT');
