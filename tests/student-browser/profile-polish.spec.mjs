@@ -243,7 +243,7 @@ test('changing the photo preserves unsaved privacy reductions for explicit savin
   await page.getByRole('button', { name: 'Đổi tên hiển thị' }).click();
   await page.getByRole('textbox', { name: 'Tên hiển thị' }).fill('Minh Anh');
   await page.getByRole('button', { name: 'Lưu tên' }).click();
-  await expect(page.getByText('Đã lưu hồ sơ của em.', { exact: true })).toBeVisible();
+  await expect(page.getByText('Đã lưu hồ sơ của em. Lựa chọn giảm chia sẻ vẫn chờ lưu.', { exact: true })).toBeVisible();
   expect(app.requests.findLast(request => request.method === 'PUT' && request.path === '/student/profile').body)
     .toEqual({ displayName: 'Minh Anh' });
   await expect(participation).not.toBeChecked();
