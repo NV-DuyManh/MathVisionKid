@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { randomUUID } from 'node:crypto';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 test('a Google-linked student can set a MathVisionKid password using email verification', async ({ page, app }) => {
@@ -127,16 +128,18 @@ test('saving a name preserves privacy settings refreshed while the account edito
   app.realStudent = true;
   await login(page, 'STUDENT');
   await expect.poll(() => app.studentProfile).toBeDefined();
-  Object.assign(app.studentProfile, { leaderboardVisible: true, leaderboardNameHidden: false });
   await page.goto(`${sites.portal.origin}/study/account`);
   const participation = page.getByRole('switch', { name: 'Tham gia bảng xếp hạng' });
   const namePrivacy = page.getByRole('switch', { name: 'Ẩn tên trên bảng xếp hạng' });
+  await expect(participation).not.toBeChecked();
+  await expect(namePrivacy).toBeChecked();
+  await participation.click();
+  await namePrivacy.click();
   await expect(participation).toBeChecked();
   await expect(namePrivacy).not.toBeChecked();
 
-  // Another session revokes public sharing before the current editor receives
-  // the latest profile with its avatar upload response.
-  Object.assign(app.studentProfile, { leaderboardVisible: false, leaderboardNameHidden: true });
+  // Tab B saves the same settings. Uploading from A now renders the saved state.
+  Object.assign(app.studentProfile, { leaderboardVisible: true, leaderboardNameHidden: false, privacyRevision: randomUUID() });
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: 'Thay ảnh đại diện' }).click();
   await (await chooser).setFiles({
@@ -144,14 +147,18 @@ test('saving a name preserves privacy settings refreshed while the account edito
     buffer: readFileSync(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)),
   });
   await expect(page.getByText('Đã cập nhật ảnh đại diện.')).toBeVisible();
-  await expect(participation).not.toBeChecked();
-  await expect(namePrivacy).toBeChecked();
+  await expect(participation).toBeChecked();
+  await expect(namePrivacy).not.toBeChecked();
   await expect(page.getByRole('button', { name: 'Lưu thay đổi' })).toBeDisabled();
 
+  // After B revokes, A changes only the name. Its old switches must not be sent.
+  Object.assign(app.studentProfile, { leaderboardVisible: false, leaderboardNameHidden: true, privacyRevision: randomUUID() });
   await page.getByRole('button', { name: 'Đổi tên hiển thị' }).click();
   await page.getByRole('textbox', { name: 'Tên hiển thị' }).fill('Minh Anh');
   await page.getByRole('button', { name: 'Lưu tên' }).click();
   await expect(page.getByText('Đã lưu hồ sơ của em.')).toBeVisible();
+  expect(app.requests.findLast(request => request.method === 'PUT' && request.path === '/student/profile').body)
+    .toEqual({ displayName: 'Minh Anh' });
   expect(app.studentProfile).toMatchObject({ displayName: 'Minh Anh', leaderboardVisible: false, leaderboardNameHidden: true });
 
   // A save from the open editor must also preserve newer settings that it
@@ -164,6 +171,38 @@ test('saving a name preserves privacy settings refreshed while the account edito
   expect(app.studentProfile).toMatchObject({ displayName: 'Sao Sáng', leaderboardVisible: true, leaderboardNameHidden: false });
 });
 
+test('a stale photo draft refreshes privacy and requires a new confirmation', async ({ page, app }) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+  await expect.poll(() => app.studentProfile).toBeDefined();
+  const picture = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221%22%20height%3D%221%22%2F%3E';
+  Object.assign(app.studentProfile, { avatarPhoto: picture, leaderboardVisible: true });
+  await page.goto(`${sites.portal.origin}/study/account`);
+  const share = page.getByRole('switch', { name: 'Hiện ảnh hồ sơ trên bảng xếp hạng' });
+  await share.click();
+  await expect(share).toBeChecked();
+  // The same picture was shared and revoked by B. Current booleans still match A's snapshot.
+  app.studentProfile.privacyRevision = randomUUID();
+  app.studentProfile.displayName = 'Tên phiên khác';
+  const save = page.getByRole('button', { name: 'Lưu thay đổi', exact: true });
+  await save.click();
+  const conflict = page.getByRole('alertdialog', { name: 'Chưa lưu được thay đổi' });
+  await expect(conflict).toContainText('Em kiểm tra hồ sơ và chọn lại quyền chia sẻ');
+  await conflict.getByRole('button', { name: 'Đóng thông báo' }).click();
+  await expect(share).not.toBeChecked();
+  await expect(save).toBeDisabled();
+  await expect(page.getByRole('heading', { name: 'Tên phiên khác', exact: true })).toBeVisible();
+  expect(app.studentProfile.leaderboardPhotoVisible).toBe(false);
+
+  await share.click();
+  await save.click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.')).toBeVisible();
+  expect(app.requests.findLast(request => request.method === 'PUT' && request.path === '/student/profile').body)
+    .toEqual({ leaderboardPhotoVisible: true, privacyRevision: expect.any(String) });
+  expect(app.studentProfile.displayName).toBe('Tên phiên khác');
+});
+
 test('leaderboards show peer photos only when shared and preserve the private self preview', async ({ page, app }, testInfo) => {
   const picture = 'https://lh3.googleusercontent.com/a/synthetic-avatar';
   const ownAlias = 'Hươu Sao Của Em';
@@ -171,7 +210,7 @@ test('leaderboards show peer photos only when shared and preserve the private se
   const peerPicture = 'https://lh3.googleusercontent.com/a/synthetic-peer-avatar';
   let imageAvailable = true;
   let peerShared = false;
-  let leaderboardAvailable = true;
+  let failedHomeRefresh;
   app.realStudent = true;
   await page.route(peerPicture, route => route.fulfill({
     contentType: 'image/webp',
@@ -188,12 +227,18 @@ test('leaderboards show peer photos only when shared and preserve the private se
   });
   const { rank } = app.studentProfile;
   const peerRank = { ...rank, name: 'Đồng II' };
-  await page.route('**/api/v1/student/leaderboard*', route => leaderboardAvailable ? route.fulfill({ json: {
+  await page.route('**/api/v1/student/leaderboard*', async route => {
+    if (failedHomeRefresh) {
+      await failedHomeRefresh;
+      return route.fulfill({ status: 503 });
+    }
+    return route.fulfill({ json: {
     gradeLevel: null, ownPosition: 1, entries: [
       { position: 1, alias: ownAlias, avatar: 'planet', stars: 10, rank, self: true },
       { position: 2, alias: peerAlias, avatar: 'rocket', stars: 9, rank: peerRank, self: false, avatarPhoto: peerShared ? peerPicture : undefined },
     ],
-  } }) : route.fulfill({ status: 503 }));
+    } });
+  });
 
   if (testInfo.project.name === 'desktop') {
     await page.goto(`${sites.portal.origin}/study/`);
@@ -236,12 +281,20 @@ test('leaderboards show peer photos only when shared and preserve the private se
     await page.getByRole('button', { name: 'Xem bảng xếp hạng', exact: true }).click();
     await expect(peerImage).toBeVisible();
     peerShared = false;
-    leaderboardAvailable = false;
+    const delayed = Promise.withResolvers();
+    failedHomeRefresh = delayed.promise;
+    const pendingRefresh = page.waitForRequest(request => request.url().includes('/student/leaderboard'));
     const failedRefresh = page.waitForResponse(response => response.url().includes('/student/leaderboard') && response.status() === 503);
-    await page.goBack();
+    try {
+      await page.goBack();
+      await pendingRefresh;
+      await expect(homePeerImage).toHaveCount(0);
+    } finally {
+      delayed.resolve();
+    }
     await failedRefresh;
     await expect(homePeerImage).toHaveCount(0);
-    leaderboardAvailable = true;
+    failedHomeRefresh = undefined;
     await page.goto(`${sites.portal.origin}/study/achievements`);
   }
   peerShared = false;

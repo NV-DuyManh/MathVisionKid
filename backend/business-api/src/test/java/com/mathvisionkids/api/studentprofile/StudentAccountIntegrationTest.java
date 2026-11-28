@@ -59,6 +59,13 @@ class StudentAccountIntegrationTest {
         output.write("PRIVATE_METADATA_MARKER".getBytes(StandardCharsets.UTF_8));
         return output.toByteArray();
     }
+
+    ProfileDtos.Profile saveProfile(String email, ProfileDtos.Edit edit) {
+        return profiles.update(email, new ProfileDtos.Edit(edit.displayName(), edit.avatar(), edit.leaderboardVisible(),
+                edit.selectedTitle(), edit.removePhoto(), edit.leaderboardNameHidden(), edit.leaderboardPhotoVisible(),
+                profiles.get(email).privacyRevision()));
+    }
+
     @Test void photoIsNormalizedOwnedPrivateAndCanReturnToPreset() throws Exception {
         String googlePhoto = "https://lh3.googleusercontent.com/a/synthetic-avatar";
         profiles.captureGoogleAvatar(pupil.getId(), googlePhoto);
@@ -66,7 +73,7 @@ class StudentAccountIntegrationTest {
         profiles.captureGoogleAvatar(pupil.getId(), "https://lh3.googleusercontent.com.example.test/other");
         assertEquals(googlePhoto, profiles.get(pupil.getEmail()).avatarPhoto());
         assertNull(profiles.get(other.getEmail()).avatarPhoto());
-        profiles.update(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", true, null));
+        saveProfile(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", true, null));
         assertFalse(mapper.writeValueAsString(profiles.leaderboard(pupil.getEmail(), null)).contains(googlePhoto));
 
         var result = mvc.perform(multipart("/api/v1/student/profile/photo").file(new MockMultipartFile("file", "phone.png", "image/png", picture()))
@@ -80,9 +87,9 @@ class StudentAccountIntegrationTest {
         profiles.captureGoogleAvatar(pupil.getId(), googlePhoto + "-updated");
         assertEquals(photo, profiles.get(pupil.getEmail()).avatarPhoto());
         assertNull(profiles.get(other.getEmail()).avatarPhoto());
-        profiles.update(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", true, null));
+        saveProfile(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", true, null));
         assertFalse(mapper.writeValueAsString(profiles.leaderboard(pupil.getEmail(), null)).contains("data:image"));
-        profiles.update(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", false, null, true));
+        saveProfile(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", false, null, true));
         profiles.captureGoogleAvatar(pupil.getId(), googlePhoto);
         assertNull(profiles.get(pupil.getEmail()).avatarPhoto());
     }
@@ -94,11 +101,11 @@ class StudentAccountIntegrationTest {
         var share = new ProfileDtos.Edit("Sao Nhỏ", "moon", true, null, false, true, true);
         var stop = new ProfileDtos.Edit("Sao Nhỏ", "moon", true, null, false, true, false);
 
-        var profile = profiles.update(pupil.getEmail(), visible);
+        var profile = saveProfile(pupil.getEmail(), visible);
         String alias = profile.publicAlias();
         assertFalse(profile.leaderboardPhotoVisible());
         assertNull(peerAvatar(alias));
-        assertTrue(profiles.update(pupil.getEmail(), share).leaderboardPhotoVisible());
+        assertTrue(saveProfile(pupil.getEmail(), share).leaderboardPhotoVisible());
         assertEquals(pictureUrl, peerAvatar(alias));
         assertNull(profiles.get(other.getEmail()).avatarPhoto());
 
@@ -107,28 +114,93 @@ class StudentAccountIntegrationTest {
         profiles.captureGoogleAvatar(pupil.getId(), pictureUrl + "-new");
         assertNull(peerAvatar(alias));
 
-        assertTrue(profiles.update(pupil.getEmail(), share).leaderboardPhotoVisible());
+        assertTrue(saveProfile(pupil.getEmail(), share).leaderboardPhotoVisible());
         mvc.perform(multipart("/api/v1/student/profile/photo").file(new MockMultipartFile("file", "phone.png", "image/png", picture()))
                 .with(request -> { request.setMethod("PUT"); return request; }).with(user(pupil.getEmail()).roles("STUDENT")))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.leaderboardPhotoVisible").value(false));
         assertNull(peerAvatar(alias));
 
-        var shared = profiles.update(pupil.getEmail(), share);
+        var shared = saveProfile(pupil.getEmail(), share);
         String thumbnail = peerAvatar(alias);
         assertNotNull(thumbnail);
         assertNotEquals(shared.avatarPhoto(), thumbnail);
         var image = ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(thumbnail.substring(thumbnail.indexOf(',') + 1))));
         assertEquals(64, image.getWidth());
         assertEquals(64, image.getHeight());
-        assertTrue(profiles.update(pupil.getEmail(), visible).leaderboardPhotoVisible());
+        assertTrue(saveProfile(pupil.getEmail(), visible).leaderboardPhotoVisible());
         assertEquals(thumbnail, peerAvatar(alias));
-        assertFalse(profiles.update(pupil.getEmail(), stop).leaderboardPhotoVisible());
+        assertFalse(saveProfile(pupil.getEmail(), stop).leaderboardPhotoVisible());
         assertNull(peerAvatar(alias));
 
-        assertTrue(profiles.update(pupil.getEmail(), share).leaderboardPhotoVisible());
-        profiles.update(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", false, null));
-        profiles.update(pupil.getEmail(), visible);
+        assertTrue(saveProfile(pupil.getEmail(), share).leaderboardPhotoVisible());
+        saveProfile(pupil.getEmail(), new ProfileDtos.Edit("Sao Nhỏ", "moon", false, null));
+        saveProfile(pupil.getEmail(), visible);
         assertNull(peerAvatar(alias));
+    }
+
+    @Test void staleConsentCannotShareAReplacementPhotoOrCommitAName() throws Exception {
+        String oldPhoto = "https://lh3.googleusercontent.com/a/confirmed-photo";
+        profiles.captureGoogleAvatar(pupil.getId(), oldPhoto);
+        rewards.record(pupil.getId(), StudentRewards.Source.QUIZ, "replace-photo", "replace-photo");
+        changeProfile("{\"leaderboardVisible\":true}", privacyRevision()).andExpect(status().isOk());
+        String snapshot = privacyRevision();
+        profiles.captureGoogleAvatar(pupil.getId(), oldPhoto + "-replacement");
+
+        changeProfile("{\"displayName\":\"Tên bản nháp\",\"leaderboardPhotoVisible\":true}", snapshot)
+                .andExpect(status().isConflict()).andExpect(jsonPath("$.error.code").value("PROFILE_PRIVACY_CONFLICT"));
+        var current = profiles.get(pupil.getEmail());
+        assertEquals("Sao Nhỏ", current.displayName());
+        assertNull(peerAvatar(current.publicAlias()));
+        assertFalse(current.leaderboardPhotoVisible());
+    }
+
+    @Test void revokingTheSamePhotoInvalidatesAnEarlierOptInDraft() throws Exception {
+        String photo = "https://lh3.googleusercontent.com/a/unchanged-photo";
+        profiles.captureGoogleAvatar(pupil.getId(), photo);
+        rewards.record(pupil.getId(), StudentRewards.Source.QUIZ, "revoke-photo", "revoke-photo");
+        changeProfile("{\"leaderboardVisible\":true}", privacyRevision()).andExpect(status().isOk());
+        String snapshot = privacyRevision();
+        changeProfile("{\"leaderboardPhotoVisible\":true}", snapshot).andExpect(status().isOk());
+        changeProfile("{\"leaderboardPhotoVisible\":false}", privacyRevision()).andExpect(status().isOk());
+
+        changeProfile("{\"leaderboardPhotoVisible\":true}", snapshot).andExpect(status().isConflict());
+        changeProfile("{\"displayName\":\"Tên cũ\",\"avatar\":\"moon\",\"leaderboardPhotoVisible\":true}", null)
+                .andExpect(status().isConflict());
+        var current = profiles.get(pupil.getEmail());
+        assertEquals(photo, current.avatarPhoto());
+        assertEquals("Sao Nhỏ", current.displayName());
+        assertNull(peerAvatar(current.publicAlias()));
+    }
+
+    @Test void privacyOnlyKeepsNewNameAndInvalidPhotoConsentIsAtomic() throws Exception {
+        var initial = profiles.get(pupil.getEmail());
+        String snapshot = privacyRevision();
+        changeProfile("{\"displayName\":\"Tên mới\",\"avatar\":\"moon\"}", null).andExpect(status().isOk());
+        changeProfile("{\"leaderboardVisible\":true}", snapshot).andExpect(status().isOk())
+                .andExpect(jsonPath("$.displayName").value("Tên mới")).andExpect(jsonPath("$.avatar").value("moon"));
+        String participating = privacyRevision();
+        changeProfile("{\"leaderboardVisible\":false}", participating).andExpect(status().isOk());
+        changeProfile("{\"displayName\":\"Tên bản nháp\",\"leaderboardPhotoVisible\":true}", participating)
+                .andExpect(status().isConflict());
+        changeProfile("{\"displayName\":\"Tên bản nháp\",\"leaderboardPhotoVisible\":true}", privacyRevision())
+                .andExpect(status().isConflict());
+        var current = profiles.get(pupil.getEmail());
+        assertEquals("Tên mới", current.displayName());
+        assertEquals(initial.publicAlias(), current.publicAlias());
+        assertFalse(current.leaderboardVisible());
+    }
+
+    private String privacyRevision() throws Exception {
+        var json = mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        return mapper.readTree(json).path("privacyRevision").textValue();
+    }
+
+    private org.springframework.test.web.servlet.ResultActions changeProfile(String json, String revision) throws Exception {
+        var payload = (com.fasterxml.jackson.databind.node.ObjectNode) mapper.readTree(json);
+        if (revision != null) payload.put("privacyRevision", revision);
+        return mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT"))
+                .contentType("application/json").content(payload.toString()));
     }
 
     private String peerAvatar(String alias) throws Exception {

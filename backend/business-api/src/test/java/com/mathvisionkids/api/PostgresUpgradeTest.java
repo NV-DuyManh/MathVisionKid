@@ -10,6 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 /** Opt-in, real Flyway upgrade with existing data. Never touches the public app schema. */
 @EnabledIfEnvironmentVariable(named = "MATHVISION_POSTGRES_UPGRADE", matches = "true")
 class PostgresUpgradeTest {
+    @Test void upgradeFrom44KeepsExistingPhotoConsent() throws Exception {
+        verifyUpgrade("44");
+    }
+
     @Test void upgradeFrom42PreservesUsersAndStoresLongDisplayNames() throws Exception {
         verifyUpgrade("42");
     }
@@ -79,6 +83,9 @@ class PostgresUpgradeTest {
                     if (Integer.parseInt(startingVersion) >= 41) {
                         sql.execute("UPDATE student_profile_preferences SET achievement_path='RANK', achievement_path_changed_at=now() WHERE student_id='"+id+"'");
                     }
+                    if ("44".equals(startingVersion)) {
+                        sql.execute("UPDATE student_profile_preferences SET leaderboard_avatar='https://lh3.googleusercontent.com/a/synthetic' WHERE student_id='"+id+"'");
+                    }
                     sql.execute("INSERT INTO student_game_runs(id,student_id,level,started_at,activity_day,seed,answered,correct,last_answer)"
                             + " VALUES ('"+game+"','"+id+"',5,now(),CURRENT_DATE,12,2,1,10)");
                 }
@@ -92,8 +99,8 @@ class PostgresUpgradeTest {
                 sql.execute("INSERT INTO student_quizzes(id,student_id,source_type,source_id,source_fingerprint,topic_code,topic_name,skill_code,grade_level,question_text,unit,answer_spec,validated_solution,status,created_at,updated_at,generation_version) VALUES ('"+quiz+"','"+id+"','LESSON','source',repeat('a',64),'ADDITION','Addition','ADD',5,'2 + 2 = ?','','4','2 + 2 = 4','READY',now(),now(),'test')");
                 var latest = Flyway.configure().dataSource(url, user, password).schemas(schema).defaultSchema(schema).load();
                 var upgrade = latest.migrate();
-                assertEquals(44 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
-                assertEquals("44", latest.info().current().getVersion().getVersion());
+                assertEquals(45 - Integer.parseInt(startingVersion), upgrade.migrationsExecuted);
+                assertEquals("45", latest.info().current().getVersion().getVersion());
                 assertTrue(latest.validateWithResult().validationSuccessful);
                 if ("42".equals(startingVersion)) {
                     try (var row = sql.executeQuery("SELECT display_name FROM users WHERE id='" + id + "'")) {
@@ -124,11 +131,12 @@ class PostgresUpgradeTest {
                 }
                 assertEquals(0, latest.migrate().migrationsExecuted);
                 if (Integer.parseInt(startingVersion) >= 32) {
-                    try (var rows = sql.executeQuery("SELECT google_avatar_url,google_avatar_enabled,leaderboard_avatar FROM student_profile_preferences WHERE student_id='" + id + "'")) {
+                    try (var rows = sql.executeQuery("SELECT google_avatar_url,google_avatar_enabled,leaderboard_avatar,privacy_revision FROM student_profile_preferences WHERE student_id='" + id + "'")) {
                         assertTrue(rows.next());
                         assertNull(rows.getString(1));
                         assertTrue(rows.getBoolean(2));
-                        assertNull(rows.getString(3));
+                        assertEquals("44".equals(startingVersion) ? "https://lh3.googleusercontent.com/a/synthetic" : null, rows.getString(3));
+                        assertNotNull(rows.getObject(4, UUID.class));
                     }
                     try (var rows = sql.executeQuery("SELECT leaderboard_visible,leaderboard_name_hidden FROM student_profile_preferences WHERE student_id='"+id+"'")) {
                         assertTrue(rows.next()); assertTrue(rows.getBoolean(1)); assertTrue(rows.getBoolean(2));

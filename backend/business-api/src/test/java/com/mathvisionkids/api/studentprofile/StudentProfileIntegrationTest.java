@@ -66,6 +66,13 @@ class StudentProfileIntegrationTest {
                 studentId, passwords.encode(pin));
     }
 
+
+    Profile saveProfile(String email, Edit edit) {
+        return profiles.update(email, new Edit(edit.displayName(), edit.avatar(), edit.leaderboardVisible(),
+                edit.selectedTitle(), edit.removePhoto(), edit.leaderboardNameHidden(), edit.leaderboardPhotoVisible(),
+                profiles.get(email).privacyRevision()));
+    }
+
     @Test void starHistoryPagesThroughOlderAwardsForTheSignedInStudent() throws Exception {
         String insert = """
                 INSERT INTO student_verified_activities (student_id, source, event_id, content_id, completed_at, activity_day, stars)
@@ -385,7 +392,7 @@ class StudentProfileIntegrationTest {
             assertEquals(initial, profiles.get(pupil.getEmail()).avatar());
         }
         String chosen = initial.equals("moon") ? "planet" : "moon";
-        profiles.update(pupil.getEmail(), new Edit("Học Sinh", chosen, false, null));
+        saveProfile(pupil.getEmail(), new Edit("Học Sinh", chosen, false, null));
         profiles.initialize(pupil.getId());
         assertEquals(chosen, profiles.get(pupil.getEmail()).avatar());
         assertEquals(1, db.queryForObject("SELECT COUNT(*) FROM student_profile_preferences WHERE student_id = ?", Integer.class, pupil.getId()));
@@ -675,7 +682,7 @@ class StudentProfileIntegrationTest {
         var before = profiles.get(pupil.getEmail());
         assertEquals("Sắt III", before.rank().name());
         db.update("UPDATE student_profile_preferences SET selected_title = ? WHERE student_id = ?", "luyen-khi", pupil.getId());
-        var after = profiles.update(pupil.getEmail(), new Edit("Sao Sáng", "moon", false, "rookie"));
+        var after = saveProfile(pupil.getEmail(), new Edit("Sao Sáng", "moon", false, "rookie"));
         assertNull(after.selectedTitle());
         assertTrue(after.titles().isEmpty());
         assertEquals("luyen-khi", db.queryForObject("SELECT selected_title FROM student_profile_preferences WHERE student_id = ?", String.class, pupil.getId()));
@@ -705,15 +712,15 @@ class StudentProfileIntegrationTest {
         mvc.perform(get("/api/v1/student/leaderboard").with(user(other.getEmail()).roles("STUDENT")).param("classroom", UUID.randomUUID().toString()))
                 .andExpect(status().isNotFound());
         mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")).contentType("application/json")
-                .content("{\"displayName\":\"Học Sinh\",\"avatar\":\"moon\",\"leaderboardVisible\":true,\"selectedTitle\":\"master\"}"))
+                .content("{\"displayName\":\"Học Sinh\",\"avatar\":\"moon\",\"leaderboardVisible\":true,\"selectedTitle\":\"master\",\"privacyRevision\":\"%s\"}".formatted(profiles.get(pupil.getEmail()).privacyRevision())))
                 .andExpect(status().isOk());
-        var profile = profiles.update(pupil.getEmail(), new Edit("Sao Sáng", "moon", true, "rookie"));
+        var profile = saveProfile(pupil.getEmail(), new Edit("Sao Sáng", "moon", true, "rookie"));
         assertEquals("Sao Sáng", students.findById(pupil.getId()).orElseThrow().getDisplayName());
         assertNull(profile.selectedTitle());
         mvc.perform(get("/api/v1/student/leaderboard").with(user(other.getEmail()).roles("STUDENT")))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.entries[?(@.alias == '" + profile.publicAlias() + "')].avatar").value("moon"))
                 .andExpect(jsonPath("$.entries[*].email").doesNotExist()).andExpect(jsonPath("$.entries[*].studentId").doesNotExist());
-        profiles.update(pupil.getEmail(), new Edit("Sao Sáng", "moon", false, null));
+        saveProfile(pupil.getEmail(), new Edit("Sao Sáng", "moon", false, null));
         assertNull(profiles.get(pupil.getEmail()).position());
         assertFalse(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(e -> e.alias().equals(profile.publicAlias())));
     }
@@ -790,7 +797,7 @@ class StudentProfileIntegrationTest {
         mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.rank.name").value("Chiến Tướng"))
                 .andExpect(jsonPath("$.highestRank").value("Thách Đấu"));
-        var hidden = profiles.update(pupil.getEmail(), new Edit("Sao Sáng", "moon", false, null));
+        var hidden = saveProfile(pupil.getEmail(), new Edit("Sao Sáng", "moon", false, null));
         assertNull(hidden.position());
         assertEquals("Thách Đấu", hidden.rank().name());
         assertEquals("Huyền Thoại", hidden.highestRank());
@@ -798,9 +805,9 @@ class StudentProfileIntegrationTest {
     }
 
     @Test void explicitVisibleNameSurvivesHttpSaveAndSubsequentProfileReads() throws Exception {
-        String body = "{\"displayName\":\"Minh Anh\",\"avatar\":\"moon\",\"leaderboardVisible\":true,\"leaderboardNameHidden\":false,\"selectedTitle\":null}";
+        String body = "{\"displayName\":\"Minh Anh\",\"avatar\":\"moon\",\"leaderboardVisible\":true,\"leaderboardNameHidden\":false,\"selectedTitle\":null,\"privacyRevision\":\"%s\"}";
         for (int i = 0; i < 2; i++) {
-            mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")).contentType("application/json").content(body))
+            mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")).contentType("application/json").content(body.formatted(profiles.get(pupil.getEmail()).privacyRevision())))
                     .andExpect(status().isOk()).andExpect(jsonPath("$.leaderboardVisible").value(true))
                     .andExpect(jsonPath("$.leaderboardNameHidden").value(false));
             mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
@@ -811,7 +818,7 @@ class StudentProfileIntegrationTest {
 
     @Test void nameOnlyHttpUpdatePreservesCurrentLeaderboardPrivacy() throws Exception {
         profiles.captureGoogleAvatar(pupil.getId(), "https://lh3.googleusercontent.com/a/synthetic-profile");
-        profiles.update(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null, false, false, true));
+        saveProfile(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null, false, false, true));
         String body = """
                 {"displayName":"Sao Sáng","avatar":"moon"}
                 """;
@@ -821,7 +828,7 @@ class StudentProfileIntegrationTest {
                 .andExpect(jsonPath("$.leaderboardNameHidden").value(false))
                 .andExpect(jsonPath("$.leaderboardPhotoVisible").value(true));
 
-        profiles.update(pupil.getEmail(), new Edit("Sao Sáng", "moon", false, null, false, true, false));
+        saveProfile(pupil.getEmail(), new Edit("Sao Sáng", "moon", false, null, false, true, false));
         mvc.perform(put("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")).contentType("application/json").content(body))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.leaderboardVisible").value(false))
                 .andExpect(jsonPath("$.leaderboardNameHidden").value(true))
@@ -834,16 +841,16 @@ class StudentProfileIntegrationTest {
         students.saveAndFlush(pupil);
         students.saveAndFlush(other);
         rewards.record(pupil.getId(), StudentRewards.Source.LESSON, "private", "private-content");
-        var privateProfile = profiles.update(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null));
+        var privateProfile = saveProfile(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null));
         assertTrue(privateProfile.leaderboardNameHidden());
         assertTrue(StudentAnimalAliases.ANIMALS.contains(privateProfile.publicAlias())
                 || privateProfile.publicAlias().matches(".+ \\d+"));
         var board = profiles.leaderboard(other.getEmail(), null);
         assertEquals(5, board.gradeLevel());
         assertTrue(board.entries().stream().anyMatch(entry -> entry.alias().equals(privateProfile.publicAlias())));
-        profiles.update(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null, false, false));
+        saveProfile(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null, false, false));
         assertTrue(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(entry -> entry.alias().equals("Minh Anh")));
-        assertFalse(profiles.update(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null)).leaderboardNameHidden());
+        assertFalse(saveProfile(pupil.getEmail(), new Edit("Minh Anh", "moon", true, null)).leaderboardNameHidden());
         assertEquals(privateProfile.publicAlias(), profiles.get(pupil.getEmail()).publicAlias());
         db.update("UPDATE users SET display_name = ? WHERE id = ?", "old-account@example.com", pupil.getId());
         assertTrue(profiles.leaderboard(other.getEmail(), null).entries().stream().anyMatch(entry -> entry.alias().equals(privateProfile.publicAlias())));
@@ -859,8 +866,8 @@ class StudentProfileIntegrationTest {
         rewards.record(pupil.getId(), StudentRewards.Source.LESSON, "rank-5", "rank-5");
         rewards.record(pupil.getId(), StudentRewards.Source.LESSON, "rank-5-extra", "rank-5-extra");
         rewards.record(other.getId(), StudentRewards.Source.LESSON, "rank-3", "rank-3");
-        var gradeFive = profiles.update(pupil.getEmail(), new Edit("Tên lớp năm", "moon", true, null, false, true));
-        var gradeThree = profiles.update(other.getEmail(), new Edit("Tên lớp ba", "star", true, null, false, true));
+        var gradeFive = saveProfile(pupil.getEmail(), new Edit("Tên lớp năm", "moon", true, null, false, true));
+        var gradeThree = saveProfile(other.getEmail(), new Edit("Tên lớp ba", "star", true, null, false, true));
 
         var all = profiles.leaderboard(other.getEmail(), null, true);
         var firstStudent = all.entries().stream().filter(entry -> entry.alias().equals(gradeFive.publicAlias())).findFirst().orElseThrow();
@@ -879,7 +886,7 @@ class StudentProfileIntegrationTest {
                         .param("classroom", UUID.randomUUID().toString()).with(user(other.getEmail()).roles("STUDENT")))
                 .andExpect(status().isBadRequest());
 
-        profiles.update(pupil.getEmail(), new Edit("Tên lớp năm", "moon", false, null));
+        saveProfile(pupil.getEmail(), new Edit("Tên lớp năm", "moon", false, null));
         assertFalse(profiles.leaderboard(other.getEmail(), null, true).entries().stream()
                 .anyMatch(entry -> entry.alias().equals(gradeFive.publicAlias())));
         assertNull(profiles.leaderboard(pupil.getEmail(), null, true).ownPosition());

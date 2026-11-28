@@ -674,7 +674,8 @@ test('student can find global ranking, choose name privacy and open all six game
   const rank = { name: 'Thách Đấu', masterStars: 127, progress: 0, goal: 0, scheme: 2 };
   let profile = {
     displayName: 'Bạn nhỏ yêu toán', gradeLevel: 5, joinedAt: null, classrooms: [{ id: 'class-5a', name: 'Lớp 5A' }],
-    avatar: 'star', leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Sư Tử', selectedTitle: null,
+    avatar: 'star', leaderboardVisible: true, leaderboardNameHidden: true, leaderboardPhotoVisible: false,
+    publicAlias: 'Sư Tử', selectedTitle: null,
     stars: 214, rank, highestRank: rank.name, position: null,
     stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
     titles: [], history: [],

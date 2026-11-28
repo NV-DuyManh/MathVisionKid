@@ -105,6 +105,7 @@ export const test = base.extend({
         state.studentProfile ??= {
         displayName: 'Kiểm thử STUDENT', gradeLevel: 5, joinedAt: null, classrooms: [],
         avatar: 'star', leaderboardVisible: false, leaderboardNameHidden: true, leaderboardPhotoVisible: false, publicAlias: 'Hươu Sao', selectedTitle: null,
+        privacyRevision: randomUUID(),
         stars: 1, rank: { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 },
         highestRank: 'Sắt III', position: null,
         stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
@@ -116,12 +117,26 @@ export const test = base.extend({
           const bytes = request.postDataBuffer();
           const start = bytes.indexOf('\r\n\r\n') + 4, end = bytes.lastIndexOf('\r\n--');
           state.studentProfile.leaderboardPhotoVisible = false;
+          state.studentProfile.privacyRevision = randomUUID();
           state.studentProfile.avatarPhoto = `data:image/png;base64,${bytes.subarray(start, end).toString('base64')}`;
         }
         if (path === '/student/profile' && method === 'PUT') {
-          Object.assign(state.studentProfile, body);
-          if (body.removePhoto) state.studentProfile.avatarPhoto = null;
-          if (body.removePhoto || body.leaderboardVisible === false) state.studentProfile.leaderboardPhotoVisible = false;
+          const { privacyRevision, removePhoto, ...changes } = body;
+          const current = state.studentProfile;
+          const visible = changes.leaderboardVisible ?? current.leaderboardVisible;
+          const expands = (visible && !current.leaderboardVisible)
+            || (changes.leaderboardNameHidden === false && current.leaderboardNameHidden)
+            || (changes.leaderboardPhotoVisible === true && !current.leaderboardPhotoVisible);
+          if ((privacyRevision != null && privacyRevision !== current.privacyRevision) || (expands && !privacyRevision)
+            || (changes.leaderboardPhotoVisible === true && (!visible || removePhoto || !current.avatarPhoto))) {
+            return json({ error: { code: 'PROFILE_PRIVACY_CONFLICT' } }, 409);
+          }
+          const privacyChanged = ['leaderboardVisible', 'leaderboardNameHidden', 'leaderboardPhotoVisible']
+            .some(field => changes[field] !== undefined && changes[field] !== current[field]);
+          Object.assign(current, changes);
+          if (removePhoto) current.avatarPhoto = null;
+          if (removePhoto || !visible) current.leaderboardPhotoVisible = false;
+          if (privacyChanged || removePhoto) current.privacyRevision = randomUUID();
         }
         return json(state.studentProfile);
       }

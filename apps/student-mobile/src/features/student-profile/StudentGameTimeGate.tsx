@@ -84,12 +84,17 @@ function PlaybackLease({ children, onLeave }: GateProps) {
           setState(result?.remainingMillis === lease ? 'game-limit' : 'connection');
         }, Math.max(0, cutoff - performance.now()));
         setState('ready');
-      }).catch((error: unknown) => {
+      }).catch(async (error: unknown) => {
         if (!mounted || id !== activeId) return;
         const status = (error as { response?: { status?: number } } | null)?.response?.status;
-        // Retry temporary failures within the existing server grant. Never
-        // extend its deadline or ignore an explicit rejection.
-        if (typeof status === 'number' && status >= 500 && performance.now() < validUntil) return;
+        // Only HTTP 5xx may keep play within the existing grant. A timeout,
+        // transport failure or denied request closes the game.
+        if (typeof status === 'number' && status >= 500 && status < 600 && performance.now() < validUntil) {
+          const grantedSession = await session;
+          const currentSession = await tokenStorage.getSessionId().catch(() => null);
+          if (!mounted || id !== activeId) return;
+          if (grantedSession && currentSession === grantedSession && visible() && performance.now() < validUntil) return;
+        }
         stop();
         setState('connection');
       }).finally(() => {

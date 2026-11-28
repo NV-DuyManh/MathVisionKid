@@ -6,7 +6,8 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
     const rank = { name: 'Sắt III', masterStars: 0, progress: 1, goal: 3 };
     let profile = {
       displayName: 'Tên riêng của em', gradeLevel: 5, joinedAt: null, classrooms: [], avatar: 'star',
-      leaderboardVisible: true, leaderboardNameHidden: true, publicAlias: 'Hươu Sao', selectedTitle: null,
+      leaderboardVisible: true, leaderboardNameHidden: true, leaderboardPhotoVisible: false,
+      publicAlias: 'Hươu Sao', selectedTitle: null,
       stars: 1, rank, highestRank: rank.name, position: 1,
       stats: { lessons: 1, quizzes: 0, games: 0, days: 1, week: 1, month: 1, today: 1, streak: 1 },
       titles: [

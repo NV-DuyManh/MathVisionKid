@@ -18,6 +18,7 @@ export type StudentProfile = {
   leaderboardVisible: boolean;
   leaderboardNameHidden?: boolean;
   leaderboardPhotoVisible?: boolean;
+  privacyRevision?: string;
   publicAlias: string;
   selectedTitle: string | null;
   stars: number;
@@ -28,8 +29,8 @@ export type StudentProfile = {
   titles: StudentTitle[];
   history: StarActivity[];
 };
-export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'selectedTitle'>
-  & Partial<Pick<StudentProfile, 'leaderboardVisible' | 'leaderboardNameHidden' | 'leaderboardPhotoVisible'>>
+export type ProfileEdit = Partial<Pick<StudentProfile, 'displayName' | 'avatar' | 'selectedTitle' |
+  'leaderboardVisible' | 'leaderboardNameHidden' | 'leaderboardPhotoVisible' | 'privacyRevision'>>
   & { removePhoto?: boolean };
 export type Leaderboard = {
   gradeLevel?: number | null;
@@ -44,14 +45,32 @@ export type GameRun = {
 };
 const root = '/student';
 const rankHeaders = { 'X-MathVision-Client': 'student-rank-v2' };
+function isProfile(value: StudentProfile | null | undefined): value is StudentProfile {
+  return value != null && typeof value.displayName === 'string' && typeof value.avatar === 'string'
+    && typeof value.leaderboardVisible === 'boolean' && typeof value.leaderboardNameHidden === 'boolean'
+    && typeof value.leaderboardPhotoVisible === 'boolean' && typeof value.publicAlias === 'string'
+    && Array.isArray(value.classrooms) && Array.isArray(value.history) && Array.isArray(value.titles)
+    && typeof value.stars === 'number' && typeof value.rank?.name === 'string' && typeof value.stats?.lessons === 'number';
+}
 export const profileApi = {
   async get(signal: AbortSignal) {
     return (await apiClient.get<StudentProfile>(root + '/profile', { signal, headers: rankHeaders })).data;
   },
   async update(edit: ProfileEdit, signal: AbortSignal) {
     const config = { signal, _identity: await tokenStorage.getSessionId(), headers: rankHeaders };
-    let next = (await apiClient.put<StudentProfile>(root + '/profile', edit, config)).data;
-    const matchesPrivacy = (value: StudentProfile) => value != null
+    let next: StudentProfile;
+    try {
+      next = (await apiClient.put<StudentProfile>(root + '/profile', edit, config)).data;
+    } catch (error) {
+      const response = (error as { response?: { status?: number; data?: { error?: { code?: string } } } } | null)?.response;
+      if (response?.status !== 409 || response.data?.error?.code !== 'PROFILE_PRIVACY_CONFLICT') throw error;
+      const current = await apiClient.get<StudentProfile>(root + '/profile', config).then(result => result.data, () => undefined);
+      throw Object.assign(new Error('Lựa chọn quyền riêng tư đã thay đổi.'), {
+        code: 'PROFILE_PRIVACY_CONFLICT', currentProfile: isProfile(current) ? current : undefined,
+      });
+    }
+    const matchesPrivacy = (value: StudentProfile) => isProfile(value)
+      && (edit.privacyRevision === undefined || typeof value.privacyRevision === 'string')
       && (edit.leaderboardVisible === undefined || value.leaderboardVisible === edit.leaderboardVisible)
       && (edit.leaderboardNameHidden === undefined || value.leaderboardNameHidden === edit.leaderboardNameHidden)
       && (edit.leaderboardPhotoVisible === undefined || value.leaderboardPhotoVisible === edit.leaderboardPhotoVisible);

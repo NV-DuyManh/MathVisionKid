@@ -3,7 +3,10 @@ import { profileApi, type ProfileEdit, type StudentProfile } from '../features/s
 jest.mock('../services/api/apiClient', () => ({ put: jest.fn(), get: jest.fn() }));
 jest.mock('../services/auth/tokenStorage', () => ({ tokenStorage: { getSessionId: jest.fn().mockResolvedValue('profile-owner-session') } }));
 const edit: ProfileEdit = { displayName: 'Minh Anh', avatar: 'moon', selectedTitle: null, leaderboardVisible: true, leaderboardNameHidden: false };
-const profile = { ...edit } as StudentProfile;
+const profile = {
+  ...edit, leaderboardPhotoVisible: false, classrooms: [], titles: [], history: [], publicAlias: 'Hươu Sao',
+  stars: 0, rank: { name: 'Sắt III' }, stats: { lessons: 0 },
+} as StudentProfile;
 beforeEach(() => { jest.clearAllMocks(); });
 
 it('accepts current server privacy for a name-only edit', async () => {
@@ -12,6 +15,17 @@ it('accepts current server privacy for a name-only edit', async () => {
   jest.mocked(apiClient.put).mockResolvedValue({ data: response });
   await expect(profileApi.update(nameEdit, new AbortController().signal)).resolves.toEqual(response);
   expect(apiClient.get).not.toHaveBeenCalled();
+});
+
+it.each([{}, { displayName: 'Minh Anh', avatar: 'moon' }])('checks a partial name-only response %j against the current profile', async partial => {
+  jest.mocked(apiClient.put).mockResolvedValue({ data: partial });
+  jest.mocked(apiClient.get).mockResolvedValue({ data: profile });
+  const signal = new AbortController().signal;
+  await expect(profileApi.update({ displayName: 'Minh Anh' }, signal)).resolves.toEqual(profile);
+  expect(apiClient.get).toHaveBeenCalledTimes(1);
+
+  jest.mocked(apiClient.get).mockResolvedValue({ data: partial });
+  await expect(profileApi.update({ displayName: 'Minh Anh' }, signal)).rejects.toMatchObject({ code: 'PROFILE_PRIVACY_UNCONFIRMED' });
 });
 
 it.each([true, false])('preserves an explicitly selected name privacy value %s', async hidden => {

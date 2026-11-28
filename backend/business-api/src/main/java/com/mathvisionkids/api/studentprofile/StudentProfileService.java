@@ -28,7 +28,7 @@ public class StudentProfileService {
     private static final int STAR_HISTORY_PAGE_SIZE = 10;
     private static final List<String> INITIAL_AVATARS = List.of("star", "planet", "leaf", "rocket", "moon", "sun");
     private record Preferences(String avatar, String alias, boolean visible, boolean reachedChallenger,
-                               boolean nameHidden, String googleAvatarUrl, boolean photoVisible) {}
+                               boolean nameHidden, String googleAvatarUrl, boolean photoVisible, UUID privacyRevision) {}
     private record Day(LocalDate date, long lessons, long quizzes, long games, long stars) {
         long total() { return lessons + quizzes + games; }
     }
@@ -64,38 +64,69 @@ public class StudentProfileService {
     public Profile update(String principal, Edit edit) {
         Student student = student(principal);
         UUID id = student.getId();
-        String name = Normalizer.normalize(edit.displayName().strip(), Normalizer.Form.NFC);
-        if (!name.matches("[\\p{L}\\p{M}\\p{Nd}][\\p{L}\\p{M}\\p{Nd} .’'-]*")
-                || name.split(" +", 51).length > 50 || !AVATARS.contains(edit.avatar())) {
+        String name = edit.displayName() == null ? null : Normalizer.normalize(edit.displayName().strip(), Normalizer.Form.NFC);
+        if ((name != null && (!name.matches("[\\p{L}\\p{M}\\p{Nd}][\\p{L}\\p{M}\\p{Nd} .’'-]*")
+                || name.split(" +", 51).length > 50)) || (edit.avatar() != null && !AVATARS.contains(edit.avatar()))) {
             throw invalid("Em kiểm tra tên hiển thị hoặc chọn một hình đại diện trong bộ sưu tập nhé.");
         }
-        lockStudent(id);
-        student.setDisplayName(name);
-        students.saveAndFlush(student);
+        em.refresh(student, LockModeType.PESSIMISTIC_WRITE);
         rewards.lock();
         ensurePreferences(id);
+        var current = preferences(id);
+        boolean leaderboardVisible = edit.leaderboardVisible() == null ? current.visible() : edit.leaderboardVisible();
+        boolean nameHidden = edit.leaderboardNameHidden() == null ? current.nameHidden() : edit.leaderboardNameHidden();
+        boolean removePhoto = Boolean.TRUE.equals(edit.removePhoto());
+        boolean sharePhoto = Boolean.TRUE.equals(edit.leaderboardPhotoVisible());
+        boolean photoVisible = leaderboardVisible && !removePhoto && (edit.leaderboardPhotoVisible() == null
+                ? current.photoVisible() : edit.leaderboardPhotoVisible());
+        boolean changesPrivacy = leaderboardVisible != current.visible() || nameHidden != current.nameHidden()
+                || photoVisible != current.photoVisible() || removePhoto;
+        boolean expandsSharing = (leaderboardVisible && !current.visible()) || (!nameHidden && current.nameHidden())
+                || (sharePhoto && !current.photoVisible());
+        boolean stale = edit.privacyRevision() != null && !edit.privacyRevision().equals(current.privacyRevision());
+        if (stale || (edit.privacyRevision() == null && expandsSharing) || (sharePhoto && !photoVisible)) {
+            throw privacyConflict();
+        }
         if (Boolean.TRUE.equals(edit.leaderboardVisible()) && student.getEmail().toLowerCase(Locale.ROOT).endsWith("@mathvision.local"))
             throw invalid("Tài khoản này không tham gia bảng xếp hạng.");
-        boolean leaderboardVisible = edit.leaderboardVisible() == null ? preferences(id).visible() : edit.leaderboardVisible();
+        String newSharedPhoto = null;
+        if (sharePhoto && !current.photoVisible()) {
+            newSharedPhoto = leaderboardAvatar(id, current.googleAvatarUrl());
+            if (newSharedPhoto == null) throw privacyConflict();
+        }
+        if (name != null && !name.equals(student.getDisplayName())) {
+            student.setDisplayName(name);
+            students.saveAndFlush(student);
+        }
         db.update("""
-                UPDATE student_profile_preferences SET avatar = ?, leaderboard_visible = ?,
-                    leaderboard_name_hidden = COALESCE(?, leaderboard_name_hidden) WHERE student_id = ?
-                """, edit.avatar(), leaderboardVisible, edit.leaderboardNameHidden(), id);
+                UPDATE student_profile_preferences SET avatar = COALESCE(?, avatar), leaderboard_visible = ?,
+                    leaderboard_name_hidden = ?, privacy_revision = ? WHERE student_id = ?
+                """, edit.avatar(), leaderboardVisible, nameHidden,
+                changesPrivacy ? UUID.randomUUID() : current.privacyRevision(), id);
         rewards.rememberChallengers();
-        if (Boolean.TRUE.equals(edit.removePhoto())) {
+        if (removePhoto) {
             db.update("DELETE FROM student_profile_photos WHERE student_id = ?", id);
             db.update("""
                     UPDATE student_profile_preferences SET google_avatar_url = NULL, google_avatar_enabled = FALSE
                     WHERE student_id = ?
                     """, id);
         }
-        if (!leaderboardVisible || Boolean.TRUE.equals(edit.removePhoto())
-                || Boolean.FALSE.equals(edit.leaderboardPhotoVisible())) {
+        if (!photoVisible) {
             setLeaderboardAvatar(id, null);
-        } else if (Boolean.TRUE.equals(edit.leaderboardPhotoVisible())) {
-            setLeaderboardAvatar(id, leaderboardAvatar(id, preferences(id).googleAvatarUrl()));
+        } else if (newSharedPhoto != null) {
+            setLeaderboardAvatar(id, newSharedPhoto);
         }
         return profile(student);
+    }
+
+    private ApiException privacyConflict() {
+        return new ApiException("PROFILE_PRIVACY_CONFLICT", "Quyền riêng tư hoặc ảnh đã thay đổi. Em tải lại hồ sơ rồi chọn lại nhé.", HttpStatus.CONFLICT);
+    }
+
+    void revokePhotoAfterReplacement(UUID id) {
+        ensurePreferences(id);
+        db.update("UPDATE student_profile_preferences SET leaderboard_avatar = NULL, privacy_revision = ? WHERE student_id = ?",
+                UUID.randomUUID(), id);
     }
 
     void setLeaderboardAvatar(UUID id, String photo) {
@@ -158,10 +189,10 @@ public class StudentProfileService {
         lockStudent(id);
         ensurePreferences(id);
         db.update("""
-                UPDATE student_profile_preferences SET google_avatar_url = ?, leaderboard_avatar = NULL
+                UPDATE student_profile_preferences SET google_avatar_url = ?, leaderboard_avatar = NULL, privacy_revision = ?
                 WHERE student_id = ? AND google_avatar_enabled AND google_avatar_url IS DISTINCT FROM ?
                     AND NOT EXISTS (SELECT 1 FROM student_profile_photos WHERE student_id = ?)
-                """, url, id, url, id);
+                """, url, UUID.randomUUID(), id, url, id);
     }
 
     // Admin eligibility changes share the same student -> reward lock order as award/profile writes.
@@ -229,11 +260,11 @@ public class StudentProfileService {
     private Preferences preferences(UUID id) {
         return db.query("""
                 SELECT avatar, public_alias, leaderboard_visible, reached_challenger, leaderboard_name_hidden, google_avatar_url,
-                       leaderboard_visible AND leaderboard_avatar IS NOT NULL
+                       leaderboard_visible AND leaderboard_avatar IS NOT NULL, privacy_revision
                 FROM student_profile_preferences WHERE student_id = ?
                 """, (r, n) -> new Preferences(r.getString(1), r.getString(2), r.getBoolean(3), r.getBoolean(4),
-                r.getBoolean(5), r.getString(6), r.getBoolean(7)), id)
-                .stream().findFirst().orElse(new Preferences("star", "", false, false, true, null, false));
+                r.getBoolean(5), r.getString(6), r.getBoolean(7), r.getObject(8, UUID.class)), id)
+                .stream().findFirst().orElseThrow();
     }
 
     @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
@@ -278,7 +309,7 @@ public class StudentProfileService {
         return new Profile(student.getDisplayName(), student.getGradeLevel(), student.getCreatedAt(), classes, prefs.avatar(),
                 prefs.visible(), prefs.alias(), null, stars, rank, prefs.reachedChallenger() ? "Huyền Thoại" : rank.name(),
                 position, stats, List.of(), history, photo, student.getGoogleSubject() == null && student.getFacebookSubject() == null,
-                prefs.nameHidden(), student.getGoogleSubject() != null, prefs.photoVisible());
+                prefs.nameHidden(), student.getGoogleSubject() != null, prefs.photoVisible(), prefs.privacyRevision());
     }
 
     private Long position(UUID student, String ranking, Object... filters) {

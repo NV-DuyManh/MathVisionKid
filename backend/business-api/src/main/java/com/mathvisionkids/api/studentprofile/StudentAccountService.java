@@ -43,12 +43,12 @@ public class StudentAccountService {
     public Profile photo(String principal, MultipartFile file) {
         var student = profiles.student(principal);
         byte[] image = thumbnail(file);
-        users.lockSessions(student.getId()).orElseThrow();
+        profiles.lockStudent(student.getId());
         int updated = db.update("UPDATE student_profile_photos SET image_bytes = ?, updated_at = ? WHERE student_id = ?",
                 image, Timestamp.from(Instant.now()), student.getId());
         if (updated == 0) db.update("INSERT INTO student_profile_photos(student_id, image_bytes, updated_at) VALUES (?, ?, ?)",
                 student.getId(), image, Timestamp.from(Instant.now()));
-        profiles.setLeaderboardAvatar(student.getId(), null);
+        profiles.revokePhotoAfterReplacement(student.getId());
         return profiles.get(principal);
     }
 

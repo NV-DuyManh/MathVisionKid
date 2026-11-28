@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.UUID;
 
 final class ProfileDtos {
-    record Edit(@NotBlank String displayName, @NotBlank @Size(max = 16) String avatar,
+    record Edit(String displayName, @Size(max = 16) String avatar,
                 Boolean leaderboardVisible, @Size(max = 32) String selectedTitle, Boolean removePhoto,
-                Boolean leaderboardNameHidden, Boolean leaderboardPhotoVisible) {
+                Boolean leaderboardNameHidden, Boolean leaderboardPhotoVisible, UUID privacyRevision) {
+        Edit(String displayName, String avatar, Boolean leaderboardVisible, String selectedTitle,
+             Boolean removePhoto, Boolean leaderboardNameHidden, Boolean leaderboardPhotoVisible) {
+            this(displayName, avatar, leaderboardVisible, selectedTitle, removePhoto, leaderboardNameHidden, leaderboardPhotoVisible, null);
+        }
         Edit(String displayName, String avatar, Boolean leaderboardVisible, String selectedTitle) {
             this(displayName, avatar, leaderboardVisible, selectedTitle, false, null, null);
         }
@@ -31,7 +35,8 @@ final class ProfileDtos {
     record Profile(String displayName, Integer gradeLevel, Instant joinedAt, List<Classroom> classrooms, String avatar,
                    boolean leaderboardVisible, String publicAlias, String selectedTitle, long stars, StudentRank.Rank rank,
                    String highestRank, Long position, Stats stats, List<Title> titles, List<Activity> history,
-                   String avatarPhoto, boolean passwordLoginAvailable, boolean leaderboardNameHidden, boolean googleLinked, boolean leaderboardPhotoVisible) {}
+                   String avatarPhoto, boolean passwordLoginAvailable, boolean leaderboardNameHidden, boolean googleLinked,
+                   boolean leaderboardPhotoVisible, UUID privacyRevision) {}
     record Entry(long position, String alias, String avatar, long stars, StudentRank.Rank rank, boolean self,
                  @JsonInclude(JsonInclude.Include.NON_NULL) String avatarPhoto) {}
     record Leaderboard(List<Entry> entries, Long ownPosition, Integer gradeLevel) {}

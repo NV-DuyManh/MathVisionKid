@@ -67,6 +67,31 @@ test('a temporary game heartbeat failure keeps the run during its valid lease', 
   await expect(page.getByRole('heading', { name: 'Chưa xác minh được thời gian sử dụng' })).toHaveCount(0);
 });
 
+for (const status of [401, 403]) {
+  test(`the authenticated game stops when a renewal returns ${status}`, async ({ page, app }) => {
+    app.realStudent = true;
+    let activeRequests = 0;
+    app.responses.set('POST /student/app-usage/game-heartbeat', ({ body, json, reject }) => {
+      if (body.active && ++activeRequests > 1) return reject(status);
+      return json({ remainingMillis: null, leaseMillis: body.active ? 10_000 : 0, gameLimitReached: false });
+    });
+    await login(page, 'STUDENT');
+    await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+    await page.setViewportSize({ width: 1000, height: 650 });
+    await page.goto(`${sites.portal.origin}/study/games/race-to-finish`);
+    const player = page.getByTestId('training-player-race-to-finish');
+    await expect(player).toBeVisible();
+
+    if (status === 401) {
+      await expect(page).toHaveURL(`${sites.portal.origin}/session-expired`);
+    } else {
+      await expect(page.getByRole('heading', { name: 'Chưa xác minh được thời gian sử dụng' })).toBeVisible();
+      await expect(page).toHaveURL(`${sites.portal.origin}/study/games/race-to-finish`);
+    }
+    await expect(player).toHaveCount(0);
+  });
+}
+
 test('the game player stops when its server lease expires and does not lock learning', async ({ page, app }) => {
   app.realStudent = true;
   await page.setViewportSize({ width: 1000, height: 650 });
