@@ -744,6 +744,7 @@ test('student can find global ranking, choose name privacy and open all six game
   await expect(cards).toHaveCount(5);
   const covers = page.locator('img[src*="illustrations/games/"]');
   await expect(covers).toHaveCount(6);
+  for (const cover of await covers.all()) await cover.scrollIntoViewIfNeeded();
   await expect.poll(() => covers.evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0
     && Math.abs(image.naturalWidth / image.naturalHeight - 16 / 9) < 0.01))).toBe(true);
   await expect(page.getByRole('button', { name: /^Mở thử thách tính sao ·/ })).toHaveCount(5);

@@ -875,7 +875,7 @@ function MathGuideLesson({ owner, params, sourceDraft, initialEdit, useTopbarCal
         </LinearGradient> : null}
 
         {error ? <RecoveryNotice dialog title={errorTitle} message={error} actions={errorActions} /> : null}
-        {web && preparationIssue && !error && !busy && !viewingHistory && !displayedReview && (
+        {web && preparationIssue && !error && !busy && !viewingHistory && (summaryVisible || !displayedReview) && (
           <RecoveryNotice dialog dialogKey={lesson?.sessionId} title="Chưa chuẩn bị được bước giải"
             message={preparationPaused ? 'Đã hết thời gian chờ. Đề bài và phần em đã làm vẫn được giữ.' : 'Đề bài và phần em đã làm vẫn được giữ.'}
             actions={preparationActions} />
