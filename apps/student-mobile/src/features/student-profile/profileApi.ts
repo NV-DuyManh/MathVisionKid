@@ -52,9 +52,21 @@ function isProfile(value: StudentProfile | null | undefined): value is StudentPr
     && Array.isArray(value.classrooms) && Array.isArray(value.history) && Array.isArray(value.titles)
     && typeof value.stars === 'number' && typeof value.rank?.name === 'string' && typeof value.stats?.lessons === 'number';
 }
+
+async function readPrivacySnapshot(config: { signal: AbortSignal; _identity: string | null; headers: typeof rankHeaders }) {
+  const { data } = await apiClient.get<StudentProfile>(root + '/profile', config);
+  if (!isProfile(data) || typeof data.privacyRevision !== 'string' || !data.privacyRevision) {
+    throw new Error('Chưa tải được quyền riêng tư hiện tại.');
+  }
+  return data;
+}
+
 export const profileApi = {
   async get(signal: AbortSignal) {
     return (await apiClient.get<StudentProfile>(root + '/profile', { signal, headers: rankHeaders })).data;
+  },
+  async reloadPrivacy(signal: AbortSignal) {
+    return readPrivacySnapshot({ signal, _identity: await tokenStorage.getSessionId(), headers: rankHeaders });
   },
   async update(edit: ProfileEdit, signal: AbortSignal) {
     const config = { signal, _identity: await tokenStorage.getSessionId(), headers: rankHeaders };
@@ -64,9 +76,9 @@ export const profileApi = {
     } catch (error) {
       const response = (error as { response?: { status?: number; data?: { error?: { code?: string } } } } | null)?.response;
       if (response?.status !== 409 || response.data?.error?.code !== 'PROFILE_PRIVACY_CONFLICT') throw error;
-      const current = await apiClient.get<StudentProfile>(root + '/profile', config).then(result => result.data, () => undefined);
+      const currentProfile = await readPrivacySnapshot(config).catch(() => undefined);
       throw Object.assign(new Error('Lựa chọn quyền riêng tư đã thay đổi.'), {
-        code: 'PROFILE_PRIVACY_CONFLICT', currentProfile: isProfile(current) ? current : undefined,
+        code: 'PROFILE_PRIVACY_CONFLICT', currentProfile,
       });
     }
     const matchesPrivacy = (value: StudentProfile) => isProfile(value)
@@ -74,10 +86,11 @@ export const profileApi = {
       && (edit.leaderboardVisible === undefined || value.leaderboardVisible === edit.leaderboardVisible)
       && (edit.leaderboardNameHidden === undefined || value.leaderboardNameHidden === edit.leaderboardNameHidden)
       && (edit.leaderboardPhotoVisible === undefined || value.leaderboardPhotoVisible === edit.leaderboardPhotoVisible);
-    // Some older update responses omit privacy fields. Confirm stored settings
-    // before accepting them; never turn an explicit false into a default true.
-    if (!matchesPrivacy(next)) next = (await apiClient.get<StudentProfile>(root + '/profile', config)).data;
+    const matchesName = (value: StudentProfile) => edit.displayName === undefined || value.displayName === edit.displayName;
+    // Confirm the stored edit when the update response omits fields or returns an older value.
+    if (!matchesPrivacy(next) || !matchesName(next)) next = (await apiClient.get<StudentProfile>(root + '/profile', config)).data;
     if (!matchesPrivacy(next)) throw Object.assign(new Error('Chưa xác nhận được quyền riêng tư đã lưu.'), { code: 'PROFILE_PRIVACY_UNCONFIRMED' });
+    if (!matchesName(next)) throw Object.assign(new Error('Chưa xác nhận được tên hiển thị đã lưu.'), { code: 'PROFILE_NAME_UNCONFIRMED' });
     return next;
   },
   async uploadPhoto(uri: string, signal: AbortSignal, expectedSession?: string | null) {

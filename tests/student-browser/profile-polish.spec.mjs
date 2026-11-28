@@ -203,6 +203,50 @@ test('a stale photo draft refreshes privacy and requires a new confirmation', as
   expect(app.studentProfile.displayName).toBe('Tên phiên khác');
 });
 
+test('a failed conflict refresh keeps privacy locked until the profile is reloaded', async ({ page, app }) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
+  await expect.poll(() => app.studentProfile).toBeDefined();
+  await page.goto(`${sites.portal.origin}/study/account`);
+  const participate = page.getByRole('switch', { name: 'Tham gia bảng xếp hạng' });
+  const hideName = page.getByRole('switch', { name: 'Ẩn tên trên bảng xếp hạng' });
+  await expect(hideName).toBeEnabled();
+  await participate.click();
+  app.studentProfile.privacyRevision = randomUUID();
+  app.studentProfile.displayName = 'Tên từ phiên khác';
+
+  let unavailable = true;
+  await page.route('**/api/v1/student/profile', route => route.request().method() === 'GET' && unavailable
+    ? route.fulfill({ status: 503, json: {} }) : route.fallback());
+  const save = page.getByRole('button', { name: 'Lưu thay đổi', exact: true });
+  await save.click();
+  const reload = page.getByRole('button', { name: 'Tải lại hồ sơ', exact: true });
+  await expect(reload).toBeVisible();
+  await expect(participate).toBeDisabled();
+  await expect(hideName).toBeDisabled();
+  await expect(save).toBeDisabled();
+  await Promise.all([
+    page.waitForResponse(response => response.url().endsWith('/student/profile') && response.status() === 503),
+    reload.click(),
+  ]);
+  await expect(reload).toBeEnabled();
+  await expect(participate).toBeDisabled();
+
+  unavailable = false;
+  await reload.click();
+  await expect(page.getByRole('heading', { name: 'Tên từ phiên khác', exact: true })).toBeVisible();
+  await expect(participate).toBeEnabled();
+  await expect(participate).not.toBeChecked();
+  const writes = () => app.requests.filter(request => request.method === 'PUT' && request.path === '/student/profile');
+  expect(writes()).toHaveLength(1);
+  await participate.click();
+  await save.click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.')).toBeVisible();
+  expect(writes()).toHaveLength(2);
+  expect(app.studentProfile).toMatchObject({ displayName: 'Tên từ phiên khác', leaderboardVisible: true });
+});
+
 test('leaderboards show peer photos only when shared and preserve the private self preview', async ({ page, app }, testInfo) => {
   const picture = 'https://lh3.googleusercontent.com/a/synthetic-avatar';
   const ownAlias = 'Hươu Sao Của Em';

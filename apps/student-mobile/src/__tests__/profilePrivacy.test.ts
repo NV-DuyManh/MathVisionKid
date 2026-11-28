@@ -35,6 +35,19 @@ it.each([true, false])('preserves an explicitly selected name privacy value %s',
   expect(apiClient.get).not.toHaveBeenCalled();
 });
 
+it('verifies that the server saved the new name even if its response has all required fields', async () => {
+  const nameEdit = { displayName: 'Sao Sáng' };
+  const updated = { ...profile, ...nameEdit };
+  const signal = new AbortController().signal;
+  jest.mocked(apiClient.put).mockResolvedValue({ data: profile });
+  jest.mocked(apiClient.get).mockResolvedValue({ data: updated });
+  await expect(profileApi.update(nameEdit, signal)).resolves.toEqual(updated);
+  expect(apiClient.get).toHaveBeenCalledTimes(1);
+
+  jest.mocked(apiClient.get).mockResolvedValue({ data: profile });
+  await expect(profileApi.update(nameEdit, signal)).rejects.toMatchObject({ code: 'PROFILE_NAME_UNCONFIRMED' });
+});
+
 it('confirms persisted false when an older update response omits the field', async () => {
   const { leaderboardNameHidden: _hidden, ...legacy } = profile;
   jest.mocked(apiClient.put).mockResolvedValue({ data: legacy });

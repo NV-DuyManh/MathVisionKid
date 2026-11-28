@@ -72,6 +72,7 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
   const compact = width < 480;
   const [nameDraft, setNameDraft] = useState<string>();
   const [privacyDraft, setPrivacyDraft] = useState<{ revision?: string; edit: PrivacyEdit }>();
+  const [needsPrivacyReload, setNeedsPrivacyReload] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [photoFailed, setPhotoFailed] = useState(false);
   const [avatarHovered, setAvatarHovered] = useState(false), [avatarFocused, setAvatarFocused] = useState(false);
@@ -89,9 +90,13 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
     return () => cancelAnimationFrame(frame);
   }, [openPrivacy]);
   // A newly loaded revision replaces the privacy snapshot the draft was based on.
-  const privacyEdit = privacyDraft?.revision === profile.privacyRevision ? privacyDraft?.edit : undefined;
+  const privacyEdit = !needsPrivacyReload && privacyDraft?.revision === profile.privacyRevision ? privacyDraft?.edit : undefined;
   const editPrivacy = (patch: PrivacyEdit) => {
-    setPrivacyDraft({ revision: profile.privacyRevision, edit: { ...privacyEdit, ...patch } });
+    if (needsPrivacyReload || lock.current) return;
+    setPrivacyDraft(previous => ({
+      revision: profile.privacyRevision,
+      edit: { ...(previous?.revision === profile.privacyRevision ? previous?.edit : undefined), ...patch },
+    }));
     setNotice('');
     setError('');
   };
@@ -131,14 +136,41 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
       if (signal.aborted) return;
       const problem = failure as { code?: string; currentProfile?: StudentProfile } | null;
       if (problem?.code === 'PROFILE_PRIVACY_CONFLICT') {
-        if (problem.currentProfile) onSave(problem.currentProfile);
         setPrivacyDraft(undefined);
-        setError('Quyền riêng tư hoặc ảnh đã thay đổi ở phiên khác. Em kiểm tra hồ sơ và chọn lại quyền chia sẻ nhé.');
-      } else setError(problem?.code === 'PROFILE_PRIVACY_UNCONFIRMED'
-        ? 'Chưa xác nhận được lựa chọn quyền riêng tư đã lưu. Lựa chọn của em vẫn được giữ; em thử lại sau nhé.'
-        : 'Chưa lưu được hồ sơ. Em kiểm tra kết nối rồi thử lại nhé.');
+        if (problem.currentProfile) {
+          onSave(problem.currentProfile);
+          setError('Quyền riêng tư hoặc ảnh đã thay đổi ở phiên khác. Em kiểm tra hồ sơ và chọn lại quyền chia sẻ nhé.');
+        } else {
+          setNeedsPrivacyReload(true);
+          setEditingName(false);
+        }
+      } else if (problem?.code === 'PROFILE_NAME_UNCONFIRMED') {
+        setError('Chưa xác nhận được tên hiển thị đã lưu. Em thử lại sau nhé.');
+      } else {
+        setError(problem?.code === 'PROFILE_PRIVACY_UNCONFIRMED'
+          ? 'Chưa xác nhận được lựa chọn quyền riêng tư đã lưu. Lựa chọn của em vẫn được giữ; em thử lại sau nhé.'
+          : 'Chưa lưu được hồ sơ. Em kiểm tra kết nối rồi thử lại nhé.');
+      }
     }
     finally { lock.current = false; if (!signal.aborted) setBusy(false); }
+  };
+  const reloadPrivacy = async () => {
+    if (lock.current) return;
+    const signal = lifetime.current.signal;
+    lock.current = true;
+    setBusy(true);
+    try {
+      const current = await profileApi.reloadPrivacy(signal);
+      if (signal.aborted) return;
+      onSave(current);
+      setNeedsPrivacyReload(false);
+      setNotice('Đã tải lại hồ sơ. Em có thể chọn lại quyền chia sẻ.');
+    } catch {
+      // Keep the reload action available until the current snapshot can be read.
+    } finally {
+      lock.current = false;
+      if (!signal.aborted) setBusy(false);
+    }
   };
   const choosePhoto = async () => {
     const signal = lifetime.current.signal;
@@ -194,21 +226,24 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
       <Text accessibilityRole="header" nativeID={IS_STUDENT_WEB ? 'account-privacy-heading' : undefined}
         style={[IS_STUDENT_WEB ? s.heading : s.label, { flex: 1 }]}>Quyền riêng tư</Text>
     </View>
-    <View style={[s.privacy, IS_STUDENT_WEB && s.webPrivacyRow]}><Text style={[s.body, { flex: 1 }]}>Tham gia bảng xếp hạng</Text><Switch accessibilityLabel="Tham gia bảng xếp hạng" disabled={busy} trackColor={IS_STUDENT_WEB ? webSwitchTrack : undefined}
+    <View style={[s.privacy, IS_STUDENT_WEB && s.webPrivacyRow]}><Text style={[s.body, { flex: 1 }]}>Tham gia bảng xếp hạng</Text><Switch accessibilityLabel="Tham gia bảng xếp hạng" disabled={busy || needsPrivacyReload} trackColor={IS_STUDENT_WEB ? webSwitchTrack : undefined}
       value={leaderboardVisible} onValueChange={checked => editPrivacy({
         leaderboardVisible: checked, ...(!checked && { leaderboardPhotoVisible: false }),
       })} /></View>
-    <View style={[s.privacy, IS_STUDENT_WEB && s.webPrivacyRow]}><Text style={[s.body, { flex: 1 }]}>Ẩn tên trên bảng xếp hạng</Text><Switch accessibilityLabel="Ẩn tên trên bảng xếp hạng" disabled={busy} trackColor={IS_STUDENT_WEB ? webSwitchTrack : undefined}
+    <View style={[s.privacy, IS_STUDENT_WEB && s.webPrivacyRow]}><Text style={[s.body, { flex: 1 }]}>Ẩn tên trên bảng xếp hạng</Text><Switch accessibilityLabel="Ẩn tên trên bảng xếp hạng" disabled={busy || needsPrivacyReload} trackColor={IS_STUDENT_WEB ? webSwitchTrack : undefined}
       value={leaderboardNameHidden} onValueChange={checked => editPrivacy({ leaderboardNameHidden: checked })} /></View>
     {IS_STUDENT_WEB && <View style={[s.privacy, s.webPrivacyRow]}>
       <Text style={[s.body, { flex: 1 }]}>Hiện ảnh hồ sơ trên bảng xếp hạng</Text>
       <Switch accessibilityLabel="Hiện ảnh hồ sơ trên bảng xếp hạng" accessibilityHint="Cho học sinh khác xem ảnh hiện tại của em"
-        disabled={busy || !leaderboardVisible || !profile.avatarPhoto} trackColor={webSwitchTrack}
+        disabled={busy || needsPrivacyReload || !leaderboardVisible || !profile.avatarPhoto} trackColor={webSwitchTrack}
         value={photoVisible} onValueChange={checked => editPrivacy({ leaderboardPhotoVisible: checked })} />
     </View>}
     <Text style={s.hint}>{Platform.OS === 'web' && !leaderboardVisible ? 'Em đang ẩn khỏi bảng xếp hạng. Thành tích vẫn được lưu trong tài khoản của em.'
       : leaderboardNameHidden ? `Bạn bè sẽ thấy bí danh ${profile.publicAlias || 'động vật của em'}.` : 'Bạn bè sẽ thấy tên hiển thị của em trên bảng xếp hạng.'} {photoVisible ? 'Học sinh khác có thể thấy ảnh này, kể cả khi em dùng bí danh.' :
         'Học sinh khác sẽ thấy biểu tượng đại diện của em.'}</Text>
+    {needsPrivacyReload && <RecoveryNotice title="Cần tải lại quyền riêng tư"
+      message="Quyền riêng tư hoặc ảnh đã thay đổi ở phiên khác. Em kiểm tra kết nối rồi tải lại hồ sơ để xem lựa chọn hiện tại nhé."
+      actions={[{ label: 'Tải lại hồ sơ', onPress: () => { void reloadPrivacy(); }, disabled: busy }]} />}
     {error !== '' && !editingName && (IS_STUDENT_WEB ? <RecoveryNotice dialog messageId="account-editor-error"
       title={photoFailed ? 'Chưa đổi được ảnh đại diện' : 'Chưa lưu được thay đổi'} message={error}
       actions={photoFailed || dirty ? [{ label: photoFailed ? 'Chọn lại ảnh' : 'Thử lưu lại',
@@ -216,7 +251,7 @@ function AccountEditor({ profile, onSave, openPrivacy }: {
       : <Text nativeID="account-editor-error" accessibilityRole="alert" style={s.error}>{error}</Text>)}
     {notice !== '' && <Text accessibilityLiveRegion="polite" style={s.success}>{notice}</Text>}
     <AppButton title="Lưu thay đổi" loading={busy} loadingTitle="Đang cập nhật…" disabled={!dirty} onPress={() => { void save(); }} />
-    {!dirty && !notice && <Text style={s.hint}>Thông tin của em đã được lưu.</Text>}
+    {!dirty && !notice && !needsPrivacyReload && <Text style={s.hint}>Thông tin của em đã được lưu.</Text>}
     {editingName ? <LessonSheet title="Đổi tên của em" compact onClose={() => { if (!busy) { setNameDraft(undefined); setEditingName(false); setError(''); } }}>
       <TextInput accessibilityLabel="Tên hiển thị" aria-describedby={error ? 'account-name-help account-name-error' : 'account-name-help'} aria-invalid={Boolean(error) && invalidName} autoFocus autoComplete="name" style={s.input} editable={!busy}
         value={nameInput} onChangeText={next => { setNameDraft(next); setError(''); setNotice(''); }} />
