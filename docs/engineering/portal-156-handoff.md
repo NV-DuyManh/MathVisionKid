@@ -16,4 +16,5 @@
 
 - Kết quả CI của `4f5abe29` phản ánh nền PR trước khi đồng bộ với `develop` (`eee59d0c`). Trên bản cập nhật, đã chạy governance, Student typecheck, 11 ca Jest liên quan, Portal lint và 29 ca cấu hình/phiên Portal.
 - Chromium desktop và mobile đã kiểm tra thao tác bàn phím, độ tương phản, vùng phản hồi và hai toán hạng được tô sáng sau bước nhân lớp 4 trên bản build Portal. [Ảnh Portal lớp 4](../media/screenshots/pr196-portal-web-grade4-feedback.png)
+- Bản export Student Web chạy trên Chromium desktop và mobile với API fixture. Khi mở trực tiếp `/study/portal`, phiên đang xác minh không hiển thị nút đăng nhập dành cho khách. Phiên hợp lệ mở trang học và khách đi đến trang đăng nhập chung. [Ảnh Student Web sau khi xác minh phiên](../media/screenshots/pr196-student-web-portal-session-restored.png)
 - Jest xác nhận vùng live polite trên Android, lệnh xếp hàng thông báo trên iOS và hủy điều hướng khi màn Portal đóng. Chưa nghe thông báo thật trên TalkBack hoặc VoiceOver. Chưa kiểm thử backend production, OAuth thực tế hoặc thiết bị di động vật lý.
