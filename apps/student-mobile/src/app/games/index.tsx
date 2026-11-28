@@ -10,7 +10,7 @@ import { RecoveryNotice } from '../../components/ui/RecoveryNotice';
 import { AppButton } from '../../components/ui/AppButton';
 import { AuthContext } from '../../context/AuthContext';
 import { COLORS, FONTS, IS_STUDENT_WEB, SIZES } from '../../constants/theme';
-import { STAR_QUEST, TRAINING_CATALOG } from '../../features/training-games/catalog';
+import { STAR_QUEST, TRAINING_CATALOG, supportsTrainingGrade } from '../../features/training-games/catalog';
 import { GAME_COVERS, GameCover } from '../../features/training-games/GameCover';
 import { trainingAccess } from '../../features/training-games/identity';
 import { trainingTrace } from '../../features/training-games/diagnostics';
@@ -22,6 +22,7 @@ import { PersonalPanel } from '../../features/student-profile/PersonalWeb';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { readGameTimeStatus } from '../../features/student-profile/studentUsage';
 import { StudentPauseScreen } from '../../features/student-profile/StudentPauseScreen';
+import { primaryGrade } from '../../data/primaryMathLessons';
 
 const gameFilters = [
   { label: 'Tất cả', ids: [] },
@@ -43,11 +44,16 @@ export default function GamesScreen() {
   const [notice, setNotice] = useState<{ owner: string; reason: 'game-limit' | 'connection' }>();
   const dialog = notice?.owner === studentId ? notice : undefined;
   const closeNotice = () => setNotice(undefined);
-  const webProfile = useStudentProfile(desktopWeb ? studentId ?? undefined : undefined);
+  const webProfile = useStudentProfile(IS_STUDENT_WEB ? studentId ?? undefined : undefined);
+  const usesProfileGrade = IS_STUDENT_WEB && access.kind === 'student';
+  const grade = access.kind === 'trial' ? 5 : primaryGrade(webProfile.failed ? undefined : webProfile.value?.gradeLevel);
   const [filter, setFilter] = useState<number>(0);
   const [pageWidth, setPageWidth] = useState(0);
   const desktop = desktopWeb && pageWidth >= 950;
-  const pageGames = TRAINING_CATALOG.filter(game => !desktopWeb || !filter || gameFilters[filter].ids.some(id => id === game.id));
+  const availableGames = usesProfileGrade
+    ? TRAINING_CATALOG.filter(game => supportsTrainingGrade(game.grades, grade)) : TRAINING_CATALOG;
+  const pageGames = availableGames.filter(game =>
+    !desktopWeb || !filter || gameFilters[filter].ids.some(id => id === game.id));
   const Layout = desktopWeb ? View : React.Fragment;
   useEffect(() => {
     trainingTrace('catalog-access', { mode: access.kind, loading: !!auth?.isLoading, authenticated: !!auth?.isAuthenticated });
@@ -151,8 +157,8 @@ export default function GamesScreen() {
         </> : <Text style={styles.copy}>{webProfile.failed ? 'Chưa tải được phần thưởng.' : 'Đang tải thành tích…'}</Text>}
       </PersonalPanel>
       <PersonalPanel title="Lượt chơi gần đây">
-        {recent.owner === studentId && TRAINING_CATALOG.some(game => recent.rows[game.id])
-          ? TRAINING_CATALOG.flatMap(game => {
+        {recent.owner === studentId && availableGames.some(game => recent.rows[game.id]?.score !== undefined)
+          ? availableGames.flatMap(game => {
             const result = recent.rows[game.id];
             return result?.score === undefined ? [] : <Text key={game.id} style={styles.copy}>{game.title} · {result.score} điểm</Text>;
           })
@@ -172,6 +178,12 @@ export default function GamesScreen() {
       <Text accessibilityRole="header" style={styles.heading}>Chọn trò luyện toán</Text>
       {access.kind === 'student' && <Text style={styles.copy}>Kết quả chơi thông thường lưu trên thiết bị. Các thử thách tính sao ghi kết quả vào hồ sơ.</Text>}
     </View>
+    {usesProfileGrade && grade === undefined && (webProfile.failed || webProfile.value
+      ? <RecoveryNotice title="Chưa đọc được khối lớp" message="Em có thể kiểm tra khối lớp trong Của em."
+          actions={[{ label: 'Thử lại', onPress: webProfile.retry }, { label: 'Về Của em', onPress: () => router.dismissTo('/(tabs)/profile') }]} />
+      : <Text accessibilityLiveRegion="polite" style={styles.copy}>Đang tải trò chơi theo khối lớp…</Text>)}
+    {usesProfileGrade && grade !== undefined && pageGames.length === 0 &&
+      <Text accessibilityLiveRegion="polite" style={styles.copy}>Chưa có trò chơi lớp {grade} trong nhóm này.</Text>}
     <View style={styles.grid} {...(desktopWeb ? { dataSet: { studentGameGrid: 'true' } } : {})}>{pageGames.map(game => {
       const result = recent.owner === studentId ? recent.rows[game.id] : undefined;
       const playable = game.ready && access.kind !== 'blocked';
@@ -186,7 +198,8 @@ export default function GamesScreen() {
           }} style={({ pressed }) => [styles.playTarget, !playable && styles.disabled, pressed && styles.pressed]}>
           <GameCover id={game.id} title={game.title} />
         <View style={[styles.cardBody, desktopWeb && styles.webGameBody]}>
-          <Text testID={`training-grades-${game.id}`} style={styles.math}>Khuyến nghị: lớp {game.grades[0]}–{game.grades[1]}</Text>
+          <Text testID={`training-grades-${game.id}`} style={styles.math}>{IS_STUDENT_WEB && grade !== undefined
+            ? `Toán lớp ${grade}` : `Khuyến nghị: lớp ${game.grades[0]}–${game.grades[1]}`}</Text>
           <Text style={styles.copy}>{game.description}</Text><Text style={styles.math}>{game.math}</Text>
           {game.note && <Text style={styles.note}>{game.note}</Text>}
           {result && <Text testID={`training-recent-${game.id}`} style={styles.recent}>Gần đây: {({ won: 'Hoàn thành', lost: 'Đã thử sức', abandoned: 'Dừng giữa chừng', restarted: 'Chơi lại' } as const)[result.status]}{result.score !== undefined ? ` · ${result.score}${result.maxScore !== undefined ? '/' + result.maxScore : ''} điểm` : ''}</Text>}

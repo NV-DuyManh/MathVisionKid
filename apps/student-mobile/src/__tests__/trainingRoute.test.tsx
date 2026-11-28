@@ -5,7 +5,8 @@ import TrainingGameRoute, { generateStaticParams } from '../app/games/[gameId]';
 import { AuthContext } from '../context/AuthContext';
 import { GamePlayer, GameFallback } from '../features/training-games/GamePlayer';
 
-jest.mock('expo-router', () => ({ useLocalSearchParams: jest.fn(), useRouter: jest.fn(), useIsFocused: jest.fn(), Redirect: 'Redirect', Stack: { Screen: 'StackScreen' } }));
+jest.mock('expo-router', () => ({ useLocalSearchParams: jest.fn(), useRouter: jest.fn(), useIsFocused: jest.fn(),
+  useFocusEffect: jest.fn(), Redirect: 'Redirect', Stack: { Screen: 'StackScreen' } }));
 jest.mock('../features/training-games/GamePlayer', () => {
   const React = require('react');
   return { GamePlayer: jest.fn(props => React.createElement('MountedGame', props)), GameFallback: jest.fn(props => React.createElement('GameFallback', props)) };

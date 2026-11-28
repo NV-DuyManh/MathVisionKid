@@ -1,15 +1,15 @@
 {
   "name": "@mathvisionkid/training-games",
-  "version": "0.1.22",
-  "filename": "mathvisionkid-training-games-0.1.22.tgz",
-  "sha256": "9db91b8b2ebe906c04842c6ec812fd965751091b7add8795982456bfc7d5738f",
-  "bytes": 17481533,
+  "version": "0.1.26",
+  "filename": "mathvisionkid-training-games-0.1.26.tgz",
+  "sha256": "5a158c31487e22904368c699d0f1631f4a754b85a05de4301cd04d5dcc1c15fe",
+  "bytes": 17481936,
   "sourceFiles": 226,
   "baseline": {
-    "filename": "mathvisionkid-training-games-0.1.21.tgz",
-    "sha256": "5e52093cbb1b17ecfe0c8a29d88a74341ad0353b0023992b0ec8de4007836553"
+    "filename": "mathvisionkid-training-games-0.1.22.tgz",
+    "sha256": "9db91b8b2ebe906c04842c6ec812fd965751091b7add8795982456bfc7d5738f"
   },
-  "patch": "defense-feedback-0.1.22.patch",
+  "patch": "profile-grade-and-portal-0.1.26.patch",
   "files": [
     {
       "file": "src/games/block-island/components/IslandArt.tsx",
@@ -23,8 +23,8 @@
     },
     {
       "file": "src/games/block-island/components/IslandIntro.tsx",
-      "bytes": 3465,
-      "sha256": "df03f39ec09633d7f42ac4d5bb94a7749bd4a1891aa9dc47367b07157ebeb610"
+      "bytes": 3555,
+      "sha256": "808ecbfa5bc345258f8fde0c92d173efbfbab822871f705bb4096c6626b14fdd"
     },
     {
       "file": "src/games/block-island/components/IslandLandscape.tsx",
@@ -113,8 +113,8 @@
     },
     {
       "file": "src/games/block-island/screens/ConstructionScreen.tsx",
-      "bytes": 18301,
-      "sha256": "a49031272100effea7c1ed39b2076daa42b8d87e74a6a28bb44a1e9eeb076699"
+      "bytes": 18585,
+      "sha256": "7c9c7058f5d681b9e2e7e04d375181282ae0becaa0098369f17f58022d471093"
     },
     {
       "file": "src/games/energy-defense/assets/round3/citadel.png",
@@ -263,8 +263,8 @@
     },
     {
       "file": "src/games/energy-defense/presentation/portal.ts",
-      "bytes": 3581,
-      "sha256": "f4f04ed89e0c58bfd94e3507de356b43af083cfb5cdc7c52b39d804ddffe36ae"
+      "bytes": 3603,
+      "sha256": "4a03d65b2ca30dc7432b48c23141ff68b141e4b8ec3396786ca570febed0143f"
     },
     {
       "file": "src/games/energy-defense/presentation/portrait.ts",
@@ -278,8 +278,8 @@
     },
     {
       "file": "src/games/energy-defense/screens/EnergyDefenseScreen.tsx",
-      "bytes": 14026,
-      "sha256": "da0b9f12332a209fd8f9ff208e428731d511132cb811d818bdbb67ae8591a8a3"
+      "bytes": 14243,
+      "sha256": "c26de21fe1bc0aa2c43cd35219f21cc4789ec90d2f6aff1645fb40deb430ec31"
     },
     {
       "file": "src/games/energy-defense/theme.ts",
@@ -343,8 +343,8 @@
     },
     {
       "file": "src/games/planet-rescue/hooks/useRescue.ts",
-      "bytes": 6044,
-      "sha256": "f53a0fd54ae30c0df404d888a31702a8366a3e877fb9fe6edafc3720e83e6300"
+      "bytes": 6131,
+      "sha256": "0fb13877d310ae107ffe7f6b680414cf3a18f9a919497f9d6b0ea6c9079cd22a"
     },
     {
       "file": "src/games/planet-rescue/index.ts",
@@ -368,8 +368,8 @@
     },
     {
       "file": "src/games/planet-rescue/logic/rescue.ts",
-      "bytes": 18514,
-      "sha256": "6ce1a83c456cfcd9daf871397285bf5d594cb54392a478dfbf5858fd321f9cf9"
+      "bytes": 18880,
+      "sha256": "7ca5b760dc66b4f306d3091bda45bb2cfbba627dc81518d7f6a7871cab0205d2"
     },
     {
       "file": "src/games/planet-rescue/screens/PlanetRescueScreen.tsx",
@@ -1068,8 +1068,8 @@
     },
     {
       "file": "src/shared/integration/context.tsx",
-      "bytes": 1843,
-      "sha256": "dc8d7848e6e4d7542e909e9a16e6f9d990cb2f577780c21f864f9429ad51fff4"
+      "bytes": 1946,
+      "sha256": "9ad91a651b56c2b8517378f3e33bef2da5f43fa25b7db02eb03ab6b377e894ef"
     },
     {
       "file": "src/shared/integration/contracts.ts",
@@ -1093,8 +1093,8 @@
     },
     {
       "file": "src/shared/math/gameGrade.tsx",
-      "bytes": 5231,
-      "sha256": "3ccbc0578f7fabedc4a26986ee808f7019889a5f3012f1383e2cadb326cfd9ef"
+      "bytes": 5421,
+      "sha256": "585115a54d53527eb96a382e66ad87c358aa051d0190f56c97e40060ea8fabad"
     },
     {
       "file": "src/shared/math/generators.ts",

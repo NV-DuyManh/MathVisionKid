@@ -1,4 +1,4 @@
-import { chooseTrainingGrade } from './game-controls.mjs';
+import { expectTrainingGameReady } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 for (const [width, height] of [[1280, 660], [1366, 768], [1920, 1080]]) test(`quest answer stays inside the desktop viewport at ${width}x${height}`, async ({ page, app, isMobile }, info) => {
@@ -56,7 +56,7 @@ test('desktop race framing, readable dice and ten-second bot thinking', async ({
   });
   await login(page, 'STUDENT'); await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
   await page.goto(`${sites.portal.origin}/study/games/race-to-finish`);
-  await chooseTrainingGrade(page,'race-to-finish');
+  await expectTrainingGameReady(page,'race-to-finish');
   await page.getByTestId('start-race-button').click();
   await expect(page.getByTestId('roll-dice-button')).toBeEnabled({ timeout: 15000 });
   const camera = await page.getByTestId('game-camera').boundingBox();
@@ -288,7 +288,7 @@ for (const reduced of [false,true]) test(`dice pips match the controller result 
   await login(page, 'STUDENT');
   await expect(page).toHaveURL(`${sites.portal.origin}/study/`);
   await page.goto(`${sites.portal.origin}/study/games/race-to-finish`);
-  await chooseTrainingGrade(page,'race-to-finish');
+  await expectTrainingGameReady(page,'race-to-finish');
   await page.getByTestId('start-race-button').click();
   await expect(page.getByTestId('roll-dice-button')).toBeEnabled();
   await page.getByTestId('roll-dice-button').click();
