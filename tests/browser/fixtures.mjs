@@ -144,7 +144,7 @@ export const test = base.extend({
           if (changes.leaderboardPhotoVisible === true && (!visible || removePhoto || !current.avatarPhoto)) {
             return conflict();
           }
-          const privacyChanged = ['leaderboardVisible', 'leaderboardNameHidden', 'leaderboardPhotoVisible']
+          const privacyChanged = ['displayName', 'leaderboardVisible', 'leaderboardNameHidden', 'leaderboardPhotoVisible']
             .some(field => changes[field] !== undefined && changes[field] !== current[field]);
           Object.assign(current, changes);
           if (removePhoto) current.avatarPhoto = null;

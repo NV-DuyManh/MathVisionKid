@@ -171,6 +171,32 @@ test('saving a name preserves privacy settings refreshed while the account edito
   expect(app.studentProfile).toMatchObject({ displayName: 'Sao Sáng', leaderboardVisible: true, leaderboardNameHidden: false });
 });
 
+test('showing a name from a stale profile requires confirmation after the student is renamed', async ({ page, app }) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect.poll(() => app.studentProfile).toBeDefined();
+  Object.assign(app.studentProfile, { displayName: 'Tên Ban Đầu', leaderboardVisible: true });
+  await page.goto(`${sites.portal.origin}/study/account`);
+  await expect(page.getByRole('heading', { name: 'Tên Ban Đầu' })).toBeVisible();
+  const hidden = page.getByRole('switch', { name: 'Ẩn tên trên bảng xếp hạng' });
+  const save = page.getByRole('button', { name: 'Lưu thay đổi', exact: true });
+  await expect(hidden).toBeChecked();
+  await hidden.click();
+  Object.assign(app.studentProfile, { displayName: 'Tên Mới', privacyRevision: randomUUID() });
+  await save.click();
+  const dialog = page.getByRole('alertdialog', { name: 'Chưa lưu được thay đổi' });
+  await expect(dialog).toContainText('Em kiểm tra hồ sơ và chọn lại quyền chia sẻ nhé.');
+  await dialog.getByRole('button', { name: 'Đóng thông báo' }).click();
+  await expect(page.getByRole('heading', { name: 'Tên Mới' })).toBeVisible();
+  await expect(hidden).toBeChecked();
+  await expect(save).toBeDisabled();
+
+  await hidden.click();
+  await save.click();
+  await expect(page.getByText('Đã lưu hồ sơ của em.')).toBeVisible();
+  expect(app.studentProfile).toMatchObject({ displayName: 'Tên Mới', leaderboardNameHidden: false });
+});
+
 test('a stale photo draft refreshes privacy and requires a new confirmation', async ({ page, app }) => {
   app.realStudent = true;
   await login(page, 'STUDENT');

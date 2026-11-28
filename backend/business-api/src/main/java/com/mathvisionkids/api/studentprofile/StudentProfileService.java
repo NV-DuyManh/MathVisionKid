@@ -54,7 +54,7 @@ public class StudentProfileService {
     @Transactional
     public Profile get(String principal) {
         Student student = student(principal);
-        lockStudent(student.getId());
+        em.refresh(student, LockModeType.PESSIMISTIC_WRITE);
         rewards.lock();
         ensurePreferences(student.getId());
         return profile(student);
@@ -84,7 +84,8 @@ public class StudentProfileService {
         boolean sharePhoto = Boolean.TRUE.equals(edit.leaderboardPhotoVisible());
         boolean photoVisible = leaderboardVisible && !removePhoto && (edit.leaderboardPhotoVisible() == null
                 ? current.photoVisible() : edit.leaderboardPhotoVisible());
-        boolean changesPrivacy = leaderboardVisible != current.visible() || nameHidden != current.nameHidden()
+        boolean changesName = name != null && !name.equals(student.getDisplayName());
+        boolean changesPrivacy = changesName || leaderboardVisible != current.visible() || nameHidden != current.nameHidden()
                 || photoVisible != current.photoVisible() || removePhoto;
         if (sharePhoto && !photoVisible) throw privacyConflict();
         if (Boolean.TRUE.equals(edit.leaderboardVisible()) && student.getEmail().toLowerCase(Locale.ROOT).endsWith("@mathvision.local"))
@@ -94,7 +95,7 @@ public class StudentProfileService {
             newSharedPhoto = leaderboardAvatar(id, current.googleAvatarUrl());
             if (newSharedPhoto == null) throw privacyConflict();
         }
-        if (name != null && !name.equals(student.getDisplayName())) {
+        if (changesName) {
             student.setDisplayName(name);
             students.saveAndFlush(student);
         }
@@ -143,6 +144,16 @@ public class StudentProfileService {
 
     private ApiException privacyConflict() {
         return new ApiException("PROFILE_PRIVACY_CONFLICT", "Quyền riêng tư hoặc ảnh đã thay đổi. Em tải lại hồ sơ rồi chọn lại nhé.", HttpStatus.CONFLICT);
+    }
+
+    @Transactional(propagation = org.springframework.transaction.annotation.Propagation.MANDATORY)
+    public void changeDisplayNameFromAdmin(Student student, String name) {
+        em.refresh(student, LockModeType.PESSIMISTIC_WRITE);
+        if (name.equals(student.getDisplayName())) return;
+
+        student.setDisplayName(name);
+        db.update("UPDATE student_profile_preferences SET privacy_revision = ? WHERE student_id = ?",
+                UUID.randomUUID(), student.getId());
     }
 
     void revokePhotoAfterReplacement(UUID id) {

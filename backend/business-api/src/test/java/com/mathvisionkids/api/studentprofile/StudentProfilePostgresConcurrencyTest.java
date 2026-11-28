@@ -107,13 +107,7 @@ class StudentProfilePostgresConcurrencyTest {
                 }));
                 int blockedPid = consentPid.orTimeout(10, TimeUnit.SECONDS).join();
                 assertNotEquals(uploadPid, blockedPid);
-                // Wait for PostgreSQL to confirm the row lock is actually contended before committing the upload.
-                await().pollInSameThread().atMost(Duration.ofSeconds(10)).until(() -> Boolean.TRUE.equals(db.queryForObject("""
-                        SELECT ? = ANY(pg_blocking_pids(?)) AND EXISTS (
-                            SELECT 1 FROM pg_locks WHERE pid = ? AND mode = 'RowShareLock'
-                            AND relation IN ('users'::regclass, 'students'::regclass)
-                        )
-                        """, Boolean.class, uploadPid, blockedPid, blockedPid)));
+                awaitStudentLock(uploadPid, blockedPid);
                 return waiting;
             });
 
@@ -133,6 +127,42 @@ class StudentProfilePostgresConcurrencyTest {
         var entry = profiles.leaderboard(peer.getEmail(), null, true).entries().stream()
                 .filter(row -> current.publicAlias().equals(row.alias())).findFirst().orElseThrow();
         assertNull(entry.avatarPhoto());
+    }
+
+    @Test
+    void readWaitingForRenameReturnsTheNewNameWithItsRevision() throws Exception {
+        var student = student("Before Rename");
+        String email = student.getEmail();
+        var before = profiles.get(email);
+        var readerPid = new CompletableFuture<Integer>();
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            var pending = transactions.execute(renameTransaction -> {
+                db.execute("SET LOCAL lock_timeout = '20s'");
+                int renamePid = db.queryForObject("SELECT pg_backend_pid()", Integer.class);
+                var renamed = profiles.update(email, new ProfileDtos.Edit("After Rename", null, null, null));
+                var reader = executor.submit(() -> transactions.execute(readTransaction -> {
+                    db.execute("SET LOCAL lock_timeout = '20s'");
+                    readerPid.complete(db.queryForObject("SELECT pg_backend_pid()", Integer.class));
+                    return profiles.get(email);
+                }));
+                awaitStudentLock(renamePid, readerPid.orTimeout(10, TimeUnit.SECONDS).join());
+                assertNotEquals(before.privacyRevision(), renamed.privacyRevision());
+                return reader;
+            });
+
+            var snapshot = pending.get(10, TimeUnit.SECONDS);
+            assertEquals("After Rename", snapshot.displayName());
+            assertEquals(profiles.get(email).privacyRevision(), snapshot.privacyRevision());
+        }
+    }
+
+    private void awaitStudentLock(int holderPid, int waiterPid) {
+        await().pollInSameThread().atMost(Duration.ofSeconds(10)).until(() -> Boolean.TRUE.equals(db.queryForObject("""
+                SELECT ? = ANY(pg_blocking_pids(?)) AND EXISTS (
+                    SELECT 1 FROM pg_locks WHERE pid = ? AND mode = 'RowShareLock'
+                    AND relation IN ('users'::regclass, 'students'::regclass)
+                )
+                """, Boolean.class, holderPid, waiterPid, waiterPid)));
     }
 
     private Student student(String name) {

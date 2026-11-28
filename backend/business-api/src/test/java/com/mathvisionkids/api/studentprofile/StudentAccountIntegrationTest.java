@@ -5,6 +5,8 @@ import com.mathvisionkids.api.auth.JwtUtil;
 import com.mathvisionkids.api.auth.RefreshTokenService;
 import com.mathvisionkids.api.user.Student;
 import com.mathvisionkids.api.user.StudentRepository;
+import com.mathvisionkids.api.user.User;
+import com.mathvisionkids.api.user.UserRepository;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,6 +16,8 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class StudentAccountIntegrationTest {
     @Autowired StudentRepository students;
+    @Autowired UserRepository users;
     @Autowired StudentProfileService profiles;
     @Autowired StudentRewards rewards;
     @Autowired PasswordEncoder encoder;
@@ -176,7 +181,8 @@ class StudentAccountIntegrationTest {
         var initial = profiles.get(pupil.getEmail());
         String snapshot = privacyRevision();
         changeProfile("{\"displayName\":\"Tên mới\",\"avatar\":\"moon\"}", null).andExpect(status().isOk());
-        changeProfile("{\"leaderboardVisible\":true}", snapshot).andExpect(status().isOk())
+        changeProfile("{\"leaderboardVisible\":true}", snapshot).andExpect(status().isConflict());
+        changeProfile("{\"leaderboardVisible\":true}", privacyRevision()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.displayName").value("Tên mới")).andExpect(jsonPath("$.avatar").value("moon"));
         String participating = privacyRevision();
         changeProfile("{\"leaderboardVisible\":false}", participating).andExpect(status().isOk());
@@ -234,6 +240,46 @@ class StudentAccountIntegrationTest {
         var json = mvc.perform(get("/api/v1/student/profile").with(user(pupil.getEmail()).roles("STUDENT")))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         return mapper.readTree(json).path("privacyRevision").textValue();
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void renamingWhileHiddenRequiresFreshConsentToShowTheNewName(boolean renamedByAdmin) throws Exception {
+        rewards.record(pupil.getId(), StudentRewards.Source.QUIZ, "name-consent", "name-consent");
+        var before = saveProfile(pupil.getEmail(),
+                new ProfileDtos.Edit("Tên Ban Đầu", null, true, null, null, true, null));
+
+        if (renamedByAdmin) {
+            var admin = new User();
+            admin.setDisplayName("Synthetic Admin");
+            admin.setEmail(UUID.randomUUID() + "@admin.test");
+            admin.setPasswordHash("unused");
+            admin.setRole("ADMIN");
+            users.saveAndFlush(admin);
+
+            mvc.perform(patch("/api/v1/admin/users/" + pupil.getId()).with(user(admin.getEmail()).roles("ADMIN"))
+                            .contentType("application/json").content("{\"displayName\":\"Tên Mới\",\"gradeLevel\":4}"))
+                    .andExpect(status().isOk()).andExpect(jsonPath("$.gradeLevel").value(4));
+        } else {
+            changeProfile("{\"displayName\":\"Tên Mới\"}", null).andExpect(status().isOk());
+        }
+
+        var current = profiles.get(pupil.getEmail());
+        assertEquals("Tên Mới", current.displayName());
+        assertNotEquals(before.privacyRevision(), current.privacyRevision());
+        assertTrue(current.leaderboardNameHidden());
+        changeProfile("{\"displayName\":\"Tên Mới\"}", null)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.privacyRevision").value(current.privacyRevision().toString()));
+
+        changeProfile("{\"leaderboardNameHidden\":false}", before.privacyRevision().toString())
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.error.code").value("PROFILE_PRIVACY_CONFLICT"));
+        assertNull(peerAvatar(before.publicAlias()));
+        changeProfile("{\"leaderboardNameHidden\":false}", current.privacyRevision().toString())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.leaderboardNameHidden").value(false));
+        assertNull(peerAvatar("Tên Mới"));
     }
 
     private org.springframework.test.web.servlet.ResultActions changeProfile(String json, String revision) throws Exception {

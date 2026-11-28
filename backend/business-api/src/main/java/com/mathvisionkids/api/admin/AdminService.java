@@ -237,7 +237,12 @@ public class AdminService {
 
         boolean modified = false;
         if (request.getDisplayName() != null && !request.getDisplayName().isBlank()) {
-            user.setDisplayName(request.getDisplayName().trim());
+            String name = request.getDisplayName().trim();
+            if (user instanceof Student student) {
+                studentProfiles.changeDisplayNameFromAdmin(student, name);
+            } else {
+                user.setDisplayName(name);
+            }
             modified = true;
         }
 
