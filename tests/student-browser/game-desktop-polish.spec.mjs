@@ -1,4 +1,4 @@
-import { chooseTrainingGrade, expectRaceCameraFramed } from './game-controls.mjs';
+import { expectTrainingGameReady, expectRaceCameraFramed } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 async function prepare(page, app, width, height) {
@@ -57,12 +57,20 @@ for (const [width, height, mode] of [[1280, 660, 'easy'], [1280, 660, 'medium'],
     test.skip(isMobile, 'Desktop fit; mobile uses the separate native-style layout.');
     test.setTimeout(150000);
     await prepare(page, app, width, height);
+    if (mode === 'easy') {
+      await expect.poll(() => Boolean(app.studentProfile)).toBe(true);
+      app.studentProfile.gradeLevel = 4;
+    }
     await page.goto(`${sites.portal.origin}/study/games/planet-rescue`);
     await page.getByTestId(`rescue-mode-${mode}`).click();
     await page.getByTestId('rescue-start').click();
     const mission = page.getByTestId('rescue-mission');
     const next = page.getByTestId('rescue-next');
     await expect(mission).toBeVisible();
+    if (mode === 'easy') {
+      const { a } = await rescueState(page);
+      expect([[2, 4], [2, 6], [3, 6]]).toContainEqual([a.num, a.den]);
+    }
     const phases = new Set();
     let completed = 0;
     for (let step = 0; step < 35 && completed < 2; step++) {
@@ -134,7 +142,7 @@ test('Race and Terrain use themed backgrounds and preserve desktop controls', as
   test.setTimeout(90000);
   await prepare(page, app, 1280, 660);
   await page.goto(`${sites.portal.origin}/study/games/race-to-finish`);
-  await chooseTrainingGrade(page,'race-to-finish');
+  await expectTrainingGameReady(page,'race-to-finish');
   await page.getByTestId('start-race-button').click();
   await expect(page.getByTestId('roll-dice-button')).toBeEnabled({ timeout: 15000 });
   expect(await page.getByTestId('game-camera').evaluate(el => getComputedStyle(el).backgroundImage)).toContain('gradient');
@@ -142,7 +150,7 @@ test('Race and Terrain use themed backgrounds and preserve desktop controls', as
   await inside(page, page.getByTestId('roll-dice-button'));
   await page.screenshot({ path: info.outputPath('race-wood-backdrop.png') });
   await page.goto(`${sites.portal.origin}/study/games/terrain-racing`);
-  await chooseTrainingGrade(page,'terrain-racing');
+  await expectTrainingGameReady(page,'terrain-racing');
   await expect(page.getByTestId('supercar-question')).toBeVisible({ timeout: 20000 });
   expect(await page.locator('[data-game="terrain-racing"]').evaluate(el => getComputedStyle(el).backgroundImage)).toContain('gradient');
   for (const answer of await page.locator('[data-testid^="supercar-answer-"]').all()) await inside(page, answer);

@@ -1,0 +1,210 @@
+diff --git a/src/games/block-island/components/IslandIntro.tsx b/src/games/block-island/components/IslandIntro.tsx
+--- a/src/games/block-island/components/IslandIntro.tsx
++++ b/src/games/block-island/components/IslandIntro.tsx
+@@ -7,7 +7,7 @@
+ const initial=createIsland('hard');
+ const DISPLAY:IslandState={...initial,index:5,phase:'complete',completedMissionIds:initial.quests.map(q=>q.id),blocks:initial.quests[5].witness.map(p=>({...asFloor(p),sealed:true,material:p.floorIndex===2?'wood':p.floorIndex===1?'brick':'grass'}))};
+ const noop=()=>{};
+-export function IslandIntro({difficulty,onSelect,onStart,onContinue,onExit,loaded,wide,short,hasSaved}:{difficulty:Difficulty;onSelect:(d:Difficulty)=>void;onStart:()=>void;onContinue:()=>void;onExit:()=>void;loaded:boolean;wide:boolean;short:boolean;hasSaved:boolean}) {
++export function IslandIntro({difficulty,fixedDifficulty,onSelect,onStart,onContinue,onExit,loaded,wide,short,hasSaved}:{difficulty:Difficulty;fixedDifficulty?:boolean;onSelect:(d:Difficulty)=>void;onStart:()=>void;onContinue:()=>void;onExit:()=>void;loaded:boolean;wide:boolean;short:boolean;hasSaved:boolean}) {
+   const desktop=wide&&Platform.OS==='web'&&typeof window!=='undefined'&&window.matchMedia?.('(pointer: fine)').matches;
+   return <View testID="island-intro" style={[s.root,wide&&s.wide,desktop&&{alignItems:'stretch'}]}>
+     <View style={s.art}><IslandWorld state={DISPLAY} disabled paused={false} onCell={noop} onPreview={noop} hero/></View>
+@@ -15,7 +15,7 @@
+       <Text style={s.eyebrow}>XÂY THẾ GIỚI CỦA EM</Text>
+       <Text accessibilityRole="header" maxFontSizeMultiplier={1.15} style={[s.title,short&&{fontSize:27,lineHeight:31}]}>Lãnh Chúa Đảo Khối</Text>
+       <Text maxFontSizeMultiplier={1.15} style={s.description}>Một công trình lớn lên qua sáu nhiệm vụ. Xây, ngắm blueprint và giữ thành quả trên đảo!</Text>
+-      <View style={s.modes}>{(['easy','medium','hard'] as Difficulty[]).map(d=><IslandButton key={d} label={MODE_NAMES[d]} testID={`island-mode-${d}`} secondary selected={difficulty===d} onPress={()=>onSelect(d)} style={{flex:1,paddingHorizontal:2}}><Text style={s.modeText}>{MODE_NAMES[d]}</Text></IslandButton>)}</View>
++      {!fixedDifficulty && <View style={s.modes}>{(['easy','medium','hard'] as Difficulty[]).map(d=><IslandButton key={d} label={MODE_NAMES[d]} testID={`island-mode-${d}`} secondary selected={difficulty===d} onPress={()=>onSelect(d)} style={{flex:1,paddingHorizontal:2}}><Text style={s.modeText}>{MODE_NAMES[d]}</Text></IslandButton>)}</View>}
+       <Text style={s.note}>{difficulty==='easy'?'Diện tích HOẶC chu vi · Một tầng':difficulty==='medium'?'Diện tích VÀ chu vi · Một tầng':'2–3 tầng · Tổng sàn VÀ chu vi tầng 1'}</Text>
+       <IslandButton label="Bắt đầu hành trình mới" testID="island-start" disabled={!loaded} onPress={onStart}/>
+       {hasSaved&&<IslandButton label={`Tiếp tục ${MODE_NAMES[difficulty]} đã lưu`} testID="island-continue" secondary onPress={onContinue}/>}
+diff --git a/src/games/block-island/screens/ConstructionScreen.tsx b/src/games/block-island/screens/ConstructionScreen.tsx
+--- a/src/games/block-island/screens/ConstructionScreen.tsx
++++ b/src/games/block-island/screens/ConstructionScreen.tsx
+@@ -2,7 +2,7 @@
+ import { BackHandler, Modal, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+ import { useSafeAreaInsets } from 'react-native-safe-area-context';
+ import Svg, { Path } from 'react-native-svg';
+-import { useTrainingBack, useTrainingServices } from '../../../shared/integration/context';
++import { useEmbeddedTraining, useTrainingBack, useTrainingServices } from '../../../shared/integration/context';
+ import { useIsland } from '../hooks/useIsland';
+ import { activeBlocks, asFloor, BuildPoint, Difficulty, InputOwner, material, measureWorld, MODE_NAMES, objectiveIssue, resultMaximum } from '../logic/island';
+ import { IslandButton } from '../components/IslandButton';
+@@ -13,9 +13,11 @@
+ const COACH=['↓ Chọn vật liệu trong kho ∞.','↑ Nhấn xem trước, rê chỉnh, thả để đặt.','Gợi ý xây: xem phần cần thêm, không tự xây.','Đủ số đo → Kiểm tra để niêm phong và xây tiếp.'];
+ export const BlockIslandScreen:React.FC<{onExit:()=>void}>=({onExit})=>{
+   const { soundManager } = useTrainingServices();
++  const grade = useEmbeddedTraining()?.gradeLevel;
++  const profileDifficulty = grade === 3 ? 'easy' : grade === 4 ? 'medium' : undefined;
+   const game=useIsland(),{state,timer}=game,q=state.quests[state.index],m=useMemo(()=>measureWorld(state.blocks,q.floors),[state.blocks,q.floors]);
+   const {width,height}=useWindowDimensions(),insets=useSafeAreaInsets(),wide=width>=950,short=height-insets.top-insets.bottom<700;
+-  const [draft,setDraft]=useState<Difficulty>('easy'),[guide,setGuide]=useState(0),[sound,setSound]=useState(()=>soundManager.isSoundEnabled());
++  const [draft,setDraft]=useState<Difficulty>(profileDifficulty ?? 'easy'),[guide,setGuide]=useState(0),[sound,setSound]=useState(()=>soundManager.isSoundEnabled());
+   const [menu,setMenu]=useState<'pause'|'help'|'clear'|'result'|'floors'|'new-run'|null>(null);
+   const locked=timer.isPaused||state.phase!=='editing',finished=state.phase!=='editing',ready=useMemo(()=>!objectiveIssue(state.blocks,q),[state.blocks,q]);
+   const open=(value:typeof menu)=>{timer.pause();setMenu(value);},resume=()=>{setMenu(null);timer.resume();},exit=()=>{timer.pause();onExit();};
+@@ -30,7 +32,7 @@
+   const newRun=()=>{setDraft(state.difficulty);open('new-run');};
+   return <View testID="island-screen" style={[s.root,{paddingTop:insets.top,paddingBottom:Math.max(6,insets.bottom),paddingLeft:insets.left,paddingRight:insets.right}]}>
+     <View pointerEvents="none" style={StyleSheet.absoluteFill}><Ocean/></View>
+-    {!game.started?<IslandIntro difficulty={draft} onSelect={setDraft} onStart={()=>open('new-run')} onContinue={()=>{game.start(draft,true);setGuide(-1);}} onExit={exit} loaded={game.loaded} wide={wide} short={short} hasSaved={game.savedModes.includes(draft)}/>:<View testID="island-play" style={[s.play,wide&&{paddingHorizontal:24,maxWidth:1500}]}>
++    {!game.started?<IslandIntro difficulty={draft} fixedDifficulty={!!profileDifficulty} onSelect={setDraft} onStart={()=>open('new-run')} onContinue={()=>{game.start(draft,true);setGuide(-1);}} onExit={exit} loaded={game.loaded} wide={wide} short={short} hasSaved={game.savedModes.includes(draft)}/>:<View testID="island-play" style={[s.play,wide&&{paddingHorizontal:24,maxWidth:1500}]}>
+       <View testID="island-header" style={s.header}><IslandButton testID="island-exit" label="Về sảnh" secondary onPress={exit} style={s.headerButton}><IslandIcon kind="back" size={20}/></IslandButton><View style={s.heading}><Text maxFontSizeMultiplier={1.15} style={s.title}>Lãnh Chúa Đảo Khối</Text><View style={s.progressRow}><Text testID="island-mission-progress" style={s.progressText}>{MODE_NAMES[state.difficulty]} · Nhiệm vụ {state.index+1}/6</Text><View style={s.dots}>{state.quests.map((a,i)=><View key={a.id} accessibilityLabel={`Nhiệm vụ ${i+1}, ${state.completedMissionIds.includes(a.id)?'hoàn thành':i===state.index?'đang chơi':'tiếp theo'}`} style={[s.dot,{backgroundColor:state.completedMissionIds.includes(a.id)?'#468D62':i===state.index?'#C99852':'#A7B99A'}]}/>)}</View></View></View><IslandButton testID="island-pause" label="Tạm dừng" secondary onPress={()=>open('pause')} style={s.headerButton}><IslandIcon kind="pause" size={20}/></IslandButton></View>
+       <View testID="island-goal" style={s.goal}><View style={s.goalLine}><Text testID="island-quest-title" maxFontSizeMultiplier={1.1} style={s.questTitle}>{q.title}</Text><Text style={s.cumulative}>Tính cả khối khóa</Text></View><View style={s.metrics}>
+         {q.area!==undefined&&<Text testID="island-area" maxFontSizeMultiplier={1.15} style={[s.metric,m.area===q.area&&s.met]}>{q.floors>1?'Tổng sàn':'Diện tích'}: <Text style={s.value}>{m.area}/{q.area}</Text> m²</Text>}
+diff --git a/src/games/energy-defense/presentation/portal.ts b/src/games/energy-defense/presentation/portal.ts
+--- a/src/games/energy-defense/presentation/portal.ts
++++ b/src/games/energy-defense/presentation/portal.ts
+@@ -1,3 +1,4 @@
++import { Platform } from 'react-native';
+ import { routePoint, PORTRAIT_DISTANCE_SCALE } from './route';
+
+ // Measured in the ORIGINAL generated 1254px PNG, retained unchanged in source-art/.
+@@ -28,9 +29,10 @@
+   const ms = now-birth;
+   return !reduced && ms>=0 && ms<420 ? Math.sin(ms/420*Math.PI) : 0;
+ }
++const web = Platform.OS === 'web';
+ export function portalDepth(distance: number, portrait = false) {
+   'worklet';
+-  if (!portrait) return 1; // Isolated stone masks occlude only their real pixel footprints.
++  if (!portrait) return web ? 3 : 1;
+   const foot=routePoint(distance/PORTRAIT_DISTANCE_SCALE,true), start=routePoint(0,true);
+   // Frontal portal: walk DOWN through the plinth plane before turning right.
+   // Crossing occurs in the clear central bay, so switching depth cannot pop across a pillar.
+diff --git a/src/games/energy-defense/screens/EnergyDefenseScreen.tsx b/src/games/energy-defense/screens/EnergyDefenseScreen.tsx
+--- a/src/games/energy-defense/screens/EnergyDefenseScreen.tsx
++++ b/src/games/energy-defense/screens/EnergyDefenseScreen.tsx
+@@ -147,11 +147,11 @@
+             <Text style={s.waveCopy}>Đã xuất hiện {state.spawned}/{state.waveTotal} · Đã xử lý {state.processed}/{state.waveTotal}</Text></View>
+           <Text testID="energy-wave-count" style={s.waveCount}>{state.endless?state.endlessKills+' hạ':state.enemies.length+' trên đường'}</Text>
+         </View>
+-        <View style={[s.layout,(width>=1000||landscape)&&s.wide,compact&&{flex:1,minHeight:0,gap:7},landscape&&{alignItems:'stretch'}]}>
++        <View testID="energy-layout" style={[s.layout,(width>=1000||landscape)&&s.wide,compact&&{flex:1,minHeight:0,gap:7},landscape&&{alignItems:'stretch'}]}>
+           <View style={[(width>=1000||landscape)?{flex:1.5,minWidth:0}:{width:'100%'},compact&&!landscape&&height<700&&{maxWidth:304,alignSelf:'center'},landscape&&{flex:1}]}>
+             <View style={state.paused?{opacity:0}:undefined}><Battlefield creeps={state.enemies} hp={state.hp} correct={state.correct} charged={!!state.shot} target={target} active={active} compact={compact} landscape={landscape} clock={clock} shotStart={shotStart} award={state.endless?10:25}/></View>
+           </View>
+-          <View style={[width>=1000?{flex:1,minWidth:0,maxWidth:490}:compact?{flex:1,minHeight:0}:undefined,landscape&&{flex:1}]}>
++          <View testID="energy-question-column" style={[width>=1000?{flex:1,minWidth:0,maxWidth:490}:compact?{flex:1,minHeight:0}:undefined,landscape&&{flex:1}]}>
+             <EnergyConsole state={state} sum={controller.selectedSum()} compact={compact} roomy={landscape&&height>=650} onToggle={id=>{controller.toggle(id);soundManager.playTap();}} onFire={fire}/>
+           </View>
+         </View>
+diff --git a/src/games/planet-rescue/hooks/useRescue.ts b/src/games/planet-rescue/hooks/useRescue.ts
+--- a/src/games/planet-rescue/hooks/useRescue.ts
++++ b/src/games/planet-rescue/hooks/useRescue.ts
+@@ -1,6 +1,6 @@
+ import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+ import { AppState, Platform } from 'react-native';
+-import { useTrainingServices, useTrainingSession } from '../../../shared/integration/context';
++import { useEmbeddedTraining, useTrainingServices, useTrainingSession } from '../../../shared/integration/context';
+ import { Card, createRun, Event, isTerminal, maxScore, Mode, RescueState, rescueReducer } from '../logic/rescue';
+ import { HIT_MS, METEOR_MS, SHOT_MS, TRAVEL_MS } from '../logic/planets';
+
+@@ -12,6 +12,7 @@
+
+ export function useRescue(enabled = false) {
+   const { profileManager, profileId, soundManager } = useTrainingServices();
++  const grade = useEmbeddedTraining()?.gradeLevel;
+   const [state, rawDispatch] = useReducer(reducer, undefined, () => ({ ...createRun(), paused: true }));
+   const [hasRun, setHasRun] = useState(false);
+   const [storageError, setStorageError] = useState(false);
+@@ -83,8 +84,8 @@
+   const start = useCallback((mode: Mode) => {
+     clock.current = null;
+     soundManager.playTap(); setHasRun(true); setStorageError(false);
+-    rawDispatch({ type: 'START', state: createRun(mode, nextSession()) });
+-  }, [soundManager]);
++    rawDispatch({ type: 'START', state: createRun(mode, nextSession(), grade) });
++  }, [grade, soundManager]);
+   const discard = useCallback(() => {
+     clock.current = null; setHasRun(false); rawDispatch({ type: 'DISCARD' });
+   }, []);
+diff --git a/src/games/planet-rescue/logic/rescue.ts b/src/games/planet-rescue/logic/rescue.ts
+--- a/src/games/planet-rescue/logic/rescue.ts
++++ b/src/games/planet-rescue/logic/rescue.ts
+@@ -1,4 +1,5 @@
+ import { Fraction, gcd, lcm, simplifyFraction } from '../../../shared/math/fraction';
++import type { Grade } from '../../../shared/math/gameGrade';
+
+ import { HIT_MS, METEOR_MS, PLANETS, PlanetId, SHOT_MS, TRAVEL_MS } from './planets';
+
+@@ -22,10 +23,14 @@
+ const f = (num: number, den: number): Fraction => ({ num, den });
+
+ /** Seeded session content: no clock or random calls inside transitions. */
+-export function encounters(mode: Mode, seed = 1): Encounter[] {
++export function encounters(mode: Mode, seed = 1, grade?: Grade): Encounter[] {
+   const offset = Math.abs(seed % 3);
+-  const easy = [[6, 8], [8, 12], [10, 15], [9, 12], [12, 18], [14, 21], [15, 20], [16, 24]];
+-  const pairs = [[1, 2, 2, 3], [2, 3, 3, 4], [3, 4, 4, 5], [2, 5, 1, 3], [5, 6, 3, 4], [3, 5, 2, 3]];
++  const easy = grade === 4
++    ? [[2, 4], [2, 6], [3, 6], [4, 6], [4, 8], [4, 10], [6, 8], [6, 10]]
++    : [[6, 8], [8, 12], [10, 15], [9, 12], [12, 18], [14, 21], [15, 20], [16, 24]];
++  const pairs = grade === 4
++    ? [[1, 2, 1, 4], [1, 3, 2, 9], [2, 3, 5, 6], [1, 4, 3, 8], [2, 5, 3, 10], [1, 2, 3, 4]]
++    : [[1, 2, 2, 3], [2, 3, 3, 4], [3, 4, 4, 5], [2, 5, 1, 3], [5, 6, 3, 4], [3, 5, 2, 3]];
+   return Array.from({ length: MODES[mode].count }, (_, i) => {
+     let kind: Encounter['kind'] = 'reduce';
+     let a = f(...easy[(i + offset) % easy.length] as [number, number]);
+@@ -35,7 +40,10 @@
+       a = f(p[0], p[1]); b = f(p[2], p[3]); kind = 'compare';
+       if (mode === 'hard') {
+         kind = i % 2 === 0 ? 'reduce-sync' : 'sync-sum';
+-        if (kind === 'reduce-sync') a = f(a.num * (i === 4 ? 12 : 3), a.den * (i === 4 ? 12 : 3));
++        if (kind === 'reduce-sync') {
++          const factor = grade === 4 ? 2 : i === 4 ? 12 : 3;
++          a = f(a.num * factor, a.den * factor);
++        }
+         // The sum is deliberately reducible, including improper fractions.
+         else { a = f(i === 3 ? 2 : 1 + (i % 3), i === 3 ? 8 : 4); b = f(i === 3 ? 2 : 1 + (i % 3), i === 3 ? 12 : 6); }
+       }
+@@ -76,8 +84,8 @@
+ export function cardFor(phase: Phase): Card {
+   return phase === 'reduce-first' || phase === 'reduce-sum' ? 'simplify' : phase === 'ready' || phase === 'firing' || phase === 'rescued' || phase === 'won' ? 'cannon' : 'common';
+ }
+-export function createRun(mode: Mode = 'easy', session = 1): RescueState {
+-  const rooms = encounters(mode, session);
++export function createRun(mode: Mode = 'easy', session = 1, grade?: Grade): RescueState {
++  const rooms = encounters(mode, session, grade);
+   const phase = initialPhase(rooms[0]);
+   return { version: 3, session, mode, rooms, index: 0, phase, a: rooms[0].a, b: rooms[0].b,
+     sum: null, denominator: null, selected: mode === 'hard' ? 'cannon' : cardFor(phase), paused: false, hull: 3,
+diff --git a/src/shared/integration/context.tsx b/src/shared/integration/context.tsx
+--- a/src/shared/integration/context.tsx
++++ b/src/shared/integration/context.tsx
+@@ -5,9 +5,11 @@
+ import type { IStorageAdapter } from '../storage/storageAdapter';
+ import type { TrainingSessionBridge } from './sessionBridge';
+ import type { TrainingSnapshot } from './contracts';
++import type { Grade } from '../math/gameGrade';
+
+ export interface TrainingServices {
+   profileId: string;
++  gradeLevel?: Grade;
+   profileManager: ProfileManager;
+   questionHistory: QuestionHistory;
+   soundManager: AudioController;
+diff --git a/src/shared/math/gameGrade.tsx b/src/shared/math/gameGrade.tsx
+--- a/src/shared/math/gameGrade.tsx
++++ b/src/shared/math/gameGrade.tsx
+@@ -1,5 +1,6 @@
+ import React, { createContext, useContext, useState } from 'react';
+ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
++import { useEmbeddedTraining } from '../integration/context';
+
+ export type Grade = 1 | 2 | 3 | 4 | 5;
+ const GradeContext = createContext<Grade>(5);
+@@ -23,9 +24,11 @@
+ /** The game mounts only after confirmation; changing grade creates a fresh run. */
+ export function withGradeSelection(game: GradedGame, Screen: React.ComponentType<{ onExit: () => void }>) {
+   return function GradeSelection({ onExit }: { onExit: () => void }) {
++    const profileGrade = useEmbeddedTraining()?.gradeLevel;
+     const [draft, setDraft] = useState<Grade | null>(null);
+     const [grade, setGrade] = useState<Grade | null>(null);
+-    if (grade) return <GradeContext.Provider value={grade}><Screen key={grade} onExit={onExit} /></GradeContext.Provider>;
++    const activeGrade = profileGrade ?? grade;
++    if (activeGrade) return <GradeContext.Provider value={activeGrade}><Screen key={activeGrade} onExit={onExit} /></GradeContext.Provider>;
+     return <ScrollView testID={`grade-selection-${game}`} contentContainerStyle={s.page}>
+       <View style={s.card}>
+         <Text accessibilityRole="header" style={s.title}>{TITLES[game]}</Text>

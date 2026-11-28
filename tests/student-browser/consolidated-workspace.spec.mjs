@@ -15,7 +15,7 @@ async function inside(page,locator) {
 }
 for(const [width,height] of [[1280,660],[1366,768],[1920,1080]]) {
   test(`home panels and race setup fit the real viewport at ${width}x${height}`,async({page,app,isMobile},info)=>{
-    test.skip(isMobile,'Desktop regression; mobile grade selection has its own flow.');
+    test.skip(isMobile,'Desktop layout regression.');
     await page.setViewportSize({width,height});
     await prepare(page,app);
     expect(await page.locator('.student-workspace-sidebar').evaluate(el=>el.scrollWidth<=el.clientWidth+1),'The sidebar must not have its own horizontal scrollbar').toBe(true);
@@ -26,9 +26,9 @@ for(const [width,height] of [[1280,660],[1366,768],[1920,1080]]) {
     }
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
     await info.attach('home width',{body:await page.screenshot({path:info.outputPath('home.png')}),contentType:'image/png'});
+    await expect.poll(() => Boolean(app.studentProfile)).toBe(true);
+    app.studentProfile.gradeLevel = 1;
     await page.goto(`${sites.portal.origin}/study/games/race-to-finish`);
-    await page.getByRole('button',{name:'Lớp 1',exact:true}).click();
-    await page.getByTestId('game-grade-start').click();
     await expect(page.getByText('Giải toán lớp 1 và đua qua khu rừng diệu kỳ',{exact:true})).toBeVisible();
     await expect(page.getByText(/Tung xúc xắc, giải toán lớp 1:/)).toBeVisible();
     await expect(page.getByTestId('start-race-button')).toBeEnabled();

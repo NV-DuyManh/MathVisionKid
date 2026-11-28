@@ -1,14 +1,15 @@
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
-import { raceState } from './game-controls.mjs';
+import { expectTrainingGameReady, raceState } from './game-controls.mjs';
 
 async function open(page, app, game, grade) {
   app.realStudent = true;
   await page.addInitScript(() => { HTMLElement.prototype.requestFullscreen = async () => { throw Error('Controlled viewport'); }; });
   await login(page, 'STUDENT');
   await expect(page.getByRole('heading', { name: 'Tiện ích nhanh', exact: true })).toBeVisible();
+  await expect.poll(() => Boolean(app.studentProfile)).toBe(true);
+  app.studentProfile.gradeLevel = grade;
   await page.goto(`${sites.portal.origin}/study/games/${game}`);
-  await page.getByRole('button', { name: `Lớp ${grade}`, exact: true }).click();
-  await page.getByTestId('game-grade-start').click();
+  await expectTrainingGameReady(page, game);
 }
 
 for (const [seed, comparison] of [[1, false], [2, true]]) test(
@@ -60,9 +61,9 @@ test('grade 1 question labels stay grade 1 and defense grade 5 starts with decim
   await page.getByTestId('roll-dice-button').click();
   await expect(page.getByText('Thử thách Toán lớp 1', { exact: true })).toBeVisible();
   await expect(page.getByTestId('math-prompt')).toHaveText(/^Tính: \d+ [−+] \d+$/);
+  app.studentProfile.gradeLevel = 5;
   await page.goto(`${sites.portal.origin}/study/games/energy-defense`);
-  await page.getByRole('button', { name: 'Lớp 5', exact: true }).click();
-  await page.getByTestId('game-grade-start').click();
+  await expectTrainingGameReady(page, 'energy-defense');
   await page.getByTestId('energy-start').click();
   await expect(page.getByRole('button', { name: /^Pha lê .*\,/ }).first()).toBeVisible();
   await page.screenshot({ path: info.outputPath('defense-grade5.png') });

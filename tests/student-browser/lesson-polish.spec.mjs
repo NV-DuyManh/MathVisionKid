@@ -527,6 +527,33 @@ test('parent guidance stays on the current step and preserves the child’s draf
   expect(app.requests.filter(item => item.path === '/student/tutor/lesson/answer')).toHaveLength(0);
 });
 
+test('the prepared example keeps the problem open on desktop and collapsible on mobile', async ({ page, app, isMobile }, info) => {
+  test.skip(isMobile, 'Checks both widths in one session using browser resize.');
+  app.realStudent = true;
+  await page.setViewportSize({ width: 1440, height: 880 });
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await page.goto(`${sites.portal.origin}/study/learning/math-guide?exampleId=grade-5-review-natural&exampleLevel=easy`);
+  const reference = page.getByTestId('lesson-problem-reference');
+  const content = reference.getByTestId('lesson-problem-content');
+  const collapse = reference.getByRole('button', { name: 'Thu gọn đề bài', exact: true });
+  const expand = reference.getByRole('button', { name: 'Mở đề bài', exact: true });
+  await expect(reference.getByRole('heading', { name: 'Đề bài', exact: true })).toBeVisible();
+  await expect(content).toContainText(/48.*13/);
+  await expect(collapse.or(expand)).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '48', exact: true })).toBeVisible();
+  await page.screenshot({ path: info.outputPath('de-bai-desktop.png') });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await collapse.click();
+  await expect(content).toHaveCount(0);
+  await expand.click();
+  await expect(content).toBeVisible();
+  await collapse.click();
+  await page.setViewportSize({ width: 1440, height: 880 });
+  await expect(content).toBeVisible();
+  await expect(collapse.or(expand)).toHaveCount(0);
+});
+
 for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
   test(`guided lesson keeps current tools fixed and pages hints at ${width}px`, async ({ page, app }, testInfo) => {
     app.realStudent = true;
@@ -540,7 +567,7 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440]) {
     await page.getByRole('checkbox', { name: 'Em đã kiểm tra đề bài và các số' }).click();
     await page.getByRole('button', { name: 'Bắt đầu từng bước', exact: true }).click();
     await expect(page.getByTestId('lesson-problem-content')).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Thu gọn đề bài', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Thu gọn đề bài', exact: true })).toHaveCount(width < 768 ? 1 : 0);
     const dock = page.getByTestId('lesson-fixed-tools');
     const area = page.getByTestId('lesson-working-area');
     await stableDock(page, dock, area);
