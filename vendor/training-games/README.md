@@ -8,12 +8,19 @@ dependency in this directory; it does not require the deleted source checkout.
 The current tarball contains the shipped gameplay source, and PACKAGE_MANIFEST.json
 records its provenance and per-file hashes.
 
+## Profile grade and Defense portal update 0.1.26
+
+The Student Web host passes the grade from the student profile. The embedded
+Race, Terrain and Defense games use that grade immediately. Planet Rescue has
+a grade 4 fraction bank, and Block Island uses the mission sets for grades 3
+and 4. Enemies on the landscape web battlefield spawn at the portal opening
+and render above the stone foreground. Verify the archive against baseline
+0.1.22 with `node scripts/build-training-games-fixes.cjs`.
+
 ## Defense feedback update 0.1.22
 
-The correct shot no longer displays an extra confirmation panel. Verify the
-release with `node scripts/build-training-games-fixes.cjs`. The script applies
-`defense-feedback-0.1.22.patch` to the pinned 0.1.21 baseline in a temporary
-directory and compares the result with the checked-in 0.1.22 package.
+The correct shot no longer displays an extra confirmation panel.
+`defense-feedback-0.1.22.patch` records the change from baseline 0.1.21.
 
 ## Race regressions update 0.1.21
 

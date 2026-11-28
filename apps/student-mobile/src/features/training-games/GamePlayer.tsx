@@ -14,6 +14,7 @@ import { trainingStatusBarHidden } from './presentation';
 import { useTrainingNativeDiagnostics } from './nativeDiagnostics';
 import { GameDisplay } from './GameDisplay';
 import { StudentGameTimeGate } from '../student-profile/StudentGameTimeGate';
+import type { PrimaryGrade } from '../../data/primaryMathLessons';
 
 const GAMES = {
   'planet-rescue': lazy(() => loadTrainingGame('planet-rescue')),
@@ -22,10 +23,11 @@ const GAMES = {
   'energy-defense': lazy(() => loadTrainingGame('energy-defense')),
   'block-island': lazy(() => loadTrainingGame('block-island')),
 };
-export function GameFallback({ message, onBack }: { message: string; onBack: () => void }) {
+export function GameFallback({ message, onBack, onRetry }: { message: string; onBack: () => void; onRetry?: () => void }) {
   if (IS_STUDENT_WEB) return <View style={styles.fallback}>
     <RecoveryNotice dialog title="Chưa mở được trò chơi" message={message}
-      actions={[{ label: 'Về danh sách trò chơi', accessibilityLabel: 'Trở về danh sách game', onPress: onBack }]} />
+      actions={[...(onRetry ? [{ label: 'Thử lại', onPress: onRetry }] : []),
+        { label: 'Về danh sách trò chơi', accessibilityLabel: 'Trở về danh sách game', onPress: onBack }]} />
   </View>;
   return <View style={styles.fallback}><Text style={styles.message}>{message}</Text><Pressable accessibilityRole="button" accessibilityLabel="Trở về danh sách game" onPress={onBack} style={styles.button}><Text style={styles.buttonText}>Trở về danh sách game</Text></Pressable></View>;
 }
@@ -42,21 +44,23 @@ function GameEntry({ Game, gameId, trial, onExit }: { Game: React.ComponentType<
   }, [gameId, trial]);
   return <Game onExit={onExit} />;
 }
-export function GamePlayer({ studentId, gameId, trial = false, onExit }: { studentId: string; gameId: TrainingGameId; trial?: boolean; onExit: () => void }) {
-  const session = <TrainingGameSession key={`${studentId}:${gameId}:${trial}`} studentId={studentId}
-    trial={trial} gameId={gameId} onExit={onExit} Game={GAMES[gameId]} />;
+type GamePlayerProps = { studentId: string; gameId: TrainingGameId; trial?: boolean; grade?: PrimaryGrade; onExit: () => void };
+
+export function GamePlayer({ studentId, gameId, trial = false, grade, onExit }: GamePlayerProps) {
+  const session = <TrainingGameSession key={`${studentId}:${gameId}:${trial}:${grade}`} studentId={studentId}
+    trial={trial} gameId={gameId} grade={grade} onExit={onExit} Game={GAMES[gameId]} />;
   return <GameDisplay key={gameId} gameId={gameId} onExit={onExit} pauseInPortrait={!trial}>
     {trial ? session : <StudentGameTimeGate onLeave={onExit}>{session}</StudentGameTimeGate>}
   </GameDisplay>;
 }
-export function TrainingGameSession({ studentId, gameId, trial = false, onExit, Game }: { studentId: string; gameId: TrainingGameId; trial?: boolean; onExit: () => void; Game: React.ComponentType<{ onExit: () => void }> }) {
+export function TrainingGameSession({ studentId, gameId, trial = false, grade, onExit, Game }: GamePlayerProps & { Game: React.ComponentType<{ onExit: () => void }> }) {
   useTrainingNativeDiagnostics(gameId, trial);
   const [runtime, setRuntime] = useState<ReturnType<typeof createTrainingRuntime> | null>(null);
   const runtimeOwner = useRef<ReturnType<typeof createTrainingRuntime> | null>(null);
   const alive = useRef(false), exitRequested = useRef(false), exitDelivered = useRef(false);
   const [statusBar, setStatusBar] = useState<{ owner: ReturnType<typeof createTrainingRuntime>; hidden: boolean } | null>(null);
   const [settingsError, setSettingsError] = useState<{ owner: ReturnType<typeof createTrainingRuntime>; message: string | null } | null>(null);
-  const activeRuntime = runtime?.studentId === studentId && runtime.gameId === gameId && runtime.trial === trial ? runtime : null;
+  const activeRuntime = runtime?.studentId === studentId && runtime.gameId === gameId && runtime.trial === trial && runtime.services.gradeLevel === grade ? runtime : null;
   const currentSettingsError = settingsError?.owner === activeRuntime ? settingsError.message : null;
   const [leaving, setLeaving] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -73,11 +77,11 @@ export function TrainingGameSession({ studentId, gameId, trial = false, onExit, 
     alive.current = true;
     const next = createTrainingRuntime(studentId, gameId, trial,
       hidden => { if (active) setStatusBar({ owner: next, hidden }); },
-      message => { if (active) setSettingsError({ owner: next, message }); });
+      message => { if (active) setSettingsError({ owner: next, message }); }, grade);
     runtimeOwner.current = next;
     void next.ready.then(() => { if (active) setRuntime(next); });
     return () => { active = false; alive.current = false; if (runtimeOwner.current === next) runtimeOwner.current = null; next.dispose(); };
-  }, [studentId, gameId, trial]);
+  }, [studentId, gameId, trial, grade]);
   return <GestureHandlerRootView style={styles.root} testID={`training-player-${gameId}`}>
     {activeRuntime && !leaving && !failed && <StatusBar style="dark" hidden={statusBar?.owner === activeRuntime ? statusBar.hidden : trainingStatusBarHidden(gameId)} />}
     {trial && <Text accessibilityRole="alert" style={styles.errorText}>Chơi thử · Không lưu thành tích</Text>}

@@ -15,3 +15,7 @@ export const TRAINING_CATALOG: readonly { id: TrainingGameId; mode: GameMode; ti
   { id: 'planet-rescue', mode: 'PLANET_RESCUE', title: 'Giải Cứu Hành Tinh', description: 'Dùng ba thẻ toán để cứu tám hành tinh cùng Nova.', math: 'Rút gọn · Quy đồng · So sánh phân số', grades: [4, 5], artwork: GAME_ARTWORK['planet-rescue'], ready: true },
   { id: 'block-island', mode: 'BLOCK_ISLAND', title: 'Lãnh Chúa Đảo Khối', description: 'Xây thế giới nhiều tầng qua sáu nhiệm vụ nối tiếp.', math: 'Diện tích · Chu vi · Cạnh chung', grades: [3, 5], artwork: GAME_ARTWORK['block-island'], ready: true, note: 'Đang tiếp tục hoàn thiện' },
 ];
+
+export function supportsTrainingGrade([first, last]: readonly [number, number], grade: number | undefined) {
+  return grade !== undefined && grade >= first && grade <= last;
+}

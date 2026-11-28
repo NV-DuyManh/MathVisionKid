@@ -8,7 +8,7 @@ let sequence = 0;
 // QuestionHistory owns a persistence queue. Reopening a game must reuse that
 // owner, so a delayed old write cannot replace a newer history for the same key.
 const questionHistories = new Map<string, QuestionHistory>();
-export function createTrainingRuntime(studentId: string, gameId: TrainingGameId, trial = false, onStatusBarHidden?: (hidden: boolean) => void, onSettingsError?: (message: string | null) => void) {
+export function createTrainingRuntime(studentId: string, gameId: TrainingGameId, trial = false, onStatusBarHidden?: (hidden: boolean) => void, onSettingsError?: (message: string | null) => void, gradeLevel?: TrainingServices['gradeLevel']) {
   if (trial && (!__DEV__ || !/^development-trial:\d+$/.test(studentId))) throw new Error('Trial runtime is development-only and cannot use a student UUID');
   const mountId = `${Date.now().toString(36)}-${(++sequence).toString(36)}-${Math.random().toString(36).slice(2)}`;
   let disposed = false;
@@ -55,7 +55,7 @@ export function createTrainingRuntime(studentId: string, gameId: TrainingGameId,
     } catch { settingsError('Chưa đọc được cài đặt trò chơi. Em có thể chơi tiếp và mở lại trò chơi để thử lại.'); }
   })();
   const services: TrainingServices = {
-    profileId: studentId, storage, profileManager,
+    profileId: studentId, gradeLevel, storage, profileManager,
     questionHistory: history, soundManager, bridge,
     setStatusBarHidden: hidden => { if (!disposed) onStatusBarHidden?.(hidden); },
     registerBack: handler => { if (disposed) return () => {}; back = handler; return () => { if (back === handler) back = null; }; },

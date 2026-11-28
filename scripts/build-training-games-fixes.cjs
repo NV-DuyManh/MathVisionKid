@@ -7,11 +7,11 @@ const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
 const root = path.resolve(__dirname, '..');
 const output = path.join(root, 'vendor/training-games');
-const baseline = 'mathvisionkid-training-games-0.1.21.tgz';
-const expectedHash = '5e52093cbb1b17ecfe0c8a29d88a74341ad0353b0023992b0ec8de4007836553';
+const baseline = 'mathvisionkid-training-games-0.1.22.tgz';
+const expectedHash = '9db91b8b2ebe906c04842c6ec812fd965751091b7add8795982456bfc7d5738f';
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
-const patchName = 'defense-feedback-0.1.22.patch';
-const version = '0.1.22';
+const patchName = 'profile-grade-and-portal-0.1.26.patch';
+const version = '0.1.26';
 
 function verifyPackage(stage) {
   cp.execFileSync('tar', ['-xzf', path.join(output, baseline), '-C', stage]);
@@ -40,7 +40,7 @@ function verifyPackage(stage) {
     file.bytes = bytes.length;
     file.sha256 = digest;
   }
-  if (changed !== 1) throw Error(`Expected one patched source file, found ${changed}`);
+  if (changed !== 8) throw Error(`Expected eight patched source files, found ${changed}`);
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
   const packagePath = path.join(pkg, 'package.json');
   const metadata = JSON.parse(fs.readFileSync(packagePath, 'utf8'));

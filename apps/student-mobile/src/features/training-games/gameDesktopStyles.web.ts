@@ -25,6 +25,32 @@ export const GAME_DESKTOP_STYLES = `
   }
 }
 @media (min-width: 1000px) and (pointer: fine) {
+  [data-testid="energy-layout"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(240px, 29%, 365px);
+    align-items: start !important;
+    gap: 12px !important;
+  }
+  [data-testid="energy-layout"] > div { width: auto; }
+  [data-testid="energy-question-column"] { min-width: 0; }
+  [data-testid="energy-inventory"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  [data-testid^="energy-crystal-"] {
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 44px !important;
+    padding: 4px !important;
+    flex-direction: row !important;
+    gap: 5px !important;
+  }
+  [data-testid^="energy-crystal-"] > div:first-child svg {
+    width: 19px;
+    height: 19px;
+    display: block;
+  }
+  [data-testid^="energy-crystal-"] [dir="auto"] { font-size: 15px !important; line-height: 17px !important; }
   [data-game="planet-rescue"] [data-testid="rescue-page"] > div {
     padding: 12px 20px 16px !important;
     max-width: 1600px;

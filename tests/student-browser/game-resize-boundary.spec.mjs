@@ -1,4 +1,4 @@
-import { chooseTrainingGrade } from './game-controls.mjs';
+import { expectTrainingGameReady } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 async function prepare(page, app, width, height) {
@@ -18,7 +18,7 @@ test('fine-pointer Terrain keeps its proportional stage through 999 and 1000px',
   test.setTimeout(60000);
   await prepare(page, app, 1100, 720);
   await page.goto(`${sites.portal.origin}/study/games/terrain-racing`);
-  await chooseTrainingGrade(page,'terrain-racing');
+  await expectTrainingGameReady(page,'terrain-racing');
   await expect(page.getByTestId('supercar-question')).toBeVisible({ timeout: 20000 });
   const stage = page.locator('[data-testid^="supercar-state-"]');
   for (const width of [1001, 1000, 999, 990, 1100]) {
@@ -33,7 +33,7 @@ test('fine-pointer Race keeps the camera viewport through 999 and 1000px', async
   test.skip(isMobile, 'Desktop pointer regression.'); test.setTimeout(60000);
   await prepare(page, app, 1100, 720);
   await page.goto(`${sites.portal.origin}/study/games/race-to-finish`);
-  await chooseTrainingGrade(page,'race-to-finish');
+  await expectTrainingGameReady(page,'race-to-finish');
   await page.getByTestId('start-race-button').click();
   await expect(page.getByTestId('roll-dice-button')).toBeEnabled({ timeout: 15000 });
   for (const width of [1001, 1000, 999, 990, 1100]) {
@@ -48,7 +48,7 @@ test('Race drag then shrink reconciles the camera viewport without restarting it
   test.skip(isMobile, 'Desktop pointer regression.'); test.setTimeout(60000);
   await prepare(page, app, 1440, 900);
   await page.goto(`${sites.portal.origin}/study/games/race-to-finish`);
-  await chooseTrainingGrade(page,'race-to-finish');
+  await expectTrainingGameReady(page,'race-to-finish');
   await page.getByTestId('start-race-button').click();
   await expect(page.getByTestId('roll-dice-button')).toBeEnabled({ timeout: 15000 });
   const tokens = await page.locator('[data-testid^="token-"]').count();

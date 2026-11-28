@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { chooseTrainingGrade } from './game-controls.mjs';
+import { expectTrainingGameReady } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 import { fileURLToPath } from 'node:url';
 import { studentPort } from '../browser/sites.mjs';
@@ -833,7 +833,7 @@ test('all five games load their artwork and keep desktop navigation during gamep
     }
     await page.goto(`${sites.portal.origin}/study/games/${game}`);
     await expect(page.getByTestId(`training-player-${game}`)).toBeVisible();
-    await chooseTrainingGrade(page,game);
+    await expectTrainingGameReady(page,game);
     if (start) {
       await expect(page.getByTestId(start)).toBeEnabled();
       await page.getByTestId(start).click();
@@ -896,18 +896,18 @@ test('each game opens with its own mobile display policy', async ({ page, app, i
       await expect(page.locator(selector)).toHaveCount(0);
       await expect(page.getByRole('button', { name: 'Về danh sách trò chơi' })).toBeVisible();
       await page.setViewportSize({ width: viewport.height, height: viewport.width });
-      await chooseTrainingGrade(page,game);
+      await expectTrainingGameReady(page,game);
       await expect(page.locator(selector)).toBeVisible();
       await page.setViewportSize(viewport);
       await expect(page.locator(selector)).toBeHidden();
       await page.setViewportSize({ width: viewport.height, height: viewport.width });
-      await chooseTrainingGrade(page,game);
+      await expectTrainingGameReady(page,game);
       await page.locator(selector).click();
       await expect(page.getByTestId(`training-play-${game}`)).toBeVisible();
       expect(await page.evaluate(() => window.gameDisplayCalls.slice(-2))).toEqual(['exit', 'unlock']);
       await page.setViewportSize(viewport);
     } else {
-      await chooseTrainingGrade(page,game);
+      await expectTrainingGameReady(page,game);
       await expect(page.locator(selector)).toBeVisible();
     }
   }

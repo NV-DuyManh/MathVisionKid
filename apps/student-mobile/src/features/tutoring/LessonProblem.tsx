@@ -3,32 +3,38 @@ import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, useWind
 import { Ionicons } from '@expo/vector-icons';
 import { MathText } from '../../components/domain/MathText';
 import { problemPresentation } from '../../components/domain/problemPresentation';
+import { isCompactStudentWeb } from '../../components/ui/useIsCompactStudentWeb';
 import { COLORS, FONTS } from '../../constants/theme';
 import { LessonSheet } from './LessonSheet';
 
 /** Stays above the working area; long questions scroll without pushing the task away. */
 export function LessonProblem({ problem, imageUri, onEdit, sidePanel = false }: { problem: string; imageUri?: string; onEdit?: () => void; sidePanel?: boolean }) {
-  const [expanded, setExpanded] = useState(true);
+  const [open, setOpen] = useState(true);
   const [showImage, setShowImage] = useState(false);
   const [fullOpen, setFullOpen] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
   const contentId = useId();
-  const { height } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  const canCollapse = Platform.OS !== 'web' || isCompactStudentWeb(width);
+  const expanded = !canCollapse || open;
   const maxBodyHeight = sidePanel ? Math.max(180, height - 300) : Math.max(64, Math.min(124, height * .17));
+  const heading = <>
+    <View style={styles.icon}><Ionicons name="document-text-outline" size={18} color={COLORS.primaryDark} accessible={false} /></View>
+    <View style={styles.heading}><Text accessibilityRole={canCollapse ? undefined : 'header'} style={styles.title}>Đề bài</Text>
+      {!expanded ? <Text numberOfLines={1} style={styles.preview}>{problem}</Text>
+        : contentHeight > maxBodyHeight + 1 ? <Text style={styles.preview}>Cuộn để đọc hết</Text> : null}</View>
+  </>;
   return <View style={styles.card} testID="lesson-problem-reference">
     <View style={styles.header}>
-      <Pressable accessibilityRole="button" accessibilityLabel={expanded ? 'Thu gọn đề bài' : 'Mở đề bài'}
+      {canCollapse ? <Pressable accessibilityRole="button" accessibilityLabel={expanded ? 'Thu gọn đề bài' : 'Mở đề bài'}
         accessibilityState={{ expanded }} aria-expanded={expanded} aria-controls={expanded ? contentId : undefined}
-        onPress={() => setExpanded(value => !value)} style={({ pressed }) => [styles.toggle, pressed && styles.pressed]}>
-        <View style={styles.icon}><Ionicons name="document-text-outline" size={18} color={COLORS.primaryDark} accessible={false} /></View>
-        <View style={styles.heading}><Text style={styles.title}>Đề bài</Text>
-          {!expanded ? <Text numberOfLines={1} style={styles.preview}>{problem}</Text>
-            : contentHeight > maxBodyHeight + 1 ? <Text style={styles.preview}>Cuộn để đọc hết</Text> : null}</View>
+        onPress={() => setOpen(value => !value)} style={({ pressed }) => [styles.toggle, pressed && styles.pressed]}>
+        {heading}
         <Text style={styles.action}>{expanded ? 'Thu gọn' : 'Xem đầy đủ'}</Text>
         <Ionicons name={expanded ? 'chevron-up' : 'chevron-down'} size={17} color={COLORS.primaryDark} accessible={false} />
-      </Pressable>
+      </Pressable> : <View style={styles.toggle}>{heading}</View>}
       {imageUri && Platform.OS !== 'web' ? <Pressable accessibilityRole="button" accessibilityLabel={showImage ? 'Xem đề bài bằng chữ' : 'Xem ảnh đề bài'}
-        accessibilityState={{ selected: showImage }} aria-pressed={showImage} onPress={() => { setExpanded(true); setShowImage(value => !value); setContentHeight(0); }}
+        accessibilityState={{ selected: showImage }} aria-pressed={showImage} onPress={() => { setOpen(true); setShowImage(value => !value); setContentHeight(0); }}
         style={({ pressed }) => [styles.edit, pressed && styles.pressed]}>
         <Ionicons name="image-outline" size={19} color={COLORS.primaryDark} accessible={false} />
       </Pressable> : null}
