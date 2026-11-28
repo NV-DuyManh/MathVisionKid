@@ -23,6 +23,7 @@ interface GradeDemoData {
   correctedRow?: string[];
   activeCol: number;
   correctedActiveCol?: number;
+  correctedSecondRowActiveCol?: number;
   errorCol?: number;
   speechText: string;
   answerText: string;
@@ -84,6 +85,7 @@ const GRADE_DATA: Record<number, GradeDemoData> = {
     resultRow: ['5', '0', '0'],
     activeCol: 2,
     correctedActiveCol: 1,
+    correctedSecondRowActiveCol: 2,
     speechText: 'Chào con! Cô thấy con tính 125 × 4. Mình cùng nhân từ hàng đơn vị nhé: 4 × 5 bằng mấy?',
     answerText: 'Con trả lời: 4 × 5 = 20',
     replyResponse: 'Tuyệt vời! Viết 0 nhớ 2. Tiếp theo: 4 × 2 = 8, thêm 2 nhớ là 10, viết 0 nhớ 1 nhé!',
@@ -132,6 +134,12 @@ export const LandingPage: React.FC = () => {
   };
 
   const currentDemo = GRADE_DATA[selectedGrade] || GRADE_DATA[3];
+  const firstRowActiveCol = answeredSpeech
+    ? currentDemo.correctedActiveCol ?? currentDemo.activeCol
+    : currentDemo.activeCol;
+  const secondRowActiveCol = answeredSpeech
+    ? currentDemo.correctedSecondRowActiveCol ?? firstRowActiveCol
+    : currentDemo.activeCol;
 
   return (
     <Box
@@ -610,11 +618,7 @@ export const LandingPage: React.FC = () => {
                         {/* Row 1 */}
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', width: '100%' }}>
                           {currentDemo.row1.map((char, idx) => {
-                            const activeCol =
-                              answeredSpeech && currentDemo.correctedActiveCol !== undefined
-                                ? currentDemo.correctedActiveCol
-                                : currentDemo.activeCol;
-                            const isActive = idx === activeCol;
+                            const isActive = idx === firstRowActiveCol;
                             return (
                               <Box
                                 key={idx}
@@ -657,11 +661,7 @@ export const LandingPage: React.FC = () => {
                             {currentDemo.operator}
                           </Box>
                           {currentDemo.row2.map((char, idx) => {
-                            const activeCol =
-                              answeredSpeech && currentDemo.correctedActiveCol !== undefined
-                                ? currentDemo.correctedActiveCol
-                                : currentDemo.activeCol;
-                            const isActive = idx === activeCol;
+                            const isActive = idx === secondRowActiveCol;
                             return (
                               <Box
                                 key={idx}
@@ -790,6 +790,8 @@ export const LandingPage: React.FC = () => {
                           sx={{ width: { xs: 38, sm: 44 }, height: { xs: 38, sm: 44 }, flexShrink: 0, objectFit: 'contain', mt: 0.2 }}
                         />
                         <Typography
+                          aria-live="polite"
+                          aria-atomic="true"
                           variant="body2"
                           sx={{ color: '#92400E', fontWeight: 800, fontSize: { xs: '1.05rem', sm: '1.16rem' }, lineHeight: 1.65 }}
                         >

@@ -106,6 +106,51 @@ test('a verified student can deliberately reopen introduction and skip directly 
   await expect(page).not.toHaveURL(/\/login(?:\?|$)/);
 });
 
+test('a guest can use the direct Student portal demo and read its live feedback', async ({ page, app }) => {
+  app.realStudent = true;
+  await page.goto(`${sites.portal.origin}/study/portal`);
+  await expect(page.getByRole('button', { name: 'Đăng nhập để bắt đầu', exact: true })).toBeVisible();
+  const feedback = page.locator('[aria-live="polite"][aria-atomic="true"]').filter({
+    hasText: /Cô thấy con viết 245|Kết quả là 423/,
+  });
+  await expect(feedback).toHaveCount(1);
+  await expect(feedback).toContainText('5 + 8 bằng mấy');
+  await page.getByRole('button', { name: 'Con trả lời: 5 + 8 = 13', exact: true }).click();
+  await expect(feedback).toContainText('Kết quả là 423');
+});
+
+test('a direct Student portal waits for session verification before redirecting home', async ({ page, app }, testInfo) => {
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+
+  let finishRestore;
+  const restore = new Promise(resolve => { finishRestore = resolve; });
+  await page.route('**/api/v1/me', async route => {
+    await restore;
+    await route.fallback();
+  });
+  const verification = page.waitForRequest(request => new URL(request.url()).pathname === '/api/v1/me');
+  try {
+    await page.goto(`${sites.portal.origin}/study/portal`);
+    await verification;
+    await expect(page).toHaveURL(`${sites.portal.origin}/study/portal`);
+    await expect(page.getByRole('button', { name: 'Đăng nhập để bắt đầu', exact: true })).toHaveCount(0);
+    await expect(page.getByText('Tiện ích nhanh', { exact: true })).toHaveCount(0);
+  } finally {
+    finishRestore();
+  }
+
+  await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Đăng nhập để bắt đầu', exact: true })).toHaveCount(0);
+  if (testInfo.project.name === 'mobile') {
+    await testInfo.attach('verified-student-home', {
+      body: await page.screenshot({ path: testInfo.outputPath('verified-student-home.png'), animations: 'disabled' }),
+      contentType: 'image/png',
+    });
+  }
+});
+
 test('a verified student opening the mounted login stays in the learning app', async ({ page, app }) => {
   app.realStudent = true;
   await login(page, 'STUDENT');

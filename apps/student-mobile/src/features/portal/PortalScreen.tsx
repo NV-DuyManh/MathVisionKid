@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -8,8 +8,9 @@ import {
   Image,
   useWindowDimensions,
   Platform,
+  AccessibilityInfo,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -133,6 +134,8 @@ export default function PortalScreen() {
   const { width } = useWindowDimensions();
   const [selectedGrade, setSelectedGrade] = useState<number>(3);
   const [answeredSpeech, setAnsweredSpeech] = useState<boolean>(false);
+  const [isOpeningLogin, setIsOpeningLogin] = useState(false);
+  const loginRequest = useRef<symbol | null>(null);
   const scrollRef = useRef<any>(null);
   const methodLayoutY = useRef<number>(0);
 
@@ -143,16 +146,36 @@ export default function PortalScreen() {
     setAnsweredSpeech(false);
   };
 
+  useFocusEffect(useCallback(() => {
+    setIsOpeningLogin(false);
+    return () => {
+      loginRequest.current = null;
+    };
+  }, []));
+
   const handleGoToLogin = async () => {
+    if (loginRequest.current) return;
+
+    const request = Symbol();
+    loginRequest.current = request;
+    setIsOpeningLogin(true);
+    const completed = await hasCompletedOnboarding().catch(() => true);
+    if (loginRequest.current !== request) return;
+
     try {
-      const completed = await hasCompletedOnboarding();
-      if (completed) {
-        router.push('/login');
-      } else {
-        router.push('/welcome');
-      }
+      router.push(completed ? '/login' : '/welcome');
     } catch {
-      router.push('/login');
+      loginRequest.current = null;
+      setIsOpeningLogin(false);
+    }
+  };
+
+  const handleToggleAnswer = () => {
+    const showAnswer = !answeredSpeech;
+    setAnsweredSpeech(showAnswer);
+    if (Platform.OS === 'ios') {
+      const feedback = showAnswer ? currentDemo.replyResponse : currentDemo.speechText;
+      AccessibilityInfo.announceForAccessibilityWithOptions(feedback, { queue: true });
     }
   };
 
@@ -185,6 +208,8 @@ export default function PortalScreen() {
         <Pressable
           style={({ pressed }) => [styles.headerLoginBtn, pressed && styles.btnPressed]}
           onPress={handleGoToLogin}
+          disabled={isOpeningLogin}
+          accessibilityState={{ disabled: isOpeningLogin }}
           accessibilityLabel="Đăng nhập"
           accessibilityRole="button"
         >
@@ -228,6 +253,8 @@ export default function PortalScreen() {
             <Pressable
               style={({ pressed }) => [styles.heroPrimaryBtn, pressed && styles.btnPressed]}
               onPress={handleGoToLogin}
+              disabled={isOpeningLogin}
+              accessibilityState={{ disabled: isOpeningLogin }}
               accessibilityLabel="Đăng nhập để bắt đầu"
               accessibilityRole="button"
             >
@@ -380,7 +407,12 @@ export default function PortalScreen() {
                       style={styles.robotBubbleAvatar}
                       resizeMode="contain"
                     />
-                    <Text style={styles.robotBubbleText}>
+                    <Text
+                      style={styles.robotBubbleText}
+                      accessibilityLiveRegion={Platform.OS === 'android' ? 'polite' : undefined}
+                      aria-live={Platform.OS === 'web' ? 'polite' : undefined}
+                      aria-atomic={Platform.OS === 'web' ? true : undefined}
+                    >
                       {answeredSpeech ? currentDemo.replyResponse : currentDemo.speechText}
                     </Text>
                   </View>
@@ -394,7 +426,7 @@ export default function PortalScreen() {
                       answeredSpeech ? styles.replyBtnAnswered : styles.replyBtnNormal,
                       pressed && styles.btnPressed,
                     ]}
-                    onPress={() => setAnsweredSpeech((prev) => !prev)}
+                    onPress={handleToggleAnswer}
                     accessibilityLabel={answeredSpeech ? 'Xem lại bài làm ban đầu' : currentDemo.answerText}
                     accessibilityRole="button"
                   >
@@ -718,6 +750,8 @@ export default function PortalScreen() {
               <Pressable
                 style={({ pressed }) => [styles.ctaGoogleBtn, pressed && styles.btnPressed]}
                 onPress={handleGoToLogin}
+                disabled={isOpeningLogin}
+                accessibilityState={{ disabled: isOpeningLogin }}
                 accessibilityLabel="Đăng nhập tài khoản"
                 accessibilityRole="button"
               >

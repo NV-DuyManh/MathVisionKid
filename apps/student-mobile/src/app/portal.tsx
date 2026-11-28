@@ -1,1 +1,1 @@
-export { default } from '../features/portal/PortalScreen';
+export { default } from '../features/portal/PortalEntry';

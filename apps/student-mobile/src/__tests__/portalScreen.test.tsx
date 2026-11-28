@@ -1,13 +1,16 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
+import { AccessibilityInfo, Platform } from 'react-native';
 import PortalScreen from '../features/portal/PortalScreen';
 import { hasCompletedOnboarding } from '../features/onboarding/onboardingStorage';
 
 const mockPush = jest.fn();
 const mockReplace = jest.fn();
+let mockFocusEpoch = 0;
 
 jest.mock('expo-router', () => ({
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
+  useFocusEffect: (callback: () => () => void) => require('react').useEffect(callback, [callback, mockFocusEpoch]),
 }));
 
 jest.mock('../features/onboarding/onboardingStorage', () => ({
@@ -27,6 +30,15 @@ jest.mock('@expo/vector-icons', () => ({
 }));
 
 let view: TestRenderer.ReactTestRenderer;
+
+const mountPortal = async () => act(async () => {
+  view = TestRenderer.create(<PortalScreen />);
+});
+
+const refocusPortal = () => act(() => {
+  mockFocusEpoch++;
+  view.update(<PortalScreen />);
+});
 
 const findByLabel = (label: string) =>
   view.root.findAll((node) => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0];
@@ -58,9 +70,7 @@ afterEach(() => {
 
 describe('PortalScreen (Unified Mobile Portal)', () => {
   it('renders the complete Unified Portal Web UI on mobile and routes based on onboarding state', async () => {
-    await act(async () => {
-      view = TestRenderer.create(<PortalScreen />);
-    });
+    await mountPortal();
 
     const fullText = getAllText();
 
@@ -90,12 +100,14 @@ describe('PortalScreen (Unified Mobile Portal)', () => {
     await act(async () => headerLoginBtn.props.onPress());
     expect(mockPush).toHaveBeenCalledWith('/login');
 
+    refocusPortal();
     const heroLoginBtn = findByLabel('Đăng nhập để bắt đầu');
     expect(heroLoginBtn).toBeDefined();
     await act(async () => heroLoginBtn.props.onPress());
-    expect(mockPush).toHaveBeenCalledWith('/login');
+    expect(mockPush.mock.calls).toEqual([['/login'], ['/login']]);
 
     // Check first-time onboarding route when not completed
+    refocusPortal();
     jest.mocked(hasCompletedOnboarding).mockResolvedValueOnce(false);
     const ctaLoginBtn = findByLabel('Đăng nhập tài khoản');
     expect(ctaLoginBtn).toBeDefined();
@@ -103,10 +115,82 @@ describe('PortalScreen (Unified Mobile Portal)', () => {
     expect(mockPush).toHaveBeenCalledWith('/welcome');
   });
 
-  it('interactively switches grade calculation, updates accessibilityState, and resets checked state', async () => {
-    await act(async () => {
-      view = TestRenderer.create(<PortalScreen />);
+  it('locks all login CTAs until navigation leaves the portal', async () => {
+    let finishOnboarding!: (completed: boolean) => void;
+    jest.mocked(hasCompletedOnboarding).mockReturnValueOnce(new Promise(resolve => {
+      finishOnboarding = resolve;
+    }));
+    await mountPortal();
+
+    const labels = ['Đăng nhập', 'Đăng nhập để bắt đầu', 'Đăng nhập tài khoản'];
+    act(() => {
+      void findByLabel(labels[0]).props.onPress();
+      void findByLabel(labels[1]).props.onPress();
     });
+    expect(hasCompletedOnboarding).toHaveBeenCalledTimes(1);
+    expect(mockPush).not.toHaveBeenCalled();
+    for (const label of labels) {
+      expect(findByLabel(label).props.disabled).toBe(true);
+      expect(findByLabel(label).props.accessibilityState.disabled).toBe(true);
+    }
+
+    await act(async () => finishOnboarding(false));
+    expect(findByLabel(labels[2]).props.disabled).toBe(true);
+    await act(async () => findByLabel(labels[2]).props.onPress());
+    expect(mockPush.mock.calls).toEqual([['/welcome']]);
+
+    refocusPortal();
+    expect(findByLabel(labels[2]).props.disabled).toBe(false);
+  });
+
+  it('drops a pending login navigation when the screen unmounts', async () => {
+    let finishOnboarding!: (completed: boolean) => void;
+    jest.mocked(hasCompletedOnboarding).mockReturnValueOnce(new Promise(resolve => {
+      finishOnboarding = resolve;
+    }));
+    await mountPortal();
+
+    act(() => { void findByLabel('Đăng nhập').props.onPress(); });
+    act(() => view.unmount());
+    await act(async () => finishOnboarding(true));
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it('keeps the Android polite announcement on the feedback text after answering', async () => {
+    const platform = jest.replaceProperty(Platform, 'OS', 'android');
+    try {
+      await mountPortal();
+      const feedback = () => view.root.findAllByType('Text' as any).filter(
+        node => node.props.accessibilityLiveRegion === 'polite'
+      );
+      const [region] = feedback();
+      expect(feedback()).toHaveLength(1);
+      expect(region.props.children).toContain('Cô thấy con viết');
+      act(() => findByLabel('Con trả lời: 5 + 8 = 13').props.onPress());
+      expect(feedback()).toEqual([region]);
+      expect(region.props.children).toContain('Kết quả là 423');
+    } finally {
+      platform.restore();
+    }
+  });
+
+  it('queues one VoiceOver announcement for the selected response', async () => {
+    const platform = jest.replaceProperty(Platform, 'OS', 'ios');
+    const announce = jest.spyOn(AccessibilityInfo, 'announceForAccessibilityWithOptions').mockImplementation(() => {});
+    try {
+      await mountPortal();
+      expect(announce).not.toHaveBeenCalled();
+      act(() => findByLabel('Con trả lời: 5 + 8 = 13').props.onPress());
+      expect(announce).toHaveBeenCalledTimes(1);
+      expect(announce).toHaveBeenCalledWith(expect.stringContaining('Kết quả là 423'), { queue: true });
+    } finally {
+      announce.mockRestore();
+      platform.restore();
+    }
+  });
+
+  it('interactively switches grade calculation, updates accessibilityState, and resets checked state', async () => {
+    await mountPortal();
 
     // Default is Grade 3: Lớp 3A, Nguyễn B***, selected accessibilityState
     expect(getAllText()).toContain('Nguyễn B***');
@@ -134,9 +218,7 @@ describe('PortalScreen (Unified Mobile Portal)', () => {
   });
 
   it('shows corrected digits and historical label across all 5 grades when checked', async () => {
-    await act(async () => {
-      view = TestRenderer.create(<PortalScreen />);
-    });
+    await mountPortal();
 
     const expectedByGrade: Record<number, { wrong: string; corrected: string; answerLabel: string }> = {
       1: { wrong: '11', corrected: '12', answerLabel: 'Con trả lời: 7 + 5 = 12' },

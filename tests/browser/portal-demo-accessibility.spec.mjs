@@ -42,7 +42,7 @@ test('Portal has a single main landmark, working skip link, and accessible grade
   }
 });
 
-test('Portal grade selectors and demo calculation activate with keyboard navigation and show corrected result', async ({ page, app }) => {
+test('Portal grade selectors and demo calculation activate with keyboard navigation and show corrected result', async ({ page, app }, testInfo) => {
   void app;
   await page.goto(sites.portal.origin);
   const grade3 = page.getByRole('button', { name: 'Lớp 3', exact: true });
@@ -54,12 +54,21 @@ test('Portal grade selectors and demo calculation activate with keyboard navigat
   await expect(page.getByTestId('demo-row1-col-1')).toHaveAttribute('data-active', 'false');
   await expect(page.getByTestId('demo-result-col-1')).toHaveText('1');
 
+  const feedback = page.locator('[aria-live="polite"][aria-atomic="true"]')
+    .filter({ hasText: /Cô thấy con viết 245 \+ 178|Kết quả đúng là 423/ });
+  await expect(feedback).toHaveCount(1);
+  const liveRegion = await feedback.elementHandle();
+  await expect(feedback).toContainText('5 + 8 bằng mấy');
+
   // Activate answer in Grade 3 -> updates active column to col 1, shows corrected 423 and historical note
   const grade3AnswerBtn = page.getByRole('button', { name: /Con trả lời: 5 \+ 8 = 13/ });
   await grade3AnswerBtn.focus();
   await page.keyboard.press('Space');
   await expect(page.getByRole('button', { name: '↺ Xem lại bài làm ban đầu' })).toBeVisible();
   await expect(page.getByTestId('demo-row1-col-1')).toHaveAttribute('data-active', 'true');
+  await expect(page.getByTestId('demo-row2-col-1')).toHaveAttribute('data-active', 'true');
+  await expect(feedback).toContainText('Kết quả đúng là 423');
+  expect(await liveRegion.textContent()).toContain('Kết quả đúng là 423');
   await expect(page.getByTestId('demo-result-col-1')).toHaveText('2');
   await expect(page.getByText('(Bài làm ban đầu: 413 → Đã sửa: 423)')).toBeVisible();
 
@@ -76,6 +85,25 @@ test('Portal grade selectors and demo calculation activate with keyboard navigat
   await grade4.click();
   await expect(grade4).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByText('Lớp 4C')).toBeVisible();
+  const firstOperand = page.locator('[data-testid^="demo-row1-col-"][data-active="true"]');
+  const secondOperand = page.locator('[data-testid^="demo-row2-col-"][data-active="true"]');
+  await expect(firstOperand).toHaveText('5');
+  await expect(secondOperand).toHaveText('4');
+
+  await page.getByRole('button', { name: 'Con trả lời: 4 × 5 = 20', exact: true }).click();
+  await expect(firstOperand).toHaveText('2');
+  await expect(secondOperand).toHaveText('4');
+  await expect(page.locator('[aria-live="polite"]').filter({ hasText: '4 × 2 = 8' })).toHaveCount(1);
+  await expect(page.locator('[data-testid^="demo-result-col-"]')).toHaveText(['5', '0', '0']);
+  if (testInfo.project.name === 'desktop') {
+    await page.setViewportSize({ width: 1440, height: 1100 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    await testInfo.attach('grade-4-feedback', {
+      body: await page.screenshot({ path: testInfo.outputPath('grade-4-feedback.png'), animations: 'disabled' }),
+      contentType: 'image/png',
+    });
+  }
 });
 
 test('Portal socratic method and philosophy sections are keyboard accessible and navigate to login without unsupported social promises', async ({ page, app }) => {
