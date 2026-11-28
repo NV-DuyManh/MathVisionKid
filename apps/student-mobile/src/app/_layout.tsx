@@ -80,6 +80,7 @@ function StudentNavigator() {
   const auth = useContext(AuthContext);
   return <Stack screenOptions={{ headerShown: false }}>
     <Stack.Screen name="index" />
+    <Stack.Screen name="portal" />
     <Stack.Screen name="welcome" />
     <Stack.Screen name="onboarding" />
     <Stack.Screen name="login" />

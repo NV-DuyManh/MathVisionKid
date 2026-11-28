@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Container,
@@ -6,40 +6,119 @@ import {
   Button,
   Chip,
   Grid,
-  Tabs,
-  Tab,
-  Card,
 } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import SecurityIcon from '@mui/icons-material/Security';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
-import LogoutIcon from '@mui/icons-material/Logout';
-import SparklesIcon from '@mui/icons-material/AutoAwesome';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import MicIcon from '@mui/icons-material/Mic';
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import { authService, type UserProfile } from '../services/authService';
-import { tokenStore } from '../services/apiClient';
-import { WEB_DESIGN } from '../../../../packages/ui-brand/src/web-design';
+import { Link as RouterLink, useOutletContext } from 'react-router-dom';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import { type UserProfile } from '../services/authService';
+
+interface GradeDemoData {
+  gradeLabel: string;
+  className: string;
+  studentName: string;
+  row1: string[];
+  row2: string[];
+  operator: string;
+  resultRow: string[];
+  correctedRow?: string[];
+  activeCol: number;
+  correctedActiveCol?: number;
+  correctedSecondRowActiveCol?: number;
+  errorCol?: number;
+  speechText: string;
+  answerText: string;
+  replyResponse: string;
+}
+
+const GRADE_DATA: Record<number, GradeDemoData> = {
+  1: {
+    gradeLabel: 'Lớp 1',
+    className: 'Lớp 1A',
+    studentName: 'Nguyễn B***',
+    row1: ['3', '5'],
+    row2: ['2', '4'],
+    operator: '+',
+    resultRow: ['5', '9'],
+    activeCol: 1,
+    correctedActiveCol: 0,
+    speechText: 'Chào con! Cô thấy con viết 35 + 24. Mình cùng tính nhé. Bắt đầu từ cột đơn vị: 5 + 4 bằng mấy?',
+    answerText: 'Con trả lời: 5 + 4 = 9',
+    replyResponse: 'Chính xác! Con viết 9 vào cột đơn vị, rồi tính tiếp 3 + 2 = 5 ở cột chục nhé!',
+  },
+  2: {
+    gradeLabel: 'Lớp 2',
+    className: 'Lớp 2B',
+    studentName: 'Nguyễn B***',
+    row1: ['4', '8'],
+    row2: ['3', '5'],
+    operator: '+',
+    resultRow: ['8', '3'],
+    activeCol: 1,
+    correctedActiveCol: 0,
+    speechText: 'Chào con! Cô thấy con viết 48 + 35. Mình cùng kiểm tra nhé: 8 + 5 = 13, con viết 3 và nhớ mấy sang hàng chục?',
+    answerText: 'Con trả lời: Viết 3 nhớ 1',
+    replyResponse: 'Giỏi lắm! Con nhớ 1 sang hàng chục: 4 + 3 = 7, thêm 1 nhớ là 8. Kết quả bằng 83!',
+  },
+  3: {
+    gradeLabel: 'Lớp 3',
+    className: 'Lớp 3A',
+    studentName: 'Nguyễn B***',
+    row1: ['2', '4', '5'],
+    row2: ['1', '7', '8'],
+    operator: '+',
+    resultRow: ['4', '1', '3'],
+    correctedRow: ['4', '2', '3'],
+    activeCol: 2,
+    correctedActiveCol: 1,
+    errorCol: 1,
+    speechText: 'Chào con! Cô thấy con viết 245 + 178 = 413. Mình cùng kiểm tra từng cột nhé. Bắt đầu từ cột đơn vị: 5 + 8 bằng mấy?',
+    answerText: 'Con trả lời: 5 + 8 = 13',
+    replyResponse: 'Đúng rồi! 5 + 8 = 13, viết 3 nhớ 1 sang cột chục. 4 + 7 = 11, thêm 1 nhớ là 12, viết 2 nhớ 1. Kết quả đúng là 423 con nhé!',
+  },
+  4: {
+    gradeLabel: 'Lớp 4',
+    className: 'Lớp 4C',
+    studentName: 'Nguyễn B***',
+    row1: ['1', '2', '5'],
+    row2: ['', '', '4'],
+    operator: '×',
+    resultRow: ['5', '0', '0'],
+    activeCol: 2,
+    correctedActiveCol: 1,
+    correctedSecondRowActiveCol: 2,
+    speechText: 'Chào con! Cô thấy con tính 125 × 4. Mình cùng nhân từ hàng đơn vị nhé: 4 × 5 bằng mấy?',
+    answerText: 'Con trả lời: 4 × 5 = 20',
+    replyResponse: 'Tuyệt vời! Viết 0 nhớ 2. Tiếp theo: 4 × 2 = 8, thêm 2 nhớ là 10, viết 0 nhớ 1 nhé!',
+  },
+  5: {
+    gradeLabel: 'Lớp 5',
+    className: 'Lớp 5A',
+    studentName: 'Nguyễn B***',
+    row1: ['3', '5', ',', '4'],
+    row2: ['1', '8', ',', '7'],
+    operator: '+',
+    resultRow: ['5', '4', ',', '1'],
+    activeCol: 3,
+    correctedActiveCol: 1,
+    speechText: 'Chào con! Cô thấy con đặt tính số thập phân 35,4 + 18,7. Mình cùng kiểm tra phần thập phân trước: 4 + 7 bằng mấy?',
+    answerText: 'Con trả lời: 4 + 7 = 11',
+    replyResponse: 'Rất đúng! Viết 1 nhớ 1 qua hàng đơn vị và hạ dấu phẩy thẳng cột con nhé!',
+  },
+};
+
+const GRADE_COLORS: Record<number, { bg: string; hover: string; text: string }> = {
+  1: { bg: '#DC2626', hover: '#B91C1C', text: '#FFFFFF' },
+  2: { bg: '#F59E0B', hover: '#D97706', text: '#1E1B4B' },
+  3: { bg: '#047857', hover: '#065F46', text: '#FFFFFF' },
+  4: { bg: '#0E7490', hover: '#155E75', text: '#FFFFFF' },
+  5: { bg: '#4F46E5', hover: '#4338CA', text: '#FFFFFF' },
+};
 
 export const LandingPage: React.FC = () => {
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [gradeBand, setGradeBand] = useState<'early' | 'upper'>('upper');
-  const [demoTab, setDemoTab] = useState<number>(0);
-  const [activeColumn, setActiveColumn] = useState<'all' | 'units' | 'tens' | 'hundreds'>('all');
-  const [socraticStep, setSocraticStep] = useState<number>(0);
-  const [activeWorkflowStep, setActiveWorkflowStep] = useState<number>(0);
-
-  useEffect(() => {
-    if (tokenStore.hasTokens()) {
-      authService.getMe().then(setUser).catch(() => setUser(null));
-    }
-  }, []);
+  const outletContext = useOutletContext<{ user: UserProfile | null } | undefined>();
+  const user = outletContext?.user ?? null;
+  const [selectedGrade, setSelectedGrade] = useState<number>(3);
+  const [answeredSpeech, setAnsweredSpeech] = useState<boolean>(false);
 
   const getDestinationPath = (role?: string) => {
     const normalized = (role || '').toUpperCase().replace('ROLE_', '');
@@ -49,1252 +128,1529 @@ export const LandingPage: React.FC = () => {
     return '/login';
   };
 
-  const isStudent = user && (user.role || '').toUpperCase().replace('ROLE_', '') === 'STUDENT';
+  const handleSelectGrade = (grade: number) => {
+    setSelectedGrade(grade);
+    setAnsweredSpeech(false);
+  };
 
-  const columnOptions = [
-    { column: 'all', label: 'Cả phép tính', fill: WEB_DESIGN.colors.blue, text: WEB_DESIGN.colors.white },
-    { column: 'units', label: gradeBand === 'upper' ? 'Đơn vị (5+8)' : 'Đơn vị (3+5)', fill: WEB_DESIGN.colors.green, text: WEB_DESIGN.colors.white },
-    { column: 'tens', label: gradeBand === 'upper' ? 'Hàng chục (4+7)' : 'Hàng chục (2+1)', fill: WEB_DESIGN.colors.star, text: WEB_DESIGN.colors.ink },
-    { column: 'hundreds', label: 'Hàng trăm (2+1)', fill: WEB_DESIGN.colors.blue, text: WEB_DESIGN.colors.white },
-  ] as const;
-
-  const WORKFLOW_STEPS = [
-    {
-      step: '01',
-      title: 'Chụp trang vở ô ly',
-      subtitle: 'Bé đặt điện thoại ngay ngắn, chụp trang vở bài làm mà không cần phụ huynh thao tác phức tạp.',
-      tag: 'Che thông tin riêng tư',
-      icon: <CameraAltIcon sx={{ fontSize: 26, color: '#2563EB' }} />,
-      detail: 'Trước khi gửi, em có thể đánh dấu vùng tên, trường hoặc lớp cần che, rồi xác nhận lại ảnh.',
-      badgeColor: '#EFF6FF',
-    },
-    {
-      step: '02',
-      title: 'Bóc tách nét chữ viết tay',
-      subtitle: 'AI chuyên biệt cho chữ số tiểu học Việt Nam nhận diện từng chữ số đặt tính thẳng hàng.',
-      tag: 'Chuẩn ô ly Việt Nam',
-      icon: <AutoStoriesIcon sx={{ fontSize: 26, color: '#F59E0B' }} />,
-      detail: 'Bóc tách chính xác từng số hạng, dấu phép tính (+, -) và đường kẻ ngang, phân loại từng cột: đơn vị, hàng chục, hàng trăm.',
-      badgeColor: '#FFFBEB',
-    },
-    {
-      step: '03',
-      title: 'Gợi mở câu hỏi Socratic',
-      subtitle: 'Phát hiện ngay vị trí bước tính nhầm hoặc quên nhớ số, đặt câu hỏi gợi mở thay vì giải hộ.',
-      tag: 'Tuyệt đối không giải hộ',
-      icon: <LightbulbIcon sx={{ fontSize: 26, color: '#10B981' }} />,
-      detail: 'Đặt câu hỏi nhỏ khuyến khích bé tự nhẩm tính: "5 cộng 8 bằng 13, bé viết mấy và nhớ mấy sang hàng chục?" để bé tự tìm lời giải.',
-      badgeColor: '#ECFDF5',
-    },
-    {
-      step: '04',
-      title: 'Bé hiểu sâu & tự tin tiến bộ',
-      subtitle: 'Bé tự sửa được bài, ghi nhớ phương pháp tư duy bền vững và hào hứng tích lũy sao học tập.',
-      tag: 'Ghi nhớ kiến thức lâu bền',
-      icon: <SparklesIcon sx={{ fontSize: 26, color: '#F43F5E' }} />,
-      detail: 'Bé ghi đáp số chính xác vào trang vở của mình, nhận ngôi sao khích lệ và sẵn sàng tự tin bước vào các bài toán tiếp theo.',
-      badgeColor: '#FFF1F2',
-    },
-  ];
+  const currentDemo = GRADE_DATA[selectedGrade] || GRADE_DATA[3];
+  const firstRowActiveCol = answeredSpeech
+    ? currentDemo.correctedActiveCol ?? currentDemo.activeCol
+    : currentDemo.activeCol;
+  const secondRowActiveCol = answeredSpeech
+    ? currentDemo.correctedSecondRowActiveCol ?? firstRowActiveCol
+    : currentDemo.activeCol;
 
   return (
-    <Box sx={{ width: '100%', overflowX: 'clip', bgcolor: '#FFFFFF' }}>
+    <Box
+      sx={{
+        width: '100%',
+        bgcolor: '#FFFFFF',
+        color: '#1E1B4B',
+        overflowX: 'clip',
+        '@keyframes floatSlow': {
+          '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+          '50%': { transform: 'translateY(-8px) rotate(3deg)' },
+        },
+        '@keyframes floatReverse': {
+          '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+          '50%': { transform: 'translateY(8px) rotate(-3deg)' },
+        },
+        '@keyframes floatGentle': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-6px)' },
+        },
+        '@media (prefers-reduced-motion: reduce)': {
+          '*': {
+            animationDuration: '0.01ms !important',
+            animationIterationCount: '1 !important',
+            transitionDuration: '0.01ms !important',
+          },
+        },
+      }}
+    >
       {/* ========================================================================= */}
-      {/* 1. HERO SECTION (INTERACTIVE STAGE WITH DIGITAL O LY NOTEBOOK) */}
+      {/* 1. HERO SECTION                                                           */}
       {/* ========================================================================= */}
       <Box
         sx={{
-          py: { xs: 4, sm: 6, md: 8 },
-          borderBottom: `1px solid ${WEB_DESIGN.colors.paperLine}`,
-          bgcolor: WEB_DESIGN.colors.paper,
+          pt: { xs: 5, md: 8 },
+          pb: { xs: 6, md: 8 },
+          background: `
+            radial-gradient(circle at 6% 92%, rgba(254, 240, 138, 0.65) 0%, rgba(254, 240, 138, 0.22) 32%, transparent 58%),
+            radial-gradient(circle at 94% 8%, rgba(221, 214, 254, 0.75) 0%, rgba(237, 233, 254, 0.3) 36%, transparent 62%),
+            linear-gradient(135deg, #F8FAFC 0%, #FAF8FF 45%, #F5F3FF 100%)
+          `,
+          borderBottom: '1px solid #F1F0FB',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
         <Container maxWidth="xl" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
-          <Grid container spacing={{ xs: 4, lg: 7 }} sx={{ alignItems: 'start' }}>
-            {/* Left Column: Narrative & Action Launchpad */}
+          <Grid container spacing={{ xs: 4, lg: 6 }} sx={{ alignItems: 'center' }}>
+            {/* Left Hero Narrative */}
             <Grid size={{ xs: 12, lg: 6 }}>
               <Box sx={{ maxWidth: 620 }}>
-                {/* Companion Mascot Speech Bubble */}
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                  <Box
-                    component="img"
-                    src="/ui/robot-mascot.webp"
-                    alt="Robot MathVisionKid"
-                    sx={{ width: { xs: 58, md: 82 }, height: { xs: 58, md: 82 }, flexShrink: 0, objectFit: 'contain' }}
-                  />
-                  <Box sx={{ maxWidth: 280 }}>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        fontWeight: 800,
-                        color: WEB_DESIGN.colors.mutedInk,
-                        fontSize: { xs: '0.875rem', sm: '1rem' },
-                        lineHeight: 1.4,
-                      }}
-                    >
-                      {user && isStudent
-                        ? `Chào ${user.displayName}! Hôm nay em muốn giải toán gì cùng MathVision?`
-                        : 'Cùng robot MathVisionKid mở trang vở hôm nay nhé!'}
-                    </Typography>
-                  </Box>
-                </Box>
-
-                {/* Catchy Headline */}
-                <Typography
-                  variant="h1"
-                  component="h1"
+                {/* Badge: Mới Gia sư gợi mở cho học sinh lớp 1 đến lớp 5 */}
+                <Box
                   sx={{
-                    fontSize: { xs: '2.125rem', sm: '2.85rem', lg: '3.25rem' },
-                    fontWeight: 900,
-                    lineHeight: 1.15,
-                    letterSpacing: '-0.03em',
-                    color: WEB_DESIGN.colors.ink,
-                    textWrap: 'balance',
-                    mb: 2.5,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 1.5,
+                    px: 2.2,
+                    py: 1,
+                    mb: 3,
+                    borderRadius: 999,
+                    bgcolor: '#FFFBEB',
+                    border: '1.5px solid #FDE68A',
                   }}
                 >
-                  Mở vở ô ly,{' '}
+                  <Chip
+                    label="Mới"
+                    size="small"
+                    sx={{
+                      height: 28,
+                      fontSize: '0.9rem',
+                      fontWeight: 900,
+                      bgcolor: '#F59E0B',
+                      color: '#FFFFFF',
+                      borderRadius: 999,
+                      px: 0.5,
+                    }}
+                  />
+                  <Typography variant="caption" sx={{ color: '#92400E', fontWeight: 800, fontSize: '1.08rem' }}>
+                    Gia sư gợi mở cho học sinh lớp 1 đến lớp 5
+                  </Typography>
+                </Box>
+
+                {/* H1 Heading with rotated yellow badge on "từng bước" */}
+                <Typography
+                  variant="h1"
+                  sx={{
+                    fontSize: { xs: '2.9rem', sm: '3.8rem', lg: '4.4rem' },
+                    fontWeight: 900,
+                    lineHeight: 1.18,
+                    letterSpacing: '-0.035em',
+                    color: '#1E1B4B',
+                    mb: 3,
+                  }}
+                >
+                  Mở vở ô ly, học<br />
+                  toán{' '}
                   <Box
                     component="span"
-                    sx={{ color: WEB_DESIGN.colors.blue }}
+                    sx={{
+                      display: 'inline-block',
+                      bgcolor: '#FDE047',
+                      color: '#1E1B4B',
+                      px: { xs: 2.2, sm: 2.8 },
+                      py: 0.5,
+                      borderRadius: 3.5,
+                      boxShadow: '0 4px 14px rgba(253, 224, 71, 0.45)',
+                      mx: 0.5,
+                    }}
                   >
-                    học toán từng bước
+                    từng bước
                   </Box>
                 </Typography>
 
+                {/* Subtitle */}
                 <Typography
                   variant="body1"
                   sx={{
                     color: '#475569',
-                    fontSize: { xs: '1.05rem', md: '1.18rem' },
-                    lineHeight: 1.68,
-                    mb: 3,
+                    fontSize: { xs: '1.22rem', md: '1.35rem' },
+                    lineHeight: 1.75,
+                    mb: 4.5,
                   }}
                 >
-                  Chụp bài toán viết tay và cùng robot MathVisionKid tìm ra lời giải qua từng câu hỏi gợi mở. Dành cho học sinh lớp 1 đến lớp 5.
+                  Chụp bài toán viết tay và cùng robot MathVisionKids tìm ra lời giải qua từng câu hỏi gợi mở. Bé tự nghĩ, tự làm, tự tin hơn mỗi ngày.
                 </Typography>
 
-                {/* Dynamic Auth Hub */}
-                {user ? (
-                  <Box
+                {/* Action Buttons */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, sm: 2.5 }, flexWrap: 'wrap', mb: 5 }}>
+                  <Button
+                    component={RouterLink}
+                    to={user ? getDestinationPath(user.role) : '/login'}
+                    variant="contained"
+                    size="large"
                     sx={{
-                      p: 3,
-                      borderRadius: 3.5,
-                      bgcolor: '#FFFFFF',
-                      border: '1.5px solid #BFDBFE',
-                      boxShadow: '0 8px 24px -4px rgba(37, 99, 235, 0.12)',
-                      mb: 4,
+                      bgcolor: '#5D38DE',
+                      color: '#FFFFFF',
+                      px: { xs: 3.5, sm: 4.5 },
+                      py: { xs: 1.6, sm: 1.8 },
+                      borderRadius: 999,
+                      fontSize: { xs: '1.1rem', sm: '1.18rem' },
+                      fontWeight: 800,
+                      textTransform: 'none',
+                      width: { xs: '100%', sm: 'auto' },
+                      boxShadow: '0 6px 18px rgba(93, 56, 222, 0.35)',
+                      transition: 'background-color 160ms ease, transform 160ms ease, box-shadow 160ms ease',
+                      '&:hover': {
+                        bgcolor: '#4E2DBE',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 8px 24px rgba(93, 56, 222, 0.45)',
+                      },
+                      '&:active': { transform: 'translateY(0)' },
                     }}
                   >
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, flexWrap: 'wrap', gap: 1 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-                        <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: '#10B981' }} />
-                        <Typography variant="body2" sx={{ color: '#0F172A', fontWeight: 800 }}>
-                          Tài khoản: <strong>{user.displayName}</strong>
-                        </Typography>
-                      </Box>
-                      <Button
-                        component={RouterLink}
-                        to="/logout"
-                        size="small"
-                        startIcon={<LogoutIcon fontSize="small" />}
-                        sx={{ color: '#64748B', fontWeight: 700, textTransform: 'none', '&:hover': { color: '#EF4444' } }}
-                      >
-                        Đăng xuất
-                      </Button>
-                    </Box>
+                    {user ? 'Vào lớp học' : 'Đăng nhập để bắt đầu'}
+                  </Button>
+                  <Button
+                    component="a"
+                    href="#phuong-phap"
+                    variant="outlined"
+                    size="large"
+                    sx={{
+                      borderColor: '#0F172A',
+                      color: '#0F172A',
+                      px: { xs: 3.5, sm: 4 },
+                      py: { xs: 1.6, sm: 1.8 },
+                      borderRadius: 999,
+                      fontSize: { xs: '1.1rem', sm: '1.18rem' },
+                      fontWeight: 800,
+                      textTransform: 'none',
+                      bgcolor: '#FFFFFF',
+                      borderWidth: 1.5,
+                      width: { xs: '100%', sm: 'auto' },
+                      transition: 'background-color 160ms ease, border-color 160ms ease, color 160ms ease',
+                      '&:hover': {
+                        borderColor: '#5D38DE',
+                        color: '#5D38DE',
+                        bgcolor: '#FAF8FF',
+                        borderWidth: 1.5,
+                      },
+                    }}
+                  >
+                    Xem cách hoạt động
+                  </Button>
+                </Box>
 
-                    {isStudent ? (
-                      /* Student Quick Launch Hub ("Hôm nay em muốn làm gì?") */
-                      <Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                          <Typography variant="subtitle2" sx={{ fontWeight: 900, color: '#2563EB', letterSpacing: '0.04em', fontSize: '0.85rem' }}>
-                            HÔM NAY EM MUỐN LÀM GÌ?
-                          </Typography>
-                          <Chip
-                            label="Không gian học sinh"
-                            size="small"
-                            sx={{ height: 22, fontSize: '0.72rem', fontWeight: 800, bgcolor: '#EFF6FF', color: '#2563EB', border: '1px solid #BFDBFE', borderRadius: 1 }}
-                          />
-                        </Box>
-
-                        <Button
-                          component={RouterLink}
-                          to="/student"
-                          fullWidth
-                          variant="contained"
-                          color="primary"
-                          size="large"
-                          startIcon={<CameraAltIcon sx={{ fontSize: '1.6rem !important' }} />}
-                          sx={{
-                            py: 1.8,
-                            mb: 1.75,
-                            borderRadius: 3,
-                            fontWeight: 900,
-                            fontSize: { xs: '1rem', sm: '1.08rem' },
-                            boxShadow: '0 8px 24px -4px rgba(37, 99, 235, 0.45)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: 1,
-                            letterSpacing: '-0.01em',
-                          }}
-                        >
-                          Chụp bài ngay 📸
-                        </Button>
-
-                        <Grid container spacing={1.25}>
-                          <Grid size={{ xs: 12, sm: 4 }}>
-                            <Button
-                              component={RouterLink}
-                              to="/student"
-                              fullWidth
-                              variant="outlined"
-                              startIcon={<UploadFileIcon />}
-                              sx={{
-                                py: 1.25,
-                                borderRadius: 2.5,
-                                fontWeight: 800,
-                                fontSize: '0.86rem',
-                                borderColor: '#BFDBFE',
-                                color: '#1E40AF',
-                                bgcolor: '#EFF6FF',
-                                justifyContent: 'center',
-                                px: 1.5,
-                                whiteSpace: 'nowrap',
-                                '&:hover': { bgcolor: '#DBEAFE', borderColor: '#2563EB' },
-                              }}
-                            >
-                              Tải ảnh bài làm
-                            </Button>
-                          </Grid>
-                          <Grid size={{ xs: 12, sm: 4 }}>
-                            <Button
-                              component={RouterLink}
-                              to="/student"
-                              fullWidth
-                              variant="outlined"
-                              startIcon={<MicIcon />}
-                              sx={{
-                                py: 1.25,
-                                borderRadius: 2.5,
-                                fontWeight: 800,
-                                fontSize: '0.86rem',
-                                borderColor: '#FDE68A',
-                                color: '#B45309',
-                                bgcolor: '#FFFBEB',
-                                justifyContent: 'center',
-                                px: 1.5,
-                                whiteSpace: 'nowrap',
-                                '&:hover': { bgcolor: '#FEF3C7', borderColor: '#F59E0B' },
-                              }}
-                            >
-                              Hỏi bằng giọng nói
-                            </Button>
-                          </Grid>
-                          <Grid size={{ xs: 12, sm: 4 }}>
-                            <Button
-                              component={RouterLink}
-                              to="/student"
-                              fullWidth
-                              variant="outlined"
-                              startIcon={<HistoryEduIcon />}
-                              sx={{
-                                py: 1.25,
-                                borderRadius: 2.5,
-                                fontWeight: 800,
-                                fontSize: '0.86rem',
-                                borderColor: '#A7F3D0',
-                                color: '#065F46',
-                                bgcolor: '#ECFDF5',
-                                justifyContent: 'center',
-                                px: 1.5,
-                                whiteSpace: 'nowrap',
-                                '&:hover': { bgcolor: '#D1FAE5', borderColor: '#10B981' },
-                              }}
-                            >
-                              Xem bài đã nộp
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      </Box>
-                    ) : (
-                      <Box sx={{ display: 'flex', gap: 1.5 }}>
-                        <Button
-                          component={RouterLink}
-                          to={getDestinationPath(user.role)}
-                          variant="contained"
-                          color="primary"
-                          endIcon={<ArrowForwardIcon />}
-                          sx={{ px: 3, py: 1.2, fontWeight: 800, borderRadius: 2.5 }}
-                        >
-                          Tiếp tục
-                        </Button>
-                      </Box>
-                    )}
-                  </Box>
-                ) : (
-                  <Box>
-                    <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mb: 3 }}>
-                    <Button
-                      component={RouterLink}
-                      to="/login"
-                      variant="contained"
-                      color="primary"
-                      size="large"
-                      endIcon={<ArrowForwardIcon />}
-                      sx={{
-                        px: 4,
-                        py: 1.6,
-                        fontSize: '1.05rem',
-                        fontWeight: 900,
-                        borderRadius: 3,
-                        boxShadow: '0 8px 24px -4px rgba(37, 99, 235, 0.4)',
-                      }}
-                    >
-                      Đăng nhập
-                    </Button>
-                    </Box>
-                  </Box>
-                )}
-
-                {/* Practical Guarantees */}
+                {/* 4 Value Pills */}
                 <Box
                   sx={{
-                    pt: 3,
-                    borderTop: '1px solid #E2E8F0',
-                    display: 'grid',
-                    gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                    gap: 1.75,
+                    pt: 2.5,
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: { xs: 1.5, sm: 2 },
                   }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-                    <CheckCircleIcon sx={{ fontSize: 20, color: '#10B981', flexShrink: 0 }} />
-                    <Typography variant="caption" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.88rem' }}>
+                  <Box
+                    sx={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 1.4,
+                      px: { xs: 2.4, sm: 3 },
+                      py: { xs: 1.1, sm: 1.25 },
+                      borderRadius: 999,
+                      bgcolor: '#FFFFFF',
+                      border: '1.5px solid #CBD5E1',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                      width: { xs: '100%', sm: 'auto' },
+                    }}
+                  >
+                    <span style={{ fontSize: '1.65rem' }}>📷</span>
+                    <Typography variant="caption" sx={{ fontWeight: 800, color: '#1E1B4B', fontSize: { xs: '1.05rem', sm: '1.12rem' } }}>
                       Nhận diện chữ số ô ly Việt Nam
                     </Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-                    <CheckCircleIcon sx={{ fontSize: 20, color: '#10B981', flexShrink: 0 }} />
-                    <Typography variant="caption" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.88rem' }}>
-                      Bảo vệ riêng tư học sinh an toàn
+                  <Box
+                    sx={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 1.4,
+                      px: { xs: 2.4, sm: 3 },
+                      py: { xs: 1.1, sm: 1.25 },
+                      borderRadius: 999,
+                      bgcolor: '#FFFFFF',
+                      border: '1.5px solid #CBD5E1',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                      width: { xs: '100%', sm: 'auto' },
+                    }}
+                  >
+                    <span style={{ fontSize: '1.65rem' }}>🛡️</span>
+                    <Typography variant="caption" sx={{ fontWeight: 800, color: '#1E1B4B', fontSize: { xs: '1.05rem', sm: '1.12rem' } }}>
+                      Bảo vệ riêng tư học sinh
                     </Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-                    <CheckCircleIcon sx={{ fontSize: 20, color: '#10B981', flexShrink: 0 }} />
-                    <Typography variant="caption" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.88rem' }}>
-                      Gợi mở từng bước · Không làm hộ
+                  <Box
+                    sx={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 1.4,
+                      px: { xs: 2.4, sm: 3 },
+                      py: { xs: 1.1, sm: 1.25 },
+                      borderRadius: 999,
+                      bgcolor: '#FFFFFF',
+                      border: '1.5px solid #CBD5E1',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                      width: { xs: '100%', sm: 'auto' },
+                    }}
+                  >
+                    <span style={{ fontSize: '1.65rem' }}>💡</span>
+                    <Typography variant="caption" sx={{ fontWeight: 800, color: '#1E1B4B', fontSize: { xs: '1.05rem', sm: '1.12rem' } }}>
+                      Gợi mở, không làm hộ
                     </Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-                    <CheckCircleIcon sx={{ fontSize: 20, color: '#10B981', flexShrink: 0 }} />
-                    <Typography variant="caption" sx={{ color: '#334155', fontWeight: 800, fontSize: '0.88rem' }}>
-                      Chuẩn chương trình Toán Lớp 1–5
+                  <Box
+                    sx={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 1.4,
+                      px: { xs: 2.4, sm: 3 },
+                      py: { xs: 1.1, sm: 1.25 },
+                      borderRadius: 999,
+                      bgcolor: '#FFFFFF',
+                      border: '1.5px solid #CBD5E1',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                      width: { xs: '100%', sm: 'auto' },
+                    }}
+                  >
+                    <span style={{ fontSize: '1.65rem' }}>📚</span>
+                    <Typography variant="caption" sx={{ fontWeight: 800, color: '#1E1B4B', fontSize: { xs: '1.05rem', sm: '1.12rem' } }}>
+                      Chuẩn chương trình Toán 1–5
                     </Typography>
                   </Box>
                 </Box>
               </Box>
             </Grid>
 
-            {/* Right Column: Interactive Digital Notebook Preview Stage */}
-            <Grid size={{ xs: 12, lg: 6 }} id="showcase" sx={{ minWidth: 0, scrollMarginTop: 96 }}>
+            {/* Right Hero Visual Card with 3D Floating Badges & Slender Vertical Silhouette */}
+            <Grid size={{ xs: 12, lg: 6 }}>
               <Box
                 sx={{
-                  bgcolor: '#FFFFFF',
-                  borderRadius: `${WEB_DESIGN.components.notebook.radius}px`,
-                  border: `1px solid ${WEB_DESIGN.components.notebook.borderColor}`,
-                  overflow: 'hidden',
+                  position: 'relative',
+                  maxWidth: { xs: 335, sm: 380, md: 430, lg: 450 },
+                  mx: 'auto',
+                  transform: 'rotate(3deg)',
+                  transformOrigin: 'center center',
+                  transition: 'transform 320ms ease',
+                  '&:hover': {
+                    transform: 'rotate(1.5deg) scale(1.015)',
+                  },
                 }}
               >
-                {/* Stage Header Toolbar */}
+                {/* Floating Badge 1: Red "+" square (Top-Left, overlapping top bar corner) */}
                 <Box
+                  aria-hidden="true"
                   sx={{
-                    px: { xs: 2, sm: 3 },
-                    py: 2,
-                    bgcolor: WEB_DESIGN.colors.blueLight,
-                    borderBottom: `1px solid ${WEB_DESIGN.colors.line}`,
+                    position: 'absolute',
+                    top: { xs: -12, sm: -16, md: -18 },
+                    left: { xs: -10, sm: -14, md: -18 },
+                    width: { xs: 50, sm: 58, md: 64 },
+                    height: { xs: 50, sm: 58, md: 64 },
+                    borderRadius: { xs: 2.5, sm: 3, md: 3.5 },
+                    bgcolor: '#EF4444',
+                    color: '#FFFFFF',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
-                    flexWrap: 'wrap',
-                    gap: 1.5,
+                    justifyContent: 'center',
+                    fontSize: { xs: '2rem', sm: '2.3rem', md: '2.5rem' },
+                    fontWeight: 900,
+                    boxShadow: '0 10px 24px rgba(239, 68, 68, 0.45)',
+                    transform: 'rotate(-12deg)',
+                    zIndex: 4,
+                    animation: 'floatSlow 4.5s ease-in-out infinite',
+                    userSelect: 'none',
                   }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-                    <Box
-                      sx={{
-                        width: 10,
-                        height: 10,
-                        borderRadius: '50%',
-                        bgcolor: '#2563EB',
-                        boxShadow: '0 0 0 3px rgba(37, 99, 235, 0.2)',
-                      }}
-                    />
-                    <Typography variant="caption" sx={{ fontWeight: 900, color: '#0F172A', letterSpacing: '0.04em', fontSize: '0.82rem' }}>
-                      PHÒNG THỰC NGHIỆM SỐ HỌC Ô LY
-                    </Typography>
-                  </Box>
-
-                  {/* Grade-band perspective switcher */}
-                  <Box sx={{ display: 'flex', gap: 0.75 }}>
-                    <Button
-                      size="small"
-                      variant={gradeBand === 'early' ? 'contained' : 'outlined'}
-                      aria-pressed={gradeBand === 'early'}
-                      onClick={() => {
-                        setGradeBand('early');
-                        setActiveColumn('all');
-                        setSocraticStep(0);
-                      }}
-                      sx={{
-                        fontSize: '0.75rem',
-                        fontWeight: 800,
-                        py: 0.5,
-                        px: 1.5,
-                        minHeight: 30,
-                        borderRadius: 2,
-                        bgcolor: gradeBand === 'early' ? '#2563EB' : '#FFFFFF',
-                        borderColor: gradeBand === 'early' ? '#2563EB' : '#CBD5E1',
-                        color: gradeBand === 'early' ? '#FFFFFF' : '#475569',
-                      }}
-                    >
-                      Lớp 1–2
-                    </Button>
-                    <Button
-                      size="small"
-                      variant={gradeBand === 'upper' ? 'contained' : 'outlined'}
-                      aria-pressed={gradeBand === 'upper'}
-                      onClick={() => {
-                        setGradeBand('upper');
-                        setActiveColumn('all');
-                        setSocraticStep(0);
-                      }}
-                      sx={{
-                        fontSize: '0.75rem',
-                        fontWeight: 800,
-                        py: 0.5,
-                        px: 1.5,
-                        minHeight: 30,
-                        borderRadius: 2,
-                        bgcolor: gradeBand === 'upper' ? '#2563EB' : '#FFFFFF',
-                        borderColor: gradeBand === 'upper' ? '#2563EB' : '#CBD5E1',
-                        color: gradeBand === 'upper' ? '#FFFFFF' : '#475569',
-                      }}
-                    >
-                      Lớp 3–5
-                    </Button>
-                  </Box>
+                  +
                 </Box>
 
-                {/* Sub-tabs: Notebook vs AI Recognition vs Socratic Guidance */}
-                <Box sx={{ borderBottom: '1px solid #E2E8F0', px: { xs: 0.5, sm: 2 }, bgcolor: '#F8FAFC' }}>
-                  <Tabs
-                    value={demoTab}
-                    onChange={(_, v) => setDemoTab(v)}
-                    aria-label="Chế độ xem thực nghiệm số học ô ly"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    allowScrollButtonsMobile
+                {/* Floating Badge 2: Green "×" square (Right Edge near dialogue) */}
+                <Box
+                  aria-hidden="true"
+                  sx={{
+                    position: 'absolute',
+                    bottom: { xs: 80, sm: 95, md: 105 },
+                    right: { xs: -10, sm: -16, md: -20 },
+                    width: { xs: 46, sm: 54, md: 60 },
+                    height: { xs: 46, sm: 54, md: 60 },
+                    borderRadius: { xs: 2.5, sm: 3, md: 3.5 },
+                    bgcolor: '#10B981',
+                    color: '#FFFFFF',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: { xs: '1.8rem', sm: '2.1rem', md: '2.3rem' },
+                    fontWeight: 900,
+                    boxShadow: '0 10px 24px rgba(16, 185, 129, 0.4)',
+                    transform: 'rotate(10deg)',
+                    zIndex: 4,
+                    animation: 'floatReverse 4.8s ease-in-out infinite',
+                    userSelect: 'none',
+                  }}
+                >
+                  ×
+                </Box>
+
+                {/* Floating Badge 3: Yellow "=" circle (Bottom-Left corner) */}
+                <Box
+                  aria-hidden="true"
+                  sx={{
+                    position: 'absolute',
+                    bottom: { xs: -12, sm: -16, md: -18 },
+                    left: { xs: 12, sm: 16, md: 18 },
+                    width: { xs: 50, sm: 58, md: 64 },
+                    height: { xs: 50, sm: 58, md: 64 },
+                    borderRadius: '50%',
+                    bgcolor: '#F59E0B',
+                    color: '#1E1B4B',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: { xs: '2rem', sm: '2.3rem', md: '2.5rem' },
+                    fontWeight: 900,
+                    boxShadow: '0 10px 24px rgba(245, 158, 11, 0.45)',
+                    zIndex: 4,
+                    animation: 'floatSlow 3.8s ease-in-out infinite',
+                    userSelect: 'none',
+                  }}
+                >
+                  =
+                </Box>
+
+                {/* Main Card Container */}
+                <Box
+                  sx={{
+                    position: 'relative',
+                    bgcolor: '#FFFFFF',
+                    borderRadius: { xs: 5, sm: 6 },
+                    boxShadow: '0 25px 60px -12px rgba(93, 56, 222, 0.22)',
+                    overflow: 'hidden',
+                    border: '1.5px solid #E2E8F0',
+                  }}
+                >
+                  {/* Top Header Bar: 3 dots & class info */}
+                  <Box
                     sx={{
-                      minHeight: 48,
-                      '& .MuiTabs-indicator': {
-                        height: 3,
-                        borderRadius: '3px 3px 0 0',
-                        bgcolor: '#2563EB',
-                      },
-                      '& .MuiTab-root': {
-                        minHeight: 48,
-                        py: 1.25,
-                        px: { xs: 1.25, sm: 2.25 },
-                        fontSize: { xs: '0.78rem', sm: '0.88rem' },
-                        fontWeight: 800,
-                        color: '#64748B',
-                        whiteSpace: 'nowrap',
-                        transition: 'color 140ms ease',
-                        '&.Mui-selected': { color: '#2563EB' },
-                      },
+                      px: { xs: 2.5, sm: 3 },
+                      py: { xs: 1.6, sm: 2 },
+                      background: 'linear-gradient(90deg, #6366F1 0%, #3B82F6 40%, #38BDF8 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      position: 'relative',
+                      zIndex: 2,
                     }}
                   >
-                    <Tab id="demo-notebook-tab" aria-controls="demo-notebook-panel" label="1. Trang vở ô ly" />
-                    <Tab id="demo-recognition-tab" aria-controls="demo-recognition-panel" label="2. AI nhận diện" />
-                    <Tab id="demo-guidance-tab" aria-controls="demo-guidance-panel" label="3. Bước giải sư phạm" />
-                  </Tabs>
-                </Box>
-
-                {/* Tab 0: Authentic Vietnamese Grid Paper with Interactive Column Inspection */}
-                <Box role="tabpanel" id="demo-notebook-panel" aria-labelledby="demo-notebook-tab" hidden={demoTab !== 0} tabIndex={0}>{demoTab === 0 && (
-                  <Box sx={{ p: { xs: 2.5, sm: 3.5 }, bgcolor: '#FFFFFF' }}>
-                    {/* Privacy Mask Notice */}
-                    <Box
-                      sx={{
-                        p: 1.5,
-                        mb: 2.5,
-                        borderRadius: 2.5,
-                        bgcolor: '#EFF6FF',
-                        border: '1px dashed #93C5FD',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 1.25,
-                      }}
-                    >
-                      <SecurityIcon sx={{ fontSize: 20, color: '#2563EB', flexShrink: 0 }} />
-                      <Box>
-                        <Typography variant="caption" sx={{ color: '#1E40AF', fontWeight: 800, display: 'block', fontSize: '0.78rem' }}>
-                          VÙNG BẢO VỆ RIÊNG TƯ HỌC SINH TỰ ĐỘNG
-                        </Typography>
-                        <Typography variant="caption" sx={{ color: '#3B82F6', fontWeight: 700 }}>
-                          Em: Nguyễn Bình M*** · Lớp: {gradeBand === 'early' ? '2A' : '3A'} · Trường Tiểu học Đ** B**
-                        </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+                      {/* Window dots */}
+                      <Box sx={{ display: 'flex', gap: 0.7 }}>
+                        <Box sx={{ width: 9, height: 9, borderRadius: '50%', bgcolor: 'rgba(255, 255, 255, 0.75)' }} />
+                        <Box sx={{ width: 9, height: 9, borderRadius: '50%', bgcolor: 'rgba(255, 255, 255, 0.75)' }} />
+                        <Box sx={{ width: 9, height: 9, borderRadius: '50%', bgcolor: 'rgba(255, 255, 255, 0.75)' }} />
                       </Box>
-                    </Box>
-
-                    {/* Authentic Vietnamese O Ly Paper */}
-                    <Box
-                      className="oly-grid-paper"
-                      sx={{
-                        p: { xs: 3, sm: 4 },
-                        pl: { xs: 6, sm: 7 },
-                        borderRadius: 3,
-                        border: '1px solid #CBD5E1',
-                        position: 'relative',
-                        boxShadow: 'inset 0 1px 4px rgba(0,0,0,0.03)',
-                        userSelect: 'none',
-                      }}
-                    >
-                      {/* Arithmetic Stage */}
-                      {gradeBand === 'upper' ? (
-                        /* Grade 3–5: 245 + 178 = 423 (Có nhớ 2 lần) */
-                        <Box sx={{ maxWidth: 280, mx: 'auto', py: 1 }}>
-                          {/* Carry reminder row */}
-                          <Box sx={{ display: 'grid', gridTemplateColumns: '32px 50px 50px 50px', mb: 0.5, textAlign: 'center', color: '#DC2626', fontWeight: 800, fontSize: '0.85rem' }}>
-                            <Box />
-                            <Box sx={{ opacity: activeColumn === 'all' || activeColumn === 'hundreds' ? 1 : 0.2, transition: 'opacity 180ms ease' }}>
-                              <Chip label="nhớ 1" size="small" sx={{ height: 18, fontSize: '0.65rem', bgcolor: '#FEE2E2', color: '#B91C1C', fontWeight: 800 }} />
-                            </Box>
-                            <Box sx={{ opacity: activeColumn === 'all' || activeColumn === 'tens' ? 1 : 0.2, transition: 'opacity 180ms ease' }}>
-                              <Chip label="nhớ 1" size="small" sx={{ height: 18, fontSize: '0.65rem', bgcolor: '#FEE2E2', color: '#B91C1C', fontWeight: 800 }} />
-                            </Box>
-                            <Box />
-                          </Box>
-
-                          {/* First Addend: 245 */}
-                          <Box sx={{ display: 'grid', gridTemplateColumns: '32px 50px 50px 50px', textAlign: 'center', fontSize: '1.9rem', fontWeight: 900, color: '#0F172A', lineHeight: 1.4 }}>
-                            <Box />
-                            <Box sx={{ bgcolor: activeColumn === 'hundreds' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5, transition: 'background-color 160ms' }}>2</Box>
-                            <Box sx={{ bgcolor: activeColumn === 'tens' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5, transition: 'background-color 160ms' }}>4</Box>
-                            <Box sx={{ bgcolor: activeColumn === 'units' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5, transition: 'background-color 160ms' }}>5</Box>
-                          </Box>
-
-                          {/* Operator and Second Addend: + 178 */}
-                          <Box sx={{ display: 'grid', gridTemplateColumns: '32px 50px 50px 50px', textAlign: 'center', fontSize: '1.9rem', fontWeight: 900, color: '#0F172A', lineHeight: 1.4 }}>
-                            <Box sx={{ color: '#2563EB' }}>+</Box>
-                            <Box sx={{ bgcolor: activeColumn === 'hundreds' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5, transition: 'background-color 160ms' }}>1</Box>
-                            <Box sx={{ bgcolor: activeColumn === 'tens' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5, transition: 'background-color 160ms' }}>7</Box>
-                            <Box sx={{ bgcolor: activeColumn === 'units' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5, transition: 'background-color 160ms' }}>8</Box>
-                          </Box>
-
-                          {/* Divider Bar */}
-                          <Box sx={{ height: 3, bgcolor: '#0F172A', my: 0.75, borderRadius: 1 }} />
-
-                          {/* Sum: 423 */}
-                          <Box sx={{ display: 'grid', gridTemplateColumns: '32px 50px 50px 50px', textAlign: 'center', fontSize: '1.9rem', fontWeight: 900, color: '#0F172A', lineHeight: 1.4 }}>
-                            <Box />
-                            <Box sx={{ bgcolor: activeColumn === 'hundreds' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5, transition: 'background-color 160ms' }}>4</Box>
-                            <Box sx={{ bgcolor: activeColumn === 'tens' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5, transition: 'background-color 160ms' }}>2</Box>
-                            <Box sx={{ bgcolor: activeColumn === 'units' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5, transition: 'background-color 160ms' }}>3</Box>
-                          </Box>
-                        </Box>
-                      ) : (
-                        /* Grade 1–2: 23 + 15 = 38 (Cộng không nhớ, trực quan) */
-                        <Box sx={{ maxWidth: 240, mx: 'auto', py: 1 }}>
-                          {/* First Addend: 23 */}
-                          <Box sx={{ display: 'grid', gridTemplateColumns: '32px 50px 50px', textAlign: 'center', fontSize: '2rem', fontWeight: 900, color: '#0F172A', lineHeight: 1.4 }}>
-                            <Box />
-                            <Box sx={{ bgcolor: activeColumn === 'tens' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5 }}>2</Box>
-                            <Box sx={{ bgcolor: activeColumn === 'units' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5 }}>3</Box>
-                          </Box>
-
-                          {/* Operator & Second Addend: + 15 */}
-                          <Box sx={{ display: 'grid', gridTemplateColumns: '32px 50px 50px', textAlign: 'center', fontSize: '2rem', fontWeight: 900, color: '#0F172A', lineHeight: 1.4 }}>
-                            <Box sx={{ color: '#2563EB' }}>+</Box>
-                            <Box sx={{ bgcolor: activeColumn === 'tens' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5 }}>1</Box>
-                            <Box sx={{ bgcolor: activeColumn === 'units' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5 }}>5</Box>
-                          </Box>
-
-                          {/* Divider Bar */}
-                          <Box sx={{ height: 3, bgcolor: '#0F172A', my: 0.75, borderRadius: 1 }} />
-
-                          {/* Sum: 38 */}
-                          <Box sx={{ display: 'grid', gridTemplateColumns: '32px 50px 50px', textAlign: 'center', fontSize: '2rem', fontWeight: 900, color: '#0F172A', lineHeight: 1.4 }}>
-                            <Box />
-                            <Box sx={{ bgcolor: activeColumn === 'tens' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5 }}>3</Box>
-                            <Box sx={{ bgcolor: activeColumn === 'units' ? 'rgba(37, 99, 235, 0.12)' : 'transparent', borderRadius: 1.5 }}>8</Box>
-                          </Box>
-                        </Box>
-                      )}
-                    </Box>
-
-                    {/* Column Inspection Selector */}
-                    <Box sx={{ mt: 2.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1.5 }}>
-                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                        {columnOptions.map(({ column, label, fill, text }) => {
-                          if (column === 'hundreds' && gradeBand !== 'upper') return null;
-                          const selected = activeColumn === column;
-                          return (
-                            <Chip
-                              key={column}
-                              label={label}
-                              size="small"
-                              onClick={() => setActiveColumn(column)}
-                              aria-pressed={selected}
-                              sx={{
-                                fontWeight: 800, borderRadius: 1.5, transition: 'none',
-                                bgcolor: selected ? fill : '#F1F5F9',
-                                color: selected ? text : WEB_DESIGN.colors.mutedInk,
-                                '&.MuiChip-clickable:hover, &.Mui-focusVisible': {
-                                  bgcolor: selected ? fill : WEB_DESIGN.colors.blueLight,
-                                },
-                              }}
-                            />
-                          );
-                        })}
-                      </Box>
-                      <Chip
-                        icon={<SparklesIcon sx={{ fontSize: '13px !important', color: '#059669 !important' }} />}
-                        label="Ô ly chuẩn Bộ Giáo dục"
-                        size="small"
-                        sx={{ height: 24, fontSize: '0.72rem', bgcolor: '#ECFDF5', color: '#047857', fontWeight: 800, border: '1px solid #A7F3D0', borderRadius: 1.5 }}
-                      />
-                    </Box>
-                  </Box>
-                )}</Box>
-
-                {/* Tab 1: AI Recognized Elements */}
-                <Box role="tabpanel" id="demo-recognition-panel" aria-labelledby="demo-recognition-tab" hidden={demoTab !== 1} tabIndex={0}>{demoTab === 1 && (
-                  <Box sx={{ p: { xs: 2.5, sm: 3.5 }, bgcolor: '#F8FAFC' }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#0F172A' }}>
-                        {gradeBand === 'upper'
-                          ? 'Cấu trúc nhận diện: Phép cộng đặt tính 3 chữ số (Có nhớ 2 lần)'
-                          : 'Cấu trúc nhận diện: Phép cộng đặt tính 2 chữ số (Không nhớ)'}
+                      <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#FFFFFF', fontSize: { xs: '1.05rem', sm: '1.2rem' } }}>
+                        Bài của bé · {currentDemo.className}
                       </Typography>
-                      <Chip label="Nhận diện ô ly tự động" size="small" sx={{ bgcolor: '#ECFDF5', color: '#059669', fontWeight: 800, border: '1px solid #A7F3D0', borderRadius: 1.5 }} />
                     </Box>
 
-                    <Box sx={{ display: 'grid', gap: 1.5 }}>
-                      <Box sx={{ p: 2, bgcolor: '#FFFFFF', borderRadius: 2.5, border: '1px solid #E2E8F0', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 800, textTransform: 'uppercase' }}>Số hạng thứ nhất</Typography>
-                          <Typography variant="caption" sx={{ color: '#10B981', fontWeight: 800 }}>✓ Thẳng cột chuẩn mực</Typography>
-                        </Box>
-                        <Typography variant="body2" sx={{ fontWeight: 800, color: '#0F172A', mt: 0.5 }}>
-                          Giá trị trích xuất: <strong>{gradeBand === 'upper' ? '245' : '23'}</strong>
-                        </Typography>
-                      </Box>
-                      <Box sx={{ p: 2, bgcolor: '#FFFFFF', borderRadius: 2.5, border: '1px solid #E2E8F0', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 800, textTransform: 'uppercase' }}>Toán tử & Số hạng thứ hai</Typography>
-                          <Typography variant="caption" sx={{ color: '#10B981', fontWeight: 800 }}>✓ Nét dấu cộng ngay ngắn</Typography>
-                        </Box>
-                        <Typography variant="body2" sx={{ fontWeight: 800, color: '#0F172A', mt: 0.5 }}>
-                          Giá trị trích xuất: <strong>{gradeBand === 'upper' ? '+ 178' : '+ 15'}</strong>
-                        </Typography>
-                      </Box>
-                      <Box sx={{ p: 2, bgcolor: '#ECFDF5', borderRadius: 2.5, border: '1px solid #A7F3D0', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <Typography variant="caption" sx={{ color: '#047857', fontWeight: 800, textTransform: 'uppercase' }}>Kết quả bé ghi trên vở</Typography>
-                          <Typography variant="caption" sx={{ color: '#047857', fontWeight: 800 }}>✓ Viết số đúng hàng ô ly</Typography>
-                        </Box>
-                        <Typography variant="body2" sx={{ fontWeight: 800, color: '#047857', mt: 0.5 }}>
-                          Đáp số của bé: <strong>{gradeBand === 'upper' ? '423' : '38'}</strong>
-                        </Typography>
-                      </Box>
-                    </Box>
+                    <Chip
+                      label="Đã che thông tin"
+                      size="small"
+                      sx={{
+                        bgcolor: 'rgba(255, 255, 255, 0.25)',
+                        color: '#FFFFFF',
+                        fontWeight: 800,
+                        fontSize: { xs: '0.88rem', sm: '0.96rem' },
+                        px: 1.4,
+                        py: 0.6,
+                        borderRadius: 2,
+                      }}
+                    />
                   </Box>
-                )}</Box>
 
-                {/* Tab 2: Step-by-Step Socratic Guidance */}
-                <Box role="tabpanel" id="demo-guidance-panel" aria-labelledby="demo-guidance-tab" hidden={demoTab !== 2} tabIndex={0}>{demoTab === 2 && (
-                  <Box sx={{ p: { xs: 2.5, sm: 3.5 }, bgcolor: '#FFFFFF' }}>
-                    {/* Stepper controls */}
-                    <Box sx={{ display: 'flex', gap: 1, mb: 2.5 }}>
-                      {(gradeBand === 'upper'
-                        ? ['Bước 1: Hàng đơn vị', 'Bước 2: Hàng chục', 'Bước 3: Hàng trăm']
-                        : ['Bước 1: Hàng đơn vị', 'Bước 2: Hàng chục']
-                      ).map((label, idx) => (
-                        <Button
-                          key={label}
-                          size="small"
-                          variant={socraticStep === idx ? 'contained' : 'outlined'}
-                          aria-pressed={socraticStep === idx}
-                          onClick={() => setSocraticStep(idx)}
+                  {/* O Ly Grid Body covering the ENTIRE board directly with NO inner rounded border */}
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      bgcolor: '#FFFFFF',
+                      backgroundImage:
+                        'linear-gradient(rgba(186, 214, 255, 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(186, 214, 255, 0.5) 1px, transparent 1px)',
+                      backgroundSize: { xs: '26px 26px', sm: '30px 30px', md: '32px 32px' },
+                      pt: { xs: 2.2, sm: 3.5 },
+                      pb: { xs: 3.2, sm: 4.5 },
+                      px: { xs: 2, sm: 3 },
+                      minHeight: { xs: 530, sm: 610 },
+                    }}
+                  >
+                    {/* Vertical Red Margin running from top to bottom through the whole paper */}
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        left: { xs: 26, sm: 38, md: 44 },
+                        width: '2px',
+                        bgcolor: 'rgba(239, 68, 68, 0.55)',
+                      }}
+                    />
+
+                    {/* Student Name directly on the paper */}
+                    <Box sx={{ pl: { xs: 2, sm: 3, md: 3.5 }, mb: { xs: 2.2, sm: 3.5 } }}>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          color: '#1E1B4B',
+                          fontWeight: 800,
+                          fontSize: { xs: '1.05rem', sm: '1.16rem', md: '1.22rem' },
+                        }}
+                      >
+                        Họ và tên: {currentDemo.studentName}
+                      </Typography>
+                    </Box>
+
+                    {/* Math Calculation with Individual Pill Highlight Capsules */}
+                    <Box sx={{ maxWidth: { xs: 290, sm: 320 }, mx: 'auto', textAlign: 'center', position: 'relative', zIndex: 1, my: { xs: 2.2, sm: 3.5 } }}>
+                      <Box
+                        sx={{
+                          display: 'inline-flex',
+                          flexDirection: 'column',
+                          alignItems: 'flex-end',
+                          fontFamily: 'monospace, sans-serif',
+                          fontSize: { xs: '2.6rem', sm: '3.2rem', md: '3.6rem' },
+                          fontWeight: 900,
+                          lineHeight: 1.3,
+                          position: 'relative',
+                        }}
+                      >
+                        {/* Row 1 */}
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', width: '100%' }}>
+                          {currentDemo.row1.map((char, idx) => {
+                            const isActive = idx === firstRowActiveCol;
+                            return (
+                              <Box
+                                key={idx}
+                                data-testid={`demo-row1-col-${idx}`}
+                                data-active={isActive ? 'true' : 'false'}
+                                sx={{
+                                  width: { xs: 46, sm: 58, md: 66 },
+                                  textAlign: 'center',
+                                  color: '#1E1B4B',
+                                  position: 'relative',
+                                  zIndex: 1,
+                                  py: 0.6,
+                                }}
+                              >
+                                {isActive && (
+                                  <Box
+                                    aria-hidden="true"
+                                    sx={{
+                                      position: 'absolute',
+                                      top: 2,
+                                      bottom: 2,
+                                      left: 3,
+                                      right: 3,
+                                      bgcolor: '#EEF2F6',
+                                      borderRadius: '16px',
+                                      zIndex: -1,
+                                      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                                    }}
+                                  />
+                                )}
+                                {char}
+                              </Box>
+                            );
+                          })}
+                        </Box>
+
+                        {/* Row 2 with Operator */}
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', width: '100%', position: 'relative' }}>
+                          <Box sx={{ position: 'absolute', left: { xs: -30, sm: -40, md: -46 }, color: '#1E1B4B', fontWeight: 900 }}>
+                            {currentDemo.operator}
+                          </Box>
+                          {currentDemo.row2.map((char, idx) => {
+                            const isActive = idx === secondRowActiveCol;
+                            return (
+                              <Box
+                                key={idx}
+                                data-testid={`demo-row2-col-${idx}`}
+                                data-active={isActive ? 'true' : 'false'}
+                                sx={{
+                                  width: { xs: 46, sm: 58, md: 66 },
+                                  textAlign: 'center',
+                                  color: '#1E1B4B',
+                                  position: 'relative',
+                                  zIndex: 1,
+                                  py: 0.6,
+                                }}
+                              >
+                                {isActive && (
+                                  <Box
+                                    aria-hidden="true"
+                                    sx={{
+                                      position: 'absolute',
+                                      top: 2,
+                                      bottom: 2,
+                                      left: 3,
+                                      right: 3,
+                                      bgcolor: '#EEF2F6',
+                                      borderRadius: '16px',
+                                      zIndex: -1,
+                                      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                                    }}
+                                  />
+                                )}
+                                {char}
+                              </Box>
+                            );
+                          })}
+                        </Box>
+
+                        {/* Horizontal divider line matching Image 1 */}
+                        <Box
                           sx={{
-                            flex: 1,
-                            fontSize: '0.8rem',
+                            width: 'calc(100% + 40px)',
+                            height: '3.5px',
+                            bgcolor: '#4F46E5',
+                            my: 0.8,
+                            alignSelf: 'flex-end',
+                          }}
+                        />
+
+                        {/* Result Row with Red Error Capsule / Green Corrected Capsule */}
+                        <Box
+                          data-testid="demo-result-row"
+                          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', width: '100%', pt: 0.6 }}
+                        >
+                          {(answeredSpeech && currentDemo.correctedRow ? currentDemo.correctedRow : currentDemo.resultRow).map((char, idx) => {
+                            const isError = !answeredSpeech && idx === currentDemo.errorCol;
+                            const isCorrected = answeredSpeech && Boolean(currentDemo.correctedRow) && idx === currentDemo.errorCol;
+                            return (
+                              <Box
+                                key={idx}
+                                data-testid={`demo-result-col-${idx}`}
+                                sx={{
+                                  width: { xs: 46, sm: 58, md: 66 },
+                                  textAlign: 'center',
+                                  color: isError ? '#DC2626' : isCorrected ? '#047857' : '#1E1B4B',
+                                  fontWeight: 900,
+                                  position: 'relative',
+                                  zIndex: 1,
+                                  py: 0.6,
+                                }}
+                              >
+                                {(isError || isCorrected) && (
+                                  <Box
+                                    aria-hidden="true"
+                                    sx={{
+                                      position: 'absolute',
+                                      top: 2,
+                                      bottom: 2,
+                                      left: 3,
+                                      right: 3,
+                                      bgcolor: isCorrected ? '#DCFCE7' : '#FEE2E2',
+                                      borderBottom: isCorrected ? '4px solid #047857' : '4px solid #DC2626',
+                                      borderRadius: '16px',
+                                      zIndex: -1,
+                                      boxShadow: isCorrected ? '0 4px 12px rgba(4, 120, 87, 0.18)' : '0 4px 12px rgba(220, 38, 38, 0.22)',
+                                    }}
+                                  />
+                                )}
+                                {char}
+                              </Box>
+                            );
+                          })}
+                        </Box>
+                      </Box>
+                      {answeredSpeech && currentDemo.correctedRow && (
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            display: 'block',
+                            mt: 1,
+                            color: '#047857',
                             fontWeight: 800,
-                            py: 0.8,
-                            borderRadius: 2,
-                            bgcolor: socraticStep === idx ? '#2563EB' : '#FFFFFF',
-                            borderColor: socraticStep === idx ? '#2563EB' : '#E2E8F0',
-                            color: socraticStep === idx ? '#FFFFFF' : '#475569',
+                            fontSize: { xs: '0.88rem', sm: '0.96rem' },
                           }}
                         >
-                          {label}
-                        </Button>
-                      ))}
-                    </Box>
-
-                    {/* Step Content */}
-                    <Box sx={{ minHeight: 140 }}>
-                      {gradeBand === 'upper' ? (
-                        <>
-                          {socraticStep === 0 && (
-                            <Box sx={{ p: 2.25, borderRadius: 2.5, bgcolor: '#ECFDF5', border: '1px solid #A7F3D0' }}>
-                              <Typography variant="caption" sx={{ fontWeight: 800, color: '#047857', textTransform: 'uppercase', display: 'block' }}>
-                                Bước 1: Cộng hàng đơn vị (từ phải sang trái)
-                              </Typography>
-                              <Typography variant="body2" sx={{ color: '#0F172A', mt: 1, fontSize: '0.95rem', lineHeight: 1.6 }}>
-                                Bé lấy <strong>5 + 8 = 13</strong>. Viết chữ số <strong>3</strong> thẳng hàng đơn vị, sau đó <strong>nhớ 1</strong> sang hàng chục liền kề.
-                              </Typography>
-                              <Box sx={{ mt: 1.5, display: 'inline-flex', alignItems: 'center', gap: 1, px: 1.5, py: 0.5, bgcolor: '#FFFFFF', borderRadius: 1.5, border: '1px solid #A7F3D0' }}>
-                                <Typography variant="caption" sx={{ color: '#047857', fontWeight: 800 }}>
-                                  Quy tắc: Nhớ 1 đơn vị sang hàng chục (+1)
-                                </Typography>
-                              </Box>
-                            </Box>
-                          )}
-
-                          {socraticStep === 1 && (
-                            <Box sx={{ p: 2.25, borderRadius: 2.5, bgcolor: '#EFF6FF', border: '1px solid #BFDBFE' }}>
-                              <Typography variant="caption" sx={{ fontWeight: 800, color: '#1D4ED8', textTransform: 'uppercase', display: 'block' }}>
-                                Bước 2: Cộng hàng chục & cộng thêm số nhớ
-                              </Typography>
-                              <Typography variant="body2" sx={{ color: '#0F172A', mt: 1, fontSize: '0.95rem', lineHeight: 1.6 }}>
-                                Bé lấy <strong>4 + 7 = 11</strong>, thêm 1 (nhớ từ hàng đơn vị) là <strong>12</strong>. Viết <strong>2</strong> thẳng cột hàng chục, <strong>nhớ 1</strong> sang hàng trăm.
-                              </Typography>
-                              <Box sx={{ mt: 1.5, display: 'inline-flex', alignItems: 'center', gap: 1, px: 1.5, py: 0.5, bgcolor: '#FFFFFF', borderRadius: 1.5, border: '1px solid #BFDBFE' }}>
-                                <Typography variant="caption" sx={{ color: '#1D4ED8', fontWeight: 800 }}>
-                                  Quy tắc: 11 + 1 (nhớ) = 12 ➔ Viết 2, nhớ 1 sang hàng trăm
-                                </Typography>
-                              </Box>
-                            </Box>
-                          )}
-
-                          {socraticStep === 2 && (
-                            <Box sx={{ p: 2.25, borderRadius: 2.5, bgcolor: '#FFFBEB', border: '1px solid #FDE68A' }}>
-                              <Typography variant="caption" sx={{ fontWeight: 800, color: '#B45309', textTransform: 'uppercase', display: 'block' }}>
-                                Bước 3: Cộng hàng trăm & hoàn thành
-                              </Typography>
-                              <Typography variant="body2" sx={{ color: '#0F172A', mt: 1, fontSize: '0.95rem', lineHeight: 1.6 }}>
-                                Bé lấy <strong>2 + 1 = 3</strong>, thêm 1 (nhớ từ hàng chục) là <strong>4</strong>. Viết chữ số <strong>4</strong> ở hàng trăm. Kết quả cuối cùng là <strong>423</strong>!
-                              </Typography>
-                              <Box sx={{ mt: 1.5, display: 'inline-flex', alignItems: 'center', gap: 1, px: 1.5, py: 0.5, bgcolor: '#FFFFFF', borderRadius: 1.5, border: '1px solid #FDE68A' }}>
-                                <Typography variant="caption" sx={{ color: '#B45309', fontWeight: 800 }}>
-                                  Hoàn tất: 245 + 178 = 423 ⭐ Xuất sắc!
-                                </Typography>
-                              </Box>
-                            </Box>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          {socraticStep === 0 && (
-                            <Box sx={{ p: 2.25, borderRadius: 2.5, bgcolor: '#ECFDF5', border: '1px solid #A7F3D0' }}>
-                              <Typography variant="caption" sx={{ fontWeight: 800, color: '#047857', textTransform: 'uppercase', display: 'block' }}>
-                                Bước 1: Cộng hàng đơn vị
-                              </Typography>
-                              <Typography variant="body2" sx={{ color: '#0F172A', mt: 1, fontSize: '0.95rem', lineHeight: 1.6 }}>
-                                Bé lấy <strong>3 + 5 = 8</strong>. Viết chữ số <strong>8</strong> thẳng cột hàng đơn vị.
-                              </Typography>
-                            </Box>
-                          )}
-
-                          {socraticStep === 1 && (
-                            <Box sx={{ p: 2.25, borderRadius: 2.5, bgcolor: '#EFF6FF', border: '1px solid #BFDBFE' }}>
-                              <Typography variant="caption" sx={{ fontWeight: 800, color: '#1D4ED8', textTransform: 'uppercase', display: 'block' }}>
-                                Bước 2: Cộng hàng chục & có ngay kết quả
-                              </Typography>
-                              <Typography variant="body2" sx={{ color: '#0F172A', mt: 1, fontSize: '0.95rem', lineHeight: 1.6 }}>
-                                Bé lấy <strong>2 + 1 = 3</strong>. Viết chữ số <strong>3</strong> thẳng cột hàng chục. Kết quả là <strong>38</strong>!
-                              </Typography>
-                            </Box>
-                          )}
-                        </>
+                          (Bài làm ban đầu: {currentDemo.resultRow.join('')} → Đã sửa: {currentDemo.correctedRow.join('')})
+                        </Typography>
                       )}
                     </Box>
 
-                    {/* Mascot Note */}
-                    <Box sx={{ mt: 2.5, p: 2, borderRadius: 2.5, bgcolor: '#FFFBEB', border: '1px solid #FDE68A', display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                      <Box component="img" src="/ui/robot-mascot.webp" alt="Robot MathVisionKid" sx={{ width: 28, height: 28 }} />
-                      <Typography variant="caption" sx={{ color: '#92400E', fontWeight: 800 }}>
-                        💡 Robot MathVisionKid nhắc: "Bé hãy tự nhẩm từng bước trước khi điền số nhé, em làm rất tốt đấy!"
-                      </Typography>
+                    {/* Robot Dialogue Bubble directly on the notebook paper */}
+                    <Box
+                      sx={{
+                        p: { xs: 2.2, sm: 2.6 },
+                        mt: { xs: 3, sm: 3.8 },
+                        borderRadius: 3.5,
+                        bgcolor: '#FEF3C7',
+                        border: '1px solid #FDE68A',
+                        position: 'relative',
+                        zIndex: 1,
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
+                        <Box
+                          component="img"
+                          src="/ui/robot-mascot.webp"
+                          alt="Robot MathVisionKids"
+                          sx={{ width: { xs: 38, sm: 44 }, height: { xs: 38, sm: 44 }, flexShrink: 0, objectFit: 'contain', mt: 0.2 }}
+                        />
+                        <Typography
+                          aria-live="polite"
+                          aria-atomic="true"
+                          variant="body2"
+                          sx={{ color: '#92400E', fontWeight: 800, fontSize: { xs: '1.05rem', sm: '1.16rem' }, lineHeight: 1.65 }}
+                        >
+                          {answeredSpeech ? currentDemo.replyResponse : currentDemo.speechText}
+                        </Typography>
+                      </Box>
+                    </Box>
+
+                    {/* Child Reply Button placed directly on the notebook paper at bottom right */}
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2.2, position: 'relative', zIndex: 1 }}>
+                      <Button
+                        size="small"
+                        onClick={() => setAnsweredSpeech((prev) => !prev)}
+                        sx={{
+                          borderRadius: 999,
+                          px: { xs: 2.8, sm: 3.6 },
+                          py: { xs: 1, sm: 1.2 },
+                          fontSize: { xs: '1rem', sm: '1.12rem' },
+                          fontWeight: 800,
+                          textTransform: 'none',
+                          bgcolor: answeredSpeech ? '#5D38DE' : '#FFFFFF',
+                          color: answeredSpeech ? '#FFFFFF' : '#5D38DE',
+                          border: '1.5px solid #5D38DE',
+                          boxShadow: '0 2px 8px rgba(93, 56, 222, 0.15)',
+                          transition: 'background-color 160ms ease, color 160ms ease, transform 160ms ease',
+                          '&:hover': {
+                            bgcolor: answeredSpeech ? '#4E2DBE' : '#5D38DE',
+                            color: '#FFFFFF',
+                            transform: 'translateY(-1px)',
+                          },
+                        }}
+                      >
+                        {answeredSpeech ? '↺ Xem lại bài làm ban đầu' : currentDemo.answerText}
+                      </Button>
                     </Box>
                   </Box>
-                )}</Box>
+                </Box>
               </Box>
             </Grid>
           </Grid>
+
+          {/* 5 Grade Selector Buttons (Always vividly colored matching Image 1) */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: { xs: 1.2, sm: 2.2 }, flexWrap: 'wrap', mt: { xs: 4, md: 6 } }}>
+            {[1, 2, 3, 4, 5].map((grade) => {
+              const isSelected = selectedGrade === grade;
+              const colorInfo = GRADE_COLORS[grade] || GRADE_COLORS[3];
+              return (
+                <Button
+                  key={grade}
+                  aria-pressed={isSelected ? 'true' : 'false'}
+                  onClick={() => handleSelectGrade(grade)}
+                  sx={{
+                    px: { xs: 2.6, sm: 4.6 },
+                    py: { xs: 1.1, sm: 1.5 },
+                    borderRadius: 999,
+                    fontWeight: 900,
+                    fontSize: { xs: '1.08rem', sm: '1.22rem' },
+                    textTransform: 'none',
+                    bgcolor: colorInfo.bg,
+                    color: colorInfo.text,
+                    border: '2px solid transparent',
+                    transform: isSelected ? 'scale(1.12)' : 'scale(1)',
+                    boxShadow: isSelected ? `0 8px 24px ${colorInfo.bg}80` : '0 2px 8px rgba(0,0,0,0.12)',
+                    outline: isSelected ? '3px solid #1E1B4B' : 'none',
+                    outlineOffset: '2px',
+                    zIndex: isSelected ? 2 : 1,
+                    transition: 'transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease',
+                    '&:hover': {
+                      bgcolor: colorInfo.hover,
+                      transform: isSelected ? 'scale(1.15)' : 'scale(1.06)',
+                      boxShadow: `0 8px 24px ${colorInfo.bg}99`,
+                    },
+                    '&:focus-visible': {
+                      outline: '3px solid #1E1B4B',
+                      outlineOffset: '3px',
+                      boxShadow: '0 0 0 6px #FFFFFF, 0 0 0 9px #1E1B4B',
+                    },
+                  }}
+                >
+                  Lớp {grade}
+                </Button>
+              );
+            })}
+          </Box>
         </Container>
       </Box>
 
       {/* ========================================================================= */}
-      {/* 2. THE SOCRATIC DIFFERENCE — SCREEN-LED INTERACTIVE FLOW */}
+      {/* 2. PHƯƠNG PHÁP SOCRATIC                                                   */}
       {/* ========================================================================= */}
-      <Box id="socratic" sx={{ py: { xs: 8, md: 11 }, bgcolor: '#FFFFFF', borderBottom: '1px solid #E2E8F0' }}>
+      <Box id="phuong-phap" component="section" sx={{ py: { xs: 8, md: 10 }, bgcolor: '#FFFFFF', borderBottom: '1px solid #E2E8F0' }}>
         <Container maxWidth="xl" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
           {/* Section Header */}
-          <Box sx={{ textAlign: 'center', maxWidth: 740, mx: 'auto', mb: 6 }}>
-            <Chip
-              label="PHƯƠNG PHÁP SOCRATIC ĐỘC BẢN"
-              size="small"
+          <Box sx={{ textAlign: 'left', mb: { xs: 4.5, md: 6 } }}>
+            <Box
               sx={{
-                bgcolor: '#EFF6FF',
-                color: '#2563EB',
-                fontWeight: 900,
-                fontSize: '0.74rem',
-                letterSpacing: '0.04em',
-                borderRadius: 1.5,
+                display: 'inline-block',
+                color: '#6D28D9',
+                fontWeight: 700,
+                fontSize: '0.9rem',
+                bgcolor: '#EDE9FE',
+                px: 2.2,
+                py: 0.65,
+                borderRadius: 999,
                 mb: 2,
               }}
-            />
-            <Typography variant="h2" sx={{ mb: 2, fontSize: { xs: '2rem', md: '2.5rem' }, fontWeight: 900, letterSpacing: '-0.02em' }}>
-              Bé hiểu bài thật sâu thay vì chép bài thụ động
+            >
+              Phương pháp Socratic
+            </Box>
+            <Typography
+              variant="h2"
+              sx={{
+                fontSize: { xs: '2rem', sm: '2.5rem', md: '2.8rem' },
+                fontWeight: 900,
+                letterSpacing: '-0.025em',
+                lineHeight: 1.22,
+                color: '#0F172A',
+                mb: 2,
+              }}
+            >
+              Bé hiểu bài thật sâu, thay vì chép<br />
+              bài thụ động
             </Typography>
-            <Typography variant="body1" sx={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.68 }}>
-              Khác với ứng dụng giải hộ thương mại đưa sẵn đáp số, MathVision Kids là người gia sư kiên nhẫn chỉ ra đúng điểm nhầm lẫn và gợi mở để bé tự suy luận.
+            <Typography
+              variant="body1"
+              sx={{
+                color: '#64748B',
+                fontSize: { xs: '1.02rem', md: '1.08rem' },
+                lineHeight: 1.68,
+                maxWidth: 780,
+              }}
+            >
+              Khác với ứng dụng giải hộ chỉ đưa ra đáp số, MathVisionKids là người gia sư<Box component="br" sx={{ display: { xs: 'none', md: 'block' } }} />
+              kiên nhẫn: chỉ ra đúng điểm nhầm lẫn và gợi mở để bé tự suy luận.
             </Typography>
           </Box>
 
-          {/* Interactive Screen-Led Workflow Timeline */}
-          <Grid container spacing={4} sx={{ mb: 7, alignItems: 'stretch' }}>
-            {/* Left: Step Selection Cards */}
-            <Grid size={{ xs: 12, lg: 5 }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'space-between' }}>
-                {WORKFLOW_STEPS.map((step, idx) => {
-                  const isActive = activeWorkflowStep === idx;
-                  return (
-                    <Box
-                      key={step.step}
-                      component="button"
-                      type="button"
-                      aria-pressed={isActive}
-                      onClick={() => setActiveWorkflowStep(idx)}
-                      sx={{
-                        p: 2.5,
-                        font: 'inherit',
-                        textAlign: 'start',
-                        borderRadius: 3,
-                        cursor: 'pointer',
-                        border: '1.5px solid',
-                        borderColor: isActive ? '#2563EB' : '#E2E8F0',
-                        bgcolor: isActive ? '#F8FAFC' : '#FFFFFF',
-                        boxShadow: isActive ? '0 8px 24px -4px rgba(37, 99, 235, 0.12)' : 'none',
-                        transition: 'border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease',
-                        display: 'flex',
-                        gap: 2,
-                        alignItems: 'flex-start',
-                        '&:hover': {
-                          borderColor: isActive ? '#2563EB' : '#CBD5E1',
-                          bgcolor: '#F8FAFC',
-                        },
-                      }}
-                    >
-                      <Box component="span"
-                        sx={{
-                          width: 44,
-                          height: 44,
-                          borderRadius: 2.5,
-                          bgcolor: step.badgeColor,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                        }}
-                      >
-                        {step.icon}
-                      </Box>
-                      <Box component="span" sx={{ flexGrow: 1 }}>
-                        <Box component="span" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.5 }}>
-                          <Typography component="span" variant="subtitle2" sx={{ fontWeight: 900, color: isActive ? '#2563EB' : '#0F172A', fontSize: '0.98rem' }}>
-                            {step.step}. {step.title}
-                          </Typography>
-                          <Chip component="span"
-                            label={step.tag}
-                            size="small"
-                            sx={{
-                              height: 20,
-                              fontSize: '0.68rem',
-                              fontWeight: 800,
-                              bgcolor: isActive ? '#EFF6FF' : '#F1F5F9',
-                              color: isActive ? '#2563EB' : '#64748B',
-                            }}
-                          />
-                        </Box>
-                        <Typography component="span" variant="body2" sx={{ color: '#475569', fontSize: '0.86rem', lineHeight: 1.55 }}>
-                          {step.subtitle}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  );
-                })}
-              </Box>
-            </Grid>
-
-            {/* Right: Live Step Spotlight Stage */}
-            <Grid size={{ xs: 12, lg: 7 }}>
-              <Card
+          {/* 3 Step Cards Row with Giant Watermark Numbers & Circular Icons matching Image 2 */}
+          <Grid container spacing={3.5} sx={{ mb: 3.5, alignItems: 'stretch' }}>
+            {/* Card 1: Chụp trang vở ô ly */}
+            <Grid size={{ xs: 12, md: 4 }}>
+              <Box
                 sx={{
-                  height: '100%',
+                  position: 'relative',
                   p: { xs: 3.5, sm: 4.5 },
-                  borderRadius: 4,
-                  border: '1.5px solid #CBD5E1',
-                  bgcolor: '#F8FAFC',
+                  height: '100%',
+                  bgcolor: '#FFE4E6',
+                  borderRadius: 5,
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  boxShadow: '0 12px 32px -4px rgba(15, 23, 42, 0.06)',
+                  overflow: 'hidden',
+                  transition: 'transform 200ms ease, box-shadow 200ms ease',
+                  '&:hover': {
+                    transform: 'translateY(-6px)',
+                    boxShadow: '0 14px 30px rgba(244, 63, 94, 0.15)',
+                  },
                 }}
               >
-                <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1.5, mb: 3 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                      <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#10B981' }} />
-                      <Typography variant="caption" sx={{ fontWeight: 900, color: '#0F172A', letterSpacing: '0.04em', fontSize: '0.82rem' }}>
-                        CHI TIẾT TRẢI NGHIỆM · BƯỚC {WORKFLOW_STEPS[activeWorkflowStep].step}
-                      </Typography>
-                    </Box>
-                    <Chip
-                      label={WORKFLOW_STEPS[activeWorkflowStep].tag}
-                      size="small"
-                      sx={{ bgcolor: '#ECFDF5', color: '#047857', fontWeight: 800, border: '1px solid #A7F3D0', borderRadius: 1.5 }}
-                    />
-                  </Box>
-
-                  <Typography variant="h4" sx={{ fontWeight: 900, color: '#0F172A', mb: 1.5, fontSize: { xs: '1.4rem', sm: '1.8rem' } }}>
-                    {WORKFLOW_STEPS[activeWorkflowStep].title}
-                  </Typography>
-
-                  <Typography variant="body1" sx={{ color: '#334155', lineHeight: 1.7, mb: 3.5, fontSize: '1.02rem' }}>
-                    {WORKFLOW_STEPS[activeWorkflowStep].detail}
-                  </Typography>
-
-                  {/* Socratic Demonstration Box */}
-                  <Box
-                    sx={{
-                      p: 3,
-                      borderRadius: 3,
-                      bgcolor: '#FFFFFF',
-                      border: '1px solid #E2E8F0',
-                      boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                      <Box component="img" src="/ui/robot-mascot.webp" alt="Robot MathVisionKid" sx={{ width: 32, height: 32 }} />
-                      <Typography variant="subtitle2" sx={{ fontWeight: 900, color: '#0F172A' }}>
-                        Lời khuyên của robot MathVisionKid
-                      </Typography>
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#475569', lineHeight: 1.6 }}>
-                      {activeWorkflowStep === 0 && '“Bé hãy giữ máy chụp song song với trang vở, trong phòng có đủ ánh sáng để trang vở hiện rõ nét nhất nhé!”'}
-                      {activeWorkflowStep === 1 && '“AI nhận diện theo đúng tỷ lệ ô ly 2x2mm và 5x5mm của các nhà xuất bản sách giáo khoa tại Việt Nam.”'}
-                      {activeWorkflowStep === 2 && '“Nếu bé quên cộng số nhớ ở hàng chục, hệ thống sẽ khoanh tròn nhẹ nhàng cột chục và hỏi: ‘Số nhớ 1 ở hàng đơn vị đâu rồi nhỉ?’.”'}
-                      {activeWorkflowStep === 3 && '“Mỗi lần bé tự mình tìm ra đáp án đúng, một ngôi sao vàng sẽ được tặng vào sổ tích lũy tiến bộ của bé!”'}
-                    </Typography>
-                  </Box>
-                </Box>
-
-                {/* Progress Indicators & Step Advancement */}
-                <Box
+                {/* Giant watermark number */}
+                <Typography
+                  aria-hidden="true"
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    flexWrap: 'wrap',
-                    gap: 2,
-                    mt: 4,
-                    pt: 2.5,
-                    borderTop: '1px solid #E2E8F0',
+                    position: 'absolute',
+                    top: 10,
+                    right: 20,
+                    fontSize: { xs: '6.8rem', sm: '8rem' },
+                    fontWeight: 900,
+                    color: 'rgba(255, 255, 255, 0.88)',
+                    lineHeight: 1,
+                    userSelect: 'none',
+                    pointerEvents: 'none',
                   }}
                 >
-                  <Box sx={{ display: 'flex', gap: 1, flex: 1, minWidth: 160 }}>
-                    {WORKFLOW_STEPS.map((_, idx) => (
-                      <Box
-                        key={idx}
-                        component="button"
-                        type="button"
-                        onClick={() => setActiveWorkflowStep(idx)}
-                        aria-label={`Xem bước ${idx + 1}`}
-                        aria-pressed={activeWorkflowStep === idx}
-                        sx={{
-                          flex: 1,
-                          minHeight: 24,
-                          p: 0,
-                          border: 0,
-                          bgcolor: 'transparent',
-                          cursor: 'pointer',
-                          '&::before': {
-                            content: '""',
-                            display: 'block',
-                            height: 6,
-                            borderRadius: 1,
-                            bgcolor: activeWorkflowStep === idx ? '#2563EB' : '#CBD5E1',
-                            transition: 'background-color 200ms ease',
-                          },
-                        }}
-                      />
-                    ))}
-                  </Box>
-                  <Button
-                    size="small"
-                    variant="text"
-                    endIcon={<ArrowForwardIcon />}
-                    onClick={() => setActiveWorkflowStep((prev) => (prev + 1) % WORKFLOW_STEPS.length)}
-                    sx={{ fontWeight: 800, color: '#2563EB', '&:hover': { bgcolor: '#EFF6FF' } }}
+                  1
+                </Typography>
+
+                <Box sx={{ position: 'relative', zIndex: 1 }}>
+                  {/* Circular Icon Container matching Image 2 */}
+                  <Box
+                    sx={{
+                      width: { xs: 68, sm: 76 },
+                      height: { xs: 68, sm: 76 },
+                      borderRadius: '50%',
+                      bgcolor: 'rgba(244, 63, 94, 0.16)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: { xs: '2.2rem', sm: '2.6rem' },
+                      mb: 3,
+                    }}
                   >
-                    {activeWorkflowStep === WORKFLOW_STEPS.length - 1 ? 'Xem lại từ đầu' : 'Bước tiếp theo'}
-                  </Button>
+                    📸
+                  </Box>
+                  <Typography variant="h5" sx={{ fontWeight: 900, color: '#1E1B4B', mb: 1.5, fontSize: { xs: '1.45rem', sm: '1.65rem' } }}>
+                    Chụp trang vở ô ly
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#475569', fontSize: { xs: '1.08rem', sm: '1.18rem' }, lineHeight: 1.72, mb: 3.5 }}>
+                    Bé đặt điện thoại ngay ngắn, chụp trang vở bài làm mà không cần phụ huynh thao tác phức tạp.
+                  </Typography>
                 </Box>
-              </Card>
+
+                <Box sx={{ position: 'relative', zIndex: 1 }}>
+                  <Chip
+                    label="Che thông tin riêng tư"
+                    size="small"
+                    sx={{
+                      bgcolor: '#FFFFFF',
+                      color: '#1E1B4B',
+                      fontWeight: 800,
+                      fontSize: '1.02rem',
+                      py: 0.8,
+                      px: 1.4,
+                      borderRadius: 999,
+                      border: '1px solid #E2E8F0',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+                    }}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+
+            {/* Card 2: Bóc tách nét viết tay */}
+            <Grid size={{ xs: 12, md: 4 }}>
+              <Box
+                sx={{
+                  position: 'relative',
+                  p: { xs: 3.5, sm: 4.5 },
+                  height: '100%',
+                  bgcolor: '#D1FAE5',
+                  borderRadius: 5,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  overflow: 'hidden',
+                  transition: 'transform 200ms ease, box-shadow 200ms ease',
+                  '&:hover': {
+                    transform: 'translateY(-6px)',
+                    boxShadow: '0 14px 30px rgba(16, 185, 129, 0.15)',
+                  },
+                }}
+              >
+                {/* Giant watermark number */}
+                <Typography
+                  aria-hidden="true"
+                  sx={{
+                    position: 'absolute',
+                    top: 10,
+                    right: 20,
+                    fontSize: { xs: '6.8rem', sm: '8rem' },
+                    fontWeight: 900,
+                    color: 'rgba(255, 255, 255, 0.88)',
+                    lineHeight: 1,
+                    userSelect: 'none',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  2
+                </Typography>
+
+                <Box sx={{ position: 'relative', zIndex: 1 }}>
+                  {/* Circular Icon Container matching Image 2 */}
+                  <Box
+                    sx={{
+                      width: { xs: 68, sm: 76 },
+                      height: { xs: 68, sm: 76 },
+                      borderRadius: '50%',
+                      bgcolor: 'rgba(16, 185, 129, 0.22)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: { xs: '2.2rem', sm: '2.6rem' },
+                      mb: 3,
+                    }}
+                  >
+                    ✍️
+                  </Box>
+                  <Typography variant="h5" sx={{ fontWeight: 900, color: '#1E1B4B', mb: 1.5, fontSize: { xs: '1.45rem', sm: '1.65rem' } }}>
+                    Bóc tách nét viết tay
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#475569', fontSize: { xs: '1.08rem', sm: '1.18rem' }, lineHeight: 1.72, mb: 3.5 }}>
+                    AI chuyên biệt cho chữ số tiểu học Việt Nam nhận diện từng chữ số, đặt đúng tính thẳng hàng.
+                  </Typography>
+                </Box>
+
+                <Box sx={{ position: 'relative', zIndex: 1 }}>
+                  <Chip
+                    label="Chuẩn ô ly Việt Nam"
+                    size="small"
+                    sx={{
+                      bgcolor: '#FFFFFF',
+                      color: '#1E1B4B',
+                      fontWeight: 800,
+                      fontSize: '1.02rem',
+                      py: 0.8,
+                      px: 1.4,
+                      borderRadius: 999,
+                      border: '1px solid #E2E8F0',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+                    }}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+
+            {/* Card 3: Gợi mở bằng câu hỏi */}
+            <Grid size={{ xs: 12, md: 4 }}>
+              <Box
+                sx={{
+                  position: 'relative',
+                  p: { xs: 3.5, sm: 4.5 },
+                  height: '100%',
+                  bgcolor: '#DBEAFE',
+                  borderRadius: 5,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  overflow: 'hidden',
+                  transition: 'transform 200ms ease, box-shadow 200ms ease',
+                  '&:hover': {
+                    transform: 'translateY(-6px)',
+                    boxShadow: '0 14px 30px rgba(37, 99, 235, 0.15)',
+                  },
+                }}
+              >
+                {/* Giant watermark number */}
+                <Typography
+                  aria-hidden="true"
+                  sx={{
+                    position: 'absolute',
+                    top: 10,
+                    right: 20,
+                    fontSize: { xs: '6.8rem', sm: '8rem' },
+                    fontWeight: 900,
+                    color: 'rgba(255, 255, 255, 0.88)',
+                    lineHeight: 1,
+                    userSelect: 'none',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  3
+                </Typography>
+
+                <Box sx={{ position: 'relative', zIndex: 1 }}>
+                  {/* Circular Icon Container matching Image 2 */}
+                  <Box
+                    sx={{
+                      width: { xs: 68, sm: 76 },
+                      height: { xs: 68, sm: 76 },
+                      borderRadius: '50%',
+                      bgcolor: 'rgba(59, 130, 246, 0.22)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: { xs: '2.2rem', sm: '2.6rem' },
+                      mb: 3,
+                    }}
+                  >
+                    💡
+                  </Box>
+                  <Typography variant="h5" sx={{ fontWeight: 900, color: '#1E1B4B', mb: 1.5, fontSize: { xs: '1.45rem', sm: '1.65rem' } }}>
+                    Gợi mở bằng câu hỏi
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#475569', fontSize: { xs: '1.08rem', sm: '1.18rem' }, lineHeight: 1.72, mb: 3.5 }}>
+                    Phát hiện ngay vị trí nhầm hoặc quên nhớ, đặt câu hỏi gợi mở thay vì giải hộ.
+                  </Typography>
+                </Box>
+
+                <Box sx={{ position: 'relative', zIndex: 1 }}>
+                  <Chip
+                    label="Tuyệt đối không giải hộ"
+                    size="small"
+                    sx={{
+                      bgcolor: '#FFFFFF',
+                      color: '#1E1B4B',
+                      fontWeight: 800,
+                      fontSize: '1.02rem',
+                      py: 0.8,
+                      px: 1.4,
+                      borderRadius: 999,
+                      border: '1px solid #E2E8F0',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+                    }}
+                  />
+                </Box>
+              </Box>
             </Grid>
           </Grid>
 
-          {/* Socratic Contrast Comparison Box */}
+          {/* Full-width Banner 1: Bé hiểu sâu, tự tin (Blue Gradient Banner matching Image 2) */}
           <Box
             sx={{
-              p: { xs: 3, md: 4.5 },
-              borderRadius: 4,
-              bgcolor: '#F8FAFC',
-              border: '1.5px solid #E2E8F0',
+              p: { xs: 4, sm: 5.5 },
+              mb: 3,
+              borderRadius: { xs: 4.5, sm: 5.5 },
+              background: 'linear-gradient(90deg, #7040EC 0%, #46ACFF 100%)',
+              color: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              gap: { xs: 2.5, sm: 3.5 },
+              boxShadow: '0 12px 32px rgba(112, 64, 236, 0.28)',
             }}
           >
-            <Box sx={{ mb: 3, textAlign: 'center' }}>
-              <Typography variant="overline" sx={{ fontWeight: 800, color: '#64748B', letterSpacing: '0.06em', fontSize: '0.75rem' }}>
-                SO SÁNH TRIẾT LÝ TIẾP CẬN
+            <Box
+              sx={{
+                width: { xs: 72, sm: 84 },
+                height: { xs: 72, sm: 84 },
+                borderRadius: '50%',
+                bgcolor: 'rgba(255, 255, 255, 0.22)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: { xs: '2.6rem', sm: '3.2rem' },
+                flexShrink: 0,
+              }}
+            >
+              🌟
+            </Box>
+            <Box>
+              <Typography variant="h5" sx={{ fontWeight: 900, color: '#FFFFFF', mb: 0.75, fontSize: { xs: '1.55rem', sm: '1.8rem' } }}>
+                Bé hiểu sâu, tự tin
               </Typography>
-              <Typography variant="h5" sx={{ fontWeight: 900, color: '#0F172A', mt: 0.5 }}>
-                Tại sao gợi mở tư duy tốt hơn đưa sẵn đáp số?
+              <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.95)', fontSize: { xs: '1.14rem', sm: '1.24rem' }, lineHeight: 1.7 }}>
+                Bé tự sửa được bài, ghi nhớ phương pháp tư duy bền vững và hào hứng tích lũy sao học tập.
               </Typography>
             </Box>
-            <Grid container spacing={3} sx={{ alignItems: 'stretch' }}>
-              <Grid size={{ xs: 12, md: 6 }}>
-                <Box
-                  sx={{
-                    p: 3,
-                    borderRadius: 3,
-                    bgcolor: '#FFFFFF',
-                    border: '1.5px solid #FECDD3',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5, flexWrap: 'wrap', gap: 1 }}>
-                      <Typography variant="subtitle1" sx={{ fontWeight: 900, color: '#BE123C', display: 'flex', alignItems: 'center', gap: 1 }}>
-                        ✕ Giải bài hộ thương mại
-                      </Typography>
-                      <Chip label="Ăn xổi · Thụ động" size="small" sx={{ height: 20, fontSize: '0.68rem', fontWeight: 800, bgcolor: '#FFF1F2', color: '#BE123C', border: '1px solid #FECDD3' }} />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#475569', lineHeight: 1.65 }}>
-                      Đưa ngay đáp án số cuối cùng. Học sinh chỉ việc chép vào vở mà không hiểu bản chất bước tính hay quy tắc cộng số nhớ. Trẻ dần mất đi khả năng tự suy luận và tự giải quyết vấn đề khi gặp dạng đề mới.
-                    </Typography>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid size={{ xs: 12, md: 6 }}>
-                <Box
-                  sx={{
-                    p: 3,
-                    borderRadius: 3,
-                    bgcolor: '#FFFFFF',
-                    border: '2px solid #10B981',
-                    boxShadow: '0 8px 24px -4px rgba(16, 185, 129, 0.14)',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5, flexWrap: 'wrap', gap: 1 }}>
-                      <Typography variant="subtitle1" sx={{ fontWeight: 900, color: '#047857', display: 'flex', alignItems: 'center', gap: 1 }}>
-                        ✓ Đồng hành Socratic (MathVision Kids)
-                      </Typography>
-                      <Chip label="Chuẩn Sư Phạm Việt Nam" size="small" sx={{ height: 20, fontSize: '0.68rem', fontWeight: 800, bgcolor: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0' }} />
-                    </Box>
-                    <Typography variant="body2" sx={{ color: '#334155', lineHeight: 1.65 }}>
-                      Phân tích từng bước đặt tính ô ly, khoanh vùng chính xác điểm nhầm lẫn (cột đơn vị, cột chục, số nhớ) và đặt câu hỏi gợi mở để bé tự nhẩm tính và tìm ra kết quả đúng. Trẻ nhớ lâu và hào hứng tự học.
-                    </Typography>
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
+          </Box>
+
+          {/* Full-width Banner 2: Mẹo của robot (Soft Yellow Banner) */}
+          <Box
+            sx={{
+              p: 2.75,
+              px: 3.5,
+              borderRadius: 4,
+              bgcolor: '#FEF3C7',
+              border: '1px solid #FDE68A',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2.5,
+            }}
+          >
+            <Typography sx={{ fontSize: '2.2rem' }}>🔦</Typography>
+            <Typography variant="body2" sx={{ color: '#92400E', fontWeight: 800, fontSize: '1.18rem', lineHeight: 1.65 }}>
+              Mẹo của robot: giữ máy song song với trang vở, trong phòng có đủ ánh sáng để chữ hiện rõ nét nhất nhé!
+            </Typography>
           </Box>
         </Container>
       </Box>
 
       {/* ========================================================================= */}
-      {/* 4. PEDAGOGICAL & CHILD SAFETY ETHICS */}
+      {/* 3. SO SÁNH TRIẾT LÝ TIẾP CẬN                                              */}
       {/* ========================================================================= */}
-      <Box id="principles" sx={{ py: { xs: 8, md: 11 }, bgcolor: '#FFFFFF', borderBottom: '1px solid #E2E8F0' }}>
+      <Box id="khac-gi" component="section" sx={{ py: { xs: 8, md: 10 }, bgcolor: '#FAF8FF', borderBottom: '1px solid #F1F0FB' }}>
         <Container maxWidth="xl" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
-          <Box sx={{ mb: 6, maxWidth: 640 }}>
-            <Chip
-              label="TRÁCH NHIỆM & ĐẠO ĐỨC"
-              size="small"
+          {/* Section Header */}
+          <Box sx={{ textAlign: 'left', mb: { xs: 4.5, md: 6 } }}>
+            <Box
               sx={{
-                bgcolor: '#EFF6FF',
-                color: '#2563EB',
-                fontWeight: 900,
-                fontSize: '0.74rem',
-                letterSpacing: '0.04em',
-                borderRadius: 1.5,
-                mb: 1.5,
+                display: 'inline-block',
+                color: '#6D28D9',
+                fontWeight: 700,
+                fontSize: '0.9rem',
+                bgcolor: '#EDE9FE',
+                px: 2.2,
+                py: 0.65,
+                borderRadius: 999,
+                mb: 2,
               }}
-            />
-            <Typography variant="h2" sx={{ mb: 1.5, fontSize: { xs: '2rem', md: '2.5rem' }, fontWeight: 900, letterSpacing: '-0.02em' }}>
-              Cam kết sư phạm và an toàn cho trẻ
+            >
+              So sánh triết lý tiếp cận
+            </Box>
+            <Typography
+              variant="h2"
+              sx={{
+                fontSize: { xs: '2rem', sm: '2.5rem', md: '2.8rem' },
+                fontWeight: 900,
+                letterSpacing: '-0.025em',
+                lineHeight: 1.22,
+                color: '#0F172A',
+              }}
+            >
+              Tại sao gợi mở tư duy tốt hơn<br />
+              đưa sẵn đáp số?
             </Typography>
-            <Typography variant="body1" sx={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.65 }}>
-              Chúng tôi xây dựng MathVision Kids với kim chỉ nam phục vụ giáo dục tiểu học Việt Nam chuẩn mực, nhân văn và an toàn.
+          </Box>
+
+          <Grid container spacing={4} sx={{ alignItems: 'stretch' }}>
+            {/* Card 1: Giải bài hộ thương mại */}
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Box
+                sx={{
+                  p: { xs: 3.5, sm: 5 },
+                  borderRadius: 5,
+                  bgcolor: '#FFFFFF',
+                  border: '1.5px solid #FDA4AF',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 8px 24px rgba(225, 29, 72, 0.06)',
+                  transition: 'transform 200ms ease, box-shadow 200ms ease',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
+                    boxShadow: '0 12px 32px rgba(225, 29, 72, 0.1)',
+                  },
+                }}
+              >
+                <Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3, flexWrap: 'wrap', gap: 1 }}>
+                    <Typography variant="h5" sx={{ fontWeight: 900, color: '#1E1B4B', fontSize: { xs: '1.45rem', sm: '1.65rem' } }}>
+                      Giải bài hộ thương mại
+                    </Typography>
+                    <Chip
+                      label="Ăn xổi, thụ động"
+                      size="small"
+                      sx={{ bgcolor: '#F8FAFC', color: '#64748B', fontWeight: 800, fontSize: '1.02rem', py: 0.8, px: 1.4, border: '1px solid #E2E8F0', borderRadius: 999 }}
+                    />
+                  </Box>
+
+                  {/* Highlight Box matching Image 3 */}
+                  <Box sx={{ p: 2.2, px: 3, mb: 3.5, borderRadius: 3, bgcolor: '#FFF1F2', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Typography sx={{ color: '#EF4444', fontWeight: 900, fontSize: '2.4rem', lineHeight: 1 }}>
+                      423
+                    </Typography>
+                    <Typography sx={{ color: '#64748B', fontWeight: 800, fontSize: '1.18rem' }}>
+                      chép vào vở
+                    </Typography>
+                  </Box>
+
+                  <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'grid', gap: 2.4 }}>
+                    <Typography component="li" variant="body2" sx={{ color: '#475569', fontSize: '1.16rem', lineHeight: 1.75, display: 'flex', gap: 1.6, alignItems: 'flex-start' }}>
+                      <HighlightOffOutlinedIcon sx={{ color: '#EF4444', fontSize: 28, mt: 0.2, flexShrink: 0 }} />
+                      Đưa ngay đáp án số cuối cùng, bé chỉ việc chép vào vở.
+                    </Typography>
+                    <Typography component="li" variant="body2" sx={{ color: '#475569', fontSize: '1.16rem', lineHeight: 1.75, display: 'flex', gap: 1.6, alignItems: 'flex-start' }}>
+                      <HighlightOffOutlinedIcon sx={{ color: '#EF4444', fontSize: 28, mt: 0.2, flexShrink: 0 }} />
+                      Bé không hiểu bản chất bước tính hay quy tắc cộng có nhớ.
+                    </Typography>
+                    <Typography component="li" variant="body2" sx={{ color: '#475569', fontSize: '1.16rem', lineHeight: 1.75, display: 'flex', gap: 1.6, alignItems: 'flex-start' }}>
+                      <HighlightOffOutlinedIcon sx={{ color: '#EF4444', fontSize: 28, mt: 0.2, flexShrink: 0 }} />
+                      Dần mất khả năng suy luận và tự giải quyết vấn đề khi gặp dạng bài mới.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Grid>
+
+            {/* Card 2: Đồng hành Socratic */}
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Box
+                sx={{
+                  p: { xs: 3.5, sm: 5 },
+                  borderRadius: 5,
+                  bgcolor: '#FFFFFF',
+                  border: '2px solid #10B981',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 10px 30px rgba(16, 185, 129, 0.12)',
+                  transition: 'transform 200ms ease, box-shadow 200ms ease',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
+                    boxShadow: '0 14px 36px rgba(16, 185, 129, 0.18)',
+                  },
+                }}
+              >
+                <Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3, flexWrap: 'wrap', gap: 1 }}>
+                    <Typography variant="h5" sx={{ fontWeight: 900, color: '#1E1B4B', fontSize: { xs: '1.45rem', sm: '1.65rem' } }}>
+                      Đồng hành Socratic
+                    </Typography>
+                    <Chip
+                      label="Chuẩn sư phạm Việt Nam"
+                      size="small"
+                      sx={{ bgcolor: '#F8FAFC', color: '#64748B', fontWeight: 800, fontSize: '1.02rem', py: 0.8, px: 1.4, border: '1px solid #E2E8F0', borderRadius: 999 }}
+                    />
+                  </Box>
+
+                  {/* Highlight Box matching Image 3 */}
+                  <Box sx={{ p: 2.4, mb: 3.5, borderRadius: 3, bgcolor: '#FEF3C7' }}>
+                    <Typography sx={{ color: '#1E1B4B', fontWeight: 900, fontSize: '1.38rem', lineHeight: 1.4 }}>
+                      “Số nhớ ở cột đơn vị đang ở đâu nhỉ?”
+                    </Typography>
+                  </Box>
+
+                  <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'grid', gap: 2.4 }}>
+                    <Typography component="li" variant="body2" sx={{ color: '#334155', fontSize: '1.16rem', lineHeight: 1.75, display: 'flex', gap: 1.6, alignItems: 'flex-start' }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#10B981', fontSize: 28, mt: 0.2, flexShrink: 0 }} />
+                      Phân tích từng bước đặt tính ở ô ly, khoanh vùng chính xác điểm nhầm lẫn: cột đơn vị, cột chục, số nhớ.
+                    </Typography>
+                    <Typography component="li" variant="body2" sx={{ color: '#334155', fontSize: '1.16rem', lineHeight: 1.75, display: 'flex', gap: 1.6, alignItems: 'flex-start' }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#10B981', fontSize: 28, mt: 0.2, flexShrink: 0 }} />
+                      Đặt câu hỏi gợi mở để bé tự nhẩm tính và tìm ra kết quả đúng.
+                    </Typography>
+                    <Typography component="li" variant="body2" sx={{ color: '#334155', fontSize: '1.16rem', lineHeight: 1.75, display: 'flex', gap: 1.6, alignItems: 'flex-start' }}>
+                      <CheckCircleOutlinedIcon sx={{ color: '#10B981', fontSize: 28, mt: 0.2, flexShrink: 0 }} />
+                      Trẻ nhớ lâu và hào hứng tự học.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* ========================================================================= */}
+      {/* 4. TRÁCH NHIỆM VÀ ĐẠO ĐỨC                                                 */}
+      {/* ========================================================================= */}
+      <Box id="an-toan" component="section" sx={{ py: { xs: 8, md: 10 }, bgcolor: '#FFFFFF', borderBottom: '1px solid #E2E8F0' }}>
+        <Container maxWidth="xl" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
+          {/* Section Header */}
+          <Box sx={{ textAlign: 'left', mb: { xs: 4.5, md: 6 } }}>
+            <Box
+              sx={{
+                display: 'inline-block',
+                color: '#6D28D9',
+                fontWeight: 700,
+                fontSize: '0.9rem',
+                bgcolor: '#EDE9FE',
+                px: 2.2,
+                py: 0.65,
+                borderRadius: 999,
+                mb: 2,
+              }}
+            >
+              Trách nhiệm và đạo đức
+            </Box>
+            <Typography
+              variant="h2"
+              sx={{
+                fontSize: { xs: '2rem', sm: '2.5rem', md: '2.8rem' },
+                fontWeight: 900,
+                letterSpacing: '-0.025em',
+                lineHeight: 1.22,
+                color: '#0F172A',
+                mb: 2,
+              }}
+            >
+              Cam kết sư phạm và an toàn cho<br />
+              trẻ
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                color: '#64748B',
+                fontSize: { xs: '1.02rem', md: '1.08rem' },
+                lineHeight: 1.68,
+                maxWidth: 780,
+              }}
+            >
+              Chúng tôi xây dựng MathVisionKids với kim chỉ nam phục vụ giáo dục tiểu học<Box component="br" sx={{ display: { xs: 'none', md: 'block' } }} />
+              Việt Nam chuẩn mực, nhân văn và an toàn.
             </Typography>
           </Box>
 
           <Grid container spacing={3.5}>
+            {/* Card 1: Không giải hộ bài tập */}
             <Grid size={{ xs: 12, md: 4 }}>
               <Box
-                className="hover-elevate"
                 sx={{
-                  p: 3.5,
-                  borderRadius: 4,
-                  bgcolor: '#FFFFFF',
+                  p: { xs: 3.5, sm: 4.5 },
+                  borderRadius: 5,
+                  bgcolor: '#F8FAFC',
                   border: '1.5px solid #E2E8F0',
-                  borderTop: '3.5px solid #2563EB',
-                  boxShadow: '0 4px 20px -4px rgba(15, 23, 42, 0.05)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  transition: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
+                  transition: 'transform 200ms ease, box-shadow 200ms ease',
                   '&:hover': {
                     transform: 'translateY(-4px)',
-                    boxShadow: '0 16px 32px -4px rgba(15, 23, 42, 0.08)',
-                    borderColor: '#CBD5E1',
+                    boxShadow: '0 12px 28px rgba(0, 0, 0, 0.08)',
                   },
                 }}
               >
                 <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                    <Box sx={{ width: 44, height: 44, borderRadius: 2.5, bgcolor: '#EFF6FF', color: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <LightbulbIcon sx={{ fontSize: 24 }} />
-                    </Box>
-                    <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A' }}>
-                      Không giải hộ bài tập
-                    </Typography>
+                  <Box
+                    sx={{
+                      width: { xs: 68, sm: 76 },
+                      height: { xs: 68, sm: 76 },
+                      borderRadius: { xs: '18px', sm: '22px' },
+                      bgcolor: '#F9C93D',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: { xs: '2.4rem', sm: '2.8rem' },
+                      mb: 3,
+                      transform: 'rotate(-8deg)',
+                      boxShadow: '0 8px 20px rgba(249, 201, 61, 0.35)',
+                      transition: 'transform 200ms ease, box-shadow 200ms ease',
+                      '&:hover': {
+                        transform: 'rotate(0deg) scale(1.08)',
+                        boxShadow: '0 12px 24px rgba(249, 201, 61, 0.45)',
+                      },
+                    }}
+                  >
+                    🧩
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#475569', lineHeight: 1.68, mb: 2.5 }}>
-                    Khác với các ứng dụng chụp ảnh giải bài ăn xổi, MathVision Kids hướng tới bồi dưỡng tư duy toán học độc lập. Trẻ được gợi mở từng bước để tự tìm ra kết quả đúng.
+                  <Typography variant="h5" sx={{ fontWeight: 900, color: '#1E1B4B', mb: 1.5, fontSize: { xs: '1.45rem', sm: '1.6rem' } }}>
+                    Không giải hộ bài tập
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#475569', fontSize: { xs: '1.08rem', sm: '1.18rem' }, lineHeight: 1.72, mb: 3.5 }}>
+                    Khác với các ứng dụng chụp ảnh giải bài ăn xổi, MathVisionKids hướng tới bồi dưỡng tư duy toán học độc lập. Trẻ được gợi mở từng bước để tự tìm ra kết quả đúng.
                   </Typography>
                 </Box>
-                <Box sx={{ pt: 2, borderTop: '1px solid #F1F5F9' }}>
-                  <Chip
-                    label="Không đưa đáp án sẵn"
-                    size="small"
-                    sx={{ height: 22, fontSize: '0.72rem', fontWeight: 800, bgcolor: '#EFF6FF', color: '#2563EB', border: '1px solid #BFDBFE', borderRadius: 1 }}
-                  />
-                </Box>
+                <Chip
+                  label="Không đưa đáp án sẵn"
+                  size="small"
+                  sx={{
+                    alignSelf: 'flex-start',
+                    bgcolor: '#FFFFFF',
+                    color: '#1E1B4B',
+                    fontWeight: 800,
+                    fontSize: '1.02rem',
+                    py: 0.8,
+                    px: 1.4,
+                    borderRadius: 999,
+                    border: '1px solid #CBD5E1',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                  }}
+                />
               </Box>
             </Grid>
 
+            {/* Card 2: Thầy cô là người định đoạt */}
             <Grid size={{ xs: 12, md: 4 }}>
               <Box
-                className="hover-elevate"
                 sx={{
-                  p: 3.5,
-                  borderRadius: 4,
-                  bgcolor: '#FFFFFF',
+                  p: { xs: 3.5, sm: 4.5 },
+                  borderRadius: 5,
+                  bgcolor: '#F8FAFC',
                   border: '1.5px solid #E2E8F0',
-                  borderTop: '3.5px solid #059669',
-                  boxShadow: '0 4px 20px -4px rgba(15, 23, 42, 0.05)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  transition: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
+                  transition: 'transform 200ms ease, box-shadow 200ms ease',
                   '&:hover': {
                     transform: 'translateY(-4px)',
-                    boxShadow: '0 16px 32px -4px rgba(15, 23, 42, 0.08)',
-                    borderColor: '#CBD5E1',
+                    boxShadow: '0 12px 28px rgba(0, 0, 0, 0.08)',
                   },
                 }}
               >
                 <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                    <Box sx={{ width: 44, height: 44, borderRadius: 2.5, bgcolor: '#ECFDF5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <VerifiedUserIcon sx={{ fontSize: 24 }} />
-                    </Box>
-                    <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A' }}>
-                      Thầy cô là người định đoạt
-                    </Typography>
+                  <Box
+                    sx={{
+                      width: { xs: 68, sm: 76 },
+                      height: { xs: 68, sm: 76 },
+                      borderRadius: { xs: '18px', sm: '22px' },
+                      bgcolor: '#27D69A',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: { xs: '2.4rem', sm: '2.8rem' },
+                      mb: 3,
+                      transform: 'rotate(-8deg)',
+                      boxShadow: '0 8px 20px rgba(39, 214, 154, 0.35)',
+                      transition: 'transform 200ms ease, box-shadow 200ms ease',
+                      '&:hover': {
+                        transform: 'rotate(0deg) scale(1.08)',
+                        boxShadow: '0 12px 24px rgba(39, 214, 154, 0.45)',
+                      },
+                    }}
+                  >
+                    🧑‍🏫
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#475569', lineHeight: 1.68, mb: 2.5 }}>
+                  <Typography variant="h5" sx={{ fontWeight: 900, color: '#1E1B4B', mb: 1.5, fontSize: { xs: '1.45rem', sm: '1.6rem' } }}>
+                    Thầy cô là người định đoạt
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#475569', fontSize: { xs: '1.08rem', sm: '1.18rem' }, lineHeight: 1.72, mb: 3.5 }}>
                     AI đóng vai trò người trợ giảng chấm sơ bộ. Mọi bài thi hoặc bài tập có độ tin cậy thấp đều được chuyển đến giáo viên để thẩm định và phê duyệt điểm số cuối cùng.
                   </Typography>
                 </Box>
-                <Box sx={{ pt: 2, borderTop: '1px solid #F1F5F9' }}>
-                  <Chip
-                    label="Giáo viên phê duyệt 100%"
-                    size="small"
-                    sx={{ height: 22, fontSize: '0.72rem', fontWeight: 800, bgcolor: '#ECFDF5', color: '#059669', border: '1px solid #A7F3D0', borderRadius: 1 }}
-                  />
-                </Box>
+                <Chip
+                  label="Giáo viên phê duyệt 100%"
+                  size="small"
+                  sx={{
+                    alignSelf: 'flex-start',
+                    bgcolor: '#FFFFFF',
+                    color: '#1E1B4B',
+                    fontWeight: 800,
+                    fontSize: '1.02rem',
+                    py: 0.8,
+                    px: 1.4,
+                    borderRadius: 999,
+                    border: '1px solid #CBD5E1',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                  }}
+                />
               </Box>
             </Grid>
 
+            {/* Card 3: Bảo vệ dữ liệu học sinh */}
             <Grid size={{ xs: 12, md: 4 }}>
               <Box
-                className="hover-elevate"
                 sx={{
-                  p: 3.5,
-                  borderRadius: 4,
-                  bgcolor: '#FFFFFF',
+                  p: { xs: 3.5, sm: 4.5 },
+                  borderRadius: 5,
+                  bgcolor: '#F8FAFC',
                   border: '1.5px solid #E2E8F0',
-                  borderTop: '3.5px solid #D97706',
-                  boxShadow: '0 4px 20px -4px rgba(15, 23, 42, 0.05)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  transition: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
+                  transition: 'transform 200ms ease, box-shadow 200ms ease',
                   '&:hover': {
                     transform: 'translateY(-4px)',
-                    boxShadow: '0 16px 32px -4px rgba(15, 23, 42, 0.08)',
-                    borderColor: '#CBD5E1',
+                    boxShadow: '0 12px 28px rgba(0, 0, 0, 0.08)',
                   },
                 }}
               >
                 <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                    <Box sx={{ width: 44, height: 44, borderRadius: 2.5, bgcolor: '#FFFBEB', color: '#B45309', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <SecurityIcon sx={{ fontSize: 24 }} />
-                    </Box>
-                    <Typography variant="h6" sx={{ fontWeight: 800, color: '#0F172A' }}>
-                      Bảo vệ dữ liệu học sinh
-                    </Typography>
+                  <Box
+                    sx={{
+                      width: { xs: 68, sm: 76 },
+                      height: { xs: 68, sm: 76 },
+                      borderRadius: { xs: '18px', sm: '22px' },
+                      bgcolor: '#3DB8FF',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: { xs: '2.4rem', sm: '2.8rem' },
+                      mb: 3,
+                      transform: 'rotate(-8deg)',
+                      boxShadow: '0 8px 20px rgba(61, 184, 255, 0.35)',
+                      transition: 'transform 200ms ease, box-shadow 200ms ease',
+                      '&:hover': {
+                        transform: 'rotate(0deg) scale(1.08)',
+                        boxShadow: '0 12px 24px rgba(61, 184, 255, 0.45)',
+                      },
+                    }}
+                  >
+                    🛡️
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#475569', lineHeight: 1.68, mb: 2.5 }}>
-                    Thông tin định danh của bé (tên, trường, lớp) được che an toàn trực tiếp từ thiết bị. Không chứa quảng cáo, không cơ chế ép streak hay gamification gây nghiện.
+                  <Typography variant="h5" sx={{ fontWeight: 900, color: '#1E1B4B', mb: 1.5, fontSize: { xs: '1.45rem', sm: '1.6rem' } }}>
+                    Bảo vệ dữ liệu học sinh
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#475569', fontSize: { xs: '1.08rem', sm: '1.18rem' }, lineHeight: 1.72, mb: 3.5 }}>
+                    Thông tin định danh của bé (tên, trường, lớp) được che an toàn trước khi tiếp từ thiết bị. Không chứa quảng cáo, không cơ chế ép streak hay gamification gây nghiện.
                   </Typography>
                 </Box>
-                <Box sx={{ pt: 2, borderTop: '1px solid #F1F5F9' }}>
-                  <Chip
-                    label="Xem lại vùng che trước khi gửi"
-                    size="small"
-                    sx={{ height: 22, fontSize: '0.72rem', fontWeight: 800, bgcolor: '#FFFBEB', color: '#B45309', border: '1px solid #FDE68A', borderRadius: 1 }}
-                  />
-                </Box>
+                <Chip
+                  label="Xem lại vùng che trước khi gửi"
+                  size="small"
+                  sx={{
+                    alignSelf: 'flex-start',
+                    bgcolor: '#FFFFFF',
+                    color: '#1E1B4B',
+                    fontWeight: 800,
+                    fontSize: '1.02rem',
+                    py: 0.8,
+                    px: 1.4,
+                    borderRadius: 999,
+                    border: '1px solid #CBD5E1',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                  }}
+                />
               </Box>
             </Grid>
           </Grid>
@@ -1302,99 +1658,220 @@ export const LandingPage: React.FC = () => {
       </Box>
 
       {/* ========================================================================= */}
-      {/* 5. CONFIDENT CALL TO ACTION */}
+      {/* 5. CALL TO ACTION SECTION                                                 */}
       {/* ========================================================================= */}
-      <Box
-        sx={{
-          py: { xs: 9, md: 12 },
-          color: '#FFFFFF',
-          position: 'relative',
-          overflow: 'hidden',
-          background: 'radial-gradient(ellipse 70% 60% at 50% -20%, rgba(37, 99, 235, 0.4), transparent 70%), #0F172A',
-        }}
-      >
-        <Container maxWidth="md" sx={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <Typography variant="h2" sx={{ fontWeight: 900, color: '#FFFFFF', mb: 2.5, fontSize: { xs: '2rem', sm: '2.75rem' }, lineHeight: 1.18, letterSpacing: '-0.02em' }}>
-            Sẵn sàng đồng hành cùng bé chinh phục môn Toán?
-          </Typography>
-          <Typography variant="body1" sx={{ color: '#CBD5E1', mb: 5, maxWidth: 620, mx: 'auto', fontSize: '1.1rem', lineHeight: 1.68 }}>
-            Đăng nhập bằng tài khoản MathVision của bạn.
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}>
-            {user ? (
-              <>
-                <Button
-                  component={RouterLink}
-                  to={getDestinationPath(user.role)}
-                  variant="contained"
-                  size="large"
-                  endIcon={<ArrowForwardIcon />}
-                  sx={{
-                    bgcolor: isStudent ? '#2563EB' : user.role?.includes('TEACHER') ? '#059669' : '#0F172A',
-                    color: '#FFFFFF',
-                    px: 4.5,
-                    py: 1.6,
-                    fontSize: '1.05rem',
-                    fontWeight: 900,
-                    borderRadius: 3,
-                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
-                    border: user.role?.includes('ADMIN') ? '1px solid #334155' : undefined,
-                    '&:hover': {
-                      bgcolor: isStudent ? '#1D4ED8' : user.role?.includes('TEACHER') ? '#047857' : '#1E293B',
-                    },
-                  }}
-                >
-                  Tiếp tục
-                </Button>
-                <Button
-                  component={RouterLink}
-                  to="/logout"
-                  variant="outlined"
-                  size="large"
-                  sx={{
-                    borderColor: 'rgba(255, 255, 255, 0.35) !important',
-                    color: '#FFFFFF !important',
-                    bgcolor: 'rgba(255, 255, 255, 0.08) !important',
-                    px: 3.5,
-                    py: 1.6,
-                    fontSize: '1rem',
-                    fontWeight: 800,
-                    borderRadius: 3,
-                    backdropFilter: 'blur(8px)',
-                    '&:hover': {
-                      borderColor: '#FFFFFF !important',
-                      bgcolor: 'rgba(255, 255, 255, 0.18) !important',
-                      color: '#FFFFFF !important',
-                    },
-                  }}
-                >
-                  Đăng xuất
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  component={RouterLink}
-                  to="/login"
-                  variant="contained"
-                  size="large"
-                  endIcon={<ArrowForwardIcon />}
-                  sx={{
-                    bgcolor: '#2563EB',
-                    color: '#FFFFFF',
-                    px: 4.5,
-                    py: 1.6,
-                    fontSize: '1.05rem',
-                    fontWeight: 900,
-                    borderRadius: 3,
-                    boxShadow: '0 8px 24px rgba(37, 99, 235, 0.45)',
-                    '&:hover': { bgcolor: '#1D4ED8' },
-                  }}
-                >
-                  Đăng nhập
-                </Button>
-              </>
-            )}
+      <Box component="section" sx={{ py: { xs: 8, md: 12 }, px: { xs: 2, sm: 3, md: 4 }, bgcolor: '#FAF8FF' }}>
+        <Container maxWidth="xl" sx={{ px: { xs: 0, sm: 1 } }}>
+          <Box
+            sx={{
+              position: 'relative',
+              borderRadius: { xs: 5, sm: 6 },
+              p: { xs: 5, sm: 8, md: 10 },
+              minHeight: { xs: 350, sm: 420, md: 460 },
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              color: '#FFFFFF',
+              overflow: 'hidden',
+              background: 'linear-gradient(135deg, #6366F1 0%, #3B82F6 50%, #4F46E5 100%)',
+              boxShadow: '0 24px 50px -10px rgba(99, 102, 241, 0.35)',
+            }}
+          >
+            {/* Floating Badge "+" (Top-Left) */}
+            <Box
+              aria-hidden="true"
+              sx={{
+                position: 'absolute',
+                top: { xs: 18, sm: 28 },
+                left: { xs: 18, sm: 36 },
+                width: { xs: 48, sm: 64 },
+                height: { xs: 48, sm: 64 },
+                borderRadius: { xs: 2.5, sm: 3 },
+                bgcolor: '#EF4444',
+                color: '#FFFFFF',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: { xs: '2rem', sm: '2.5rem' },
+                fontWeight: 900,
+                boxShadow: '0 8px 20px rgba(239, 68, 68, 0.4)',
+                transform: 'rotate(-10deg)',
+                animation: 'floatSlow 4.2s ease-in-out infinite',
+                userSelect: 'none',
+              }}
+            >
+              +
+            </Box>
+
+            {/* Floating Badge "%" (Top-Right) */}
+            <Box
+              aria-hidden="true"
+              sx={{
+                position: 'absolute',
+                top: { xs: 20, sm: 32 },
+                right: { xs: 20, sm: 42 },
+                width: { xs: 50, sm: 66 },
+                height: { xs: 50, sm: 66 },
+                borderRadius: '50%',
+                bgcolor: '#FBBF24',
+                color: '#1E1B4B',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: { xs: '1.8rem', sm: '2.2rem' },
+                fontWeight: 900,
+                boxShadow: '0 8px 20px rgba(245, 158, 11, 0.4)',
+                animation: 'floatReverse 4.6s ease-in-out infinite',
+                userSelect: 'none',
+              }}
+            >
+              %
+            </Box>
+
+            {/* Floating Badge "−" (Bottom-Right) */}
+            <Box
+              aria-hidden="true"
+              sx={{
+                position: 'absolute',
+                bottom: { xs: 18, sm: 28 },
+                right: { xs: 22, sm: 52 },
+                width: { xs: 48, sm: 64 },
+                height: { xs: 48, sm: 64 },
+                borderRadius: { xs: 2.5, sm: 3 },
+                bgcolor: '#10B981',
+                color: '#FFFFFF',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: { xs: '2.1rem', sm: '2.6rem' },
+                fontWeight: 900,
+                boxShadow: '0 8px 20px rgba(16, 185, 129, 0.4)',
+                transform: 'rotate(8deg)',
+                animation: 'floatSlow 3.9s ease-in-out infinite',
+                userSelect: 'none',
+              }}
+            >
+              −
+            </Box>
+
+            <Typography
+              variant="h2"
+              sx={{
+                fontWeight: 900,
+                color: '#FFFFFF',
+                mb: 2.5,
+                fontSize: { xs: '2.2rem', sm: '3.1rem', md: '3.8rem' },
+                lineHeight: 1.2,
+                letterSpacing: '-0.025em',
+                maxWidth: 960,
+                position: 'relative',
+                zIndex: 1,
+              }}
+            >
+              Sẵn sàng đồng hành cùng bé chinh phục môn Toán?
+            </Typography>
+
+            <Typography
+              variant="body1"
+              sx={{
+                color: 'rgba(255, 255, 255, 0.94)',
+                mb: 5,
+                maxWidth: 720,
+                mx: 'auto',
+                fontSize: { xs: '1.16rem', sm: '1.32rem', md: '1.42rem' },
+                lineHeight: 1.72,
+                position: 'relative',
+                zIndex: 1,
+              }}
+            >
+              Bắt đầu hành trình học tập thông minh cùng phương pháp Socratic ngay hôm nay.
+            </Typography>
+
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2.5,
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                position: 'relative',
+                zIndex: 1,
+              }}
+            >
+              <Button
+                component={RouterLink}
+                to={user ? getDestinationPath(user.role) : '/login'}
+                variant="contained"
+                size="large"
+                sx={{
+                  bgcolor: '#FBBF24',
+                  color: '#1E1B4B',
+                  px: { xs: 3.5, sm: 5 },
+                  py: { xs: 1.7, sm: 2 },
+                  fontSize: { xs: '1.1rem', sm: '1.22rem' },
+                  fontWeight: 900,
+                  borderRadius: 999,
+                  textTransform: 'none',
+                  width: { xs: '100%', sm: 'auto' },
+                  boxShadow: '0 6px 18px rgba(245, 158, 11, 0.4)',
+                  transition: 'background-color 160ms ease, transform 160ms ease, box-shadow 160ms ease',
+                  '&:hover': {
+                    bgcolor: '#F59E0B',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 8px 24px rgba(245, 158, 11, 0.5)',
+                  },
+                }}
+              >
+                {user ? 'Vào lớp học' : 'Đăng nhập'}
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
+
+      {/* ========================================================================= */}
+      {/* 6. FOOTER                                                                 */}
+      {/* ========================================================================= */}
+      <Box component="footer" sx={{ py: 6, px: 2, bgcolor: '#FFFFFF', borderTop: '1px solid #E2E8F0' }}>
+        <Container maxWidth="xl" sx={{ px: { xs: 2.5, sm: 4, md: 6 } }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
+              justifyContent: 'space-between',
+              alignItems: { xs: 'flex-start', md: 'center' },
+              gap: 3,
+            }}
+          >
+            {/* Left Brand & Description */}
+            <Box sx={{ maxWidth: 620 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.4, mb: 1.5 }}>
+                <Box
+                  component="img"
+                  src="/ui/robot-mascot.webp"
+                  alt="Robot MathVisionKids"
+                  sx={{ width: 38, height: 38, objectFit: 'contain' }}
+                />
+                <Typography variant="h6" sx={{ fontWeight: 900, color: '#1E1B4B', letterSpacing: '-0.02em', fontSize: '1.45rem' }}>
+                  MathVisionKids
+                </Typography>
+              </Box>
+              <Typography variant="body2" sx={{ color: '#475569', fontSize: '1.14rem', lineHeight: 1.75 }}>
+                Nền tảng học toán sơ học và gợi mở tư duy trên trang vở ô ly, thiết kế chuyên biệt cho học sinh tiểu học Việt Nam từ Lớp 1 đến Lớp 5, đồng hành cùng thầy cô và phụ huynh.
+              </Typography>
+            </Box>
+
+            {/* Right Copyright & Tagline */}
+            <Box sx={{ textAlign: { xs: 'left', md: 'right' } }}>
+              <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 800, fontSize: '1.02rem', display: 'block', mb: 0.5 }}>
+                © 2026 MathVisionKids. Tất cả quyền được bảo lưu.
+              </Typography>
+              <Typography variant="caption" sx={{ color: '#94A3B8', fontSize: '0.96rem' }}>
+                Nền tảng AI trợ lý toán học tiểu học Việt Nam
+              </Typography>
+            </Box>
           </Box>
         </Container>
       </Box>

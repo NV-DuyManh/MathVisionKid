@@ -41,9 +41,14 @@ export const PortalLayout: React.FC = () => {
           .then((profile) => {
             if (active && request === version && session === tokenStore.getSessionId()) setUser(profile);
           })
-          .catch(error => {
-            if (active && request === version && session === tokenStore.getSessionId()
-                && isAxiosError(error) && error.response?.status === 401) {
+          .catch((error) => {
+            if (
+              active &&
+              request === version &&
+              session === tokenStore.getSessionId() &&
+              isAxiosError(error) &&
+              error.response?.status === 401
+            ) {
               tokenStore.clearTokens();
             }
           });
@@ -71,10 +76,10 @@ export const PortalLayout: React.FC = () => {
         Đến nội dung chính
       </a>
 
-      {/* Top Banner / Announcement — Kid Safety & Pedagogical Standard */}
+      {/* Top Banner / Announcement — Kid Safety & Pedagogical Standard (hidden to match video 100%) */}
       <Box
         sx={{
-          display: { xs: 'none', md: isLandingPage ? 'block' : 'none' },
+          display: 'none',
           bgcolor: '#0F172A',
           color: '#F8FAFC',
           py: 0.85,
@@ -172,19 +177,22 @@ export const PortalLayout: React.FC = () => {
                       color: '#0F172A',
                       fontWeight: 900,
                       lineHeight: 1.15,
-                      fontSize: { xs: '1rem', sm: '1.3rem' },
+                      fontSize: { xs: '1.15rem', sm: '1.45rem' },
                       letterSpacing: '-0.025em',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 0.5,
                     }}
                   >
-                    MathVision<span style={{ color: '#2563EB' }}>Kids</span>
+                    <Box component="span" sx={{ color: '#2563EB', fontWeight: 900, fontStyle: 'italic' }}>∑</Box> MathVisionKids
                   </Typography>
                   <Chip
                     label="Tiểu học"
                     size="small"
                     sx={{
                       display: { xs: 'none', sm: 'inline-flex' },
-                      height: 22,
-                      fontSize: '0.72rem',
+                      height: 24,
+                      fontSize: '0.78rem',
                       fontWeight: 800,
                       bgcolor: '#EFF6FF',
                       color: '#2563EB',
@@ -195,7 +203,7 @@ export const PortalLayout: React.FC = () => {
                 </Box>
                 <Typography
                   variant="caption"
-                  sx={{ color: '#64748B', display: { xs: 'none', sm: 'block' }, fontWeight: 700, fontSize: '0.75rem', letterSpacing: '-0.01em' }}
+                  sx={{ color: '#64748B', display: { xs: 'none', sm: 'block' }, fontWeight: 700, fontSize: '0.82rem', letterSpacing: '-0.01em' }}
                 >
                   Trợ lý số học viết tay & gia sư thông minh
                 </Typography>
@@ -213,57 +221,57 @@ export const PortalLayout: React.FC = () => {
               >
                 <Button
                   component="a"
-                  href="#showcase"
+                  href="#phuong-phap"
                   size="small"
                   sx={{
                     color: '#475569',
                     fontWeight: 700,
-                    fontSize: '0.88rem',
+                    fontSize: '0.98rem',
                     borderRadius: 2,
-                    px: 1.75,
-                    minHeight: 38,
+                    px: 2,
+                    minHeight: 40,
                     whiteSpace: 'nowrap',
-                    transition: 'all 160ms ease',
+                    transition: 'color 160ms ease, background-color 160ms ease',
                     '&:hover': { color: '#2563EB', bgcolor: 'rgba(37, 99, 235, 0.06)' },
                   }}
                 >
-                  Thực nghiệm ô ly
+                  Phương pháp
                 </Button>
                 <Button
                   component="a"
-                  href="#socratic"
+                  href="#khac-gi"
                   size="small"
                   sx={{
                     color: '#475569',
                     fontWeight: 700,
-                    fontSize: '0.88rem',
+                    fontSize: '0.98rem',
                     borderRadius: 2,
-                    px: 1.75,
-                    minHeight: 38,
+                    px: 2,
+                    minHeight: 40,
                     whiteSpace: 'nowrap',
-                    transition: 'all 160ms ease',
+                    transition: 'color 160ms ease, background-color 160ms ease',
                     '&:hover': { color: '#2563EB', bgcolor: 'rgba(37, 99, 235, 0.06)' },
                   }}
                 >
-                  Quy trình gợi mở
+                  Khác gì giải hộ?
                 </Button>
                 <Button
                   component="a"
-                  href="#principles"
+                  href="#an-toan"
                   size="small"
                   sx={{
                     color: '#475569',
                     fontWeight: 700,
-                    fontSize: '0.88rem',
+                    fontSize: '0.98rem',
                     borderRadius: 2,
-                    px: 1.75,
-                    minHeight: 38,
+                    px: 2,
+                    minHeight: 40,
                     whiteSpace: 'nowrap',
-                    transition: 'all 160ms ease',
+                    transition: 'color 160ms ease, background-color 160ms ease',
                     '&:hover': { color: '#2563EB', bgcolor: 'rgba(37, 99, 235, 0.06)' },
                   }}
                 >
-                  Chuẩn mực an toàn
+                  An toàn cho bé
                 </Button>
               </Box>
             )}
@@ -386,7 +394,8 @@ export const PortalLayout: React.FC = () => {
                   color="primary"
                   sx={{
                     fontWeight: 800,
-                    px: { xs: 1.5, sm: 2.75 },
+                    fontSize: '0.98rem',
+                    px: { xs: 1.75, sm: 3 },
                     minHeight: 44,
                     borderRadius: 2.5,
                     whiteSpace: 'nowrap',
@@ -402,12 +411,13 @@ export const PortalLayout: React.FC = () => {
 
       {/* Main Content Area */}
       <Box component="main" id="main-content" tabIndex={-1} sx={{ flexGrow: 1, scrollMarginTop: 76 }}>
-        <Outlet />
+        <Outlet context={{ user }} />
       </Box>
 
-      {/* Authentic Professional Educational Footer */}
-      <Box
-        component="footer"
+      {/* Authentic Professional Educational Footer (only for inner portal pages) */}
+      {!isLandingPage && (
+        <Box
+          component="footer"
         sx={{
           pt: 7,
           pb: 5,
@@ -525,6 +535,7 @@ export const PortalLayout: React.FC = () => {
           </Box>
         </Container>
       </Box>
+      )}
     </Box>
   );
 };
