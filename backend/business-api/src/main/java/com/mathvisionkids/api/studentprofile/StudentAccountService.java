@@ -48,6 +48,7 @@ public class StudentAccountService {
                 image, Timestamp.from(Instant.now()), student.getId());
         if (updated == 0) db.update("INSERT INTO student_profile_photos(student_id, image_bytes, updated_at) VALUES (?, ?, ?)",
                 student.getId(), image, Timestamp.from(Instant.now()));
+        profiles.setLeaderboardAvatar(student.getId(), null);
         return profiles.get(principal);
     }
 

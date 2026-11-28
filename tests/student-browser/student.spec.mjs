@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { chooseTrainingGrade } from './game-controls.mjs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 import { fileURLToPath } from 'node:url';
@@ -320,17 +321,18 @@ test('Portal login enters the real Student bundle, navigates and survives a deep
   const lessonNavigation = page.viewportSize().width >= 768 ? 'link' : 'tab';
   await page.getByRole(lessonNavigation, { name: 'Bài học', exact: true }).click();
   await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons`);
-  await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Toán lớp 5', exact: true })).toBeVisible();
   await page.reload();
-  await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Toán lớp 5', exact: true })).toBeVisible();
   const originalViewport = page.viewportSize();
   await page.setViewportSize({ width: 320, height: 844 });
   await expect(page.getByRole('button', { name: /^Chọn Lớp / })).toHaveCount(0);
   await expect(page.getByRole('button', { name: /^Mở bài:/ })).toHaveCount(0);
-  await page.getByRole('button', { name: /^Chủ đề / }).first().click();
-  await page.getByRole('button', { name: /^Mở bài:/ }).first().click();
-  await page.getByRole('button', { name: /^Xem gợi ý:/ }).click();
-  await expect(page.getByRole('button', { name: /^Ẩn gợi ý:/ })).toBeVisible();
+  await page.getByRole('button', { name: 'Chương 2: Số thập phân', exact: true }).click();
+  await page.getByRole('button', { name: 'Mở bài: Cộng số thập phân', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Đáp án: Bài 1', exact: true }).fill('0');
+  await page.getByRole('button', { name: 'Kiểm tra đáp án: Bài 1', exact: true }).click();
+  await expect(page.getByText('Gợi ý cách giải', { exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
   await page.setViewportSize(originalViewport);
   await page.goto(`${sites.portal.origin}/study/quiz`);
@@ -410,7 +412,12 @@ test('Avatar account page edits name beside the header, uploads through the avat
   await page.getByRole('button', { name: 'Thay ảnh đại diện', exact: true }).click();
   await (await chooser).setFiles(fileURLToPath(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)));
   await expect(page.getByText('Đã cập nhật ảnh đại diện.', { exact: true })).toBeVisible();
-  await expect.poll(() => page.locator('img[src^="data:image/"]').count()).toBeGreaterThan(0);
+  await expect(page.getByRole('button', { name: 'Thay ảnh đại diện', exact: true }).locator('img[src^="data:image/"]')).toBeVisible();
+  if (desktop) {
+    const currentPhoto = workspaceAvatar.locator('img[src^="data:image/"]');
+    await expect(currentPhoto).toBeVisible();
+    await expect.poll(() => currentPhoto.evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
+  }
   await page.reload();
   await expect.poll(() => page.locator('img[src^="data:image/"]').count()).toBeGreaterThan(0);
   await testInfo.attach('Account settings with selected photo', { body: await page.screenshot({ path: testInfo.outputPath('account-settings.png') }), contentType: 'image/png' });
@@ -564,6 +571,104 @@ test('Student Web forwards its old login route to the shared form', async ({ pag
   await expect(page.getByLabel('Mật khẩu', { exact: true })).toHaveAttribute('type', 'password');
 });
 
+test('recommended lesson cards truncate long titles and keep their full accessible labels', async ({ page, app, isMobile }, testInfo) => {
+  test.skip(isMobile, 'The three-card row is a desktop layout.');
+  app.realStudent = true;
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await login(page, 'STUDENT');
+  await expect.poll(() => app.studentProfile?.gradeLevel).toBe(5);
+  app.studentProfile.gradeLevel = 2;
+  await page.reload();
+  const card = page.getByRole('button', { name: 'Học bài Số học sinh nam lớp 2A', exact: true });
+  const title = card.getByText('Số học sinh nam lớp 2A', { exact: true });
+  await expect(title).toHaveCSS('text-overflow', 'ellipsis');
+  await expect.poll(() => title.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true);
+  await card.locator('..').screenshot({ path: testInfo.outputPath('recommendations-desktop.png') });
+  await card.click();
+  await expect(page).toHaveURL(`${sites.portal.origin}/study/lessons?lesson=grade-2-number-100-more-less`);
+  await expect(page.getByRole('button', { name: 'Mở bài: Bài toán nhiều hơn và ít hơn', exact: true }))
+    .toHaveAttribute('aria-expanded', 'true');
+});
+
+test('learning journey and private achievements show avatar and paginate the complete star history', async ({ page, app, isMobile }, testInfo) => {
+  test.setTimeout(90_000);
+  const suffix = isMobile ? 'mobile' : 'desktop';
+  const base = sites.portal.origin + '/study/';
+  app.realStudent = true;
+  await login(page, 'STUDENT');
+  const journey = page.getByTestId('learning-journey');
+  await expect(journey.getByRole('button')).toHaveCount(4);
+  const trees = journey.locator('img');
+  await expect(trees).toHaveCount(isMobile ? 0 : 9);
+  await expect.poll(() => trees.evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0))).toBe(true);
+  await journey.screenshot({ path: testInfo.outputPath(`journey-${suffix}.png`) });
+
+  const photo = 'data:image/png;base64,' + readFileSync(new URL('../../apps/student-mobile/assets/illustrations/student-avatar.png', import.meta.url)).toString('base64');
+  const profile = { ...app.studentProfile, displayName: 'Bạn nhỏ yêu Toán', avatar: 'leaf', avatarPhoto: photo, leaderboardVisible: true, leaderboardNameHidden: false, stars: 24 };
+  const rank = profile.rank;
+  const history = Array.from({ length: 24 }, (_, index) => ({
+    source: ['QUIZ', 'LESSON', 'GAME'][index % 3],
+    completedAt: new Date(Date.UTC(2026, 10, 24 - index, 5)).toISOString(),
+    stars: 1,
+  }));
+  profile.history = history.slice(0, 20);
+  await page.route('**/api/v1/student/star-history*', async route => {
+    const pageNumber = Number(new URL(route.request().url()).searchParams.get('page'));
+    await route.fulfill({ json: { entries: history.slice((pageNumber - 1) * 10, pageNumber * 10), page: pageNumber, totalPages: 3 } });
+  });
+  await page.route('**/api/v1/student/profile', async route => route.fulfill({ json: profile }));
+  await page.route('**/api/v1/student/leaderboard*', async route => route.fulfill({ json: { ownPosition: 1, gradeLevel: null, entries: [
+    { self: true, position: 1, alias: profile.displayName, avatar: 'star', stars: 24, rank },
+    { self: false, position: 2, alias: 'Bé chăm học', avatar: 'rocket', stars: 8, rank },
+  ] } }));
+  await page.goto(base + 'achievements');
+  if (isMobile) {
+    const viewport = page.viewportSize();
+    await page.setViewportSize({ width: viewport.height, height: viewport.width });
+    await page.goto(base);
+    await expect(journey.getByRole('button')).toHaveCount(4);
+    await expect(trees).toHaveCount(0);
+    await page.setViewportSize(viewport);
+    await page.goto(base + 'achievements');
+  }
+  const localPhoto = '[src^="data:image/png;base64,"]';
+  await expect(page.getByTestId('achievement-rank-student').locator(localPhoto)).toBeVisible();
+  const rows = page.getByTestId('leaderboard-entry');
+  await expect(rows.first().locator(localPhoto)).toBeVisible();
+  await expect(rows.last().locator(localPhoto)).toHaveCount(0);
+  if (isMobile) {
+    await rows.first().scrollIntoViewIfNeeded();
+  }
+  await page.screenshot({ path: testInfo.outputPath(`achievements-${suffix}.png`) });
+  const card = page.getByTestId('achievement-star-history');
+  const awards = card.getByTestId('star-history-entry');
+  await expect(awards).toHaveCount(3);
+  await card.screenshot({ path: testInfo.outputPath(`history-preview-${suffix}.png`) });
+  await card.getByRole('button', { name: 'Xem thêm lịch sử nhận sao' }).click();
+  await expect(awards).toHaveCount(10);
+  const next = card.getByRole('button', { name: 'Trang lịch sử sau' });
+  const previous = card.getByRole('button', { name: 'Trang lịch sử trước' });
+  await expect(previous).toBeDisabled();
+  await next.click();
+  await expect(card.getByText('Trang 2/3')).toBeVisible();
+  await next.click();
+  await expect(card.getByText('Trang 3/3')).toBeVisible();
+  await expect(awards).toHaveCount(4);
+  await expect(awards.last()).toContainText('1/11/2026');
+  await expect(next).toBeDisabled();
+  await card.screenshot({ path: testInfo.outputPath(`history-last-page-${suffix}.png`) });
+  await previous.click();
+  await expect(card.getByText('Trang 2/3')).toBeVisible();
+  await card.getByRole('button', { name: 'Thu gọn lịch sử nhận sao' }).click();
+  await expect(awards).toHaveCount(3);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize().width);
+  profile.leaderboardVisible = false;
+  await page.reload();
+  await expect(page.getByTestId('achievement-rank-student').locator(localPhoto)).toBeVisible();
+  await expect(rows).toHaveCount(1);
+  await expect(rows.first().locator(localPhoto)).toHaveCount(0);
+});
+
 test('student can find global ranking, choose name privacy and open all six games on a narrow screen', async ({ page, app }, testInfo) => {
   app.realStudent = true;
   const rank = { name: 'Thách Đấu', masterStars: 127, progress: 0, goal: 0, scheme: 2 };
@@ -697,7 +802,8 @@ test('race challenge recovers a lost answer response and explains the reward lim
   await testInfo.attach('Race challenge reward limit', { body: await page.screenshot(), contentType: 'image/png' });
 });
 
-test('all five games load their bundled artwork and enter gameplay', async ({ page, app }, testInfo) => {
+test('all five games load their artwork and keep desktop navigation during gameplay', async ({ page, app, isMobile }, testInfo) => {
+  test.setTimeout(90_000);
   app.realStudent = true;
   // This test changes the viewport itself. The orientation test covers the
   // fullscreen request, which can prevent Chromium from resizing the window.
@@ -746,7 +852,15 @@ test('all five games load their bundled artwork and enter gameplay', async ({ pa
       images.filter(image => image.currentSrc && (!image.complete || image.naturalWidth === 0)).length,
     )).toBe(0);
     expect(failures).toEqual([]);
-    await testInfo.attach(`${game} gameplay`, { body: await page.screenshot(), contentType: 'image/png' });
+    const navigation = page.getByRole('navigation', { name: 'Điều hướng học sinh' });
+    if (isMobile) await expect(navigation).toHaveCount(0);
+    else {
+      await expect(navigation.getByRole('link', { name: 'Trò chơi' })).toHaveAttribute('aria-current', 'page');
+      await expect(navigation).toBeVisible();
+    }
+    await testInfo.attach(`${game} gameplay`, {
+      body: await page.screenshot({ path: testInfo.outputPath(`${game}.png`) }), contentType: 'image/png',
+    });
   }
 });
 

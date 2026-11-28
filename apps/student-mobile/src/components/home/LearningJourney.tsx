@@ -4,18 +4,46 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Path } from 'react-native-svg';
 import { COLORS, FONTS } from '../../constants/theme';
+import { AppIllustration } from '../ui/AppIllustration';
 
-export function LearningJourney({ desktop, onPractice, onAcquire, onCheck }: { desktop: boolean; onPractice: () => void; onAcquire: () => void; onCheck?: () => void }) {
+const stageColors = [
+  { gradient: ['#7852E5', '#6440D8'], ring: '#EDE3FF', ink: '#FFFFFF' },
+  { gradient: ['#2873DA', '#1854BA'], ring: '#DBEEFF', ink: '#FFFFFF' },
+  { gradient: ['#83E9C7', '#45C7A5'], ring: '#D9F6EC', ink: '#123D34' },
+  { gradient: ['#FFE89F', '#EFB63E'], ring: '#FFF1CC', ink: '#613C08' },
+] as const;
+
+const scenery = [
+  { left: '5%', top: 10, size: 44 },
+  { left: '24%', top: 19, size: 58 },
+  { left: '49%', top: 9, size: 51 },
+  { left: '75%', top: 20, size: 56 },
+  { left: '95%', top: 8, size: 43 },
+  { left: '25%', top: 110, size: 53 },
+  { left: '48%', top: 104, size: 40 },
+  { left: '52%', top: 120, size: 31 },
+  { left: '75%', top: 110, size: 55 },
+] as const;
+
+export function LearningJourney({ desktop, webMap, showTrees, onPractice, onAcquire, onCheck }: {
+  desktop: boolean; webMap: boolean; showTrees: boolean; onPractice: () => void; onAcquire: () => void; onCheck: () => void;
+}) {
   const stages = [
     { title: 'Ôn tập', detail: 'Kiến thức cơ bản', onPress: onPractice },
     { title: 'Luyện tập', detail: 'Làm bài theo chủ đề', onPress: onPractice },
     { title: 'Khám phá', detail: 'Bài toán quanh em', onPress: onAcquire },
-    ...(onCheck ? [{ title: 'Kiểm tra', detail: 'Thử sức với câu đố', onPress: onCheck }] : []),
+    { title: 'Kiểm tra', detail: 'Thử sức với câu đố', onPress: onCheck },
   ];
   return <View style={styles.section} testID="learning-journey">
     <Text style={styles.heading} accessibilityRole="header">Hành trình học tập</Text>
-    <View style={[styles.map, desktop && styles.mapDesktop, onCheck && styles.webMap]}>
-      {onCheck ? <View style={styles.curve} pointerEvents="none" accessible={false}>
+    <View style={[styles.map, desktop && styles.mapDesktop, webMap && styles.webMap]}>
+      {showTrees && <View style={StyleSheet.absoluteFill} pointerEvents="none" accessible={false} aria-hidden>
+        {scenery.map(({ left, top, size }, index) =>
+          <AppIllustration key={`${left}:${top}`} source={require('../../../assets/illustrations/web/cactus-island.webp')}
+            style={[styles.grove, { left, top, width: size, height: size * .73,
+              transform: [{ translateX: -size / 2 }, { scaleX: index % 2 ? -1 : 1 }] }]} accessible={false} />)}
+      </View>}
+      {webMap ? <View style={styles.curve} pointerEvents="none" accessible={false}>
         <Svg width="100%" height={88} viewBox="0 0 400 88" preserveAspectRatio="none">
           <Path d="M0 47 C20 27 29 26 50 39 S115 67 150 55 S215 25 250 39 S315 68 350 55 S382 39 400 37" stroke="#DCD1FE" strokeWidth={10} fill="none" />
           <Path d="M0 47 C20 27 29 26 50 39 S115 67 150 55 S215 25 250 39 S315 68 350 55 S382 39 400 37" stroke="#FFFFFF" strokeWidth={2} strokeDasharray="4 5" fill="none" />
@@ -23,12 +51,12 @@ export function LearningJourney({ desktop, onPractice, onAcquire, onCheck }: { d
       </View> : <View style={styles.road} pointerEvents="none" />}
       <View style={styles.stops}>
         {stages.map(({ title, detail, onPress }, index) => <Pressable key={title} accessibilityRole="button" accessibilityLabel={`${title}. ${detail}`}
-          onPress={onPress} style={({ pressed }) => [styles.stop, onCheck && index % 2 === 1 && styles.lowStop, pressed && { opacity: .72 }]}>
-          <View style={styles.medalShadow}><LinearGradient colors={index >= 2 ? ['#FFE8A0', '#EFB63E'] : ['#B194FD', '#6941E8']} style={styles.medal}>
-            <Text style={[styles.number, index >= 2 && { color: '#6742CB' }]}>{index + 1}</Text>
+          onPress={onPress} style={({ pressed }) => [styles.stop, webMap && index % 2 === 1 && styles.lowStop, pressed && { opacity: .72 }]}>
+          <View style={[styles.medalShadow, { backgroundColor: stageColors[index].ring }]}><LinearGradient colors={stageColors[index].gradient} style={styles.medal}>
+            <Text style={[styles.number, { color: stageColors[index].ink }]}>{index + 1}</Text>
           </LinearGradient><Ionicons name="sparkles" size={16} color="#F3C65D" style={styles.spark} accessible={false} /></View>
           <Text style={[styles.label, !desktop && styles.labelMobile]}>{title}</Text>
-          {onCheck && desktop && <Text style={styles.detail}>{detail}</Text>}
+          {webMap && desktop && <Text style={styles.detail}>{detail}</Text>}
         </Pressable>)}
       </View>
     </View>
@@ -37,10 +65,10 @@ export function LearningJourney({ desktop, onPractice, onAcquire, onCheck }: { d
 const styles = StyleSheet.create({
   section: { marginTop: 4, marginBottom: 19 }, heading: { fontFamily: FONTS.extraBold, fontSize: 21, color: COLORS.textPrimary, marginBottom: 10 },
   map: { minHeight: 104, position: 'relative', paddingTop: 12 }, mapDesktop: { minHeight: 118 },
-  webMap: { borderWidth: 1, borderColor: COLORS.border, borderRadius: 20, backgroundColor: COLORS.surface, paddingTop: 8 },
-  curve: { position: 'absolute', top: 0, left: 0, right: 0 },
+  webMap: { borderWidth: 1, borderColor: COLORS.border, borderRadius: 20, backgroundColor: COLORS.surface, paddingTop: 39 },
+  curve: { position: 'absolute', top: 31, left: 0, right: 0 },
   road: { position: 'absolute', left: 0, right: 0, top: 43, height: 6, borderRadius: 4, backgroundColor: '#DFD0F2' },
-  island: { position: 'absolute', width: 110, height: 95, top: -12 }, stops: { flexDirection: 'row', justifyContent: 'space-between', width: '100%' },
+  grove: { position: 'absolute' }, stops: { flexDirection: 'row', justifyContent: 'space-between', width: '100%' },
   stop: { flex: 1, minWidth: 0, alignItems: 'center', paddingHorizontal: 4, paddingTop: 5, paddingBottom: 9, borderRadius: 18 },
   lowStop: { marginTop: 16 }, labelMobile: { fontSize: 13, lineHeight: 18 },
   medalShadow: { width: 63, height: 59, borderRadius: 32, alignItems: 'center', backgroundColor: '#ECE3FB', padding: 4, marginBottom: 7 },

@@ -4,11 +4,12 @@ import type { Href } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useWindowDimensions } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
-import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
+import { foldLessonSearch, getPrimaryChapters, matchesPrimaryLesson, primaryGrade } from '../../data/primaryMathLessons';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
 import { loadLessons } from '../../features/tutoring/learningHistory';
 import type { SavedLesson } from '../../features/tutoring/learningHistory';
 import { StudentAvatar } from '../../features/student-profile/ProfileCards';
+import { onStudentProfileSaved } from '../../features/student-profile/useStudentProfile';
 import { profileApi } from '../../features/student-profile/profileApi';
 import { onQuizChanged } from '../../features/quiz/quizApi';
 import type { StudentProfile } from '../../features/student-profile/profileApi';
@@ -26,20 +27,21 @@ const destinations = [
   { path: '/profile', href: '/(tabs)/profile', title: 'Của em', icon: 'person-outline' },
 ] as const;
 const workspace = /^\/(?:$|(?:lessons|achievements|profile|account|progress|saved|camera|privacy|crop|preview|processing|learning|recognition|results|quiz)(?:\/|$)|games\/?$)/;
-const foldSearch = (text: string) => text.toLocaleLowerCase('vi').normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/đ/g, 'd').trim();
 
 export function StudentWebWorkspace({ children }: React.PropsWithChildren) {
   const pathname = usePathname().replace(/^\/(?:study|learn)(?=\/|$)/, '') || '/';
+  const { width } = useWindowDimensions();
   const auth = useContext(AuthContext);
   const owner = auth?.isAuthenticated && auth.user?.role === 'STUDENT' && auth.user?.active === true
     ? String(auth.user.id || auth.user.userId || '') : '';
-  const enabled = Boolean(owner) && workspace.test(pathname);
+  const gameRoute = /^\/games\/[^/]+\/?$/.test(pathname);
+  const enabled = Boolean(owner) && (workspace.test(pathname) || (gameRoute && isDesktopStudentWeb(width)));
   return <div className="student-workspace">
     <style>{studentWorkspaceStyles}</style>
     {enabled && <a className="student-workspace-skip" href="#student-workspace-content">Đến nội dung chính</a>}
     {enabled && <WorkspaceSidebar pathname={pathname} />}
     <div className="student-workspace-main">
-      {enabled && <WorkspaceHeader key={owner} owner={owner} pathname={pathname} grade={Number(auth?.user.gradeLevel)} />}
+      {enabled && !gameRoute && <WorkspaceHeader key={owner} owner={owner} pathname={pathname} grade={Number(auth?.user.gradeLevel)} />}
       <div className="student-workspace-page" id={enabled ? 'student-workspace-content' : undefined}
         role={enabled ? 'main' : undefined} tabIndex={enabled ? -1 : undefined}>{children}</div>
     </div>
@@ -123,9 +125,14 @@ function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: 
     const request = new AbortController();
     void profileApi.get(request.signal).then(result => {
       if (!request.signal.aborted) setProfile(result);
-    }).catch(() => {});
-    return () => request.abort();
-  }, [pathname, grade, profileRevision]);
+    }).catch(() => { if (!request.signal.aborted) setProfile(undefined); });
+    const unsubscribe = onStudentProfileSaved((savedOwner, result) => {
+      if (savedOwner !== owner) return;
+      request.abort();
+      setProfile(result);
+    });
+    return () => { request.abort(); unsubscribe(); };
+  }, [owner, pathname, grade, profileRevision]);
   useEffect(() => {
     if (!panel) return;
     const outside = (event: PointerEvent) => {
@@ -144,11 +151,12 @@ function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: 
       document.removeEventListener('keydown', escape);
     };
   }, [panel]);
-  const keyword = foldSearch(query);
-  const currentGrade = profile?.gradeLevel ?? grade;
-  const results = keyword && Number.isInteger(currentGrade) && currentGrade >= 1 && currentGrade <= 5
-    ? getProblemsByGrade(currentGrade as 1 | 2 | 3 | 4 | 5).filter(problem => foldSearch(`${problem.title} ${problem.topic}`).includes(keyword)).slice(0, 5) : [];
-  const savedResults = keyword ? saved.filter(lesson => foldSearch(lesson.problemText).includes(keyword)).slice(0, 3) : [];
+  const keyword = foldLessonSearch(query);
+  const currentGrade = primaryGrade(profile?.gradeLevel);
+  const results = keyword && currentGrade
+    ? getPrimaryChapters(currentGrade).flatMap(chapter =>
+      chapter.lessons.filter(lesson => matchesPrimaryLesson(chapter, lesson, keyword))).slice(0, 5) : [];
+  const savedResults = keyword ? saved.filter(lesson => foldLessonSearch(lesson.problemText).includes(keyword)).slice(0, 3) : [];
   const searchOpen = panel === 'search' && Boolean(keyword);
   const close = () => setPanel(null);
   const selectResult = () => { close(); setQuery(''); };
@@ -163,8 +171,8 @@ function WorkspaceHeader({ owner, pathname, grade }: { owner: string; pathname: 
       <kbd aria-hidden>Ctrl + K</kbd>
       {searchOpen && <div className="student-workspace-popover student-workspace-search-results">
         {!results.length && !savedResults.length && <p role="status">Chưa tìm thấy bài học phù hợp.</p>}
-        {results.map(problem => <Link key={problem.id} href={{ pathname: '/(tabs)/lessons', params: { q: problem.title } }} asChild>
-          <a onClick={selectResult}>{problem.title}</a>
+        {results.map(lesson => <Link key={lesson.id} href={{ pathname: '/(tabs)/lessons', params: { lesson: lesson.id } }} asChild>
+          <a onClick={selectResult}>{lesson.title}</a>
         </Link>)}
         {savedResults.map(lesson => <Link key={lesson.id} href={{ pathname: '/learning/math-guide', params: { lessonId: lesson.id, problemText: lesson.problemText, workText: lesson.workText, reflection: lesson.reflection } }} asChild>
           <a onClick={selectResult}>Đã lưu · {lesson.problemText.slice(0, 90)}</a>

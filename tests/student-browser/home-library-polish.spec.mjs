@@ -17,7 +17,7 @@ test('library quick start follows the filter and disappears when no exercises ma
   await login(page, 'STUDENT');
   await expect(page).toHaveURL(home);
   await page.goto(home + 'lessons');
-  const search = page.getByRole('textbox', { name: 'Tìm bài học' });
+  const search = page.getByRole('textbox', { name: 'Tìm bài học trong lớp', exact: true });
   const quickStart = page.getByRole('button', { name: 'Bắt đầu học ngay' });
   await search.fill('zzzzzzzz');
   await expect(page.getByText(/Chưa tìm thấy bài phù hợp/)).toBeVisible();
@@ -80,7 +80,7 @@ for (const width of widths) {
       await expect(page.getByRole('button', { name: 'Thông báo', exact: true })).toBeVisible();
     }
     await expect(page.getByRole('heading', { name: 'Hành trình học tập', exact: true })).toBeVisible();
-    await expect(page.getByTestId('learning-journey').getByRole('button')).toHaveCount(width < 768 ? 3 : 4);
+    await expect(page.getByTestId('learning-journey').getByRole('button')).toHaveCount(4);
     await expect(page.getByRole('heading', { name: 'Bài học gợi ý cho em', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: /^Luyện tập lớp \d$/ })).toHaveCount(0);
     await page.getByRole('button', { name: 'Chụp bài toán', exact: true }).scrollIntoViewIfNeeded();
@@ -110,13 +110,14 @@ for (const width of widths) {
     await expect(page.getByRole('button', { name: /^Học bài / })).toHaveCount(width < 768 ? 1 : 3);
     await page.getByRole('button', { name: 'Luyện tập. Làm bài theo chủ đề', exact: true }).first().click();
     await expect(page).toHaveURL(/\/study\/lessons/);
-    await expect(page.getByText('Chương trình học của em', { exact: true })).toBeVisible();
-    await expect(page.getByText('20 bài học', { exact: true })).toBeVisible();
-    await expect(page.getByText('1/20', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Toán lớp 5', exact: true })).toBeVisible();
+    await expect(page.getByText('8 chương · 28 bài học', { exact: true })).toBeVisible();
+    await expect(page.getByText('1 bài học có bài làm đã lưu', { exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
-    const savedSection = page.getByRole('button', { name: `Chủ đề ${gradeFive[0].section}`, exact: true });
+    const savedSection = page.getByRole('button', { name: 'Chương 4: Chu vi và diện tích hình phẳng', exact: true });
     await expect(savedSection).toHaveAttribute('aria-expanded', 'false');
     await savedSection.click();
+    await page.getByRole('button', { name: 'Mở bài: Diện tích hình tam giác', exact: true }).click();
     await expect(page.getByText('Đã lưu bài làm', { exact: true })).toBeVisible();
     await savedSection.click();
     await expect(page.getByRole('button', { name: /^Chọn Lớp / })).toHaveCount(0);
@@ -125,28 +126,25 @@ for (const width of widths) {
     await noPageOverflow(page);
     await testInfo.attach(`library-${width}`, { body: await page.screenshot(), contentType: 'image/png' });
 
-    const search = page.getByRole('textbox', { name: 'Tìm bài học', exact: true });
-    await page.getByRole('button', { name: 'Số và phép tính', exact: true }).click();
-    await expect(page.getByRole('button', { name: 'Số và phép tính', exact: true })).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(gradeFive.filter(problem => problem.section === 'Số và phép tính').length);
+    const search = page.getByRole('textbox', { name: 'Tìm bài học trong lớp', exact: true });
     await search.fill('cong so thap phan');
     await expect(page.getByRole('button', { name: 'Mở bài: Cộng số thập phân', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(1);
     await page.getByRole('button', { name: 'Xóa tìm kiếm bài học', exact: true }).click();
-    await page.getByRole('button', { name: 'Tất cả chủ đề', exact: true }).click();
     await search.fill('chuyen dong deu');
-    await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(2);
+    await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(4);
     await search.fill('khong-co-bai-xyz');
     await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
     await expect(page.getByText('Chưa tìm thấy bài phù hợp. Em thử tìm bằng từ khác nhé.', { exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'Xem tất cả bài học', exact: true }).and(page.locator(':not([inert], [inert] *)')).click();
+    await page.getByRole('button', { name: 'Xóa tìm kiếm bài học', exact: true }).click();
     await expect(search).toHaveValue('');
     await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
-    await page.getByRole('button', { name: 'Chủ đề Số và phép tính', exact: true }).click();
+    await page.getByRole('button', { name: 'Chương 2: Số thập phân', exact: true }).click();
 
     const problem = gradeFive.find(item => item.title === 'Cộng số thập phân');
     await page.getByRole('button', { name: `Mở bài: ${problem.title}`, exact: true }).click();
-    await page.getByRole('button', { name: `Xem gợi ý: ${problem.title}`, exact: true }).click();
+    await page.getByRole('textbox', { name: 'Đáp án: Bài 1', exact: true }).fill('0');
+    await page.getByRole('button', { name: 'Kiểm tra đáp án: Bài 1', exact: true }).click();
     await expect(page.getByText(problem.guidance, { exact: true })).toBeVisible();
     await page.getByRole('button', { name: `Học từng bước: ${problem.title}`, exact: true }).click();
     await expect(page).toHaveURL(/\/study\/learning\/math-guide/);
@@ -202,9 +200,9 @@ test('library remains usable by keyboard in landscape with reduced motion and en
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.getByRole('link', { name: 'Bài học', exact: true }).click();
   await expect(page).toHaveURL(/\/study\/lessons$/);
-  await expect(page.getByRole('heading', { name: 'Chương trình học của em', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Toán lớp 5', exact: true })).toBeVisible();
   await page.evaluate(() => { document.documentElement.style.zoom = '1.5'; });
-  const search = page.getByRole('textbox', { name: 'Tìm bài học', exact: true });
+  const search = page.getByRole('textbox', { name: 'Tìm bài học trong lớp', exact: true });
   await search.focus();
   await expect(search).toBeFocused();
   await page.keyboard.type('cong so thap phan');

@@ -18,8 +18,8 @@ import { storeParentModeHandoff } from './parentModeHandoff';
 export type NotebookTab = 'saved' | 'work' | 'notes';
 export type NotebookCounts = Record<NotebookTab, number>;
 
-export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
-  owner?: string; counts?: NotebookCounts; wide: boolean; canOpenParentMode: boolean;
+export function ProfileIdentity({ owner, counts, wide, desktopWeb = false, canOpenParentMode }: {
+  owner?: string; counts?: NotebookCounts; wide: boolean; desktopWeb?: boolean; canOpenParentMode: boolean;
 }) {
   const router = useRouter();
   const [showParentPin, setShowParentPin] = useState(false);
@@ -29,7 +29,8 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
     <LinearGradient colors={['#FCFAFF', '#EDE3FD', '#D8C7F8']} start={{ x: 0, y: .3 }} end={{ x: 1, y: .8 }}
       style={[styles.hero, wide && styles.heroWide]}>
       <View style={styles.identity}>
-        <View style={styles.avatar}><StudentAvatar id={value?.avatar ?? 'star'} photo={value?.avatarPhoto} size={wide ? 64 : 52} /></View>
+        <View style={styles.avatar}>{desktopWeb && !value ? <View style={{ width: wide ? 64 : 52, height: wide ? 64 : 52 }} /> :
+          <StudentAvatar id={value?.avatar ?? 'star'} photo={value?.avatarPhoto} size={wide ? 64 : 52} />}</View>
         <View style={styles.heroInfo}>
           <Text accessibilityRole="header" style={styles.heroName}>{value?.displayName || 'Hồ sơ học tập'}</Text>
           {value?.gradeLevel && <Text style={styles.heroSub}>Khối {value.gradeLevel}</Text>}
@@ -52,7 +53,7 @@ export function ProfileIdentity({ owner, counts, wide, canOpenParentMode }: {
       { label: 'Bài đã lưu', amount: counts?.saved, icon: 'bookmark-outline', tone: 'purple' },
       { label: 'Bài làm', amount: counts?.work, icon: 'create-outline', tone: 'blue' },
     ]} />
-    <ProfileProgress value={value} failed={failed} retry={retry} wide={wide} />
+    <ProfileProgress value={value} failed={failed} retry={retry} wide={wide} showEmptyChart={desktopWeb} />
     {showLogout && <LogoutSheet onClose={() => setShowLogout(false)} />}
     {showParentPin && canOpenParentMode && owner && <ParentProfilePinDialog key={owner} owner={owner} onExit={() => setShowParentPin(false)} onOpen={settings => {
       storeParentModeHandoff(owner, settings);

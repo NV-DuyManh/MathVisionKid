@@ -1,9 +1,7 @@
 import { fileURLToPath } from 'node:url';
-import { readFileSync } from 'node:fs';
 import { test, expect, sites, login } from '../browser/fixtures.mjs';
 
 const problem = 'Trong vườn có 1/3 số cây là cây táo, 2/5 số cây là cây xoài. Còn lại là cây cam. Hỏi táo và xoài chiếm bao nhiêu phần số cây trong vườn?';
-const curriculum = JSON.parse(readFileSync(new URL('../../apps/student-mobile/src/data/primaryMathCurriculumData.json', import.meta.url), 'utf8'));
 const firstStep = {
   kind: 'MATH', title: 'Gộp hai phần đã biết', question: 'Táo và xoài chiếm mấy phần số cây?',
   explanation: 'Cộng hai phần cùng thuộc một khu vườn.', choices: [], expression: '1/3 + 2/5',
@@ -811,15 +809,14 @@ test('grade library topic links and keyboard accordions preserve search and grad
   await login(page, 'STUDENT');
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   const section = 'Số và phép tính';
-  const matching = curriculum.filter(item => item.grade === 5 && item.section === section);
   await page.goto(`${sites.portal.origin}/study/lessons?${new URLSearchParams({ section })}`);
-  await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(matching.length);
-  const topic = page.getByRole('button', { name: `Chủ đề ${section}`, exact: true });
+  const topic = page.getByRole('button', { name: 'Chương 2: Số thập phân', exact: true });
+  await expect(page.getByRole('button', { name: 'Mở bài: Cộng số thập phân', exact: true })).toBeVisible();
   await topic.focus();
   await page.keyboard.press('Enter');
   await expect(topic).toHaveAttribute('aria-expanded', 'false');
-  await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
-  await page.getByRole('textbox', { name: 'Tìm bài học', exact: true }).fill('cong so thap phan');
+  await expect(page.getByRole('button', { name: 'Mở bài: Cộng số thập phân', exact: true })).toHaveCount(0);
+  await page.getByRole('textbox', { name: 'Tìm bài học trong lớp', exact: true }).fill('cong so thap phan');
   await expect(page.getByRole('button', { name: 'Mở bài: Cộng số thập phân', exact: true })).toBeVisible();
   await expect(topic).toHaveAttribute('aria-expanded', 'true');
   await page.goto(`${sites.portal.origin}/study/lessons?section=unknown-topic`);
@@ -840,7 +837,6 @@ test('grade library explains unavailable saved-work storage', async ({ page, app
   await expect(page.getByText('Tiện ích nhanh', { exact: true })).toBeVisible();
   await page.goto(`${sites.portal.origin}/study/lessons`);
   await expect(page.getByText('Chưa tải được bài đã lưu. Em mở lại trang để thử nhé.', { exact: true })).toBeVisible();
-  await expect(page.getByText('—', { exact: true })).toBeVisible();
-  await expect(page.getByRole('progressbar', { name: 'Bài trong chương trình đã lưu trên thiết bị này', exact: true })).toHaveAttribute('aria-busy', 'false');
+  await expect(page.getByRole('heading', { name: 'Toán lớp 5', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: /^Mở bài: / })).toHaveCount(0);
 });

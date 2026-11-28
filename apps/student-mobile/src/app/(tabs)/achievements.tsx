@@ -12,6 +12,7 @@ import { ProfileRankCard, ProfileStats, profileStyles as s, StudentAvatar } from
 import { profileApi, type Leaderboard } from '../../features/student-profile/profileApi';
 import { useStudentProfile } from '../../features/student-profile/useStudentProfile';
 import { RankEmblem } from '../../features/student-profile/RankEmblem';
+import { StarHistory } from '../../features/student-profile/StarHistory';
 import { RankGuide } from '../../features/student-profile/RankGuide';
 import { COLORS, FONTS } from '../../constants/theme';
 import { STUDENT_WEB } from '../../constants/studentWebDesign';
@@ -20,9 +21,6 @@ import { WEEKLY_ACTIVITY_GOAL } from '../../features/home/learningActivity';
 
 const LEADERBOARD_PAGE_SIZE = 10;
 const placeColors = ['#8B4E06', '#465779', '#91451E'];
-const historyLabels = { LESSON: 'Hoàn thành bài học', QUIZ: 'Giải đúng Quiz', GAME: 'Thắng lượt chơi' };
-const historyIcons = { LESSON: 'book-outline', QUIZ: 'checkmark-circle-outline', GAME: 'game-controller-outline' } as const;
-
 export default function AchievementsScreen() {
   const auth = useContext(AuthContext);
   const owner = auth?.user?.id ?? auth?.user?.userId;
@@ -61,6 +59,7 @@ function Achievements({ owner }: { owner?: string }) {
   const grade = current?.data?.gradeLevel ?? value?.gradeLevel;
   const rankingPrivate = web && value?.leaderboardVisible === false;
   const listedEntries = current?.data?.entries.filter(item => !rankingPrivate || !item.self) ?? [];
+  const avatarSize = web && compactWeb ? 34 : 40;
   const ownEntryIndex = listedEntries.findIndex(item => item.self);
   const leaderboard = <View style={[s.card, web && styles.webPanel]}>
         <View style={styles.boardHeader}>
@@ -84,7 +83,10 @@ function Achievements({ owner }: { owner?: string }) {
               <View accessible={web} accessibilityLabel={`Vị trí ${item.position}`} style={[styles.positionBadge, web && styles.webPosition, web && placeStyles[item.position - 1]]}>
                 <Text style={[styles.position, web && styles.webPositionText, web && { color: placeColors[item.position - 1] ?? COLORS.primaryDark }]}>{`#${item.position}`}</Text>
               </View>
-              <StudentAvatar id={item.avatar} photo={web && item.self ? value?.avatarPhoto : undefined} size={web && compactWeb ? 34 : 40} />
+              {web && item.self && !value && !profile.failed
+                ? <View style={{ width: avatarSize, height: avatarSize }} />
+                : <StudentAvatar id={web && item.self ? value?.avatar ?? item.avatar : item.avatar}
+                    photo={web ? (item.self ? value?.avatarPhoto : item.avatarPhoto) : undefined} size={avatarSize} />}
               <View style={styles.grow}>
                 <View style={styles.nameRow}><Text style={styles.alias}>{web && item.self
                   ? value?.leaderboardNameHidden === false ? value.displayName : value?.publicAlias?.trim() || 'Bạn chăm học'
@@ -109,19 +111,7 @@ function Achievements({ owner }: { owner?: string }) {
             <AppButton title="Chơi luyện toán" variant="secondary" onPress={() => router.push('/games/arithmetic-quest')} />
           </View>
         </View>;
-  const history = value && <View style={[s.card, web && styles.webPanel]}>
-          <Text accessibilityRole="header" style={s.heading}>Những lần em nhận sao</Text>
-          {value.history.length === 0 && <Text style={s.body}>Sao sẽ xuất hiện khi em hoàn thành hoạt động đủ điều kiện.</Text>}
-          {value.history.map((item, index) => {
-            const key = item.completedAt + item.source + index;
-            const date = new Date(item.completedAt).toLocaleDateString('vi-VN', web ? { timeZone: 'Asia/Ho_Chi_Minh' } : undefined);
-            return web ? <View key={key} style={styles.historyRow}>
-              <View style={styles.historyIcon}><Ionicons name={historyIcons[item.source]} size={17} color={COLORS.primaryDark} accessible={false} /></View>
-              <View style={styles.grow}><Text style={styles.titleName}>{historyLabels[item.source]}</Text><Text style={styles.titleDetail}>{date}</Text></View>
-              <Text style={styles.historyStars}>+{item.stars} sao</Text>
-            </View> : <Text key={key} style={s.body}>+{item.stars} sao · {historyLabels[item.source]} · {date}</Text>;
-          })}
-        </View>;
+  const history = value && <StarHistory recent={value.history} style={web ? styles.webPanel : undefined} />;
   const rank = value && <ProfileRankCard profile={value} compactWeb={compactWeb} />;
   const compactIdentity = compactWeb && value && <View style={styles.compactIdentity}>
     <View style={styles.identityHeading}>
@@ -191,11 +181,6 @@ const styles = StyleSheet.create({
   wideContent: { paddingBottom: 38 },
   mainColumns: { gap: 16 }, wideColumns: { flexDirection: 'row', alignItems: 'flex-start', gap: 24 },
   mainColumn: { gap: 16, minWidth: 0 }, rankColumn: { flex: 1.65 }, boardColumn: { flex: 1 },
-  titleName: { color: COLORS.textPrimary, fontFamily: FONTS.extraBold, fontSize: 14, lineHeight: 18 },
-  titleDetail: { color: STUDENT_WEB.muted, fontFamily: FONTS.semiBold, fontSize: 12, lineHeight: 17 },
-  historyRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 7, borderTopWidth: 1, borderColor: '#EEE8F7' },
-  historyIcon: { backgroundColor: '#F1EAFF', borderRadius: 10, padding: 8 },
-  historyStars: { color: '#855100', backgroundColor: '#FFF3D5', borderRadius: 10, paddingHorizontal: 8, paddingVertical: 5, fontFamily: FONTS.extraBold, fontSize: 12 },
   boardHeader: { flexDirection: 'row', alignItems: 'center', gap: 10 }, grow: { flex: 1, minWidth: 0, gap: 4 },
   boardIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF1CB' },
   boardScope: { color: STUDENT_WEB.muted, fontFamily: FONTS.bold, fontSize: 12, lineHeight: 17 },

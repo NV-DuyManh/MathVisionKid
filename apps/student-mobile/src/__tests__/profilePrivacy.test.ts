@@ -6,6 +6,14 @@ const edit: ProfileEdit = { displayName: 'Minh Anh', avatar: 'moon', selectedTit
 const profile = { ...edit } as StudentProfile;
 beforeEach(() => { jest.clearAllMocks(); });
 
+it('accepts current server privacy for a name-only edit', async () => {
+  const nameEdit = { displayName: 'Sao Sáng', avatar: 'moon', selectedTitle: null };
+  const response = { ...profile, ...nameEdit, leaderboardVisible: false, leaderboardNameHidden: true };
+  jest.mocked(apiClient.put).mockResolvedValue({ data: response });
+  await expect(profileApi.update(nameEdit, new AbortController().signal)).resolves.toEqual(response);
+  expect(apiClient.get).not.toHaveBeenCalled();
+});
+
 it.each([true, false])('preserves an explicitly selected name privacy value %s', async hidden => {
   const response = { ...profile, leaderboardNameHidden: hidden };
   jest.mocked(apiClient.put).mockResolvedValue({ data: response });

@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { isCompactStudentWeb } from '../ui/useIsCompactStudentWeb';
+import { isCompactStudentWeb, isDesktopStudentWeb } from '../ui/useIsCompactStudentWeb';
 import { AccessibilityInfo, Animated, AppState, Easing, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
@@ -13,6 +13,7 @@ import { LearningJourney } from './LearningJourney';
 import { ResumeLessonCard } from '../../features/tutoring/ResumeLessonCard';
 import { AuthContext } from '../../context/AuthContext';
 import { getProblemsByGrade } from '../../data/primaryMathCurriculum';
+import { getPrimaryChapters, primaryGrade } from '../../data/primaryMathLessons';
 import { RecoveryNotice } from '../ui/RecoveryNotice';
 import { useStudentProfile } from '../../features/student-profile/useStudentProfile';
 import { StudentAvatar } from '../../features/student-profile/ProfileCards';
@@ -76,9 +77,11 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
   const streak = profile.value?.stats.streak ?? 0;
   const profileName = profile.value?.displayName || userName;
   const displayName = profileName.includes('@') ? 'Bạn nhỏ' : profileName;
-  const registeredGrade = Number(profile.value?.gradeLevel ?? auth?.user?.gradeLevel ?? auth?.user?.grade);
-  const hasRegisteredGrade = Number.isInteger(registeredGrade) && registeredGrade >= 1 && registeredGrade <= 5;
-  const gradeLessons = hasRegisteredGrade ? getProblemsByGrade(registeredGrade as 1 | 2 | 3 | 4 | 5) : [];
+  const registeredGrade = IS_STUDENT_WEB
+    ? primaryGrade(profile.failed ? undefined : profile.value?.gradeLevel)
+    : primaryGrade(Number(profile.value?.gradeLevel ?? auth?.user?.gradeLevel ?? auth?.user?.grade));
+  const gradeLessons = registeredGrade ? getProblemsByGrade(registeredGrade) : [];
+  const webLessons = IS_STUDENT_WEB && registeredGrade ? getPrimaryChapters(registeredGrade).flatMap(chapter => chapter.lessons) : [];
   const [ranking, setRanking] = useState<{ owner: string; data: Leaderboard }>();
   useFocusEffect(useCallback(() => {
     if (!desktopWeb || !userKey) return;
@@ -86,7 +89,11 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
     void profileApi.leaderboard(undefined, request.signal, true).then(data => {
       if (!request.signal.aborted && data.gradeLevel == null) setRanking({ owner: userKey, data });
     }).catch(() => {});
-    return () => request.abort();
+    return () => {
+      request.abort();
+      // A peer can revoke sharing before the next visit.
+      setRanking(undefined);
+    };
   }, [desktopWeb, userKey, profile.value?.leaderboardVisible, profile.value?.leaderboardNameHidden, profile.value?.publicAlias]));
   const leaders = ranking && ranking.owner === userKey
     ? ranking.data.entries.filter(entry => !entry.self || profile.value?.leaderboardVisible === true).slice(0, 3) : undefined;
@@ -161,17 +168,22 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
         <Text style={[styles.quickTitle, wide && styles.quickTitleWide, desktop && styles.desktopQuickTitle]}>{item.title}</Text>
       </Pressable>)}
     </View>
-    <LearningJourney desktop={wide} onPractice={() => onPractice()} onAcquire={onAcquire} onCheck={desktopWeb ? () => router.push('/quiz') : undefined} />
+    <LearningJourney desktop={wide} webMap={desktopWeb} showTrees={isDesktopStudentWeb(width)} onPractice={() => onPractice()} onAcquire={onAcquire} onCheck={() => router.push('/quiz')} />
     <View style={styles.headingRow}><Ionicons name="star" size={22} color={desktopWeb ? '#A2650D' : '#F0BB42'} accessible={false} /><Text accessibilityRole="header" style={styles.heading}>Bài học gợi ý cho em</Text>
       {desktopWeb && <Pressable accessibilityRole="button" accessibilityLabel="Xem tất cả bài học" onPress={() => onPractice()} style={styles.utility}><Text style={styles.link}>Xem tất cả</Text></Pressable>}
     </View>
-    {auth?.user && !hasRegisteredGrade ? <RecoveryNotice title="Chưa tải được lớp của em" message="Em tải lại hồ sơ để xem đúng bài học nhé."
+    {IS_STUDENT_WEB && auth?.user && !profile.value && !profile.failed ? <Text style={styles.caption}>Đang tải bài học gợi ý…</Text> :
+      auth?.user && !registeredGrade ? <RecoveryNotice title="Chưa tải được lớp của em" message="Em tải lại hồ sơ để xem đúng bài học nhé."
       actions={[{ label: 'Tải lại hồ sơ', onPress: () => { profile.retry(); void auth.refreshUser?.(); } }]} /> : <View style={[styles.recommendations, wide && styles.recommendationsWide]}>
-      {(hasRegisteredGrade ? gradeLessons.slice(0, desktopWeb ? 3 : 1).map(problem => ({ title: problem.title, artwork: getLessonArtwork(problem.id), description: `Lớp ${registeredGrade} · ${problem.topic}`,
-        label: `Học bài ${problem.title}`, action: () => router.push({ pathname: '/learning/math-guide', params: { problemText: problem.problemText } }) })) : [
+      {(registeredGrade ? gradeLessons.slice(0, desktopWeb ? 3 : 1).map(problem => ({ title: problem.title, artwork: getLessonArtwork(problem.id), description: `Lớp ${registeredGrade} · ${problem.topic}`,
+        label: `Học bài ${problem.title}`, action: () => {
+          const lesson = webLessons.find(candidate => candidate.practice.some(practice => practice.id === problem.id));
+          if (lesson) router.push({ pathname: '/(tabs)/lessons', params: { lesson: lesson.id } });
+          else router.push({ pathname: '/learning/math-guide', params: { problemText: problem.problemText } });
+        } })) : [
         { title: 'Phép cộng đến 100', artwork: getLessonArtwork('grade1_prob1'), description: 'Lớp 1 · Đọc đề và thử giải', label: 'Luyện phép cộng và trừ trong phạm vi 100, lớp 1', action: () => onPractice(1) },
       ]).map((item, index) => <Pressable key={item.title} accessibilityRole="button" accessibilityLabel={item.label} onPress={item.action} style={({ pressed }) => [styles.lesson, desktopWeb && { backgroundColor: ['#FCE9F3', '#E5F2FF', '#E3F6EE'][index] }, pressed && styles.pressed]}>
-        <Image source={item.artwork.source} style={styles.lessonArt} accessible={false} /><View style={styles.headerCopy}><Text style={styles.lessonTitle}>{item.title}</Text><Text style={styles.lessonDescription}>{item.description}</Text></View>
+        <Image source={item.artwork.source} style={styles.lessonArt} accessible={false} /><View style={styles.headerCopy}><Text style={styles.lessonTitle} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text><Text style={styles.lessonDescription}>{item.description}</Text></View>
         <Ionicons name="play-circle" size={28} color={desktopWeb ? COLORS.primaryDark : '#FFFFFF'} accessible={false} />
       </Pressable>)}
     </View>}
@@ -203,7 +215,7 @@ export function HomeDashboard({ userName, userKey, heroVisible = true, onAcquire
       {leaders?.length === 0 && <Text style={styles.leaderEmpty}>Chưa có bạn nào được xếp hạng.</Text>}
       {leaders?.map((entry, index) => <View key={entry.position} testID="home-leaderboard-entry" style={[styles.leader, index === 0 && styles.leaderTop]}>
         <Text style={styles.link}>#{entry.position}</Text>
-        <StudentAvatar id={entry.avatar} photo={entry.self ? profile.value?.avatarPhoto : undefined} size={25} />
+        <StudentAvatar id={entry.self ? profile.value?.avatar ?? entry.avatar : entry.avatar} photo={entry.self ? profile.value?.avatarPhoto : entry.avatarPhoto} size={25} />
         <View style={styles.leaderIdentity}>
           <Text numberOfLines={2} style={styles.leaderName}>{entry.self && profile.value?.leaderboardNameHidden ? profile.value.publicAlias : entry.alias}</Text>
           <View style={styles.leaderRankRow}>

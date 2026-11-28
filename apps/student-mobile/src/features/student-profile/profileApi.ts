@@ -4,6 +4,8 @@ import { tokenStorage } from '../../services/auth/tokenStorage';
 
 export type Rank = { name: string; masterStars: number; progress: number; goal: number; scheme?: number };
 export type StudentTitle = { id: string; name: string; rarity: string; description: string; progress: number; goal: number; unlocked: boolean };
+export type StarActivity = { source: 'LESSON' | 'QUIZ' | 'GAME'; completedAt: string; stars: number };
+type StarHistoryPage = { entries: StarActivity[]; page: number; totalPages: number };
 export type StudentProfile = {
   displayName: string;
   gradeLevel: number | null;
@@ -15,6 +17,7 @@ export type StudentProfile = {
   googleLinked?: boolean;
   leaderboardVisible: boolean;
   leaderboardNameHidden?: boolean;
+  leaderboardPhotoVisible?: boolean;
   publicAlias: string;
   selectedTitle: string | null;
   stars: number;
@@ -23,13 +26,15 @@ export type StudentProfile = {
   position: number | null;
   stats: { lessons: number; quizzes: number; games: number; days: number; week: number; month: number; today: number; streak: number };
   titles: StudentTitle[];
-  history: { source: 'LESSON' | 'QUIZ' | 'GAME'; completedAt: string; stars: number }[];
+  history: StarActivity[];
 };
-export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'leaderboardVisible' | 'leaderboardNameHidden' | 'selectedTitle'> & { removePhoto?: boolean };
+export type ProfileEdit = Pick<StudentProfile, 'displayName' | 'avatar' | 'selectedTitle'>
+  & Partial<Pick<StudentProfile, 'leaderboardVisible' | 'leaderboardNameHidden' | 'leaderboardPhotoVisible'>>
+  & { removePhoto?: boolean };
 export type Leaderboard = {
   gradeLevel?: number | null;
   ownPosition: number | null;
-  entries: { position: number; alias: string; avatar: string; stars: number; rank: Rank; self: boolean }[];
+  entries: { position: number; alias: string; avatar: string; stars: number; rank: Rank; self: boolean; avatarPhoto?: string }[];
 };
 export type RankMilestone = { name: string; stars: number; top: number | null; scheme?: number };
 export type GameMode = 'ARITHMETIC_QUEST' | 'RACE_TO_FINISH' | 'TERRAIN_RACING' | 'ENERGY_DEFENSE' | 'PLANET_RESCUE' | 'BLOCK_ISLAND';
@@ -46,8 +51,10 @@ export const profileApi = {
   async update(edit: ProfileEdit, signal: AbortSignal) {
     const config = { signal, _identity: await tokenStorage.getSessionId(), headers: rankHeaders };
     let next = (await apiClient.put<StudentProfile>(root + '/profile', edit, config)).data;
-    const matchesPrivacy = (value: StudentProfile) => value?.leaderboardVisible === edit.leaderboardVisible
-      && (edit.leaderboardNameHidden === undefined || value?.leaderboardNameHidden === edit.leaderboardNameHidden);
+    const matchesPrivacy = (value: StudentProfile) => value != null
+      && (edit.leaderboardVisible === undefined || value.leaderboardVisible === edit.leaderboardVisible)
+      && (edit.leaderboardNameHidden === undefined || value.leaderboardNameHidden === edit.leaderboardNameHidden)
+      && (edit.leaderboardPhotoVisible === undefined || value.leaderboardPhotoVisible === edit.leaderboardPhotoVisible);
     // Some older update responses omit privacy fields. Confirm stored settings
     // before accepting them; never turn an explicit false into a default true.
     if (!matchesPrivacy(next)) next = (await apiClient.get<StudentProfile>(root + '/profile', config)).data;
@@ -67,6 +74,9 @@ export const profileApi = {
   },
   async leaderboard(classroom: string | undefined, signal: AbortSignal, allGrades?: true) {
     return (await apiClient.get<Leaderboard>(root + '/leaderboard', { params: { classroom, allGrades }, signal, headers: rankHeaders })).data;
+  },
+  async starHistory(page: number, signal: AbortSignal) {
+    return (await apiClient.get<StarHistoryPage>(root + '/star-history', { params: { page }, signal })).data;
   },
   async rankMilestones(signal: AbortSignal) {
     return (await apiClient.get<RankMilestone[]>(root + '/rank-milestones', { signal, headers: rankHeaders })).data;
