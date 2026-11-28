@@ -67,3 +67,7 @@ Trong [PR #190](https://github.com/NV-DuyManh/MathVisionKid/pull/190), **Kha (de
 Trong [PR #194](https://github.com/NV-DuyManh/MathVisionKid/pull/194), **Nam (tranhoainam298)** khôi phục các trạng thái Hồ sơ và Thành tích trên Student Web, phân màu chặng học tập, bổ sung phân trang lịch sử sao và sửa luồng hủy đăng nhập Google. Nhánh nguồn tại `e06ad5a2199e6d5842c0bd194efa6176f361b59b` được giữ nguyên lịch sử khi tích hợp.
 
 Trong [PR #200](https://github.com/NV-DuyManh/MathVisionKid/pull/200), **Kha (deptraivodich)** xây dựng danh mục Toán tiểu học cho Student Web, ví dụ từng bước, hình minh họa, bộ chấm luyện tập và kiểm thử điều hướng. Lịch sử commit nguồn tại `03b36373d5531d66bfd362732fb90f5de15ec831` được giữ khi tích hợp.
+
+Trong [PR #201](https://github.com/NV-DuyManh/MathVisionKid/pull/201), **Nam (tranhoainam298)** cập nhật đồng bộ ảnh hồ sơ, tùy chọn chia sẻ ảnh bảng xếp hạng và migration V44. Tích hợp giữ nguyên lịch sử commit nguồn tại `91bcdc3575795c47e324f7befa1d9f9a56bd7c2c`.
+
+Trong PR #208, phần sửa quyền riêng tư Student của **Nam (tranhoainam298)** được tích hợp riêng từ commit nguồn PR #203 `dbae9bda7cc2e4935754e8ee47f1a80d82109c33` và giữ ghi nhận đồng tác giả.
